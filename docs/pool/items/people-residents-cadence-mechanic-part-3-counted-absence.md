@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Counted workers always work their full schedule, while full workers miss work for their own health, household and job (src/core2/work-attendance.ts). Counted absence needs inputs counted records do not hold today (needs, pay dates per member), and a counted record's strain is zero. Give counted workers the same reasons as full workers, times their count.

@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the regional (territory) model. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The mortgage-spread row is resolved: src/core2/data/macro/history.json already holds a monthly mortgage30Pct through 2026-09 citing Freddie Mac's Primary Mortgage Market Survey, so it is left out of the list below. What remains is SG-WORLD-regional-territory-estimate: each territory's own labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source.

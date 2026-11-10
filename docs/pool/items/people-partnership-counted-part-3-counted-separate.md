@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-partnership-counted in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Counted couples never separate, so counted household types never change by parting. Full couples part by the NSFG curve for how long they have been together, and the lower-cash partner starts a household. Give the counted tier the same parting times its count, one member forming a counted household of their own.

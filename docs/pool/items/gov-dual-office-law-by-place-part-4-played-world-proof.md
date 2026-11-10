@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from gov-dual-office-law-by-place in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Prove the dual-office rows in a played world. In a one-year world in a drawn place, an officeholder who wins a second office either keeps or vacates the first according to the place's cited row, and another engine (the offices module's terms and the seat's vacancy) reads the result, shown by record ids.

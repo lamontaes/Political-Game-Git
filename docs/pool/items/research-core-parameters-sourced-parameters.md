@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the core parameter tables (distance, time, past, speech, corruption, moves). Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Spreads and citations (no value changed) were delivered for farKinContactShare, workSleepReserveHours, restDayHours, both past-law age rows, movesOwnerHold, movesJobHold and movesUnemploymentGapWeight. Still open: movesChildrenHold and movesKinHold (converted to 0.32 and 0.30, held at main's values until world-town-net-moving-negative), four speech rows, ten corruption rows, movesMinimumAge, movesKinHoldCap and movesHousingCostShareCap (a cutoff and caps; bug core-moves-caps-and-minimum-age-as-cause), and eleven moves rows with no convertible source (the Jokela 2009 page refused the cloud). The Census Gazetteer place centroids for travel time are reachable at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/.

@@ -18,6 +18,7 @@ standard: 2
 model: sonnet
 effort: low
 root: rc2-done-from-records
+checked: fable 2026-11-10
 ---
 
 **What.** Polls on core2 exist, and a world campaign now commissions them, but no test proves it in the played world. This item began as the replacement for old-core poll work in PRs #5091 and #5081, which were closed because nothing new is added to the deleted old core. `commissionPoll` and `pollMargin` in `src/core2/modules/campaigns.ts` already sample the town's residents from their records and pay the pollster from campaign money. The Oct 19 measurement found no world-campaign poll in six drawn places over 420 days because statewide campaigns raised too little from the town alone; what remains is the proof in a played world that a non-player campaign buys a poll before its election.

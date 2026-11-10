@@ -5,7 +5,7 @@ area: elections
 lead: governing
 kind: feature
 priority: 1
-size: L
+size: S
 status: open
 claimed-by:
 pr:
@@ -14,9 +14,10 @@ blocked-on: campaign-real-race-played-proof, campaign-incumbent-hears-the-race, 
 source: owner, Oct 29 voice note on the governing brief
 claimed-at:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** No life started from New Game has ever won a race (governing brief, Oct 29). The owner, Oct 29: "look at real races... she was working with the Democratic Socialists of America. And, you know, then her campaign gained steam, and then it caused [the incumbent] to try to go back to New York to campaign... some people... just do donor meetings... you need to be able to... host a forum... meet your possible constituents... debate" and "it's not just door knocking, it's raising money and stuff like that that needs to be decided for A." A door yes is near-binding (Oct 29). This is phase A of the governing plan: the campaign actions a real underdog uses, each moving real voters through the campaigns engine, and an incumbent who reacts when a challenger gains.
@@ -25,7 +26,7 @@ root: none
 
 **Fix.** Wire the campaign actions an underdog uses through the one campaigns engine, with no second system. The work is four parts: the played-year proof, the incumbent who reacts, money from named donors, and the path-check measurement of wins. Close this item when the parts have merged and a second session has seen the finish line.
 
-**Time box.** 2 hours for an Opus session, the closing check only; the build is in the parts, each with its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Look before you ask: the campaigns engine already has call donors, doors, ads and debates; wire through it, never a second campaign system. No dice: support, money and momentum come from people's reasons and records. This is a game, not a spreadsheet: each action is a stop or a scene, never paperwork.
 

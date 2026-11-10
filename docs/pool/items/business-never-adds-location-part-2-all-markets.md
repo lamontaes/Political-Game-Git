@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The monthly founding pass sorts the markets by score and returns out of the function on the first founding, so a market that wins every month keeps every other market from being evaluated. In Cochituate, Massachusetts that left no market but manufacturing ever tried from April on. Evaluate every market each month, so a founding in one does not stop a founding in another.

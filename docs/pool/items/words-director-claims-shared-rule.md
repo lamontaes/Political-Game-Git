@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Residents now believe a story or speech another resident passes on through believesClaim in src/core2/heard-claims.ts: a stranger's pull, plus how close the hearer is to the teller and how well the claim fits the hearer's view, against the trait lean at its researched weight. The player's own claim in a conversation is still judged by doubtsClaim in src/director/conversation.ts, the flat truthDefaultPull against the raw trait lean with no closeness, fit or weight. That is two rules for one decision, registered as SG-TRAITS-director-claims-reader. The director is the Words line's, so the Words session routes doubtsClaim through believesClaim, passing the player as the teller, and removes truthDefaultPull.

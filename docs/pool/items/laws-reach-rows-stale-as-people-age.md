@@ -17,6 +17,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** A law's reach rows for a person are written when the law takes effect and stay as they were. A row chosen by age or by a child in the home (the child access prevention storage duty, concealed carry age, juvenile age) is never ended when the last child turns 18 and never opened for a household that gains a child or an adult who turns of age. Measured on the household-firearms seed 2724fc27c0417f7c: the adults of household_024d52d706dd18ce keep a storage duty the day after their youngest member turned 18.

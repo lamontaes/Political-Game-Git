@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: split from docs-stale-2026-10-23-audit in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The live tree still carries ended per-session status files, the BOARD, handoffs, work orders, M0 packages and old-engine reports. They mislead a session that reads them as current. This part moves each ended file to docs/archive/2026-10-23/ and deletes the original. The pointers to them are repaired in the next part.

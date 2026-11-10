@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from people-births-ready-couples-conceive-at-once in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Births by age band follow the plan score's narrow age peak: ages 25 to 29 run about 5 times the CDC count and ages 35 to 44 run near zero, while the total is right. The plan weighs a mother's age against one schedule instead of her own place's NCHS schedule. Each couple's plan record should carry the age center and spread of its own place.

@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Make the law on partnering with federal immigration enforcement change what a sheriff does with a stopped person. When a stop incident from the incident producer ends with a noncitizen (`isNoncitizen`, the same read for full people and counted members) and the partnership law is in force through `lawInForce`, the stop becomes a hold for immigration agents and the person is put in custody with `holdInCustody`; with the law not in force the same stop ends as it would for a citizen. The reach of the law already names noncitizen adults; this item adds the decision at the stop, so the reach row becomes a read by the justice engine and not a record. The counted groups' detainer holds already run in the public-safety engine (`detainers`); this is the named person's stop. The stop-to-hold mapping may not fit the 287(g)-only question (see law-levels-sanctuary-flags-from-state-code).

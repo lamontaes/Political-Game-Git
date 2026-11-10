@@ -18,6 +18,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** The owner ruled Oct 25 that a family member's absence is told to the player as a scene when a record explains it: moved away, in the hospital, jailed, died. Today a household member who leaves simply stops appearing, and the player learns nothing. The scene reads the record that took them (a move event, a hospital admission, a justice case's custody, a death record) and stages one moment in the house or by message from a kin member who says what happened, with the player's reply from controls and the result in the journal. Where no record explains the absence, nothing is said; the engine never invents a reason, and an absence with no record is a defect to file, not a line to fill.

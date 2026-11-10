@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** no-scroll.browser.mjs on a drawn life in Bountiful, Utah (Oct 28) failed with "start · calendar: span.what over by 16px": one day-list entry's text runs 16px past its row on the first day. The same check passed in Stovall, North Carolina. The entry is a span.what inside a calendar entry, styled by the .calendar-entry .what rules in src/bench/play.css, and which entry runs long and why its row does not wrap it is not yet known, so the first step is to reproduce it on the Bountiful, Utah draw.

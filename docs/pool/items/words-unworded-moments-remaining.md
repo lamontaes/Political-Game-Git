@@ -12,11 +12,12 @@ pr:
 blocked-on:
 after:
 lead: words
-model: haiku
+model: sonnet
 effort: low
 root: rc4-hand-written-words
 source: "split from words-unworded-moments, Oct 16"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Four moments the records fire still have no words or thin ones: the player saying they filed their papers after the filing visit, a new law taking effect, a held meeting, and the blame someone was told. Each is to be authored to the calibrated patterns as bank parts with move tags (author and date on each, at least two wordings each), and the director says them when the filing, law-effect, meeting and blame records fire. The clerk does not state a fee or a signature count, because no one pays a fee or gathers signatures to file (owner, Oct 13). The item named a bank file, filing-visit.json, that does not exist; the director side is src/director/filing-visit.ts and src/director/bring-it-up.ts. The first job is an inventory of which of the four moments still lack pieces.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** None until the cause is found.
 
-**Time box.** 2 hours for one session of the Haiku model, to list which of the four moments have bank pieces and which do not, and write the list into this item. When it runs out, push what is known and stop.
+**Time box.** 2 hours for one Sonnet session, to find which moments have no bank pieces today. When it runs out, write what was found in the item and stop.
 
 **Rules.** No hand-written player text: the words are bank parts authored with origin, author and date, never typed into code. Ask why: each line cites the event or record it voices. This is a game, not a spreadsheet: no new player step or form.
 

@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from research-start-law-remaining-2025-phases in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Source the phase in force on January 20, 2025 for the state corporate income tax (50 states), the local income tax authority rows and the unemployment program terms that the opening still carries back from January 2026. Read each state's corporate rate and the program terms from its published table or statute, quote them, and write the 2025 phase the same way the national tables were written. The part is done when the series no longer reaches the opening's law rows.

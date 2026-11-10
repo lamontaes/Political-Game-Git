@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** A business owner bidding on a public contract weighs offering a bribe to each member who votes on the award, and the offer decision reads only the offerer's temperament, the stake, their tie to the official and what they have heard of the official (reputation was added in gov-bribe-offers-follow-reputation). An offerer whose temperament leans fully toward it plus the stake of a public contract tops the pull of refusing, so that bidder offers every member who votes, whoever they are: in two played years Davie, Florida (seed 694f68f1f5df5250) saw 434 offers, 352 of them to state members over state contracts, and Kingfield, Maine (seed smoke-bribe-1) saw 382 in its first month, while Wheatfields, Arizona and Wilkeson, Washington saw none (`scripts/research/bribe-chain-years.ts`). Offers should follow what the offerer has learned of the official's money trouble: a knowledge record of an eviction, a foreclosure or missed payments that reached them by news, a conversation or a notice, never the official's private balance.

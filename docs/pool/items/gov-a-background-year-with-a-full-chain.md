@@ -14,9 +14,11 @@ claimed-at:
 after:
 lead: governing
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc8-law-judged-by-paperwork
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** The item asks for a background year with a full chain: background bodies propose bills with money at stake so interest groups, offers, reports and cases arise from causes with no player push. Its premise (11 played years, 4 plain, with one bribe offer and zero reports, because only the player proposes a minimum-wage bill) is out of date. The Oct 20 plain-year table (Hickory Ridge AR `ch1`, Tryon NE `ch2`, Bethany Beach DE `ch3`, Williamsburg KS `ch4`) showed 58 to 78 background bills a year, employers' groups forming on their own and 11 to 93 lobbying meetings, but zero bribe offers, and a refusal left no record. Later measures found hundreds of offers in two years (434 in Davie, Florida, seed 694f68f1f5df5250). Which link of the chain is missing in a plain year today is not known.
@@ -25,7 +27,7 @@ root: rc8-law-judged-by-paperwork
 
 **Fix.** None until the cause is found.
 
-**Time box.** 4 hours for one opus session, to replay four plain years on main and name which link of the chain (bills, groups, meetings, offers or refusals, reports, cases, news) is missing.
+**Time box.** 4 hours for one Sonnet session, to replay four plain years on main and name which link of the chain (bills, groups, meetings, offers or refusals, reports, cases, news) is missing. When it runs out, write what was counted in the item and stop.
 
 **Rules.** No dice: who proposes and who offers a bribe follows traits, money and the law in force, with no fixed percentage. The chain is the acceptance: follow one background bill to an offer, a decision, a report, a case and the news line. Ask why: each proposal and offer keeps its reasons by record id. One rule, all 56 places. Speed: background proposals act on the day something changes, with no new daily world scan.
 

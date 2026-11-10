@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 lead: laws
+checked: fable 2026-11-10
 ---
 
 **What.** The estate tax settles nothing in any place it ran. Every full person holds at most about $504,000, below every state estate tax exemption and the federal one. The only people above an exemption are state cabinet members ($11M to $60M each), who have no kin, so their estates escheat and are assessed at 0. The Survey of Consumer Finances puts about one household in ten at a net worth above $1 million (recalled, not checked), and a few states' estate taxes start near there, so some deaths in a larger town should owe it.

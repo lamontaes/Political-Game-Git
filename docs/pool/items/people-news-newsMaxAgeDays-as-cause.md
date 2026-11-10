@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The news engine reads newsMaxAgeDays (30 days, TUNABLE) as a hard cutoff in three places: a reader whose delivery delay is longer never hears a story, a story older than it is never told at a contact, and forgetOldNews drops who heard it. A reader at engagement 0.03 hears on day 31 or never, with nothing in their life or the story deciding it. Research found no measured figure that can stand for a cutoff, so the row stays TUNABLE until the engine reads a cause instead.

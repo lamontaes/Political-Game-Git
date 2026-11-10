@@ -17,6 +17,8 @@ root: rc8-law-judged-by-paperwork
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/place-prices.ts, kind faked-mechanic"
 claimed-at:
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** The price engine charges container deposits to households under the live law, but container use and redemption still use household estimates rather than each person's purchases and returns, and a retail price law uses a stand-in. Charge and refund container deposits from each person's purchases and returns, and read a retail price law, then resolve both rows. A prior partial attempt was closed because it kept SG-GOV-REACH-B-retail-price open and proved only 40 days.

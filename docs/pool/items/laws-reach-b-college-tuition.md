@@ -16,6 +16,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** The `higherEducation` line in src/core2/data/laws/reach-group-b.json has effect `college-support-level` on 18-to-24-year-olds and nothing charges or changes tuition (stopgap SG-GOV-REACH-B-tuition). Add the smallest college layer the golden path needs: a person aged 18 to 24 is enrolled in a college organization when their household income, grades and traits make it their choice (the enrollment rate by age and income is a check on totals, never a roll), and the household pays a monthly tuition contract to that college, like the private-school tuition contract in src/core2/opening-private-tuition.ts. The state's higher-education support level lowers the in-state tuition by its share; a cut raises it.

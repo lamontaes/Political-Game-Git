@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** When the Medicaid expansion pays coverage, the federal government's share is taken at the state's regular match: 65.13 percent in Prescott, Michigan (seed a91c03e7d2b84f10) and 57.52 percent in Uehling, Nebraska (seed 5e27b0c4196fd3a8), measured in the health-schools year runs (found by the health-schools helper, Oct 25). Federal law pays a higher share for the expansion population: 90 percent from 2020 on (42 U.S.C. 1396d(y)(1), from the lead's memory; confirm against the statute's text). With the regular match, every expansion state's treasury pays several times what it should, which feeds its budget, its taxes and the outcome web.

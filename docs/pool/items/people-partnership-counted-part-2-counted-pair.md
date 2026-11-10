@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-partnership-counted in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Counted adults never partner, so counted household types stay as they opened. Full people partner by a monthly pull built from the ACS first-marriage pace, read against each person's recorded orientation. Give the counted tier the same pull times its count, merging counted households into couples by the orientation shares.

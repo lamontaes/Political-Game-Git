@@ -12,11 +12,12 @@ pr:
 blocked-on:
 after:
 lead: money
-model: haiku
+model: sonnet
 effort: low
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The test src/core2/counted-weight-unplaced.test.ts fails in a place with no unplaced workers (Lone Chimney, Oklahoma): it draws a place, and when the town has none it tries up to eight more before failing with "no unplaced workers in <places>". This item was released from an idle draft with an empty body. The first job is to rerun the test, record the places and seeds drawn, and decide whether a town with no unplaced workers is a real case the test should skip.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** None until the cause is found.
 
-**Time box.** 1 hour for one session of the Haiku model, to rerun the test and write the places, seeds and result into this item. When it runs out, push what is known and stop.
+**Time box.** 1 hour for one Sonnet session, to rerun the test and write the places, seeds and result into this item. When it runs out, push what is known and stop.
 
 **Rules.** One model, two tiers: the unplaced workers' pay stands for as many households as the town's weight says. No dice. One rule, all 56 places: the test draws its place and names it with the seed.
 

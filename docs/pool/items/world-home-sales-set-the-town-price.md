@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: split of world-home-turnover (Oct 18)
+checked: fable 2026-11-10
 ---
 
 **What.** The housing engine carries the stopgap SG-WORLD-housing-price-index: a home's value follows the state's price ratio and the household's income, and nothing a town's sales write is read back. Nothing in the town's own market moves what its homes are worth. Make the town's recent sale prices (the `sales` and `purchases` rows) the price a home is assessed at for property tax and the price the next sale starts from, so a run of high sales raises assessments and a quiet town's values follow the state's index as before.

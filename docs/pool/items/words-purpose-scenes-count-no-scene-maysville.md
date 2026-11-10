@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc6-scenes-repeat
 lead: director
+checked: fable 2026-11-10
 ---
 
 **What.** src/director/purpose-scenes.test.ts fails on main with GOLDEN_PATH_SEED=b192e3dbed748f0f, as it does on branches that merge main. On its third draw, Maysville, North Carolina (3742100), the filer behind filing:contest:seat:gus2025:131738:council:0:2025-11-04:person_04962cc79c8da140 has no scene for the November 4, 2025 count: the test's check "the count fired no scene" finds no schedule entry for the election-result record. The test draws its place at random, so this turns CI red on any director change whose run lands on it. The cause is not yet known: the count's moment may be missing, unbound, or held by the month's repeat window.

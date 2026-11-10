@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/law-wiring-labor.test.ts runs one world through every labor law at once and needs all of the subjects in the same drawn town: a worker under the federal floor, a seated council member, a teacher, a full and a counted claimant, a claimant above the weekly maximum, and a public unit whose contract falls due inside the window. Few towns hold them all, so the test redraws up to ten worlds at about a minute each and on Nov 9 it ran 193 seconds to 7 minutes and failed with no place with a subject, with a different missing subject on each try. Widening one subject at a time does not help, because the next missing one stops the run.

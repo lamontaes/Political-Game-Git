@@ -16,6 +16,7 @@ effort: medium
 root: none
 lead: m0-m2
 source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real-statistics-in-play-2026-10-27.md
+checked: fable 2026-11-10
 ---
 
 **What.** Rows 42 and 44 to 48 of docs/reports/real-statistics-in-play-2026-10-27.md: the 2024 county vote, turnout and contested-state map; past vote totals; party counts in legislatures and Congress; national poll support; and one fixed winner's share per office kind, which shows every council member "elected with 60% of the vote". The owner ruled on Oct 27 that every non-law statistic starts realistic, not real, and differs in every world from the moment Start is pressed. Part is done: the sitting-holder vote share half is realistic-sitting-holders-vote-share and row 45 party counts are drawn per world; the 2024 county vote, turnout, past vote totals and national poll support remain.

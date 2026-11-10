@@ -17,6 +17,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The health module's death event moves the mood and stress of the dead person's witnesses, but witnesses are only people in the full-person table, and in the two-level world most of a person's kin are counted people or husks that carry no mood. A run of Biggersville, Mississippi (seed hb1) for 700 days had 13 deaths and not one bereaved full person, so the effect of a death is nearly absent in play. A counted group should be moved by a death the way a full person is, times its count.

@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** A named adult's cause drive forms in play when they perceive an event with a role, but counted adults perceived no events, so no counted adult held a cause. Most of the work was split off and is done (job loss, illness, bereavement, speech and shared causes). What is left is law-effect causes reaching counted groups and the share check. With the children done, re-measure the counted share and close the remaining gap, so every reader of causes (candidacy, giving, groups) sees causes in the counted tier.

@@ -17,6 +17,7 @@ root: none
 lead: m0-m2
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** SG-CORE-private-tuition-average still fakes enrollment: the opening ranks families by cash per child scaled by their faith's affinity for private schooling, but enrollment ignores which schools stand nearby or what the child needs, and the affinity is by faith only. Move each child's enrollment from the family's income, beliefs, the schools in reach and the child's needs, re-decided as those change (a job loss, a closing, a move), and close the stopgap row with the reader named. The owner ruled on private school (#5483) on Oct 20 (see docs/coordination/OWNER-DECISIONS.md). This item also absorbs core-stopgap-opening-private-tuition-aggregate-spending, which is only the roll-up of this row; re-enrollment (#5504) and counted families (#5633) are done.

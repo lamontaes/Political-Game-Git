@@ -17,6 +17,7 @@ root: none
 lead: jobs
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** One played year in a drawn place stopped with 'Invalid relocation: one living household, no job held', thrown by `relocatePeopleV1` in src/core2/state.ts. That message covers four different conditions (household missing, duplicate ids, a dead or foreign member, and a mover whose live job is outside the destination place), so the stop does not say which one happened. The place and seed of the first stop were lost, and eight later reruns did not reproduce it. Two later captures exist: Dover, New Hampshire (3318820, seed ee04c2985f301a47) in PR #5149 comments, and the counted-demotion test failures under the seeds in the Notes.

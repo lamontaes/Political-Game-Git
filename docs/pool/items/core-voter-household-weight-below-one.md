@@ -17,6 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: CTO, from the golden-path failure (M0-09) on PR 8060, Nov 9, 2026
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** `src/core2/voter-groups.test.ts` ("voter groups are the counted electorate") fails at some drawn places because a voter row carries its household's weight and that weight is below 1. Valley City, North Dakota (key 3881180, seed d5a9ce3f642229fdc5611e1a85e2e1565f79688af5a1f55b560643f2d082a184) gave 0.414. A counted household stands for at least itself, so a weight under 1 means the opening's scaling shrank a household instead of growing it. Fix the weight, not the test.
@@ -36,3 +37,5 @@ claimed-at:
 **Files.** src/core2/voter-groups.test.ts, src/core2/opening-county-sample.ts, src/core2/counted-groups.ts
 
 **Notes.** Not caused by PR 8060, which changes no engine file. The golden path draws a random place, so this fails only sometimes.
+
+**Notes (Fable's check, Nov 10).** Two more sightings, from core-voter-groups-weight-under-one-fernwood (proposed drop into this item): on clean main at c8273e2e6e src/core2/voter-groups.test.ts fails in Fernwood, Idaho (place key 1627640, world seed eba04327de239c4a9b3cf1afdbca4c70a48536225da8601591d8cd9e444baee0) with a weight of 0.77, and the same step failed on pull request 8154 in San Lorenzo, Puerto Rico (world seed 82d7b46a29debf1ff32ff697623ab8b0288375cdc8ce1b4ef970f499929a9748; that message was not confirmed). The second session replays Fernwood as well as Valley City.

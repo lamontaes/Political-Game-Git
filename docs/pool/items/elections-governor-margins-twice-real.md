@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-electorate-one-model
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** On election night of November 3, 2026 in Cecilia, Louisiana (custom world seed lane4-gov-1), the 36 governor races were won by 12 to 65 points: Maryland Democratic by 64, Massachusetts by 65, California by 60, Hawaii by 60, Alabama Republican by 38. The real 2022 margins were about half that (Maryland about 32, Massachusetts about 29, California about 18). The picture is docs/play-first/shots/play-governor-races-on-screen/governors-1440.png on lane-4/governor-rows. The figures come from `raceVotes` in `src/core2/modules/voting.ts`, read by `governorRacesTonight` in `src/bench/results.ts`. Why the margins run so wide has not been traced.

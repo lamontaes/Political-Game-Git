@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from laws-property-tax-cap-statutes in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/data/laws/property-tax-caps.json holds the statutory growth cap on a home's assessed value for ten states (AR, AZ, CA, FL, MI, NM, NY, OK, OR, TX). Every other state takes one generic estimated cap (`propertyTaxGrowthCapShare`), so a named owner's bill there does not follow the statute. Read the cap statute of each remaining state that limits assessment growth (the Lincoln Institute database lists 19 with assessment limits in 2024), and add a sourced row with the cap's size, scope, exemptions and whether it resets on sale. This is part 1 of laws-property-tax-cap-statutes.

@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** After the district-name fix (gov-offices-roster-district-name-mismatch), stateOffices seats every chamber at its legal size from data/research/offices/state-offices.json except four, where the roster in data/research/offices/legislature-party-counts-2026.json itself holds a different number of members. One House seats 153 for 151: its roster includes two tribal representatives who sit without a vote. One House seats 386 for 400: the roster lists only sitting members, so a multi-member district with a vacancy seats fewer members and no data gives each district's number of members. A territory's Senate seats 28 for 27 and its House 53 for 51: the roster includes seats its constitution adds for minority parties.

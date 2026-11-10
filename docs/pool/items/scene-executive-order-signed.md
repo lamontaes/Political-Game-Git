@@ -17,6 +17,7 @@ after:
 model: opus
 effort: medium
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** On the day a governor issues an executive order, the governor's aide sets it on the desk and a resident the order reaches comes into the room and says what it means to them. The governor answers one of four ways: promise to ask the legislature to write it into law, own the order, warn that it lasts only as long as the governor holds the office, or ask what else they need. A governor's revocation of an earlier order is the mirror, with the same resident asking what happens to them. The resident is filled in from the state's counted adults the order reaches, as the two-level population rule has it.

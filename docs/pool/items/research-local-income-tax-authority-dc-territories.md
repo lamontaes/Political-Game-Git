@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc9-place-facts-one-default
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The starting law has a `local-income-tax-authority` row for each of the 50 states and none for D.C., Puerto Rico, Guam, the Virgin Islands, American Samoa or the Northern Mariana Islands (measured in src/core2/data/laws/starting-law.json, Oct 25). So where a local body there drafts an income tax, the legislature answers 'state-gives-no-local-tax' from no row, and no law is recorded as read. The laws lead found it when the taxes family test drew Marueno, Puerto Rico (seed 9c7e770e2a46c5dccabd59cb3672b93dd63dfe83); the test now redraws such a place. Research each of the six from its own law (the D.C. Home Rule Act; Puerto Rico's Municipal Code, Act 107-2020; each territory's organic act or constitution and code), quote the provision, and add the row, ESTIMATED where no provision speaks to it.

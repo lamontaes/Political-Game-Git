@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** proposalRight in src/core2/modules/legislature.ts gives every mayor and county executive one national rule (a member carries the executive's bill at the executive's request), and bodyNumbering in src/core2/legislature-bill-form.ts numbers every town's and county's ordinances by year and order with one national template. The research of Oct 23, 2026 holds each place's general-law default for all 56 places: data/research/gov/local-executive-introduction-2026.json gives a mode per place (by-request, member where the mayor sits on the council as a voting member, presides where a county executive presides over the board, none where general law has no elected executive), and data/research/gov/local-ordinance-style-2026.json gives the numbering a place's law or rules set. Read the drawn place's row by the postal code in lawChain(api).stateKey: proposalRight returns its mode (a member-mode mayor moves the bill as a member instead of asking one), and bodyNumbering uses the row's numbering template and period where it is SOURCED. Keep SG-GOV-local-executive-proposal and SG-GOV-local-bill-numbering open for charter places and ESTIMATED rows.
@@ -30,7 +31,7 @@ after:
 
 **Done when.** A second session, in a played world (buildBenchWorld) in a drawn place from all 56 with a seed the builder did not choose, finds a town body's ordinance carrying the number its place's row gives (bill record id named), and the tests in src/core2/legislature.test.ts show an executive in a member-mode place moving a bill as a member while one in a by-request place has a member carry it (carry record id).
 
-**Waits on.** Nothing.
+**Waits on.** Nothing. words-local-enacting-clause-by-state changes the local branch of the same function, `bodyNumbering` (the enacting clause by place): merge main in before pushing, and if it has merged, read the place's row once for both the clause and the numbering.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/legislature-bill-form.ts, src/core2/data/legislature/executive-proposal.json, data/research/gov/local-executive-introduction-2026.json, data/research/gov/local-ordinance-style-2026.json
 

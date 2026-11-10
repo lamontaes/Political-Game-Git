@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: design-life-record
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Let chronic conditions begin during a played life, not only at the opening. The health module gives each resident the opening conditions from the condition pack's prevalence cells (income-ranked) and a serious illness when strain crosses the person's own resilience line, but no one develops a condition after day one. Add a yearly incidence derived from the pack: the rise in prevalence from one age band to the next, adjusted for deaths of those with the condition. A person acquires a condition when their accumulated exposure crosses their own keyed line, written as a typed condition-begins event the mortality rule and the jobs engine read.

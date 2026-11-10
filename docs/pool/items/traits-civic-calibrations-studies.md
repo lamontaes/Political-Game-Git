@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Four civic decisions weighed temperament at the general weight of 1 or at a size fitted to the wrong measure, so temperament settled them almost alone. A measure vote's trait term decided about half of all measure votes, nearly every identifier joined their party because the case was a fixed base, and most people a campaign asked to volunteer shared one total, so temperament alone sorted them. Give joining and volunteering each person's own circumstances (free time, travel, the reasons anyone backs a campaign, how closely they follow politics), then calibrate ballot-measures.vote, voting.back-incumbent, parties.join and campaigns.volunteer to cited studies. Give the employer's group join its nearest study and record why the lobbyist decision still has no base. Merged in from traits-wire-civic: the unfinished decisions of that family, telling an exit pollster, holding a town hall, a lobbyist speaking up, accepting an interview and taking part at a meeting, are fitted or given a gap row with numbers.

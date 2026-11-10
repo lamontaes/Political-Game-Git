@@ -16,13 +16,14 @@ model: sonnet
 effort: high
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The M1-04 check (src/core2/tooling/m1-04-check.ts) in Niceville, Florida (place key 1248750, seed 118d0e8a347d62a772645a1341bcffcd88ba3e3e064306cc90a3bacbb8590f7a) found 27 of 1,376 job changes whose decidedBy is a person id that is no record in the world at the end of the played year, for example job-change:2025-02-01:work-relationship_39a13a4e5498061a:quit, decided by person_188e6733d544544d. The sampled ones are all dated 2025-02-01, mostly left-work and quit changes in the first month. Either the person was removed (moved away or a counted record replaced) while history still names them, or the jobs engine names an id that never existed.
 
-**Cause.** Measured: `node src/core2/tooling/m1-04-check.ts` in Niceville, Florida (place key 1248750, seed 118d0e8a347d62a772645a1341bcffcd88ba3e3e064306cc90a3bacbb8590f7a) reports changesDecidedByNoRecord 27 of 1,376 (the count at line 252 of src/core2/tooling/m1-04-check.ts). Candidate, not confirmed: `workerMoved` in src/core2/modules/jobs.ts (line 460) writes the left-work change for a person who moved away with decidedBy: personId (line 489), and the moves engine then removes that person.
+**Cause.** Needs cause. Looked at: `node src/core2/tooling/m1-04-check.ts` in Niceville, Florida (place key 1248750, seed 118d0e8a347d62a772645a1341bcffcd88ba3e3e064306cc90a3bacbb8590f7a) reports changesDecidedByNoRecord 27 of 1,376 (the count at line 252 of src/core2/tooling/m1-04-check.ts). Candidate, not confirmed: `workerMoved` in src/core2/modules/jobs.ts (line 460) writes the left-work change for a person who moved away with decidedBy: personId (line 489), and the moves engine then removes that person.
 
-**Fix.** Reproduce, confirm which writer names the vanished id, and keep the decider findable: name the employer or the move event as decider, or keep the person as a counted member. Fix the writer or the removal, never the check.
+**Fix.** None until the cause is found.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/jobs.ts, src/core2/state.ts, src/core2/tooling/m1-04-check.ts
 
 **Notes.** TODO
+
+**Notes (Fable's check, Nov 10).** How to find the cause: run the M1-04 check in Niceville, Florida, take three of the 27 changes it counts, and for each find the writer of the job-change record and what removed the person it names (a move away, a demotion to the counts, a death). The fix then keeps the decider findable (the employer or the move as decider, or the person kept as a counted member), in the writer or the removal, never in the check.

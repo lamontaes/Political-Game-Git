@@ -17,6 +17,8 @@ root: none
 lead: researcher
 source: "src/core2/data/stopgaps.json, src/core2/modules/life.ts, kind household-contact-logic-gap"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** The stopgap row SG-P8-household-shared-time-contact (marker in src/core2/modules/life.ts, row in src/core2/data/stopgaps/p8.json) says shared residence does not reliably produce household contact before distant acquaintance offers. A probe on Oct 20 (one played year, buildBenchWorld, seed contact-probe-oct20) showed housemates are not left out: Harmony, Rhode Island had 128 full people in multi-person households with 4,547 household contacts (544 other kin, 16,353 everyone else), and Mauston, Wisconsin 251 such people and 12,531 household contacts, about 35 to 50 household contacts per person a year. What the row still lacks is a sourced per-tie rate: BLS American Time Use Survey time with household members. A search on Oct 21 found only the childcare figures, not a with-whom table.

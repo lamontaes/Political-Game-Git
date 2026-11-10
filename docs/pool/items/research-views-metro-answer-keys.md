@@ -16,6 +16,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Roadmap M1-10 says views are checked against state and metro answer keys. src/core2/modules/views.ts reads VIEWS_KEYS with state keys (CES 2024) and a national key only; no metro key exists, and a territory such as Barrigada, Guam opens on the national key ('no state sample'). M1-10 stays false until metro keys exist and the check reads them. The work is to add metro keys from fetched survey data with sample sizes and spread, read them in views.ts, and make the M1-10 command check a drawn place against its metro key where one exists.

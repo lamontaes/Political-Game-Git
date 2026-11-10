@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** Five bench sites still type the age of majority as 18 after the core moved to the one `votingAge` row in src/core2/data/parameters.json: src/bench/m0-check.ts (line 41), src/bench/scene-check.ts (line 21), src/bench/m1-10-check.ts (line 131), src/bench/verify.mjs (line 125) and src/bench/whole-figures.ts (line 29, the teen band). A view or check that types its own version of a fact is a duplicate (AGENTS.md, first bullet). The earlier play.mjs home-label sites no longer type an 18 and need nothing.

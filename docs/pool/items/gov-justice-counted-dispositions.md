@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: high
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** Carry the group incident rows of gov-justice-counted-incidents through the same steps a full person's case takes in the justice engine (`chargeDecision`, the plea, `convict`, sentencing, `decidePretrial`) as group counts: for each group the share charged, pleading, convicted and sentenced is the step's rule applied to the group's packed traits, income band and the law in force, times the count. Write group case rows that name the group, the law row and the step, and add the group's people in custody and serving a sentence to what `prisonersServing` and the budget's jail line read, so a county's corrections cost follows its counted prisoners as well as its named ones.

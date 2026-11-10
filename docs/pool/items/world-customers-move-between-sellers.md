@@ -17,6 +17,7 @@ effort: high
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A seller's customers change only when a business opens or closes (`splitMarketDemand` runs at entry only), so layoffs run at 0.04% of jobs a month against 1.4% in JOLTS. The first idea was to re-split each residents' purchase share monthly by sellers' prices and capacity, so a firm that loses customers shrinks and lays people off. Built and measured on Oct 16, it moves almost nothing: in Rush Valley, Utah (seed cs-1, one year) the median price spread among sellers of a kind is 0.06 percent, because every seller's price follows the same wage and price indexes. The Oct 25 ruling under "simulate it, don't ask" is that a household moves its spending between sellers by the shared chooser on price, travel time, capacity and what it has heard, with no dice. Which differences between sellers actually exist in the records to move customers (a seller's own unit labor cost, its location, its hours, a rival's opening) is the open question.

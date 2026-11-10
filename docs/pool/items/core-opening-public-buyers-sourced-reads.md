@@ -16,6 +16,7 @@ effort: medium
 root: rc9-place-facts-one-default
 lead: m0-m2
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The opening's public custodial budgets still use one national buyer coverage (0.80) and carry each county's identity forward from the 2017 listing. Make the opening read, for each place, which kinds of general-purpose government are its recorded buyers, and give each the state's own share of local public-building spending from data/research/core/census-2022-local-public-buildings-by-government-type.json (the county share where only the county buys, all of it where the place's own government also buys). Make the county owner check also read the Census 2021 Government Units listing (units active in the fiscal year that contains the opening) as the opening-dated observation matched by PID6 and GID, and compare names without punctuation so the one county whose 2017 name lacks its apostrophe is accepted.

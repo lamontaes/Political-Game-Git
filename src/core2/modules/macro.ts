@@ -53,6 +53,12 @@ import {
   type CountryTier,
 } from "../country-model";
 import { countryOpening } from "../country-opening";
+/** The country tier's sectors and state rows, for screens that read a state's record (dev mode's Trace). */
+export {
+  COUNTRY_SECTORS,
+  type CountrySector,
+  type CountryState,
+} from "../country-model";
 import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";

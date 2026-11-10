@@ -11,11 +11,12 @@ standard: 2
 claimed-by:
 pr:
 after:
-blocked-on: laws-nine-links-rights-env, laws-nine-links-health-schools
+blocked-on:
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Once the rights and environment family (#5669) and the health and schools family (#6026) are both on main, the outcome web reads "a budget line above its Census base" in two ways. The rights family keeps `budget.parks-added-pct` and `budget.highways-added-pct` as government measures in `src/core2/gov-measures.ts`, read through `lineAddedPct`. The health family reads `budget-line-added:<line>` for the health and hospitals, welfare and Medicaid, higher education and schools lines through `budgetLineAddedPct` in `src/core2/modules/outcome-web.ts`. Both measure the same thing for different lines (found by the laws lead while working out the merge of the two branches, Oct 25).
@@ -30,7 +31,7 @@ source: added with npm run pool -- add
 
 **Done when.** A second session plays a year of buildBenchWorld in a drawn place (place and seed named), raises the parks line and the schools line, and sees each outcome-web measure move, named by the web's month record id; one function reads every budget line, the other path is gone (grep named), and src/core2/outcome-web.test.ts and both families' tests pass.
 
-**Waits on.** laws-nine-links-rights-env and laws-nine-links-health-schools (both still open).
+**Waits on.** Nothing. laws-nine-links-rights-env and laws-nine-links-health-schools, which it once waited on, are both marked needs cause and read the same budget lines: if either is being worked when this starts, tell its holder that the reader's name changes.
 
 **Files.** src/core2/gov-measures.ts, src/core2/gov-measure-keys.ts, src/core2/modules/outcome-web.ts, data/research/outcome-web/links.json, src/core2/data/outcome-web/outcome-web.json
 

@@ -16,6 +16,7 @@ effort: medium
 root: rc9-place-facts-one-default
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The Oct 23 pass read eviction steps from statute text for 21 more places, but 24 places still have a notice, cure, hearing or stay value from secondary summaries: 14 because their codes are published only through Lexis or a JavaScript application or refused the cloud (AR, AS, CT, GA, GU, IL, IN, MS, NH, NM, NY, PR, TN, VI) and 10 because a step is set by court rules. Foreclosure steps are read from statute text only for Texas, and ATTOM publishes its own average days for 14 places. American Samoa and the Northern Marianas have no shelter count. Read these from the official text in a session that can open Lexis, the state court rules and the territory governments' pages, and record each with its section and a quote.

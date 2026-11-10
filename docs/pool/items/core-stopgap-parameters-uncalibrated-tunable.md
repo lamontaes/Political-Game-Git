@@ -4,7 +4,7 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 25 open"
 area: core
 kind: stopgap
 priority: 3
-size: L
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -12,12 +12,13 @@ pr:
 after:
 blocked-on: core-stopgap-parameters-uncalibrated-tunable-part-1-decision-weights, core-stopgap-parameters-uncalibrated-tunable-part-2-rest-care-horizon, core-stopgap-parameters-uncalibrated-tunable-part-3-reserve-business-books, core-stopgap-parameters-uncalibrated-tunable-part-4-appraisal-retirement-pulls, core-stopgap-parameters-uncalibrated-tunable-part-5-p15-p10-params
 milestone:
-model: opus
-effort: medium
+model: sonnet
+effort: low
 root: none
 lead: researcher
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind uncalibrated-tunable"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Of the 25 uncalibrated-tunable stopgap rows this item named, 7 are resolved since (stressBaseline, moodBaseline, stressHalfLifeDays, openingRetirementCoveredFraction, BenefitFactorMinimum, BenefitFactorMaximum and FundingEnvelopeShare) and 18 are still open in src/core2/data/stopgaps/p8.json, p15.json and p10.json: SG-P8-param-needWeight, goalWeight, driveWeight, traitWeight, emotionWeight, effortWeight, restEffect, careEffect, companyHorizonDays, organizationReserveMonths, appraisalRelationshipWeight, appraisalDistressTraitWeight, appraisalBroodingTraitWeight, SG-P8-business-books-dynamics, SG-P8-param-openingRetirementClaimTraitPullYears, SG-P8-param-openingRetirementCoveredTraitPull, SG-P15-params-uncalibrated and SG-P10-params-uncalibrated. For each, source or calibrate the value against a named check that never picks one actor's outcome, tag it SOURCED, ESTIMATED or TUNABLE with its spread, and resolve the row with the reader named. It is built in five parts.
@@ -26,7 +27,7 @@ claimed-at:
 
 **Fix.** For each open row: source or calibrate the value against a named check that never picks one actor's outcome, tag it SOURCED, ESTIMATED or TUNABLE with its spread in parameters.json, and resolve the row with the reader named. Built in the five parts named in blocked-on.
 
-**Time box.** 16 hours across the five parts for one Opus session; each part has its own box. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the five parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Never close a row by deleting it; a registered stopgap closes only because the value is sourced or calibrated and its reader shown. Research before building: real data checks the simulation and never decides one actor's outcome. No dice. Every number lives in a parameter table, tagged SOURCED (with citation), ESTIMATED (with source and spread) or TUNABLE (with the spread it is checked against). Replace, never layer.
 

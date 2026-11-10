@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-story-director
 source: split from nation-federal-scandal-producer in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Nothing produces a federal-level scandal: the corruption engine records bribes only between the town's own people and officials. Let an official of the President's cabinet or of Congress (people-pack officials; the cabinet the unplayed President fills in president-acts.ts) act as an offered or taken party through the same engine, by their traits, money and chances, never a monthly chance. This is part 1 of nation-federal-scandal-producer.

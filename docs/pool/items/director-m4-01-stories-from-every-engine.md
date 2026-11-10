@@ -18,6 +18,7 @@ root: design-story-director
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-01"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The director turns campaigns, votes, laws and money into moments: big ones interrupt, smaller ones wait or become journal lines, and callbacks come through people. Roadmap spec M4-01 is mostly built, and what remains has not been measured. (Owner: OPUS-PEOPLE.)

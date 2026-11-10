@@ -4,7 +4,7 @@ title: "Filled-in households owe their living costs as daily arrears, so the who
 area: world
 kind: bug
 priority: 1
-size: M
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -12,11 +12,12 @@ pr:
 blocked-on:
 after:
 lead: money
-model: haiku
+model: sonnet
 effort: low
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** M0-13's 'pay reaches a spendable account' read 7 of 42 people paid in the last month with no cash at the end in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4). One was a legitimate departure (person_1f0bfb6557f8ebe2 moved away on 2026-01-16). The other six were filled-in counted households whose pay was swept the day it landed by residents:outside-living (for example person_4470e4e4584d4139 was paid 17,941 on 2026-01-12 and residents:outside-living:household_47910ceefee0e58a took 16,569 the same day). The suspected flow is the carried living cost in src/core2/modules/residents.ts (lines 1099-1102: a household's unpaid living cost is carried as arrears and asked again every day, requested = base + arrearsMinor), so each wage is swept by the arrears the day it arrives. On Oct 28 the same seed and place ran ALIVE on main ("609 paychecks reached their workers"), so the first job is to rerun the check and say whether this is already closed.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** None until the cause is found.
 
-**Time box.** 1 hour for one session of the Haiku model, to rerun the named command on main and write the result into this item. When it runs out, push what is known and stop.
+**Time box.** 2 hours for one Sonnet session, to rerun the replay on main and write what it shows in the item. When it runs out, write what was seen and stop.
 
 **Rules.** Wire to the world: a household's spending follows its income and records, so a household whose costs outrun its pay is a sizing error in the fill-in, not a feature. One model, two tiers: a filled-in household behaves as its counted weight did, with the same cost and income. Ask why: the sizing of the household's living cost against the group's income is traced by record id before any number moves. Estimate, never UNKNOWN: its cash is an estimate from the group's records, not zero.
 

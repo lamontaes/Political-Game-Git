@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: the builder of director-conversation-test-sparse-town, Nov 10, 2026 (pull request 8176); filed by Fable
+checked: fable 2026-11-10
 ---
 
 **What.** After the conversation test was fixed for towns where the player knows few people, one drawn town still fails it in two places. Both failures are also on main. One turn offers a single reply where the test needs at least two, and the test of a lie being believed finds the date one day short after the world is advanced.

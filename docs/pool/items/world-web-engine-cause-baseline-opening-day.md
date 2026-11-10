@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The outcome web takes each engine-measure cause's baseline when it opens, so a cause a law changes on that same day gets the changed value as its baseline and the web never sees the change. The taxes helper fixed it for two law measures (a state corporate rate, a property tax rate) with baselineReader. The causes split three ways: law reads with a date already take the law in force the day before the web opened; the SNAP maximum and minimum-wage measures are defined against their own reference; and the budget-line causes (parks, highways, schools, health and hospitals, welfare, higher education) read the budget row in place, which `amendBudget` overwrites, so the day-before value is not kept. The fix belongs in one place for all causes, not per measure.

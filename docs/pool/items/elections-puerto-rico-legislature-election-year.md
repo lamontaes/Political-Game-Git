@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** Puerto Rico's legislature is seated as if elected in 2022, though it votes with the presidential cycle (2020, 2024). In Añasco, Puerto Rico (7202680, seed plv-2 draw 32) and Aceitunas, Puerto Rico (7200186), every seat of both chambers of the Legislative Assembly holds a term elected on 2022-11-08, so the opening's paper reports a 2022 legislative election and its turnout uses the off-year ratio. Puerto Rico's general elections, legislature included, fall every four years with the U.S. presidential election. The cycle must be read from data, not a default.

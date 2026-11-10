@@ -4,7 +4,7 @@ title: "Assert rows exist before looping in the flow and row tests (#5016, #5033
 area: release
 kind: bug
 priority: 3
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -12,11 +12,12 @@ after:
 blocked-on:
 standard: 2
 lead: cto
-model: haiku
+model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The merge audit of Oct 20 (docs/reports/merge-audit-2026-10-20.md, item 12) found tests that loop over a found set of flows or rows and pass when the set is empty, in pull requests 5016, 5033, 5008 and 5020. The item names those four pull requests and no test file, so it cannot be built from the item alone. The fix it asks for is an assertion that the rows exist before each such loop. A cheaper route is one guard that fails any test which loops over a found set without asserting it is non-empty.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** None until the cause is found.
 
-**Time box.** 2 hours for one Haiku session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, to read the tests pull requests 5016, 5033, 5008 and 5020 added and list each loop that passes on an empty set, by file and line. When it runs out, write what was found in the item and stop.
 
 **Rules.** Replace, never layer: the fix replaces the faulty test in the same change, and a test asserts the feature and fails when nothing is found. One rule, all 56 places: any test that draws a place names the place and seed.
 

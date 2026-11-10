@@ -1,0 +1,433 @@
+{
+  "schema": "english-notes-not-rules/1",
+  "about": "Grade notes of the owner's that no rule cites by its words, each with the reason it is not a rule. Read by the run's report (npm run words:rules). A note that is unattached and has no row here fails src/english/line-rules.test.ts.",
+  "notes": [
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it",
+      "date": "2026-11-09",
+      "note": ".2 and 7.3 are all right.",
+      "reason": "Says 7.2 and 7.3 are all right (two withdrawals); praise, held good by the ledger, no fault stated."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-withdraw.i-know-i-told-you-yes-but-i-can-t-this-time",
+      "date": "2026-11-09",
+      "note": ".2 and 7.3 are all right.",
+      "reason": "Says 7.2 and 7.3 are all right (two withdrawals); praise, held good by the ledger, no fault stated."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.narrate-narrate.name-your-post-wants-to-talk-about-one-line-in-the-council-s-budget",
+      "date": "2026-11-09",
+      "note": "So it was 8.2.",
+      "reason": "Names 8.2 as the one he took of its narrator lines; a ranking of two lines, not a rule."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.narrate-narrate.name-has-held-the-post-s-job-for-years-years",
+      "date": "2026-11-09",
+      "note": "8.3 is also good.",
+      "reason": "Calls narrator line 8.3 also good; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-relent.all-right-put-it-on-the-calendar-i-d-rather-have-the-argument-in-the-open",
+      "date": "2026-11-09",
+      "note": "I like 9.2.",
+      "reason": "Likes 9.2, a reply that gives in and asks for the argument in the open; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
+      "date": "2026-11-09",
+      "note": "9.1 is probably the second best.",
+      "reason": "Ranks 9.1 second best of its replies; a ranking among lines, not a rule."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.open-greet.i-wanted-to-thank-you-in-person",
+      "date": "2026-11-09",
+      "note": "I wanted to take you in person, sure. All 3 of those are good.",
+      "reason": "Says all three greetings (11.1 to 11.3) are good; praise for the set, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.open-greet.can-we-close-the-door",
+      "date": "2026-11-09",
+      "note": "Sure. All 3 of those are good.",
+      "reason": "Says all three greetings (11.1 to 11.3) are good; praise for the set, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.open-greet.i-ll-keep-this-short",
+      "date": "2026-11-09",
+      "note": "All 3 of those are good.",
+      "reason": "Says all three greetings (11.1 to 11.3) are good; praise for the set, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-refuse.not-for-any-price",
+      "date": "2026-11-09",
+      "note": "Not for any price, sure. I like all of 12.",
+      "reason": "Likes all of 12, the refusals; praise for the set, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back",
+      "date": "2026-11-09",
+      "note": "I like all of 12.",
+      "reason": "Likes all of 12, the refusals; praise for the set, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card",
+      "date": "2026-11-09",
+      "note": "I like all of 12.",
+      "reason": "Likes all of 12, the refusals; praise for the set, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind",
+      "date": "2026-11-09",
+      "note": ".1 is good.",
+      "reason": "Calls 13.1, a closing, good; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.close-accept.all-right-thanks-for-listening",
+      "date": "2026-11-09",
+      "note": "13.3, that's the second best.",
+      "reason": "Ranks 13.3 second best of its closings; a ranking among lines, not a rule."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-relent.all-right-you-ve-made-your-case",
+      "date": "2026-11-09",
+      "note": "It sounds like the end of a hearing, not giving in to hold one; it reads as a fragment.",
+      "reason": "Covered by the rule no-dangling-fragments, which already names this fragment (\"You've made your case.\" on its own) but does not cite this note's words; it ends a hearing instead of giving in."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-agree.when-you-put-it-like-that-yes",
+      "date": "2026-11-09",
+      "note": "When you put it like that, yes, or like, how could I say no, you know?",
+      "reason": "His own spoken version of how a person gives in, a model for the line rather than a fault; the line was rewritten from it, and it is the kind of sample look-up-how-real-people-say-it asks for."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-withdraw.i-know-what-i-said-but-circumstances-have-changed-i-cant-im-sorry",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a withdrawal (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-agree.how-could-i-say-no",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of an agreement (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.state-ask.what-did-you-just-decide-this-without-me-whos-going-to-take-care-of-ch",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a question between partners (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a request for help (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a reply that gives in (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-tell.of-course-i-care-who-won-theyre-the-ones-who-govern-me",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a reply about who won (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-tell.i-cant-say-im-filled-with-confidence",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a reply about confidence (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.reply-tell.im-a-little-apprehensive",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a reply about nerves (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-2-voice.json",
+      "key": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho",
+      "date": "2026-11-09",
+      "note": "His own words for this line (batch 2 voice note).",
+      "reason": "His own rewrite of a question about money (a new piece he wrote, graded good); the note is a placeholder for his words and states no fault."
+    },
+    {
+      "file": "2026-11-09-batch-3-voice.json",
+      "key": "scene-talk.follow-bargain.my-name-on-your-next-bill-as-a-co-sponsor-that-s-real",
+      "date": "2026-11-09",
+      "note": "16.1, that's just really awkward.",
+      "reason": "Calls the co-sponsor line awkward without saying why; its ending (\"that's real\") is an offer tag that no-offer-tags already names, so the line is covered by that rule."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
+      "date": "2026-10-14",
+      "note": "Fine. (batch 9 item 55)",
+      "reason": "Graded \"Thank you all for being here.\" fine in a hearing opener; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-thank.thank-you-chair",
+      "date": "2026-10-14",
+      "note": "Good. One \"Madam Chair\" and one \"Mr. Chairman\" per batch is enough for calibration. (batch 9 item 39)",
+      "reason": "Graded \"Thank you, Chair.\" good; the rest of the note (one \"Madam Chair\" and one \"Mr. Chairman\" per batch is enough) is about how many of a phrase a grading batch needs, not about a line."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-thank.thank-you-all",
+      "date": "2026-10-08",
+      "note": "Graded good with no note. (batch 1 item 14)",
+      "reason": "Graded \"Thank you all.\" good with no note; nothing to draw a rule from."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.open-call-to-order.good-afternoon",
+      "date": "2026-10-08",
+      "note": "Graded good with no note. (batch 1 item 66)",
+      "reason": "Graded \"Good afternoon.\" good with no note; nothing to draw a rule from."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.state-accept-terms.all-right",
+      "date": "2026-10-14",
+      "note": "Acceptable phrases; nothing to judge; each should appear once in a batch. (batch 9 item 38)",
+      "reason": "Says \"All right.\" is an acceptable procedural phrase that needs no judging and should appear once per batch; a batch-composition note, and the line is held good."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-tell.we-didnt-win",
+      "date": "2026-10-14",
+      "note": "Liked; that is a speech part. (batch 9 item 70) Moved to the loss-night talk at home (family-loss), where the player says it after the count.",
+      "reason": "Liked \"We didn't win.\" as a speech part; praise for one line (moved to the loss-night talk), held good by the ledger."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-promise.this-is-not-the-end",
+      "date": "2026-10-14",
+      "note": "Good. (batch 9 item 74) Moved to the loss-night talk at home (family-loss).",
+      "reason": "Graded \"This is not the end.\" good; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-promise.we-will-be-back",
+      "date": "2026-10-14",
+      "note": "Good. (batch 9 item 75) Moved to the loss-night talk at home (family-loss).",
+      "reason": "Graded \"We will be back.\" good; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-thank.thank-you-for-everything",
+      "date": "2026-10-14",
+      "note": "Good. (batch 9 item 76) Moved to the loss-night talk at home (family-loss).",
+      "reason": "Graded \"Thank you for everything.\" good; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-answer.im-honored",
+      "date": "2026-10-14",
+      "note": "Fine. (batch 9 item 81) Moved to the victory-night talk, an answer to what the winner will say first.",
+      "reason": "Graded \"I'm honored.\" fine; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "scene-talk.reply-deflect.chair-reserving-the-right-to-object",
+      "date": "2026-10-08",
+      "note": "Graded good with no note. (batch 1 item 8) Moved to floor-debate as the member's non-committal reply; the old {chair} slot reads \"Chair\" as the scene does.",
+      "reason": "Graded \"Mr. Chair, reserving the right to object.\" good with no note; nothing to draw a rule from."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "hearing.answer.yes-thank-you",
+      "date": "2026-10-08",
+      "note": "Graded good with no note. (batch 1 item 15)",
+      "reason": "Graded \"Yes, thank you.\" good with no note; nothing to draw a rule from."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "hearing.thanks.thank-you-chairman",
+      "date": "2026-10-08",
+      "note": "Graded good with no note. (batch 1 item 65)",
+      "reason": "Graded \"Thank you, Chairman.\" good with no note; nothing to draw a rule from."
+    },
+    {
+      "file": "restored-liked-lines.json",
+      "key": "hearing.thanks.thank-you-mr-chairman",
+      "date": "2026-10-08",
+      "note": "Graded good with no note. (batch 1 item 4)",
+      "reason": "Graded \"Thank you, Mr. Chairman.\" good with no note; nothing to draw a rule from."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond",
+      "date": "2026-10-15",
+      "note": "Oct 15, night: batch 13 review: say that directly",
+      "reason": "A label (\"say that directly\") on \"We have it on the record\", the line that answers \"Who's your source?\"; the rule behind it is that a reply answers the line before it (reply-follows-the-line-before), not a new one."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that",
+      "date": "2026-10-16",
+      "note": "Oct 16, early morning: batch 14 review: unnatural",
+      "reason": "A one-word verdict (unnatural) on a refusal, with no reason given; the pattern behind it is the evasion rule, cited from the ruling that quotes the line."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-refuse.i-m-not-going-to-talk-about-that",
+      "date": "2026-10-16",
+      "note": "Oct 16, early morning: batch 14 review: unnatural",
+      "reason": "A one-word verdict (unnatural) on a refusal, with no reason given; the pattern behind it is the evasion rule, cited from the ruling that quotes the line."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote",
+      "date": "2026-10-16",
+      "note": "Oct 16, early morning: batch 14 review: the most natural",
+      "reason": "Calls the deflection \"I'll have something to say after the vote\" the most natural; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret",
+      "date": "2026-10-16",
+      "note": "Oct 16, early morning: batch 14 review: great; Oct 16, morning: batch 15 review: good",
+      "reason": "Calls \"Your vote is public. Your reasons don't have to be a secret.\" great; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-deflect.people-say-a-lot-of-things",
+      "date": "2026-10-16",
+      "note": "Oct 16, early morning: batch 14 review: decent",
+      "reason": "Calls \"People say a lot of things.\" decent; a mild praise for one line, held by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway",
+      "date": "2026-10-16",
+      "note": "Oct 16, morning: batch 15 review: good",
+      "reason": "Calls \"I'm not doing this in a hallway.\" good; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.open-react.the-back-of-the-room-was-standing-by-the-end",
+      "date": "2026-10-16",
+      "note": "Oct 16, morning: batch 15 review: doesn't connect",
+      "reason": "Says the line does not connect to the question it answers; that is reply-follows-the-line-before, and this line is one of its cases."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-ask.where-d-you-drive-in-from",
+      "date": "2026-10-16",
+      "note": "Oct 16, morning: batch 15 review: creepy",
+      "reason": "Calls \"Where'd you drive in from?\" creepy; a remark on one line, which rejected-by-voice already holds, and no pattern stands behind it."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.follow-accept.go-home-i-ll-call-you-at-eight",
+      "date": "2026-10-16",
+      "note": "Oct 16, morning: batch 15 review: awkward",
+      "reason": "Calls \"Go home. I'll call you at eight.\" awkward; a remark on one line with no pattern behind it."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-relent.okay-for-you-i-ll-do-it",
+      "date": "2026-10-16",
+      "note": "Oct 16, morning: batch 15 review: a weird answer",
+      "reason": "Says the answer is weird after the question it follows (\"What do you need to get there?\"); that is reply-follows-the-line-before, and this line is one of its cases."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-ask.why-me",
+      "date": "2026-10-19",
+      "note": "Oct 19: batch 17 review: liked (the floor switch and the appointment)",
+      "reason": "Liked \"Why me?\" (the floor switch); praise for one line, held good by the ledger, and the why-me rule already states it."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-bargain.then-move-me-what-s-it-worth-to-you",
+      "date": "2026-10-19",
+      "note": "Oct 19: batch 17 review: liked",
+      "reason": "Liked \"Then move me. What's it worth to you?\"; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-agree.done-put-it-in-writing-tonight",
+      "date": "2026-10-19",
+      "note": "Oct 19: batch 17 review: liked",
+      "reason": "Liked \"Done. Put it in writing tonight.\"; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-ask.why-me-we-ve-never-met",
+      "date": "2026-10-19",
+      "note": "Oct 19: batch 17 review: liked",
+      "reason": "Liked \"Why me? We've never met.\" (the appointment); praise for one line, held good by the ledger, and the why-me rule already states it."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.close-accept.don-t-make-me-chase-you",
+      "date": "2026-10-19",
+      "note": "Oct 19: batch 17 review: liked",
+      "reason": "Liked \"Don't make me chase you.\"; praise for one line, held good by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.close-accept.tomorrow-then-don-t-make-me-chase-you",
+      "date": "2026-10-19",
+      "note": "Oct 19: batch 17 review: liked",
+      "reason": "Liked \"Don't make me chase you.\" (the other version); praise for one line, held good by the ledger."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-apologize.i-will-first-thing-on-the-agenda-in-my-own-words",
+      "date": "2026-10-19",
+      "note": "Oct 19: batch 17 review: makes no sense after the line before it",
+      "reason": "Says the line makes no sense after the line before it; that is reply-follows-the-line-before, cited from the ruling that quotes it."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.state-ask.quick-question-before-the-day-eats-us-did-anybody-tell-you-what-you-re",
+      "date": "2026-10-19",
+      "note": "Oct 19, evening: batch 19 review: wording took a step back",
+      "reason": "Says the wording took a step back on \"Before the day eats us\" without naming the fault; a remark on one line, with no pattern behind it."
+    },
+    {
+      "file": "voice-notes-batches-11-19.json",
+      "key": "scene-talk.reply-answer.take-the-message-i-m-not-holding-the-room",
+      "date": "2026-10-19",
+      "note": "Oct 19, evening: batch 19 review: wording took a step back",
+      "reason": "Says the wording took a step back on \"Take the message. I'm not holding the room\" without naming the fault; a remark on one line, with no pattern behind it."
+    },
+    {
+      "file": "voice-notes-oct15-28.json",
+      "key": "opening-speech.story-fig.plain-ina-sta-across-the-country-unemployment-is-unemployment-rate-percent",
+      "date": "2026-10-28",
+      "note": "Oct 28: \"'unemployment is 3.4 percent' should be 'is at 3.4 percent'\"",
+      "reason": "A wording fix for one slot line (\"is at\" for \"is\"); the line quotes a national figure, which the address should not carry (Oct 27), so the fix is to remove the figure, not to reword it."
+    }
+  ]
+}

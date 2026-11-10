@@ -17,6 +17,7 @@ root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27; owner, Oct 27: meeting with this executive, that executive
 lead: laws-effects
 claimed-at: 
+checked: fable 2026-11-10
 ---
 
 **What.** The only recorded meeting of an executive is the governor's weekly meeting with the legislature's leaders on the state office day; nothing records an executive meeting another executive, though the owner asked for a mayor and the governor, and a governor and the president (owner, Oct 27). Add a recorded meeting where the law and the world give one a cause: a governor's disaster request to the president that the federal aid table already carries, a mayor and the governor over a state grant or a shared disaster. The record names both executives and the cause record that brought them together, and the director holds a moment for each.

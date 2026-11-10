@@ -17,6 +17,7 @@ effort: high
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The merge audit asked for a played-world test that enacts a public pay floor, lets a public employer (town, county, school) open a position through the jobs engine, hires into it and checks by record id that the hire's pay meets the floor. On Oct 20 six drawn towns (Arbon Valley ID, Port Wing WI, Fairplay GA, Telford PA, Casco ME, Ravenswood WV) opened no position at any public employer in a year after the floor was enacted, so the path the floor hooks (publicPayFloorHourly, read in src/core2/modules/jobs.ts) is not reached in ordinary play at public employers. Find why public staff do not turn over through the jobs engine (budget-set staff, retired templates?) and make a leaver at a public employer open a replacement there, or move the floor to where public pay is really set.
