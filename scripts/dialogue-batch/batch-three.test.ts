@@ -3,7 +3,10 @@ import { describe, expect, it } from "vitest";
 import { readMapPieces } from "./grade-map";
 
 const batch = JSON.parse(
-  readFileSync("docs/coordination/batches/2026-11-09-batch-3.json", "utf8"),
+  readFileSync(
+    "scripts/dialogue-batch/fixtures/batch-three-sample.json",
+    "utf8",
+  ),
 ) as {
   moments: {
     kind: string;
@@ -24,6 +27,8 @@ const rewritten = (
   ) as { rewritten: Record<string, string> }
 ).rewritten;
 
+// The batch 3 page stays off main (owner, Nov 10); a few of its moments, in its
+// shape, stand in for it.
 describe("batch 3 mixes the kinds the owner asked for", () => {
   it("every line is a bank line, three to a moment, each moment described", () => {
     for (const moment of batch.moments) {
