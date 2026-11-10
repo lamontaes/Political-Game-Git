@@ -1815,12 +1815,25 @@
     {
       "key": "visit",
       "occasion": "visit",
+      "note": "The player visits someone they know who is seriously ill (the health engine's health.serious-illness, a person the player has a tie to): the sick person asks the visitor for something: to see to the house, to call someone who has not been told, to bring a child, to say honestly how they look, to come back. How long they have been ill, whether they live alone or with a partner or a child, and another person who heard and could be called are said only when the records give them; the illness itself is never named. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie. Only this cause has a purpose; a visit to the player held or ill, and a visit to someone held, stay as they were.",
+      "asker": "cannot-come",
+      "asked": "visitor",
+      "stakes": ["relative"],
       "roles": [
         {
           "key": "visitor",
           "fill": "kin",
           "count": "one",
-          "moves": ["comfort", "tell", "recall", "promise"],
+          "moves": [
+            "comfort",
+            "tell",
+            "recall",
+            "promise",
+            "agree",
+            "ask",
+            "decline",
+            "leave"
+          ],
           "wants": ["help-others", "commit"],
           "bearing": "tender"
         },
@@ -1828,7 +1841,15 @@
           "key": "cannot-come",
           "fill": "subject",
           "count": "one",
-          "moves": ["thank", "tell", "request", "confess"],
+          "moves": [
+            "thank",
+            "tell",
+            "request",
+            "confess",
+            "answer",
+            "accept",
+            "press"
+          ],
           "wants": ["engage"],
           "bearing": "solemn"
         }
@@ -1856,7 +1877,8 @@
             "visitor": "subject",
             "cannot-come": "counterpart"
           },
-          "opener": "visitor"
+          "opener": "cannot-come",
+          "purpose": "visit-ill-ask"
         },
         {
           "match": {
@@ -1886,7 +1908,7 @@
       "tag": {
         "key": "routine",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["conversation", "scene-talk", "scene-words", "journal"]
       }
     },
     {

@@ -87,6 +87,7 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { newsFacts } from "./news-facts";
+import { illnessFacts } from "./illness-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -653,6 +654,10 @@ function composeBinding(
     ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
+    // A visit to someone seriously ill (`health.serious-illness`): how long,
+    // who is at home and who else could be called. stopgapId:
+    // SG-WORDS-visit-ill-ask-unrecorded
+    ...illnessFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     ...birthFacts(
       core,
       binding.typeKey,

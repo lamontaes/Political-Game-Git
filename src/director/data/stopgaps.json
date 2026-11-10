@@ -809,11 +809,11 @@
     "kind": "missing-hook",
     "file": "src/director/data/situation-types.json",
     "line": 1,
-    "whatItFakes": "The visit type still has no purpose for the causes it keeps: a visit to someone seriously ill, and the visit when the player is the one held (a relative comes to the player). Only the visit to someone the justice engine holds has one (prison-visit).",
-    "why": "A visit to the ill needs the health engine's diagnosis and care records worded as the ask, and a visit to the player inside leaves the player no choices to reply with while they serve a term.",
+    "whatItFakes": "The visit type still has no purpose for the causes where the player is the one held or ill (a relative comes to the player). A visit to someone seriously ill now has one (visit-ill-ask); a visit to someone the justice engine holds has one (prison-visit).",
+    "why": "A visit to the player inside, or to the player ill, leaves the player no choices to reply with while they serve a term or are ill: the player is the one visited, not the one asked.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A hospital-visit purpose that reads the health engine's care need, and, for the player held, a letter or a call scene the player answers after release.",
+    "replacement": "For the player held, a letter or a call scene the player answers after release; for the player ill, a care scene the player answers once well (care-visit reads the same record).",
     "status": "open"
   },
   {
@@ -1018,6 +1018,30 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "A people-engine plan or owed-talk record that reads a kept promise on these two types, and the justice engine's visiting and mail rows for a promise made before a term.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-visit-ill-ask-unrecorded",
+    "kind": "missing-data",
+    "file": "data/english/parts/scene-talk.json",
+    "line": 1,
+    "whatItFakes": "What a seriously ill person asks of the player who visits (to look in on the house, to call someone, to bring a child, to say honestly how they look, to come back) is worded for every such visit; nothing on a record says this person wants the house checked. How long they have been ill, whether they live alone or with a partner or a child, and another person who heard and could be called are from the illness record, the household and the witnesses; the illness itself is never named, because the record does not say its kind.",
+    "why": "No engine keeps what a sick person wants from a visitor; the ask is the purpose itself, so its lines name only things any ill person might ask.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-10",
+    "replacement": "The health engine's case row (condition, how serious, the care it calls for) and a wants record per person, so the ask is the one the illness and the home need.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-visit-ill-promise-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "What the player agrees to or promises at a sickbed (to look in on the house, to call, to bring a child, to come back) is written on the reply record as a promise; no engine reads it beyond the contact hours every reply writes.",
+    "why": "The people engine's owed-talk record and a planned visit do not exist yet; no hook reads a scene.reply of typeKey visit.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-10",
+    "replacement": "A people-engine plan or owed-talk record that reads a kept promise on this type and brings the player back on the day, and a tie that warms when it is kept.",
     "status": "open"
   }
 ]
