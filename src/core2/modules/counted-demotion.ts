@@ -19,7 +19,7 @@ import {
   isDemoted,
   type Tenure,
 } from "../counted-groups";
-import { workedToday } from "../job-lifecycle";
+import { workedToday } from "./jobs";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash, pairKey } from "../kernel/ids";
