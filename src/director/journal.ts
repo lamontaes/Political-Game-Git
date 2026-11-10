@@ -3,10 +3,14 @@ import {
   coreStateKeyOfPlaceholderId,
   coreStateName,
 } from "../core2/place-lookup";
-import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
+import {
+  familyFactsOf,
+  FAMILY_PARTNERED,
+  lifeOf,
+  type LifeEvent,
+} from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
-import { lifeOf, type LifeEvent } from "../core2/person-life";
 import journalLife from "./data/journal-life.json" with { type: "json" };
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
