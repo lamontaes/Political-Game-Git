@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -19,7 +19,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** M0-13's "a new business's loan fits its founder" fails on both foundings in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4); the other two drawn places founded no business. organization:founded:manufacturing:person_675c0fd04c6ccee2:2025-06-01 borrowed 21,515,295 minor units (215,153 dollars) against 154,863 of the founder's cash the day before, but the founder put in 2,419,714 of equity, which is 8.9 times under the nine-times line (the SBA 10 percent equity rule). The engine does what its source says: business.ts withdraws the founder's savings into cash before funding, so equity is cash plus savings, while the check takes cash on the day before only, so any founder who funds from savings reads as over-borrowed. Guards: the M0-13 check, which reads a founder's savings as missing and so calls a correct loan too large.
+**What.** M0-13's "a new business's loan fits its founder" fails on both foundings in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4); the other two drawn places founded no business. organization:founded:manufacturing:person_675c0fd04c6ccee2:2025-06-01 borrowed 21,515,295 minor units (215,153 dollars) against 154,863 of the founder's cash the day before, but the founder put in 2,419,714 of equity, which is 8.9 times under the nine-times line (the SBA 10 percent equity rule). The engine does what its source says: business.ts withdraws the founder's savings into cash before funding, so equity is cash plus savings, while the check takes cash on the day before only, so any founder who funds from savings reads as over-borrowed.
 
 **Cause.** Found in code: tests/golden-path/played-world.node-test.ts line 383 sets meansMinor to the founder's cash of the day before; src/core2/modules/credit.ts line 2016 (byEquity) sizes the loan on the application's equityMinor, which the founding row records (src/core2/modules/business.ts, equityMinor around lines 1791 and 2023).
 
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Found Oct 24 by the M0-13 lead's helper. Not changed by the helper because tests/golden-path/played-world.node-test.ts is the accepted M0-13 spec. If the owner wants the loan sized to cash alone, the alternative is an engine rule that founders keep savings out of equity, which contradicts the SBA source in credit.ts.
 
 **Notes (Fable, Nov 10).** Measured by Fable on Nov 10 on main cb25bfa5c8 (St. Johnsbury, Vermont, 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4, one played year): 11 businesses were founded, and every one borrowed at most 9 times the equity its founding row records (nine at exactly 9.00, one at 8.05, one at 1.15; the largest loan, $917,920, stands against $114,086 of equity). The played-world check still reported "10 of 11 new businesses borrowed more than 9 times the founder's cash". This item now also stands for play-golden-path-m0-13-red-st-johnsbury-part-5-business-borrowing, which is proposed for dropping as its duplicate.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed an M0-13 check that calls a correct founder loan too large because it ignores savings; it protects only an unseen check, and the loan itself is right.

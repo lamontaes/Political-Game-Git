@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/press-staff-cash.test.ts fails on clean main (Oct 28, 20:40 UTC, merged with the vacant-seat fix). In Roslyn Heights, New York (3663814), at the test's pinned seed cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741, person:press:outlet:cable:0:national:head:0 opens with 711942 where the test expects 948308. The two numbers differ by about a quarter, which suggests the opening balance now draws its per-world spread while the test still expects the survey value. The cause is not traced yet, and the test takes its household from officialHousehold in src/core2/official-living.ts. Guards: the press staff cash test, red on clean main in Roslyn Heights, New York.
+**What.** src/core2/press-staff-cash.test.ts fails on clean main (Oct 28, 20:40 UTC, merged with the vacant-seat fix). In Roslyn Heights, New York (3663814), at the test's pinned seed cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741, person:press:outlet:cable:0:national:head:0 opens with 711942 where the test expects 948308. The two numbers differ by about a quarter, which suggests the opening balance now draws its per-world spread while the test still expects the survey value. The cause is not traced yet, and the test takes its household from officialHousehold in src/core2/official-living.ts.
 
 **Cause.** Needs cause. Looked at src/core2/press-staff-cash.test.ts, officialHousehold in src/core2/official-living.ts and src/core2/modules/press.ts: which writer sets the outlet head's opening cash, and whether the per-world spread or the test's expectation is wrong, was not read. Measured: Roslyn Heights, New York, seed cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741.
 
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/press-staff-cash.test.ts, src/core2/modules/press.ts, src/core2/official-living.ts
 
 **Notes.** lead: red-main. Found by the elections wire session while running the petition line's tests; it fails identically on clean main, so it is not the petition branch's.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed a test that expects a national cable head's opening cash at the survey value instead of the per-world spread; it protects only an unseen test.
