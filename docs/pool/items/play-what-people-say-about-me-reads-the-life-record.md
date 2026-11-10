@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: fable
 source: CTO review of the life record design, Nov 10, 2026 (pull request 8111, note 1); the approved mock docs/mocks/2026-11-07-approved/menu-examples.html, the You example
 ---
 
