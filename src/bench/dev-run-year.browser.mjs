@@ -41,7 +41,11 @@ try {
   await page.locator('[data-testid="dev-skip-1"]').click();
   await page
     .getByText(/Every count stayed possible|Some counts could not be/)
-    .waitFor();
+    .waitFor({ timeout: 90000 })
+    .catch(async (e) => {
+      console.log(await page.locator(".dev-skip").innerText());
+      throw e;
+    });
   if (process.env.SKIP_SHOT_AFTER)
     await page
       .locator(".dev-skip")
