@@ -14,7 +14,7 @@ source: Story session, Nov 10, PR #8149's unit check; red on clean main at seed 
 claimed-at:
 ---
 
-**What.** `src/director/race-told-scene.test.ts` fails on clean main (535e8a6001) at `GOLDEN_PATH_SEED=409bddfc193b4c846dc319e3c885512097206472`: "no drawn place had a race told in the year". Of the eight drawn places, five had no race to enter that year (South Windham, Connecticut; Washington, District of Columbia; Westfield, Iowa; Quinebaug, Connecticut; and one more) and three had a race but none told (Faleniu, American Samoa; Frederiksted, U.S. Virgin Islands; Ripley, West Virginia; Plymouth, New Hampshire). The test passes at seed 11. Either the test's year misses the places' election calendars, or the scene's producer does not fire where a count happened; which one is not yet known.
+**What.** `src/director/race-told-scene.test.ts` fails on clean main (535e8a6001) at `GOLDEN_PATH_SEED=409bddfc193b4c846dc319e3c885512097206472`: "no drawn place had a race told in the year". Of the eight drawn places, four had no race to enter that year (South Windham, Connecticut; Washington, District of Columbia; Westfield, Iowa; Quinebaug, Connecticut) and four had no race told (Faleniu, American Samoa; Frederiksted, U.S. Virgin Islands; Ripley, West Virginia; Plymouth, New Hampshire). The test passes at seed 11. Either the test's year misses the places' election calendars, or the scene's producer does not fire where a count happened; which one is not yet known.
 
 **Rules.** One rule, all 56 places: the test draws from all 56 and must find a told race in any of them that holds a count that year. Wire to the world: the scene is cast from the election engine's own count record, never a staged one.
 
