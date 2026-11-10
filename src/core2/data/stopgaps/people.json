@@ -278,15 +278,39 @@
     "status": "open"
   },
   {
+    "id": "SG-PEOPLE-whole-past-first-month-economy",
+    "kind": "estimated-parameter",
+    "file": "src/core2/past-work.ts",
+    "line": 1,
+    "whatItFakes": "Before the world's window the economy is its first month for a person's own working life: layoffs at the steady rate with no rise, and pay at the first month's level.",
+    "why": "The economy pass and the business pass start with the world's window, and the owner ruled (Nov 9, 2026) that only people's own pasts reach back to their birth.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "A coarse national series of unemployment and earnings by year, sourced (BLS), read by the same run.",
+    "status": "open"
+  },
+  {
     "id": "SG-PEOPLE-role-people-have-no-past",
     "kind": "faked-mechanic",
     "file": "src/core2/person-life.ts",
     "line": 1,
-    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner is one) is made with no past facts and no past records, so their life is empty and their card tells no story until something happens to them in play.",
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, an election chief) is made with no past facts and no past records. Opened or met, they get their schooling, but no working life when their place is a state jurisdiction with no businesses on record, and no birthplace, parents or partners, so their life stays short until something happens to them in play.",
     "why": "The life record's first slice reads the pasts that exist; the past passes run only for the town's residents and the people filled in from the counts. Found by the life record's own test in Hewitt, Wisconsin, seed b8f4c36df5632058.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "The whole-life past (docs/design/life-record.md, step 2) runs for anyone opened or met, role holders included, by the same passes.",
+    "replacement": "The working-life run covers people whose place has no business on record (a role's employer is the office itself), and role holders are made with a birthplace and family from the same generator as residents.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-played-jobs-read-at-open",
+    "kind": "faked-mechanic",
+    "file": "src/core2/person-life.ts",
+    "line": 316,
+    "whatItFakes": "A job a person takes or leaves in play is not remembered when it happens: the life record reads it from the jobs engine's change rows (hire, quit, retired, closure) when a card opens, and maps each kind to a sentence by a hand-set table. A hire by an outside region (no employer to name) is not told, and a person back in the counts is told only from the rows their id keeps.",
+    "why": "The brief for step 3 of the life record said to add no event and no record: the jobs table already holds the start, the employer and how the job ended, so a reader of it closes the gap without a second record of the same fact.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The jobs engine writes one hire or separation event that the people module remembers like any other row of the table, and the reader of the change rows is deleted.",
     "status": "open"
   }
 ]
