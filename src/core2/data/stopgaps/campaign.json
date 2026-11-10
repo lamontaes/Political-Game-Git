@@ -32,7 +32,9 @@
     "why": "The campaigns engine writes the record; the director and the English banks belong to the Words session, which this change may not edit.",
     "addedBy": "governing lead builder (campaign-like-real-races, volunteer shifts)",
     "addedAt": "2026-10-29",
-    "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
-    "status": "open"
+    "replacement": "Resolved Nov 10 (stand-in triage): a journal row (src/director/data/journal-rows.json, kindPrefix event:volunteer-shift) and a director cause (src/director/data/director.json, eventKind volunteer-shift) read the event, worded by data/english/parts/journal.json (commit 09a28996). The marker and api.stopgap call remain at src/core2/modules/campaigns.ts:2824. Was: A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9"
   }
 ]
