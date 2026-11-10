@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: merged
+status: open
 standard: 2
 claimed-by:
-pr: #8240
+pr:
 blocked-on:
 after:
 lead: money
@@ -17,7 +17,6 @@ effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-merged-at: 2026-11-10T21:46:22.226Z
 ---
 
 **What.** The played-year golden path (M0-13, tests/golden-path/played-world.node-test.ts) crashes on main 6656fbd2 in Larned, Kansas (GOLDEN_PATH_PLACE_KEY=2038700, GOLDEN_PATH_SEED=0f76ad5a90c444afa08206f08bc3e13754bc031f5951ed0b119a37caf3140b96) on 2025-05-01 with 'Insufficient funds in fund:group:jurisdiction_451abf949449fc2a:town:with-children:income-1:other:30-44:working for counted-departure:household_36ebf1aae0b27cf0:2025-05-01', thrown by transferSplit (src/core2/accounts.ts) from departCountedHousehold in counted-moves month (src/core2/modules/counted-moves.ts). The departing household's share of its group's fund is moved out with it, but the group's fund holds less than that share. Speed ran the same seed on main and on its branch on November 9 and both crashed the same way, so the fault is in the departure step itself, not in a recent change.
@@ -39,3 +38,5 @@ merged-at: 2026-11-10T21:46:22.226Z
 **Notes (Fable's check, Nov 10).** The first step is the replay on today's main. If it passes, close this item as fixed and name the change that fixed it. Do not cap the share at the balance to make the throw go away: the share is already a part of that balance, so a throw means the two readings disagree, and that is the thing to find.
 
 **Notes (Fable, Nov 10, how the cause was found).** A temporary print at the failing transfer, removed after the run, gave the record's weight, its members, the group's people and the fund. A second print in `withCountySample` gave the county's inputs in Larned: eligible 3,717, relatives placed there 4,576 (3,817 adults in 2,938 households, all of the light tier), sample adults 241, weight 0.00417. After the opening the county's counts hold 4,577 people with no recorded job, almost all of them those relatives. The relatives are placed by `newHome` in src/core2/opening-kin.ts (line 446), for every household of the town. That root belongs to core-light-opening-kin-only-kept, and the weight below one to world-county-sample-weight-below-one.
+
+**Notes (Fable, Nov 10, reopened).** Pull request 8240 only wrote this item's cause; it built nothing. Its first line named this item, so the merge marked it merged by mistake. It is open again and nothing here is on main yet.
