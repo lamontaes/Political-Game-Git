@@ -16,6 +16,8 @@ root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/scene.ts, kind placeholder-art"
 after:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** A sitting president or governor at home is shown outside the White House or the governor's residence by day and in the large house's living room at night, because the residences have no painted rooms. The code already waits for them: `homeOf` in src/bench/scene.ts reads `officialResidences` in src/bench/data/scene-places.json and uses the first picture in each list that exists, so the fix is the art. Paint the six rooms named there (white-house-residence-living, white-house-residence-dining, white-house-residence-bedroom, governor-residence-living, governor-residence-dining, governor-residence-bedroom) in the four conditions every home backdrop has (morning, midday, night, rain), import them through the art asset factory under art/backdrops with entries in the backdrop manifest and staging, then delete the stand-in names (the exterior and large-house fallbacks) from the lists and the stopgap marker in scene.ts, and resolve the row.
