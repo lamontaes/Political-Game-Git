@@ -5,14 +5,15 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: story/director-rival-filed-late
-pr: 8126
+pr: #8126
 blocked-on:
 lead: words
 milestone: play-first
 source: "a played candidate year listed rival-filed as never firing: the elections engine tells it only to a candidate already on the ballot when someone files after them, so the player who files last is never told who they run against"
 claimed-at: 2026-11-10T09:00:00.000Z
+merged-at: 2026-11-10T08:36:00.786Z
 ---
 
 **What.** A second row, `rival-known-late` (circumstances.json), follows the player's own candidate-filed record by one day, as race-result-known-after-ran follows a count. A new player gate, `filed-late`, holds only where someone else is already on the contest's ballot. Someone in the player's household tells them, on the rival-filed type's new circumstance cause. The scene names the candidates from the contest's filing records (`rivals`, cited to each filing), each said by what the candidacy shows: "incumbent Hannah Wilkins", or "Democratic candidate Bo Chen" where a party label is on the filing. Four new pieces use it; the nine older state lines (about a rival who just filed) are excluded when the news is of candidates already on the ballot (`excludesFacts: already-filed`). The original rival-filed cause is unchanged and still plays for the earlier filer.
