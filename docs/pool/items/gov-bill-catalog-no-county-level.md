@@ -10,14 +10,28 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: governing
+standard: 2
+model: sonnet
+effort: high
+root: none
 ---
 
-**What.** src/core2/data/legislature/bill-catalog.json lists 59 policy questions, 15 law amounts and 12 budget lines, and not one names the county level (58 questions at city and 58 at state). So billCatalog(api, "county") is empty in every place: in a drawn Black Sands, Hawaii world (key 1502832) the county board's catalog holds no entry while the state's holds 58 allowed questions. The seat screen hides the gap: menusFor in src/bench/legislature.ts maps any body that is not state or federal to the city catalog, so a county board drafts from city entries with city-level authority, an unregistered placeholder. Found while fixing tests-government-scenes-no-allowed-policy, where county boards in Hawaii, Louisiana and Maryland were all set aside.
+**What.** The county board's bill catalog is answered from the city jurisdiction. The item first found that `src/core2/data/legislature/bill-catalog.json` listed nothing at the county level, so `billCatalog(api, "county")` was empty in every place: in a drawn Black Sands, Hawaii world (key 1502832, world seed 1dbcd755...a2b4) the county board's catalog held no entry while the state's held 58 allowed questions (measured Oct 26). On main today the JSON lists `county` among its `levels` and the seat screen's `menusFor` (`src/bench/legislature.ts`, line 598) passes a county body through as `county`. What remains is whether a county board now drafts from county-level entries with county-level authority, or still from the city's.
 
-**Rules.** One rule, all 56 places: a county body's catalog and its authority come from the county column of the powers catalog (src/core2/policy-authority.ts reads a county column already), never from a city's. Placeholders: the city fallback is replaced, not layered. Wire to the world: a county bill drafted from the catalog is enacted and read by an engine in a played world.
+**Cause.** Found in code: `src/core2/bill-catalog.ts` line 73 maps `level === "county" ? "city" : level` for the default jurisdiction, so a county catalog is looked up under the city jurisdiction; county authority for a policy question is read from the county column (`policyAuthority(api, p.question, "county")`, lines 104 to 108) but the jurisdiction is not the county's. The JSON now names county in each entry's `levels`.
 
-**Done when.** In a buildBenchWorld world of a drawn place with a county board, billCatalog for county lists the questions, amounts and budget lines a county may pass with county-level authority, the seat screen reads that catalog for a county board instead of the city one, and a county bill drafted from it passes and is read by another engine, named by record id; src/director/government-scenes.test.ts then sets aside no county board for lack of a catalog.
+**Fix.** Replay `billCatalog(api, "county")` in Black Sands, Hawaii (key 1502832) and two more drawn places with a county board. Resolve the county body's own jurisdiction from the county column of `src/core2/policy-authority.ts` instead of the city fallback, and delete the fallback in the same change; make the county catalog list the questions, amounts and budget lines a county may pass.
 
-**Files.** src/core2/data/legislature/bill-catalog.json,src/core2/bill-catalog.ts,src/bench/legislature.ts,src/core2/policy-authority.ts
+**Time box.** 6 hours for one sonnet session.
+
+**Rules.** One rule, all 56 places: a county body's catalog and its authority come from the county column of the powers catalog, never from a city's. Placeholders: the city fallback is replaced, not layered. Wire to the world: a county bill drafted from the catalog is enacted and read by an engine in a played world.
+
+**Done when.** A second session plays a world (`buildBenchWorld`) in a drawn place with a county board (Black Sands, Hawaii, key 1502832, and one more place, seeds named), opens the county board's bill screen, and sees county-level entries with county authority. A county bill drafted from it passes and is read by another engine, named by record id, and `src/director/government-scenes.test.ts` sets aside no county board for lack of a catalog.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/data/legislature/bill-catalog.json, src/core2/bill-catalog.ts, src/bench/legislature.ts, src/core2/policy-authority.ts, src/director/government-scenes.test.ts
 
 **Notes.** Measured Oct 26 in Black Sands, Hawaii (key 1502832, world seed 1dbcd755...a2b4): county 0 catalog entries; city 1 allowed, 52 level-lacks-power, 5 state-preempts; state 58 allowed.

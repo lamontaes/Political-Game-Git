@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5663
 blocked-on:
@@ -38,3 +38,7 @@ Sent back 2026-10-21 from PR #5645 (branch claude/memory-transfer-ids): docs/poo
 Sent back 2026-10-21 from PR #5635 (branch claude/memory-drive-acts): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.7 MB per month and explicitly says the goal is not met, while the shared item is attached to another PR. The owner/date and optional-id repairs are present, but the drive-trace slice needs a bounded tracking item and its own retention/count proof before it can be completed independently. Leave the broader memory target open. No local gate pass is claimed.; finish on that branch, merge main into it first.
 
 Oct 25 audit: cleared the block on an owner-decision id that was never filed; the owner's Oct 20 memory ruling (quoted in What) answers it.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The player-decision condensing it asks for is on main: src/core2/decision-detail.ts keeps `playerQueues` (line 91) and condenses the player's acts and weighed choices after `playerDecisionDetailDays` (line 338; test src/core2/condense-decisions.test.ts), recorded as core-long-run-player-weighed-condensed (done); the event-id trim is core-long-run-event-ids (done). The election-month step it still names is the same cost as core-speed-world-races-election-month. The paths it names (src/core2/modules/world-races.ts, `playerDecisionDetailMonths`) no longer exist.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

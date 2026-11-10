@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -27,3 +27,7 @@ source: split from gov-stopgap-world-legislating-missing-mechanic by pool feeder
 Oct 27 (director lead, #6300): evidence. In five drawn worlds the President's `ownStance` (src/core2/officials-roster.ts) is exactly 0 on every federal question, and all three signature issues are state questions, so since #6300 (Congress hears only what federal law can answer) the opening address has no Congress ask in 12 of 12 drawn places. A President's stance on each federal question, beside the members', brings the Congress section back with no director code.
 
 Oct 28 (words and director session, #6675 stack): still true. In five more drawn worlds (seeds addr-a to addr-e, East Millinocket ME, North Branch MI, Kingwood WV, Kellogg Point CT, St. Johnsbury VT) policyAuthority answers level-lacks-power for 106 of 108 questions at the federal level and the two it allows have no federal law row, so the address in parts has no priority part. The address waits on this item for its middle paragraphs.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-congress-passes-policy-laws. It is the same ask as that item's unit C3 (stance readers read the C2 rows); keep gov-congress-passes-policy-laws, which has the better cause, the plan and the C1 to C3 split, and now holds this work as its part gov-congress-passes-policy-laws-part-2-stances-on-questions. The kept item takes from this one: the President's stance on each federal question must be non-zero (Oct 27 and 28 evidence: the opening address has no Congress ask in 12 of 12 places), all 25 federal-only questions need a cited answer in `src/core2/data/legislature/federal-answers.json` (2 today), and the opening address returns its Congress section with no director code. `src/core2/federal-answers.test.ts` is declared new and does not exist yet.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `see the reason`, which carries this item's remaining work.

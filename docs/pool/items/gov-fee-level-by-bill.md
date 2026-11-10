@@ -10,15 +10,29 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: governing
+standard: 2
+model: opus
+effort: medium
+root: none
 ---
 
-**What.** No bill sets a charge's level: a government's charges move only with its budget's charges line (stopgap SG-GOV-fee-level-by-bill, owner decision). Once the owner rules whether a council sets fees by bill, let a council bill change a named fee's level in place data, read by the charge payment at the moment it is paid, so the payers pay the new level and the budget's charges line follows. The player would notice that raising a park or transit fee costs the people who use the park or ride.
+**What.** No bill sets a charge's level: a government's charges move only with its budget's charges line (stopgap `SG-GOV-fee-level-by-bill`). The owner ruled the question Oct 24: yes, a council can set a fee level by bill where its powers allow; the fee is a law row the treasury reads. Let a council bill change a named fee's level in place data, read by the charge payment at the moment it is paid, so the payers pay the new level and the budget's charges line follows. The player would notice that raising a park or transit fee costs the people who use the park or ride.
 
-**Rules.** An effect is a read, not a record: the fee in force is read when the charge is paid. No dice. One rule, all 56 places: fee schedules live in place data. This is a game, not a spreadsheet: the fee rides on the existing bill and payment writers, no new player step. Owner decisions are flagged, never waited on.
+**Cause.** Design: owner ruling Oct 24, "Fees set by bill: yes, a council can set a fee level by bill where its powers allow" (`docs/coordination/OWNER-DECISIONS.md`, line 669). Found in code: `src/core2/budgets-service-charges.ts` registers `SG-GOV-fee-level-by-bill` at line 232; row in `src/core2/data/stopgaps/gov.json`.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named), a council bill that raises a park or transit fee passes, the named payers' next payments of that fee rise by record id, the budget's charges line moves, and SG-GOV-fee-level-by-bill is resolved; the owner raises a fee in a council bill and later sees the charges line move and the ones who paid.
+**Fix.** Let a council bill set a named fee's level in place data, read by the charge payment when paid, riding the existing bill and payment writers with no new player step; mark the stopgap resolved.
 
-**Files.** src/core2/budgets-service-charges.ts,src/core2/modules/budgets.ts,src/core2/data/stopgaps.json
+**Time box.** 6 hours for one opus session.
+
+**Rules.** An effect is a read, not a record: the fee in force is read when the charge is paid. No dice. One rule, all 56 places: fee schedules live in place data. This is a game, not a spreadsheet: no new player step.
+
+**Done when.** A second session plays a year in a drawn place (named with its seed, not chosen by the builder), passes a council bill that raises a park or transit fee, and sees the named payers' next payments of that fee rise by record id and the budget's charges line move; `SG-GOV-fee-level-by-bill` is resolved in `src/core2/data/stopgaps/gov.json`.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/budgets-service-charges.ts, src/core2/modules/budgets.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Split from gov-outside-revenue-fees (#5926). The owner question is under Open in docs/coordination/OWNER-DECISIONS.md.
 

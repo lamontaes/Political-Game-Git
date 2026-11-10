@@ -6,20 +6,34 @@ kind: wiring
 priority: 3
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5588
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: governing
+model: sonnet
+effort: medium
+root: rc8-law-judged-by-paperwork
 ---
 
 **What.** PR #5573 showed the money moves against an amended administration line but a city employee's pay does not depend on the line's size. Make the line's amount an input the treasury reads when it sets or holds a department's payroll.
 
+**Cause.** Needs cause. Looked at the item, src/core2/budgets-treasury.ts (the treasury file; src/core2/modules/treasury.ts is gone) and src/core2/modules/budgets.ts. The schools line is proved (law-reach-group-b.test.ts re-rates school staff pay and the staffing test shows hires and ends), but the path by which a department-level, non-school line cut (administration) changes a named employee's paycheck or hours is not located, and PR #5588 failed there repeatedly.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. The session locates where the treasury sets or holds a department's payroll and rewrites this item with Found in code or Measured and a real Fix.
+
 **Rules.** An effect is a read not a record; No dice; One rule all 56 places; Replace never layer
 
-**Done when.** In a drawn place and seed a budget amendment cutting a line changes a named employee's later paycheck or hours, followed by record id.
+**Done when.** A second session, not the builder, checks this in the running game. In a drawn place and seed a budget amendment cutting a line changes a named employee's later paycheck or hours, followed by record id.
 
-**Files.** src/core2/modules/budgets.ts, src/core2/modules/treasury.ts
+**Waits on.** gov-city-budget-unvoted-where-council-is-state-body (open): in some draws the city budget is never voted, so no amendment can be adopted.
+
+**Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts
 
 **Notes.** Found by the office-budget-season-payment-chain session (#5573).
 

@@ -254,6 +254,19 @@ function check(
   );
   expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
 
+  // Who turned out is the count's own: where the voting engine kept the
+  // winner's share, the scene carries it cited to the result row, and the
+  // answer to "who turned out" never falls back to "that's all I know".
+  const share = scene.facts.find((row) => row.key === "vote-share");
+  const asking = scene.talk.tree.replies.find((row) => row.line.move === "ask");
+  const answered = (asking?.next?.lines ?? []).map((row) => row.text).join(" ");
+  if (share) {
+    expect(share.recordIds, where).toContain(
+      `result:${record!.facts!.contestId}`,
+    );
+    expect(answered, where).not.toMatch(/that's all i know for sure/i);
+  }
+
   // The reply is written back: a record that names the cause, and the tie.
   const replyId = replyInScene(core, director, personId, entry, [P.zero], {
     typeKey: "race-told",

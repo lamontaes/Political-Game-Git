@@ -8,19 +8,33 @@ size: S
 status: blocked
 claimed-by:
 pr: #5295
+after:
 blocked-on: core-speed-year-over-limit-dense-town
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
 claimed-at: 2026-10-23T21:30:20.833Z
+lead: speed
+standard: 2
+model: opus
+effort: high
+root: design-one-model-two-tiers
 ---
 
-**What.** Once the weight is read everywhere, delete the `Math.min(target, real)` cap and the sample-only path so every town opens at its Census size, and measure a year in the largest town and in a random town, one process at a time.
+**What.** Once the weight is read everywhere, delete the `Math.min(target, real)` cap and the sample-only path so every town opens at its Census size, and measure a year in the largest town and in a random town, one process at a time. The cap is in `buildPopulation` (src/core2/population.ts, line 575) with `targetPopulation` set to 10,000 in src/core2/data/parameters.json. A town is generated one household and one person record at a time, so a city of millions cannot open by raising the target; each counted household record carries a weight and every reader multiplies by it.
 
-**Rules.** One model, two tiers (a counted group is read by every engine with the same rule as a full person, times its count); no dice; one rule, all 56 places; an effect is a read; speed (a year under two minutes, no more than 20% slower than base); replace, never layer.
+**Cause.** Found in code: src/core2/population.ts line 575 caps the sample with `Math.min(target, real)`, and `targetPopulation` is 10,000 in src/core2/data/parameters.json (line 216). Measured Oct 17 (in this item's Notes): Washington, D.C., opened at 69 times scale through counted-household weights, plays a year in 167 seconds on a 4-core container.
 
-**Done when.** A town above 10,000 opens at its Census count; the largest town's year runs under two minutes and no town runs more than 20% slower than base, measured on the same machine. The old cap code and its stopgap row are deleted (replace, never layer). **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** Open every town at its Census size through counted-household weights. Delete the cap, the sample-only path and the stopgap row for them. Then measure a year in the largest town and in a random town, one process at a time.
 
-**Files.** src/core2/population.ts, src/core2/data/parameters.json
+**Time box.** 6 hours for an Opus session.
+
+**Rules.** One model, two tiers (a counted group is read by every engine with the same rule as a full person, times its count). No dice. One rule, all 56 places. An effect is a read, not a record. Speed: a year under two minutes, no more than 20% slower than base. Replace, never layer: the old cap code and its stopgap row are deleted, not left beside the new path.
+
+**Done when.** A second session, in a drawn town above 10,000 people (place and seed named), sees it open at its Census count in the played world, and sees the largest town's year run under two minutes on `npm run speed:year`, with no town more than 20% slower than its base on the same machine. A search of src/core2 finds no `Math.min(target, real)` cap and no stopgap row for it.
+
+**Waits on.** Nothing (core-speed-year-over-limit-dense-town, named in blocked-on, is done); check core-opening-counts-from-census and world-census-weight-owner-draws first.
+
+**Files.** src/core2/population.ts, src/core2/data/parameters.json, src/bench/world.ts
 
 **Notes.** Found by the session that claimed core-town-size-census: the cap is `Math.min(target, real)` in `buildPopulation` (`src/core2/population.ts`, about line 507) with `targetPopulation` = 10,000 in `src/core2/data/parameters.json`. A town is generated one household and one person record at a time (about 12 s and 1.4 GB for 10,000), and counted groups keep one index per household (`src/core2/counted-groups.ts`), so a city of millions cannot open by raising the target. The design the ruling points at: each counted household record carries a weight (how many real households it stands for) and every reader multiplies by it.
 

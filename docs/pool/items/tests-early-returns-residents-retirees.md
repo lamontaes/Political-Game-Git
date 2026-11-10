@@ -6,20 +6,34 @@ kind: cleanup
 priority: 3
 size: S
 status: open
+standard: 2
 claimed-by:
 pr: #5037
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: laws-effects
+model: sonnet
+effort: low
+root: none
 ---
 
-**What.** Generated-world tests can pass without checking their claim when their opening lacks a retiree, an earlier payday, an eligible campaign or another required record. PR #5037 replaces eleven such early returns with bounded searches for an eligible opening or assertions proving the negative case. Its residents test conflicts with current main, so integrate the existing branch with a normal merge and preserve both sets of assertions. Finish this repair on that branch rather than starting a duplicate implementation.
+**What.** Generated-world tests can pass without checking their claim when their opening lacks a required record. PR #5037 replaces such early returns with bounded searches for an eligible opening or assertions proving the negative case, and its residents test conflicts with current main, so integrate the existing branch with a normal merge and preserve both sets of assertions. On main the bare early returns that remain are in src/core2/campaign-day.test.ts and src/core2/leadership.test.ts; the returns in src/core2/residents.test.ts follow an assertion or a success. Finish this repair on the existing branch rather than starting a duplicate.
 
-**Rules.** One rule, all 56 places: draw the fixture from actual place and resident records, name the place and seed, and never special-case a state to avoid a failure. No dice: eligibility comes from the records needed by the test, not from whether the output already passes. Preserve all behavior assertions; protected Words files require a Words-owned change.
+**Cause.** Found in code: src/core2/campaign-day.test.ts line 597 (`if (!filing) return;` in the interview case) and src/core2/leadership.test.ts line 223 (`if (!chamber) return;`) end a test before any assertion, so it passes when the drawn place lacks the case. The returns at src/core2/residents.test.ts lines 207 and 712 come after an assertion or a success and are not skips; the release-change file the item once named is gone.
 
-**Done when.** In a played world drawn from all 56 places, each repaired test exercises its positive case or proves the absence from actual records, with place and seed printed. A bounded search fails explicitly on exhaustion, the residents conflict is resolved without dropping assertions, and changed-file checks pass.
+**Fix.** Replace each bare early return with a bounded draw across the 56 places that fails by name on exhaustion (or an assertion proving the negative case), naming place and seed. Drop the old branch and the release-change file from the item. Merge the existing branch with a normal merge and keep every assertion.
 
-**Files.** src/core2/residents.test.ts, src/core2/campaign-day.test.ts, src/core2/leadership.test.ts, docs/release/changes/tests-early-returns-residents-retirees.md
+**Time box.** 3 hours.
+
+**Rules.** One rule, all 56 places: draw the fixture from actual place and resident records, name the place and seed, and never special-case a state to avoid a failure. No dice: eligibility comes from the records the test needs, not from whether the output already passes. Preserve all behavior assertions; protected Words files require a Words-owned change.
+
+**Done when.** A second session runs the repaired tests in a played world drawn from all 56 places and sees each exercise its positive case or prove the absence from actual records, with the place and seed printed. A bounded search fails explicitly on exhaustion, the residents conflict is resolved without dropping assertions, and no bare return remains before an assertion in the changed files.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/residents.test.ts, src/core2/campaign-day.test.ts, src/core2/leadership.test.ts
 
 **Notes.** TODO
 
