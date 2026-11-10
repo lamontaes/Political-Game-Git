@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by:
-pr: 8174
+pr: #8174
 blocked-on:
 lead: words
 source: added by hand on the branch
+merged-at: 2026-11-10T19:04:28.683Z
 ---
 
 **What.** The last two everyday subjects with answers that overlap. Asked whether they are still at their job (own-work), the player's plain, since, brief and turn moves all say "yes, still there". Asked about a person they both know (mutual), the ack, brief and turn moves are all "Okay." New moves: for own-work a detail (the player's town), a deflection and a change of subject (raise home); for mutual a detail (the player's employer), a greeting to the person, a deflection and a change of subject (raise their-work).
