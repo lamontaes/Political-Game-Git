@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fable-journal-no-feeling
-pr:
+pr: #8155
 blocked-on:
 lead: words
 source: Fable, Nov 10, 2026, found while re-running the English tests after merging main into the words machine's branches
