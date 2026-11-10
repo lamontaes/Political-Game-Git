@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** With Dev mode on, a person's card has a button that ends their job through their employer's own layoff ("Laid off by their employer"). Measured by the Nov 9 audit in San Roque, Northern Mariana Islands (no seed given): a forced layoff answered "They worked today: lay them off tomorrow" on two days running before it worked on the third. The control told the tester to come back tomorrow, and tomorrow it said the same thing. Fix it for every worker and every kind of employer: one press is enough. When the worker has already worked today, the control books the layoff with the employer for the worker's next day, before their shift, through the engine's own layoff, and says once which day it will happen; nothing asks the tester to try again.

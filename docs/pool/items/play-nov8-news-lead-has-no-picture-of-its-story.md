@@ -16,11 +16,12 @@ effort: medium
 root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, points P14 and C10, partly fixed)
+checked: fable 2026-11-10
 ---
 
 **What.** The owner, Nov 8, about 2:10 p.m. (v0.94.0, Manchester, Connecticut), on News: "There's no story. There's no pictures. Again, it's just a black screen." The CTO's note (point C10): the panel is mostly empty black. Part of this is fixed (the briefs no longer page with arrows and the date follows the world's). The lead story gets a picture only for a state or local government story, chosen from three stock room photos; a federal story, a business story and every story about a person get none, and a paper of only one-line briefs has no lead, so its first column draws nothing. Each lead story should carry a picture of what it is about, from the story's own record, and a briefs-only paper should fill its panel with the briefs.
 
-**Cause.** Found in code: `storyPhoto` in src/bench/play.mjs (line 257) picks from `STORY_PHOTOS` (line 234) for state and local government stories only, and `newsBoard` in src/bench/ui/news-board.mjs (line 19) draws a picture on the lead only; with every story a brief, `front` is empty (line 41) and the first column draws nothing. Read on Nov 10, not measured in the running game.
+**Cause.** Found in code: `storyPhoto` in src/bench/play.mjs (line 263) picks from `STORY_PHOTOS` (line 240) for state and local government stories only, and `newsBoard` in src/bench/ui/news-board.mjs (line 19) draws a picture on the lead only; with every story a brief, `front` is empty (line 41) and the first column draws nothing. Read on Nov 10, not measured in the running game.
 
 **Fix.** Choose each lead story's picture from the record the story tells (the room of the body that acted, the place of the business), never a stock list keyed by level and never a face that does not match a card. Let a paper with only briefs fill its panel with them. Any new picture goes through `.agents/skills/asset-scene-admission/SKILL.md`.
 
