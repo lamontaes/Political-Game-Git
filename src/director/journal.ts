@@ -42,6 +42,7 @@ import {
   type Fact,
   type JournalMove,
   type JournalWords,
+  type MemoirField,
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
@@ -60,6 +61,7 @@ import {
   sharedHistory,
 } from "../core2/past";
 import { pastParameter } from "../core2/past-module";
+import { moneySaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
 import { tieSide } from "./purpose-scene";
@@ -514,6 +516,46 @@ function pastWorkMoments(
       .filter((row) => row.kind === PAST_WORK_OUT && row.facts.causeRecordId)
       .map((row) => [String(row.facts.causeRecordId), row]),
   );
+  // What a job paid an hour, as people round it, from the spell's own record.
+  const paid = (row: (typeof records)[number]): Facts =>
+    Number(row.facts.hourlyMinor) > zero
+      ? {
+          wage: {
+            text: moneySaid(Number(row.facts.hourlyMinor)),
+            sourceRecordIds: [row.id],
+          },
+        }
+      : {};
+  // How the pay compares with the job before, said only when the two round
+  // to different sums: the old pay is named as the one it rose from or fell to.
+  const against = (
+    now: (typeof records)[number],
+    before: (typeof records)[number] | undefined,
+  ): Facts => {
+    if (!before) return {};
+    const was = moneySaid(Number(before.facts.hourlyMinor));
+    if (was === moneySaid(Number(now.facts.hourlyMinor))) return {};
+    const key =
+      Number(now.facts.hourlyMinor) > Number(before.facts.hourlyMinor)
+        ? "paid-more-than"
+        : "paid-less-than";
+    return { [key]: { text: was, sourceRecordIds: [before.id] } };
+  };
+  // How long a job lasted, from the dates on its own record.
+  const held = (row: (typeof records)[number]): Facts =>
+    row.facts.endedAt
+      ? {
+          held: {
+            text: spanSaid(
+              daysBetween(
+                makeIsoDate(String(row.facts.startedAt)),
+                makeIsoDate(String(row.facts.endedAt)),
+              ),
+            ),
+            sourceRecordIds: [row.id],
+          },
+        }
+      : {};
   const moment = (
     row: (typeof records)[number],
     date: string,
@@ -548,12 +590,19 @@ function pastWorkMoments(
     };
     if (facts.how === "first-job")
       moments.push(
-        moment(row, String(facts.startedAt), "job-started:first", own),
+        moment(row, String(facts.startedAt), "job-started:first", {
+          ...own,
+          ...paid(row),
+        }),
       );
     if (facts.how === "after-out-of-work") {
       const out = [...outAfter.values()].find(
         (entry) => entry.facts.endedAt === facts.startedAt,
       );
+      // The job whose loss began the time out of work.
+      const lost = out
+        ? spells.find((entry) => entry.id === String(out.facts.causeRecordId))
+        : undefined;
       const days = out
         ? daysBetween(
             makeIsoDate(String(out.facts.startedAt)),
@@ -566,13 +615,26 @@ function pastWorkMoments(
           ...(out && days !== undefined
             ? { span: { text: spanSaid(days), sourceRecordIds: [out.id] } }
             : {}),
+          ...paid(row),
+          ...(lost
+            ? {
+                ...against(row, lost),
+                ...(employer(lost) ? { "last-employer": employer(lost)! } : {}),
+              }
+            : {}),
         }),
       );
     }
     const ended = facts.endedAt ? String(facts.endedAt) : undefined;
     if (!ended) return moments;
     if (facts.end === "let-go")
-      moments.push(moment(row, ended, "job-ended:let-go", own));
+      moments.push(
+        moment(row, ended, "job-ended:let-go", {
+          ...own,
+          ...held(row),
+          ...paid(row),
+        }),
+      );
     else if (facts.end === "moved-on") {
       const next = spells.find((_, i) => i > at);
       const nextAt = employer(next);
@@ -580,6 +642,8 @@ function pastWorkMoments(
         moment(row, ended, "job-ended:moved-on", {
           ...own,
           ...(nextAt ? { next: nextAt } : {}),
+          ...held(row),
+          ...(next ? { ...paid(next), ...against(next, row) } : {}),
         }),
       );
     } else if (facts.end === "child-born") {
@@ -1395,6 +1459,17 @@ export function composeJournal(
         closedWith.add(journalClosing(hard));
         parts.push(hard);
       }
+    }
+    // The event told as a small story: each field the row names follows it,
+    // when the record gives the facts that field's sentences name.
+    for (const field of row.follow ?? []) {
+      const told = render(
+        { part: "memoir", field: field as MemoirField },
+        facts,
+        `${moment.id}:${field}`,
+        sourceIds,
+      );
+      if (told) parts.push(told);
     }
     // Looking back: a moment whose weight grew with the people in it, when
     // life went on after it.

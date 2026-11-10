@@ -28,7 +28,11 @@
     "election": "The day of the election a filing is for, as people say a date, from the filing record.",
     "valid": "How many signatures on the petition the clerk counted as good, from the petition check record.",
     "needed": "How many good signatures the petition needed, from the petition record.",
-    "doors": "How many doors a volunteer knocked in an evening, from the volunteer-shift record."
+    "doors": "How many doors a volunteer knocked in an evening, from the volunteer-shift record.",
+    "held": "How long a job lasted, in months as people say it, from the job record's dates.",
+    "last_employer": "The employer who let the person go before a stretch out of work, from that job's record.",
+    "paid_more_than": "What the job before paid an hour, said only when this one paid more.",
+    "paid_less_than": "What the job before paid an hour, said only when this one paid less."
   },
   "maxWords": 10,
   "mining": {
@@ -7852,140 +7856,10 @@
       }
     },
     {
-      "key": "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "After {span} out of work, I went to work for {employer}.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item history-past-work)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.i-was-out-of-work-for-span-before-employer-took-me-on",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "I was out of work for {span} before {employer} took me on.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item history-past-work)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.it-was-span-before-i-found-work-again-at-employer",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "It was {span} before I found work again, at {employer}.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item history-past-work)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "After {span} out of work, I went back to work.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.work-line-again.i-found-work-again",
       "move": "work-line-again",
       "kind": "spoken",
       "text": "I found work again.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "After {span} out of work, I found work in {place}.",
       "uses": [
         {
           "move": "work-line-again",
@@ -9945,6 +9819,490 @@
         "key": "arrival"
       },
       "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again-at-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.employer-took-me-on",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "{employer} took me on.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-went-back-to-work-for-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I went back to work for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-pay.it-paid-wage-an-hour",
+      "move": "memoir-again-pay",
+      "kind": "spoken",
+      "text": "It paid {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-again-pay",
+          "subject": "memoir",
+          "role": "again-pay",
+          "choice": "again-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againPay"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-pay.the-pay-was-wage-an-hour",
+      "move": "memoir-again-pay",
+      "kind": "spoken",
+      "text": "The pay was {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-again-pay",
+          "subject": "memoir",
+          "role": "again-pay",
+          "choice": "again-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againPay"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-felt.up-from-paid-more-than-it-was-a-relief",
+      "move": "memoir-again-felt",
+      "kind": "spoken",
+      "text": "Up from {paid_more_than}, it was a relief.",
+      "uses": [
+        {
+          "move": "memoir-again-felt",
+          "subject": "memoir",
+          "role": "again-felt",
+          "choice": "again-felt",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againFelt"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-felt.down-from-paid-less-than-but-it-was-work-again",
+      "move": "memoir-again-felt",
+      "kind": "spoken",
+      "text": "Down from {paid_less_than}, but it was work again.",
+      "uses": [
+        {
+          "move": "memoir-again-felt",
+          "subject": "memoir",
+          "role": "again-felt",
+          "choice": "again-felt",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againFelt"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-first-pay.i-earned-wage-an-hour",
+      "move": "memoir-first-pay",
+      "kind": "spoken",
+      "text": "I earned {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-first-pay",
+          "subject": "memoir",
+          "role": "first-pay",
+          "choice": "first-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-held.i-had-worked-there-held",
+      "move": "memoir-let-go-held",
+      "kind": "spoken",
+      "text": "I had worked there {held}.",
+      "uses": [
+        {
+          "move": "memoir-let-go-held",
+          "subject": "memoir",
+          "role": "let-go-held",
+          "choice": "let-go-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-held.employer-had-been-my-job-for-held",
+      "move": "memoir-let-go-held",
+      "kind": "spoken",
+      "text": "{employer} had been my job for {held}.",
+      "uses": [
+        {
+          "move": "memoir-let-go-held",
+          "subject": "memoir",
+          "role": "let-go-held",
+          "choice": "let-go-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-held.i-had-been-there-held",
+      "move": "memoir-let-go-held",
+      "kind": "spoken",
+      "text": "I had been there {held}.",
+      "uses": [
+        {
+          "move": "memoir-let-go-held",
+          "subject": "memoir",
+          "role": "let-go-held",
+          "choice": "let-go-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-pay.it-had-paid-wage-an-hour",
+      "move": "memoir-let-go-pay",
+      "kind": "spoken",
+      "text": "It had paid {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-let-go-pay",
+          "subject": "memoir",
+          "role": "let-go-pay",
+          "choice": "let-go-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-pay.that-was-wage-an-hour-gone",
+      "move": "memoir-let-go-pay",
+      "kind": "spoken",
+      "text": "That was {wage} an hour gone.",
+      "uses": [
+        {
+          "move": "memoir-let-go-pay",
+          "subject": "memoir",
+          "role": "let-go-pay",
+          "choice": "let-go-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-held.i-had-worked-at-employer-for-held",
+      "move": "memoir-moved-held",
+      "kind": "spoken",
+      "text": "I had worked at {employer} for {held}.",
+      "uses": [
+        {
+          "move": "memoir-moved-held",
+          "subject": "memoir",
+          "role": "moved-held",
+          "choice": "moved-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-pay.it-paid-wage-an-hour-up-from-paid-more-than",
+      "move": "memoir-moved-pay",
+      "kind": "spoken",
+      "text": "It paid {wage} an hour, up from {paid_more_than}.",
+      "uses": [
+        {
+          "move": "memoir-moved-pay",
+          "subject": "memoir",
+          "role": "moved-pay",
+          "choice": "moved-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-pay.it-paid-wage-an-hour-down-from-paid-less-than",
+      "move": "memoir-moved-pay",
+      "kind": "spoken",
+      "text": "It paid {wage} an hour, down from {paid_less_than}.",
+      "uses": [
+        {
+          "move": "memoir-moved-pay",
+          "subject": "memoir",
+          "role": "moved-pay",
+          "choice": "moved-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-wait.it-was-my-first-paycheck-since-last-employer",
+      "move": "memoir-again-wait",
+      "kind": "spoken",
+      "text": "It was my first paycheck since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-again-wait",
+          "subject": "memoir",
+          "role": "again-wait",
+          "choice": "again-wait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-wait.i-had-not-been-paid-since-last-employer",
+      "move": "memoir-again-wait",
+      "kind": "spoken",
+      "text": "I had not been paid since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-again-wait",
+          "subject": "memoir",
+          "role": "again-wait",
+          "choice": "again-wait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
