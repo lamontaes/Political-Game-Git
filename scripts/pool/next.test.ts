@@ -1,0 +1,699 @@
+// Tests for `npm run pool -- next`, `release`, the one order and Ready by model.
+// Every push goes to a temporary bare repository and `gh` is a stand-in on PATH.
+import { execFileSync } from "node:child_process";
+import {
+  chmodSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { afterEach, describe, expect, it } from "vitest";
+import { NOTE_PLACEHOLDER, prBody, sentences } from "./draft-pr";
+import { command, flags, run, staleClaims, validate, type Item } from "./index";
+import {
+  claimable,
+  makeOrder,
+  readOrder,
+  timeBoxHours,
+  type Row,
+} from "./order";
+
+const ROOT = process.cwd();
+
+interface Unit {
+  model?: string;
+  priority?: string;
+  status?: string;
+  claimedBy?: string;
+  waits?: string;
+  after?: string;
+  checked?: string;
+  effort?: string;
+  size?: string;
+  root?: string;
+  cause?: string;
+  box?: string;
+  extra?: string;
+}
+
+/** An item at the standard, checked by Fable, waiting on nothing unless told otherwise. */
+const unit = (id: string, o: Unit = {}): string =>
+  [
+    "---",
+    `id: ${id}`,
+    `title: "Title of ${id}"`,
+    "area: laws",
+    "kind: wiring",
+    `priority: ${o.priority ?? "3"}`,
+    `size: ${o.size ?? "M"}`,
+    `status: ${o.status ?? "open"}`,
+    "standard: 2",
+    `claimed-by: ${o.claimedBy ?? ""}`.trimEnd(),
+    "pr:",
+    `after: ${o.after ?? ""}`.trimEnd(),
+    "blocked-on:",
+    "lead: laws",
+    `model: ${o.model ?? "sonnet"}`,
+    `effort: ${o.effort ?? "medium"}`,
+    `root: ${o.root ?? "none"}`,
+    `checked: ${o.checked ?? "fable 2026-11-10"}`.trimEnd(),
+    ...(o.extra ? [o.extra] : []),
+    "---",
+    "",
+    `**What.** The law for ${id} never reaches the ledger.`,
+    "",
+    `**Cause.** ${o.cause ?? "Found in code: src/x.ts:1 never reads the law."}`,
+    "",
+    "**Fix.** Read the law where the price is set.",
+    "",
+    `**Time box.** ${o.box ?? "3 hours for one Sonnet session."}`,
+    "",
+    "**Rules.** Wire to the world: the law must move a price for every retailer.",
+    "",
+    "**Done when.** A second session runs it in a drawn place and sees the price move. The test in tests/x.test.ts passes.",
+    "",
+    `**Waits on.** ${o.waits ?? "Nothing."}`,
+    "",
+    "**Files.** src/x.ts",
+    "",
+  ].join("\n");
+
+const git = (cwd: string, ...a: string[]): string =>
+  execFileSync("git", a, { cwd, encoding: "utf8", stdio: "pipe" }).trim();
+
+/**
+ * A bare origin whose main holds the items, the real order.json, start page
+ * and pull request template, and `n` clones of it (a, b, ...). `branches` are
+ * pushed to origin as they are, with one commit each at the given time.
+ */
+function world(
+  items: Record<string, string>,
+  opts: { clones?: number; branches?: Record<string, string> } = {},
+): {
+  origin: string;
+  clones: string[];
+  onOrigin: (ref: string, path: string) => string;
+} {
+  const dir = mkdtempSync(join(tmpdir(), "pool-next-"));
+  const origin = join(dir, "origin.git");
+  execFileSync("git", ["init", "-q", "--bare", "-b", "main", origin]);
+  const seed = join(dir, "seed");
+  const pool = join(seed, "docs", "pool");
+  mkdirSync(join(pool, "items"), { recursive: true });
+  mkdirSync(join(seed, ".github"), { recursive: true });
+  copyFileSync(join(ROOT, "docs/pool/order.json"), join(pool, "order.json"));
+  copyFileSync(
+    join(ROOT, "docs/pool/START-A-BUILDER.md"),
+    join(pool, "START-A-BUILDER.md"),
+  );
+  copyFileSync(
+    join(ROOT, ".github/PULL_REQUEST_TEMPLATE.md"),
+    join(seed, ".github/PULL_REQUEST_TEMPLATE.md"),
+  );
+  for (const [id, text] of Object.entries(items))
+    writeFileSync(join(pool, "items", `${id}.md`), text);
+  run(pool, false);
+  git(dir, "init", "-q", "-b", "main", seed);
+  git(seed, "config", "user.email", "t@t");
+  git(seed, "config", "user.name", "t");
+  git(seed, "add", ".");
+  git(seed, "commit", "-qm", "init");
+  git(seed, "remote", "add", "origin", origin);
+  git(seed, "push", "-q", "origin", "main");
+  for (const [branch, at] of Object.entries(opts.branches ?? {})) {
+    git(seed, "checkout", "-q", "-B", branch, "main");
+    writeFileSync(join(seed, "work.txt"), branch);
+    git(seed, "add", "work.txt");
+    execFileSync("git", ["commit", "-qm", `work on ${branch}`], {
+      cwd: seed,
+      env: { ...process.env, GIT_COMMITTER_DATE: at, GIT_AUTHOR_DATE: at },
+    });
+    git(seed, "push", "-q", "origin", branch);
+    git(seed, "checkout", "-q", "main");
+  }
+  const clones = Array.from({ length: opts.clones ?? 1 }, (_, n) => {
+    const c = join(dir, String.fromCharCode(97 + n));
+    git(dir, "clone", "-q", origin, c);
+    git(c, "config", "user.email", "t@t");
+    git(c, "config", "user.name", "t");
+    return c;
+  });
+  return {
+    origin,
+    clones,
+    onOrigin: (ref, path) => git(origin, "show", `${ref}:${path}`),
+  };
+}
+
+const savedPath = process.env.PATH;
+afterEach(() => {
+  process.env.PATH = savedPath;
+});
+
+/** Puts a stand-in `gh` first on PATH: it records its arguments and prints `say` (or fails when `say` is null). */
+function fakeGh(say: string | null): string {
+  const dir = mkdtempSync(join(tmpdir(), "pool-gh-"));
+  const log = join(dir, "args");
+  const script = join(dir, "gh");
+  writeFileSync(
+    script,
+    say === null
+      ? `#!/bin/sh\necho "$@" > "${log}"\necho "gh: not allowed here" >&2\nexit 1\n`
+      : `#!/bin/sh\necho "$@" > "${log}"\necho "${say}"\n`,
+  );
+  chmodSync(script, 0o755);
+  process.env.PATH = `${dir}:${savedPath}`;
+  return log;
+}
+
+/** Runs the pool command inside `dir` and returns its error and printed lines. */
+function pool(
+  dir: string,
+  argv: string[],
+  beforePush?: () => void,
+): { err: string | null; out: string[] } {
+  const out: string[] = [];
+  const cwd = process.cwd();
+  process.chdir(dir);
+  try {
+    const err = command(argv, {}, { out: (l) => out.push(l), beforePush });
+    return { err, out };
+  } finally {
+    process.chdir(cwd);
+  }
+}
+
+const line = (out: string[], head: string): string =>
+  out.find((l) => l.startsWith(head)) ?? "";
+const ITEM = "docs/pool/items";
+
+describe("the one order", () => {
+  const order = readOrder(join(ROOT, "docs/pool"));
+  const row = (id: string, o: Partial<Row> = {}): Row => ({
+    id,
+    status: "open",
+    priority: "2",
+    ...o,
+  });
+  it("sorts by priority, class, what an item unblocks, effort, size and id", () => {
+    const rows = [
+      row("laws-plain-l", { effort: "medium", size: "L" }),
+      row("laws-plain-s", { effort: "medium", size: "S" }),
+      row("laws-plain-high", { effort: "high", size: "S" }),
+      row("laws-plain-low", { effort: "low", size: "L" }),
+      row("laws-blocker", { effort: "high", size: "L" }),
+      row("laws-waiter", { effort: "medium", after: "laws-blocker" }),
+      row("laws-waiter-2", {
+        effort: "medium",
+        "waits-on": "laws-blocker, then the vote.",
+      }),
+      row("laws-lane", { milestone: "play-first" }),
+      row("core-life-record-part-9"),
+      row("laws-rooted", { root: "rc6-scenes-repeat" }),
+      row("tests-a-check"),
+      row("laws-urgent", { priority: "1", size: "L", effort: "high" }),
+    ];
+    const ids = [...rows].sort(makeOrder(rows, order)).map((r) => r.id);
+    expect(ids).toEqual([
+      "laws-urgent",
+      "tests-a-check",
+      "core-life-record-part-9",
+      "laws-rooted",
+      "laws-lane",
+      "laws-blocker",
+      "laws-plain-low",
+      "laws-plain-s",
+      "laws-waiter",
+      "laws-waiter-2",
+      "laws-plain-l",
+      "laws-plain-high",
+    ]);
+  });
+  it("keeps the play-first lane's own order inside the stops-play class", () => {
+    const lane = { milestone: "play-first" };
+    const rows = [
+      row("play-stop-22-x", { ...lane, effort: "low", size: "S" }),
+      row("play-a-other", { ...lane, effort: "low", size: "S" }),
+      row("play-stop-23-x", { ...lane, effort: "high", size: "L" }),
+      row("play-stop-21-x", lane),
+    ];
+    expect([...rows].sort(makeOrder(rows, order)).map((r) => r.id)).toEqual([
+      "play-stop-23-x",
+      "play-stop-21-x",
+      "play-stop-22-x",
+      "play-a-other",
+    ]);
+  });
+  it("reads the time box's first number of hours, 4 when none", () => {
+    expect(timeBoxHours("3 hours for one Sonnet session.")).toBe(3);
+    expect(timeBoxHours("1.5 hours; then 6 hours more")).toBe(1.5);
+    expect(timeBoxHours("Until done.")).toBe(4);
+    expect(timeBoxHours(undefined)).toBe(4);
+  });
+});
+
+describe("claimable", () => {
+  const known = new Set(["laws-a", "laws-b", "laws-x"]);
+  const onMain = new Set(["laws-a"]);
+  const ok = (o: Partial<Row>): boolean =>
+    claimable(
+      {
+        id: "laws-x",
+        status: "open",
+        priority: "2",
+        checked: "fable 2026-11-10",
+        "waits-on": "Nothing.",
+        ...o,
+      },
+      onMain,
+      known,
+    );
+  it("takes an open, checked item that waits on nothing or only on items on main", () => {
+    expect(ok({})).toBe(true);
+    expect(ok({ "waits-on": "Nothing to start. Read the parent first." })).toBe(
+      true,
+    );
+    expect(ok({ "waits-on": "laws-a." })).toBe(true);
+    expect(ok({ "waits-on": "laws-a (done)." })).toBe(true);
+    expect(ok({ after: "laws-a" })).toBe(true);
+  });
+  it("refuses a Waits on naming an unmerged item, anything that is not an item, an unchecked item, a needs-cause item and a closed gate", () => {
+    expect(ok({ "waits-on": "laws-b." })).toBe(false);
+    expect(ok({ "waits-on": "laws-a and laws-b." })).toBe(false);
+    expect(ok({ "waits-on": "The owner's decision on busts." })).toBe(false);
+    expect(ok({ "waits-on": "laws-a and early-access preparation." })).toBe(
+      false,
+    );
+    expect(ok({ "waits-on": "" })).toBe(false);
+    expect(ok({ checked: "" })).toBe(false);
+    expect(ok({ checked: "opus 2026-11-10" })).toBe(false);
+    expect(ok({ "needs-cause": "1" })).toBe(false);
+    expect(ok({ after: "laws-b" })).toBe(false);
+    expect(ok({ status: "claimed" })).toBe(false);
+  });
+});
+
+describe("next --dry-run by level", () => {
+  const items = {
+    "laws-h": unit("laws-h", { model: "haiku" }),
+    "laws-s": unit("laws-s", { model: "sonnet" }),
+    "laws-o": unit("laws-o", { model: "opus" }),
+    "laws-f": unit("laws-f", { model: "fable", priority: "1" }),
+    "laws-s-waits": unit("laws-s-waits", {
+      model: "sonnet",
+      priority: "1",
+      waits: "laws-o.",
+    }),
+    "laws-s-cause": unit("laws-s-cause", {
+      model: "sonnet",
+      priority: "1",
+      cause: "Needs cause. Nothing was looked at yet.",
+      extra: "",
+    }),
+    "laws-s-unchecked": unit("laws-s-unchecked", {
+      model: "sonnet",
+      priority: "1",
+      checked: "",
+    }),
+  };
+  it("names an item at the caller's level first, a lower one when none, and never one above", () => {
+    const { clones } = world(items);
+    const [a] = clones;
+    const head = git(a, "rev-parse", "HEAD");
+    const take = (model: string): string =>
+      line(pool(a, ["next", "--model", model, "--dry-run"]).out, "Would take:");
+    expect(take("sonnet")).toBe("Would take: laws-s (sonnet, p3)");
+    expect(take("opus")).toBe("Would take: laws-o (opus, p3)");
+    expect(take("haiku")).toBe("Would take: laws-h (haiku, p3)");
+    expect(take("fable")).toBe("Would take: laws-f (fable, p1)");
+    const dry = pool(a, ["next", "--model", "sonnet", "--dry-run"]);
+    expect(dry.err).toBeNull();
+    expect(dry.out).toContain("Branch: pool/laws-s");
+    expect(dry.out).toContain("Dry run: nothing was changed.");
+    expect(git(a, "rev-parse", "HEAD")).toBe(head);
+    expect(git(a, "status", "--porcelain")).toBe("");
+    expect(pool(a, ["next", "--model", "gpt", "--dry-run"]).err).toMatch(
+      /^usage: pool next --model <level>/,
+    );
+  });
+  it("says so and succeeds when nothing is ready at or below the level", () => {
+    const { clones } = world({ "laws-o": unit("laws-o", { model: "opus" }) });
+    const r = pool(clones[0], ["next", "--model", "sonnet", "--dry-run"]);
+    expect(r.err).toBeNull();
+    expect(r.out).toEqual([
+      "No item is ready for sonnet or any level below it.",
+    ]);
+  });
+});
+
+describe("next for real", () => {
+  it("claims on main, starts the branch with the placeholder note, writes the body, and release keeps the branch", () => {
+    const gh = fakeGh(null);
+    const { clones, onOrigin } = world({
+      "laws-h": unit("laws-h", { model: "haiku" }),
+      "laws-s": unit("laws-s", { model: "sonnet" }),
+    });
+    const [a] = clones;
+    const r = pool(a, ["next", "--model", "haiku", "--agent", "check"]);
+    expect(r.err).toBeNull();
+    expect(r.out[0]).toBe("Item: laws-h");
+    expect(r.out).toContain("Title: Title of laws-h");
+    expect(r.out).toContain("File: docs/pool/items/laws-h.md");
+    expect(line(r.out, "Branch:")).toMatch(/^Branch: pool\/laws-h \(to start/);
+    expect(line(r.out, "Pull request:")).toMatch(
+      /^Pull request: not opened; gh could not open it/,
+    );
+    expect(r.out).toContain("Pull request title: laws-h: Title of laws-h");
+    expect(r.out.some((l) => l.startsWith("continue"))).toBe(false);
+    expect(readFileSync(gh, "utf8")).toMatch(
+      /^pr create --draft --head pool\/laws-h --base main --title laws-h: Title of laws-h --body-file /,
+    );
+    // The claim is on main, with the branch and the agent's line.
+    const claimed = onOrigin("main", `${ITEM}/laws-h.md`);
+    expect(claimed).toContain("status: claimed");
+    expect(claimed).toContain("claimed-by: pool/laws-h");
+    expect(claimed).toContain("branch: pool/laws-h");
+    expect(claimed).toMatch(
+      /Claimed by next for check \(.+ UTC\) on branch pool\/laws-h\./,
+    );
+    expect(onOrigin("main", "docs/pool/INDEX.md")).toContain("1 claimed");
+    // The branch holds one commit: the release note's placeholder.
+    expect(onOrigin("pool/laws-h", "docs/release/changes/laws-h.md")).toBe(
+      `---\nid: laws-h\nimpact: none\n---\n\n${NOTE_PLACEHOLDER}`,
+    );
+    // The body file: line 1, the gate line, one Done when row per sentence, the item, the thread rules.
+    const body = readFileSync(
+      line(r.out, "Pull request body file:").split(": ")[1],
+      "utf8",
+    );
+    const lines = body.split("\n");
+    expect(lines[0]).toBe("Pool item: laws-h");
+    expect(lines[2]).toMatch(/^Checks \(changed files\): </);
+    expect(body).toContain(
+      "| A second session runs it in a drawn place and sees the price move. | |\n| The test in tests/x.test.ts passes. | |",
+    );
+    expect(body).toContain("## The item as claimed");
+    expect(body).toContain("**Cause.** Found in code: src/x.ts:1");
+    expect(body).toContain("**Waits on.** Nothing.");
+    expect(body).toContain("## How this pull request is used");
+    for (const rule of [
+      "Progress",
+      "Questions",
+      "Send-backs",
+      "Handoff",
+      "Stale claims",
+    ])
+      expect(body).toContain(`- **${rule}.**`);
+    // in-pr is refused while the note is the placeholder.
+    expect(pool(a, ["status", "laws-h", "in-pr", "--pr", "5"]).err).toMatch(
+      /still says "Not written yet/,
+    );
+    // release sets it open and keeps the branch, with the reason in Notes.
+    expect(pool(a, ["release", "laws-h"]).err).toMatch(/^usage: pool release/);
+    expect(
+      pool(a, [
+        "release",
+        "laws-h",
+        "--reason",
+        "The cause did not match the code.",
+      ]).err,
+    ).toBeNull();
+    const back = onOrigin("main", `${ITEM}/laws-h.md`);
+    expect(back).toContain("status: open");
+    expect(back).toMatch(/^claimed-by:$/m);
+    expect(back).toContain("branch: pool/laws-h");
+    expect(back).toMatch(
+      /Released \(\d{4}-\d\d-\d\d\): The cause did not match the code\. Continue on branch pool\/laws-h\./,
+    );
+    expect(pool(a, ["release", "laws-h", "--reason", "Again."]).err).toBe(
+      "laws-h is open, not claimed",
+    );
+  });
+
+  it("records the draft's number when gh opens it, and lets in-pr through once the note is written", () => {
+    fakeGh("https://github.com/o/r/pull/77");
+    const { clones, onOrigin } = world({
+      "laws-h": unit("laws-h", { model: "haiku" }),
+    });
+    const [a] = clones;
+    const r = pool(a, [
+      "next",
+      "--model",
+      "sonnet",
+      "--branch-prefix",
+      "claude/pool-",
+    ]);
+    expect(r.err).toBeNull();
+    expect(r.out).toContain("Pull request: #77 (draft)");
+    const text = onOrigin("main", `${ITEM}/laws-h.md`);
+    expect(text).toContain("pr: #77");
+    expect(text).toContain("claimed-by: claude/pool-laws-h");
+    // The builder writes the note on the branch; in-pr then goes through.
+    git(a, "fetch", "-q", "origin", "claude/pool-laws-h");
+    git(
+      a,
+      "checkout",
+      "-q",
+      "-B",
+      "claude/pool-laws-h",
+      "origin/claude/pool-laws-h",
+    );
+    writeFileSync(
+      join(a, "docs/release/changes/laws-h.md"),
+      "---\nid: laws-h\nimpact: none\n---\n\nThe pool tool change.\n",
+    );
+    git(a, "commit", "-qam", "laws-h: the release note");
+    git(a, "push", "-q", "origin", "claude/pool-laws-h");
+    git(a, "checkout", "-q", "main");
+    expect(pool(a, ["status", "laws-h", "in-pr", "--pr", "77"]).err).toBeNull();
+    expect(onOrigin("main", `${ITEM}/laws-h.md`)).toContain("status: in-pr");
+  });
+
+  it("two callers racing for one item end with two different items", () => {
+    fakeGh(null);
+    const { clones, onOrigin } = world(
+      {
+        "laws-1": unit("laws-1", { priority: "1" }),
+        "laws-2": unit("laws-2", { priority: "2" }),
+      },
+      { clones: 2 },
+    );
+    const [a, b] = clones;
+    let raced = false;
+    let first: { err: string | null; out: string[] } | null = null;
+    // B picks laws-1 from main; before its push lands, A takes laws-1 first.
+    const second = pool(
+      b,
+      ["next", "--model", "sonnet", "--agent", "b"],
+      () => {
+        if (raced) return;
+        raced = true;
+        first = pool(a, ["next", "--model", "sonnet", "--agent", "a"]);
+      },
+    );
+    expect(raced).toBe(true);
+    expect(first!.err).toBeNull();
+    expect(first!.out[0]).toBe("Item: laws-1");
+    expect(second.err).toBeNull();
+    expect(second.out[0]).toBe("Item: laws-2");
+    expect(onOrigin("main", `${ITEM}/laws-1.md`)).toContain(
+      "Claimed by next for a ",
+    );
+    expect(onOrigin("main", `${ITEM}/laws-2.md`)).toContain(
+      "Claimed by next for b ",
+    );
+  });
+
+  it("releases a claim quiet for twice its time box and offers it as continue; a fresh or recently pushed claim stays", () => {
+    fakeGh(null);
+    const old = "2026-01-01T00:00:00.000Z";
+    const recent = new Date(Date.now() - 3600 * 1000).toISOString();
+    const { origin, clones, onOrigin } = world(
+      {
+        "laws-quiet": unit("laws-quiet", {
+          priority: "1",
+          status: "claimed",
+          claimedBy: "lane/quiet",
+          extra: `claimed-at: ${old}`,
+        }),
+        "laws-pushed": unit("laws-pushed", {
+          status: "claimed",
+          claimedBy: "lane/pushed",
+          extra: `claimed-at: ${old}`,
+        }),
+        "laws-fresh": unit("laws-fresh", {
+          status: "claimed",
+          claimedBy: "lane/fresh",
+          extra: `claimed-at: ${recent}`,
+        }),
+        "laws-nobranch": unit("laws-nobranch", {
+          status: "claimed",
+          claimedBy: "lane/none",
+          box: "Until it is done.",
+          extra: `claimed-at: ${old}`,
+        }),
+        "laws-other": unit("laws-other"),
+      },
+      { branches: { "lane/quiet": old, "lane/pushed": recent } },
+    );
+    const [a] = clones;
+    const dry2 = pool(a, ["next", "--model", "sonnet", "--dry-run"]);
+    expect(
+      dry2.out
+        .filter((l) => l.startsWith("Would release"))
+        .map((l) => l.split(":")[0]),
+    ).toEqual(["Would release laws-nobranch", "Would release laws-quiet"]);
+    expect(dry2.out).toContain("Would take: laws-quiet (sonnet, p1)");
+    expect(dry2.out).toContain("continue: another agent started this item.");
+    const r = pool(a, ["next", "--model", "sonnet"]);
+    expect(r.err).toBeNull();
+    expect(r.out[0]).toMatch(
+      /^Released laws-nobranch: no push to lane\/none since 2026-01-01 00:00 UTC, more than twice its 4-hour time box\.$/,
+    );
+    expect(r.out[1]).toMatch(
+      /^Released laws-quiet: no push to lane\/quiet since 2026-01-01 00:00 UTC, more than twice its 3-hour time box\.$/,
+    );
+    expect(line(r.out, "Item:")).toBe("Item: laws-quiet");
+    expect(line(r.out, "Branch:")).toMatch(/^Branch: lane\/quiet /);
+    expect(r.out[r.out.length - 1]).toMatch(
+      /^continue: another agent started this item/,
+    );
+    const quiet = onOrigin("main", `${ITEM}/laws-quiet.md`);
+    expect(quiet).toContain("status: claimed");
+    expect(quiet).toContain("branch: lane/quiet");
+    expect(quiet).toMatch(
+      /Released by next \(\d{4}-\d\d-\d\d\): no push to lane\/quiet since 2026-01-01 00:00 UTC, more than twice its 3-hour time box\. Continue on branch lane\/quiet\./,
+    );
+    // The quiet branch was kept as it was: no release note commit was added.
+    expect(git(origin, "log", "--format=%s", "lane/quiet")).toBe(
+      "work on lane/quiet\ninit",
+    );
+    for (const id of ["laws-pushed", "laws-fresh"])
+      expect(onOrigin("main", `${ITEM}/${id}.md`)).toContain("status: claimed");
+    const nobranch = onOrigin("main", `${ITEM}/laws-nobranch.md`);
+    expect(nobranch).toContain("status: open");
+    expect(nobranch).toContain("branch: lane/none");
+  });
+});
+
+describe("claim --pr, branch and flags", () => {
+  it("claim records --pr on a claim the same branch holds, and an old-style claim stays valid", () => {
+    const { clones, onOrigin } = world({ "laws-a": unit("laws-a") });
+    const [a] = clones;
+    expect(
+      pool(a, ["claim", "laws-a", "--branch", "any/branch"]).err,
+    ).toBeNull();
+    let text = onOrigin("main", `${ITEM}/laws-a.md`);
+    expect(text).toContain("claimed-by: any/branch");
+    expect(text).not.toMatch(/^branch:/m);
+    expect(
+      pool(a, ["claim", "laws-a", "--branch", "any/branch", "--pr", "41"]).err,
+    ).toBeNull();
+    text = onOrigin("main", `${ITEM}/laws-a.md`);
+    expect(text).toContain("pr: #41");
+    expect(
+      pool(a, ["claim", "laws-a", "--branch", "other", "--pr", "42"]).err,
+    ).toMatch(/already claimed by any\/branch/);
+  });
+  it("validate accepts branch and refuses one that is not a branch name", () => {
+    const fm = {
+      id: "laws-a",
+      title: "t",
+      area: "laws",
+      kind: "bug",
+      priority: "1",
+      status: "open",
+    };
+    expect(
+      validate("laws-a.md", { ...fm, branch: "claude/pool-laws-a" }),
+    ).toEqual([]);
+    expect(
+      validate("laws-a.md", { ...fm, branch: "two words" }).join(),
+    ).toMatch(/is not a branch name/);
+    expect(validate("laws-a.md", { ...fm, branch: "-x" }).join()).toMatch(
+      /is not a branch name/,
+    );
+  });
+  it("--dry-run and --no-pr take no value", () => {
+    const { f } = flags(
+      ["next", "--dry-run", "--model", "opus", "--no-pr"],
+      {},
+    );
+    expect(f).toEqual({ "dry-run": "1", model: "opus", "no-pr": "1" });
+  });
+});
+
+describe("the index's Ready by model", () => {
+  it("counts the claimable items at each level and lists them in the order", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-ready-"));
+    mkdirSync(join(dir, "items"));
+    copyFileSync(join(ROOT, "docs/pool/order.json"), join(dir, "order.json"));
+    const put = (id: string, o: Unit): void =>
+      writeFileSync(join(dir, "items", `${id}.md`), unit(id, o));
+    put("laws-s1", { model: "sonnet", size: "L" });
+    put("laws-s2", { model: "sonnet", size: "S" });
+    put("tests-s3", { model: "sonnet", size: "L" });
+    put("laws-o1", { model: "opus" });
+    put("laws-o-waits", { model: "opus", waits: "laws-s1." });
+    put("laws-h-unchecked", { model: "haiku", checked: "" });
+    expect(run(dir, false).errors).toEqual([]);
+    const index = readFileSync(join(dir, "INDEX.md"), "utf8");
+    const ready = index.split("## Ready by model")[1].split("\n## ")[0];
+    expect(ready).toContain(
+      "**haiku:** 0, **sonnet:** 3, **opus:** 1, **fable:** 0.",
+    );
+    expect(ready).toContain("### haiku (0)\n\nNone.");
+    const sonnet = ready.split("### sonnet (3)")[1].split("###")[0];
+    expect(sonnet.indexOf("tests-s3")).toBeLessThan(sonnet.indexOf("laws-s1"));
+    // laws-s1 comes before the smaller laws-s2: an item waits on it.
+    expect(sonnet.indexOf("laws-s1")).toBeLessThan(sonnet.indexOf("laws-s2"));
+    expect(ready.split("### opus (1)")[1]).toContain(
+      "1. [laws-o1](items/laws-o1.md) (laws, p3, medium, M) — Title of laws-o1",
+    );
+    expect(ready).not.toContain("laws-o-waits");
+    // The counts match a count taken from the item files.
+    const { items } = run(dir, true, new Set(), { staleCheck: false });
+    const onMain = new Set<string>();
+    const known = new Set(items.map((i) => i.id));
+    const count = (m: string): number =>
+      items.filter((i) => i.model === m && claimable(i, onMain, known)).length;
+    expect([count("haiku"), count("sonnet"), count("opus")]).toEqual([0, 3, 1]);
+  });
+});
+
+describe("the draft body's pieces", () => {
+  it("splits Done when into sentences and fills the template's table", () => {
+    expect(
+      sentences("One thing. Then `a test` passes! (And more.) Done"),
+    ).toEqual(["One thing.", "Then `a test` passes!", "(And more.) Done"]);
+    const template = readFileSync(
+      join(ROOT, ".github/PULL_REQUEST_TEMPLATE.md"),
+      "utf8",
+    );
+    const start = readFileSync(
+      join(ROOT, "docs/pool/START-A-BUILDER.md"),
+      "utf8",
+    );
+    const body = prBody("laws-a", unit("laws-a"), template, start);
+    expect(body).not.toContain("| <line>");
+    expect(body.split("\n")[0]).toBe("Pool item: laws-a");
+    expect(existsSync(join(ROOT, "docs/pool/START-A-BUILDER.md"))).toBe(true);
+  });
+});
+
+describe("staleClaims", () => {
+  it("leaves a claim with no claim time and no branch alone", () => {
+    const i = {
+      id: "laws-a",
+      status: "claimed",
+      "claimed-by": "",
+      "time-box": "3 hours",
+    } as unknown as Item;
+    expect(staleClaims([i], Date.now(), () => null)).toEqual([]);
+  });
+});
