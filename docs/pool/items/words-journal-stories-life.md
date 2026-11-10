@@ -5,13 +5,14 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by: story/journal-stories-life
-pr: 8129
+pr: #8129
 blocked-on:
 lead: words
 source: owner batch 3 (journal entries told as statements, not stories); extends words-journal-as-stories to the other common life events
 claimed-at: 2026-11-10T10:00:00.000Z
+merged-at: 2026-11-10T09:39:01.857Z
 ---
 
 **What.** The `follow` fields of words-journal-as-stories now follow five more rows, each only when the record gives the facts its sentences name: a move (where they came from, from the moves engine's record; the children born before it who came with them; their age), a child's birth (their age; the first child, by name), a partnership (how long they have been together), a death in the family (the age of the person; whether the record's topic names a serious illness), and a school year's end (how long they had been at the school; their age).
