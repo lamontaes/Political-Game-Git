@@ -16,7 +16,7 @@ Whoever starts you names three things: the item's id, your branch, and your time
 2. **Trace it.** The item's Time box and Notes say what to print first. Follow the one record or figure, by record id, to the file and line where it first goes wrong, and say why it goes wrong there. A symptom is not a cause. Where it is cheap, prove the cause with a probe: change the suspected line in your working copy only, see the symptom move, then undo it. Never commit a probe.
 3. **Rewrite the item** to the standard:
    - **Cause.** begins `Found in code:` (a path that exists, with a line number or a function name) or `Measured:` (a place and seed, or the command that shows it), and names the record ids you followed.
-   - **Fix.** says in plain words what to change, so a builder can build it from the item alone.
+   - **Fix.** says in plain words what to change, so a builder can build it from the item alone. It names the existing function it changes (owner, Nov 10: one money system, and reuse before you build). Money moves only through the accounts and obligations, the treasuries, withholding and the one benefit payer that exist; a Fix never adds a second payment, tax or ledger path beside one that exists, and a Fix that does is sent back.
    - `model:` and `effort:` name the least capable model that can build that fix, and **Time box.** names its hours.
    - **Done when.** says what a second session sees, and keeps the words "second session". **Waits on.** and **Files.** are true: every path exists, or ends with ` (new)`.
    - Keep the earlier Notes. Add one Notes paragraph with the date, what you ran, and what is still unknown.
