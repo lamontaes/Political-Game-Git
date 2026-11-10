@@ -5,10 +5,10 @@ area: docs
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/fable-pool-no-blanks
-pr: 8242
+pr: #8242
 after:
 blocked-on:
 lead: fable
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: owner, Nov 10, 2026, through the CTO
 checked: fable 2026-11-10
+merged-at: 2026-11-10T21:51:52.189Z
 ---
 
 **What.** The owner pastes one command to start a builder on any tool. The first version made him fill in a level and a name. He said: "No, that's too much work for me. Again, I might not be using Claude for these. That's why I say they're not all going to be Opus, Sonnet, or Haiku. And I'm not choosing the name." The command must be one fixed block, and the levels must not be Claude's model names alone.
