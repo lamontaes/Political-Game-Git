@@ -247,7 +247,7 @@ The grading system has its own section below. This part covers what plays.
 
 ### What the code does and what a player sees
 
-- **The banks hold 10,612 lines in 21 files (read).** Scene talk is 6,707 of them. About 2,700 were written on November 8 and 9, by a helper's reading of the crew's notes; I did not recount it. Every line was written by a session. Twelve are marked as your voice.
+- **The banks hold 10,612 lines in 21 files (read).** Scene talk is 6,707 of them. Every line was written by a session. Twelve are marked as your voice.
 - **Your phrasing (read).** "All right, I got you." appears 7 times among 6,707 scene lines. "Got you, man" appears nowhere.
 - **The opening address (measured).** It now has moods and it did name bad news: "work has grown harder to find this year." It still reads as stock paragraphs in a row. Two back-to-back sentences say the same thing: "I begin this work with a glad heart... I took the oath with a light heart." One line is a law record printed as a sentence: "Federal law answers legal cannabis sales with a no."
 - **The news (measured).** The lead story on day one: "Unemployment insurance program became law on January 15, 2025." It is a starting law printed as news. The briefs: "Income tax rate took effect on January 1, 2025," in New Hampshire, which taxes no wages. And "State campaign contribution limit: stateHouse took effect on January 1, 2025," with a code name on the page.
@@ -380,7 +380,7 @@ I made a second copy of the game from the open work that holds your batch 2 and 
 - **What is not checked (read):** a reply continues the conversation in scene talk; no cold "How is X?"; four replies; a scene has a stake; a second move follows the first; it sounds like a person; it sounds like you.
 - **I ran the project's own banned-pattern list against ten lines (measured).** It blocked "Talk to you soon." and a bare "Yes." It let through the other eight: "I'll talk to you later.", "How is Bob?", "Okay.", "All right.", "Okay, bye.", "Have you heard about {outlet}?", "We'll manage. We always do." and "I liked what the President had to say."
 - **What is already in the banks (measured).** 15 cold "How is X?" questions, 131 replies of one or two words, and 10 closers such as "I'll talk to you later."
-- **So the 2,700 lines added in two days were checked for spelling and a short list of phrases, not for your rules.**
+- **So new lines are checked for spelling and a short list of phrases, not for your rules.**
 
 ### The root cause
 
@@ -508,5 +508,5 @@ Cheaper sessions can still do most of the work. What they are handed has to chan
 - **A screen fault the helper reported: a state bill came back "vetoed" with the executive set to sign.** The same call made directly enacts the bill. My call: not a fault in the game; a slip in the helper's script.
 - **How often Congress or a statehouse changes hands over 20 years.** I did not record who held each chamber in the 19-year Oklahoma run. My call: treat it as not shown. Nobody should claim the country's politics turn over until a long run records it year by year.
 - **Speed and memory in a city.** The largest place I ran had about 11,000 people. My call: worse than what I measured, because the cost grows with the number of full people, and the bar is already missed at 11,000.
-- **The history of fixes.** The copy I audited holds only November 9's commits, so I could not date from its history any code change made before that day. My call: trust the dates others wrote down. Each earlier date in this report names its source where it appears. The sources are your documents, the pool items, and the crew's own reports, notes, posts and pull requests.
+- **The history of fixes.** The copy I audited holds only November 9's commits, so I could not date from its history any code change made before that day. My call: trust the dates others wrote down. The earlier dates in this report come from others' records: your documents, the pool items, the game's patch notes, and the crew's own reports, notes, posts and pull requests.
 - **Anything on your Drive, and the Mac build itself.** I played the same code through its browser screen. My call: nothing in this report depends on either.
