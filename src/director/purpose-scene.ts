@@ -955,7 +955,7 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: said.office,
+      text: titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1244,7 +1244,7 @@ function composeBinding(
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
     facts.office = {
-      text: door.office,
+      text: titleInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
   }

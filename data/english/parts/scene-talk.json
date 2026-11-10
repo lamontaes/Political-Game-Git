@@ -108209,7 +108209,7 @@
       "key": "scene-talk.state-tell.you-re-not-first-in-rivals-filed-for-office-ahead-of-you",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "You're not first in. {rivals} filed for {office} ahead of you.",
+      "text": "You're not first in: {rivals} filed for {office} ahead of you.",
       "uses": [
         {
           "subject": "scene",
