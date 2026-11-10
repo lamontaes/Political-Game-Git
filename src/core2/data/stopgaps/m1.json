@@ -2,9 +2,9 @@
   {
     "id": "SG-M1-births-circumstances",
     "kind": "unmeasured-life-loop-model",
-    "file": "src/core2/data/renewal/parameters.json",
-    "line": 10,
-    "whatItFakes": "Old smooth family-plan coefficients; living-cost and household-size housing proxies, recorded affect health proxy, identity gender carrier proxy, successful planned singleton pregnancy with fixed conception-relative duration, infant inactive discretionary tier until future development work.",
+    "file": "src/core2/births-plan.ts",
+    "line": 181,
+    "whatItFakes": "The 14 plan weights and pulls are tuned (no study publishes them), living-cost and household-size stand in for housing, recorded affect for health, and every planned pregnancy is a single birth lasting the one median length; clinical reproductive capacity, infertility and pregnancy outcomes are not in the people records.",
     "why": "Part 1 precedes housing/jobs integrations; clinical reproductive capacity, infertility and pregnancy outcomes are not represented by the current people records. Rates cannot select pregnancies.",
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
