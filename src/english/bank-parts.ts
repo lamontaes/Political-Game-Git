@@ -4,9 +4,13 @@
  * gets here to its own variants; which parts those are, and how a bank's
  * `{slot}` becomes the renderer's `{{slot}}`, is decided once, here.
  *
- * One gate decides what play may say: the owner's grades (`heldByGrades`). A
- * part plays unless the grades hold it; the part carries no flag of its own.
+ * Two things decide what play may say: the owner's grades (`heldByGrades`)
+ * and the rules run over every line (`data/english/pulled.json`, written by
+ * `npm run words:rules`). A part plays unless the grades hold it or a rule
+ * pulled it; the part carries no flag of its own. A part a rule only flagged
+ * for a rewrite ("waiting") or for his next sample ("sample") keeps playing.
  */
+import pulledFile from "../../data/english/pulled.json" with { type: "json" };
 import { heldByGrades } from "./english-grades";
 
 /** One place a part is said: the director's subject and the role it words. */
@@ -25,9 +29,12 @@ export interface BankPart<Use = PartUse> {
   uses: Use[];
 }
 
-/** Whether play may say this one part: the owner's grades do not hold it. */
+/** The parts a rule pulled, by key (`data/english/pulled.json`). */
+const PULLED = new Set(Object.keys(pulledFile.pulled));
+
+/** Whether play may say this one part: neither the grades nor a rule hold it. */
 export function playable(part: { key: string }): boolean {
-  return !heldByGrades(part.key);
+  return !heldByGrades(part.key) && !PULLED.has(part.key);
 }
 
 /** The parts of a bank, in its order, that the owner's grades leave in and `fits` accepts. */
