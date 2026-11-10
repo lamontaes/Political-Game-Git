@@ -480,12 +480,12 @@
     "id": "SG-WORLD-staff-husk-work",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
-    "line": 319,
-    "whatItFakes": "A relative living out of town (a husk) is never an aide candidate, because the records hold no work for them, and an unknown job is not an empty one.",
+    "line": 430,
+    "whatItFakes": "A relative living out of town is never an aide candidate, although their work is now kept (jobs-elsewhere.ts); the staff candidate list does not read it.",
     "why": "Husks are kept as a name and family ties only; their place's work isn't modeled at the coarse level, so whether they are out of work, and so free to take the post, can't be read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Work for out-of-town relatives from their place's coarse population (jobs by age and place), after which those within commuting reach and out of work apply like anyone.",
+    "replacement": "Let a husk who is out of work and within commuting reach apply like anyone, reading the work kept by jobs-elsewhere.ts.",
     "status": "open"
   },
   {

@@ -114,7 +114,7 @@
     "id": "SG-LAW-held-bill-chair-reasons-unread",
     "kind": "missing-engine",
     "file": "src/core2/modules/legislature.ts",
-    "line": 3127,
+    "line": 4303,
     "whatItFakes": "A bill the committee chair holds without a hearing keeps the chair's reasons on the committee record (their position on the bill, part by part, and what their temperament adds toward a hearing), but no scene, story or later decision reads them yet.",
     "why": "The reasons are the why of a held bill for the sponsor and the player; the scene where the sponsor asks the chair, and a story that a bill died without a hearing, are not yet built to read the record.",
     "addedBy": "claude/laws-held-bill-chair-reasons",

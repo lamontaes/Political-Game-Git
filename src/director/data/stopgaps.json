@@ -364,7 +364,7 @@
     "id": "SG-DIRECTOR-speech-occasion",
     "kind": "missing-engine",
     "file": "src/director/scheduling.ts",
-    "line": 1,
+    "line": 294,
     "whatItFakes": "What a heard speech was given at (a campaign stop, a meeting remark, a hearing), and how a candidate gave it (a town hall, a campaign speech, a debate), is read from the shape of the speech's record id, because the speech engine's record carries no occasion.",
     "why": "A mayor's remark at a council meeting was staged as a campaign event. The speech record belongs to the core area.",
     "addedBy": "words",

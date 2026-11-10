@@ -184,7 +184,7 @@
     "id": "SG-OFFICE-FED-acting-head",
     "kind": "missing-engine",
     "file": "src/core2/office-day-federal-president.ts",
-    "line": 0,
+    "line": 295,
     "whatItFakes": "A cabinet post the president leaves open (or cannot fill) is marked acting for 210 days (5 U.S.C. 3346(a)(1), sourced). The acting head is a person drawn from the wider population (the first counted adult aged 40 to 66 in the town's counts is the template, seeded by the post and the day), not the department's first assistant; they are not paid as the acting official and the department's work is not handed to them.",
     "why": "The game keeps no first-assistant or deputy record for a department, so there is no one to name as acting head under 5 U.S.C. 3345(a)(1); a drawn person stands in so the post has a name.",
     "addedBy": "Legislation",
