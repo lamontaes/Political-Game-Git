@@ -2564,14 +2564,16 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
       household?.placeId ??
       c.organizations.get(row.landlordId)?.placeId ??
       "",
-    ...(counted
-      ? {
-          facts: countedFacts(
+    // The case is the eviction's record, for the grievance it causes.
+    facts: {
+      caseId,
+      ...(counted
+        ? countedFacts(
             counted.id,
             memberIds.filter((id) => !c.people.has(id)),
-          ),
-        }
-      : {}),
+          )
+        : {}),
+    },
     source: {
       tag: "ESTIMATED",
       asOf: c.date,

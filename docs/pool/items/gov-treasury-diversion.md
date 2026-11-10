@@ -24,15 +24,15 @@ checked: fable 2026-11-10
 
 **Cause.** Design: docs/design/treasury-diversion.md, written from the owner's Nov 10, 2026 ruling in docs/coordination/OWNER-DECISIONS.md. In code today the corruption engine (src/core2/modules/corruption.ts) records only bribes (`CrimeRecord`, line 62), nothing but a lawful measure moves a line (`amendBudget`, src/core2/modules/budgets.ts line 2105), and no module audits a government's books.
 
-**Fix.** Build the parts in order: gov-treasury-diversion-part-1-the-act-and-its-money, then gov-treasury-diversion-part-2-the-shorted-line-and-the-complaint, then gov-treasury-diversion-part-3-the-yearly-audit, with gov-treasury-diversion-part-4-the-players-seat after part 1 and research-local-government-audit-rules at any time. This parent's own work is the closing check below, after the parts merge.
+**Fix.** Build the parts in order: gov-treasury-diversion-part-1-the-act-and-its-money, then gov-treasury-diversion-part-2-the-shorted-line-and-the-complaint, then gov-treasury-diversion-part-3-the-yearly-audit, with gov-treasury-diversion-part-4-the-players-seat after part 1, gov-treasury-diversion-part-5-the-justice-path-takes-the-kind after part 2, and research-local-government-audit-rules at any time. This parent's own work is the closing check below, after the parts merge.
 
 **Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** The chain is the acceptance: one diverted dollar is followed from the line it left to where it went, to the person shorted, to who learned of it and how, to the story in the paper and the voter who weighed it, by record id. No dice. Ask why. Follow .agents/skills/seen-in-game/SKILL.md.
 
-**Done when.** A second session, not a builder of any part, plays a drawn place (place and seed named) on main and follows one diversion end to end by record id: the cause, the official's choice with its reasons, the journal entries, the shorted line's smaller payment, the department head or auditor who learned of it, their decision, the scandal in News, and one voter's ballot reasons that cite it. It also plays an executive, takes the quiet move in the scene, and sees the same chain start from the player's own choice.
+**Done when.** A second session, not a builder of any part, plays a drawn place (place and seed named) on main and follows one diversion end to end by record id: the cause, the official's choice with its reasons, the journal entries, the shorted line's smaller payment, the department head or auditor who learned of it, their decision, the scandal in News, the case on the one justice path through to its sentence and the money paid back to the treasury, and one voter's ballot reasons that cite it. It also plays an executive, takes the quiet move in the scene, and sees the same chain start from the player's own choice.
 
-**Waits on.** gov-treasury-diversion-part-1-the-act-and-its-money, gov-treasury-diversion-part-2-the-shorted-line-and-the-complaint, gov-treasury-diversion-part-3-the-yearly-audit and gov-treasury-diversion-part-4-the-players-seat.
+**Waits on.** gov-treasury-diversion-part-1-the-act-and-its-money, gov-treasury-diversion-part-2-the-shorted-line-and-the-complaint, gov-treasury-diversion-part-3-the-yearly-audit, gov-treasury-diversion-part-4-the-players-seat and gov-treasury-diversion-part-5-the-justice-path-takes-the-kind.
 
 **Files.** docs/design/treasury-diversion.md, src/core2/modules/corruption.ts
 

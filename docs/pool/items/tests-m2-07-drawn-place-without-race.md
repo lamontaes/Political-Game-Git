@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/fable-b4-election-tests-wait
-pr:
+pr: #8218
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-10T19:57:32.500Z
@@ -18,6 +18,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 checked: fable 2026-11-10
+merged-at: 2026-11-10T20:42:12.830Z
 ---
 
 **What.** Two tests fail on main by draw, and neither failure is the game's. src/bench/election-day.test.ts fails with "No draw reached election day: no race the player could enter" in every one of its eight drawn places (GOLDEN_PATH_SEED=dcba28c7e37e52d9 on Nov 10, and GOLDEN_PATH_SEED=e253fc7f73075455 on Nov 4). src/core2/voting.test.ts (roadmap spec M2-07) fails with "no open local or state race" (Ivan, Arkansas, place key 0534540, seed 8204cf02c98b04d40207d6a46ee6d70f291c3712872130e95c5e24b207debf76; Waikoloa Village, Hawaii, place key 1576600, seed 67c6696d488be63625780c83a2553abb64a3aaf1df2ea0e0a9ccbb0136e6adcc, after nine places). Since Nov 4 every race opens its filing on a real day (pull request #7168), so on a day early in 2025 most places have no race open yet. The player can still run: the race opens later and the game offers it then.

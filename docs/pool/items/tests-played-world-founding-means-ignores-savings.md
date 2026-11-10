@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/credit.ts, src/core2/modules/business.ts
 
 **Notes.** Found Oct 24 by the M0-13 lead's helper. Not changed by the helper because tests/golden-path/played-world.node-test.ts is the accepted M0-13 spec. If the owner wants the loan sized to cash alone, the alternative is an engine rule that founders keep savings out of equity, which contradicts the SBA source in credit.ts.
+
+**Notes (Fable, Nov 10).** Measured by Fable on Nov 10 on main cb25bfa5c8 (St. Johnsbury, Vermont, 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4, one played year): 11 businesses were founded, and every one borrowed at most 9 times the equity its founding row records (nine at exactly 9.00, one at 8.05, one at 1.15; the largest loan, $917,920, stands against $114,086 of equity). The played-world check still reported "10 of 11 new businesses borrowed more than 9 times the founder's cash". This item now also stands for play-golden-path-m0-13-red-st-johnsbury-part-5-business-borrowing, which is proposed for dropping as its duplicate.

@@ -83,7 +83,42 @@ it("a household member's card tells a job lost and an illness from play, and eve
     facts: { [`event:${ill}:condition`]: "serious-illness" },
   } as CoreEventInput);
 
+  // Fixtures (hand-made events, shaped as wage-floor.ts and voting.ts write them): a raise the
+  // minimum wage brought, and a primary the member was put out of.
+  const raised = `minimum-wage-raise:fixture-${member!.id}:${core.date}`;
+  const primary = `primary-result:fixture-${member!.id}`;
+  api.emit({
+    ...common,
+    id: raised,
+    kind: "pay-raised-to-minimum-wage",
+    facts: {
+      jobId: "fixture-job",
+      fromMinor: "1000",
+      toMinor: "1200",
+      lawId: "fixture-law",
+    },
+  } as CoreEventInput);
+  api.emit({
+    ...common,
+    id: primary,
+    kind: "primary-result",
+    publicRecord: true,
+    facts: {
+      contestId: "fixture-contest",
+      office: "Council Member",
+      outIds: JSON.stringify([member!.id]),
+    },
+  } as CoreEventInput);
+
   const card = knownCard(core, playerId!, member!.id);
+  expect(
+    card.history.find((line) => line.recordId === raised)?.text,
+    `${where}: fixture raise`,
+  ).toMatch(/got a raise when the minimum wage went up in \d{4}\./);
+  expect(
+    card.history.find((line) => line.recordId === primary)?.text,
+    `${where}: fixture primary`,
+  ).toMatch(/lost the primary for council member\./);
   const byRecord = new Map(card.history.map((line) => [line.recordId, line]));
   expect(byRecord.has(lost), `${where}: the job lost, ${lost}`).toBe(true);
   expect(byRecord.has(ill), `${where}: the illness, ${ill}`).toBe(true);
