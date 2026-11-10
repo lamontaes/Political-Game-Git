@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/bring-up-knew
-pr: pending
+pr: 8143
 blocked-on:
 lead: words
 source: owner rule "nobody attributes a change to a law unless they learned of it" (AGENTS.md); coordinator unit, Nov 10
