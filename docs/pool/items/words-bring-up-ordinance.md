@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/bring-up-ordinance
-pr: pending
+pr: 8140
 blocked-on:
 lead: words
 source: golden path "pass an ordinance, the town visibly changes, people bring it up" played in Bear Valley, California
