@@ -41,6 +41,7 @@ A report to the owner counts only `done`. Write "merged, not yet seen" for the r
 - **In a place and seed nobody chose.** Start a new game with the Place field empty, and write down the place and seed the title shows. Then run the item's named place and seed too, when it has one.
 - **On main**, at the merge commit or later. Name the commit.
 - **Read the item's Done when and do exactly that.** If the Done when cannot be done from the game, that is the finding: the item goes back to its writer.
+- **Start the second session fresh, with the check as its own prompt.** One new session per check, told the pull request, the item, the steps and where to record what it saw. A message sent to a session that is already running arrives as another session's data, and that session waits for its own user before acting on it (Nov 10: a check sent to a finished second session was never run).
 
 ## What the second session does, by kind of work
 
@@ -80,6 +81,7 @@ Turn it on from the game's options (the "On" button under dev mode). What each c
 - **Congress needs a wide margin.** The Senate needs three fifths to end debate; set the margin to 20 or more.
 - **A place may lack the body.** A census-designated place has no council. Draw until the place has the body the item names, and list the places passed over.
 - **One place is one place.** A result seen in one drawn place is true of that place. Say so, or repeat it.
+- **A change made on the first day can be taken as the starting point.** An engine that fits its opening on day one may absorb a law set that morning (Nov 10, Willow River, Minnesota: ending the income tax on day one moved the nation's unemployment a tenth of a point until the opening read the law of the day before). When a first-day change does almost nothing, repeat it after a month has run before calling the law weak, and report both.
 
 ## Recording what you saw
 
@@ -107,6 +109,7 @@ Either way, comment once on the pull request, starting "Seen:" or "Not seen:", w
 - Say "a drawn place" and, if the defect was measured somewhere, that place and seed as a named repro.
 - Where money is involved, ask for "Follow the money" and say which holders must and must not move.
 - Never ask for "a record exists" or "the test passes" alone.
+- Open the screen yourself before you write its steps. On Nov 10 two checks named a "Laws panel" that does not exist and asked for a state row where the table has state columns; the second session had to say what it used instead.
 
 ## Stop condition
 
