@@ -3526,10 +3526,14 @@ function startCommuterJob(
  * the place's outside account as employer, at `hourlyMinor` over the standard
  * commuter week, paid on the place's unplaced workers' payday (the same
  * commuter job a filled-in household's unplaced worker has). A counted person
- * joins the place's unplaced workers: their household's workers and the pool's
- * pay grow by the record's weight times the pool's pay per worker. Returns the
- * job's id for a full person, `counted` for a counted one, and undefined where
- * the place has no unplaced pool to take them.
+ * joins the place's unplaced workers. A counted household's `unplacedWorkers`
+ * is workers per household of its record (the opening's share is, and every
+ * reader of its income multiplies by the record's weight), and one counted
+ * member stands for one person in each of those households: so the household
+ * gains one worker, and the pool's pay grows by as many workers as the record
+ * stands for, each at the pool's pay. Returns the job's id for a full person,
+ * `counted` for a counted one, and undefined where the place has no unplaced
+ * pool to take them.
  */
 export function startRegionalWork(
   core: CoreState,
@@ -3548,9 +3552,10 @@ export function startRegionalWork(
       base.cadence.kind === "days"
         ? DAYS_PER_YEAR / base.cadence.every
         : 12 / base.cadence.every;
-    const workers = rt.store.weightOf(h);
-    base.amountMinor += Math.round((workers * perWorker) / perYear);
-    h.unplacedWorkers += workers;
+    base.amountMinor += Math.round(
+      (rt.store.weightOf(h) * perWorker) / perYear,
+    );
+    h.unplacedWorkers += 1;
     regroupHousehold(rt, h, core.date);
     return "counted";
   }
@@ -3572,8 +3577,8 @@ export function startRegionalWork(
 
 /**
  * A counted person's regional work ends (`startRegionalWork` reversed): their
- * household's unplaced workers and the pool's pay shrink by the record's
- * weight times the pool's pay per worker. False where there is nothing to end.
+ * household loses one unplaced worker, and the pool's pay shrinks by as many
+ * workers as the record stands for. False where there is nothing to end.
  */
 export function stopRegionalWork(core: CoreState, personId: string): boolean {
   const rt = runtimes.get(core);
@@ -3582,7 +3587,7 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
   const h = rt.store.households[rt.store.household[m]!]!;
   const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
   const perWorker = unplacedPayPerWorkerBase(rt, h);
-  const workers = Math.min(rt.store.weightOf(h), h.unplacedWorkers);
+  const workers = Math.min(1, h.unplacedWorkers);
   if (!base || !(perWorker > 0) || !(workers > 0)) return false;
   const perYear =
     base.cadence.kind === "days"
@@ -3590,7 +3595,8 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
       : 12 / base.cadence.every;
   base.amountMinor = Math.max(
     0,
-    base.amountMinor - Math.round((workers * perWorker) / perYear),
+    base.amountMinor -
+      Math.round((workers * rt.store.weightOf(h) * perWorker) / perYear),
   );
   h.unplacedWorkers -= workers;
   regroupHousehold(rt, h, core.date);
