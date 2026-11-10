@@ -471,6 +471,8 @@ export function shiftPurchaseShare(
   return Math.round(moved);
 }
 
+const OUTSIDE_NOTE = "Since the opening its outside buyers follow ";
+
 /** What one seller's outside buyers do this month: its sector's sales against the opening month's, and the records it read. */
 export interface OutsideSectorFactor {
   factor: number;
@@ -529,14 +531,17 @@ export function scaleOutsideSales(
       );
     factors.set(flow.id, own.factor);
     // The flow's source names the sector's records it follows, so a trace of its payments reads them.
-    const note = `Since the opening its outside buyers follow ${own.followed}.`;
-    if (!flow.source.estimatedFrom?.endsWith(note))
+    const note = `${OUTSIDE_NOTE}${own.followed}.`;
+    if (!flow.source.estimatedFrom?.endsWith(note)) {
+      // One note: a later sector or state replaces the one before, never stacks beside it.
+      const was = flow.source.estimatedFrom ?? "";
+      const cut = was.indexOf(OUTSIDE_NOTE);
+      const kept = (cut < 0 ? was : was.slice(0, cut)).trimEnd();
       flow.source = {
         ...flow.source,
-        estimatedFrom: flow.source.estimatedFrom
-          ? `${flow.source.estimatedFrom} ${note}`
-          : note,
+        estimatedFrom: kept ? `${kept} ${note}` : note,
       };
+    }
     const raw = bases.get(flow.id)! * own.factor * limitOf(core, flow.payeeId);
     flow.amountMinor = Math.round(raw * shareOfFlow(core, flow.id));
     changed += 1;
