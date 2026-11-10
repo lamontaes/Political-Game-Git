@@ -24,7 +24,10 @@ const ATTEMPTS = 4;
 const SAYS: Readonly<Record<string, RegExp>> = {
   // The plain arc says the problem; a variant (a layoff, pay under the floor)
   // says the same problem in its own words.
-  "looking-for-work": /work|job|laid off|hiring|position|résumé/,
+  // The layoff variant: "{employer} let me go a month ago. I've put in
+  // applications every week since, and nobody has called back."
+  "looking-for-work":
+    /work|job|laid off|let me go|applications|hiring|position|résumé/,
   "paid-under-minimum-wage": /minimum|wage|an hour|check|paid/,
 };
 
