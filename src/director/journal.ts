@@ -1607,14 +1607,21 @@ export function composeJournal(
     }
     // The event told as a small story: each field the row names follows it,
     // when the record gives the facts that field's sentences name.
-    for (const field of row.follow ?? []) {
-      const told = render(
-        { part: "memoir", field: field as MemoirField },
-        facts,
-        `${moment.id}:${field}`,
-        sourceIds,
-      );
-      if (told) parts.push(told);
+    // A field may name alternatives ("a|b|c"): the first that the facts let
+    // be worded is told, so one sentence that names two facts is not followed
+    // by two that name the same person again.
+    for (const named of row.follow ?? []) {
+      for (const field of named.split("|")) {
+        const told = render(
+          { part: "memoir", field: field as MemoirField },
+          facts,
+          `${moment.id}:${field}`,
+          sourceIds,
+        );
+        if (!told) continue;
+        parts.push(told);
+        break;
+      }
     }
     // Looking back: a moment whose weight grew with the people in it, when
     // life went on after it.
