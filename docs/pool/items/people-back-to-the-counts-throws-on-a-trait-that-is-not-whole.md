@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: cto
 source: Fable, Nov 10, 2026, measured on main and on the country tier branch while probing the fast clock
 ---
 
