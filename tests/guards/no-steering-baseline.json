@@ -152,7 +152,7 @@
       "lines": "143, 544, 729-784",
       "shape": "fixed rate",
       "owner": "Lives",
-      "what": "the destination fit refits migration totals to the ACS; departure rates are the survey's"
+      "what": "the destination fit matches migration totals to the ACS once, at the opening, and is kept; departure rates are the survey's"
     },
     {
       "file": "src/core2/modules/medical-bills.ts",

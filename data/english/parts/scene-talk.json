@@ -45141,7 +45141,25 @@
           "role": "asker",
           "purpose": "new-baby",
           "key": "honor",
-          "after": "request"
+          "after": "scene-talk.reply-request.could-you-hold-kid-for-an-hour-so-i-can-sleep"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "scene-talk.reply-request.hold-on-to-kid-for-an-hour-i-need-to-sleep"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "scene-talk.reply-request.would-you-keep-kid-for-an-hour-so-i-can-nap"
         }
       ],
       "bearing": "glad",
@@ -56538,7 +56556,7 @@
       "key": "scene-talk.close-accept.then-i-ll-put-the-groceries-away-and-get-out-of-your-hair",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Then I'll put the groceries away and get out of your hair.",
+      "text": "Then I'll get out of your hair.",
       "uses": [
         {
           "subject": "scene",
@@ -60571,7 +60589,25 @@
           "role": "asker",
           "purpose": "new-baby",
           "key": "honor",
-          "after": "request"
+          "after": "scene-talk.reply-request.could-you-hold-kid-for-an-hour-so-i-can-sleep"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "scene-talk.reply-request.hold-on-to-kid-for-an-hour-i-need-to-sleep"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "scene-talk.reply-request.would-you-keep-kid-for-an-hour-so-i-can-nap"
         }
       ],
       "bearing": "glad",
@@ -113295,7 +113331,7 @@
       "key": "scene-talk.reply-promise.i-m-not-done-with-this-town",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'm not done with this town.",
+      "text": "I'm not done with {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -113303,7 +113339,8 @@
           "move": "promise",
           "role": "asked",
           "purpose": "morning-after",
-          "key": "honor"
+          "key": "honor",
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "braced",
@@ -178513,7 +178550,7 @@
       "key": "scene-talk.state-tell.i-read-that-what-they-decided-on-story-is-in-now-i-keep-wondering-what",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I read that what they decided on {story} is in now. I keep wondering what it means for us.",
+      "text": "I read that the change on {story} is in now. I keep wondering what it means for us.",
       "uses": [
         {
           "subject": "scene",
@@ -178588,7 +178625,7 @@
       "key": "scene-talk.state-tell.i-read-in-outlet-that-what-they-decided-on-story-has-taken-effect-i-ca",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "I read in {outlet} that what they decided on {story} has taken effect. I can't tell if that's good news.",
+      "text": "I read in {outlet} that the change on {story} has taken effect. I can't tell if that's good news.",
       "uses": [
         {
           "subject": "scene",
@@ -187871,7 +187908,7 @@
       "key": "scene-talk.state-request.will-you-talk-to-child-yourself-first-they-were-in-the-room-when-you-fell-ill",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you talk to {child} yourself, {first}? They were in the room when you fell ill.",
+      "text": "The youngest in the house, {child}, was in the room when you fell ill. Will you talk to them yourself, {first}?",
       "uses": [
         {
           "subject": "scene",
@@ -189529,7 +189566,7 @@
       "key": "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I believe you're sorry, {first}. I just need to see that it counts for something.",
+      "text": "I just need to see that it counts for something, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -189550,7 +189587,7 @@
       "key": "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Sorry helps, {first}. I'd like to know how you'll make sure it doesn't happen again.",
+      "text": "I'd like to know how you'll make sure it doesn't happen again, {first}.",
       "uses": [
         {
           "subject": "scene",
