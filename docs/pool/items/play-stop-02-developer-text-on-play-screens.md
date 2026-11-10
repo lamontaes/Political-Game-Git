@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
 pr:
 after:
 blocked-on:
@@ -17,8 +17,9 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T22:59:53.623Z
 checked: fable 2026-11-10
+branch: claude/pool-play-stop-02-developer-text-on-play-screens
 ---
 
 **What.** Playing the v0.22.10 release, developer text reached the player on at least eight screens: a Mark gap button in every talk box, News lines such as "REGION · 2025-01 unemploymentPct 4.4" and "Press.archived", Politics rows such as "in office at the opening" and "Views fit 0.91", the filing panel's "FILING-DEADLINE 2025-02-08 / 2026-08-17", and the clerk saying "on-ballot". Both children of this item are done. Mark gap now joins the talk box only in dev mode, statuses read through control names, and src/bench/plain-text.browser.mjs checks News, Politics, the filing panel and the talk box. What is left is a second session's replay of the finish line.
@@ -42,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** The four screens, from a drawn place, with the place and seed under them.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:54, 15:57, 16:02, 16:03, 16:04, 16:05; screenshots 14, 24, 31, 39, 44, 46, 48. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2. Split Oct 24 into play-stop-02-developer-text-on-play-screens-a and play-stop-02-developer-text-on-play-screens-b, each four hours or less; the CTO sets this item done when the last part is done.
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:59 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
