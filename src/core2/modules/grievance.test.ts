@@ -128,11 +128,18 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
   expect(layoffs.length, `${where}: layoff rows`).toBe(
     laidOff.filter(fullLayoff).length,
   );
-  expect(counted("layoff"), `${where}: layoff counts`).toBe(countedHeads);
+  // Counted heads are weights (a county record can stand for a fraction of a
+  // household), summed here in two orders, so the sums agree to the last
+  // digits a float keeps, not bit for bit (Paris, Tennessee, seed
+  // 7203ffd0b6da0794: 16.072499999999998 against 16.0725).
+  expect(counted("layoff"), `${where}: layoff counts`).toBeCloseTo(
+    countedHeads,
+    6,
+  );
   expect(
     evictions.length + counted("eviction"),
     `${where}: eviction rows and counts`,
-  ).toBe(removed.length);
+  ).toBeCloseTo(removed.length, 6);
   expect(
     laidOff.length + removed.length,
     `${where}: no layoff or eviction in a year`,
