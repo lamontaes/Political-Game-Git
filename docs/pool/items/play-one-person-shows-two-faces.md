@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-play-one-person-shows-two-faces
-pr:
+pr: #8330
 after:
 blocked-on:
 standard: 2
