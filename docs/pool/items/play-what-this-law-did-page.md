@@ -23,7 +23,7 @@ checked: fable 2026-11-10
 
 **Cause.** Found in code: `lawPage` in src/bench/play.mjs (line 5065) reads no reach record; the only place that counts who a law reached is `reach` in src/bench/dev-mode.ts (line 618), which reads the law-reach and raise records that name the law, and names a full person for 9 of the audit's 147 state laws (stopgap SG-PLAY-dev-law-reach-full-only).
 
-**Fix.** Add a "what this did" section to the one law page, read from the same law-reach and journal-payment records, per person for full people and by count for counted groups, in dollars, with a repeal shown the same way (what stopped, for whom, how much). Build it on the page that play-issues-law-page-and-what-shows redraws and agree the layout with whoever holds that item. Also delete `lawEffects` from the person card's data (src/bench/card.ts, line 190, built from `reachOn`): no screen reads it since the old Law here panel was removed, and this section replaces it.
+**Fix.** Add a "what this did" section to the one law page, read from the same law-reach and journal-payment records, per person for full people and by count for counted groups, in dollars, with a repeal shown the same way (what stopped, for whom, how much). Build it on the page that play-issues-law-page-and-what-shows redraws and agree the layout with whoever holds that item. Leave `lawEffects` in the person card's data (src/bench/card.ts, line 190) alone: no screen reads it today, and gov-m3-04-person-card-law-effects is the item that makes the card a click opens show it.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

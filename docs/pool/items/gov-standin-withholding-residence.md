@@ -16,13 +16,14 @@ lead: governing
 root: rc9-place-facts-one-default
 source: split from gov-standins-other (Oct 19, 2026); rows SG-WORLD-withholding-residence-law, SG-WORLD-withholding-local-base, SG-WORLD-withholding-nonresident-local
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Withholding for a worker who lives outside the town does not read the residence state's law, and a local flat tax is taken on gross pay with no exemptions. Replace these so each paycheck withholds under the worker's residence law and the working town's own local tax, using exemptions and adjustments from the law rows and the worker's records. The worker's take-home pay then changes with where they live. The nonresident local tax row (SG-WORLD-withholding-nonresident-local) belongs to world-withholding-nonresident-local.
 
-**Cause.** Found in code: src/core2/modules/budgets.ts lines 1732-1743 (SG-WORLD-withholding-residence-law) and line 1848 (SG-WORLD-withholding-local-base) are open in src/core2/data/stopgaps/world.json.
+**Cause.** Found in code: src/core2/modules/budgets.ts raises the stopgap SG-WORLD-withholding-local-base (the marker near line 1848, row open in src/core2/data/stopgaps/world.json) whenever a paycheck has a county, township or city line: the local tax is withheld on the same base as the state's, without the local law's own exemptions and adjustments. The other stopgap this item once named, SG-WORLD-withholding-residence-law, is no longer its work: laws-other-places-chains-part-1-record-chains proves that reader and laws-other-places-chains-part-3-close-stopgap closes it.
 
-**Fix.** Withhold each paycheck under the worker's residence law and the working town's local tax, using the law rows' exemptions and adjustments, so take-home pay changes with where the worker lives. Leave the nonresident row to world-withholding-nonresident-local.
+**Fix.** Withhold the working town's local tax on its own base, using the local law rows' exemptions and adjustments, so take-home pay changes with the town a person works in, and resolve SG-WORLD-withholding-local-base. Leave the residence law to the laws-other-places-chains parts and the nonresident row to world-withholding-nonresident-local.
 
 **Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 

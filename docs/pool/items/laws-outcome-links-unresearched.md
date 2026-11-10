@@ -17,6 +17,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** One law still moves no outcome-web measure because no researched link starts from it: local-minimum-wage-authority (outcome: local minimum wage adoption), the only row left in src/core2/data/laws/outcome-research-gaps.json. The list held 27 laws when this item was filed. Research the link's strength, shape and lag from the literature, add it to data/research/outcome-web/links.json, build it in the outcome web, remove the row from the gap file and close stopgap SG-LAW-outcome-link-unresearched.

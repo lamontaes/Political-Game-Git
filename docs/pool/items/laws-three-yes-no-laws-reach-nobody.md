@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** Three yes-or-no laws can be introduced, passed and signed in Congress, and nothing in the game acts on them: forgiving student loans, banning congressional stock trading and statehood for the District of Columbia. Read in code: the audit found no part of the game that names them, and main agrees, since all three sit in the registered stopgap SG-LAWS-federal-position-no-reader ("no engine reads the law, so enacting one moves no money, person or place"). Measured in the law sweep in Marion, Mississippi (seed 7df73e53cd67), 180 days after each passed, against a twin world with no bill: the stock trading and statehood bills showed only their rider's change, and the student loan bill carried a different rider and its result matched, to the dollar, another bill carrying that rider, so the audit infers it added nothing of its own. Give each law a reader in the engine that already owns the thing it changes, for full people and counted households alike: a student loan balance on household books that forgiveness clears and whose payments stop, a rule on what members of Congress may hold or trade that their own money decisions read, and for statehood the change in who represents the District. A law the simulation cannot yet act on is taken off the list of bills a member can draft until it can, with its reason registered, so no player passes a law that does nothing.

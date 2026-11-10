@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: laws lead, Oct 26
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The law checker's money cell names drift when a law pays or stops a payment months after it reaches someone. Among the payments that changed for those a law's records name, `ownPayments` picks the change nearest the day the law reached them, so a law that acts after a delay loses to drift. In the health and schools family's year runs the assistance work requirement stops SNAP only after a person's three months of benefit, so the cell named a move between a person's cash and their bank deposit instead: person_f1e981e7794173ed in Prescott, Michigan (seed a91c03e7d2b84f10), $9.26 apart on April 1, 2025 (`journal:2025-04-01:16450`), while the law's own stop was person_8ff861de2f15d13f on April 21, 2025 (`journal:2025-04-21:23538`). The grade is right; the evidence it names is not. The same drift picks a law that held no money: rent stabilization reaches leases in three drawn towns, every applied row records 0 saved, and the checker names rent transfers 4 to 13 minor units apart.
