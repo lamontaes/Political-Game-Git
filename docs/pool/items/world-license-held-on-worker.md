@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** No person record carries an occupational license, so a repeal of a license has nothing to change in a match. Derive a held-license fact for each worker in a licensed occupation from their schooling record and job history, by the same rule for full and counted people, using the licensed shares by occupation and state. The jobs engine can then read the license when it matches a seeker, which world-licensing-reform-jobs needs.

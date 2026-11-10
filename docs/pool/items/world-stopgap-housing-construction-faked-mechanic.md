@@ -17,6 +17,8 @@ root: design-one-model-two-tiers
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-construction.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T23:08:37.700Z
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** New houses sell only to full renter households, and counted renters and households moving in never buy one, so unsold houses pile up. A counted renter's rent is part of a merged group flow and a counted mortgage is the same shape, so a counted buy needs the group's down payment drawn from its fund, the rent part ended, a mortgage part added and a dwelling record for the group. That counted-tier step is the item world-counted-renters-buy. Let counted renters and arriving households buy new houses under the full-household affordability rule, using that mechanic, and clear the row.

@@ -17,6 +17,8 @@ standard: 2
 model: opus
 effort: high
 root: none
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** The candidacy weights (stopgap `SG-P15-candidacy-weights`, the pull of each recorded reason to run and of staying out) give a spread of 0.5 to 4.0 candidates per contest between towns, and nobody has explained it. Measured Oct 20 (`buildBenchWorld` two-level, three places drawn by seeds c1 to c3, 730 days, on-ballot filings per contest whose deadline passed): Tupelo, Arkansas (0570340) county contests 0.50, Reidville, South Carolina (4559425) 1.38, Warrenville, Illinois (1778929) city contests 4.00. Half of Tupelo's county contests drew no one. The Nov 8 ruling (ranges are not targets; candidates run because they want to) means the weights cannot be tuned to a band, so the spread needs a cause before the row can close.

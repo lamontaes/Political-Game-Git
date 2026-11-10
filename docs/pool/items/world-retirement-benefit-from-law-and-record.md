@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 milestone:
 source: Split from world-stopgap-retirement-claims-program-stand-in by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** Awards in `claim` (src/core2/modules/retirement-claims.ts) are a participant average scaled by modeled covered months. Replace the size with the law's formula: put the benefit formula in the law rows (the bend points and the 90, 32 and 15 percent rates of the primary insurance amount, the annual indexing, the reduction for claiming before full retirement age and the credit for delay, the cost-of-living adjustment) so that a Social Security bill changes them, compute the average indexed monthly earnings from the person's covered-earnings record (world-social-security-earnings-record), and make the monthly payment follow the person's claim age from `social-security-law.ts`. Ongoing awards re-rate when the law's cost-of-living row changes. Delete the participant-average benefit parameters and the SG-CORE-retirement-claims-in-play marker. Spouse, survivor and earnings-test benefits are not built: the owner's baseline lists no such step, so the PR body asks whether to add them.

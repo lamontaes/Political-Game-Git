@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** `src/director/electoral-scenes.test.ts` (the filing and campaign stop) runs past 20 minutes in some drawn places: GOLDEN_PATH_SEED=fs1 exceeds 1,200 seconds on clean main. What the test spends the time on has not been measured.

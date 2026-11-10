@@ -17,6 +17,7 @@ effort: high
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** An official can divert a budget line's money, recorded on the treasury's books. The work was built on branch claude/gov-treasury-diversion and sent back eight times between Oct 16 and Oct 23; it never merged, and its table has no reader on main. No design in the repository asks for it. Decide whether it is wanted before anyone builds on the old branch.

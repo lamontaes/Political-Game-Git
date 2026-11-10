@@ -16,6 +16,7 @@ after:
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/law-wiring-health-schools.test.ts fails on claude/laws-medical-debt in Washington, District of Columbia (place 1150000, world seed 8fdeb9c810da431dc732125ca831a2eb26d83964c837f651b04fcbf24b8463bf; pin it with GOLDEN_PATH_PLACE_KEY=1150000 GOLDEN_PATH_WORLD_SEED=8fdeb9c810da431dc732125ca831a2eb26d83964c837f651b04fcbf24b8463bf): "us-policy-positions:health-human-services.medicaid-work-requirement: no applied record". The requirement reached adults (the town passed the opening check), but no medical bill after the day it took effect has a member whose coverage it ended, priced at their own plan's share (requirementMinor above zero) and paid by journal entry, so the test finds no applied row to tie the requirement's money to. It fails the same way with the Nov 1 coverage change (Medicaid is no employer plan, ffe7741278) taken out, so that change is not the cause.
