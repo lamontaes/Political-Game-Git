@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-laws-end-to-end-proof
-pr:
+pr: #8260
 after:
 blocked-on: words-law-effect-learned-journal
 lead: laws
