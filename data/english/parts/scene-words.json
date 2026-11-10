@@ -6193,6 +6193,46 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
       "date": "2026-11-10"
+    },
+    {
+      "move": "opening-farewell-farewell",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-farewell-farewell",
+          "subject": "opening",
+          "role": "farewell",
+          "choice": "farewell"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-farewell-farewell.who-is-here-to-say-goodbye",
+      "text": "{who} is here to say goodbye.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 3)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "opening-farewell-farewell",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-farewell-farewell",
+          "subject": "opening",
+          "role": "farewell",
+          "choice": "farewell"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-farewell-farewell.who-came-to-say-goodbye",
+      "text": "{who} came to say goodbye.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 3)",
+      "date": "2026-11-10"
     }
   ]
 }
