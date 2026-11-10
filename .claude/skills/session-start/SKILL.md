@@ -1,7 +1,7 @@
 ---
 name: session-start
 description: >
-  What a building session of Our Civic Duty checks before it starts and before
+  What a building session of the game checks before it starts and before
   it marks a pull request ready: the opening reads, the red-main rule and the
   self-check. The loop itself (taking the next item, building, handing off) is
   docs/pool/START-A-BUILDER.md. Use first in every building session, cloud or
