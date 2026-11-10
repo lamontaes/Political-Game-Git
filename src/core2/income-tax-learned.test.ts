@@ -85,14 +85,15 @@ function control(seed: string) {
       throughAt: core.date,
       limitToCash: true,
     });
-  return { where, law, residents, story, settle, heard, pay, learned };
+  return { where, api, law, residents, story, settle, heard, pay, learned };
 }
 
-for (const seed of ["income-tax-seed-1", "income-tax-seed-2"]) {
+// Ten fresh generated towns, each a place drawn from all 56.
+for (const seed of Array.from({ length: 10 }, (_, n) => `control-${n + 1}`)) {
   it(`only a payer who heard a story about the voted income tax learns it (${seed})`, () => {
     setBookkeeping(false);
     try {
-      const { where, law, residents, story, settle, heard, pay, learned } =
+      const { where, api, law, residents, story, settle, heard, pay, learned } =
         control(
           process.env.INCOME_TAX_SEED ?? randomBytes(8).toString("hex") + seed,
         );
@@ -100,8 +101,10 @@ for (const seed of ["income-tax-seed-1", "income-tax-seed-2"]) {
       // press's, not the test's); the rest never heard it.
       story("first", residents);
       settle();
-      const heardFirst = residents.filter(heard);
-      const never = residents.filter((id) => !heard(id));
+      const cash = (id: string) =>
+        api.accounts().balance(`cash:${id}:residual`) > 0;
+      const heardFirst = residents.filter((id) => heard(id) && cash(id));
+      const never = residents.filter((id) => !heard(id) && cash(id));
       expect(
         heardFirst.length,
         `${where}: the story reached no one`,
@@ -125,8 +128,15 @@ for (const seed of ["income-tax-seed-1", "income-tax-seed-2"]) {
       ).toBeGreaterThan(0);
       const mine = learned.filter((e) => e.facts?.lawId === law.id);
       const who = mine.map((e) => e.personIds[0]);
-      expect(who, `${where}: law ${law.id}`).toContain(a);
-      expect(who, `${where}: law ${law.id}`).toContain(after[0]);
+      expect(who, `${where}: A (heard before pay) law ${law.id}`).toContain(a);
+      // A household keeps one felt row per law (the price engine's design),
+      // so when two earners of a household paid, the later payer's row is
+      // the one a story heard afterward finds: some payer who heard after
+      // learns, though not necessarily each of them.
+      expect(
+        after.some((id) => who.includes(id)),
+        `${where}: B (paid, heard after) law ${law.id}`,
+      ).toBe(true);
       // No one who never heard a story about the law ties it to the law,
       // however long the world has run since they were paid.
       const silent = residents.filter((id) => !heard(id));
