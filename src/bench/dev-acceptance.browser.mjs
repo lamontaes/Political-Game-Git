@@ -164,10 +164,16 @@ try {
   }, result.billId);
   assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
   const openPaper = async () => {
+    // The list's order moves as bills come and go: find the bill's place each time.
+    const at = await page.evaluate(async (id) => {
+      const list = await (await fetch("/api/bills/following")).json();
+      return list.findIndex((item) => item.id === id);
+    }, result.billId);
+    assert.ok(at >= 0, "the Bills tab still follows the bill");
     await page
       .locator("#sheet-body")
       .getByRole("button", { name: "Read the bill" })
-      .nth(place)
+      .nth(at)
       .click();
     await page.locator('[data-testid="dev-bill-ending"]').waitFor();
   };
@@ -216,23 +222,22 @@ try {
     return r.json();
   });
   console.log("ran:", days.from, "to", days.to);
-  // Redraw the page: back to the Bills tab and into the paper again.
-  await page
-    .locator('#rings [data-tab="politics"]')
-    .first()
-    .evaluate((e) => e.click());
-  await page.waitForTimeout(500);
-  if (!(await page.locator('[data-testid="dev-bill-ending"]').count())) {
+  // Redraw the page: the Bills tab again (opening Politics first if the sheet closed), then the paper.
+  const billsTab = page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Bills", exact: true });
+  if (!(await billsTab.isVisible().catch(() => false)))
     await page
       .locator('#rings [data-tab="politics"]')
       .first()
       .evaluate((e) => e.click());
-    await page
-      .locator("#sheet-tabs")
-      .getByRole("button", { name: "Bills", exact: true })
-      .click();
-    await openPaper();
-  }
+  await billsTab.click();
+  await page
+    .locator("#sheet-body")
+    .getByRole("button", { name: "Read the bill" })
+    .first()
+    .waitFor();
+  await openPaper();
   const reach = await read("dev-bill-reach");
   const sides = await read("dev-bill-reach-side");
   const people = await read("dev-bill-reach-person");
