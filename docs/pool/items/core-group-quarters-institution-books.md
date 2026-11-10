@@ -22,7 +22,7 @@ root: design-one-model-two-tiers
 
 **Cause.** Found in code: src/core2/population.ts line 1375 (stopgap("SG-GQ-institution-costs"), an institutional room gets zero monthly cost) and line 374 (SG-GQ-military-pay, military residents are outside the civilian labor force with no payer, see opening-employment.ts and jobs.ts).
 
-**Fix.** Read each type's rate from a sourced table (college room and board, state prison cost per inmate, nursing-home daily rate, military basic pay by rank). A college and a nursing home bill their rooms' residents or Medicaid, a prison is paid by its government's budget, and an outside armed-forces payer pays military residents. Run it monthly by room counts (rooms times rate), never per resident per day. Delete both markers and resolve both rows.
+**Fix.** Reuse the money paths that exist; add no payment, billing or ledger path of its own. Read each type's rate from a sourced table (college room and board, state prison cost per inmate, nursing-home daily rate, military basic pay by rank). Every payment is a `transfer` (or `transferSplit`) in src/core2/accounts.ts between the payer's and the payee's accounts, on the dates the accounts' own due calendar gives (`nextDue`): a college and a nursing home bill their rooms' residents or the one benefit payer's Medicaid; a prison is paid from its government's treasury through the budget lines in src/core2/budgets-treasury.ts; military residents are paid through the public payroll in src/core2/public-payroll.ts (`startPublicJob`) with withholding taken as for any public employee. Run it monthly by room counts (rooms times rate), never per resident per day. Delete both markers and resolve both rows.
 
 **Time box.** 8 hours for an Opus session.
 
