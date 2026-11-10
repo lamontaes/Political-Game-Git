@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/business.test.ts fails on clean main (Oct 28, 17:30 UTC) in the case "an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", with "expected 0 to be greater than 0". Something the founded restaurant should receive, its share of purchases or its loan, is zero. The laws session found it while checking its own change and did not change the business engine. Nobody has said which of the two is zero or why. Guards: the business test on main, which is red, and the new restaurant's customers and loan.
+**What.** src/core2/business.test.ts fails on clean main (Oct 28, 17:30 UTC) in the case "an enterprising adult founds a restaurant; it wins an equal share of the households' purchases and a startup loan; money balances", with "expected 0 to be greater than 0". Something the founded restaurant should receive, its share of purchases or its loan, is zero. The laws session found it while checking its own change and did not change the business engine. Nobody has said which of the two is zero or why. Guards: a new restaurant's customers and startup loan in the town's business list, which the business test keeps working.
 
 **Cause.** Needs cause. Looked at the item only: src/core2/business.test.ts and src/core2/modules/business.ts exist, and the failing assertion is a greater-than-zero check on the founded restaurant's share of purchases or its startup loan; neither value was read at the failure.
 
