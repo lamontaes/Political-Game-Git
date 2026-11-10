@@ -26,7 +26,7 @@ source: added with npm run pool -- add
 
 **Time box.** 2 hours
 
-**Rules.** Rules, checks and skills merge first (owner, Nov 10): this changes the pool tool every builder uses, so it goes ahead of other work. Never build an item that says Needs cause (owner, Nov 10): the flag is what makes that hold after a release.
+**Rules.** Replace, never layer: the flag replaces the hand rewrite of an item's Cause on main that builders do today, and START-A-BUILDER names only the flag. Rules, checks and skills merge first (owner, Nov 10): this changes the pool tool every builder uses, so it goes ahead of other work. Never build an item that says Needs cause (owner, Nov 10): the flag is what makes that hold after a release.
 
 **Done when.** A second session runs npx vitest run scripts/pool/next.test.ts and sees the new case pass, then in a scratch checkout claims an open item, releases it with --needs-cause and a reason, and sees next offer a different item and the released item's Cause begin with Needs cause. This is the pool tool: nothing is drawn in the game and no place is involved.
 
