@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files
-pr:
+pr: #8248
 after:
 blocked-on:
 lead: cto

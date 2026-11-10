@@ -1115,7 +1115,7 @@ Not built until Fable finds the fix (owner, Nov 10).
 
 | id | title | area | lead | kind | priority | size | claimed-by | pr | blocked-on |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| [docs-stale-2026-10-23-audit-part-1-archive-ended-files](items/docs-stale-2026-10-23-audit-part-1-archive-ended-files.md) | Archive the ended session and handoff files | docs | cto | cleanup | 1 | M | claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files |  |  |
+| [docs-stale-2026-10-23-audit-part-1-archive-ended-files](items/docs-stale-2026-10-23-audit-part-1-archive-ended-files.md) | Archive the ended session and handoff files | docs | cto | cleanup | 1 | M | claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files | #8248 |  |
 | [words-machine-part-1-tests-for-rules-that-judge-one-line](items/words-machine-part-1-tests-for-rules-that-judge-one-line.md) | The words machine, part 1: every rule that judges a single line gets its test and starts pulling lines | words | words | feature | 1 | M | claude/fable-b3-line-rule-tests |  |  |
 | [words-machine-part-6-one-line-spots-ranked-for-story](items/words-machine-part-6-one-line-spots-ranked-for-story.md) | The words machine, part 6: the spots with a single line, listed by how often a player meets them | words | words | research | 1 | S | claude/fable-b2-one-line-spots |  |  |
 | [words-machine-part-2-tests-for-rules-that-judge-a-piece-in-its-spot](items/words-machine-part-2-tests-for-rules-that-judge-a-piece-in-its-spot.md) | The words machine, part 2: rules that depend on who is speaking, to whom and about what get their tests | words | words | feature | 1 | M | claude/fable-b3-spot-rule-tests |  |  |
