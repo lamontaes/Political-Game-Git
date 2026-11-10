@@ -40,6 +40,8 @@ import {
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
 import { countryLaw, startingLawReader } from "../country-law";
 import {
+  countryMoney,
+  countryPeople,
   countryProblems,
   countryRules,
   countryStateFigures,
@@ -198,13 +200,13 @@ function rulesOf(api: CoreAPI): CountryRules {
   return rules;
 }
 
-/** The law in force in every state today, read through the laws module where the world has one, else from the starting law. */
-function lawNow(api: CoreAPI) {
+/** The law in force in every state on a day (today unless one is given), read through the laws module where the world has one, else from the starting law. */
+function lawNow(api: CoreAPI, date: string = api.state.date) {
   const read = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
     ? (stateKey: string, series: string) =>
-        stateLawInForce(api, stateKey, series)
-    : startingLawReader(api.state.date);
-  return countryLaw(read, params(api), api.state.date);
+        stateLawInForce(api, stateKey, series, date)
+    : startingLawReader(date);
+  return countryLaw(read, params(api), date);
 }
 
 /** The country tier as the tables keep it: one row for the nation's accounts, one for each state. A copy, so a month can change it. */
@@ -792,6 +794,176 @@ export function macroCoreData(base: CoreData = DEFAULT_DATA): CoreData {
       ...JOBS_PARAMETERS,
     },
   });
+}
+
+/** One year's end in the outlook: the nation's figures, or one state's. */
+export interface OutlookPoint {
+  month: string;
+  unemploymentPct: number;
+  people: number;
+  hourlyPay: number;
+}
+export interface CountryOutlook {
+  /** The month the outlook starts from: the latest month the game has lived. */
+  from: string;
+  months: number;
+  /** The nation at the start and at each year's end, with its prices and the board's rate. */
+  nation: (OutlookPoint & {
+    inflationPct: number;
+    policyRatePct: number;
+    /** Payroll jobs in thousands, as the national month keeps them. */
+    jobsThousands: number;
+  })[];
+  /** Each state at the start and at each year's end, by postal code, with its jobs and its budget for the year. */
+  states: Record<
+    string,
+    (OutlookPoint & { jobs: number; budgetYear: number })[]
+  >;
+  /** Months in which some count could not be (more at work than people, a negative count), and the first few. */
+  monthsWithProblems: number;
+  problems: string[];
+  /** The most the country's dollars strayed from their sum at the start, as a share: zero but for rounding. */
+  moneyDrift: number;
+}
+
+const OUTLOOK_PROBLEMS_KEPT = 8;
+
+/**
+ * The country some years on if nothing else changes: a copy of every state's counts, stepped by
+ * the same month the game steps (`stepCountry`, `countryMacroMonth`) under the law in force
+ * today, with today's board meeting on its own calendar and each member voting by the rule they
+ * vote by in play. Read-only: it writes no record and moves no date, so it is what the tier
+ * would do, not what the town will (the town's own people are not in it).
+ */
+export function countryOutlook(api: CoreAPI, months: number): CountryOutlook {
+  const p = params(api),
+    core = api.state as CoreState;
+  const state = readState(api);
+  if (!state) throw new Error("The national economy has not opened yet.");
+  const table = store(api).table("months");
+  const lived = (month: string) =>
+    table.get(`macro-month:${month}`) as unknown as MacroMonth | undefined;
+  const opening = lived(state.openingMonth)!;
+  const tier = readCountry(api);
+  const rules = rulesOf(api);
+  const members = store(api)
+    .table("members")
+    .query("all", [true]) as unknown as BoardMember[];
+  const made = new Map<string, MacroMonth>();
+  const hundred = p("macroHundred"),
+    year = p("macroMonthsPerYear");
+  let previous = lived(state.latestMonth)!;
+  let rate = state.policyRatePct;
+  // A decision takes effect some days after its meeting; the month that starts on or after that day is stepped at the new rate.
+  let pending: { at: string; rate: number } | undefined;
+  let meeting = nextMeetingDate(core.date);
+  const nationPoint = (row: MacroMonth) => ({
+    month: row.month,
+    unemploymentPct: row.unemploymentPct,
+    inflationPct: row.inflationPct,
+    policyRatePct: rate,
+    people: tier.states.reduce((sum, own) => sum + countryPeople(own), 0),
+    jobsThousands: row.payrollJobsThousands,
+    hourlyPay: row.hourlyEarnings,
+  });
+  const statePoint = (own: CountryState, month: string) => {
+    const now = countryStateFigures(own, rules);
+    return {
+      month,
+      unemploymentPct: now.unemploymentPct,
+      people: now.population,
+      jobs: now.jobs,
+      hourlyPay: now.hourlyPay,
+      budgetYear: own.ledger.budgetYear,
+    };
+  };
+  const out: CountryOutlook = {
+    from: previous.month,
+    months,
+    nation: [nationPoint(previous)],
+    states: Object.fromEntries(
+      tier.states.map((own) => [own.usps, [statePoint(own, previous.month)]]),
+    ),
+    monthsWithProblems: 0,
+    problems: [],
+    moneyDrift: 0,
+  };
+  // The board meets on its calendar and votes on the month it has just read.
+  const meetIn = (row: MacroMonth) => {
+    while (monthKey(meeting) === row.month) {
+      if (pending) {
+        rate = pending.rate;
+        pending = undefined;
+      }
+      const readings = meetingReadings(row, rate, p);
+      const options = rateOptions(rate, p);
+      const seated = votersOn(meeting, members);
+      const moves = (seated.length ? seated : members).map((member) =>
+        moveOfTarget(
+          chooseAct(
+            core,
+            member.personId,
+            rateOffers(
+              memberView(member, readings, p),
+              options,
+              `outlook:${meeting}`,
+              p,
+            ),
+          ).selected!.targetId,
+        ),
+      );
+      const move = moves.length ? committeeDecision(moves) : p("zero");
+      pending = {
+        at: addDays(makeIsoDate(meeting), BOARD.effectiveDaysAfterDecision),
+        rate: rate + move,
+      };
+      meeting = nextMeetingDate(meeting);
+    }
+  };
+  // A meeting still to come this month reads the month the game has already lived.
+  meetIn(previous);
+  const dollars = countryMoney(tier);
+  for (let step = 1; step <= months; step += 1) {
+    const month = shiftMonth(previous.month, p("one"), p);
+    if (pending && pending.at <= `${month}-01`) {
+      rate = pending.rate;
+      pending = undefined;
+    }
+    // The law already on the books for that month: a change enacted with a later date arrives on its date.
+    const nation = stepCountry(
+      tier,
+      { law: lawNow(api, `${month}-01`), policyRate: rate / hundred },
+      rules,
+    );
+    const found = countryProblems(tier);
+    if (found.length) {
+      out.monthsWithProblems += 1;
+      if (out.problems.length < OUTLOOK_PROBLEMS_KEPT)
+        out.problems.push(`${month}: ${found[0]}`);
+    }
+    out.moneyDrift = Math.max(
+      out.moneyDrift,
+      Math.abs(countryMoney(tier) - dollars) / Math.abs(dollars),
+    );
+    const earlier = shiftMonth(month, -year, p);
+    const row = countryMacroMonth(
+      previous,
+      { row: opening, nation: state.countryBase },
+      nationFigures(nation),
+      made.get(earlier) ?? lived(earlier),
+      rate,
+      p,
+    );
+    made.set(month, row);
+    previous = row;
+    meetIn(row);
+    if (step % year === 0) {
+      out.nation.push(nationPoint(row));
+      for (const own of tier.states)
+        out.states[own.usps]!.push(statePoint(own, month));
+    }
+  }
+  return out;
 }
 
 /** What the bench's national panel shows: each month against its band, each meeting with every vote's reasons. Read-only. */
