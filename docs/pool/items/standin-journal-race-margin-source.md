@@ -3,7 +3,7 @@ id: standin-journal-race-margin-source
 title: "Source the journal's close-race and wide-race margins from published margin-of-victory counts"
 area: director
 kind: research
-priority: 4
+priority: 3
 size: S
 status: open
 claimed-by:

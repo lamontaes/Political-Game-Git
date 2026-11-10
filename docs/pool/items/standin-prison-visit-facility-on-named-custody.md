@@ -3,7 +3,7 @@ id: standin-prison-visit-facility-on-named-custody
 title: "A named prisoner's custody row records the facility so the visit scene says the glass and the time only where that kind has them"
 area: words
 kind: wiring
-priority: 4
+priority: 3
 size: S
 status: open
 claimed-by:

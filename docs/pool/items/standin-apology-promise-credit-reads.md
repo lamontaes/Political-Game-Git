@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 source: stand-in triage Nov 10
 lead: effects

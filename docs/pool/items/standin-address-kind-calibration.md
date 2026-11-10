@@ -3,7 +3,7 @@ id: standin-address-kind-calibration
 title: "A governor's or mayor's address names a collapsing term's crisis over a long agenda, for any speaker"
 area: words
 kind: research
-priority: 4
+priority: 3
 size: S
 status: open
 claimed-by:
