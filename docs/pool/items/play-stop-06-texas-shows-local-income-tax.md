@@ -5,8 +5,8 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
+status: open
+claimed-by:
 pr: #6111
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-10T23:19:36.182Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-06-texas-shows-local-income-tax
 ---
@@ -61,3 +61,5 @@ Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): Replayed already (Anson TX and Fresno CA pass issues-levels.browser.mjs); pool seen refuses claimed items. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:19 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
+
+Released (2026-11-10): replay test passes on two seeds; needs a running-game session for pool seen, no code change. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
