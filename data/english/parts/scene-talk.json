@@ -194102,6 +194102,1810 @@
       "author": "Claude Sonnet (Story, new-baby purpose)",
       "date": "2026-11-09",
       "tag": { "move": "accept", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-news-about-deceased-and-wants-to-ask-you-something-once-you-have-heard-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has news about {deceased}, and wants to ask you something once you have heard it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death", "deceased"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-lived-with-deceased-and-has-come-to-tell-you-the-news-they-have-died",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} lived with {deceased} and has come to tell you the news: they have died.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death", "deceased", "lived-with"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-have-some-bad-news-first-deceased-has-died",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I have some bad news, {first}. {deceased} has died.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death", "deceased"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-d-rather-you-heard-it-from-me-first-deceased-died",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather you heard it from me, {first}. {deceased} died.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death", "deceased"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-call-the-rest-of-the-family-first-i-can-t-make-every-call-myself",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you call the rest of the family, {first}? I can't make every call myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-come-over-first-i-d-rather-not-sit-with-this-news-alone",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you come over, {first}? I'd rather not sit with this news alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.could-you-tell-deceased-s-friends-first-i-don-t-have-all-their-numbers",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Could you tell {deceased}'s friends, {first}? I don't have all their numbers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death", "deceased"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-help-me-work-out-what-to-do-next-first-i-don-t-know-where-to-begin",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you help me work out what to do next, {first}? I don't know where to begin.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-death"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-news-about-subject-who-has-someone-new-in-their-life-and-wants-to-ask-you-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has news about {subject}, who has someone new in their life, and wants to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-partnered", "subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-tells-you-that-subject-is-together-with-other-and-has-something-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} tells you that {subject} is together with {other}, and has something to ask you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-partnered", "subject", "other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-wanted-you-to-hear-this-from-me-first-subject-is-seeing-someone",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I wanted you to hear this from me, {first}. {subject} is seeing someone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-partnered", "subject"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-wanted-you-to-hear-this-from-me-first-subject-and-other-are-together",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I wanted you to hear this from me, {first}. {subject} and {other} are together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-partnered", "subject", "other"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-come-and-meet-other-first-it-would-mean-a-lot-to-subject",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you come and meet {other}, {first}? It would mean a lot to {subject}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-partnered", "subject", "other"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-keep-it-between-us-for-now-first-subject-wants-to-tell-people-in-their-own-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you keep it between us for now, {first}? {subject} wants to tell people in their own time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-partnered", "subject"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-tell-subject-you-re-happy-for-them-first-they-re-nervous-about-what-you-ll-say",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you tell {subject} you're happy for them, {first}? They're nervous about what you'll say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-partnered", "subject"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-news-about-subject-whose-relationship-has-ended-and-wants-to-ask-you-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has news about {subject}, whose relationship has ended, and wants to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-separated", "subject"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-tells-you-that-subject-and-other-have-split-up-and-has-something-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} tells you that {subject} and {other} have split up, and has something to ask you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-separated", "subject", "other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-didn-t-want-you-to-hear-this-secondhand-first-subject-and-other-have-split-up",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I didn't want you to hear this secondhand, {first}. {subject} and {other} have split up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-separated", "subject", "other"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-d-rather-you-heard-it-from-me-first-subject-s-relationship-is-over",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather you heard it from me, {first}. {subject}'s relationship is over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-separated", "subject"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-call-subject-first-i-think-they-d-like-to-hear-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you call {subject}, {first}? I think they'd like to hear from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-separated", "subject"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-stay-out-of-taking-sides-first-subject-needs-everyone-right-now-not-a-verdict",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you stay out of taking sides, {first}? {subject} needs everyone right now, not a verdict.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-separated", "subject"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-sit-with-subject-for-an-hour-this-week-first-nobody-should-be-alone-right-now",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you sit with {subject} for an hour this week, {first}? Nobody should be alone right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "requiresFacts": ["news-separated", "subject"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-of-course-i-ll-do-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, of course. I'll do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-telling-me-first",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, I'll do it. Thank you for telling me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-you-can-rely-on-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. You can rely on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-make-the-time",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'll make the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-thank-you-for-coming-to-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do it, I promise. Thank you for coming to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-need-most-from-me-right-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you need most from me right now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-ask.is-there-anything-i-should-know-before-i-say-yes",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Is there anything I should know before I say yes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-right-now-i-hope-you-understand",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm sorry, but I can't do that right now. I hope you understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I wish I could, but I can't. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-a-minute-with-the-news-and-then-i-ll-answer-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need a minute with the news, and then I'll answer you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-wasn-t-sure-who-else-to-ask",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I wasn't sure who else to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-that-takes-a-weight-off-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That takes a weight off me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-helps-more-than-i-can-say",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. That helps more than I can say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-m-relieved-you-said-yes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'm relieved you said yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-rely-on-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I count on that, {first}? I'd like to be able to rely on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-press.i-believe-you-first-do-you-know-when-you-ll-be-able-to-do-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I believe you, {first}. Do you know when you'll be able to do it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-you-can-manage-first-just-not-nothing",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever you can manage, {first}. Just not nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-be-there-first-that-s-most-of-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just be there, {first}. That's most of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand-and-i-won-t-ask-again-today",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I understand, and I won't ask again today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-won-t-push-and-i-m-still-glad-you-listened",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I won't push, and I'm still glad you listened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-press.i-hear-you-first-is-something-in-the-way-that-i-could-help-with",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I hear you, {first}. Is something in the way that I could help with?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-press.is-there-any-part-of-it-you-could-do-first-even-a-small-part",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is there any part of it you could do, {first}? Even a small part.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received",
+          "after": "decline"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-i-ll-let-you-get-on",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'll let you get on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-keep-you-posted-first-thank-you-for-this",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll keep you posted, {first}. Thank you for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-understand-i-ll-leave-you-to-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I understand. I'll leave you to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-you-again-before-long-if-that-s-alright",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask you again before long, if that's alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "news-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-to-ask-you-something-before-you-go-away-for-sentence",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come to ask you something before you go away for {sentence}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "requiresFacts": ["sentence"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-finds-you-before-you-go-and-asks-you-something-with-child-in-the-next-room",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} finds you before you go and asks you something, with {child} in the next room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-to-ask-you-something-before-you-go",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come to ask you something before you go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-don-t-have-long-with-you-first-so-i-ll-say-it-plainly",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I don't have long with you, {first}, so I'll say it plainly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.open-greet.sit-with-me-a-minute-before-you-go-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sit with me a minute before you go, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-write-to-me-while-you-re-away-first-even-a-few-lines",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you write to me while you're away, {first}? Even a few lines.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-call-when-they-let-you-first-i-ll-stay-near-the-phone",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you call when they let you, {first}? I'll stay near the phone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-tell-child-yourself-before-you-go-first-they-would-rather-hear-it-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you tell {child} yourself before you go, {first}? They would rather hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-promise-me-you-ll-keep-your-head-down-while-you-re-away-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you promise me you'll keep your head down while you're away, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-promise-to-come-home-on-release-first-i-ll-be-counting-down-to-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you promise to come home on {release}, {first}? I'll be counting down to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "requiresFacts": ["release"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-let-me-visit-first-i-d-want-to-see-you-with-my-own-eyes",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you let me visit, {first}? I'd want to see you with my own eyes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-will",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I will.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-do-that-for-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll do that for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-you-have-my-word",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-promise-i-ll-do-it-whatever-it-takes",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I promise. I'll do it, whatever it takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-have-my-word-i-won-t-let-you-down-on-this",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word. I won't let you down on this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-help-you-most-while-i-m-gone",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would help you most while I'm gone?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-you-most-afraid-of-with-me-away",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are you most afraid of, with me away?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-sorry-but-i-can-t-promise-that-i-don-t-know-what-it-will-be-like",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm sorry, but I can't promise that. I don't know what it will be like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-wish-i-could-say-yes-i-can-t-and-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I wish I could say yes. I can't, and I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-talk-about-it-anymore-right-now-i-ll-find-you-before-i-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't talk about it anymore right now. I'll find you before I go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-that-s-what-i-needed-to-hear",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That's what I needed to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-hold-on-to-that-while-you-re-away",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll hold on to that while you're away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-all-i-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. That's all I wanted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-that-s-a-relief-to-hear",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. That's a relief to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-count-on-that-first-i-m-going-to-need-something-to-hold-on-to",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I count on that, {first}? I'm going to need something to hold on to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-really-do-it-i-need-to-hear-you-say-it-once-more",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll really do it? I need to hear you say it once more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "promise"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-come-back-to-us-in-one-piece-first-that-s-the-whole-ask",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just come back to us in one piece, {first}. That's the whole ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-you-can-manage-from-there-first-something-is-enough",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever you can manage from there, {first}. Something is enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand-and-i-won-t-push-you-before-you-go",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I understand, and I won't push you before you go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-ll-let-it-go-and-i-m-still-glad-you-heard-me-out",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll let it go, and I'm still glad you heard me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-press.i-understand-first-is-anything-in-the-way-that-i-could-help-clear",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I understand, {first}. Is anything in the way that I could help clear?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.follow-press.could-you-do-a-small-part-of-it-first-even-that-would-help",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Could you do a small part of it, {first}? Even that would help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure",
+          "after": "decline"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-take-care-of-yourself",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. Take care of yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-here-when-you-get-back-first",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be here when you get back, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-let-you-finish-getting-ready",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll let you finish getting ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "departure" }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-hold-you-to-that-first-don-t-forget-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll hold you to that, {first}. Don't forget it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "departure-ask",
+          "key": "departure"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, news and departure purposes)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "departure" }
     }
   ]
 }
