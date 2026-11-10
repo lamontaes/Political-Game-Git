@@ -8,8 +8,10 @@
     "why": "Volunteers are kept as person ids on the campaign row and an offer is a scene with a person; a counted group has no one to stage. The ask to volunteer has the same limit.",
     "addedBy": "words-campaign-season-scenes-fill-the-months",
     "addedAt": "2026-10-26",
-    "replacement": "Counted groups who hear of a filing offer by the same volunteerReason times their count, filled in as full people when one offers to the player.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Counted groups who hear of a filing offer by the same volunteerReason times their count, filled in as full people when one offers to the player.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-CAMPAIGN-manager-changes-nothing-yet",
