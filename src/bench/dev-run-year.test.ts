@@ -36,7 +36,9 @@ describe(`skip a year: ${where}`, () => {
     expect(core.date, where).toBe(year.to);
     expect(year.opened, where).toBe(true);
     expect(year.problems, where).toBe(0);
-    expect(dev.skipNotice(), where).toMatch(/born/);
+    // The notice is the stopgap's own text, which changes as parts of the fast
+    // clock land; it always says what a skipped year still leaves out.
+    expect(dev.skipNotice(), where).toMatch(/not done in a skipped year/);
   }, 300_000);
 
   // Done when: "plays one week day by day with no error". Fails today in the work module's

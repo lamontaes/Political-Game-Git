@@ -241,7 +241,7 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   let months = 0;
   let firstDueAt = makeIsoDate(flow.nextAt);
   while (firstDueAt <= api.state.date)
-    firstDueAt = monthsAfter(flow.nextAt, (months += 1));
+    firstDueAt = makeIsoDate(monthsAfter(flow.nextAt, (months += 1)));
   accounts.addObligation({
     id,
     from: accounts.main(flow.payerId),
