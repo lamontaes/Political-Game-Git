@@ -1423,7 +1423,7 @@
     {
       "key": "bring-it-up.your-bill-failed-act.subject-says-your-bill-didnt-pass-im-sor",
       "move": "your-bill-failed-act",
-      "text": "{subject} says your bill didn't pass. I'm sorry.",
+      "text": "{subject} says your bill didn't pass.",
       "uses": [
         {
           "move": "your-bill-failed-act",

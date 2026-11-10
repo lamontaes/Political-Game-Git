@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,7 @@ claimed-at:
 **Files.** src/director/data/situation-types.json, src/director/scheduling.ts
 
 **Notes.** Engine gaps the packet names: a party can't take a side in a contested primary (parties), and a challenge keeps no reason (elections). The primary loss itself is `words-primary-loss-scene`.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The pool item scene-primary-challenge-told is done (PR #6393). The situation type rival-filed in src/director/data/situation-types.json is caused by the elections engine's rival-filed record, the candidate already on the ballot is the subject, and a household member brings the news; the same-party fact cites the cause record and the reply is written as a scene reply. src/director/primary-challenge.test.ts proves it in a drawn place (its header: "a primary challenge is a scene (owner, Oct 14)"). One difference remains: this item cast the party chair or staff as the bearer, while main casts a household member; if the owner wants the chair, that is a new item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

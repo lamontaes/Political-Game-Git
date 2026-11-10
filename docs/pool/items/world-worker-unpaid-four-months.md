@@ -6,18 +6,32 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5011
+after:
 blocked-on:
+lead: jobs
+model: sonnet
+effort: high
+root: none
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** A worker earns $2,092 over 120 days and is paid nothing because their employer pays no wages (La Liga, Puerto Rico, seed 4b22c467924caecf). Find why that employer's payroll does not run and fix it at the cause. Any worker whose employer owes wages is paid on payday.
+**What.** A worker earns $2,092 over 120 days and is paid nothing because their employer pays no wages (La Liga, Puerto Rico, seed 4b22c467924caecf). Find why that employer's payroll does not run and fix it at the cause. Any worker whose employer owes wages is paid on payday. It may be the same family as world-town-public-works-staff-never-paid.
+
+**Cause.** Measured: La Liga, Puerto Rico (seed 4b22c467924caecf): a worker earns $2,092 over 120 days and receives nothing because the employer pays no wages; the payroll calendar is in src/core2/opening-payroll-calendar.ts and the wage posting in src/core2/modules/jobs.ts.
+
+**Fix.** Find why that employer's payroll does not run (employer cash, calendar or link) and fix it at the cause so wage journal entries post on payday.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Wire to the world: the fix pays real dollars from the employer's account to the worker, shown on the journal. Ask why: the unpaid case is answered by record, naming the employer and the missing link.
 
-**Done when.** Reproduce in La Liga, Puerto Rico with seed 4b22c467924caecf, where the worker is paid nothing over 120 days; after the fix the same run shows wage journal entries for that worker by record id, and a test names the place and seed. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Done when.** A second session, on main in La Liga, Puerto Rico with seed 4b22c467924caecf, plays 120 days in dev mode and sees the worker who was paid nothing now paid, with wage journal entries by record id, and the same check in one more drawn place. A test names the place and seed.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/opening-payroll-calendar.ts, src/core2/modules/jobs.ts
 

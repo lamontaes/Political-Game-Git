@@ -152,6 +152,9 @@
 /src/core2/modules/federal-courts.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
+/src/core2/country-law.ts @lamontaes
+/src/core2/country-model.ts @lamontaes
+/src/core2/country-opening.ts @lamontaes
 /src/core2/modules/jobs.ts @lamontaes
 /src/core2/modules/work.ts @lamontaes
 /src/core2/modules/business.ts @lamontaes
@@ -199,6 +202,7 @@
 /src/core2/modules/life.ts @lamontaes
 /src/core2/modules/moves.ts @lamontaes
 /src/core2/modules/counted-moves.ts @lamontaes
+/src/core2/returned-members-move.ts @lamontaes
 /src/core2/modules/counted-demotion.ts @lamontaes
 /src/core2/modules/health.ts @lamontaes
 /src/core2/modules/housing.ts @lamontaes

@@ -156,7 +156,13 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
     const binding = schedule(record.id);
     expect(binding, `${where}: no scene from the cut`).toBeTruthy();
     const chair = binding!.roles.find((row) => row.role === "head")!.personIds;
-    expect(chair, where).toEqual([head.holderId]);
+    // The post can change hands during the year (seed 394907bd…, Enigma,
+    // Georgia: a new fire chief), so the head is whoever holds the
+    // appointment on the day of the cut.
+    const holder =
+      appointmentsIn(api, town).find((row) => row.id === head.id)?.holderId ??
+      head.holderId;
+    expect(chair, where).toEqual([holder]);
     const entry = book.schedule.find((row) =>
       row.momentId.includes(record.id),
     )!;

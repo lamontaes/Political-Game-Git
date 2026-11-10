@@ -983,5 +983,29 @@
     "addedAt": "2026-11-09",
     "replacement": "A wants record per person and the household's chores and sleep from the people engine, so the visit offers what the home needs.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-journal-story-no-helper",
+    "kind": "missing-data",
+    "file": "src/director/data/journal-rows.json",
+    "line": 1,
+    "whatItFakes": "A job found, lost or left is told as a small story from the past-work records: how long, the employer before, what each job paid and how that compares. It never says who helped or how the job was found, and the feeling in it (\"it was work again\") is only what the pay comparison supports.",
+    "why": "The past-work spells keep no referral, no search and no mood; naming a helper or a feeling the records do not hold would be invented.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-10",
+    "replacement": "A referral and a search on the jobs engine's seeker and hire records, read when a past or played job starts, so the entry can say who made the difference.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STORY-constituent-help-rent-and-care-have-no-case",
+    "kind": "missing-producer",
+    "file": "src/director/data/arc-variants.json",
+    "line": 1,
+    "whatItFakes": "Nothing plays in their place: the eviction and sick variants of a constituent's visit are written and cannot play from a visit to office hours, because every such visit stands on a case, and the constituent-cases engine opens cases only for looking for work and for pay under the minimum wage. A variant plays only for the problem its case records, so a visitor who came about work never states a relative's illness instead.",
+    "why": "The variants were chosen from the visitor's own records alone, so in New Brockton, Alabama (seed 8abcef2cc056600dfd4f33872ea12afe00f471b3, attempt 2) a resident whose case was looking for work opened with a line about taking a relative to every appointment. The case on record is the scene's cause and decides what the visitor asks for.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The constituent-cases engine (src/core2/modules/constituent-cases.ts, problemOf) opens a case from a served rent notice (problem behind-on-rent) and from a care need in the household (problem caring-for-someone-ill); the two variants then play from those cases with no change here.",
+    "status": "open"
   }
 ]

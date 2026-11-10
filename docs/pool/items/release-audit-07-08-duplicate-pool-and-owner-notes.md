@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -28,3 +28,7 @@ Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `cla
 Lane 5, Nov 3: two findings, and one question for the CTO. (1) The three items read once each on main (one What, Rules, Done when, Files and Notes each), so that half is done. (2) Stripping owner and date notes is not done: 29 stopgap rows across the family files and 24 files under `src/core2/data` cite rulings as "(owner, Oct 28)" or "(CTO, Nov 1)", and AGENTS.md (Look before you ask; Placeholders) now asks every session to quote the ruling with its date. A search test that fails on any such note would forbid that. Question for the CTO, with the reading line: does "owner notes must not ship" (merge audit, Oct 20, item 8) still hold for stopgap text and parameter citations, which only developer screens show and which the release check already refuses while open? If yes, the test should cover only text a player sees. Read: OWNER-DECISIONS (Nov 3 rulings), DECISION-REGISTER, prior-rulings, LAW; searched: "owner notes", "owner and date", "must not ship".
 
 Lane 5, Nov 3, correction: the question above is answered by the record, with no need to ask. `docs/packages/M7-early-access.md` line 88 (Oct 19): dated owner decisions in the game "must not ship; they go on this checklist for launch". So the strip and its search test belong to launch preparation (unit 11, shipping), run once over the whole tree. Until then sessions keep citing rulings as AGENTS.md asks. Item left open for that step.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. docs/packages/M7-early-access.md line 88 (Oct 19) says dated owner decisions in the game "must not ship; they go on this checklist for launch", so stripping owner and date notes is launch preparation run once over the whole tree, as Lane 5's Nov 3 note in this item found; the pool half was already done. The stopgap text now lives in src/core2/data/stopgaps/ (family files), not stopgaps.json.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).
