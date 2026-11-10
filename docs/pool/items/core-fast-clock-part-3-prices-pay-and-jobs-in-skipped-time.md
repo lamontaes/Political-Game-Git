@@ -22,7 +22,7 @@ source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, N
 
 **Cause.** Measured: Chumuckla, Florida (953 people; world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482), one year: prices up 1.2 percent and 4.0 percent out of work day by day; prices flat and 7.2 percent out of work with only the module calendar's dated work. Which daily loops make the difference has not been traced; the largest daily costs measured there were the health producer, the jobs engine and the news pass.
 
-**Fix.** First list, from a profile of one day-by-day month (skill speed-work), every module's `onDay` and what it writes that the calendar's dated work does not; put the list in the pull request. Then give the jobs engine and the engine that sets the town's prices the monthly hook from part 1, each applying a month of its own daily work on counts: openings filled from the people looking, and the month's price change. Nothing else is added.
+**Fix.** First list, from a profile of one day-by-day month (skill speed-work), every module's `onDay` and what it writes that the calendar's dated work does not; put the list in the pull request. Then give the work engine, the jobs engine and the engine that sets the town's prices the monthly hook from part 1 (`onResultsMonth`), each applying a month of its own daily work on counts: the month's payroll paid (part 1's builder found that a skipped year pays no wages, because payroll runs in the work engine's daily loop, so household cash drains), openings filled from the people looking, and the month's price change. Nothing else is added. Write this part's test in its own file, not in part 1's.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
@@ -32,4 +32,4 @@ source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, N
 
 **Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/modules/place-prices.ts, src/core2/life.ts, src/core2/results-mode.test.ts (new)
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/place-prices.ts, src/core2/life.ts, src/core2/results-mode-pay-prices-jobs.test.ts (new)

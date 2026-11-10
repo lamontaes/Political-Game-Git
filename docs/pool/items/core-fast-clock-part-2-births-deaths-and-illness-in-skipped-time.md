@@ -22,7 +22,7 @@ source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, N
 
 **Cause.** Measured: Chumuckla, Florida (953 people; world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482), one year: 59 deaths day by day, none with only the module calendar's dated work, one with a whole day run each month. Found in code: the health engine's daily work is its `onDay` (src/core2/modules/health.ts line 1077), which results mode does not run.
 
-**Fix.** Give the health engine the monthly hook from part 1. For counted groups it applies a month of its own rules at once: the month's deaths, births and new illness by the same rates the daily loop reads, times each group's count. For the people kept as people (the player's household and circle, officials) it runs the same daily function for each day of the month, for those people only. Skill `lives` describes the coarse pace the engines already use for people who live elsewhere; use that path where it exists rather than writing another.
+**Fix.** Give the health engine the monthly hook from part 1 (`onResultsMonth`, built in pull request 8171). Write this part's test in its own file, not in part 1's. For counted groups it applies a month of its own rules at once: the month's deaths, births and new illness by the same rates the daily loop reads, times each group's count. For the people kept as people (the player's household and circle, officials) it runs the same daily function for each day of the month, for those people only. Skill `lives` describes the coarse pace the engines already use for people who live elsewhere; use that path where it exists rather than writing another.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
@@ -32,4 +32,4 @@ source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, N
 
 **Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time.
 
-**Files.** src/core2/modules/health.ts, src/core2/life.ts, src/core2/results-mode.test.ts (new)
+**Files.** src/core2/modules/health.ts, src/core2/life.ts, src/core2/results-mode-vitals.test.ts (new)
