@@ -40,7 +40,11 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
+import {
+  billNameFor,
+  billNameOf,
+  spokenDesignation,
+} from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import {
@@ -384,6 +388,12 @@ function composeBinding(
         sourceRecordIds: [office.id, named.id, moment.causeId],
       };
   }
+  // What the bill does, from its own sections (the English engine's bill
+  // names): "free fares on public transit", or for a repeal "the return of
+  // fares on public transit".
+  const does = named ? billNameOf(named)?.purpose : undefined;
+  if (named && does)
+    facts.does = { text: does, sourceRecordIds: [named.id, moment.causeId] };
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {

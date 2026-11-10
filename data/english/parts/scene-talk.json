@@ -3,6 +3,7 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
+    "does": "What a bill does, as a noun phrase (\"free fares on public transit\"), from the bill's own sections through the bill names.",
     "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
@@ -52497,6 +52498,83 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-executive-has-signed-bill-which-is-about-does-and-name-keeps-you-back",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {executive} has signed {bill}, which is about {does}. After the photographs, {name} keeps you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "signing-ask",
+          "requiresFacts": ["does"],
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-signing-says-what)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-executive-has-vetoed-bill-which-is-about-does-and-name-asks-you-in",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {executive} has vetoed {bill}, which is about {does}, and {name} asks you in to say so face to face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "veto-call",
+          "excludesFacts": ["setting-phone"],
+          "requiresFacts": ["does"],
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-signing-says-what)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-calls-from-the-executive-s-office-bill-which-is-about-does-has-been-vetoed",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} calls from the {executive}'s office. {bill}, which is about {does}, has been vetoed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "veto-call",
+          "excludesFacts": ["setting-venue"],
+          "requiresFacts": ["does"],
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-signing-says-what)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
       }
     },
     {

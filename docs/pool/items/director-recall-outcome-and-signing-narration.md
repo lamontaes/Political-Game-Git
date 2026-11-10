@@ -25,6 +25,8 @@ claimed-at:
 
 **Notes.** What a signed or vetoed bill does (its effect, in plain words) is still not in the signing narration; a later line can read the bill's provisions.
 
+Done on story/director-signing-says-what: purpose-scene sets a `does` fact from `billNameOf(bill).purpose` and three narrate pieces say it (signing, veto at a venue, veto by phone); test in src/director/reads-wrong.test.ts.
+
 **Time box.** 2 hours.
 
 **You will see.** Bills the council passed arrive with the mayor's signature or veto, said in plain words, and a recall only stars the person who started it.

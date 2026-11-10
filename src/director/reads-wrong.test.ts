@@ -557,6 +557,13 @@ it(`a signed or vetoed bill's scene plays and says which bill and who acted (see
       ...found.result.scene.talk.narration.map((line) => line.text),
       found.result.scene.talk.state.text,
     ].join(" ");
+    // What the bill does comes from its own sections, and the scene says it.
+    const does = found.result.scene.facts.find((row) => row.key === "does");
+    expect(
+      does,
+      `${found.where}: ${found.type}: what the bill does`,
+    ).toBeTruthy();
+    expect(said, `${found.where}: ${found.type}`).toContain(does!.text);
     expect(said, `${found.where}: ${found.type}`).toMatch(
       /\b[A-Z]{1,4} ?\d|Ordinance|Bill|Resolution|Act/,
     );
