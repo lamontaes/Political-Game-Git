@@ -5,7 +5,7 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { setBookkeeping } from "../bookkeeping";
 import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
-import { coreAPI } from "../state";
+import { coreAPI, registerModule } from "../state";
 import { residentFacts } from "./residents";
 import { GRIEVANCE_MODULE_ID, type GrievanceRow } from "./grievance";
 import { JOBS_MODULE_ID } from "./jobs";
@@ -34,6 +34,25 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
   });
   const { core } = world;
   const api = coreAPI(core);
+  // Who each layoff and eviction named, as the world held them that day (a
+  // person can die or move away later in the year).
+  const knownAt = new Map<string, Set<string>>();
+  registerModule(core, {
+    id: "test-grievance-tap",
+    eventKinds: ["work.job-lost", "housing.eviction"],
+    onEvent: (_api, event) => {
+      const facts = event.facts ?? {};
+      const ids = [
+        ...event.personIds,
+        ...(facts["counted-subjects"]
+          ? (JSON.parse(facts["counted-subjects"]) as string[])
+          : []),
+        facts["counted-subject"],
+        facts.decidedBy,
+      ].filter((id): id is string => !!id && known(core, id));
+      knownAt.set(event.id, new Set(ids));
+    },
+  });
   advanceCore(core, `${Number(start.slice(0, 4)) + 1}${start.slice(4)}`);
 
   const rows = api
@@ -44,9 +63,24 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
   const cases = api.moduleState("housing").table("cases");
   const layoffs = rows.filter((row) => row.kind === "layoff");
   const evictions = rows.filter((row) => row.kind === "eviction");
+  // The layoffs the jobs engine decided, each by a person other than the
+  // worker, both in the world that day.
   const laidOff = (
-    changes.query("byKind", ["layoff"]) as unknown as { decidedBy: string }[]
-  ).filter((row) => known(core, row.decidedBy));
+    changes.query("byKind", ["layoff"]) as unknown as {
+      id: string;
+      date: string;
+      jobId: string;
+      decidedBy: string;
+      personId: string;
+    }[]
+  ).filter((row) => {
+    const named = knownAt.get(`event:work.job-lost:${row.date}:${row.jobId}`);
+    return (
+      !!named?.has(row.decidedBy) &&
+      named.has(row.personId) &&
+      row.decidedBy !== row.personId
+    );
+  });
   const removed = (cases.rows() as unknown as { stage?: string }[]).filter(
     (row) => row.stage === "removed",
   );
@@ -64,7 +98,9 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
   ).toBeGreaterThan(0);
   for (const row of rows) {
     const at = `${where}: ${row.id}`;
-    expect(known(core, row.aggrievedId), `${at}: aggrieved`).toBe(true);
+    const named = knownAt.get(row.causeEventId);
+    expect(named, `${at}: cause event`).toBeDefined();
+    expect(named!.has(row.aggrievedId), `${at}: aggrieved`).toBe(true);
     expect(row.aggrievedId, at).not.toBe(row.againstId);
     expect(row.heads, at).toBeGreaterThan(0);
     if (row.kind === "layoff") {
@@ -73,7 +109,7 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
       expect(change?.kind, `${at}: cause`).toBe("layoff");
       expect(change?.personId, at).toBe(row.aggrievedId);
       expect(change?.decidedBy, at).toBe(row.againstId);
-      expect(known(core, row.againstId), `${at}: against`).toBe(true);
+      expect(named!.has(row.againstId), `${at}: against`).toBe(true);
     } else {
       const found = cases.get(row.causeId) as unknown as
         { stage: string; landlordId: string; householdId: string } | undefined;

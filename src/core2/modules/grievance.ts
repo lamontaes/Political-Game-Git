@@ -97,7 +97,9 @@ function fromLayoff(api: CoreAPI, event: CoreEventInput): void {
   const againstId = facts.decidedBy;
   // A firm with no one left to decide lets its last worker go as itself (it
   // is closing): there is no person to hold it against.
-  if (!aggrievedId || !isPerson(c, againstId)) return;
+  if (!isPerson(c, aggrievedId) || !isPerson(c, againstId)) return;
+  // An owner who ends their own job holds it against no one.
+  if (againstId === aggrievedId) return;
   const change = api
     .moduleState(JOBS_MODULE_ID)
     .table("changes")
