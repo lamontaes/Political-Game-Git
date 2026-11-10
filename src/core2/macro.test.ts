@@ -207,6 +207,30 @@ describe("national economy", () => {
     // More than one seeker in ten thousand people in the labor force.
     expect(lowest.pct, where).toBeGreaterThan(0.01);
   });
+  it("no state's public budgets jump from one year to the next when nothing has changed", () => {
+    // Before Nov 10, 2026 every state but the town's own got its first recorded law phase on
+    // January 1, 2026 rather than from the start, and a territory's budget rose nine tenths
+    // in a year. Left alone, a budget follows revenue, and revenue follows pay and prices.
+    const seed = `budgets-${Math.random().toString(36).slice(2, 10)}`;
+    const core = createCore(opening("2025-01-20", seed), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2025-01-21");
+    const outlook = countryOutlook(api, 4 * 12);
+    let most = { rise: 0, usps: "", month: "" };
+    for (const [usps, points] of Object.entries(outlook.states))
+      for (let at = 1; at < points.length; at++) {
+        const rise = points[at]!.budgetYear / points[at - 1]!.budgetYear - 1;
+        if (rise > most.rise) most = { rise, usps, month: points[at]!.month };
+      }
+    const where = `seed ${seed}: ${most.usps} to ${most.month}`;
+    process.stderr.write(
+      `${where}: the largest rise of any state's budgets in a year, left alone, is ${(most.rise * 100).toFixed(1)}%\n`,
+    );
+    expect(most.rise, where).toBeLessThan(0.25);
+  });
   it("the outlook is the months the game then lives, and it writes nothing", () => {
     const seed = `outlook-${Math.random().toString(36).slice(2, 10)}`;
     const core = createCore(opening("2025-01-20", seed), {
