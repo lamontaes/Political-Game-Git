@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { lineForPost } from "../core2/budgets-treasury";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -179,6 +180,13 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
     expect(said("cut")?.recordIds, where).toContain(record.id);
     expect(said("post")?.text, where).toBe(head.title.toLowerCase());
     expect(said("post")?.recordIds, where).toContain(head.id);
+    // What the line pays for, in the words the budget screen names it.
+    const named = (lineNames.lines as Record<string, { name: string }>)[line]!
+      .name;
+    expect(said("line")?.text, where).toBe(
+      named.charAt(0).toLowerCase() + named.slice(1),
+    );
+    expect(said("line")?.recordIds, where).toContain(record.id);
     if (spending)
       expect(said("percent")?.recordIds, where).toContain(budget!.id);
 
@@ -197,6 +205,11 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
         }
       })(scene.talk.tree),
     ];
+    // No line leans on something nobody said.
+    for (const line_ of lines)
+      expect(line_.text, `${where}: ${line_.text}`).not.toMatch(
+        /has the page|send me the list/i,
+      );
     for (const line_ of lines)
       expect(line_.text, where).not.toMatch(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
@@ -258,7 +271,7 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
     expect(schedule(admin.id), `${where}: no post draws on it`).toBeFalsy();
 
     console.log(
-      `BUDGET-CUT ${where}: ${head.title} ${head.holderId} on ${line}, cut ${said("cut")?.text}${said("percent") ? ` (${said("percent")!.text} percent)` : ""}${said("years") ? `, ${said("years")!.text} years in post` : ""}\n${scene.talk.lines.map((row) => `  ${row.text}`).join("\n")}`,
+      `BUDGET-CUT ${where}: ${head.title} ${head.holderId} on ${line}, cut ${said("cut")?.text}${said("percent") ? ` (${said("percent")!.text} percent)` : ""}${said("years") ? `, ${said("years")!.text} years in post` : ""}\n${lines.map((row) => `  ${row.text}`).join("\n")}\n  records: ${record.id}, ${head.id}${budget ? `, ${budget.id}` : ""}`,
     );
     return;
   }
