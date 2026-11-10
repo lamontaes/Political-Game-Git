@@ -4305,7 +4305,7 @@
         },
         {
           "match": {
-            "label": "money:event:campaign-gift",
+            "label": "cause:event:campaign-gift",
             "selfNamed": true,
             "causeFacts": [
               {
