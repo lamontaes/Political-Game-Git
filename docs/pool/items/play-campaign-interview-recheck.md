@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: pool/play-campaign-interview-recheck
-pr:
+pr: #8250
 blocked-on:
 source: added by the acting CTO, Oct 22 merge sample
 claimed-at: 2026-11-10T22:40:32.048Z
