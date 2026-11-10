@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: story/reads-wrong-nov10-b
-pr: 8144
+pr: #8144
 blocked-on:
 lead: words
 source: "second read-through of the Nov 10 scenes: the five that the first pass could not print in play (new baby, race told, apology, accusation, story-read), composed by their own tests on two seeds"
 claimed-at: 2026-11-10T13:00:00.000Z
+merged-at: 2026-11-10T12:41:14.126Z
 ---
 
 **What.** New baby (seeds 201 and 203), story-read (211, 212), race told (221, 222), apology (231, 232) and accusation (241, 242), every filled line of each scene's tree printed and read. Found and fixed, keys unchanged:
