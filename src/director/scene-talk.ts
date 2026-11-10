@@ -513,6 +513,10 @@ export function composeSceneTalk(
   const maxReplies = RULES.tree.maxReplies.value;
   const maxNodes = RULES.tree.maxNodes.value;
 
+  /** The pieces said as closes anywhere in this talk. */
+  const closesSaid = new Set<string>();
+  /** How many closes of each move this talk has said. */
+  const closesByMove = new Map<string, number>();
   const render = (
     use: FitUse,
     speakerId: PersonId,
@@ -523,6 +527,10 @@ export function composeSceneTalk(
   ): SceneTalkLine | null => {
     // The English engine picks and words the piece; the director only says
     // which move this is, who says it and what it answers.
+    // A talk does not close two branches on the same words while another close
+    // fits: the closes already said anywhere in this talk are shown (the
+    // English engine leaves a shown piece out while an unseen one fits).
+    const closing = use.step === "close";
     const worded = wordSceneMove({
       move: use,
       facts,
@@ -532,8 +540,15 @@ export function composeSceneTalk(
       momentKey: `${scene}:${moment}`,
       said,
       tagged: onlyTagged,
-      options,
+      options: closing
+        ? {
+            ...options,
+            shown: new Set([...(options?.shown ?? []), ...closesSaid]),
+          }
+        : options,
     });
+    if (worded && "pieceKey" in worded && closing)
+      closesSaid.add(worded.pieceKey);
     if (!worded) return null;
     if ("unused" in worded) {
       unusedGap = worded.unused;
@@ -1281,10 +1296,19 @@ export function composeSceneTalk(
     path: Path,
     reply: SceneTalkLine,
   ): SceneTalkLine | undefined => {
+    // The written closes for a walk-away are tried in a hash order of the
+    // branch, the move this talk has closed on least first, so branches do not all close
+    // on the first move alphabetically.
     const moves = sceneMovesWritten({
       step: "close",
       after: reply.move,
-    }).sort();
+    }).sort(
+      (a, b) =>
+        (closesByMove.get(a) ?? zero) - (closesByMove.get(b) ?? zero) ||
+        stableHash(`${scene}:${path.id}:leave:${a}`).localeCompare(
+          stableHash(`${scene}:${path.id}:leave:${b}`),
+        ),
+    );
     for (const move of moves) {
       const line = render(
         {

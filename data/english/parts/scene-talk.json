@@ -174626,6 +174626,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "warm",
@@ -174650,6 +174659,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "tender",
@@ -174674,6 +174692,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "calm",
@@ -174698,6 +174725,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "warm",
@@ -174722,6 +174758,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "calm",
@@ -174746,6 +174791,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "tender",
@@ -174770,6 +174824,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "anxious",
@@ -174794,6 +174857,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "guarded",
@@ -174818,6 +174890,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "guarded",
@@ -174842,6 +174923,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "calm",
@@ -174949,6 +175039,353 @@
       "tag": {
         "move": "accept",
         "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.okay-it-can-wait",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. It can wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-problem-the-paper-will-still-be-there-tomorrow",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No problem. The paper will still be there tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-i-won-t-hold-you",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. I won't hold you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-then-we-can-talk-when-you-ve-had-a-look-at-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on, then. We can talk when you've had a look at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fair-enough-that-s-all-i-wanted-to-say",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fair enough. That's all I wanted to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-all-right-i-just-wanted-somebody-to-know",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's all right. I just wanted somebody to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-listening-it-helps-to-know-somebody-else-read-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for listening. It helps to know somebody else read it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-taking-the-time-i-ll-let-you-get-back-to-your-day",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for taking the time. I'll let you get back to your day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.read-it-when-you-get-a-minute-that-s-all-i-m-asking",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Read it when you get a minute. That's all I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-probably-bring-it-up-again-once-i-ve-read-more",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll probably bring it up again once I've read more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "warn",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-look-into-it-and-tell-you-what-i-find",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll look into it and tell you what I find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.if-anything-more-comes-out-about-story-i-ll-let-you-know",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "If anything more comes out, I'll let you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "story-read",
+        "after": "leave"
       }
     },
     {
