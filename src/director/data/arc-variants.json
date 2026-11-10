@@ -2825,6 +2825,10 @@
         "lost-job": {
           "purpose": "constituent-help.lost-job",
           "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "looking-for-work"
+          },
           "terms": [
             {
               "read": "laid-off",
@@ -2915,6 +2919,10 @@
         "eviction": {
           "purpose": "constituent-help.eviction",
           "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "behind-on-rent"
+          },
           "terms": [
             {
               "read": "notice-served",
@@ -3005,6 +3013,10 @@
         "short-pay": {
           "purpose": "constituent-help.short-pay",
           "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "paid-under-minimum-wage"
+          },
           "terms": [
             {
               "read": "paid-under-floor",
@@ -3095,6 +3107,10 @@
         "sick": {
           "purpose": "constituent-help.sick",
           "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "caring-for-someone-ill"
+          },
           "terms": [
             {
               "read": "own-illness",
