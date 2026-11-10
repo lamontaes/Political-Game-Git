@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/director-rival-filed-late
-pr: pending
+pr: 8126
 blocked-on:
 lead: words
 milestone: play-first
