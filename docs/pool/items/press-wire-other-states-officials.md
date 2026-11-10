@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/press-topics.ts,src/core2/press-public-facts.test.ts
 
 **Notes.** lead: words. Filed by the Words session from the paper-year measurement; the CTO routes it.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `wireItem` in src/core2/press-topics.ts (lines 110 to 135) now returns null for a took-office or seat-vacated record on a seat outside the town's governments (`isOutsideOffice`) and routes another state's act to the nation level, with the comment naming the Florida-oath-in-Blunt case. Not replayed in a game.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

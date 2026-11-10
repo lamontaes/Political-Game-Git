@@ -366,6 +366,7 @@
         "src/core2/modules/mentorship.ts",
         "src/core2/modules/rescue.ts",
         "src/core2/modules/quarrel.ts",
+        "src/core2/modules/grievance.ts",
         "src/core2/modules/public-action.ts",
         "src/core2/husk-promoters.ts",
         "src/core2/opening-ties.ts",
@@ -380,6 +381,7 @@
         "src/core2/past.ts",
         "src/core2/past-*.ts",
         "src/core2/deep-past.ts",
+        "src/core2/own-past-kinds.ts",
         "src/core2/pre-start.ts",
         "src/core2/shared-history.ts"
       ]

@@ -6,18 +6,35 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: laws-effects
+model: sonnet
+effort: medium
+root: rc2-done-from-records
+checked: fable 2026-11-10
 ---
 
 **What.** The test 'law reach, group B: Medicaid expansion and its work requirement' in src/core2/law-reach-group-b.test.ts throws 'no town with an employed adult and medicaid in forty draws' at its build helper (line 239). It fails the same way on clean main with GOLDEN_PATH_SEED=ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab, found by Merger 4 on Oct 27 while checking PR 6339. Forty drawn towns had no employed adult with Medicaid, so either the fixture's need changed with a recent engine merge or the draw is too narrow.
 
+**Cause.** Found in code: src/core2/law-reach-group-b.test.ts, in its build helper, picks the player as the first employed adult by id (lines 139 to 142) and collapses the world to two levels (`collapseToTwoLevels`, line 149), which leaves only the player's household and circle as named people. For the Medicaid need it then keeps only named residents the two questions cover (`covers`, lines 162 to 165, the filter on `r.named`; a named resident is a full person, src/core2/law-reach/group-b-people.ts line 74) and redraws the place when either list is empty (lines 186 to 190). So a place passes only when one of the handful of named people happens to sit in the expansion's income band and one in the work requirement's reach, and forty draws can all miss. The towns do hold such adults among the counted residents; the fixture never makes one of them a named person. Read, not re-run: seed ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab was not replayed on today's main.
+
+**Fix.** First print, for that seed's forty places, how many named adults each holds and how many residents (named or counted) each question covers, to confirm the reading. Then, when the need is `medicaid`, choose the player from the people the questions cover: build the place once, take from `selectResidents` the id of a resident the expansion covers and the work requirement reaches (named or counted), and build the same place again with that person as the player, so they and their household are named. Redraw only a place where no resident at all is covered, and name each place passed over with its counts. Change no assertion and no engine code.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
 **Rules.** No dice; the draw stays over all 56 places and the test must not be narrowed to a pinned place to pass.
 
-**Done when.** The test passes in a played world built with buildBenchWorld on seed ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab and on two fresh drawn places named with their seeds, and the cause of the empty draw is named by file and line.
+**Done when.** A second session, not the fixer, runs src/core2/law-reach-group-b.test.ts on seed ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab and on two fresh drawn places (each named with its seed), built with buildBenchWorld, and sees it pass without a pinned place; the PR names the cause of the empty draw by file and line.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/law-reach-group-b.test.ts
 
 **Notes.** Found Oct 27 by Merger 4; red on clean main with the seed above.
+
+**Notes (Fable's check, Nov 10).** How to find the cause: Read why forty drawn towns hold no employed Medicaid adult (the coverage record or the opening changed), fix at that, and never pin a place.

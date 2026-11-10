@@ -254,6 +254,8 @@ function setStatus(
         memberIds: readonly PersonId[];
         reasons: Readonly<Record<string, number | string>>;
         reasonRecordIds: readonly string[];
+        /** The lease the household signed, where it rents again. */
+        leaseId?: string;
       },
   previous: HousingStatus,
 ): void {
@@ -293,6 +295,8 @@ function setStatus(
         row.memberIds.map((id) => [`person:${id}:housing`, row.status]),
       ),
       ...countedFacts(row.id, countedIds),
+      // The lease a household housed again signed, for the grievance it ends.
+      ...("leaseId" in row && row.leaseId ? { leaseId: row.leaseId } : {}),
     },
   });
 }
@@ -720,6 +724,7 @@ export function reviewHomeless(
           cashMinor: cash,
         },
         reasonRecordIds: [leaseId],
+        leaseId,
       },
       row.status,
     );

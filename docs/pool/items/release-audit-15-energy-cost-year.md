@@ -11,15 +11,30 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: laws-effects
+after:
+checked: fable 2026-11-10
 ---
 
-**What.** Make businessEnergyCostYear use the price-law table rule and test it equals twelve months of the settlement; decide on purpose that employers without books never organize.
+**What.** businessEnergyCostYear works out what a law that prices energy would cost a business over a year. It keeps its own small table of the clean-electricity and carbon-price rows, while the monthly settlement reads the same two laws from the PRICE_LAWS table, so the two can drift apart. Make the year cost read the one rule the settlement reads, and prove with a test that the year cost equals twelve months of the settlement. Also decide on purpose that employers without books never organize, and write that decision in the item notes.
 
-**Rules.** Replace, never layer: the fix replaces the faulty code, text or note in the same change, and a test asserts the feature and fails when nothing is found.
+**Cause.** Found in code: src/core2/modules/place-prices.ts, function `businessEnergyCostYear` (line 1123), rebuilds the clean-electricity and carbon-price rows in a local `rule` table beside the `PRICE_LAWS` table (line 925) that the monthly settlement uses.
 
-**Done when.** A test in a drawn place and seed shows the year cost equals twelve months of the settlement, and the decision on employers without books is written in the item notes.
+**Fix.** Make `businessEnergyCostYear` read the same price-law rule the monthly settlement uses and delete the local rule table. Add a test in a drawn place that the year cost equals twelve months of the settlement. Write the decision on employers without books (never organize, on purpose) in the item notes.
 
-**Files.** src/core2
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+
+**Rules.** Replace, never layer: the fix replaces the faulty code in the same change, and a test asserts the feature and fails when nothing is found. One engine per mechanic: the year cost and the monthly settlement read one price-law rule, not two copies.
+
+**Done when.** A second session, in a drawn place and seed named in the PR, computes a business's year cost with businessEnergyCostYear and the sum of twelve monthly settlements for the same law and finds them equal, and src/core2/place-prices.test.ts holds that comparison and fails when the two rules differ. The decision on employers without books is written in the item notes.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/place-prices.ts, src/core2/place-prices.test.ts, src/core2/modules/interest-groups.ts
 
 **Notes.** Item 15 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
 

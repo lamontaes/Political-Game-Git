@@ -8,17 +8,32 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on:
+after:
+blocked-on: core-long-run-election-and-term-rows-part-1-terms-fold, core-long-run-election-and-term-rows-part-2-outside-races, core-long-run-election-and-term-rows-part-3-played-place, core-long-run-election-and-term-rows-part-4-readers
 source: added with npm run pool -- add
+lead: speed
+standard: 2
+model: opus
+effort: high
+root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** Since every state's whole legislature is seated as named officials (PR #7020, merged Nov 1), each election adds a term row per seat and a race, result and return row per race, plus a row per race and voting place, and none is ever dropped. In Kirkman, Iowa (key 1941520, seed 905132a2f8984748), four years on main just before and after that merge, records kept rose from 367,386 to 454,608 at year 4 (+24%): offices.terms 782 to 34,145, voting.places 12,492 to 40,971, and voting races, results and returns about 1,300 to about 14,000 each. The gap grows every election year (+397, +34,480, +52,280 and +87,222 records), so a century-long save keeps decades of every legislature's terms and precinct-level returns.
 
+**Cause.** Measured: `npm run speed:year -- --seed 905132a2f8984748 --years 4` in Kirkman, Iowa (key 1941520): records kept rise from 367,386 to 454,608 (+24%) at year 4 once every state's legislature is seated, with offices.terms from 782 to 34,145 and voting.places from 12,492 to 40,971.
+
+**Fix.** Build the agreed fold in four parts: terms into seatPasts and careers read through termById and careerOf; outside races' places and returns dropped after the next general; the played place's old town returns dropped; and every reader moved to the folded ids. Keep the proposal's keep-list in the Notes.
+
+**Time box.** 2 hours for an Opus session, the closing check only; the build is in the four parts, each with its own time box.
+
 **Rules.** Speed (owner, Oct 29; OWNER-DECISIONS Oct 30 01:55): years 97 to 100 of a save hold at most 1.2 times the records of years 1 to 4, and old records fold into summaries once play no longer reads them. Folds are built once each reader's window is agreed with its owner (CTO, Oct 30 04:14): the laws lead owns the world's governing, the governing lead owns voting and the player's path. The world has a past (owner): officials keep voting records and the prior election exists, so what running on the record reads must stay.
 
-**Done when.** A reader map names every reader of offices.terms, voting places, returns, results and races with file and line and its window; each owner agrees a window in writing; and a four-year run of the played world (npm run speed:year -- --seed 905132a2f8984748 --years 4, Kirkman, Iowa) on main and the branch keeps dev mode's records proof identical in every table except the folded ones, with records at year 4 within 10% of main before every legislature was seated (367,386 at main cc464cc9ce's first parent) and the row counts in the PR body.
+**Done when.** A second session runs `npm run speed:year -- --seed 905132a2f8984748 --years 4` in Kirkman, Iowa (a drawn place) on main and on the merged code, one process each, and sees dev mode's records proof identical in every table except the folded ones. Records at year 4 are printed beside 367,386 (before every legislature was seated) and 454,608 (after) as figures to report, with the row counts in the PR body.
 
-**Files.** src/core2/modules/offices.ts,src/core2/modules/voting.ts
+**Waits on.** Its four parts: core-long-run-election-and-term-rows-part-1-terms-fold, -part-2-outside-races, -part-3-played-place and -part-4-readers.
+
+**Files.** src/core2/modules/offices.ts, src/core2/modules/voting.ts, src/bench/legislature.ts
 
 **Notes.** lead: speed. Measured by the speed lead Nov 1, 22:55 UTC (scratchpad u1/before.json and after.json); Merger 0 flagged it on PR #7020.
 
