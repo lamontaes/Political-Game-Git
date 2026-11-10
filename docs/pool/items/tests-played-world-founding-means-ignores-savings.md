@@ -16,6 +16,7 @@ lead: m0-m2
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** M0-13's "a new business's loan fits its founder" fails on both foundings in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4); the other two drawn places founded no business. organization:founded:manufacturing:person_675c0fd04c6ccee2:2025-06-01 borrowed 21,515,295 minor units (215,153 dollars) against 154,863 of the founder's cash the day before, but the founder put in 2,419,714 of equity, which is 8.9 times under the nine-times line (the SBA 10 percent equity rule). The engine does what its source says: business.ts withdraws the founder's savings into cash before funding, so equity is cash plus savings, while the check takes cash on the day before only, so any founder who funds from savings reads as over-borrowed.

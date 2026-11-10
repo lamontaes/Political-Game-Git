@@ -17,6 +17,7 @@ lead: wire-elections
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** The golden-path runner gives src/core2/voting.test.ts (M2-07) the place it draws for the head commit, and the test used that place as is. Ivan, Arkansas (place key 0534540, seed 8204cf02c98b04d40207d6a46ee6d70f291c3712872130e95c5e24b207debf76) holds no local or state race that two residents can file for on January 5, 2026, so the spec failed with "no open local or state race". It failed again on Nov 8 in Waikoloa Village, Hawaii (1576600, seed 67c6696d488be63625780c83a2553abb64a3aaf1df2ea0e0a9ccbb0136e6adcc) after trying nine places, one of them twice. Eight other drawn towns fail the election-day test the same way (tests-election-day-no-race-to-enter is proposed to merge here), because filing is not yet open at the start date.

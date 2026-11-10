@@ -4,7 +4,7 @@ title: "Research: the January 2025 law for local taxes, local wages, corporate t
 area: laws
 kind: research
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -12,10 +12,11 @@ blocked-on: research-start-law-remaining-2025-phases-part-1-local-taxes, researc
 source: added with npm run pool -- add
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc9-place-facts-one-default
 lead: laws
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The opening still carries the January 2026 phase back to January 20, 2025 for county and city income taxes (150 jurisdictions), city sales taxes (61), county, city and some state minimum-wage tiers, state corporate income tax (50 states), local income tax authority, unemployment program terms and the five territories' income and sales taxes. The national tables for the federal and state taxes, SNAP, the Medicaid match and unemployment maximums now carry their sourced 2025 phase (data/research/laws/_-2025-_.json, built by scripts/research/build-starting-law.py). Source the phase in force on January 20, 2025 for each remaining series and place the same way, so rowsCarriedToStart in src/core2/modules/laws.ts reaches nothing and SG-GOV-start-law-carried-back resolves. The work is split into the four parts named in Waits on.

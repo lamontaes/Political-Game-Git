@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** A couple's case for planning a child (src/core2/births-plan.ts) sits 3.6 to 18.3 below waiting in nine of ten reviews, while temperament spans about plus or minus 0.4, so at the general weight it turns no one. In Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) scripts/traits/trait-calibrate.ts fits a weight of 7.05 to reach odds of 1.74 between the thirds against Jokela et al.'s 1.93, but at that weight the share of reviews that plan a child rises from 1.8% to 2.6%, about 40% more births. Re-center the waiting side so the share stays where the births rate puts it, then set the weight.
