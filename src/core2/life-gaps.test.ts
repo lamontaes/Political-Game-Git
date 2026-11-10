@@ -304,6 +304,10 @@ describe(`the life record's gaps in ${where}`, () => {
     );
     for (const person of withRecord.slice(0, 3))
       note(
+        `life-gaps 5 card: ${where}; ${person.id}: ${JSON.stringify(knownCard(core, core.playerId!, person.id).history.map((row) => row.text))}`,
+      );
+    for (const person of withRecord.slice(0, 3))
+      note(
         `life-gaps 5: ${where}; ${person.id} (${person.placeId}): ${named.get(person.id)} records, life ${JSON.stringify(lifeOf(core, person.id).map((event) => `${event.date} ${event.life}/${event.what} ${event.from}`))}`,
       );
     expect(
