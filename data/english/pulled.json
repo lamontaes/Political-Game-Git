@@ -1,9 +1,7 @@
 {
   "schema": "english-pulled/1",
   "pulled": {},
-  "waiting": {
-    "scene-talk.reply-agree.deal-yes": ["no-dangling-fragments"]
-  },
+  "waiting": {},
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
