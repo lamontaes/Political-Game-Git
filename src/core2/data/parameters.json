@@ -5581,16 +5581,16 @@
       "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
     }
   },
-  "eventIdRetentionDays": {
-    "value": 400,
+  "candidacyDecisionRetentionDays": {
+    "value": 60,
     "tag": "TUNABLE",
     "role": "coefficient",
-    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long past the newest date written in an event id the world keeps the id in core.eventIds. Every reader asks about today, a race still ahead or an id with no date (event-id-retention.ts), so a year and a month covers an annual address and a race's whole season. Kept forever the set was 117 MB at Montpelier, Vermont, year 6 (Nov 9, 2026).",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after a race's election day a person's decision not to run in it is kept (candidacy.ts dropPastNonRunners). Every reader asks about a race still being run or about those who ran, which stay; two months covers a runoff's own contest and the seating. Kept forever, declined decisions were 28,733 of 30,181 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
     "spread": {
-      "low": 366,
-      "high": 1100,
+      "low": 30,
+      "high": 400,
       "unit": "days",
-      "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
+      "citation": "A month (the monthly pass) to a year and a month; checked against the records proof of a two-year Montpelier run."
     }
   },
   "experiencedKeyRetentionDays": {
@@ -8440,6 +8440,18 @@
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "eventIdRetentionDays": {
+    "value": 400,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long past the newest date written in an event id the world keeps the id in core.eventIds. Every reader asks about today, a race still ahead or an id with no date (event-id-retention.ts), so a year and a month covers an annual address and a race's whole season. Kept forever the set was 117 MB at Montpelier, Vermont, year 6 (Nov 9, 2026).",
+    "spread": {
+      "low": 366,
+      "high": 1100,
+      "unit": "days",
+      "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
     }
   }
 }

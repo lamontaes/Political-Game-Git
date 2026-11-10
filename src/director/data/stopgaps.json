@@ -815,5 +815,41 @@
     "addedAt": "2026-11-09",
     "replacement": "A hospital-visit purpose that reads the health engine's care need, and, for the player held, a letter or a call scene the player answers after release.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-meeting-no-club-records",
+    "kind": "missing-data",
+    "file": "src/director/meeting-facts.ts",
+    "line": 1,
+    "whatItFakes": "A first meeting or a new friend's ask names the employer, the job, the school, the party and the town the two share. It never names a church, a club or a street, though people meet there.",
+    "why": "No record in the world keeps a church, a club or a block for a person: memberships hold only parties (and groups the player joins), and a person's place is a town, not a street.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "Memberships for congregations and clubs, and an address on the household record; meeting-facts.ts then reads them as it reads the party.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-meeting-promise-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "What the player agrees to or promises in the introduction (to show the newcomer around) or the friend's ask (to come along, to do the favor) is written on the reply record as a promise; no engine moves the tie, makes the day's plan or does the favor beyond the contact hours every reply writes.",
+    "why": "The people engine's owed-talk record and the plans of a friend do not exist yet; no hook reads a scene.reply of typeKey first-meeting or becoming-friends.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A people-engine plan or owed-talk record that reads a kept promise on these two types and brings the two together on the day, and closeness that reads a favor done or declined.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-friend-ask-plan-unrecorded",
+    "kind": "missing-data",
+    "file": "data/english/parts/scene-talk.json",
+    "line": 1,
+    "whatItFakes": "The friend's invitation (dinner, a game, lunch, a drink after work) and favor (a couch, the mail, covering an afternoon, a pickup) are worded for every friend; nothing on a record says this friend plans a dinner or needs a hand. The facts around them (the shared employer, school, party, town) are from records.",
+    "why": "No engine keeps what a person plans or needs from a friend; the plan is the ask itself, so the lines name only days and things any friend might ask.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A plans or needs record per person (a move coming, a child to pick up) that the ask reads, so the favor named is the one the records give.",
+    "status": "open"
   }
 ]
