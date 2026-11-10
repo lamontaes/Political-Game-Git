@@ -65,6 +65,7 @@ import {
   keepCalendar,
   countedHouseholdOf,
   householdCash,
+  householdCashReader,
   residentFacts,
   residentPerson,
   residentsRuntime,
@@ -4068,6 +4069,29 @@ function reviewCountedWorkers(
 }
 
 /**
+ * How many days a counted household's money covers its costs. Its money is
+ * its share of its group's fund (what it is paid into and what leaves with
+ * it); its members' own cash is only what the fund was opened with, and a
+ * household that arrived since carries none there. Before the funds exist (a
+ * world still opening) the members' cash is the money. `cashOf` is a
+ * `householdCashReader`, valid until the next posting.
+ */
+export function countedDaysOfMoney(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  cashOf: (h: CountedHousehold) => number,
+): number {
+  let liquid = 0,
+    cost = 0;
+  for (const member of rt.store.factsOfHousehold(h)) {
+    liquid += member.liquidMinor;
+    cost += member.livingCostDailyMinor;
+  }
+  const money = rt.funded ? cashOf(h) : liquid;
+  return cost > 0 ? money / cost : Number.POSITIVE_INFINITY;
+}
+
+/**
  * Counted adults of working age with no job wait or look for work by the
  * offers a full person weighs (see `reviewJobless`): how few days their
  * household's money covers, the place's unemployment and their traits. The
@@ -4094,6 +4118,7 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
   const carry = { unplaced: 0, placed: 0 };
+  const cashOf = householdCashReader(rt);
   const ageOf = (m: number) =>
     daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
@@ -4133,15 +4158,7 @@ export function reviewCountedEntry(api: CoreAPI, opening = false): void {
       if (inCustody(api, personId)) continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
       // The household's money against its costs, as a full person's household reads.
-      if (days === undefined) {
-        let liquid = 0,
-          cost = 0;
-        for (const member of counted.factsOfHousehold(h)) {
-          liquid += member.liquidMinor;
-          cost += member.livingCostDailyMinor;
-        }
-        days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
-      }
+      days ??= countedDaysOfMoney(rt, h, cashOf);
       const seeking = seekers.get(personId) as SeekerRow | undefined;
       const result = chooseAct(c, personId, [
         offer("wait", personId, {}),
