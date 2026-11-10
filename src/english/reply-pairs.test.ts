@@ -11,6 +11,7 @@ import {
   type ReplyScene,
 } from "./reply-pairs";
 import { talkReplyFlow, talkScenes } from "../director/scene-talk";
+import { tableOf } from "./reply-follows";
 import { buildTalks, observedPairs } from "../director/scene-talk-fixture";
 
 const parts = (sceneBank as unknown as { parts: BankPart[] }).parts.filter(
@@ -49,6 +50,32 @@ describe("reply pairs", () => {
     expect([...listed].filter((id) => !every.has(id))).toEqual([]);
   }, 300_000);
 
+  it("holds with a table of verdicts too: every pair produced under it is listed under it", () => {
+    const seen = [
+      ...new Set(
+        buildTalks({ replyFollows: new Map() })
+          .flatMap(observedPairs)
+          .map((p) => `${p.reply}|${p.before}`),
+      ),
+    ].sort();
+    const no: Record<string, string[]> = {};
+    for (const id of seen.filter((_, i) => i % 15 === 0)) {
+      const [reply, before] = id.split("|");
+      (no[reply!] ??= []).push(before!);
+    }
+    const table = tableOf(no);
+    const listedUnder = new Set(
+      replyPairs(parts, { scenes, flow: talkReplyFlow, verdicts: table }).map(
+        (pair) => `${pair.before}|${pair.reply}`,
+      ),
+    );
+    const missed = buildTalks({ replyFollows: table })
+      .flatMap(observedPairs)
+      .filter((p) => !listedUnder.has(`${p.before}|${p.reply}`))
+      .map((p) => `${p.scene}: ${p.before} then ${p.reply}`);
+    expect([...new Set(missed)]).toEqual([]);
+  }, 300_000);
+
   it("only lists playable pieces on both sides, and never a piece after itself", () => {
     const keys = new Set(parts.map((part) => part.key));
     for (const pair of pairs) {
@@ -72,6 +99,7 @@ describe("reply pairs", () => {
     const none = replyPairs(parts, {
       scenes: [scenes.find((scene) => scene.purpose === first.purpose)!],
       flow: talkReplyFlow,
+      verdicts: new Map(),
     });
     const table = new Map([[first.reply, new Set([first.before])]]);
     const after = replyPairs(parts, {

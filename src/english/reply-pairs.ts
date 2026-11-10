@@ -45,7 +45,11 @@ import {
   type SceneMove,
   type SceneSpot,
 } from "./scene-talk-words";
-import { follows, type ReplyFollowsTable } from "./reply-follows";
+import {
+  follows,
+  REPLY_FOLLOWS,
+  type ReplyFollowsTable,
+} from "./reply-follows";
 
 /** A scene: the purpose it plays, the purpose it is a variant of and the situation key. */
 export interface ReplyScene extends SceneSpot {
@@ -128,7 +132,7 @@ interface Row {
  * The picker takes out a reply the verdicts say does not follow the line
  * before it, then chooses the closest fit among what is left, so a reply that
  * is not the closest fit today becomes a pair once a closer one is judged "no".
- * `verdicts` are the "no" verdicts now; judging the pairs this returns and
+ * `verdicts` are the "no" verdicts the picker reads (the file's by default); judging the pairs this returns and
  * asking again finds the next ones, until none is unjudged. With
  * `everyFit`, no closeness and no verdicts apply: every reply any fact could
  * allow, the set an id on a sheet must belong to.
@@ -151,7 +155,7 @@ export function replyPairs(
   } = {},
 ): ReplyPair[] {
   const scenes = options.scenes ?? scenesOf(parts);
-  const verdicts = options.verdicts ?? new Map();
+  const verdicts = options.verdicts ?? REPLY_FOLLOWS;
   const pairs: ReplyPair[] = [];
   const seen = new Set<string>();
   const closeCache = new Map<string, ReadonlySet<string>>();
