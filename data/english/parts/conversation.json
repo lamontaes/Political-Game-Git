@@ -24733,46 +24733,6 @@
       }
     },
     {
-      "key": "conversation.mutual-answer-detail.okay-i-m-at-my-employer-these-days",
-      "move": "mutual-answer-detail",
-      "kind": "spoken",
-      "text": "Okay. I'm at {my_employer} these days.",
-      "uses": [
-        {
-          "move": "mutual-answer-detail",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "detail"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-answer-detail.right-i-work-at-my-employer-now",
-      "move": "mutual-answer-detail",
-      "kind": "spoken",
-      "text": "Right. I work at {my_employer} now.",
-      "uses": [
-        {
-          "move": "mutual-answer-detail",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "detail"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.mutual-answer-care.say-hello-to-name-for-me",
       "move": "mutual-answer-care",
       "kind": "spoken",
