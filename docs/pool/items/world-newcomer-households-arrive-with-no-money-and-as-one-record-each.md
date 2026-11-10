@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: fable
 source: Fable, Nov 10, 2026, measured in South Fork, Missouri while proving the workers fix (pull request for world-regional-work-piles-unplaced-workers-on-a-household)
 ---
 
