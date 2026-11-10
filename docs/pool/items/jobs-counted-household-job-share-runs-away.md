@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-jobs-counted-household-job-share-runs-away
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: high
 root: design-one-model-two-tiers
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 7, "The long world stops making sense", and root cause 5)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:59:04.189Z
 ---
 
 **What.** Counted households keep an untied share of jobs after their adults take real jobs, so a town ends with more jobs than adults. A counted household's work outside the town's firms is kept as a share, a number such as 0.4, tied to no particular adult (`unplacedWorkers`), while the same adults are also treated as jobless and looking. When one takes a real job, the job is added and nothing takes the share away, so the household holds both; arrivals compound it because a household that moves in is handed its new place's share per open adult. Measured by the Nov 9 audit in Wickliffe, Oklahoma (seed 8832429ff1e53841): 5.7% of adults at work at the opening, 125% after eleven years and 200% after eighteen; median household earnings went from $40,665 to $120,056 in eleven years; after three years the arrivals held 9,629 jobs for 5,586 working-age adults (1.7 each). With the share cleared once a month the audit's second run gave 0.5 jobs per adult and 64 of 7,025 household records over one job per adult, against 5,149 of 7,254 as the game stands; Frankfort, South Dakota (seed cd7e15c74e5f7692) gave 1.4 and 0.6.
