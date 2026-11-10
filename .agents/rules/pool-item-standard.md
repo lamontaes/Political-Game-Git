@@ -35,7 +35,7 @@ Beyond the usual ones, an item at the standard carries:
 
 ## A `Needs cause.` item is not built
 
-`npm run pool -- claim` refuses it with that reason. The index lists it under "Needs cause" and keeps it out of Next up. A session that finds the cause rewrites the item with `Found in code:` or `Measured:` and a real Fix; Fable finds causes.
+`npm run pool -- claim` refuses it with that reason. The index lists it under "Needs cause" and keeps it out of Next up. Any session that finds the cause rewrites the item with `Found in code:` or `Measured:` and a real Fix; finding a cause is itself work an item may ask for (its `model:` says who can).
 
 ## Which model and effort
 
