@@ -1,6 +1,6 @@
 ---
 id: tests-printed-news-check-open-choice
-title: "printed-news.browser.mjs throws when the jump meets an open choice"
+title: "printed-news.browser.mjs throws when a stop stays open after its resume"
 area: play
 kind: bug
 priority: 2
@@ -16,13 +16,14 @@ lead: play-first
 model: sonnet
 effort: low
 root: rc2-done-from-records
+checked: fable 2026-11-10
 ---
 
 **What.** printed-news.browser.mjs (Oct 28, drawn life) stopped with "advance failed: Answer the open choice or stop first." Its loop answers stops and polling places but not an open choice packet, so the check never reaches the printed story. The check jumps the calendar to a target date through /api/advance, resumes any packet of kind stop, leaves a polling place, and throws on any other failed advance. Its comment says a choice is left to the character, but the server now refuses the jump with that message, so the loop must answer the choice the way a player would.
 
-**Cause.** Found in code: src/bench/printed-news.browser.mjs lines 47 to 70 resume packets of kind stop only and throw on any other refused advance, and src/bench/player.ts (line 179) refuses the jump with "Answer the open choice or stop first." while a choice is open.
+**Cause.** Found in code: `advance` in src/bench/player.ts (lines 177 to 179) refuses a Day, Week or calendar jump with "Answer the open choice or stop first." only while a packet that is not a choice is still open, which today means a stop; an open choice is let through and the character answers it. src/bench/printed-news.browser.mjs (lines 63 to 68) posts /api/resume for a stop and never reads the reply, so a stop that the resume does not clear (a held deadline hands the same stop back, as `finishDay` in player.ts lines 109 to 121 shows) makes the next advance throw. The Oct 28 failure was read from its message; it has not been re-run on today's main, and the refusal may have covered choices then.
 
-**Fix.** Answer an open choice packet through the same controls a player uses (the first reply), then continue to the printed story, and print the place and seed on each run.
+**Fix.** First run src/bench/printed-news.browser.mjs in three drawn places and write down whether it still throws. Then make its loop read the reply of /api/resume: when the same stop comes back, settle it through the control a player has for that stop, or fail with the stop's kind, date and record id named. Keep the polling-place branch. Print the place and seed on each run. Do not answer choices in the check; the game answers them for the character.
 
 **Time box.** 2 hours.
 

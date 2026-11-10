@@ -16,6 +16,7 @@ effort: medium
 root: rc3-thin-life-record
 source: split from words-paper-and-journal-everyday-life in the pool redo, Nov 10, 2026
 standard: 2
+checked: fable 2026-11-10
 ---
 
 **What.** composeNewsStory words one story at a time, so a paper prints the same context sentence for a race in every story about it. Give each outlet a memory of the context sentences it printed for a race lately and skip one already printed. Repeats should fall without hiding any story. The memory comes from what the outlet printed, not from a new table.
@@ -24,7 +25,7 @@ standard: 2
 
 **Fix.** Pass a per-outlet memory of printed context sentences, by race, into composeNewsStory from the printed-words path and skip a sentence already printed lately; the memory is derived from what was printed, not a new stored table.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** No hand-written player text: words come from the banks. Wire to the world: the story prints from a record an engine writes, cited by record id. One rule, all 56 places: no place is named in logic. Speed: the memory is read when a story is composed and never scans the whole paper each day.
 

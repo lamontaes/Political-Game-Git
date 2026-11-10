@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** src/bench/talk-history.browser.mjs talks to the first person in the room and picks a reply twice to build a history block. Since the talk after the President's address was rewritten, that talk has one exchange: a reply, the person's answer with Continue, then it ends (Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4). The check then fails with no second reply, so the history display goes unchecked.

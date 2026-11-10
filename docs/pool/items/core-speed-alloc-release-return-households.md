@@ -17,6 +17,7 @@ root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** releaseResidentHousehold and returnToCounts in src/core2/modules/residents.ts build new objects and copies for every household filled in or returned, 2,000 MB and 1,104 MB in one played year. An allocation profile of a played year in Long Hill, Connecticut (seed m7b, 365 days, 60 GB sampled) found them allocating 5.1 percent (3,100 MB) of the bytes, in a year that takes 194 to 214 seconds against the 120-second limit, with garbage collection about 19 percent of it. The Oct 20 attempt changed the purchase branch of releaseResidentHousehold to copy once and edit in place; results were identical but the year did not move (163.2 s before, 164 s after), so that branch is not where the allocation goes. The allocator is still unnamed and the allocation profile script is not on main.

@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: "split from world-new-homes-moves-not-reached"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Households now move into new rentals in a played year (the housing module's `moves` table fills and a `housing.moved` event is emitted for each full person), but nothing reads that event: the director has rules for evictions, status changes and purchases but none for a move, and the journal has no row for it. A move is a "home" entry in the life record, which the journal and director read. Have the housing move write that entry, and add the director rule and journal row so a watched person's move into a new home becomes a scene and a journal line, with words from the English engine's banks. In a place with rent stabilization, a lease renewal in a new building carries the capped rent and its law id.

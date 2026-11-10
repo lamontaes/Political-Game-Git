@@ -17,6 +17,7 @@ after:
 model: sonnet
 effort: medium
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** Homes in a played town are almost never bought or sold, and world-home-turnover is building the sales. Even when one sells, the player cannot tell. Add a short Homes sold line to the town's news each month with the street, the price and whether the buyer is new to town, read from the sale records, and a Journal line when someone the player knows buys or sells. When nothing sold, the screen says none sold.

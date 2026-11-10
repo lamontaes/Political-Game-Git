@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-life-record
 source: split from world-community-calendar in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** With events and attendance recorded, the town's paper and a person's journal must read them or the events are placeholders. The press module quotes an event and who attended from the records, and the journal tells a person's own attendance. The words themselves are written by the Words line (words-paper-and-journal-everyday-life); this part makes the engine records readable by the news and journal producers.
@@ -30,6 +31,6 @@ source: split from world-community-calendar in the pool redo, Nov 10, 2026
 
 **Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`) in three drawn places (names and seeds in the PR body) and sees the paper or journal quote at least two community events in each place, by record id, with who attended read from attendance records; the played year stays within 20 percent of base on `npm run speed:year`.
 
-**Waits on.** world-community-calendar-part-3-attendance-by-recorded-causes, and the Words line for the wording (words-paper-and-journal-everyday-life).
+**Waits on.** world-community-calendar-part-3-attendance-by-recorded-causes. The lines in data/english/parts/ are Story's to write: send the Words line the list of pieces the producers need (kind of event, who attended, an outcome) and build against keys it gives back.
 
 **Files.** src/core2/modules/news.ts, src/director/, data/english/parts/news.json, data/english/parts/journal.json

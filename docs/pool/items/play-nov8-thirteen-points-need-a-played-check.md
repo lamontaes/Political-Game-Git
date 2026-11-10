@@ -16,6 +16,7 @@ effort: medium
 root: rc2-done-from-records
 lead: play-first
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6 and "What I ran, and what I could not verify")
+checked: fable 2026-11-10
 ---
 
 **What.** The audit counted 13 of the 72 defects from the owner's Nov 8 playtest as ones only a running game can settle, and said to count all 13 open until each is shown fixed on screen. The audit did not list them, so the Notes below carry a fresh reading of main on Nov 10: thirteen points where the code now carries a change aimed at the point, but the point is about how something looks, moves or plays, or its cause was never traced, so reading cannot close it. The job is one sitting in the running game that looks at each of the thirteen and marks it fixed with a screenshot, or files it as its own item with what was seen. Nothing is built here; a point found still broken becomes a new item named `play-nov8-<short-name>` with the screenshot.

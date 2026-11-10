@@ -16,6 +16,7 @@ effort: medium
 root: design-life-record
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point C30, not fixed)
+checked: fable 2026-11-10
 ---
 
 **What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut), on his journal: "None of my history is simulated." The CTO's note (point C30): the chapter "Connecticut 1981" opens with "I moved to Connecticut" though he was born there in 1981, and ends with "I moved to Connecticut" again. A person born in the town whose mother has since moved away gets a move record from the mother's town to their own, and the journal tells it as the person's own move to where they live now. Where someone came from should be read from their own birthplace and their own place records, never from where a parent lives today, and a person born where they live has no move told; the chapter title names the town, not only the state.

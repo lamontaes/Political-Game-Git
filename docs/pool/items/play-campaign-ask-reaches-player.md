@@ -17,6 +17,8 @@ lead: governing
 model: opus
 effort: medium
 root: rc7-player-cannot-drive
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** A world candidate's campaign asks the people it can reach for money, and now skips the controlled player. A candidate who knows the player (family, a friend, the party) should reach them as a request in conversation or a letter, which the player accepts, declines or sizes; the amount then moves through `askForDonation`'s own rules. The engine side is done under core-player-money-spending, which stopped world campaigns from drawing on the player's account (before the fix it took 35 gifts from the player's account in Lake Ridge, Virginia, seed d97611412a84, with no say). What is missing is the player's side: a request they can see and answer, and an answer the candidate's next ask reads.

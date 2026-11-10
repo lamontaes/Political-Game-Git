@@ -16,13 +16,14 @@ model: sonnet
 effort: medium
 root: rc2-done-from-records
 source: the builder of play-m0-04-why-scores-all-sampled, Nov 10, 2026 (pull request 8177); filed by Fable
+checked: fable 2026-11-10
 ---
 
 **What.** Opening "why" on a decision shows the scores of every option the person weighed. For the character the player plays, those scores are gone a week later. The golden path's check had to open each decision on the day it was made to find twenty with scores. A player who looks back at last month's choices sees a why with no scores.
 
-**Cause.** Needs cause. Looked at: the builder's report on pull request 8177, which says the scores are kept for `circleDecisionDetailDays` (seven days, a tunable) and then condensed, that this applies to the played character's own acts, and that a comment in src/core2/decision-detail.ts says a played character keeps them for a year. Not yet known: whether the played character is meant to be kept longer and a condition is missing, or the comment is out of date, and whether the early acts with no `controlledChoice` are the engine acting for the character.
+**Cause.** Found in code: two tests for "the player's own" disagree. When a record is written, `keptDecision` (src/core2/decision-detail.ts, line 102) keeps every score for a decision whose actor is `core.playerId` or is a character the player controls (`isExplicitlyControlledPersonV1`, passed in at src/core2/state.ts lines 753 to 757). The condensing pass knows only `core.playerId`: `involvesPlayer` (decision-detail.ts, line 228), `condenseCircleDecisions` (lines 296 to 318) and `condenseRelationshipDecisions` (line 192). The bench plays whoever the player chose (`this.personId`, src/bench/player.ts line 91), who is controlled but need not be `core.playerId`, the entrant generated at the opening (src/bench/world.ts line 414). So a chosen character's acts keep their scores for `circleDecisionDetailDays` (seven days) and are then condensed like a circle member's, though the file's opening comment and `playerDecisionDetailDays` say a year. Read on main Nov 10; not confirmed by a run, and which character the M0-04 check plays was not traced.
 
-**Fix.** None until the cause is found.
+**Fix.** Put the test for "the player's own" in one function in src/core2/decision-detail.ts (the actor is `core.playerId` or is controlled, by `isExplicitlyControlledPersonV1`) and use it at write time and in every condensing pass (lines 112, 192, 228, 302 and 318), so a controlled character's routine acts and weighed choices go to the player's queue and keep their scores for `playerDecisionDetailDays`. Add a test that plays 30 days as a chosen resident who is not the generated entrant and reads the scores of a first-week decision. If the run shows the M0-04 character is `core.playerId` and still loses scores, set this item back to Needs cause with what was seen.
 
 **Time box.** 3 hours for one Sonnet session, to read the retention code and its comment against a played week, and rewrite this item with the cause. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 

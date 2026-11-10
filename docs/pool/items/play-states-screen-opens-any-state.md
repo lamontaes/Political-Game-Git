@@ -16,6 +16,7 @@ effort: medium
 root: rc1-world-outside-town
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 3, "The detail on demand has no door" and "What a player sees")
+checked: fable 2026-11-10
 ---
 
 **What.** The game keeps what other states do, and the player has no way to look. The audit's words: "No screen opens another state, its governor, its legislature or its vote." A player gets a Nation heading in News with one-line items such as "Bottle deposit in New York became law." In the played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af), 54 other states and territories changed 473 laws that no screen could open. Build one States screen from the records already kept, for all 56 places: pick any state or territory and see its governor, the party in each chamber, its laws in force, what it changed and when with the vote count, and open any change to its roll call and sponsor. It is a view only and computes and stores no fact of its own.

@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: medium
 root: rc4-hand-written-words
+checked: fable 2026-11-10
 ---
 
 **What.** Measured by the Nov 9 audit in Blodgett Landing, New Hampshire (a random world, no seed), playing a 17-year-old girl the game named Ray Kent: "The journal's third paragraph says one thing three times: 'Three years on, my mother started a new job. My mother got a new job. My mother Tonya works as a sales representative.'" The journal makes one moment for each work spell a parent began while the player was a child at home, and those moments carry no facts, so their only wordings are bare pieces; it then adds a livelihood moment for the job each earner holds on day one. Two spells and the current job give three sentences that tell a reader one thing. Fix the cause for every relative and every kind of record: a moment that adds nothing beyond a line already in the paragraph is not told, and a new-job line names the job and the employer from the spell's record so two of them are two different facts.
@@ -30,7 +31,7 @@ root: rc4-hand-written-words
 
 **Done when.** A second session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof) as a player young enough to have parents at home, opens Journal and takes a screenshot at 1440×900 of each chapter. No paragraph may say the same fact about the same person twice: no two sentences in one paragraph that both say only that a relative has or took a job. Every sentence about a relative's job names the job or the employer. The proof lists, for one paragraph, each sentence beside the record id it tells. A test builds the journal in six drawn places and fails when two lines of one chapter share a counterpart and a kind and carry no differing fact. The same check is then run in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro, on the third paragraph. The owner plays it: he reads his journal and each sentence tells him something the one before did not.
 
-**Waits on.** Nothing.
+**Waits on.** core-life-record-part-1-the-journal-reads-the-life-list, which rewrites `householdMoments` in src/director/journal.ts; build this on top of it, not beside it.
 
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, data/english/parts/journal.json
 
