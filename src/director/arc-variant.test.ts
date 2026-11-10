@@ -37,7 +37,7 @@ import {
 // choose, where different causes in one played year give different variants.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-type Row = { purpose: string };
+type Row = { purpose: string; pull?: readonly string[] };
 const FAMILIES = (
   variantFile as unknown as {
     families: Record<string, { variants: Record<string, Row> }>;
@@ -496,7 +496,17 @@ describe(`variants in a played year (seed ${seed})`, () => {
         choice.recordIds.some((id) => id.includes(first.id)),
         where,
       ).toBe(true);
-      expect(score("again"), where).toBeGreaterThan(0);
+      // The asker's pull multiplies the world's score (arc-variant.ts): a
+      // person at the floor of every facet the again variant lists never
+      // presses again, however plain the earlier refusal, so it scores 0.
+      const traits = played.people.get(offerer.id)?.traits ?? {};
+      const facets = FAMILIES["bribe-offer"]!.variants.again!.pull ?? [];
+      const pull =
+        facets.reduce((sum, key) => sum + (traits[key] ?? 0), 0) /
+        Math.max(1, facets.length);
+      if (pull > -1) expect(score("again"), where).toBeGreaterThan(0);
+      else expect(score("again"), where).toBe(0);
+      process.stdout.write(`ARC VARIANTS repeat pull ${pull.toFixed(2)}\n`);
       expect(score("again", scene.scene.variant!), where).toBe(0);
       process.stdout.write(
         `ARC VARIANTS repeat, ${where}: first ${first.id} played ${scene.scene.variant!.variant} and was handed back (${recordId}); second ${second.id} played ${choice.variant}, the earlier refusal on its reads (${choice.recordIds.join(", ")}), again scored ${score("again").toFixed(2)}\n`,
