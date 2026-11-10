@@ -62,6 +62,7 @@ import {
   scaleOutsideSales,
   type OutsideSectorFactor,
 } from "../residents-economy";
+import { sectorOfKind } from "../business-books";
 import { placeStateKey } from "../place-map";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
@@ -166,6 +167,17 @@ function publishConditions(
     hundred = api.parameter("macroHundred");
   const regional = regionalRegistered(api);
   const outside = outsideBySector(api);
+  const books = (api.state as CoreState).finance.businesses;
+  // A seller's sector, by its kind: read once per kind, never per flow.
+  const sectorOf = new Map<string, CountrySector | null>();
+  const sectorOfSeller = (sellerId: string) => {
+    const kindId = books.get(sellerId)?.kindId;
+    if (kindId === undefined) return null;
+    let sector = sectorOf.get(kindId);
+    if (sector === undefined)
+      sectorOf.set(kindId, (sector = sectorOfKind(kindId)));
+    return sector;
+  };
   for (const placeId of state.placeIds) {
     // The place's region moves its pay, demand and price level against the nation's.
     const region = regional
@@ -178,10 +190,14 @@ function publishConditions(
           (one + opening.outputGapPct / hundred)) *
         region.demand;
     // Buyers outside the town follow the seller's own sector: its sales in the place's state and the nation's.
+    const factors = outside(placeId);
     scaleOutsideSales(
       api.state as CoreState,
       placeId,
-      outside(placeId),
+      (sellerId) => {
+        const sector = sectorOfSeller(sellerId);
+        return sector ? factors.get(sector) : undefined;
+      },
       (organizationId) => firmStaffing(api, organizationId)?.serviceLevel,
     );
     api.addFinanceCondition({

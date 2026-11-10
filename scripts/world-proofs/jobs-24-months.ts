@@ -194,7 +194,7 @@ console.log(
   `outside sales in months 1 to 12, the 30-day rates summed: $${Math.round(firstYearOutside)}; months two sectors moved apart: ${monthsSectorsDiffer.length} of ${months} (${monthsSectorsDiffer.join(" ")})`,
 );
 console.log(
-  `outside sales followed:${[...followed.values()].join("; ") || "no flow names the records it follows"}`,
+  `outside sales followed: ${[...followed.values()].join("; ") || "no flow names the records it follows"}`,
 );
 // Hours cuts: the jobs whose hours the employers changed (core.work.hourChanges), the record that hours moved before staff.
 const hourRows = [...world.core.work.hourChanges.values()].flat();

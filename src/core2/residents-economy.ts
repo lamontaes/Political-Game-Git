@@ -11,8 +11,6 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
-import { sectorOfKind } from "./business-books";
-import type { CountrySector } from "./country-model";
 import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
@@ -473,10 +471,10 @@ export function shiftPurchaseShare(
   return Math.round(moved);
 }
 
-/** What one sector's outside buyers do this month: its sales against the opening month's, and the tier's records it read. */
+/** What one seller's outside buyers do this month: its sector's sales against the opening month's, and the records it read. */
 export interface OutsideSectorFactor {
   factor: number;
-  /** The tier's records the factor read, by id (the state's row and the nation's), as a source line says it. */
+  /** The sector and the records the factor read, by id (the state's row and the nation's), as a source line says it. */
   followed: string;
 }
 
@@ -484,12 +482,14 @@ export interface OutsideSectorFactor {
  * Buyers outside the town follow the sales of the seller's own sector: each
  * `outside-sales` flow of the place is its opening amount times its seller's
  * sector's factor this month (the macro module reads it once a month per
- * sector from the country tier). Returns the flows changed.
+ * sector from the country tier and gives it here by seller). Returns the
+ * flows changed.
  */
 export function scaleOutsideSales(
   core: CoreState,
   placeId: string,
-  bySector: ReadonlyMap<CountrySector, OutsideSectorFactor>,
+  /** The factor a seller's sector follows this month, by the seller's organization id. */
+  factorOf: (sellerId: string) => OutsideSectorFactor | undefined,
   /** A seller's service level now (staff against what its demand needs, 0 to 1), where the jobs engine keeps one. */
   serviceLevel?: (organizationId: string) => number | undefined,
 ): number {
@@ -501,7 +501,6 @@ export function scaleOutsideSales(
   if (!factors) outsideFactors.set(core, (factors = new Map()));
   let shares = outsideShares.get(core);
   if (!shares) outsideShares.set(core, (shares = new Map()));
-  const sectorOf = new Map<string, CountrySector | null>();
   let changed = 0;
   // Each seller's outside spending before the division, by its kind.
   const kinds = serviceLevel
@@ -514,14 +513,10 @@ export function scaleOutsideSales(
       flow.placeId !== placeId
     )
       continue;
-    const book = core.finance.businesses.get(flow.payeeId);
-    let sector = book ? sectorOf.get(book.kindId) : null;
-    if (book && sector === undefined)
-      sectorOf.set(book.kindId, (sector = sectorOfKind(book.kindId)));
-    const own = sector ? bySector.get(sector) : undefined;
+    const own = factorOf(flow.payeeId);
     if (!own || !(own.factor > 0))
       throw new Error(
-        `Outside buyers' flow ${flow.id} has no sector to follow (seller ${flow.payeeId}, kind ${book?.kindId ?? "none"}).`,
+        `Outside buyers' flow ${flow.id} has no sector to follow (seller ${flow.payeeId}).`,
       );
     // First seen: its amount is at the factor it last followed.
     if (!bases.has(flow.id))
@@ -546,6 +541,10 @@ export function scaleOutsideSales(
     flow.amountMinor = Math.round(raw * shareOfFlow(core, flow.id));
     changed += 1;
     const level = kinds && serviceLevel!(flow.payeeId);
+    const book =
+      kinds && level !== undefined
+        ? core.finance.businesses.get(flow.payeeId)
+        : undefined;
     if (kinds && book && level !== undefined && !book.closedAt) {
       const group = kinds.get(book.kindId) ?? [];
       group.push({ flow, raw, level });

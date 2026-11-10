@@ -14,19 +14,16 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { scaleOutsideSales } from "./residents-economy";
-import { COUNTRY_SECTORS } from "./country-model";
 import { firmStaffing, JOBS_MODULE_ID } from "./modules/jobs";
 import { coreAPI } from "./state";
 import { residentsRuntime } from "./modules/residents";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-// Every sector's outside buyers at their opening level, so only the division moves a seller.
-const AT_OPENING = new Map(
-  COUNTRY_SECTORS.map((sector) => [
-    sector,
-    { factor: 1, followed: `${sector} at the opening (this test)` },
-  ]),
-);
+// Every seller's outside buyers at their opening level, so only the division moves a seller.
+const AT_OPENING = () => ({
+  factor: 1,
+  followed: "the opening (this test)",
+});
 
 it("divides outside buyers' spending among a kind's sellers by service level, keeping the kind's total", () => {
   setBookkeeping(false);
