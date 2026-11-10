@@ -364,6 +364,12 @@ function levelRow(rows: readonly LawRowInput[], date: string) {
   );
 }
 
+/** Money in a law is whole cents: a wage floor of 1001 is $10.01 an hour, and 10.01 is not an amount. */
+function wholeMoney(unit: string | undefined, value: number): void {
+  if (unit?.startsWith("minor") && !Number.isSafeInteger(value))
+    throw new Error("An amount of money in a law is in whole cents.");
+}
+
 export class DevMode {
   /** People whose next decision dev mode has picked (an act key the core offered). */
   readonly pending = new Map<string, string>();
@@ -568,6 +574,7 @@ export class DevMode {
           .query("bySeriesOnly", [input.series]) as unknown as LawRowInput[]
       ).find((row) => row.unit)?.unit ??
       (input.series === PUBLIC_PAY_FLOOR ? PUBLIC_PAY_FLOOR_UNIT : undefined);
+    wholeMoney(unit, value);
     const measureId = `${DEV_MODE}-${this.sequence + 1}`;
     const row = enactLaw(api, {
       jurisdiction: level.jurisdiction,
@@ -993,6 +1000,16 @@ export class DevMode {
       if (value === undefined || !Number.isFinite(value))
         throw new Error("A bill needs a value.");
       if (!sponsorId) throw new Error("A bill needs a sponsor.");
+      wholeMoney(
+        input.unit ??
+          (
+            this.api
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .query("bySeriesOnly", [series]) as unknown as LawRowInput[]
+          ).find((row) => row.unit)?.unit,
+        value,
+      );
       // A policy question (a yes or no the law answers) is a section of its own kind.
       provisions = [
         POLICY_QUESTIONS[series]

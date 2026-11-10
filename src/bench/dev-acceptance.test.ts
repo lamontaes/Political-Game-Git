@@ -124,6 +124,12 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
     ).toBe(reach.records);
   }, 600_000);
 
+  it("the law control refuses an amount of money that is not whole cents", () => {
+    expect(() =>
+      dev.setLaw({ level: "state", series: "minimum-wage", value: 10.01 }),
+    ).toThrow(/whole cents/);
+  });
+
   it("a law nothing has applied reads zero, not an error", () => {
     const reach = dev.reach("no-such-law-row");
     expect(reach.records).toBe(0);
@@ -139,7 +145,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
           bodyOfficeId: b.id,
           sponsorId: b.members[0]!.key,
           series: "minimum-wage",
-          value: 30 + (count += 1) / 100,
+          value: 3000 + (count += 1),
         }).bill.status !== "blocked",
     );
     // A place with no local body that may take the bill proves nothing here; say so.
@@ -151,7 +157,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       bodyOfficeId: body.id,
       sponsorId: body.members[0]!.key,
       series: "minimum-wage",
-      value: 30 + (count += 1) / 100,
+      value: 3000 + (count += 1),
     }).bill;
     const result = dev.decideAt(bill.id, -1000);
     expect(result.bill.status, where).toBe("failed");
@@ -171,7 +177,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
         bodyOfficeId: house!.id,
         sponsorId: house!.members[0]!.key,
         series: "minimum-wage",
-        value: 9 + (count += 1) / 100,
+        value: 900 + (count += 1),
       }).bill;
     // Every member against it: it is voted down, in its committee where that committee's members
     // vote it there, else on the floor. Either way the ending names the vote that ended it.
@@ -238,7 +244,7 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
           bodyOfficeId: body.id,
           sponsorId: body.members[n % body.members.length]!.key,
           series: "minimum-wage",
-          value: 12 + (count += 1) / 100,
+          value: 1200 + (count += 1),
         }).bill;
         if (bill.status === "blocked") continue search;
         const result = dev.decideAt(bill.id, 1000, { sign: true });
@@ -300,7 +306,8 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       bodyOfficeId: body.id,
       sponsorId: body.members[0]!.key,
       series: "minimum-wage",
-      value: 10 + (count += 1) / 100,
+      // Whole cents an hour, a new amount each draw of the body.
+      value: 1000 + (count += 1),
       schedule: true,
     }).bill;
     expect(bill.status, where).toBe("drafted");
