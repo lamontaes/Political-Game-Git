@@ -63,6 +63,7 @@ export { seededUnit } from "./seeded";
 // The one history, for the engines that run or read it (light imports only:
 // the engines load this entry while the core is still loading).
 export {
+  ownWindowOf,
   pastForLater,
   preStartHistory,
   preStartWindowOf,
@@ -82,6 +83,7 @@ export {
 } from "./past-work";
 export {
   PERSON_MOVED_IN,
+  pastMovesFor,
   pastMovesHistory,
   residenceOn,
   type DepartureRate,

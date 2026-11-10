@@ -3,10 +3,9 @@
     "tag": "ESTIMATED",
     "asOf": "2026-11-10",
     "citation": "BLS Current Employment Statistics supersectors, which group industries by NAICS sector: utilities (NAICS 22) with trade and transportation; banking (52) in financial activities; hospitals (622) in education and health services; religious, civic, labor and political organizations (813) in other services; publishing and broadcasting (51) in information; every public employer, its schools, police, fire and health offices included, in government. The county sample's workers carry their county employer's two-digit NAICS sector (County Business Patterns), read the same way: 11 and 21 with mining and logging, as the jobs engine's farm and quarry kinds are; 22, 42, 44 and 48 in trade, transportation and utilities; 52 and 53 in financial activities; 54 to 56 in professional and business services; 61 and 62 in education and health; 71 and 72 in leisure and hospitality.",
-    "estimatedFrom": "Each employer classification and organization kind the opening writes that has no business kind in business-books.json (or whose kind has no row in the jobs engine's kindSector), assigned to the supersector its NAICS sector belongs to. Read by the country tier when it counts the played town's jobs inside its state."
+    "estimatedFrom": "Each employer classification and organization kind the opening writes that has no business kind with a sector in business-books.json (a kind's own sector is read through sectorOfKind), assigned to the supersector its NAICS sector belongs to. Read by the country tier when it counts the played town's jobs inside its state."
   },
   "classifications": {
-    "enterprise:utility": "trade-transport-utilities",
     "enterprise:banking": "financial",
     "service:hospital": "education-health",
     "service:school": "government",

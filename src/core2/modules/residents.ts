@@ -1001,9 +1001,17 @@ function livingPayerOf(
     )[0]?.id;
 }
 
-function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
+/**
+ * One flow's payment for the day it fell due (`date`: today in play; a day of
+ * the skipped month in results mode, whose payment is posted today).
+ */
+function settle(
+  api: CoreAPI,
+  rt: ResidentsRuntime,
+  flow: FlowState,
+  date: string = api.state.date,
+): void {
   const core = api.state,
-    date = core.date,
     finance = core.finance;
   if (flow.endsAt && date >= flow.endsAt) return end(flow, date, "ended");
   // A household bill is paid by someone living: when its payer has died the
@@ -1053,7 +1061,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     // after the local orders for that month are known.
     const history = [
       ...(flow.accrualHistory ?? []),
-      { date: core.date, accrued: flow.accruedCostMinor },
+      { date, accrued: flow.accruedCostMinor },
     ];
     const termsStart = makeIsoDate(
       addDays(makeIsoDate(date), -api.parameter("supplierTradeTermsDays")),
@@ -1153,7 +1161,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         }
         const elsewhere =
           scaled && payeeBook && total > 0
-            ? overCapacity(api, rt, flow, payeeBook, total)
+            ? overCapacity(api, rt, flow, payeeBook, total, date)
             : 0;
         return [
           { accountId: seller, deltaMinor: total - elsewhere },
@@ -1236,8 +1244,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       }
     } else if (paid > 0 && carries && payerPerson && !outside) {
       for (const leg of legs)
-        if (leg.amount > 0) post(api, flow, leg.amount, leg.payerId);
-    } else if (paid > 0) post(api, flow, paid);
+        if (leg.amount > 0) post(api, flow, leg.amount, date, leg.payerId);
+    } else if (paid > 0) post(api, flow, paid, date);
   }
   if (carries) {
     // What is still unpaid after the creditors' charge-off age (a number of
@@ -1335,6 +1343,7 @@ function post(
   api: CoreAPI,
   flow: FlowState,
   paid: number,
+  date: string,
   payerId: string = flow.payerId,
 ): void {
   const core = api.state;
@@ -1358,7 +1367,7 @@ function post(
     if (flow.kind === "outside-costs")
       flow.splitPaidMinor = (flow.splitPaidMinor ?? 0) + toGovernments;
     transferSplit(core, api, {
-      id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
+      id: `${flow.id}@${date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
       lines: [
         {
           accountId: core.cashJournal.residualAccountByOwner.get(payerId)!,
@@ -1376,7 +1385,7 @@ function post(
     return;
   }
   transfer(core, api, {
-    id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
+    id: `${flow.id}@${date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
     from: core.cashJournal.residualAccountByOwner.get(payerId)!,
     to: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
     amountMinor: paid,
@@ -1392,8 +1401,9 @@ function overCapacity(
   flow: FlowState,
   book: { annualDemandMinor: number; annualPayrollMinor: number },
   paid: number,
+  date: string,
 ): number {
-  const month = api.state.date.slice(0, 7);
+  const month = date.slice(0, 7);
   let row = rt.sellerMonth.get(flow.payeeId);
   if (!row || row.month !== month) {
     row = { month, receivedMinor: 0 };
@@ -1520,14 +1530,15 @@ function closeMonths(rt: ResidentsRuntime, month: string): void {
   }
 }
 
-function runResidentsDay(api: CoreAPI): void {
-  const core = api.state,
-    rt = runtimes.get(core);
-  if (!rt) return;
+/**
+ * The groups' opening funds and, on a new month, each group's spending
+ * following its income and the money no engine keyed to anyone going to the
+ * place's groups.
+ */
+function openResidentsDay(api: CoreAPI, rt: ResidentsRuntime): void {
+  const core = api.state;
   rt.api = api;
   if (!rt.funded) fundGroups(api, rt);
-  // A new month: each group's spending follows its income, and money no
-  // engine keyed to anyone goes to the place's groups.
   const month = core.date.slice(0, 7);
   if (rt.lastMonth !== month) {
     if (rt.lastMonth) {
@@ -1538,9 +1549,13 @@ function runResidentsDay(api: CoreAPI): void {
     }
     rt.lastMonth = month;
   }
-  const ids = rt.due.get(core.date);
+}
+
+/** Settles the flows that fell due on `due` (today in play), in kind order. */
+function settleDue(api: CoreAPI, rt: ResidentsRuntime, due: string): void {
+  const ids = rt.due.get(due);
   if (!ids) return;
-  rt.due.delete(core.date);
+  rt.due.delete(due);
   rt.shortfalls.clear();
   api.stopgap(RESIDENTS_STOPGAP);
   const flows = [...ids]
@@ -1548,14 +1563,14 @@ function runResidentsDay(api: CoreAPI): void {
     .sort((a, b) => ORDER[a.kind] - ORDER[b.kind] || a.id.localeCompare(b.id));
   for (const flow of flows) {
     if (flow.endedAt) continue;
-    const retry = core.date < flow.nextAt;
-    settle(api, rt, flow);
+    const retry = due < flow.nextAt;
+    settle(api, rt, flow, due);
     if (flow.endedAt) continue;
     if (!retry) flow.nextAt = advanceCadence(flow.nextAt, flow.cadence);
     schedule(rt, flow);
-    // What a household could not pay is asked again tomorrow, until the next bill.
+    // What a household could not pay is asked again the next day, until the next bill.
     if (flow.arrearsMinor > 0 && flow.financeKind === FIXED_SPENDING) {
-      const tomorrow = makeIsoDate(addDays(makeIsoDate(core.date), 1));
+      const tomorrow = makeIsoDate(addDays(makeIsoDate(due), 1));
       if (tomorrow < flow.nextAt) {
         const ids = rt.due.get(tomorrow) ?? new Set<string>();
         ids.add(flow.id);
@@ -1563,6 +1578,32 @@ function runResidentsDay(api: CoreAPI): void {
       }
     }
   }
+}
+
+/**
+ * The counted groups' day: the flows that fell due on days no day ran (the
+ * skipped days of results mode, which calls this on the first of each month;
+ * none in day-by-day play), each settled with its own day's step in date
+ * order and booked to the month it fell due, then the new month's close and
+ * today's flows.
+ */
+function runResidentsDay(api: CoreAPI): void {
+  const rt = runtimes.get(api.state);
+  if (!rt) return;
+  const today = api.state.date;
+  for (;;) {
+    let due: string | undefined;
+    for (const date of rt.due.keys())
+      if (date < today && (due === undefined || date < due)) due = date;
+    if (due === undefined) break;
+    rt.api = api;
+    if (!rt.funded) fundGroups(api, rt);
+    // The skipped days began in the month the first day of play opens.
+    rt.lastMonth ??= rt.openingMonth;
+    settleDue(api, rt, due);
+  }
+  openResidentsDay(api, rt);
+  settleDue(api, rt, today);
 }
 
 /** A job held by someone in the wider population, while its employer still pays it. */
@@ -2317,6 +2358,7 @@ export function residentWageShortfall(
 export const RESIDENTS_MODULE: CoreModule = {
   id: RESIDENTS_MODULE_ID,
   onDay: runResidentsDay,
+  onResultsMonth: runResidentsDay,
 };
 
 export interface ResidentCounts {

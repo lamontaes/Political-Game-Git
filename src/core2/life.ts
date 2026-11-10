@@ -40,6 +40,7 @@ import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { SCHOOL_MODULE } from "./modules/school";
 import { DISASTERS_MODULE } from "./modules/disasters";
 import { declareSnapshotCovered } from "./snapshot";
+import { stopgap } from "./stopgaps";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import {
@@ -567,16 +568,37 @@ export function runDay(
     acts += hooks.activate(row);
   }
   for (const module of core.modules.values()) module.onAfterDay?.(api);
+  compactDay(core);
+  return { decisions, acts };
+}
+
+/** End-of-day compaction, run by both the day loop and results mode. */
+function compactDay(core: CoreState): void {
   compactRoutineMetrics(core);
   compactQuietWorkResults(core, coreAPI(core));
   condenseCircleDecisions(core);
-  return { decisions, acts };
+}
+
+/**
+ * One day nobody watches (results mode): the module calendar's dated work and
+ * the day's compaction, with no module's day and no person due to act. On the
+ * first of each month every module's onResultsMonth brings its own daily work
+ * up to date, so day-by-day play resumes after the skip.
+ */
+function runResultsDay(core: CoreState, api: CoreAPI): void {
+  // stopgapId: SG-SPEED-results-mode-daily-work (a skipped day runs no module's day and no person; only finance, health and renewal catch up, monthly)
+  stopgap("SG-SPEED-results-mode-daily-work", core);
+  runModuleCalendar(core, api);
+  const day = new Date(`${makeIsoDate(core.date)}T00:00:00.000Z`).getUTCDate();
+  if (day === parameter("one", core.data.parameters))
+    for (const module of core.modules.values()) module.onResultsMonth?.(api);
+  compactDay(core);
 }
 
 export function advanceCore(
   core: CoreState,
   throughDate: string,
-  options: { controller?: Controller } = {},
+  options: { controller?: Controller; results?: boolean } = {},
 ): { simulatedDays: number; decisions: number; acts: number } {
   if (snapshotExplicitControlV1(core).personId !== undefined)
     throw new Error(
@@ -590,6 +612,11 @@ export function advanceCore(
     acts = p("zero");
   while (core.date < target) {
     const date = addDays(makeIsoDate(core.date), p("one"));
+    if (options.results) {
+      advanceDate(core, date);
+      runResultsDay(core, coreAPI(core));
+      continue;
+    }
     const due = duePeople(core, date);
     advanceDate(core, date);
     const api = coreAPI(core);

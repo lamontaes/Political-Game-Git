@@ -265,6 +265,44 @@ export interface CountryState {
   abroadYear: number;
   /** What firms paid out last month that this state's owners receive this month. */
   ownersIncome: number;
+  /** What each step of the month moved here, for the last twelve months, oldest first (dev mode's Trace reads it). */
+  whatMoved: CountryStateMoved[];
+}
+
+/** A tax withheld from pay under one law row, dollars. */
+export interface CountryWithheldLine {
+  lawId: string;
+  level: "state" | "federal";
+  dollars: number;
+}
+
+/**
+ * What each step of one state's month moved: the taxes withheld under each law row, what
+ * households spent, the jobs added and cut by sector, who arrived and left, and the ledger's
+ * revenue and budget. Kept so a trace can open why one month or one world differs from another.
+ */
+export interface CountryStateMoved {
+  /** The tier's month this row is of, counted from the opening. */
+  month: number;
+  /** Withheld from this month's pay, under each law row read. */
+  withheld: CountryWithheldLine[];
+  /** What households spent this month, dollars. */
+  spent: number;
+  /** By sector, in `COUNTRY_SECTORS` order: jobs filled, jobs ended at firms, and jobs left by people who moved away, aged out of work or died. */
+  jobsAdded: number[];
+  jobsCut: number[];
+  jobsVacated: number[];
+  /** People who came from another state, left for one, and came from abroad. */
+  arrived: number;
+  left: number;
+  fromAbroad: number;
+  /** The ledger's revenue this month, dollars, by source. */
+  incomeTaxRevenue: number;
+  salesTaxRevenue: number;
+  profitTaxRevenue: number;
+  otherRevenue: number;
+  /** The budget in force for the year, dollars a year. */
+  budgetYear: number;
 }
 
 export interface CountryTier {
@@ -297,7 +335,12 @@ export interface CountryLaw {
   withheld(
     state: CountryState,
     payYear: number,
-  ): { state: number; federal: number };
+  ): {
+    state: number;
+    federal: number;
+    /** The same dollars a year by the law row each was withheld under; a row in force that withholds nothing is listed at zero. */
+    lines: readonly CountryWithheldLine[];
+  };
   /** The general sales tax, a share of the price. */
   salesTaxRate(state: CountryState): number;
   /** The tax on a firm's profit, a share: the state's and the nation's. */
@@ -421,6 +464,8 @@ interface Incomes {
   disposable: number[];
   stateTaxes: number;
   federalTaxes: number;
+  /** The month's withholding by law row, in the order the rows were first read. */
+  withheld: Map<string, CountryWithheldLine>;
   jobless: number;
   transfers: number;
 }
@@ -446,6 +491,7 @@ function incomes(
     disposable: [],
     stateTaxes: 0,
     federalTaxes: 0,
+    withheld: new Map(),
     jobless: 0,
     transfers: 0,
   };
@@ -455,6 +501,15 @@ function incomes(
     const held = law.withheld(state, pay);
     const toState = (cell.workers * held.state) / months;
     const toNation = (cell.workers * held.federal) / months;
+    for (const line of held.lines) {
+      let kept = out.withheld.get(line.lawId);
+      if (!kept)
+        out.withheld.set(
+          line.lawId,
+          (kept = { lawId: line.lawId, level: line.level, dollars: 0 }),
+        );
+      kept.dollars += (cell.workers * line.dollars) / months;
+    }
     const benefit =
       (cell.seekers *
         rules.joblessInsuredShare *
@@ -483,6 +538,8 @@ function incomes(
 
 interface Demands {
   incomes: Incomes;
+  /** What households spent, sales tax included. */
+  spent: number;
   /** Each cell's cash after the month, in the cells' order. */
   cash: number[];
   salesTax: number;
@@ -571,6 +628,7 @@ function demands(
   }
   return {
     incomes: got,
+    spent,
     cash,
     salesTax,
     setAside: setAside + (net - onSectors),
@@ -683,11 +741,13 @@ function moves(
   tier: CountryTier,
   law: CountryLaw,
   rules: CountryRules,
-): number {
+): { moved: number; left: number[]; arrived: number[] } {
   const { parts } = flowsOf(tier, offersOf(tier, law), rules, false);
   const arriving = tier.states.map((state) =>
     state.cells.map(() => ({ people: 0, seekers: 0, cash: 0 })),
   );
+  const left = tier.states.map(() => 0);
+  const arrived = tier.states.map(() => 0);
   let moved = 0;
   tier.states.forEach((home, h) => {
     const { weights, total, leaving } = parts[h]!;
@@ -704,7 +764,9 @@ function moves(
         into.people += cell.people * part;
         into.seekers += (cell.workers + cell.seekers) * part;
         into.cash += cell.cash * part;
+        arrived[d]! += cell.people * part;
       }
+      left[h]! += cell.people * share;
       moved += cell.people * share;
       workersOut += cell.workers * share;
       for (const key of CELL_COUNTS) cell[key] -= cell[key] * share;
@@ -721,18 +783,19 @@ function moves(
       cell.cash += into.cash;
     }),
   );
-  return moved;
+  return { moved, left, arrived };
 }
 
 /** Births, coming of age, aging into the next band, and deaths, at each band's yearly rate. */
 function people(
   tier: CountryTier,
   rules: CountryRules,
-): { births: number; deaths: number; arrived: number } {
+): { births: number; deaths: number; arrived: number; fromAbroad: number[] } {
   const months = rules.monthsPerYear;
   let births = 0,
     deaths = 0,
     arrived = 0;
+  const fromAbroad: number[] = [];
   for (const state of tier.states) {
     const before = sum(state.cells.map((cell) => cell.workers));
     const older = state.cells.map(() => ({
@@ -775,6 +838,7 @@ function people(
     state.children += born - grown + abroad * rules.abroadChildShare;
     births += born;
     arrived += abroad;
+    fromAbroad.push(abroad);
     state.cells.forEach((cell, index) => {
       for (const key of CELL_COUNTS) cell[key] += older[index]![key];
       if (cell.band === 0) {
@@ -788,7 +852,7 @@ function people(
     if (before > 0)
       for (const row of state.sectors) row.jobs *= 1 - workersGone / before;
   }
-  return { births, deaths, arrived };
+  return { births, deaths, arrived, fromAbroad };
 }
 
 /** Every state at the opening, from the figures passed in, with its books made to add up. */
@@ -896,6 +960,7 @@ export function openCountry(
       arrivalsYear: row.arrivalsYear,
       abroadYear: row.abroadYear,
       ownersIncome: 0,
+      whatMoved: [],
     };
   });
   const tier: CountryTier = {
@@ -1247,6 +1312,11 @@ export function stepCountry(
     }),
   );
   for (const [state, part] of parts) takeOutPart(state, part.out);
+  // The jobs each state's sectors held as the month opened (the rest, once the parts held in
+  // full are out), for what the month moved.
+  const jobsAtStart = tier.states.map((state) =>
+    state.sectors.map((row) => row.jobs),
+  );
   // The month opens with who moved, was born, aged and died; then the economy's month.
   const moved = moves(tier, law, rules);
   const lives = people(tier, rules);
@@ -1395,6 +1465,7 @@ export function stepCountry(
     const floor = law.wageFloorYear(state) * rules.lowPayOverFloor;
     let statePriced = 0,
       stateSales = 0;
+    const jobsAdded: number[] = [];
     for (const plan of plans) {
       const { row } = plan;
       const b = books(row, plan.sold, state, law, rules);
@@ -1431,14 +1502,12 @@ export function stepCountry(
       row.expectedSales +=
         (plan.sold - row.expectedSales) / rules.salesLevelViewMonths;
       row.sales = plan.sold;
-      row.jobs = Math.max(
-        0,
-        row.jobs -
-          plan.ended +
-          (posted > 0
-            ? (hires * plan.posted) / posted
-            : hires / state.sectors.length),
-      );
+      const filled =
+        posted > 0
+          ? (hires * plan.posted) / posted
+          : hires / state.sectors.length;
+      jobsAdded.push(filled);
+      row.jobs = Math.max(0, row.jobs - plan.ended + filled);
       const grown = row.pay * (1 + payGrowthYear / months);
       row.pay = rules.lowPay[row.sector] > 0 ? Math.max(grown, floor) : grown;
       row.productivity *= 1 + rules.productivityGrowthYear / months;
@@ -1461,6 +1530,27 @@ export function stepCountry(
     state.ledger.revenueMonths.push(modeledRevenue);
     if (state.ledger.revenueMonths.length > months)
       state.ledger.revenueMonths.shift();
+    const opened = jobsAtStart[index]!;
+    state.whatMoved.push({
+      month: tier.month + 1,
+      withheld: [...wanted.incomes.withheld.values()],
+      spent: wanted.spent,
+      jobsAdded,
+      jobsCut: plans.map((plan) => plan.ended),
+      jobsVacated: state.sectors.map(
+        (row, at) => opened[at]! + jobsAdded[at]! - plans[at]!.ended - row.jobs,
+      ),
+      arrived: moved.arrived[index]!,
+      left: moved.left[index]!,
+      fromAbroad: lives.fromAbroad[index]!,
+      incomeTaxRevenue: wanted.incomes.stateTaxes,
+      salesTaxRevenue: wanted.salesTax,
+      profitTaxRevenue: profitTax,
+      otherRevenue: state.ledger.otherRevenue,
+      budgetYear: state.ledger.budgetYear,
+    });
+    // Twelve months are kept; older ones are dropped, as the ledger's revenue months are.
+    if (state.whatMoved.length > months) state.whatMoved.shift();
     elsewhere +=
       state.ledger.passedOn -
       state.ledger.otherRevenue +
@@ -1517,7 +1607,7 @@ export function stepCountry(
     ...countryTotals(tier, rules),
     realOutput: realTotal,
     busy: normalReal > 0 ? wantedReal / normalReal - 1 : 0,
-    moved,
+    moved: moved.moved,
     births: lives.births,
     deaths: lives.deaths,
     arrived: lives.arrived,

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,7 @@ claimed-at:
 Sent back 2026-10-20 from PR #5562 (branch claude/political-game-pool-3xfqef-21): main already has the identical owner-coverage guard from #5548, making this second guard unreachable; keep the regression, remove the duplicate and declare test-only impact, or prove a distinct fix; finish on that branch, merge main into it first.
 
 Oct 29 (CTO, second account): PR #5580 closed as stale under the owner's standing approval; back to open. Branch `claude/political-game-pool-yucp92-ab` is kept; claiming this item takes it over.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The error text "Actual customer public owner coverage record is missing" is no longer thrown anywhere in src (it survives only in test headers: src/core2/opening-customers-owner-elsewhere.test.ts, which holds the regression, and src/core2/opening-customers-township-owner.test.ts). The guard from #5548 is on main, and the item's own send-back says the second guard would be unreachable.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,21 +5,36 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+standard: 2
+model: sonnet
+effort: medium
+root: rc6-scenes-repeat
+lead: words
+checked: fable 2026-11-10
 ---
 
-**What.** The director staged a filing scene and a race-lost scene around listeners tied to a candidate, as if they had filed or lost a race they never entered, and staged hearing scenes around people who never spoke. A participant scene (a filing, a race lost, a public hearing) must be staged only around a person its cause record names. src/director/scheduling.ts checks the staged person against the record's named people, and the situation types in src/director/data/situation-types.json mark which kinds are participant scenes.
+**What.** The director once staged a filing scene and a race-lost scene around listeners tied to a candidate, as if they had filed or lost a race they never entered, and staged hearing scenes around people who never spoke. A participant scene (a filing, a race lost, a public hearing) must be staged only around a person its cause record names. The item was written against October code, its pull request was closed and the director has moved since, so the defect has to be re-measured in a played world before anything is built.
+
+**Cause.** Needs cause. Looked at src/director/scheduling.ts and the race-lost situation type (src/director/data/situation-types.json, line 2508): no check was found that stages only a person the cause record names, and the defect has not been re-measured in a played world.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Ask why: each staged participant scene answers why this person, by the cause record that names them. A loser's scene goes only to a named candidate who is not the record's winner. No hand-written player text: only who is staged changes, never the words.
 
-**Done when.** In a played world built with buildBenchWorld in a drawn place (up to 6 draws from all 56, failing with every place and seed tried), src/director/scene-subject-named.test.ts finds at least one filing, one race-lost and one hearing scene. It asserts each kind separately: the filing's person is named by its candidate-filed record, the race-lost person is named by its election-result record and is not its winnerId, and the hearing's person is named by its public-comment record. The PR body names the place, seed and each record id.
+**Done when.** A second session plays buildBenchWorld in a drawn place (up to 6 draws from all 56, failing with every place and seed tried), and src/director/scene-subject-named.test.ts finds at least one filing, one race-lost and one hearing scene. It asserts each kind separately: the filing's person is named by its candidate-filed record, the race-lost person is named by its election-result record and is not its winnerId, and the hearing's person is named by its public-comment record. The PR body names the place, seed and each record id.
 
-**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/scene-subject-named.test.ts, src/director/cause-names.test.ts
+**Waits on.** Nothing.
+
+**Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/cause-names.test.ts, src/director/scene-subject-named.test.ts (new)
 
 **Notes.** TODO
 
@@ -30,3 +45,7 @@ Sent back 2026-10-20 from PR #5056 (branch claude/scene-subject-named): Main and
 Sent back 2026-10-21 from PR #5056 (branch claude/scene-subject-named): The separate positive filing, race-lost and hearing checks and patch declarations address the earlier return. The pool item still has TODO in What, Rules, Done when and Files, and the body has no Done when evidence table. Write the concrete bounded filing/concession acceptance, then map each named scene/record-person check and drawn-world proof to it in the required table. This remains a fixer based on open parent #5055; no pool item should be completed for that branch merge. No local gate pass is claimed here.; finish on that branch, merge main into it first.
 
 Oct 29 (CTO): #5056 closed because no session carries it (it conflicts with main in src/director/data/situation-types.json); its branch is kept. The words session owns the director, so this is its item to take or drop.
+
+**Notes (Fable, Nov 10, proposed for the CTO).** Proposed: drop as built. `causeMatches` in src/director/scheduling.ts (lines 317 to 355) refuses a cause whose record does not name the moment's person: the types filing and race-lost carry `selfNamed: true`, race-lost also needs the record's winner to be someone else, and public-hearing carries `causeNames: subject`. The filing event names only the filer (src/core2/modules/elections.ts line 1269) and an election result names its filers (src/core2/modules/voting.ts line 3288). The tests src/director/own-filing-scenes.test.ts and src/director/cause-names.test.ts hold it.
+
+**Notes (CTO, Nov 10).** Closed on Fable's proposal: already built: the director refuses a filing or race-lost scene for a person the cause record does not name, and two tests hold it (Fable, #8209).

@@ -60,14 +60,20 @@ import {
   type CountryTier,
 } from "../country-model";
 import employerSectors from "../data/country/employer-sectors.json" with { type: "json" };
-import { classifyBusiness } from "../business-books";
+import { classifyBusiness, sectorOfKind } from "../business-books";
 import { placeStateKey } from "../place-map";
 import { stopgap } from "../stopgaps";
 import { residentsPart, residentsRuntime } from "./residents";
 import { countryOpening } from "../country-opening";
+/** The country tier's sectors and state rows, for screens that read a state's record (dev mode's Trace). */
+export {
+  COUNTRY_SECTORS,
+  type CountrySector,
+  type CountryState,
+} from "../country-model";
 import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
-import { JOBS_DATA, JOBS_PARAMETERS } from "./jobs";
+import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
@@ -288,7 +294,6 @@ const SECTOR_TABLE = employerSectors as unknown as {
   kinds: Record<string, CountrySector>;
   naics: Record<string, CountrySector>;
 };
-const SECTORS = new Set<string>(COUNTRY_SECTORS);
 
 /** An employer's sector: its business kind's, else its classification's or its kind's in the table; none when it has none. */
 function sectorOfEmployer(
@@ -300,9 +305,8 @@ function sectorOfEmployer(
   const kind = org.classification
     ? classifyBusiness(org.classification).kind?.id
     : undefined;
-  const bySector = JOBS_DATA.kindSector as Record<string, string>;
-  const ofKind = kind ? bySector[kind] : undefined;
-  if (ofKind && SECTORS.has(ofKind)) return ofKind as CountrySector;
+  const ofKind = kind ? sectorOfKind(kind) : null;
+  if (ofKind) return ofKind;
   return (
     (org.classification && SECTOR_TABLE.classifications[org.classification]) ||
     SECTOR_TABLE.kinds[org.kind]
@@ -947,10 +951,16 @@ export const MACRO_MODULE: PreStartModule = {
     else if (work.kind === "macro-rate-effective")
       takeEffect(api, work.sourceRecordIds[0]!);
   },
-  onDay(api) {
-    if (!readState(api)) open(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its months, meetings and rate changes are dated work and run.
+  onResultsMonth: openOnce,
 };
+
+/** The economy opens on the first day the engine runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (!readState(api)) open(api);
+}
 
 /** The board members are people in the world; add them to the opening input. */
 export function withCentralBank(input: CoreInput): CoreInput {

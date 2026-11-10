@@ -5,7 +5,7 @@ area: elections
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after: gov-president-approval-record
@@ -23,3 +23,7 @@ source: split from elections-stopgap-electorate-inputs-missing-data by pool feed
 **Files.** src/core2/electorate-inputs.ts, src/core2/data/electorate/parameters.json, src/core2/electorate-inputs.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): part 2 of 2 of elections-stopgap-electorate-inputs-missing-data.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `raceConditions` in `src/core2/electorate-inputs.ts` carries `approvalGapPoints` (imported from `./modules/national-opinion`, field at line 94), and stopgap SG-GOV-electorate-approval is `status: resolved` in `src/core2/data/stopgaps/gov.json` (line 1043). gov-president-approval-record is done.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -130,8 +130,12 @@ it("counts the town inside its state once, and its state's jobs follow the town'
     ).toEqual([]);
     // Dev mode's trace on the state's record shows the part and the rest, and they add to the state.
     const node = traceNode(open, undefined, `country-state:${key}`);
-    for (const title of ["people", "jobs"] as const) {
-      const panel = node.why.find((row) => row.title === title);
+    for (const title of ["People", "Jobs"] as const) {
+      const panel = node.why.find(
+        (row) =>
+          row.title.startsWith(`${title} in `) &&
+          row.title.endsWith(": the played places and the rest"),
+      );
       expect(
         panel,
         `${where}: the trace shows no ${title} panel`,
