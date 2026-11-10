@@ -289,6 +289,10 @@ describe("flags", () => {
       "done",
       "cto",
     ]);
+    // --not takes no value, so the flag after it is still read.
+    const seen = flags(["seen", "x", "--not", "--by", "checker-3"], {});
+    expect(seen.f).toEqual({ not: "1", by: "checker-3" });
+    expect(seen.pos).toEqual(["seen", "x"]);
   });
 });
 
@@ -405,6 +409,375 @@ describe("add", () => {
     } finally {
       process.chdir(cwd);
     }
+  });
+});
+
+/** The repository, where prettier and its config live; tests change directory. */
+const ROOT = process.cwd();
+
+/** A git repository with docs/pool under it, holding the given item files and their index. */
+function poolRepo(files: Record<string, string>): {
+  dir: string;
+  pool: string;
+  g: (...a: string[]) => string;
+  read: (id: string) => string;
+  index: () => string;
+} {
+  const dir = mkdtempSync(join(tmpdir(), "pool-seen-"));
+  const pool = join(dir, "docs", "pool");
+  mkdirSync(join(pool, "items"), { recursive: true });
+  const g = (...a: string[]): string =>
+    execFileSync("git", a, { cwd: dir, encoding: "utf8" }).trim();
+  g("init", "-q");
+  g("config", "user.email", "t@t");
+  g("config", "user.name", "t");
+  for (const [id, text] of Object.entries(files))
+    writeFileSync(join(pool, "items", `${id}.md`), text);
+  run(pool, false);
+  g("add", ".");
+  g("commit", "-qm", "init");
+  return {
+    dir,
+    pool,
+    g,
+    read: (id) => readFileSync(join(pool, "items", `${id}.md`), "utf8"),
+    index: () => readFileSync(join(pool, "INDEX.md"), "utf8"),
+  };
+}
+
+/** Runs `body` with the working directory inside `dir`, as the pool command expects. */
+function inside(dir: string, body: () => void): void {
+  const cwd = process.cwd();
+  process.chdir(dir);
+  try {
+    body();
+  } finally {
+    process.chdir(cwd);
+  }
+}
+
+const inPr = (id: string, extra = ""): string =>
+  item(id, `lead: Words\nclaimed-by: claude/${id}-build\n${extra}`).replace(
+    "status: open",
+    "status: in-pr\npr: #12",
+  );
+const mergedItem = (id: string, at: string, extra = ""): string =>
+  inPr(id, `merged-at: ${at}\n${extra}`).replace(
+    "status: in-pr",
+    "status: merged",
+  );
+const SEEN = [
+  "--by",
+  "checker-3",
+  "--place",
+  "a drawn town",
+  "--seed",
+  "4471",
+  "--main",
+  "0ec6df7a2f",
+  "--saw",
+  "the shelf price at the corner store rose after the law passed",
+  "--no-push",
+];
+const without = (flag: string): string[] => {
+  const at = SEEN.indexOf(flag);
+  return [...SEEN.slice(0, at), ...SEEN.slice(at + 2)];
+};
+const withValue = (flag: string, value: string): string[] =>
+  SEEN.map((x, n) => (SEEN[n - 1] === flag ? value : x));
+const PR_12 = "[#12](https://github.com/lamontaes/Political-Game-Git/pull/12)";
+
+describe("merged is on main, done is seen in the game", () => {
+  it("the merge flip needs no --by, stamps merged-at once, opens the gate and lists the item as merged", () => {
+    const { dir, pool, read, index } = poolRepo({
+      "laws-a": inPr("laws-a"),
+      "laws-g": item("laws-g", "after: laws-a\n"),
+    });
+    inside(dir, () => {
+      expect(index()).toContain("waits on laws-a");
+      expect(index()).toContain(
+        "## Merged, waiting to be seen in the game (0)\n\nNone.",
+      );
+      expect(
+        command(["claim", "laws-g", "--branch", "b3", "--no-push"], {}),
+      ).toMatch(/laws-g waits on laws-a/);
+      expect(
+        command(["status", "laws-a", "merged", "--pr", "12", "--no-push"], {}),
+      ).toBeNull();
+      const text = read("laws-a");
+      expect(text).toContain("status: merged");
+      const at = /^merged-at: (\d{4}-\d\d-\d\dT[\d:.]+Z)$/m.exec(text)?.[1];
+      expect(at).toBeTruthy();
+      expect(text).not.toContain("seen-by");
+      // The gate opens at merge: Next up carries the waiting item and a claim takes it.
+      const text2 = index();
+      expect(text2).toContain(
+        "**2 items:** 1 open, 0 claimed, 0 in-pr, 1 merged",
+      );
+      expect(text2.split("## Next up")[1].split("## open")[0]).toContain(
+        "laws-g",
+      );
+      expect(text2).not.toContain("waits on laws-a");
+      expect(text2).toContain(
+        `## Merged, waiting to be seen in the game (1)\n\n- [laws-a](items/laws-a.md) (laws, lead Words, merged ${at!.slice(0, 10)}, ${PR_12}) — Title of laws-a\n\n## Next up`,
+      );
+      expect(text2.indexOf("## In PR (from pool items)")).toBeLessThan(
+        text2.indexOf("## Merged, waiting"),
+      );
+      // A merged item is in no status table and not in the done list.
+      expect(text2.split("## open (")[1]).not.toContain("laws-a](");
+      expect(text2).toContain("## done (0)\n\nNone.");
+      expect(
+        command(["claim", "laws-g", "--branch", "b3", "--no-push"], {}),
+      ).toBeNull();
+      // A merger repeating the flip keeps the first merge's time.
+      expect(
+        command(["status", "laws-a", "merged", "--pr", "12", "--no-push"], {}),
+      ).toBeNull();
+      expect(read("laws-a")).toContain(`merged-at: ${at}`);
+      expect(run(pool, true).errors).toEqual([]);
+      // Reopening by hand clears the stamp.
+      expect(command(["status", "laws-a", "open", "--no-push"], {})).toBeNull();
+      expect(read("laws-a")).toMatch(/^merged-at:$/m);
+      expect(index()).toContain(
+        "## Merged, waiting to be seen in the game (0)\n\nNone.",
+      );
+    });
+  });
+
+  it("lists merged items oldest merge first and keeps them out of the tables and the done list", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-"));
+    mkdirSync(join(dir, "items"));
+    const put = (id: string, text: string): void =>
+      writeFileSync(join(dir, "items", `${id}.md`), text);
+    put("laws-a", mergedItem("laws-a", "2026-11-09T10:00:00.000Z"));
+    put("laws-b", mergedItem("laws-b", "2026-11-04T08:30:00.000Z"));
+    put(
+      "laws-c",
+      item("laws-c").replace("status: open", "status: merged\npr: PR 7"),
+    );
+    put("laws-d", item("laws-d").replace("status: open", "status: done"));
+    expect(run(dir, false).errors).toEqual([]);
+    const text = readFileSync(join(dir, "INDEX.md"), "utf8");
+    expect(text).toContain(
+      "**4 items:** 0 open, 0 claimed, 0 in-pr, 3 merged, 0 blocked, 1 done, 0 dropped.",
+    );
+    expect(text).toContain(
+      [
+        "## Merged, waiting to be seen in the game (3)",
+        "",
+        "- [laws-c](items/laws-c.md) (laws, PR 7) — Title of laws-c",
+        `- [laws-b](items/laws-b.md) (laws, lead Words, merged 2026-11-04, ${PR_12}) — Title of laws-b`,
+        `- [laws-a](items/laws-a.md) (laws, lead Words, merged 2026-11-09, ${PR_12}) — Title of laws-a`,
+        "",
+        "## Next up",
+      ].join("\n"),
+    );
+    expect(text).toContain("## done (1)\n\n- [laws-d](items/laws-d.md)\n");
+    for (const s of ["open", "claimed", "in-pr", "blocked"])
+      expect(text).toContain(`## ${s} (0)\n\nNone.`);
+    expect(text).not.toContain("## merged (");
+  });
+
+  it("seen refuses a missing or empty flag, a short --saw, the builder and work that is not merged", () => {
+    const { dir, g, read } = poolRepo({
+      "laws-a": mergedItem("laws-a", "2026-11-09T10:00:00.000Z"),
+      "laws-open": item("laws-open"),
+      "laws-inpr": inPr("laws-inpr"),
+    });
+    inside(dir, () => {
+      const head = g("rev-parse", "HEAD");
+      const before = read("laws-a");
+      for (const flag of ["--by", "--place", "--seed", "--main", "--saw"]) {
+        expect(command(["seen", "laws-a", ...without(flag)], {})).toContain(
+          `missing ${flag}\n`,
+        );
+        expect(
+          command(["seen", "laws-a", ...withValue(flag, "  ")], {}),
+        ).toContain(`missing ${flag}\n`);
+      }
+      // With nothing given, every flag is named.
+      expect(command(["seen", "laws-a", "--no-push"], {})).toContain(
+        "missing --by, --place, --seed, --main, --saw",
+      );
+      expect(command(["seen"], {})).toMatch(/^usage: pool seen/);
+      expect(
+        command(
+          [
+            "seen",
+            "laws-a",
+            ...withValue("--saw", "it works fine in the game now"),
+          ],
+          {},
+        ),
+      ).toMatch(/--saw needs at least 8 words .*\(has 7\)/);
+      // The builder, named in full or by the part of the branch that is theirs.
+      for (const who of ["claude/laws-a-build", "claude", "Laws-A-Build"])
+        expect(
+          command(["seen", "laws-a", ...withValue("--by", who)], {}),
+        ).toMatch(
+          /built laws-a \(claimed-by claude\/laws-a-build\); the builder cannot confirm their own work/,
+        );
+      expect(command(["seen", "laws-open", ...SEEN], {})).toMatch(
+        /laws-open is open, not merged/,
+      );
+      expect(command(["seen", "laws-inpr", ...SEEN], {})).toMatch(
+        /laws-inpr is in-pr, not merged/,
+      );
+      expect(command(["seen", "laws-inpr", "--not", ...SEEN], {})).toMatch(
+        /laws-inpr is in-pr, not merged/,
+      );
+      expect(command(["seen", "laws-nope", ...SEEN], {})).toMatch(
+        /no such item/,
+      );
+      expect(read("laws-a")).toBe(before);
+      expect(g("rev-parse", "HEAD")).toBe(head);
+      expect(g("status", "--porcelain")).toBe("");
+    });
+  });
+
+  it("seen makes a merged item done with who saw it, when, and the Notes line", () => {
+    const { dir, pool, g, read, index } = poolRepo({
+      "laws-a": mergedItem("laws-a", "2026-11-09T10:00:00.000Z"),
+      "laws-bare": mergedItem("laws-bare", "2026-11-09T11:00:00.000Z").replace(
+        "\n**Notes.** None.\n",
+        "",
+      ),
+      "laws-mid": mergedItem("laws-mid", "2026-11-09T12:00:00.000Z").replace(
+        "**Notes.** None.\n",
+        "**Notes.** Kept.\n\n**Screenshot.** After the law, in a drawn place.\n",
+      ),
+      "laws-cto": item("laws-cto").replace("status: open", "status: done"),
+    });
+    inside(dir, () => {
+      expect(command(["seen", "laws-a", ...SEEN], {})).toBeNull();
+      const text = read("laws-a");
+      expect(text).toContain("status: done");
+      expect(text).toMatch(/^seen-by: checker-3$/m);
+      const at = /^seen-at: (\d{4}-\d\d-\d\dT[\d:.]+Z)$/m.exec(text)?.[1];
+      expect(at).toBeTruthy();
+      const line = `Seen in the game (${at!.slice(0, 10)}, checker-3): a drawn town, seed 4471, main 0ec6df7a2f: the shelf price at the corner store rose after the law passed`;
+      expect(text.endsWith(`**Notes.** None.\n\n${line}\n`)).toBe(true);
+      expect(text).toContain("merged-at: 2026-11-09T10:00:00.000Z");
+      expect(text).toContain("claimed-by: claude/laws-a-build");
+      expect(g("log", "-1", "--format=%s")).toBe(
+        "pool: laws-a seen in the game (checker-3)",
+      );
+      expect(index()).toContain("2 merged, 0 blocked, 2 done");
+      expect(index()).toContain(
+        "## Merged, waiting to be seen in the game (2)\n\n- [laws-bare]",
+      );
+      expect(index().split("## done (2)")[1]).toContain("laws-a](");
+      // A second check of the same item is refused; the first one stands.
+      expect(command(["seen", "laws-a", ...SEEN], {})).toMatch(
+        /laws-a was already seen by checker-3/,
+      );
+      // An item with no Notes section gets one at the end.
+      expect(command(["seen", "laws-bare", ...SEEN], {})).toBeNull();
+      expect(read("laws-bare")).toMatch(
+        /\*\*Files\.\*\* src\/core2\/modules\/example\.ts\n\n\*\*Notes\.\*\* Seen in the game \(\d{4}-\d\d-\d\d, checker-3\): a drawn town, seed 4471, [^\n]+\n$/,
+      );
+      // The line goes at the end of Notes, before a section that follows it.
+      expect(command(["seen", "laws-mid", ...SEEN], {})).toBeNull();
+      expect(read("laws-mid")).toMatch(
+        /\*\*Notes\.\*\* Kept\.\n\nSeen in the game \([^\n]+\n\n\*\*Screenshot\.\*\* After the law, in a drawn place\.\n$/,
+      );
+      // A who that is more than one plain word is read back whole.
+      expect(
+        command(
+          ["seen", "laws-cto", ...withValue("--by", "Dev Tester #2")],
+          {},
+        ),
+      ).toBeNull();
+      expect(read("laws-cto")).toContain('seen-by: "Dev Tester #2"');
+      expect(read("laws-cto")).toContain(
+        ", Dev Tester #2): a drawn town, seed 4471",
+      );
+      expect(run(pool, true).errors).toEqual([]);
+      execFileSync("npx", ["prettier", "--check", join(pool, "items")], {
+        cwd: ROOT,
+        stdio: "pipe",
+      });
+    });
+  });
+
+  it("seen --not reopens the item and leaves the next builder the reason", () => {
+    const { dir, pool, g, read, index } = poolRepo({
+      "laws-a": mergedItem(
+        "laws-a",
+        "2026-11-09T10:00:00.000Z",
+        "claimed-at: 2026-11-08T09:00:00.000Z\n",
+      ),
+      "laws-b": mergedItem("laws-b", "2026-11-09T11:00:00.000Z"),
+    });
+    inside(dir, () => {
+      expect(
+        command(
+          [
+            "seen",
+            "laws-a",
+            "--not",
+            ...withValue(
+              "--saw",
+              "the shelf price never moved in the\n  three stores visited after the law",
+            ),
+          ],
+          {},
+        ),
+      ).toBeNull();
+      const text = read("laws-a");
+      expect(text).toContain("status: open");
+      expect(text).toMatch(/^claimed-by:$/m);
+      expect(text).toMatch(/^claimed-at:$/m);
+      expect(text).toMatch(/^merged-at:$/m);
+      expect(text).toContain("pr: #12");
+      expect(text).not.toContain("seen-by");
+      expect(text).toMatch(
+        /\*\*Notes\.\*\* None\.\n\nNot seen in the game \(\d{4}-\d\d-\d\d, checker-3\): a drawn town, seed 4471, main 0ec6df7a2f: the shelf price never moved in the three stores visited after the law\n$/,
+      );
+      expect(g("log", "-1", "--format=%s")).toBe(
+        "pool: laws-a not seen in the game, reopened (checker-3)",
+      );
+      expect(index()).toContain(
+        "**2 items:** 1 open, 0 claimed, 0 in-pr, 1 merged",
+      );
+      // A builder may report their own work missing; only confirming needs a second session.
+      expect(
+        command(
+          ["seen", "laws-b", "--not", ...withValue("--by", "claude")],
+          {},
+        ),
+      ).toBeNull();
+      expect(read("laws-b")).toContain("status: open");
+      expect(read("laws-b")).toContain("Not seen in the game (");
+      expect(index()).toContain("1. [laws-a](items/laws-a.md)");
+      expect(run(pool, true).errors).toEqual([]);
+      // The reopened item is claimable again.
+      expect(
+        command(["claim", "laws-a", "--branch", "b9", "--no-push"], {}),
+      ).toBeNull();
+    });
+  });
+
+  it("done by hand stays the CTO's and records no check; a later merge cannot undo a done item", () => {
+    const { dir, read } = poolRepo({
+      "docs-a": mergedItem("docs-a", "2026-11-09T10:00:00.000Z"),
+    });
+    inside(dir, () => {
+      expect(command(["status", "docs-a", "done", "--no-push"], {})).toMatch(
+        /--by=cto/,
+      );
+      expect(
+        command(["status", "docs-a", "done", "--by=cto", "--no-push"], {}),
+      ).toBeNull();
+      expect(read("docs-a")).toContain("status: done");
+      expect(read("docs-a")).not.toContain("seen-by");
+      expect(
+        command(["status", "docs-a", "merged", "--pr", "14", "--no-push"], {}),
+      ).toMatch(/docs-a is already done; merged would undo that/);
+      expect(read("docs-a")).toContain("status: done");
+      expect(read("docs-a")).toContain("pr: #12");
+    });
   });
 });
 

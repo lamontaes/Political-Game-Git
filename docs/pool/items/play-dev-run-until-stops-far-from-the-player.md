@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8106
 after:
 blocked-on:
 lead: fable
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, What the code does and Dev mode on the screen; Reported done item 13)
+merged-at: 2026-11-10T05:30:16.191Z
 ---
 
 **What.** Dev mode's Run panel on the Calendar runs the world "until" an event: a bill passes, a bill fails, a person dies, a law takes effect and others. It stops on things far from the player and misses the ones in town. Measured in San Roque, Northern Mariana Islands (the lead's own session; no seed given): "until a law takes effect" stopped on a Hawaii law, "until a death" stopped on a Minnesota legislator, and "until a bill passes" ran 400 days and never stopped. Measured through the screens in Ten Broeck, Kentucky (no seed given): "until a law takes effect" stopped on laws in Colorado, Hawaii, Delaware and the Virgin Islands, and never on the law just passed in town. So a tester who passes a law cannot run to the day it takes effect, which is the first step of proving what it did. Causes, read in code on Nov 10 (the audit named none). `runUntil` (`src/bench/dev-mode.ts`, line 1473) stops on the first new record of the event's kinds anywhere in the world (`RUN_EVENTS`, line 94, counted from `core.logByKind`), and narrows to one person only when a caller names one; the Run panel names none (`devRunPanel`, `src/bench/ui/dev-run.mjs`, the request at line 72). Another state's law writes the same "law took effect" kind under a national place id (`lawTookEffect`, `src/core2/modules/laws.ts`, line 1012), and officials from every other place are full people, so their deaths write the same death kind. "A bill passes" waits on the presentment record, which the legislature writes only when a passed bill lands on the played character's own desk as the executive (`executiveAction`, `src/core2/modules/legislature.ts`, line 5272; the record at line 5318); a bill that passes and is signed by anyone else writes none, so the run can never stop. Fix it for every event in the list: each stops first on the player's own places and people (the town and the governments in its own chain, read from the place's law chain; the town's residents and the player's circle), with the bill or law just introduced in the Bills panel ahead of everything; "a bill passes" reads the bill's own status; the whole country is a choice the tester turns on; and the result line says in words what stopped it and where.

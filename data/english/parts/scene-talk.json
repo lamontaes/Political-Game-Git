@@ -91,9 +91,17 @@
     "sentence": "How long a prison sentence runs, as people say a span of time, from the justice engine's sentence record.",
     "release": "The day a person in prison gets out, as people say a date, from the justice engine's sentence record.",
     "bail": "What a person held before trial would have to pay to get out, as people round a sum, from the justice engine's pretrial record.",
-    "earlier": "An earlier bill of the listener's own that the speaker voted for, by its designation, from the speaker's vote record.",
+    "earlier": "The bill the asker already voted for at the asked person's side, as people say its number, from the asker's vote record.",
     "since": "How long ago a thing happened, as people say a span ('two months', 'a year'), from the record's day.",
-    "floor": "The minimum wage in force by the hour (\"$7.25\"), from the law record."
+    "floor": "The minimum wage in force by the hour (\"$7.25\"), from the law record.",
+    "married": "The name of the spouse the guest married since the two last talked, from the marriage record.",
+    "age": "The age a person turned on their birthday, from the birth record and the day of the gathering.",
+    "partner": "The name of a new child's other parent, from the birth record.",
+    "absent": "The name of the relative who missed the gathering, from the gathering's record.",
+    "honoree": "The name of the housemate the occasion is for, from the occasion's record.",
+    "new-employer": "The employer the guest started work at since the two last talked, from the job record.",
+    "new-child": "The name of a child born in the guest's household since the two last talked, from the birth record.",
+    "spouse": "The name of the person the celebrant married, from the marriage record."
   },
   "maxWords": 70,
   "parts": [
@@ -14166,6 +14174,15 @@
           "role": "asked",
           "purpose": "ask-vote",
           "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
         }
       ],
       "bearing": "calm",
@@ -16794,6 +16811,15 @@
           "role": "asker",
           "purpose": "favor-job",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask.large",
+          "key": "favor-asked",
+          "after": "agree"
         }
       ],
       "bearing": "calm",
@@ -64223,6 +64249,15 @@
           "purpose": "hearing-testify",
           "key": "routine",
           "after": "promise"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "donor-ask.again",
+          "key": "favor-asked",
+          "after": "agree"
         }
       ],
       "bearing": "calm",
@@ -141986,6 +142021,14 @@
           "role": "asker",
           "purpose": "lobby-remembers",
           "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
         }
       ],
       "bearing": "calm",
@@ -161399,7 +161442,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "donor-ask.large",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -161624,31 +161668,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "leave",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-s-all-i-m-asking",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's all I'm asking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "donor-ask.large",
-          "key": "favor-asked",
-          "after": "agree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "thank",
         "key": "favor-asked"
       }
     },
@@ -162548,7 +162567,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "donor-ask.friend",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "warm",
@@ -163046,7 +163066,7 @@
           "role": "narrator",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift", "same-day"]
         }
       ],
       "origin": "authored",
@@ -163609,31 +163629,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "apologize",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.all-right-i-ll-hold-you-to-it",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Alright. I'll hold you to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "donor-ask.again",
-          "key": "favor-asked",
-          "after": "agree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story overnight, donor-ask variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "thank",
         "key": "favor-asked"
       }
     },
@@ -165259,7 +165254,7 @@
           "role": "narrator",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": ["bill"]
+          "requiresFacts": ["bill", "same-day"]
         }
       ],
       "bearing": "guarded",
@@ -167369,7 +167364,7 @@
       "key": "scene-talk.narrate-narrate.name-writes-for-outlet-and-the-recorder-is-already-running",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} writes for {outlet}, and the recorder is already running. The piece is about {story}.",
+      "text": "{name} writes for {outlet}, and the recorder is already running. The reporter is writing about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -168036,7 +168031,7 @@
       "key": "scene-talk.follow-thank.that-s-what-i-needed-for-the-piece",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's what I needed for the piece.",
+      "text": "That's what I needed for the story.",
       "uses": [
         {
           "subject": "scene",
@@ -168216,7 +168211,7 @@
       "key": "scene-talk.close-thank.that-gets-the-piece-to-the-right-place-thanks",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "That gets the piece to the right place. Thanks.",
+      "text": "That gets the story to the right place. Thanks.",
       "uses": [
         {
           "subject": "scene",
@@ -168473,7 +168468,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -169156,7 +169152,8 @@
           "role": "asker",
           "purpose": "ask-vote.whip",
           "key": "vote-wanted",
-          "after": "stall"
+          "after": "stall",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -169379,7 +169376,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "ask-vote.whip",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -171130,7 +171128,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "ask-vote.watched",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -171451,7 +171450,8 @@
           "role": "asker",
           "purpose": "ask-vote.watched",
           "key": "vote-wanted",
-          "after": "bargain"
+          "after": "bargain",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -172623,7 +172623,8 @@
           "move": "press",
           "role": "asker",
           "purpose": "ask-vote.friend",
-          "key": "vote-wanted"
+          "key": "vote-wanted",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
@@ -179230,7 +179231,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "homecoming",
-          "key": "arrival"
+          "key": "arrival",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -179446,7 +179448,8 @@
           "role": "asked",
           "purpose": "homecoming",
           "key": "arrival",
-          "requiresFacts": ["asker-back"]
+          "requiresFacts": ["asker-back"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -179542,7 +179545,8 @@
           "role": "asked",
           "purpose": "homecoming",
           "key": "arrival",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -179566,7 +179570,8 @@
           "role": "asked",
           "purpose": "homecoming",
           "key": "arrival",
-          "after": "press"
+          "after": "press",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -183906,29 +183911,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-yes-i-ll-do-what-you-re-asking",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Alright, yes. I can do that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "reunion-ask",
-          "key": "arrival"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, reunion and letter purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "agree",
-        "key": "arrival"
-      }
-    },
-    {
       "key": "scene-talk.reply-agree.yes-i-m-glad-you-came-to-me",
       "move": "reply-agree",
       "kind": "spoken",
@@ -186142,6 +186124,14 @@
           "role": "asked",
           "purpose": "celebration-ask",
           "key": "honor"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "reunion-ask",
+          "key": "arrival"
         }
       ],
       "origin": "authored",
@@ -186383,30 +186373,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.you-can-count-on-me-and-i-ll-do-it",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "You can count on me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "celebration-ask",
-          "key": "honor",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "promise",
         "key": "honor"
       }
     },
@@ -188517,7 +188483,8 @@
           "role": "asker",
           "purpose": "rescue-ask",
           "key": "threat",
-          "after": "agree"
+          "after": "agree",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "warm",
@@ -192608,30 +192575,6 @@
       "date": "2026-11-09",
       "tag": {
         "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.witness.thank-you-for-hearing-me-out-first",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you for hearing me out, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "conflict-accuse.witness",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, accusation variants)",
-      "date": "2026-11-09",
-      "tag": {
-        "move": "thank",
         "key": "threat"
       }
     },

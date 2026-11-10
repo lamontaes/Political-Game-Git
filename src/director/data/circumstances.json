@@ -431,6 +431,21 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "race-result-known-after-ran",
+      "recordKinds": ["election-result"],
+      "playerNamed": true,
+      "afterDays": 2,
+      "place": "public",
+      "pool": ["ties-of-each-named"],
+      "where": "known",
+      "player": "ran-in-it",
+      "cast": "two days after the count, for a player who ran in it (the morning after took the day before), someone the player knows who ran in the race or is tied to a candidate in it (their family, household or the people they knew), telling who won; scored on tie and sociability",
+      "typeKey": "race-told",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceRaceImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "governor-answer-hallway",
       "recordKinds": ["governor.response"],
       "afterDays": 1,

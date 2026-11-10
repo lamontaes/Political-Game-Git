@@ -8635,7 +8635,6 @@
     "scene-talk.close-thank.welcome-aboard": 1.079,
     "scene-talk.close-thank.well-talk-again-get-some-sleep": 1.131,
     "scene-talk.close-thank.were-glad-you-came-good-luck": 1.114,
-    "scene-talk.close-thank.witness.thank-you-for-hearing-me-out-first": 1.269,
     "scene-talk.close-thank.you-did-good-it-just-wasn-t-enough": 0.954,
     "scene-talk.close-thank.you-just-made-my-week-thank-you": 1.255,
     "scene-talk.close-thank.you-ll-be-fine-probably": 1.142,
@@ -10713,7 +10712,6 @@
     "scene-talk.follow-thank.a-vote-i-ll-be-there-for-it": 1.079,
     "scene-talk.follow-thank.a-year-i-m-writing-it-down": 0.941,
     "scene-talk.follow-thank.again-it-is-thanks": 1.301,
-    "scene-talk.follow-thank.all-right-i-ll-hold-you-to-it": 1.094,
     "scene-talk.follow-thank.all-right-i-ll-print-your-denial-in-full": 1.242,
     "scene-talk.follow-thank.already-agreed-i-ll-quote-you": 1.306,
     "scene-talk.follow-thank.already-i-ll-quote-you-on-that": 1.303,
@@ -10985,7 +10983,6 @@
     "scene-talk.follow-thank.that-s-all-i-ask-thank-you": 1.091,
     "scene-talk.follow-thank.that-s-all-i-came-for-thank-you": 1.237,
     "scene-talk.follow-thank.that-s-all-i-d-ask-here-s-a-copy": 1.021,
-    "scene-talk.follow-thank.that-s-all-i-m-asking": 1.187,
     "scene-talk.follow-thank.that-s-all-i-needed-i-ll-get-you-the-figures": 1.209,
     "scene-talk.follow-thank.that-s-all-i-needed-thanks": 1.291,
     "scene-talk.follow-thank.that-s-all-i-needed-to-hear": 1.315,
@@ -12165,7 +12162,6 @@
     "scene-talk.reply-agree.alright-we-ll-work-it-out-together": 1.144,
     "scene-talk.reply-agree.alright-yes-i-can-do-that": 1.184,
     "scene-talk.reply-agree.alright-yes-i-ll-do-that-for-the-family": 1.13,
-    "scene-talk.reply-agree.alright-yes-i-ll-do-what-you-re-asking": 1.184,
     "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me": 1.152,
     "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work": 1.13,
     "scene-talk.reply-agree.alright-you-re-right-i-ll-make-the-time": 1.135,
@@ -14339,7 +14335,6 @@
     "scene-talk.reply-promise.whatever-happens-let-s-not-lose-touch": 1.16,
     "scene-talk.reply-promise.whatever-you-ask-i-ll-tell-you-the-truth-even-when-it-doesn-t-make-me-": 0.868,
     "scene-talk.reply-promise.yes-you-can-count-on-me": 1.266,
-    "scene-talk.reply-promise.you-can-count-on-me-and-i-ll-do-it": 1.269,
     "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it": 1.16,
     "scene-talk.reply-promise.you-have-my-word-i-ll-do-it": 1.16,
     "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off": 1.086,
@@ -16270,10 +16265,10 @@
     "journal.work-line-started.i-went-to-work-in-place"
   ],
   "coverage": {
-    "pieces": 11718,
-    "reached": 11718,
-    "near": 11718,
-    "weighted": 11692,
+    "pieces": 11713,
+    "reached": 11713,
+    "near": 11713,
+    "weighted": 11687,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -16366,9 +16361,9 @@
         "near": 84
       },
       "scene-talk": {
-        "pieces": 7813,
-        "reached": 7813,
-        "near": 7813
+        "pieces": 7808,
+        "reached": 7808,
+        "near": 7808
       },
       "scene-words": {
         "pieces": 291,

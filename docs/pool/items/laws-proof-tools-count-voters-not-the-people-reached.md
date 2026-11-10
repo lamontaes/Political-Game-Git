@@ -5,13 +5,14 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8106
 after:
 blocked-on:
 lead: fable
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, Every law in dev mode's list; Reported done item 3; Duplicate systems item 6)
+merged-at: 2026-11-10T05:30:20.817Z
 ---
 
 **What.** The crew has two proof tools that answer "who did this law reach", and they count different things. Neither names the people whose lives the law changed. Measured on the same 147 state laws in Marion, Mississippi (seed 7df73e53cd67): dev mode's reach control gave a number above zero for 23 of them, named a full person for 9 and a counted person for 2. The crew's harness "searches every record that names the law. It found 175 people for 120 of the laws and three more for the other 27." On the wage law the lead looked the three up: "They are the witnesses named at the bill's committee hearing, two of them from the played town. They are not people the law reached." The House has 122 members and the Senate 52, and there is one governor: 175. So the harness is counting the people who voted, to the person (the audit's inference from the sum). The audit's reading of the crew's own count: "'147 of 178 laws work' means 147 laws have a reach record. It does not mean a player can watch 147 laws change a life." Read in code on Nov 10. `citing` in `scripts/dev-tests/law-run.ts` (line 57, called at line 124) walks the whole log and counts every record whose facts or id contain the law row's id or the bill's id. That takes in the roll calls, the signature and the committee hearing, whose record names the committee's members and its witnesses (`committeeStage`, `src/core2/modules/legislature.ts`, line 4274; the names at line 4410). It returns counts of records by kind, not a list of people. Dev mode's `reach` (`src/bench/dev-mode.ts`, line 515) reads three modules' rows by law id. A third reader was found that the audit does not name: the wiring matrix behind `docs/reports/law-wiring-table.md` ("Laws wired: 147 of 178") grades its reach link with its own `reachOf` (`scripts/law-wiring/check.ts`, line 267), which counts rows in the two law-reach stores by policy key; it counts reach records, not voters. The core has a fourth, `reachedBy` and `reachOn` (`src/core2/law-reach/host.ts`, lines 325 and 260), which the press desk and `src/bench/reached.ts` read. Fix it at the cause: one reader in the core for "who did this law reach", used by dev mode, by the harness and by the wiring matrix, that names the people whose money, eligibility or price changed, full people and counted groups alike, with the dollars. A voter, a signer or a witness is reached only when the law changed their own money, eligibility or price.
