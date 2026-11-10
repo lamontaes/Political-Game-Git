@@ -5,7 +5,7 @@ area: docs
 kind: feature
 priority: 1
 size: M
-status: merged
+status: done
 standard: 2
 claimed-by:
 pr: #8220
@@ -18,6 +18,8 @@ root: rc2-done-from-records
 source: owner, Nov 10, 2026, through the CTO's 19:58Z and 20:01Z lines on issue 7365
 checked: fable 2026-11-10
 merged-at: 2026-11-10T21:07:48.964Z
+seen-by: "second session (acceptance check)"
+seen-at: 2026-11-10T21:08:23.012Z
 ---
 
 **What.** The owner wants one command he can paste into any agent, on any tool or account, so it takes the next right item, builds it and opens a pull request, then takes the next (owner, Nov 10: "it needs to be model agnostic ... picked up by codex, muse, etc. ... does it have weights on what should be done first? and i want it to be session proof"). The page the agent reads is docs/pool/START-A-BUILDER.md and the order is docs/pool/order.json; both are written. This item builds the tool they name: `npm run pool -- next`, `release`, the stale-claim release, the draft pull request made at the claim, and the index's Ready by model lists.
@@ -47,3 +49,5 @@ Change nothing else about claiming: a claim made the old way with `claim <id> --
 **Waits on.** Nothing.
 
 **Files.** scripts/pool/index.ts, scripts/pool/index.test.ts, docs/pool/order.json, docs/pool/START-A-BUILDER.md, docs/pool/README.md, AGENTS.md, .github/PULL_REQUEST_TEMPLATE.md
+
+**Notes.** Seen in the game (2026-11-10, second session (acceptance check)): none: a tool, not a place, seed none, main f631d2ce: Ran next dry for haiku sonnet opus, real haiku run claimed item, pushed branch with placeholder note, gh failed so I opened draft 8232, guard refused, release reopened item, index counts match
