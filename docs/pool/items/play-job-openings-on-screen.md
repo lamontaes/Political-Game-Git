@@ -17,6 +17,7 @@ after:
 model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** A jobless 18-year-old player can go a whole year with no job offer in some towns, and world-player-jobless-no-offers is fixing the offers. Jobs and study says No current job and nothing more, and the only openings shown anywhere is a Jobs open count on Metrics. List the open positions in town with employer, hours and pay, mark the ones the player fits by the jobs engine's own fit rule, and let the player apply to one; when none fit, say why (experience asked, hours, distance), read from the position records.
@@ -31,7 +32,7 @@ root: rc7-player-cannot-drive
 
 **Done when.** A second session, in a drawn place on the bench, sees a jobless adult player's Jobs and study list the town's open positions matching position record ids in a test, applies to one, and later sees the offer or the refusal by record id, shown by a screenshot with the place and seed named. The owner sees it on Jobs and study in his own game without opening dev mode.
 
-**Waits on.** world-player-jobless-no-offers (open) for offers to exist in volume; the screen says why none fit meanwhile.
+**Waits on.** Nothing. (world-player-jobless-no-offers, which it once waited on, was closed as built: offers reach a jobless player within twelve weeks wherever a position is open.)
 
 **Files.** src/bench/metrics.ts, src/bench/handler.ts, src/bench/play.mjs, src/core2/modules/jobs.ts
 

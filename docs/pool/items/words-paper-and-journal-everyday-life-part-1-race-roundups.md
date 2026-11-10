@@ -16,6 +16,7 @@ effort: medium
 root: rc3-thin-life-record
 source: split from words-paper-and-journal-everyday-life in the pool redo, Nov 10, 2026
 standard: 2
+checked: fable 2026-11-10
 ---
 
 **What.** A campaign gift or an endorsement is printed as its own story, so one race fills a year's paper with the same context sentence. Print a race's gifts and endorsements as one periodic story (a roundup) instead. The aim is that no sentence repeats more than three times in a year's paper. The roundup should read as one story a reader can skim.
@@ -24,7 +25,7 @@ standard: 2
 
 **Fix.** In src/core2/modules/press.ts, gather a race's gifts and endorsements in a period into one roundup story that lists them, worded by new pieces in data/english/parts/news.json (Story writes them); stop printing each as its own story.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** No hand-written player text: words come from the banks. Wire to the world: the story prints from a record an engine writes, cited by record id. One rule, all 56 places: no place is named in logic. Replace, never layer: the per-gift story is removed in the same change.
 

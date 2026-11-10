@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: low
 root: rc2-done-from-records
+checked: fable 2026-11-10
 ---
 
 **What.** src/director/race-told-scene.test.ts checks that opposite speakers tell a race differently. With GOLDEN_PATH_SEED=pet-run-1 on the petition branch (claude/elections-petition-filing), the second draw, Waycross, Georgia (1380956), place seed c383dee379909722186061bea6b917d0affbbc3bd7bd0004337500dcbd2bb7fb, as the new adult, composes the same text for traits at +2 and -2, beginning "Narrator: Joseph Banks just won the C...". The petition only changed which race is told first in that world; two other seeds pass, so the gap is in the scene's lines for that race's facts, not in the petition. The race-told lines likely lack a speaker line where the facts give the speaker no tie to the candidate.

@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** Filing is a petition (owner, Oct 28): the elections engine keeps the petition record (`petitionOf`: the rule read, the signatures needed, the signers with the day and how they were asked, and the clerk's check). The bench shows none of it: the filing result shows only its status label, and the campaign screen shows doors knocked but not signatures. The counter should say how many signatures the clerk will count and by what day, the campaign screen should show the signatures held against those needed, and the morning after the deadline the player should see the clerk's verdict (the petition-checked record). The filing route already spends the afternoon on the clock.

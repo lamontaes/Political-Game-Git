@@ -16,13 +16,14 @@ effort: medium
 root: design-life-record
 lead: screens
 source: CTO review of the life record design, Nov 10, 2026 (pull request 8111, note 1); the approved mock docs/mocks/2026-11-07-approved/menu-examples.html, the You example
+checked: fable 2026-11-10
 ---
 
 **What.** The approved mock of the You screen has a section, What people say about me, that the game does not build. The life record (docs/design/life-record.md) gives every full person one list of remembered events, each with the other people it names. This item makes that section a reader of the same list: for the people closest to the player, the events on their lists that name the player, worded as short sentences in their voice from the English engine's banks and grouped by person. It is sentences, never a timeline: the owner withdrew the timeline on Nov 7 and called the old You screen "just an excel sheet of facts". Where a person is shown with a face it is the bust (owner, Nov 7).
 
 **Cause.** Design: docs/design/life-record.md (one list of remembered events per full person) and the approved mock docs/mocks/2026-11-07-approved/menu-examples.html (the You example); the owner withdrew the timeline on Nov 7. The life record's reader (the old src/core2/person-life.ts is gone) is built by core-life-record, which has not landed.
 
-**Fix.** Build the What people say about me section on the You screen as sentences per person, read from the life record's one reader and worded by the English engine, grouped by person, with Trace on each sentence opening its record, and no dated list.
+**Fix.** Build the What people say about me section on the You screen as sentences per person, read from the life record's one reader and worded by the English engine, grouped by person, with Trace on each sentence opening its record, and no dated list. Show the same section on any person's card (What people say about them), built by the same function in src/bench/card.ts, with the gold tag beside each speaker drawn from the temperament recorded on that speaker (the reader at card.ts line 151). Keep no separate quote record: every sentence is a view of a life-record entry.
 
 **Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

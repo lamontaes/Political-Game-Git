@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc6-scenes-repeat
+checked: fable 2026-11-10
 ---
 
 **What.** src/director/campaign-season.test.ts asks that at least three of the season's kinds fire (an offer to help, word of a rival's campaign, an interview, a debate, a rival filing). In Ontario, Indiana (seed 0079b51fd8a9bc5bba59:0) the player knew ten people, so nobody offered to help; no rival bought ads and no outlet held a debate, so only a rival filing and the interview fired from January to November. Counting journal lines (words/red-campaign-season) fixes towns like Northford, Connecticut, but not a thin circle. The plan's step 6 scenes (door-knocking as porch scenes, the campaign team) and the manager offer (#6812) are the producers that fill it.

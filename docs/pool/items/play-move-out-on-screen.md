@@ -17,6 +17,7 @@ after:
 model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** Young adults never leave their parents' home in play, and people-leave-parents-home builds the decision for the people the game runs. The player, who usually starts at 18 in a parent's home, has no way to move out. Offer Move out on Who you are when the player is an adult in a parent's household, listing rentals in town they could afford from their pay and savings, and say plainly what is missing when none fits.

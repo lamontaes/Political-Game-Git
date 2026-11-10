@@ -12,10 +12,11 @@ claimed-by:
 pr:
 blocked-on: world-community-calendar-part-1-research-event-table, world-community-calendar-part-2-event-records-on-scheduler, world-community-calendar-part-3-attendance-by-recorded-causes, world-community-calendar-part-4-paper-and-journal-read-them
 after: core-every-life-simulated
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: design-life-record
 source: owner, Nov 1 ("there needs to be real ones with some good fluff or else it will get old")
+checked: fable 2026-11-10
 ---
 
 **What.** A played town has no community events at all: no county fair, Fourth of July parade, harvest or heritage festival, homecoming game, school play, church supper or club meeting, so the paper and the journal have nothing of ordinary town life to tell. This item gives every place a calendar of annual community events from research, sized by the place's population and type (a county seat has its fair; a college town its homecoming). Each event is a dated record. People attend by their own traits, ties and schedule. The paper, the journal and the scene engine read who went and what happened.

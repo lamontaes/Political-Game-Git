@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** src/director/scene.test.ts 'builds each staged scene from its records, in second person, and opens a conversation' fails with 'expected 0 to be greater than 0' when GOLDEN_PATH_SEED=wire-l1-c, identically on clean main at 4732dda71c (Oct 28); its default seed scenes-a passes. The test builds its world from the seed with buildPopulation and the director module alone, so the staged-scene count depends on which past the seed draws, and on this seed no moment stages a scene. The cause is not yet traced to a record.

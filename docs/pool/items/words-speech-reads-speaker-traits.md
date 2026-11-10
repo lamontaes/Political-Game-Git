@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc4-hand-written-words
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** Personality should shape how a person talks, and the English engine reads one trait today, for a line's register (src/director/ledger.ts:730). The trait-shaped outcome outcome.speech-style in data/content/trait-outcomes.json is graded read only in part, and its row says the Words line lists the trait reads speech needs. List those reads (for example how long, how warm and how direct a speaker's lines run), make the engine read the speaker's recorded traits for each when it picks a piece, and name the record each read came from.

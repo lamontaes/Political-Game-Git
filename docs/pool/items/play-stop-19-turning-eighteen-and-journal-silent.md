@@ -5,11 +5,11 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 after:
-blocked-on: play-stop-19-turning-eighteen-and-journal-silent-a, play-stop-19-turning-eighteen-and-journal-silent-b
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -17,6 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+checked: fable 2026-11-10
 ---
 
 **What.** A life started at 17 with a February 3 birthday on the v0.22.10 release did not list the player's own birthday under Coming up, showed nothing when the Week crossed it, and left the Journal blank until the day after filing, when it said "I ran for Council member." in the past tense. Both children are done (-b in PR 7179): `src/bench/calendar.ts` (line 117) now lists the player's own birthday beside the family's, and a sweep of turning eighteen in the journal landed (commit b6305be0bf). What is left is a second session's replay of the finish line.

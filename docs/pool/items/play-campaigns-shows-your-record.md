@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** Path 11 of Lane 1 starts with the player seeing their own record on Campaigns when they run for re-election. The records exist (legislature roll calls, bills the player sponsored, promises and their status), and voters already weigh them, but the screen the player plans a campaign from does not show them, so the player cannot see what a rival will attack or what to run on. The section reads the same records voters read, worded through the English engine. The old src/bench/campaigns.ts no longer exists; the screen is `campaigns()` in src/bench/play.mjs fed by src/bench/campaign.ts.

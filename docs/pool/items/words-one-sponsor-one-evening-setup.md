@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc2-done-from-records
 lead: director
+checked: fable 2026-11-10
 ---
 
 **What.** src/director/one-sponsor-one-evening.test.ts waits for a played year in which one sponsor asks the player about two bills on one evening. Once governing/ask-skips-held-bills sends each bill to its committee the evening before (legislature-ask-skips-bills-the-committee-will-hold), a held bill leaves the agenda before the asks, so the case is rare: on seed fd20a2a4fc1f6997, six places over 150 and 240 days had none, and twelve draws at 240 days ran out of memory. The governing lead covers the staging with a built-world test meanwhile (Words agreed, Nov 2).

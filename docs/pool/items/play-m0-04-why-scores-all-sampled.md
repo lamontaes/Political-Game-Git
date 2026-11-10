@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: rc2-done-from-records
+checked: fable 2026-11-10
 ---
 
 **What.** Roadmap M0-04 says 20 randomly sampled items on screen each open a why with scores and record ids that exist in the core. In Plainview, Arkansas (place key 0555970, seed f2f00caaa5604688361010393a2f269a05c80306a5a61bf875be6c71d0047daa) its command (src/bench/m0-check.ts M0-04) passed with 20 of 30 items opening a saved explanation and only 10 carrying scores; the rest (household, job and similar records with no decision behind them) say none were saved. The check accepts that answer and never requires saved scores, so half the sample proves nothing about why. A merger kept the feature flag false on a pull request for this reason.

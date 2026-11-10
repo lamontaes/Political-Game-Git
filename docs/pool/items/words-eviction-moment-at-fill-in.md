@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-life-record
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), a household evicted while counted holds its housing case and status row but no director moment labeled feeling:event:housing.eviction. When the player later meets one of its people and they are filled in, nothing they say brings up the eviction or where they are staying. The gap is registered as SG-WORDS-eviction-moment-at-fill-in, with its marker in src/director/conversation.ts.
@@ -28,7 +29,7 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: the person's own records (the eviction case's removedAt and its event id event:housing.eviction:<caseId>) give the moment at fill-in, so the director tells what happened to them. Ask why: the line cites the case record, not a typed reason.
 
-**Done when.** A second session plays buildBenchWorld in Storrs, Connecticut (key 0973980), a place the item names, meets a person of a homeless counted household and sees them filled in with a feeling:event:housing.eviction moment dated from the case, by case and event record id, and their talk able to bring it up (a test in src/director shows it); SG-WORDS-eviction-moment-at-fill-in is cleared.
+**Done when.** A second session plays buildBenchWorld in a drawn place (place and seed named), redrawing until a counted household has been evicted within the year (Storrs, Connecticut, key 0973980, is a place where it happens and may be one of the tries), meets a person of a homeless counted household and sees them filled in with a feeling:event:housing.eviction moment dated from the case, by case and event record id, and their talk able to bring it up (a test in src/director shows it); SG-WORDS-eviction-moment-at-fill-in is cleared.
 
 **Waits on.** Nothing. (core-evicted-counted-stays-counted is done.)
 

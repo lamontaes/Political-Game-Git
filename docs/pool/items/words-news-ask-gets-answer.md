@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: health-serious-illness-onsets-in-play
+blocked-on:
 source: added with npm run pool -- add
 after:
 standard: 2
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** After a relative's hard news, the player can reply with a question: "For how long?" after a prison sentence, "What did the doctors say?" or "How long has {name} been sick?" after an illness. No tell follows those replies in conversation-rules.json, so the one who brought the news answers with an acknowledgment instead of an answer. The records hold the answers: the sentence's term on the justice record, the diagnosis and its date on the health record. #6130 adds the same kind of question after a move away ("Where did they go?"), whose answer is the departure record's destination.
@@ -30,7 +31,7 @@ lead: words
 
 **Done when.** A second session, not the builder, runs a played-world test in a drawn place (seed named) that opens every family-news talk the director stages for a watched household over a year and picks each reply that asks, and sees that the next line is the bearer's answer from the news record, cited by record id, never an acknowledgment, for prison, illness and move-away news.
 
-**Waits on.** health-serious-illness-onsets-in-play (the illness half needs illness news in play; the prison and move-away halves do not).
+**Waits on.** Nothing for the build: add all three tells now. Only the played proof of the illness half waits on health-serious-illness-onsets-in-play (open); until it lands, prove the illness tell with a test that builds the news from a health record, and say so in the pull request.
 
 **Files.** src/director/data/conversation-rules.json, src/director/conversation.ts, data/english/parts/conversation.json
 
