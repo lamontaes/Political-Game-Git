@@ -5,13 +5,13 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/fable-journal-no-feeling
+status: open
+claimed-by:
 pr: #8155
 blocked-on:
 lead: words
 source: Fable, Nov 10, 2026, found while re-running the English tests after merging main into the words machine's branches
-claimed-at: 2026-11-10T14:45:07.874Z
+claimed-at:
 ---
 
 **What.** On clean main at 047abba2c1, src/english/mined/journal-bank.test.ts fails one test of two: 'names no feeling anywhere in the bank' finds the piece journal.memoir-meant-friend.that-made-me-glad ('That made me glad.') in data/english/parts/journal.json, which matches the test's own list of feeling words (glad). Command: npx vitest run src/english/mined/journal-bank.test.ts. The piece has been in the bank since at least Nov 5, so either the test is newly reached or a recent journal change stopped holding the piece out; not checked which.
