@@ -5,7 +5,7 @@ area: laws
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found in the acting CTO's Oct 22 merge sample. The deleted file's body for reference: it amended the housing line up by three times housingAssistanceAnnualMinor, read the payments table of core2-law-reach-a-v1, advanced 40 days, then amended the line back down and expected every obligation's endedAt set.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The header of src/core2/law-wiring-housing.test.ts (lines 5 to 8) says "the rent help cases keep what the deleted rent-help test asserted", and the file holds one case for each assertion this item lists: "rent help: the helped head rents (a lease exists)", "the payment is at most the rent", "a counted renter's help goes into its group's fund", "the treasury has paid after a month" and "cutting the housing line ends every payment". src/core2/rent-help.test.ts is gone. The full typecheck on main is a checker's job under "Builders build; checkers check", not a pool item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

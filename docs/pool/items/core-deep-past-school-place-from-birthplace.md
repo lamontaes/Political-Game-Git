@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md):
 Superseded by #6640 (merged Oct 28, wire-opening-and-home line 7): `buildDeepPast` and `deep-past.json` are deleted; the school engine runs each child's school years a year at a step at the district of the place they lived that year (`src/core2/past-school.ts`, `school.started` records), so the school follows the birthplace and every move. Nothing left to build here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. #6640 (merged Oct 28) deleted `buildDeepPast` and deep-past.json. src/core2/past-school.ts `schoolRecords` (line 101) now runs each child's school years at the district of the place their records put them that year (its estimatedFrom reads: "the place their records put them that year (src/core2/past-moves.ts)"), so the school follows the birthplace and every move. The item's own Notes say the same.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

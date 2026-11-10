@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ source: added with npm run pool -- add
 Nov 6, later: tried and reverted. A per-day person-to-jobs index in monthlyIncome (summed in the jobs map's own order, jobs read live by id) changed nothing measurable: Upper Witter Gulch year 4 ran 124.1 s with it and 123.5 s on plain main, same run, same machine, one process (years 1 to 3: 53.8/100.9/61.3 against 54.2/97.3/61.6). So the profile's 5.6 s of self time in monthlyIncome is not mostly the scan of core.jobs; do not build the index. Look first at how often monthlyIncome is called and from where (credit.ts line 1302 builds it lazily per household) and at the 3.2 s anonymous callback beside it.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-speed-colorado-election-year-persuasion. Tried Nov 6: a person-to-jobs index changed nothing (year 4 124.1 s against 123.5 s). It is one lead of the Upper Witter Gulch year-4 profile (0879800, seed 5a1c0de7a11ce5e1) that core-speed-colorado-election-year-persuasion covers. The kept item now says `monthlyIncome` (src/core2/modules/credit.ts line 1179) must be traced by call count (line 1302 builds it lazily per household) and its 3.2 s callback before any index.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-speed-colorado-election-year-persuasion`, which carries this item's remaining work.

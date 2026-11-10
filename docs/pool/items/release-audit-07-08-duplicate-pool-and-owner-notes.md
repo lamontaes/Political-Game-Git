@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,5 @@ Lane 5, Nov 3: two findings, and one question for the CTO. (1) The three items r
 Lane 5, Nov 3, correction: the question above is answered by the record, with no need to ask. `docs/packages/M7-early-access.md` line 88 (Oct 19): dated owner decisions in the game "must not ship; they go on this checklist for launch". So the strip and its search test belong to launch preparation (unit 11, shipping), run once over the whole tree. Until then sessions keep citing rulings as AGENTS.md asks. Item left open for that step.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. docs/packages/M7-early-access.md line 88 (Oct 19) says dated owner decisions in the game "must not ship; they go on this checklist for launch", so stripping owner and date notes is launch preparation run once over the whole tree, as Lane 5's Nov 3 note in this item found; the pool half was already done. The stopgap text now lives in src/core2/data/stopgaps/ (family files), not stopgaps.json.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

@@ -4,7 +4,7 @@ title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5644
 blocked-on:
@@ -41,3 +41,5 @@ Checked Oct 20 (claude/political-game-pool-yucp92-ak), finding only, no test lan
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (symptom gone; remaining work is the producers items).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into director-no-scene-without-a-purpose. The Oct 16 and Oct 20 notes show moments now exist (the symptom "no moments" no longer reproduces) and the remaining complaint is a skip that stops with no scene to play, which director-no-scene-without-a-purpose covers. Checked Nov 10: `src/director/director.test.ts` line 918 still records the ruled behavior that a big moment with no scene type stops a skip, so the fix is binding scenes, not removing the stop. The kept item takes two leftovers: Point of Rocks, Wyoming, where no director moment stops an 8-month skip, and `resolveSavedTraceV1` (`src/core2/saved-trace-v1.ts`) returning record-not-found for a stopping moment's record id (`src/director/director.test.ts` line 1416 reads it). Both are now in director-no-scene-without-a-purpose's Done when.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `director-no-scene-without-a-purpose`, which carries this item's remaining work.

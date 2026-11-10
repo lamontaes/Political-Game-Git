@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -29,3 +29,5 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 **Notes (second session, acceptance check, Nov 10).** Trace on the first ten ids of the Watch panel's news table (Oakland, Arkansas, seed 707cf7e4-251e-453f-a00b-76572c887ad6, main 419e1a97, run to 2027-03-08): decided 0, caused 9, opening 0, no cause kept 1 (a national wildfire record), not a record 0; the first ten ids of the player's News rows: caused 10. The player's Journal and News screens listed nothing in this world, so no id came from them; the ids came from the Watch table and GET /api/news.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main (low confidence on one part). Merged as 'Dev mode's Trace answers for every record the Journal and the News name' (#8108): src/bench/dev-trace-every-id.test.ts traces every record id the Journal and the News name, and the item's own Notes carry a second-session check on Nov 10 (Oakland, Arkansas, seed 707cf7e4-251e-453f-a00b-76572c887ad6, main 419e1a97): the first ten Watch-table ids all resolved (caused 9, no cause kept 1) and the player's News rows resolved 10 of 10. Not covered by that check: the law row's chain from a passed bill and the Journal ids (that world listed none). Record the acceptance with npm run pool -- seen once those two are seen.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

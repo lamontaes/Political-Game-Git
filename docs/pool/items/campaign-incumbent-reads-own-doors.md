@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ source: governing lead, Nov 1 (review of campaign-incumbent-hears-the-race)
 **Notes.** Found by the rules and played reviews of governing/incumbent-hears-the-race (Nov 1).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into campaign-incumbent-hears-the-race. Its done-when already reads "the residents who told the incumbent's own canvass", and this item's fix (the told door answers open a reading by themselves from a doors record naming pledge ids, one stepped-up row per new evening) is the same change in the same function, `raceReading` in src/core2/modules/campaigns.ts. The kept item has taken the two extra lines: the reading opens with no rivalWord row and no poll, and the played proof's clause (d) accepts the doors source kind. Path notes: the stopgap file is now src/core2/data/stopgaps/gov.json, and src/core2/campaign-real-race-played.test.ts is not on main (it lives on branch governing/real-race-played-proof).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `campaign-incumbent-hears-the-race`, which carries this item's remaining work.

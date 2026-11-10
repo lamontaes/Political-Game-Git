@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #5869
 blocked-on:
@@ -30,3 +30,5 @@ The four delivered flags M0-01, M0-02, M0-03 and M0-06 are bounded by roadmap-m0
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: same; narrow to M0-04.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into play-m0-04-why-scores-all-sampled. M0-01, M0-02, M0-03 and M0-06 already read passes: true in docs/roadmap/features.json (roadmap-m0-flip-proven-four is done), and M0-05 reads true too; the one open flag is M0-04, which play-m0-04-why-scores-all-sampled owns. The kept item should take this item's requirement that the 20 sampled explanations carry scores, with a bench screenshot, into its done-when.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `play-m0-04-why-scores-all-sampled`, which carries this item's remaining work.

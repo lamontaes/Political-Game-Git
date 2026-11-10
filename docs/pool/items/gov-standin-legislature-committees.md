@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: split from gov-standins-other (Oct 19, 2026); rows SG-GOV-committee-stru
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-leadership-committee-appointer-by-chamber. Its rows overlap two live items: SG-GOV-committee-structure and SG-GOV-committee-names-national go to the leadership item, and SG-GOV-local-bill-numbering and SG-GOV-local-executive-proposal go to gov-legislature-local-rules-by-place. The kept item should take committee names and federal proposal coverage.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `gov-leadership-committee-appointer-by-chamber`, which carries this item's remaining work.

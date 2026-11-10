@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-life-record. `buildDeepPast` and src/core2/deep-past.ts were deleted (#6640); the school engine's `schoolHistoryFor` (src/core2/past-school.ts line 176) and `pastWorkFor` (src/core2/past-work.ts line 896) are the later hooks, and the stopgap SG-P15-kin-light-past now lives in src/core2/data/stopgaps/p15.json. The remaining ask (an opened relative who lives elsewhere gets a school and work past) is step 3 in core-life-record's Nov 10 Notes. The kept item takes: an opened husk relative gets school cohort records (place and dates agreeing with their birthplace and moves) and a work past from `schoolHistoryFor` and `pastWorkFor` when first simulated, the same relative the same way twice, and SG-P15-kin-light-past is resolved.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-life-record`, which carries this item's remaining work.

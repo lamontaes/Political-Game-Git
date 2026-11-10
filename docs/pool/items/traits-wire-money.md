@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5587
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-25 from PR #5587 (branch claude/traits-money): Unsourced jobs.
 Sent back 2026-10-26 from PR #5587 (branch claude/traits-money): Audit correction after actual implementation merge 0c29e101084e238e1300b15afa416487faf4725f: the played test proves opposed probe calls but does not read/assert both person.weighed records or name both stored decision-record IDs; add that explicit second Done-when proof in a follow-up while preserving normal retention and the landed implementation.; finish on that branch, merge main into it first.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into traits-research-weights-21. This family wrapper has been open since Oct 24 on a dead PR; its calls-above-zero acceptance is met by traits-decisions-never-run (done) and traits-decisions-fire-in-play (#6681, #6684, #6688), and what is left is fitting weights to studies, which the kept item asks for (its part 2, money and housing decisions, takes this item's decisions: borrowing, quitting, accepting, founding, moving, applying, buying a home, owner draw). traits-money-saturated-reasons is done.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `traits-research-weights-21`, which carries this item's remaining work.

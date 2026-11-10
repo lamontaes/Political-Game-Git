@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: open
+status: dropped
 claimed-by:
 pr: #7105
 blocked-on:
@@ -29,3 +29,5 @@ Owner, Nov 1 playtest of v0.73.0 (CTO): "The speech with the president is suppos
 Lane 5 (pool truth, Nov 3): claimed with PR #7105 open from its branch; set in-pr.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The cinematic opening is built: src/bench/montage.ts with src/bench/data/opening-montage.json and src/bench/opening-montage.browser.mjs, and its children play-opening-plays-in-the-talk-box and play-opening-pictures-from-records (cutaways and the President's podium from the world's records) are status done. The item's Notes mark it in-pr with #7105. Remaining gaps are separate play-opening-* items.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ Oct 27 (claude pool worker): the item body is a stub (What, Rules, Done when and
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART or close.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The test already redraws up to `PLACES = 6` places until a candidate can file (`src/bench/campaign-day-controls.test.ts`, lines 37 and 337 to 343) and passed on fresh seeds cd1 and cd2 (the Oct 27 note); no failing draw was ever recorded, which is what the item's own done-when allows closing on.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

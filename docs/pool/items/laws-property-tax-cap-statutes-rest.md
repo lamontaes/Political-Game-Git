@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Oct 20 (pool feeder): spec written to follow laws-property-tax-cap-statutes (in a PR); the builder copies the term names that PR sets. If the first part reads the caps for all states, this item covers only the exemptions and CPI-lesser terms it left out and the lead can drop the rest.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-property-tax-cap-statutes. Same data (`us-policy-positions:fiscal.cap-property-tax-growth` terms in src/core2/data/laws/reach-group-b.json and src/core2/data/laws/property-tax-caps.json), same reader (src/core2/housing-property-tax.ts) and same stopgap row (SG-GOV-REACH-B-property-tax-bills, now in src/core2/data/stopgaps/gov.json). It was written to follow a first part named "first eight states" that never landed under that name (the file holds ten states today). The kept item should take: levy limits, exemptions and CPI-lesser caps as a separate state group, using the term names the first group sets; the kept item's part 2 carries them.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `laws-property-tax-cap-statutes`, which carries this item's remaining work.

@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5811
 blocked-on:
@@ -27,3 +27,5 @@ Sent back 2026-10-21 from PR #5811 (branch claude/school-attendance): The new sc
 Stale 2026-10-26: PR #5811 closed (no push for five days, sent back); the work is on branch claude/school-attendance; claim the item and merge main into that branch.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into people-school-minor-illness. Same school-absence seam (children attend 99.95 percent of days; the stay-home choice in src/core2/modules/school.ts reads the child's care need and nothing about the household). This item has empty Rules and Done when and its pull request closed; the kept item has the cause and the sourced NHIS target. The household-circumstance term goes to the kept item as its second step.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `people-school-minor-illness`, which carries this item's remaining work.

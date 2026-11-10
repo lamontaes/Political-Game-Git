@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Folded in from the withdrawn people-health-coverage-reader (PR #5450), which named the same chain: (1) a lost job or a raise that moves an adult over the income limit ends the coverage and raises the bill again, the same sliding rule in both directions, never a cutoff; (2) the chain reaches the director's line (the smaller bill cites the coverage record, and nobody credits the law unless they learned of it). The monthly flow this reads is the CE health insurance and medical services flow; two open items describe it, world-medical-spending-categories and people-health-spending-flows, so whoever claims one should read the other first and one of them should be closed as the duplicate (a CTO call, not made here).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/medical-bills.ts imports and uses payMedicaidCare (line 91) and reads the Medicaid coverage records written by recordCoverage in src/core2/law-reach/group-b-money.ts. Only the cost-of-care estimate stays open under SG-GOV-REACH-B-medicaid-coverage, which is research, not this item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

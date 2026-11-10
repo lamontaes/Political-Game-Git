@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: blocked
+status: dropped
 claimed-by:
 pr:
 blocked-on: core-speed-counted-renewal-pass
@@ -27,3 +27,5 @@ Split Oct 24 by the speed lead (the order's step 4: an L item is split before bu
 Oct 25 audit: three of its four blockers are done; it waits on core-speed-counted-renewal-pass only.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Its own text says it is done when its four parts are: core-speed-journal-posting-in-play (#5907), core-speed-work-attendance-in-play, core-speed-work-payroll-in-play and core-speed-counted-renewal-pass are all status done. The flat 9 percent allocators it lists were one-edit-within-noise by its own measurement.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

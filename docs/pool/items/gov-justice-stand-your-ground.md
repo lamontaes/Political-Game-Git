@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Deferred Oct 25: nothing on screen reads it yet.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/public-safety.ts reads the stand-your-ground law (STAND_GROUND, line 86; lawIdOf at line 846) and ends self-defense cases at charging where the rule is law; SG-GOV-REACH-A-stand-your-ground is resolved in src/core2/data/stopgaps/gov.json.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

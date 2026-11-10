@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: blocked
+status: dropped
 claimed-by: claude/political-game-pool-7xkkii
 pr:
 blocked-on: words-speech-part-words
@@ -30,3 +30,5 @@ Speaker fit built Oct 20 (same branch): a candidate is a challenger where someon
 Earned devices built Oct 20 (same branch; see words-speech-craft-earned): with figures, speaker fit and earned devices all built on PR #5196, this item's parts are done there once words-speech-part-words merges. What remains is the owner's grading of the lines.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Its base, words-speech-part-words, is dropped (already built), and the files it names are gone (src/english/speech-part-words.ts, src/core2/speech-composition.ts, data/english/parts/speech-parts.json). Speeches are built by stage (src/english/speech-stage-words.ts reading data/english/parts/speech-stages.json; words-speech-built-in-stages, done), and earned devices exist (deviceEarned in src/english/speech-registers.ts).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

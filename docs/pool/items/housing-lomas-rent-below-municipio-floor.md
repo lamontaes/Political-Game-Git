@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -33,3 +33,5 @@ Tried and not shipped: dividing each rent by the renters' median scale, as value
 - **Next.** Re-fit the burden-to-court-case rates (the eviction model's per-band rates in housing.json, `eviction` and `evictionDefaults`) against the HUD Continuum of Care counts per 10,000 for a spread of drawn towns, then ship the rent fix with the re-fit in one PR. Needs a sourced rent-burden distribution (ACS B25070); the Census API needs a key, so the table has to come from a downloaded file. Report before and after counts in plain English when it ships.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The cause (rents scaled against the whole town's median income while the sourced rent is the renters' median) is fixed by `renterMedianScale` in src/core2/modules/housing.ts (lines 757 to 762: `incomeScale(row.income) / renterMedianScale`), shipped by the pool item core-one-map-rent-renters (status done, PR #7300). The eviction and homeless re-fit this item's Notes call open is carried by that item. Not run: m1-05-check was not executed in this pass; the second-session check is to run src/core2/tooling/m1-05-check.ts for place key 7246626 at seed 591a7dea70e8601ff33ba68cdc050acfd4eee1b0b96f73c00c9606d9e7decf31.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

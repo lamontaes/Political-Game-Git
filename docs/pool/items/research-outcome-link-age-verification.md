@@ -6,7 +6,7 @@ lead: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Laws helper, Oct 29 (claude/laws-social-media-age-check): sized as one folded link, `age-verification-to-youth-depressive-episode` (size -0.011 of the share of teens in a major depressive episode per law in force, range -0.0381 to +0.0035, lag 3 months, ESTIMATED), built together with `laws-social-media-age-check-estimated-link`. The contracts file named above, `data/research/outcome-web/social-media-age-verification-contracts.json`, is not on main (the gap row's old note cites it), so the compliance-cost, identity-exposure and injunction contracts are not sized here; the account-access contract is the Australia step inside the link's anchor. Open: size the platform compliance cost per covered platform (no source found that prices it) if the owner wants that link.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The link is built: data/research/outcome-web/links.json holds age-verification-to-youth-depressive-episode (key at line 3462; see the Oct 29 note), the gap row is gone from src/core2/data/laws/outcome-research-gaps.json (no age-verification there), and the reach row is registered as SG-GOV-REACH-A-age-verification in src/core2/data/stopgaps/gov.json. Only the optional platform compliance-cost link is open, and its contracts file is gone.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

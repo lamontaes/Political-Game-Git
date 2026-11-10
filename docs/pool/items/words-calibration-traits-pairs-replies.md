@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Oct 20 (pool feeder): spec written; words-bench-calibration is done and its Notes name this remainder; the item was only an empty shell, so the three weights are named here from the parent's design.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. docs/design/words-machine.md deletes the calibration weights this item would extend (its table row 'The weights that favor ungraded lines (data/english/calibration.json)' answers 'Nothing: a line plays or it does not') and replaces grade-driven weighting with rules and a pulled list. Adding per-trait, per-pair and per-reply weights is the opposite direction. (src/english/english-calibration.ts is now src/english/calibration.ts.)
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

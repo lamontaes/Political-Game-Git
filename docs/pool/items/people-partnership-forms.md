@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #4963
 blocked-on:
@@ -34,3 +34,5 @@ Nov 1 (lives lead): the engine exists now for people living elsewhere (`src/core
 Nov 2, 01:45 UTC (lives lead, handoff): released. Nothing built and branch lives/partners-town was never pushed. Next step: build the town's full people into the partnerships module (src/core2/modules/partnerships.ts, PR #7082, once merged). Choose a partner among the people a person knows by closeness, age gap, fit and money, move one into the other's home through changeHouseholdV1 so the lease follows, and write through setPartnersV1. Closes SG-LIVES-partner-town. Method: the lives skill.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Full people partner in play: the header of src/core2/modules/partnerships.ts describes the monthly pull from the ACS first-marriage pace, dating, moving in through changeHouseholdV1 with the lease, engagement and the wedding; it is installed in src/director/play-modules.ts (line 44) and tested in src/core2/partnerships-town.test.ts and src/core2/partnerships-proposal.test.ts. Same-sex pairing is people-orientation-record.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

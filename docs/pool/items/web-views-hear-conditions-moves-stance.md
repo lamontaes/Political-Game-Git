@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: blocked
+status: dropped
 claimed-by:
 pr: #5879
 blocked-on: people-counted-readers-stances-from-stories
@@ -32,3 +32,5 @@ Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): E
 Oct 24 (effects lead): split after Merger 3's send-back on #5879. The full readers' step is web-views-hear-conditions-full-readers, which #5879 completes; the counted followers' step is people-counted-readers-stances-from-stories, registered on #5879 as SG-PEOPLE-counted-readers-stories. This item closes when both are done.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into people-counted-readers-stances-from-stories. Its Notes say it closes when two steps are done: web-views-hear-conditions-full-readers (done) and people-counted-readers-stances-from-stories (claimed, registered as SG-PEOPLE-counted-readers-stories). Only the counted followers' step is left. The kept item should take the ruling text (Oct 22: hearing a moved condition moves the stance of the people the news reached, citing the story's news record) and the done-when test in src/core2/outcome-news.test.ts that fails when the read event is removed.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `people-counted-readers-stances-from-stories`, which carries this item's remaining work.

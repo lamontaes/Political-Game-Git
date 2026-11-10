@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** Elections, Nov 9: found while fixing M2-07 (PR #8000); item 2 of the elections goal (every seat has a holder).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Fixed by commit 83fd7fcb7f (Nov 9, "a tie straddling the last seat runs the place's tie law"): `atLargeWinner` in `src/core2/modules/voting.ts` (line 2860) now collects the straddled names and calls `breakElectionTie` (imported from `../election-ties`, called at line 2905) for the last seat.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

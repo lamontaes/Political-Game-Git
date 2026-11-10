@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Analysis (Claude worker, Oct 27; released unbuilt). The groups are hash buckets: each member's bucket is `hash(person) mod groupCount` with `groupCount = ceil(cohortSize / size)` (src/core2/opening-peer-network.ts:218), so bucket sizes are binomial around cohortSize/groupCount, and the count steps at every multiple of the size. No integer group count can keep every cohort inside the class band of 16.9 to 22.0 (a cohort of 23 to 33 fits one group above 22 or two below 17), so "within the band" can hold only on average, and any partition into groups flips somewhere when one classmate is added; a smoother rule needs overlapping circles, not groups. The fit-in-place design is a ring: each person's position is a hash fraction u of (seed, version, context key, person id); two people are peers when their circular distance is at most size / (2 * cohortSize), so the window shrinks continuously as the cohort grows (a cohort at or under the size are all peers), and a person filled in later gets the same peers because the rule reads only the two ids and the cohort size from `peerCohortSize`. Each contact would carry its own id as `peerGroupId` (the contact id, not a bucket), `peerGroupMembers` would be the expected circle size (about `size`), and `scripts/research/deep-past-year.ts` and `opening-peer-network.test.ts` (which assert stable named groups and rows by group) read groups, so both change with it. Estimated at more than the 3-hour box: it replaces the group data shape. Whoever takes it should split it into the ring rule with its test and the report and fixture changes.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/opening-peer-network.ts and its test no longer exist, and nothing in src reads `openingPeerGroupSize` (it survives only in the stopgap row text SG-P8-opening-peer-network in src/core2/data/stopgaps/p8.json, which says the writer was deleted Oct 28). Schoolmates now come from the school engine's records via src/core2/shared-history.ts (one-history work, #6640). If the ring rule is still wanted it is a new item against shared-history.ts.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5075
 blocked-on:
@@ -35,3 +35,5 @@ Sent back 2026-10-24 from planning PR #5075 (branch claude/outcome-causes-split)
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of its three children; the children carry the work.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into outcome-causes-health-programs (with siblings outcome-causes-housing-disaster-justice and outcome-causes-press-government). It is a spec-only umbrella already split into those three open items, and its own send-back says the split is stale. Of its 16 named links, 12 still wait in src/core2/data/outcome-web/coverage.json; disaster-to-out-migration, disaster-to-home-values and both home-prices links are wired and should be dropped from any child. The link the send-back found unassigned, abortion-denied-to-financial-distress, is now in outcome-causes-health-programs-part-3-lead-and-abortion-links.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `outcome-causes-health-programs (with siblings outcome-causes-housing-disaster-justice and outcome-causes-press-government)`, which carries this item's remaining work.

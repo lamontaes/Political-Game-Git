@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at: 2026-10-27T10:07:03.633Z
 **Notes.** Filed by the CTO root-cause report of Oct 27 (docs/reports/opening-root-cause-2026-10-27.md). Lead: laws-effects. Reopened Oct 27 by the laws-and-effects lead: #6289 put the reader and the Issues half on main (merged 15:40), but the bot set the item done from its pr field although line 1 said "Touches"; the opening's read of `lawHere` is still open and is carried by `director-president-asks-within-powers`.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The reader exists: `lawHere` (src/core2/modules/laws.ts, line 991) returns each policy question's law with its record id and citation, `governmentView` in src/bench/government.ts (line 252) maps it for the Issues screen, and src/core2/laws-in-force-every-question.test.ts checks a starting row and a row enacted in play in a drawn place. The opening's read is carried by director-president-asks-within-powers (status done). Not verified in this pass: the opening's own read of a row by record id, and the test was not run; the second-session check is that test with GOLDEN_PATH_SEED set, plus the opening address on a drawn place.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

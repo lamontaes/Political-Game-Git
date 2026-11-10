@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Deferred Oct 25: nothing on screen reads it yet.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/public-safety.ts reads the juvenile-age law in force (safetyParameter juvenileAgeRaised or juvenileAgeDefault, line 757) and routes each case to adult or juvenile court; SG-GOV-REACH-A-juvenile-age is resolved in src/core2/data/stopgaps/gov.json. The item's engine file (modules/justice.ts) is not where the work landed.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).
