@@ -52,7 +52,7 @@ it(`a school year's end is told as a small story from the school's records (seed
         (chapter) => chapter.lines,
       );
       const told = lines.find((line) =>
-        /I had been at .+ for |That ended .+ at /.test(line.text),
+        /I had been there for |That ended .+ there\./.test(line.text),
       );
       if (!told) {
         tried.push(

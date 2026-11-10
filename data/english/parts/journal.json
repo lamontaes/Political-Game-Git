@@ -10706,7 +10706,7 @@
       "key": "journal.memoir-school-for.i-had-been-at-school-for-school-for",
       "move": "memoir-school-for",
       "kind": "spoken",
-      "text": "I had been at {school} for {school_for}.",
+      "text": "I had been there for {school_for}.",
       "uses": [
         {
           "move": "memoir-school-for",
@@ -10732,7 +10732,7 @@
       "key": "journal.memoir-school-for.that-ended-school-for-at-school",
       "move": "memoir-school-for",
       "kind": "spoken",
-      "text": "That ended {school_for} at {school}.",
+      "text": "That ended {school_for} there.",
       "uses": [
         {
           "move": "memoir-school-for",
