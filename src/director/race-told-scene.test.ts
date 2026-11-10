@@ -9,7 +9,10 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { playerContests } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  playerContests,
+} from "../core2/modules/elections";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -46,8 +49,8 @@ const PROFILE = [
   "personality-v1:facet-sensitive",
 ];
 
-/** The last day a race may be held and still have its day after inside the played year. */
-const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 2);
+/** The last day a race may be held and still have its second day after (a player who ran hears it then) inside the played year. */
+const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 3);
 
 /** The new adult filed for the soonest race held inside the year once they turn 18, or false. */
 function fileNewAdult(world: ReturnType<typeof buildBenchWorld>): boolean {
@@ -149,7 +152,9 @@ it(`the day after a count, someone tied to a candidate tells who won, and the re
     const { core, director } = world;
     const personId = world.playerId as PersonId;
     let summary = "";
+    const labels = new Map<string, number>();
     const count = told(core, director, personId, (entry, moment) => {
+      labels.set(moment.label, (labels.get(moment.label) ?? 0) + 1);
       if (!summary)
         summary = check(where, core, director, personId, entry, moment);
     });
@@ -158,7 +163,7 @@ it(`the day after a count, someone tied to a candidate tells who won, and the re
       continue;
     }
     process.stdout.write(
-      `RACE TOLD ${where}${tried.length ? ` after ${tried.join("; ")}` : ""}: ${count} told in the year, the first ${summary}\n`,
+      `RACE TOLD ${where}${tried.length ? ` after ${tried.join("; ")}` : ""}: ${count} told in the year (${[...labels].map(([k, n]) => `${k} ${n}`).join(", ")}), the first ${summary}\n`,
     );
     return;
   }
@@ -178,8 +183,22 @@ function check(
 ): string {
   const record = core.durableLog.get(moment.causeId);
   expect(record?.kind, `${where}: the cause record`).toBe("election-result");
-  expect(moment.label, where).toBe("circumstance:race-result-known");
-  expect(moment.date, where).toBe(addDays(makeIsoDate(record!.date), P.one));
+  // The day after the count; for a player who ran, two days after, because
+  // the morning after takes the day before (one scene a day reaches them).
+  const ranIn = (
+    coreAPI(core)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [personId]) as unknown as { contestId: string }[]
+  ).some((filing) => filing.contestId === record!.facts!.contestId);
+  expect(moment.label, where).toBe(
+    ranIn
+      ? "circumstance:race-result-known-after-ran"
+      : "circumstance:race-result-known",
+  );
+  expect(moment.date, where).toBe(
+    addDays(makeIsoDate(record!.date), ranIn ? P.two : P.one),
+  );
 
   const result = purposeScene(core, director, personId, entry, {
     typeKey: "race-told",
