@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-core-country-tier-ledgers-replace-outside-budgets
-pr:
+pr: #8329
 after:
 blocked-on:
 lead: fable
