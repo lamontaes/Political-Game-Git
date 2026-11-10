@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: story/journal-no-feeling-words
-pr: pending
+pr: 8151
 blocked-on:
 lead: words
 source: src/english/mined/journal-bank.test.ts "names no feeling anywhere in the bank", red on main since #7501; ruled by docs/coordination/prior-rulings/people.md section 24 (CTO, Nov 10)
