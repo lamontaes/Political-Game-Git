@@ -24,3 +24,5 @@ claimed-at:
 **Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts, src/core2/modules/residents.ts, src/core2/group-quarters.test.ts
 
 **Notes.** Needed before long saves (speed bar: years 97 to 100 against years 1 to 4).
+
+**Notes (Fable, Nov 10).** `npx vitest run src/core2/group-quarters.test.ts` is red on main today (c00d0a7b6d) and was already red on yesterday's main (d088df98cd), three of four tests, in every place it draws: an arriving household is housed in a group-quarters room where the test says no arrival may be (`move:in:household_194eae169e3d9dc1:2025-03-01: expected 'college' to be undefined` in place 0973980; 'nursing' in places 3929428 and 5683040). The moves engine keeps a room capacity and a room queue (`roomCapacity`, `roomQueue` in src/core2/modules/counted-moves.ts), so rooms do admit arrivals now, and either that admission or this test's rule is out of date. Whoever takes this item settles which and makes the test say it. Seen while a helper was fixing the back-to-the-counts error; not caused by it.
