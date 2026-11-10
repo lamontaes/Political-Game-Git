@@ -105,7 +105,13 @@
     "spouse": "The name of the person the celebrant married, from the marriage record.",
     "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
     "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
-    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results."
+    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
+    "subject": "The household member the news is about, by first name, from the record the news comes from.",
+    "other": "The other person in the pairing or parting the news is about, by name, from the partnership record.",
+    "ill": "The seriously ill person a visit or an ask is about, by first name, from the health record.",
+    "sick-for": "How long the person has been seriously ill, as people say a span of time, from the health record's start day.",
+    "trial-day": "The day the trial is set for, as people say a date, from the justice engine's charge record.",
+    "fine": "The fine the court set, as people round a sum, from the justice engine's sentence record."
   },
   "maxWords": 70,
   "parts": [
@@ -197702,7 +197708,7 @@
       "key": "scene-talk.follow-answer.just-come-back-to-us-in-one-piece-first-that-s-the-whole-ask",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Just come back to us in one piece, {first}. That's the whole ask.",
+      "text": "Just come back to us safe, {first}. That's the whole ask.",
       "uses": [
         {
           "subject": "scene",
@@ -198138,7 +198144,7 @@
       "key": "scene-talk.state-request.would-you-go-by-my-house-and-make-sure-everything-is-fine-first-there-s-no-one-there-but-me-to-see-to-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Could you go by the house and make sure everything's all right? There's nobody there but me to see to it.",
+      "text": "Could you go by the house and check on things? There's nobody there but me to see to it.",
       "uses": [
         {
           "subject": "scene",
@@ -199629,7 +199635,7 @@
       "key": "scene-talk.follow-accept.good-i-ll-set-it-up",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll set it up this afternoon.",
+      "text": "Then I'll set it up.",
       "uses": [
         {
           "subject": "scene",
@@ -199667,30 +199673,6 @@
         }
       ],
       "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, visited-ill purpose)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "accept",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.alright-i-won-t-push",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Alright. I won't push.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "visited-ill-ask",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Claude Sonnet (Story, visited-ill purpose)",
       "date": "2026-11-10",
@@ -201001,7 +200983,7 @@
       "key": "scene-talk.close-press.i-ll-bring-it-up-again-when-i-come-back-if-that-s-all-right",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll bring it up again when I come back, if that's all right.",
+      "text": "I'll bring it up again when I come back, if that's okay.",
       "uses": [
         {
           "subject": "scene",
@@ -202977,7 +202959,7 @@
       "key": "scene-talk.follow-thank.then-i-ll-make-the-call-this-afternoon-first",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then I'll make the call this afternoon.",
+      "text": "Then I'll make the call.",
       "uses": [
         {
           "subject": "scene",
@@ -203265,7 +203247,7 @@
       "key": "scene-talk.follow-thank.thank-you-i-ll-sleep-better-tonight",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll sleep better tonight.",
+      "text": "Thank you. I'll sleep better.",
       "uses": [
         {
           "subject": "scene",
@@ -203713,7 +203695,7 @@
       "key": "scene-talk.close-press.i-ll-ask-again-when-i-can-if-that-s-all-right",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll ask again when I can, if that's all right.",
+      "text": "I'll ask again when I can, if that's okay.",
       "uses": [
         {
           "subject": "scene",
