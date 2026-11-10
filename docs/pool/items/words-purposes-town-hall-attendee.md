@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/purposes-town-hall-attendee
-pr: pending
+pr: 8120
 blocked-on:
 lead: words
 source: Director helper finding in #8109 (a town hall is a moment for each attendee, but only the host's town-hall-question plays)
