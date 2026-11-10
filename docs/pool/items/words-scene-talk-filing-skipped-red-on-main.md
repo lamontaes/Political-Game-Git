@@ -5,12 +5,13 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8135
 blocked-on:
 lead: words
 source: Fable, Nov 10, 2026, seen while checking the words pull requests and rerun on clean main at ee9d543f05
+merged-at: 2026-11-10T10:45:18.737Z
 ---
 
 **What.** On clean main at ee9d543f05 (Nov 10), `npx vitest run src/director/scene-talk.test.ts` fails four of nine tests with the default seed (scene-talk-test). Three fail with 'filing: expected skipped to be composed': 'composes every purpose: setup, open, statement, four replies, an answer and a close, in the bank's own words', 'plays every purpose in play, and never says a line the owner rejected' and 'composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes'. The fourth, 'answers by the same lean every decision reads', times out at 30 seconds. So the scene where the player files for office has a step with no line that may play, and in the game that scene is skipped.
