@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, opens ten adults' cards: at least one tells an earlier partner or a serious illness or injury from before the start, each with a year, and Trace on the sentence opens its record. The part's test prints the town's shares beside the researched rates.
 
-**Waits on.** Pull requests 8115 and 8123 on main. Lines from Story for the spots the pull request names.
+**Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123). The build does not wait for lines: its pull request names each spot that needs them, and Story writes them after.
 
 **Files.** src/core2/person-life.ts (new), src/core2/past-work.ts, src/core2/modules/partnerships.ts, src/core2/modules/health.ts

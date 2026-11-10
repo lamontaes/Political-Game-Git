@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session starts the game in Agana Heights, Guam with the seed above on main and opens the player's sister: her card shows schooling in town and the year she left, the same way twice. It then does the same for one relative elsewhere in a drawn place it names with its seed.
 
-**Waits on.** Pull requests 8115, 8123 and 8139 on main.
+**Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123).
 
 **Files.** src/core2/past-school.ts, src/core2/past-work.ts, src/core2/opening-kin.ts, src/core2/data/stopgaps/p15.json

@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, opens the card of someone who has lived in town since before the start and held or sought office, or uses dev mode's Trace on a town race from before the start to find its named loser, then opens that person's card and reads the lost race with its year; Trace on the sentence opens the race.
 
-**Waits on.** Pull request 8139 on main.
+**Waits on.** Nothing. Pull request #8139 is on main.
 
 **Files.** src/core2/past-elections.ts, src/core2/person-life.ts (new)

@@ -31,6 +31,8 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, presses the 20 years control (part 6), then opens the Journal and the cards of three people around the player: each holds dated sentences from the skipped years, and dev mode's Trace on each sentence opens a record.
 
-**Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time, core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time, core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time, and the life record's pull requests 8115, 8123 and 8139 on main.
+**Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time, core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time and core-fast-clock-part-3-prices-pay-and-jobs-in-skipped-time.
 
 **Files.** src/core2/person-life.ts (new), src/core2/life.ts, src/core2/results-mode.test.ts (new)
+
+**Notes (Fable B, Nov 10).** The life record's own steps, which this part also waited on, are on main (pull requests #8115 and #8139, which holds #8123), so Waits on now names only the three fast clock parts.
