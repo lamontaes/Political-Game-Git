@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** Duplicate of gov-enacted-budget-lines-miss-adopted-spending: same check (M0-13), same cause (mid-year amendments counted as annual budgets). Evidence moved there.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The item itself says it duplicates gov-enacted-budget-lines-miss-adopted-spending, which is status done in the pool.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

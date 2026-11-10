@@ -5,7 +5,7 @@ area: docs
 kind: feature
 priority: 1
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -27,3 +27,5 @@ source: Fable build brief, Nov 9, 2026, piece 1 (docs/audits/fable-build-brief-2
 **Notes.** Fable is building this on branch `claude/political-game-audit-build-h6d7tg` (plan posted on the crew thread, Nov 10). Dev mode's panel bugs (drawn under Members, "[object Object]", black on black, the cross-level bribe) are separate lane items filed the same night and are not part of this.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main, with one part left as its own item. The rule is on main: AGENTS.md step 5 ("Done means a second session saw it in the game"), `.agents/skills/seen-in-game/SKILL.md`, the merged-versus-done flip in `scripts/pool/done-on-merge.ts` with `pool seen`, and dev mode's bill card (`src/bench/ui/dev-bill-card.mjs`, with the cloture line "Short of the votes to end debate" in `src/bench/data/controls.json` line 1271). The Done when step that Trace answers for every record the Journal and News name is the open item play-dev-trace-answers-why-for-every-record-the-game-names. What is left is a second session's replay recorded with `npm run pool -- seen`, not a build.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

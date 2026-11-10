@@ -4,7 +4,7 @@ title: "Speeches and debate (campaign speeches, floor speeches, public comment),
 area: words
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -28,3 +28,5 @@ Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md):
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-19). Cleared from the front matter and kept here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Its own note says to re-scope after words-speech-part-words, which is dropped as already built. The stage builder (words-speech-built-in-stages, done) and data/english/parts/speech-stages.json replace the registers-to-parts path, and its mining-and-grading method is replaced by the owner's Nov 10 ruling "Who does words work: split by role" (docs/coordination/OWNER-DECISIONS.md). The files it names (scripts/english-corpus/address-bank.ts, src/core2/speech-composition.ts) are gone.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

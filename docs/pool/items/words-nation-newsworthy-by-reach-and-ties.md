@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** State Sessions Nov 6 found the data this needs does not exist yet: no state populations in place-map.ts (reach = the state's share of the nation; sum the Census place populations or add a sourced state table), no state adjacency table (needs a sourced Census list, about 109 borders), and no moved-from history on a person (family and job places do exist). Build family and work ties first, add neighbors when the table is sourced, and keep moved-from as a registered stopgap.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/bench/nation-news.ts tells another state's law by its state's share of the nation times one plus the reader's family, work and neighbor ties (parameters nationNewsFamilyTie, nationNewsWorkTie and nationNewsNeighborTie in src/core2/data/parameters.json), and stopgap SG-WORDS-nation-window-not-interest is "resolved" in src/core2/data/stopgaps/words.json. The moved-from tie stays open as SG-WORDS-nation-no-moved-from-tie in the same file.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

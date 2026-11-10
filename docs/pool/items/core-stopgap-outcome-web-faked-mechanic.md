@@ -4,7 +4,7 @@ title: "Stopgaps in outcome-web (faked-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -31,3 +31,5 @@ Oct 20: The Oct 15 claim has no PR and is over two days old, so the claim is cle
 Oct 20: Switched from blocked to the automatic after: gate on world-outcome-links-sizes, core-outcome-causes-recorded, core-outcome-produced, so it opens by itself the moment those items are done.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into outcome-causes-health-programs (with siblings outcome-causes-housing-disaster-justice and outcome-causes-press-government). It is the umbrella for SG-WEB-outcome-drift (row in src/core2/data/stopgaps/web.json) and closes only when its three children are done: world-outcome-links-sizes (done), core-outcome-produced (done) and core-outcome-causes-recorded, itself split into the three open items above. The last of them to land resolves the row and the outcome-web.test.ts check.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `outcome-causes-health-programs (with siblings outcome-causes-housing-disaster-justice and outcome-causes-press-government)`, which carries this item's remaining work.

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at: 2026-10-26T05:07:48.273Z
 Built and measured Oct 26 (speed lead), not shipped, claim released, recommend drop. The change (patch kept in the speed lead's scratchpad, never pushed) is exact: on main 8abee77ef0, Long Hill, Connecticut (seed m7b, one year) gives deep fingerprint `72befe2a4fc4036c` before and after, and Stanardsville, Virginia (seed cc91f5444b53bd47) gives `984f9e045cd78ea0`, `efc267ebcab753e9` and `cb09482e64aa401f` for years one to three on both. It saves nothing: in Johnstown, Ohio's third year on main, profiled, `groupKnown` is 26.2 s before and 27.2 s after, and the drives engine 181.5 s before and 190.7 s after (the after run's year was 4 percent slower overall). Nearly every group on a holder's topic was founded in their own place or county, so testing nearness first skips almost no knowledge checks, and the sorts it saves are small. As with core-speed-cause-group-offers-per-topic, the cost is how many acts the holders take and are offered, which people-drives-cause-acts-pull-less (#6082) and the 30-day focus window (#6102) cut: with both, the drives engine is 17.9 s of Johnstown's third year.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The speed lead built it and measured Oct 26 (see the Notes above, "recommend drop"): deep fingerprints identical, but groupKnown 26.2 s before and 27.2 s after and the drives engine 181.5 s against 190.7 s, because nearly every group on a holder's topic was founded in their own place. Its siblings core-speed-cause-group-offers-per-topic (dropped) and core-speed-cause-holder-weekly-contacts (done) took the contact side.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

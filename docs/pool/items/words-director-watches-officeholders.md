@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr: #5180
 blocked-on:
@@ -27,3 +27,5 @@ claimed-at:
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up; close it: the children carry the work.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. It is a roll-up with no code of its own; the 2026-10-27 look-first audit (docs/reports/retroactive-look-first-2026-10-27.md) recorded in the item says 'roll-up; close it: the children carry the work'. The children are director-officeholder-address-scene and director-term-ending-scene (both open) and director-signing-staff-and-press (dropped). Its test file src/director/officeholder-address-scene.test.ts does not exist yet and belongs to director-officeholder-address-scene.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

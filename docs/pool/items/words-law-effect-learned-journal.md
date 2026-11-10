@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #6117
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-26 from PR #6117 (branch words/law-effect-learned-journal): the first and third Done-when rows explicitly remain Not yet: the required pinned bottle-deposit end-to-end test is absent from main and parent #5968 remains open; supply that proof or a genuinely bounded journal-reader item with the full chain explicitly retained on its parent; finish on that branch, merge main into it first.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/director/data/journal-rows.json line 220 has the row with kindPrefix "event:law.effect-learned", data/english/parts/journal.json (line 7136, journal.money-line-law-effect-learned.i-found-out-law-changed-what-i-pay) has "I found out {law} changed what I pay.", and src/director/journal-law-effect.test.ts proves it (the item named src/core2/laws-end-to-end.test.ts, which is not the file that proves it now).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5663
 blocked-on:
@@ -40,3 +40,5 @@ Sent back 2026-10-21 from PR #5635 (branch claude/memory-drive-acts): docs/pool/
 Oct 25 audit: cleared the block on an owner-decision id that was never filed; the owner's Oct 20 memory ruling (quoted in What) answers it.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The player-decision condensing it asks for is on main: src/core2/decision-detail.ts keeps `playerQueues` (line 91) and condenses the player's acts and weighed choices after `playerDecisionDetailDays` (line 338; test src/core2/condense-decisions.test.ts), recorded as core-long-run-player-weighed-condensed (done); the event-id trim is core-long-run-event-ids (done). The election-month step it still names is the same cost as core-speed-world-races-election-month. The paths it names (src/core2/modules/world-races.ts, `playerDecisionDetailMonths`) no longer exist.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ No longer reproduces on main (Claude worker, Oct 27). `GOLDEN_PATH_SEED=af75ac5b
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (done by main).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The item's own Notes (Claude worker, Oct 27) ran the exact seed in Las Marias (key 7243788) and found every race had someone on the ballot, 13 of 13, with candidacy.test.ts unchanged. The merged change that fixed it was not found, so this rests on that run, not on a commit.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

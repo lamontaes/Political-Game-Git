@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/law-wiring-housing.test.ts now redraws a place with no eviction hearing under the counsel law: it returns "no subject: no eviction hearing had a lawyer in N days" when no case carries the counsel law (about lines 360 to 375), with a comment that a town with no case is redrawn, which is this item's done-when.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

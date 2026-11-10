@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Oct 29 (CTO, second account): PR #5603 closed as stale under the owner's standing approval; back to open. Branch `claude/played-world-departures` is kept; claiming this item takes it over.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. tests/golden-path/played-world.node-test.ts now imports `watchDepartures` and `departuresSeen` from src/core2/modules/moves.ts (line 44), calls `watchDepartures(core)` (line 285) and reads `departuresSeen(core)` (line 657); both are exported from moves.ts (lines 1721 and 1735). The broken `departuresOf` import is gone. Not replayed.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

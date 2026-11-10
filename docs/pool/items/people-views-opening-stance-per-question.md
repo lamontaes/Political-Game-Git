@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -33,3 +33,5 @@ Oct 20 (pool feeder): spec written as a roll-up; the three children already exis
 Split Oct 20 (claude, claude/political-game-pool-yucp92-ii): this L item is now three, in order: research-opening-stance-loadings (survey loadings of traits, faith and education on each question), people-opening-stance-formation (the formation rule in views.ts, after the loadings) and elections-counted-voters-read-group-stances (countedAppeal reads group stances, after the formation). The call-site replacement the item lists is done except that last one: meetings.ts, office-day-federal-president.ts and election-ties.ts already call agreementWith, and countedAppeal in electorate.ts is the only caller of platformAgreement left. This item is done when those three are.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Its three children (research-opening-stance-loadings, people-opening-stance-formation, elections-counted-voters-read-group-stances) are all status done, no `platformAgreement` call is left in src, and `groupStance` and `loadingShift` in src/core2/campaign-views.ts (lines 361 to 387) apply the loadings. Caveat for the CTO: the stopgap SG-GOV-views-stand-in stays open (src/core2/data/stopgaps/gov.json) because only 8 of the 54 questions have a survey item; that residue is a research question for a new item, not this roll-up.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

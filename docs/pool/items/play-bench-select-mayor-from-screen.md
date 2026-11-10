@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ source: added with npm run pool -- add
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: the Advanced play-as picker is the route (OD:82); do not add Play buttons to Government.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The item's own look-first note (Oct 27) says the Advanced play-as picker is the route and that Play buttons must not be added to Government; that picker exists (play-dev-mode-one-advanced-start is done, src/bench/advanced.browser.mjs) and the Nov 9 audit took the mayor through Advanced, Play as. src/bench/play.ts, which the item names, is gone.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

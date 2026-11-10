@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 Oct 27 (Merger 2): scripts/traits/trait-end-to-end.test.ts fails on clean main with 'TypeError: .toMatch() expects to receive a string, but got undefined' (found while gating PR 6017).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Its acceptance (two opposite-trait residents live a played year differently, named by record) is the item traits-end-to-end-pair, status done, and scripts/traits/trait-end-to-end.test.ts exists. The 'gap at least doubled' half is the open item traits-neighbors-gap-routine. Its Notes say the test failed on main Oct 27 with a TypeError; if it is still red, file that as its own item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

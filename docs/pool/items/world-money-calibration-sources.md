@@ -4,7 +4,7 @@ title: "Money calibration sources without restricted originals (#713)"
 area: world
 kind: research
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #713
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-26 from PR #713 (branch codex/assignments-5-money-sources-safe
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (rights gate withdrawn; PR #713 closed by OD:541).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The pull request this item finishes was closed by the owner's pre-Oct-12 ruling (OWNER-DECISIONS.md, OD:541: pre-Oct-12 pull requests with no successor are closed), and the rights gate it waited on was withdrawn (docs/reports/retroactive-look-first-2026-10-27.md, table row: "CLOSE (OD:541 already ruled it closed; item stays open for a fresh small PR)"). Its 795,000 lines of raw data are not on the golden path (AGENTS.md, "Build only what the golden path needs"), and the test and zip reader it names (scripts/source/regional-money/missing-money-sources.test.ts) are gone from main.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

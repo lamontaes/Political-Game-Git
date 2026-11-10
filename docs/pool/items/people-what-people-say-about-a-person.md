@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into play-what-people-say-about-me-reads-the-life-record. Keep that item (its better cause is docs/design/life-record.md: one reader of the life record, no new record). This item adds the person card (not only You) and the gold tag drawn from the subject's recorded temperament (src/bench/card.ts); the kept item should take the card and the tag, and drop this item's separate 'quote record'.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `play-what-people-say-about-me-reads-the-life-record`, which carries this item's remaining work.

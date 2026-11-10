@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5818
 blocked-on:
@@ -50,3 +50,5 @@ Merger 2: 2026-10-26, #5818 is routed to bounded release-merge-audit-fix4-browse
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up; close it: the remaining gap has its own item.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. All seven fixes merged (the notes record #5655, #5658 and #5748, #5707 and #5818, #5668 and #5712, #5705, #5697, and fix 2 via #5703). Checked: scripts/audit/research-data-allowlist.json lists data/research/jobs/employer-callback-gaps.json under awaitingReader (line 111, after the awaitingReader key at line 97), and src/core2/staff-paid-every-place.test.ts pins territory:VI:charlotte-amalie-east. The staff file named in fix 5 is now src/core2/modules/staff.ts.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

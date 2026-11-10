@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 3
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-CORE-outside-governments. Split into S/M parts before building.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-country-tier-ledgers-replace-outside-budgets. docs/design/country-tier.md replaces it: every state becomes counts "with a state treasury" and "the federal government is one more ledger". The kept item should also take paying outside officials and escheats from those ledgers in place of the outside party in src/core2/outside-governments.ts (row SG-CORE-outside-governments, still open in src/core2/data/stopgaps/core.json).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-country-tier-ledgers-replace-outside-budgets`, which carries this item's remaining work.

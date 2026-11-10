@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #6059
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-26 from PR #6059 (branch claude/quirky-ride-vrwwz4-play-stop-07): The overlap is fixed, but Mark gap and Say nothing remain visibly enabled and inert in the real held filing story with both pointer and Enter (zero requests, unchanged state); play.mjs handlers return when talk is unset, while clock.browser.mjs only Tab-walks those controls, so the every-response activation acceptance is unmet; finish on that branch, merge main into it first.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into play-stop-card-covers-rings. It is the same class (the player card or panel covering controls at a stop); this item's own sent-back note says the overlap was fixed and only inert Mark gap and Say nothing remained, and Mark gap is now dev-only (src/bench/play.mjs, line 1385). The kept item takes this one's check: the filing story's reply row at 1440x900 and 1024x768, by pointer and keyboard, seed b32f52ab-ec06-46ae-8e53-7482696bb81a, Cacao, Puerto Rico. The image named in the notes above is gone from main.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `play-stop-card-covers-rings`, which carries this item's remaining work.

@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 3
 size: L
-status: open
+status: dropped
 claimed-by:
 pr: #5794
 blocked-on:
@@ -50,3 +50,5 @@ Merger 2, October26: PR #5466 merged at c0f05abbe02ef0ca9e9f2f8ec23a29b308d5d1a5
 Sent back 2026-10-26 from PR #5478 (branch claude/apply-stopgaps-c2): Corrected table still cites only the small custom world rather than a drawn one-year all-module buildBenchWorld run with downstream record IDs; add a matching bounded proxy acceptance item and assert the full applicable territory seat set with a zero-electorate negative; keep this umbrella and SG-GOV-delegate-race-size open; finish on that branch, merge main into it first.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The 112 rows of the umbrella are taken family by family: each research-*-sourced-parameters item names its own stopgap rows, and the Oct 20 and Oct 24 notes (and slice items such as research-stopgaps-oct19-apply-foreclosure-days) record the applied rows. Correction to the earlier sorting: data/research/stopgaps-oct19/ is still on main, so the folder stays as the source those family items read; what is replaced is the single L umbrella that would apply all 112 rows at once.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

@@ -5,7 +5,7 @@ area: play
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Oct 20 (pool feeder): spec written; the screen and give path already exist (speechView, speechGive), so this is only the read of the worded parts. It must wait for director-retire-stage-speech-builder so it edits the surviving builder, not the one being deleted.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Its parent words-speech-part-words is dropped ("already built", Oct 27 look-first audit). A speech is now built by stage: src/english/speech-stage-words.ts reads data/english/parts/speech-stages.json (words-speech-built-in-stages, done), and src/bench/speech-screen.test.ts exists.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

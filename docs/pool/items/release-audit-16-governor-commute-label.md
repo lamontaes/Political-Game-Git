@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both halves are gone: the computer-governor item docs/pool/items/governor-clemency-computer-governors.md exists with status done, and the release note it would relabel is not in docs/release/changes (8 files, none about the commute; the shipped notes were consumed by Release 0.100.0 per docs/release/consumed-changes.json).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

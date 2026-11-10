@@ -6,7 +6,7 @@ lead: traits
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -29,3 +29,5 @@ Oct 29, 02:40 UTC (traits lead): the done-when is met; for the CTO or a merger t
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/traits-fire-in-play` is kept; claiming this item takes it over.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Its own Notes (Oct 29, 02:40 UTC) record the done-when met: family PRs #6681 (work), #6684 (integrity) and #6688 (people) merged, and across nine drawn election windows 85 of 89 decisions fire, the other four going to a gap row in data/content/trait-decision-gaps.json or to words-player-trait-reads-fire. Only the status flip was left to the CTO. (The stopgap file it cites moved to src/core2/data/stopgaps/, for example traits.json.)
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

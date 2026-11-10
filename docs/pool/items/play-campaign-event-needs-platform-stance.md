@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/event-platform-stance` (2026-10-20). Cleared from the front matter and kept here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The control is no longer silent: `campaignDayChoices` in src/core2/campaign-day.ts (lines 496 and 506) returns a `noPlatform` reason, worded 'Choose your platform first' in src/bench/data/controls.json, and the Today list this item was found in is gone (the item's Notes, Oct 23).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).
