@@ -15,6 +15,7 @@ import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
+  executiveOf,
   favorWorth,
   memberPosition,
   votesOn,
@@ -24,6 +25,7 @@ import {
   type DebateRow,
   type TownHallRow,
 } from "../core2/modules/meetings";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -38,7 +40,11 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
+import {
+  billNameFor,
+  billNameOf,
+  spokenDesignation,
+} from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import {
@@ -370,6 +376,25 @@ function composeBinding(
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
+  // The post of the executive who signed or vetoed the bill ("the mayor
+  // calls", "the governor"), from the office record of its body's executive.
+  if (named && core.modules.has(OFFICES_MODULE_ID)) {
+    const office = executiveOf(
+      coreAPI(core as CoreState),
+      named.bodyOfficeId,
+    ).office;
+    if (office)
+      facts.executive = {
+        text: office.kind.replace(/-/g, " "),
+        sourceRecordIds: [office.id, named.id, moment.causeId],
+      };
+  }
+  // What the bill does, from its own sections (the English engine's bill
+  // names): "free fares on public transit", or for a repeal "the return of
+  // fares on public transit".
+  const does = named ? billNameOf(named)?.purpose : undefined;
+  if (named && does)
+    facts.does = { text: does, sourceRecordIds: [named.id, moment.causeId] };
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {
@@ -692,6 +717,13 @@ function composeBinding(
   // A town hall (meetings.ts holdTownHall): the question this resident stood up with,
   // and whether the host's answer to it agreed with the resident's own stand,
   // opposed it, or was not given.
+  // The lines that speak of the hall, the microphone and the next question
+  // play only in a scene the hall's own record staged.
+  if (said.townHallId)
+    facts.townhall = {
+      text: said.townHallId,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.townHallId && core.modules.has(MEETINGS_MODULE_ID)) {
     const api = coreAPI(core as CoreState);
     const hall = api
@@ -954,7 +986,7 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: said.office,
+      text: titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1193,6 +1225,12 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
+  // Where the scene is set, so a line written for one place (the desk, the
+  // house, the street) is not said in another: `setting-office`, `setting-home`.
+  facts[`setting-${binding.setting.kind}`] = {
+    text: binding.setting.kind,
+    sourceRecordIds: [binding.setting.recordId],
+  };
   // The kind's own arc, or the variant of it the records give this cause. A
   // scene where the player asks plays the kind's own arc: its variants are
   // the colleague's ask of the player.

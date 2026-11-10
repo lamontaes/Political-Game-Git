@@ -624,7 +624,7 @@
     "directorCampaignGiftImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
-      "citation": "A gift that is everything others have given a campaign, sized like filing to run (0.28), and scaled by the gift's share of what others have given the campaign, so a first or large outside gift is a moment for the candidate and a small late one falls under the moment floor (0.11). No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967). Checked by a donor's gift firing the donor's ask in a played campaign.",
+      "citation": "A gift that is everything others have given a campaign, sized like filing to run (0.28), and scaled by the gift's share of what others have given the campaign, so a first or large outside gift is a moment for the candidate and a small late one falls under the moment floor (0.11). It is a cause-channel event, like filing: the money channel scales it by 0.47 and the candidate's risk weight, which put every gift under the floor (217 of 217 for one drawn candidate). No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967). Checked by a donor's gift firing the donor's ask in a played campaign.",
       "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.15 to 0.35"
     },
     "directorOfficeReplyImpact": {
@@ -1140,7 +1140,7 @@
     },
     {
       "eventKind": "campaign-gift",
-      "channel": "money",
+      "channel": "cause",
       "impactParameter": "directorCampaignGiftImpact",
       "scaleFact": "share"
     },
