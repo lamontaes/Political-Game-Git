@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -22,15 +22,11 @@ const after = (days: number) => {
   return at.toISOString().slice(0, 10);
 };
 
-// The seed names the place; the second seed is a different place.
-const seeds = (
-  process.env.GOLDEN_PATH_SEED
-    ? [process.env.GOLDEN_PATH_SEED]
-    : [
-        createHash("sha256").update("back-to-the-counts:one").digest("hex"),
-        createHash("sha256").update("back-to-the-counts:two").digest("hex"),
-      ]
-).map((seed) => ({ seed, place: drawPlace(seed, "core2-back-to-the-counts") }));
+// A place drawn afresh each run and named in every message; GOLDEN_PATH_SEED
+// replays one.
+const seeds = [
+  process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex"),
+].map((seed) => ({ seed, place: drawPlace(seed, "core2-back-to-the-counts") }));
 
 /**
  * The played world (every module installed) with the player's circle left
@@ -101,10 +97,12 @@ function sendAllBack(
       refused.set(reason, [...(refused.get(reason) ?? []), id]);
     }
   }
-  console.log(
-    `${label}: ${went.length} went back; refused ${[...refused]
+  process.stdout.write(
+    `BACK-TO-THE-COUNTS ${label}: ${went.length} went back; refused ${[
+      ...refused,
+    ]
       .map(([reason, list]) => `${list.length} (${reason})`)
-      .join(", ")}`,
+      .join(", ")}\n`,
   );
   return { went, refused };
 }
