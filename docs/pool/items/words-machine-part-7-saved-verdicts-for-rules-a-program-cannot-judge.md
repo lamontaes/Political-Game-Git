@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8206
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,7 @@ effort: medium
 root: design-words-machine
 source: written by Fable, Nov 10, 2026, from the CTO's line of 18:50Z on issue 7365 (the saved-verdict store for the meaning-and-tone rules is part of the test parts) and docs/design/words-machine.md
 checked: fable 2026-11-10
+merged-at: 2026-11-10T20:23:10.401Z
 ---
 
 **What.** Most of the owner's rules about words are about meaning and tone: whether a line names something specific, explains itself, or sounds like the person saying it. A program cannot judge those. The design has a reviewer judge each line once and save the verdict, and the run then reads the saved verdicts. One rule already works this way, the rule that a reply follows the line before it. This part makes that one store serve every such rule, so each of them can start pulling lines.
