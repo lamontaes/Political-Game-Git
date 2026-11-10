@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: design-country-tier
 source: split from core-speed-world-campaign-days-as-group-results in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-10T23:41:51.529Z
 branch: claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-
 **Notes.** Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:03 UTC) on branch claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group.
 
 Released (2026-11-10): Measured in Gunnison UT n8f6 year 4: polls cost 4.0 s, but 2.9 s is dialing (leanedYes per call) and 0.9 s the frame; the impression reads the Fix replaces are 0.2 s, so the Fix cannot make poll time fall (PR 8263). Continue on branch claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:41 UTC) on branch claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group.
