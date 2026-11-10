@@ -90,3 +90,83 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
   }
   throw new Error(`no mortgaged household in 8 places: ${tried.join("; ")}`);
 }, 900_000);
+
+// A lender outside the books that is not the buyer: a household that moved
+// within the county keeps its lender while its new place has its own outside
+// market. It stopped a twenty-year game in its thirteenth year (South Fork,
+// Missouri, Nov 10, 2026: an estate's home sale threw "Money cannot move
+// between two outside accounts").
+it("sells a home whose mortgage another outside account holds: the loan ends and nothing throws", () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const place = drawPlace(`${seed}:${attempt}`, "home-sale-other-outside");
+    const where = `seed ${seed}, ${place.name} (${place.key}), world seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 40));
+    const api = coreAPI(core);
+    const housing = api.moduleState("housing");
+    const loan = (
+      housing.table("mortgages").rows() as unknown as MortgageRow[]
+    ).find(
+      (row) =>
+        row.balanceMinor > 0 &&
+        core.finance.contracts.has(row.id) &&
+        core.households.has(row.householdId),
+    );
+    if (!loan) {
+      tried.push(`${where}: no mortgaged household`);
+      continue;
+    }
+    const household = core.households.get(loan.householdId)!;
+    const buyer = townOutsideOf(core.organizations.values(), household.placeId);
+    // Another owner whose cash is outside the books.
+    const other = [...core.organizations.values()]
+      .filter((org) => {
+        if (!buyer || org.id === buyer.id) return false;
+        const account = core.cashJournal.residualAccountByOwner.get(org.id);
+        return (
+          account !== undefined &&
+          core.cashJournal.accounts.get(account)?.outsideFlow === true
+        );
+      })
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    if (!buyer || !other) {
+      tried.push(`${where}: no second outside account`);
+      continue;
+    }
+    housing
+      .table("mortgages")
+      .put({ ...loan, holderId: other.id } as unknown as ModuleRow);
+    const first = household.memberIds.find((id) => core.people.get(id)?.alive);
+    const before = core.people.get(first!)?.liquidMinor ?? 0;
+    let sale: ReturnType<typeof sellHome>;
+    expect(
+      () => (sale = sellHome(api, loan.householdId, "test.departure")),
+      where,
+    ).not.toThrow();
+    expect(sale!, where).toBeTruthy();
+    expect(core.finance.contracts.get(loan.id)!.endedAt, where).toBeTruthy();
+    expect(
+      (housing.table("mortgages").get(loan.id) as unknown as MortgageRow)
+        .balanceMinor,
+      where,
+    ).toBe(0);
+    // The lender is paid off the books; the surplus still reaches the seller.
+    expect(sale!.priceMinor, where).toBe(
+      sale!.toLenderMinor + sale!.surplusMinor,
+    );
+    expect(core.people.get(first!)!.liquidMinor - before, where).toBe(
+      sale!.surplusMinor,
+    );
+    process.stdout.write(
+      `HOME-SALE-OTHER ${where}: ${sale!.id}; buyer ${buyer.id}; lender ${other.id}; to lender ${sale!.toLenderMinor}; surplus ${sale!.surplusMinor}\n`,
+    );
+    return;
+  }
+  throw new Error(
+    `no mortgaged household with a second outside account in 8 places: ${tried.join("; ")}`,
+  );
+}, 900_000);

@@ -48,7 +48,7 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName, spokenDate, stateInSentence } from "./words";
-import { schoolResult } from "./school";
+import { graduationResults, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -661,6 +661,28 @@ function pastWorkMoments(
       moments.push(moment(row, ended, "job-ended:retired", own));
     return moments;
   });
+}
+
+/**
+ * Each school year's end the school engine wrote a graduation result for, as
+ * the person's own moment. The result is a row of the engine's table, not a
+ * logged event, so no other source brings it to the journal.
+ */
+function schoolFinishedMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): JournalMoment[] {
+  return graduationResults(core, person.id).map((row) => ({
+    id: row.id,
+    date: row.date as IsoDate,
+    causeId: row.id,
+    causeKind: SCHOOL_FINISHED,
+    counterpartIds: [],
+    selfNamed: true,
+    hindsight: zero,
+    impact: zero,
+    echoes: [],
+  }));
 }
 
 /**
@@ -1298,6 +1320,7 @@ export function composeJournal(
     ...householdMoments(core, person),
     ...pastWorkMoments(core, person),
     ...comingOfAgeMoments(core, person),
+    ...schoolFinishedMoments(core, person),
   ]
     .filter((moment) => moment.date <= through)
     .sort(
