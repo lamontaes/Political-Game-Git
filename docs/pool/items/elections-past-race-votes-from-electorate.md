@@ -5,14 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-elections-past-race-votes-from-electorate
 pr: #7088
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: governing
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T22:58:55.629Z
 after:
 standard: 2
 model: sonnet
@@ -47,3 +47,5 @@ branch: claude/pool-elections-past-race-votes-from-electorate
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
 
 Released (2026-11-10): replay tests pass on three seeds; needs a running-game session for pool seen, no code change. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:58 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
