@@ -73,9 +73,13 @@ const PRICE_QUESTIONS = [
 ]
   .map((q) => `us-policy-positions:${q}`)
   // A member reads a question by their own views and their district's lean,
-  // each a lean times the question's axis: a question with no measured axis
-  // is read as nothing by every member (laws-price-questions-without-an-axis).
-  .filter((q) => questionAxis(q) !== 0);
+  // each a lean times the question's axis, so a question with a measured axis
+  // is drafted first. Most town bodies may enact only fare-free transit, which
+  // has none yet: every member reads it as nothing, and the vote turns on the
+  // deals and traits alone (laws-price-questions-without-an-axis).
+  .sort(
+    (a, b) => Number(questionAxis(a) === 0) - Number(questionAxis(b) === 0),
+  );
 
 interface Deal {
   memberId: string;
@@ -203,11 +207,15 @@ function expectReasonedVotes(played: Played) {
         `${where}: ${vote.memberId}'s ${reason}`,
       ).toBe(true);
   }
-  // The members' own reads of their lives and districts weigh on the vote.
-  expect(
-    votes.some((v) => v.position.views !== 0 || v.position.constituents !== 0),
-    `${where}: no member's views or district read ${bill.id}`,
-  ).toBe(true);
+  // The members' own reads of their lives and districts weigh on the vote
+  // wherever the question has an axis (laws-price-questions-without-an-axis).
+  if (questionAxis(played.question) !== 0)
+    expect(
+      votes.some(
+        (v) => v.position.views !== 0 || v.position.constituents !== 0,
+      ),
+      `${where}: no member's views or district read ${bill.id}`,
+    ).toBe(true);
   return votes
     .map(
       (v) =>
