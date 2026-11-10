@@ -18,6 +18,7 @@
  * Pure: no files, no world. `scripts/words/run-rules.ts` reads the banks.
  */
 import { heldByGrades, type PartGradeLedger } from "./english-grades";
+import type { ReplyFollowsReport } from "./reply-pairs";
 
 /**
  * `rewrite`: the lines the rule flags keep playing and go on the rewrite queue
@@ -35,7 +36,11 @@ export type RuleTest =
       readonly each?: "sentence";
     }
   | { readonly kind: "sentences"; readonly sentences: readonly string[] }
-  | { readonly kind: "place" }
+  | {
+      readonly kind: "place";
+      /** The judged verdicts the picker reads for this rule; the run reports on them. */
+      readonly reads?: string;
+    }
   | { readonly kind: "judged" };
 
 export interface RuleApplies {
@@ -233,6 +238,8 @@ export interface RuleCount {
   readonly pulled: number;
   readonly waiting: number;
   readonly examples: readonly string[];
+  /** What a place rule reports about its judged verdicts (`reply-follows-the-line-before`). */
+  readonly report?: ReplyFollowsReport;
 }
 
 export interface RunTotals {
@@ -251,10 +258,17 @@ export interface RunTotals {
   readonly spotsMadeSilent: number;
 }
 
+/** What the place rules' own readers found, for the run to carry (`scripts/words/run-rules.ts` builds them). */
+export interface PlaceReports {
+  readonly "reply-follows-the-line-before"?: ReplyFollowsReport;
+}
+
 export interface RunResult {
   readonly pulled: Readonly<Record<string, readonly string[]>>;
   readonly waiting: Readonly<Record<string, readonly string[]>>;
   readonly sample: Readonly<Record<string, readonly string[]>>;
+  /** The rewrite queue of the reply rule: lines no reply follows, with where one is needed. */
+  readonly noReplyFollows: Readonly<Record<string, readonly string[]>>;
   /** An enforced rule flags a piece the owner graded good: the rule is wrong. */
   readonly conflicts: readonly {
     readonly key: string;
@@ -287,6 +301,7 @@ export function runRules(
   rules: readonly LineRule[],
   pieces: readonly RulePiece[],
   ledger: PartGradeLedger,
+  places: PlaceReports = {},
 ): RunResult {
   const enforced = rules.filter((rule) => rule.status === "enforced");
   const samples = rules.filter((rule) => rule.status === "sample");
@@ -407,9 +422,17 @@ export function runRules(
     perRule: Object.fromEntries(
       [...perRule].map(([id, row]) => [
         id,
-        { ...row, examples: row.examples.sort().slice(0, 5) },
+        {
+          ...row,
+          examples: row.examples.sort().slice(0, 5),
+          ...(places[id as keyof PlaceReports]
+            ? { report: places[id as keyof PlaceReports] }
+            : {}),
+        },
       ]),
     ),
+    noReplyFollows:
+      places["reply-follows-the-line-before"]?.noReplyFollows ?? {},
     totals: {
       pieces: pieces.length,
       heldByGrades: held.size,
@@ -432,6 +455,8 @@ export interface PulledFile {
   readonly pulled: Readonly<Record<string, readonly string[]>>;
   readonly waiting: Readonly<Record<string, readonly string[]>>;
   readonly sample: Readonly<Record<string, readonly string[]>>;
+  /** Lines after which no reply that fits follows: a new reply is needed (`spot` is `purpose/move`). */
+  readonly noReplyFollows: Readonly<Record<string, readonly string[]>>;
 }
 
 export function pulledFileOf(result: RunResult): PulledFile {
@@ -440,5 +465,6 @@ export function pulledFileOf(result: RunResult): PulledFile {
     pulled: result.pulled,
     waiting: result.waiting,
     sample: result.sample,
+    noReplyFollows: result.noReplyFollows,
   };
 }
