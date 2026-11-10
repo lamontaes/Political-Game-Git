@@ -76,7 +76,6 @@ const result = {
     payrollJobsThousands: row.payrollJobsThousands,
     policyRatePct: row.policyRatePct,
     mortgage30Pct: row.mortgage30Pct,
-    townIncomeGrowthPct: row.townIncomeGrowthPct,
   })),
   bands: {
     simulatedBase: bands.filter((row) => !row.baseIsHistory),

@@ -21,11 +21,12 @@ const batch = JSON.parse(
 };
 const pieces = new Map(readBankPieces().map((piece) => [piece.key, piece]));
 /** Lines graded in a batch that a later pass rewrote with his lessons: key to the text he graded. */
-const rewritten = (
-  JSON.parse(
-    readFileSync("data/english/rewritten-after-grading.json", "utf8"),
-  ) as { rewritten: Record<string, string> }
-).rewritten;
+const rewrittenFile = JSON.parse(
+  readFileSync("data/english/rewritten-after-grading.json", "utf8"),
+) as { rewritten: Record<string, string>; deleted?: string[] };
+/** Lines he graded that a later pass deleted outright: no piece is left. */
+const deleted = new Set(rewrittenFile.deleted ?? []);
+const rewritten = rewrittenFile.rewritten;
 
 // The batch 3 page stays off main (owner, Nov 10); a few of its moments, in its
 // shape, stand in for it.
@@ -39,7 +40,9 @@ describe("batch 3 mixes the kinds the owner asked for", () => {
         if (rewritten[line.key]) {
           // He graded this text; a later pass rewrote it with his lessons.
           expect(rewritten[line.key]).toBe(line.line);
-          expect(pieces.get(line.key)?.text).toBeTruthy();
+          expect(Boolean(pieces.get(line.key)?.text)).toBe(
+            !deleted.has(line.key),
+          );
         } else
           expect(
             pieces.get(line.key)?.text.replace(/\bAlright\b/g, "All right"),

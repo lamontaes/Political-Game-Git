@@ -3490,12 +3490,8 @@
     },
     {
       "id": "journal-work-line-tells-a-story-in-ten-words",
-      "says": "A journal line about finding work again or changing jobs is told as a small story, not a bare statement, and still fits the journal's ten words.",
+      "says": "A journal line about finding work again is told as a small story, never as the bare \"After ... out of work\" statement.",
       "from": [
-        {
-          "date": "2026-11-09",
-          "words": "After 2 years out of work, I found work in Lexington. After out of work, I went back to work. See, these journal entries are still not being told as stories. They're just statements."
-        },
         {
           "date": "2026-11-09",
           "words": "After 2 years out of work, I found work in Lexington. After out of work, I went back to work. See, these journal entries are still not being told as stories. They're just statements."
@@ -3509,15 +3505,14 @@
           "words": "After 2 years out of work, I found work in Lexington. After out of work, I went back to work. See, these journal entries are still not being told as stories. They're just statements."
         }
       ],
-      "note": "CTO ruling, Nov 10, 2026 (pull request 8114): main's short wording plays until a rewrite fits the ten-word limit and passes the rules; that rewrite then replaces it. The first rewrites ran 15 to 22 words. Any grade he gave these lines stays with them.",
-      "status": "rewrite",
+      "note": "CTO ruling, Nov 10, 2026 (pull request 8114): main's short wording played until a rewrite replaced it. The journal rewrite of Nov 10 (pool item words-journal-as-stories) deleted the three bare statements and tells a job found, lost or left as a small story; its test is src/director/journal-work-stories.test.ts. This rule keeps the three from coming back. Any grade he gave these lines stays in the grade file.",
+      "status": "enforced",
       "test": {
         "kind": "sentences",
         "sentences": [
           "After {span} out of work, I went to work for {employer}.",
           "After {span} out of work, I went back to work.",
-          "After {span} out of work, I found work in {place}.",
-          "After {employer}, I took a job at {next}."
+          "After {span} out of work, I found work in {place}."
         ]
       },
       "applies": {

@@ -119,23 +119,27 @@
       "kindPrefix": "job-started:first",
       "turn": false,
       "entry": "story",
-      "wordsFrom": "job-started"
+      "wordsFrom": "job-started",
+      "follow": ["firstPay"]
     },
     {
       "kindPrefix": "job-started:again",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "follow": ["againWait", "againPay", "againFelt"]
     },
     {
       "kindPrefix": "job-ended:let-go",
       "turn": false,
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "follow": ["letGoHeld", "letGoPay"]
     },
     {
       "kindPrefix": "job-ended:moved-on",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "follow": ["movedHeld", "movedPay"]
     },
     {
       "kindPrefix": "job-ended:child",

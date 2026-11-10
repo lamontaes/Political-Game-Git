@@ -18,12 +18,6 @@
     ]
   },
   "waiting": {
-    "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer": [
-      "journal-work-line-tells-a-story-in-ten-words"
-    ],
-    "journal.work-line-moved-on.after-employer-i-took-a-job-at-next": [
-      "journal-work-line-tells-a-story-in-ten-words"
-    ],
     "scene-talk.reply-agree.deal-yes": ["no-dangling-fragments"]
   },
   "sample": {
