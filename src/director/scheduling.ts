@@ -494,6 +494,24 @@ function fillRole(
       const id = core.durableLog.get(moment.causeId)?.facts?.winnerId;
       return id && id !== moment.personId && alive(core, id) ? [id] : [];
     }
+    case "kin-visiting": {
+      // Kin who come to see what the cause record is about, never someone the
+      // record names (a new baby's own parents are not its visitors).
+      const named = new Set<string>(
+        core.durableLog.get(moment.causeId)?.personIds ?? [],
+      );
+      return closest(
+        [...book.threads.values()]
+          .filter(
+            (thread) =>
+              thread.kin.length &&
+              !named.has(thread.otherId) &&
+              alive(core, thread.otherId) &&
+              !taken.has(thread.otherId),
+          )
+          .map((thread) => thread.otherId),
+      );
+    }
     case "kin":
       return closest(
         [...book.threads.values()]
