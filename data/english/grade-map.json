@@ -9889,6 +9889,7 @@
     "scene-talk.narrate-narrate.name-called-your-office-about-cause-all-week-today-there-s-a-knock-at-": 1.107,
     "scene-talk.narrate-narrate.name-calls-a-second-time-about-the-same-thing": 1.33,
     "scene-talk.narrate-narrate.name-calls-from-the-executive-s-office": 1.308,
+    "scene-talk.narrate-narrate.name-calls-from-the-executive-s-office-bill-which-is-about-does-has-been-vetoed": 1.319,
     "scene-talk.narrate-narrate.name-came-back-from-prison-after-away-and-needs-more-than-a-welcome": 1.33,
     "scene-talk.narrate-narrate.name-came-back-from-prison-after-away-to-find-no-job-waiting": 1.33,
     "scene-talk.narrate-narrate.name-can-t-introduce-bill-without-a-member-to-sponsor-it-and-name-want": 1.26,
@@ -10157,7 +10158,9 @@
     "scene-talk.narrate-narrate.the-debate-is-over-and-the-candidates-are-leaving-the-stage-name-stops": 1.237,
     "scene-talk.narrate-narrate.the-diploma-didnt-come-through-and-name-wants-to-talk": 1.172,
     "scene-talk.narrate-narrate.the-executive-has-signed-bill-and-name-keeps-you-back-after-the-photographs": 1.355,
+    "scene-talk.narrate-narrate.the-executive-has-signed-bill-which-is-about-does-and-name-keeps-you-back": 1.355,
     "scene-talk.narrate-narrate.the-executive-has-vetoed-bill-and-name-asks-you-in-to-hear-it-face-to-face": 1.363,
+    "scene-talk.narrate-narrate.the-executive-has-vetoed-bill-which-is-about-does-and-name-asks-you-in": 1.35,
     "scene-talk.narrate-narrate.the-filing-for-office-is-on-the-record-somebody-still-has-to-get-child-to-bed-ev": 1.238,
     "scene-talk.narrate-narrate.the-governors-speech-is-over-and-name-has-had-the-last-word": 1.259,
     "scene-talk.narrate-narrate.the-hall-has-emptied-name-has-been-waiting-for-the-people-around": 1.271,
@@ -14802,10 +14805,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 11535,
-    "reached": 11535,
-    "near": 10488,
-    "weighted": 11532,
+    "pieces": 11538,
+    "reached": 11538,
+    "near": 10491,
+    "weighted": 11535,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -14898,9 +14901,9 @@
         "near": 84
       },
       "scene-talk": {
-        "pieces": 7630,
-        "reached": 7630,
-        "near": 7630
+        "pieces": 7633,
+        "reached": 7633,
+        "near": 7633
       },
       "scene-words": {
         "pieces": 291,
