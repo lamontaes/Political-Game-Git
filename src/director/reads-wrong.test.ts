@@ -29,6 +29,7 @@ import {
 } from "../core2/modules/legislature";
 import { openConversation } from "./conversation";
 import { purposeScene } from "./purpose-scene";
+import { titleInSentence } from "./swearing-in";
 import { stageWorldHeld } from "../../scripts/dialogue-batch/stage-world";
 
 // Lines that read wrong once the game filled them (pool item
@@ -213,6 +214,12 @@ it(`a scene's lines name the room the scene is set in (seed ${seed})`, () => {
 }, 1_200_000);
 
 it(`an office is said in sentence case, and the oath names the office with its article (seed ${seed})`, () => {
+  // The conversion every office fact goes through, on titles written both ways.
+  expect(titleInSentence("Council member")).toBe("council member");
+  expect(titleInSentence("Mayor")).toBe("mayor");
+  expect(titleInSentence("County Commissioner")).toBe("County Commissioner");
+  // And every office the played year names: a drawn year may stage none (no
+  // one filed or was sworn in), which leaves only the check above.
   const { where, scenes } = playedYear();
   let named = 0;
   for (const scene of scenes) {
@@ -227,7 +234,7 @@ it(`an office is said in sentence case, and the oath names the office with its a
       /work of (?!the )[a-z]/,
     );
   }
-  expect(named, where).toBeGreaterThan(0);
+  process.stdout.write(`OFFICE ${where}: ${named} scenes named an office\n`);
 }, 1_200_000);
 
 it("no piece asks for the work of an office without its article", () => {

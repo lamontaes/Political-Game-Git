@@ -47,10 +47,7 @@
         ],
         "when": "March 3rd, 2025, 9:00 a.m.",
         "where": "chamber (ordinary)",
-        "who": [
-          "Danielle McClain",
-          "Dennis Rios"
-        ]
+        "who": ["Danielle McClain", "Dennis Rios"]
       },
       "nodes": [
         {
@@ -521,10 +518,7 @@
         ],
         "when": "February 10th, 2025, 9:00 a.m.",
         "where": "venue (ordinary)",
-        "who": [
-          "Rowan Lambert",
-          "Kimberly Russo"
-        ]
+        "who": ["Rowan Lambert", "Kimberly Russo"]
       },
       "nodes": [
         {
@@ -784,9 +778,7 @@
         "narrationKeys": [],
         "when": "July 23rd, 2025",
         "where": "the speech screen (no narrator beat is written for it)",
-        "who": [
-          "Sarah Russo"
-        ]
+        "who": ["Sarah Russo"]
       },
       "nodes": [
         {
@@ -1118,10 +1110,7 @@
         ],
         "when": "April 2nd, 2025, 6:30 p.m.",
         "where": "office (ordinary)",
-        "who": [
-          "Rafael Harper",
-          "Danielle McClain"
-        ]
+        "who": ["Rafael Harper", "Danielle McClain"]
       },
       "nodes": [
         {
@@ -1628,10 +1617,7 @@
         ],
         "when": "March 21st, 2025, 10:30 a.m.",
         "where": "office (ordinary)",
-        "who": [
-          "Samir Zimmerman",
-          "Jennifer Davenport"
-        ]
+        "who": ["Samir Zimmerman", "Jennifer Davenport"]
       },
       "nodes": [
         {
@@ -2180,10 +2166,7 @@
         ],
         "when": "November 4th, 2025, 2:00 p.m.",
         "where": "home (ordinary)",
-        "who": [
-          "Veronica Green",
-          "Shawn Green"
-        ]
+        "who": ["Veronica Green", "Shawn Green"]
       },
       "nodes": [
         {
@@ -2686,10 +2669,7 @@
         ],
         "when": "June 22nd, 2025, 10:30 a.m.",
         "where": "home (ordinary)",
-        "who": [
-          "Megan Hayes",
-          "Charles Hayes"
-        ]
+        "who": ["Megan Hayes", "Charles Hayes"]
       },
       "nodes": [
         {
@@ -2787,10 +2767,7 @@
         ],
         "when": "January 23rd, 2025, 12:30 p.m.",
         "where": "home (ordinary)",
-        "who": [
-          "Kelsey Malone",
-          "Reuben Schwartz"
-        ]
+        "who": ["Kelsey Malone", "Reuben Schwartz"]
       },
       "nodes": [
         {
@@ -3612,9 +3589,7 @@
         "player": "Sam Williamson"
       },
       "setup": {
-        "narration": [
-          "On the afternoon of January 21st finds you at home."
-        ],
+        "narration": ["On the afternoon of January 21st finds you at home."],
         "narrationKeys": [
           "scene-words.arrival-home-alone.begins-finds-you-at-home"
         ],
@@ -3719,10 +3694,7 @@
         ],
         "when": "July 1st, 2025, 10:30 a.m.",
         "where": "office (ordinary)",
-        "who": [
-          "Beth O'Donnell",
-          "Kimberly Russo"
-        ]
+        "who": ["Beth O'Donnell", "Kimberly Russo"]
       },
       "nodes": [
         {
@@ -4082,10 +4054,7 @@
         ],
         "when": "May 1st, 2025, 2:00 p.m.",
         "where": "letter (ordinary)",
-        "who": [
-          "Brandon Hansen",
-          "Jasmine Hansen"
-        ]
+        "who": ["Brandon Hansen", "Jasmine Hansen"]
       },
       "nodes": [
         {
@@ -4179,10 +4148,7 @@
         ],
         "when": "March 3rd, 2025, 2:00 p.m.",
         "where": "office (ordinary)",
-        "who": [
-          "Dennis Rios",
-          "Danielle McClain"
-        ]
+        "who": ["Dennis Rios", "Danielle McClain"]
       },
       "nodes": [
         {
@@ -4298,10 +4264,7 @@
         ],
         "when": "November 4th, 2025, 2:00 p.m.",
         "where": "phone (ordinary)",
-        "who": [
-          "Kelsey Malone",
-          "James Schwartz"
-        ]
+        "who": ["Kelsey Malone", "James Schwartz"]
       },
       "nodes": [
         {
@@ -4631,10 +4594,7 @@
         ],
         "when": "June 1st, 2025, 4:00 p.m.",
         "where": "home (ordinary)",
-        "who": [
-          "Arjun Williamson",
-          "Robin Williamson"
-        ]
+        "who": ["Arjun Williamson", "Robin Williamson"]
       },
       "nodes": [
         {
@@ -5167,10 +5127,7 @@
         ],
         "when": "March 31st, 2025, 2:00 p.m.",
         "where": "office (ordinary)",
-        "who": [
-          "Kayla Vinson",
-          "Robin Williamson"
-        ]
+        "who": ["Kayla Vinson", "Robin Williamson"]
       },
       "nodes": [
         {
@@ -5874,10 +5831,7 @@
         ],
         "when": "August 2nd, 2025, 2:00 p.m.",
         "where": "home (ordinary)",
-        "who": [
-          "Brittany Hubbard",
-          "James Schwartz"
-        ]
+        "who": ["Brittany Hubbard", "James Schwartz"]
       },
       "nodes": [
         {
@@ -6378,10 +6332,7 @@
         ],
         "when": "June 7th, 2025, 12:30 p.m.",
         "where": "home (ordinary)",
-        "who": [
-          "Christopher Pearson",
-          "Rosa Pearson"
-        ]
+        "who": ["Christopher Pearson", "Rosa Pearson"]
       },
       "nodes": [
         {
