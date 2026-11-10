@@ -5,20 +5,21 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-elections-past-race-votes-from-electorate
 pr: #7088
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: governing
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T22:56:24.746Z
 after:
 standard: 2
 model: sonnet
 effort: low
 root: rc2-done-from-records
 checked: fable 2026-11-10
+branch: claude/pool-elections-past-race-votes-from-electorate
 ---
 
 **What.** A past race's printed vote count was the count of full people, not the simulated electorate's, and the headline said "Legislator" instead of the office and district. Owner, Nov 1 playtest of v0.73.0, on the opening's front page: "All 54 votes were cast. No, I can tell that's the generated number of people, not the simulated amount of votes. You see all of these are race for legislator." Each state legislative race printed 52 to 55 votes. The fix merged in PR #7088 (governing/past-race-votes), and the Nov 1 Puerto Rico note says the totals are right. What is left is the second-session check this item never got.
@@ -42,3 +43,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/past-news.ts, src/core2/modules/voting.ts, src/bench/printed-words.ts
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest (Nov 1, 22:25 UTC, five screenshots, New Game). Read: OWNER-DECISIONS (Oct 29 02:35 opening montage and address; Oct 29 address "no real statistic in play"; Oct 26 one scene system), the pool for twins.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
