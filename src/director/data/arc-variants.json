@@ -2859,6 +2859,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -2868,6 +2869,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -2877,6 +2879,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
@@ -2953,6 +2956,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -2962,6 +2966,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -2971,6 +2976,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
@@ -3047,6 +3053,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -3056,6 +3063,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -3065,6 +3073,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {
@@ -3141,6 +3150,7 @@
             "endings": [
               {
                 "id": "will-call",
+                "settles": "help",
                 "opens": "office",
                 "label": "You'll make the call",
                 "keeps": "promise",
@@ -3150,6 +3160,7 @@
               },
               {
                 "id": "caseworker",
+                "settles": "help",
                 "opens": "office",
                 "label": "Handed to a caseworker",
                 "keeps": "meeting-set",
@@ -3159,6 +3170,7 @@
               },
               {
                 "id": "cant-help",
+                "settles": "decline",
                 "label": "Can't help",
                 "keeps": "relationship-strained",
                 "when": {

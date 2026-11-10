@@ -277,6 +277,8 @@ export interface CauseRow {
   readonly weight: number;
   /** The record items an attack ad showed this voter: the rival's votes and broken promises, by id. */
   readonly shownIds?: readonly string[];
+  /** The record that made the touch, where one did (a scene's reply). */
+  readonly sourceId?: string;
 }
 
 /**
@@ -952,6 +954,8 @@ export function touchImpression(
     readonly target: number;
     readonly weight: number;
     readonly rapport: number;
+    /** The record that made the touch (a scene's reply), cited on the cause. */
+    readonly sourceId?: string;
   },
 ): CauseRow | null {
   const voter = api.state.people.get(input.voterId);
@@ -974,6 +978,7 @@ export function touchImpression(
     agreement: null,
     rapport: input.rapport,
     weight: input.weight,
+    ...(input.sourceId ? { sourceId: input.sourceId } : {}),
   };
   keepCause(api, cause);
   table(api, "impressions").put({

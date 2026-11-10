@@ -64,6 +64,8 @@ export interface CaseRow {
   readonly handledBy: "official" | "office" | "staff" | null;
   readonly stafferId?: string | null;
   readonly outcome: string | null;
+  /** The scene reply that settled the case, where the player said it at office hours. */
+  readonly replyId?: string;
 }
 
 export const CASES_MODULE: CoreModule = {
@@ -587,10 +589,11 @@ export function handleCase(
   api: CoreAPI,
   caseId: string,
   decision: "help" | "decline",
+  replyId?: string,
 ): CaseRow | null {
   const row = table(api).get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "open") return row ?? null;
-  return resolve(api, row, decision, "official");
+  return resolve(api, row, decision, "official", null, replyId);
 }
 
 function resolve(
@@ -599,6 +602,7 @@ function resolve(
   decision: "help" | "decline",
   by: "official" | "office" | "staff",
   stafferId: string | null = null,
+  replyId?: string,
 ): CaseRow {
   let outcome: string;
   if (decision === "help" && row.problem === "paid-under-minimum-wage") {
@@ -624,6 +628,7 @@ function resolve(
     handledBy: by,
     stafferId,
     outcome,
+    ...(replyId ? { replyId } : {}),
   };
   table(api).put(done as unknown as ModuleRow);
   touchImpression(api, {
@@ -636,6 +641,7 @@ function resolve(
         : -campaignParameter("caseHelpedWarmth"),
     weight: row.severity * campaignParameter("caseWeight"),
     rapport: 0,
+    ...(replyId ? { sourceId: replyId } : {}),
   });
   return done;
 }
