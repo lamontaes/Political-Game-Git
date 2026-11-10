@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-01-talk-says-nothing
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T22:57:38.404Z
+claimed-at:
 branch: claude/pool-play-stop-01-talk-says-nothing
 ---
 
@@ -47,3 +47,5 @@ branch: claude/pool-play-stop-01-talk-says-nothing
 **Notes (Fable's check, Nov 10).** Seen on Nov 10 by the second session that checked the words machine, on main at 756370e86b, in Rehoboth Beach, Delaware (place key 1060290), seed dc376939-ac22-45ce-836f-5027c4f0799f: a talk with Patrick McCarthy at home on Jan 23, 2026, a year into the game, opened with no line at all, only Continue and Mark gap. That is a failure of this item's finish line (a person with nothing to say is not offered for talk). It is filed as its own item, play-talk-opens-with-no-line-after-a-year.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-play-stop-01-talk-says-nothing.
+
+Released (2026-11-10): Replay-only item (Fix says nothing is built); needs a second session to play the bench and record with pool seen, not a builder. Continue on branch claude/pool-play-stop-01-talk-says-nothing.
