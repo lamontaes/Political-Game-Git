@@ -14,6 +14,7 @@ import { advanceCore } from "./life";
 import { isDemoted } from "./counted-groups";
 import { canReturnToCounts, demoteHousehold } from "./modules/counted-demotion";
 import { residentsRuntime } from "./modules/residents";
+import { openWholePast } from "./modules/people";
 import { lifeOf, lifeSummary, REMEMBERED_RECORD_KINDS } from "./person-life";
 import table from "./data/life/remembered.json" with { type: "json" };
 import parameters from "./data/life/parameters.json" with { type: "json" };
@@ -158,6 +159,19 @@ describe(`the life record in ${where}`, () => {
     // (Kapolei, Hawaii: a woman of 99 living alone; the whole-life past gives her one when
     // her card is opened). Under a twentieth of the adults in a town of any size, and in a
     // town too small for a twentieth to be one person, no more than a handful.
+    // The whole-life past closes that gap when a person is opened: after their card's own
+    // call, every one of them has a life.
+    const stillEmpty = pastless.filter((id) => {
+      openWholePast(core as CoreState, id as PersonId);
+      return lifeOf(core, id as PersonId).length === 0;
+    });
+    process.stdout.write(
+      `person-life 1: ${where}; after opening their whole past: ${pastless.map((id) => `${id} ${lifeOf(core, id as PersonId).length} events`).join(", ") || "nobody had none"}\n`,
+    );
+    expect(
+      stillEmpty,
+      `${where}: no life even after their whole past was opened`,
+    ).toEqual([]);
     if (adults.length >= SMALL_TOWN_ADULTS)
       expect(
         pastless.length,
