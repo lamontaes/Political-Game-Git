@@ -84,7 +84,7 @@ The second list is the rule's own test. A rule that flags a line you graded good
 Each step is its own pull request, checked by a second session in the running game.
 
 1. **Grades counted once.** The fold is keyed by batch and row. Batches 2 and 3 are folded once. The three open grade pull requests are replaced. Batch pages and voice notes leave main.
-2. **Rules and the run.** Each of your notes becomes a rule with a test of the first kind where one fits. The run, the pulled list, the report and the check on new lines. The odds are deleted in the same change.
+2. **Rules and the run.** Each of your notes becomes a rule with a test of the first kind where one fits. The run, the pulled list, the report and the check on new lines. The odds are deleted in the same change. The `words-engine` skill is rewritten to this machine in the same change: how a note becomes a rule, the three kinds of test, the run, the rewrite queue and the sample. You asked for that on November 9: "i want to make sure we talk thru it and make/update skills."
 3. **A line's place.** The tests of the second kind, over the scenes the banks can assemble.
 4. **Meaning and tone, and the rewrite loop.** Saved verdicts, the rewrite queue, and the first rewrites of pulled lines, starting with spots that would otherwise go silent.
 
