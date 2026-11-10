@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: words
 source: Fable, Nov 10, 2026, found while re-running the English tests after merging main into the words machine's branches
 ---
 
