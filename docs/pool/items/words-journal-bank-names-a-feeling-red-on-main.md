@@ -23,3 +23,5 @@ claimed-at: 2026-11-10T14:45:07.874Z
 **Files.** data/english/parts/journal.json, src/english/mined/journal-bank.test.ts, src/english/mined/journal-bank.ts
 
 **Notes.** The same test fails the same way on the words machine's branches (pull requests 8114, 8117, 8124), which do not touch that piece.
+
+**Notes (Fable, Nov 10).** Dropped as a duplicate of `words-journal-no-feeling-words` (the Story line's pull request 8151, claimed at 13:40, which rewords the same two lines and is theirs to word). My pull request 8155 for the same lines is withdrawn.
