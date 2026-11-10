@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-play-bill-menu-for-mayors-and-governors
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: high
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T23:30:04.484Z
+claimed-at:
 branch: claude/pool-play-bill-menu-for-mayors-and-governors
 ---
 
@@ -46,3 +46,5 @@ Not verified: I did not open the mayor's screen on Nov 10's main. I did not chec
 Related: play-repeal-action-on-every-law-page (an executive's repeal goes through this), play-what-this-law-did-page, play-menus-your-office-plates (done; the Your office layout).
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:26 UTC) on branch claude/pool-play-bill-menu-for-mayors-and-governors.
+
+Released (2026-11-10): Builder stopping for now (usage); not started, no branch work. Continue on branch claude/pool-play-bill-menu-for-mayors-and-governors.
