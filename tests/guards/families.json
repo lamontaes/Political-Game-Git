@@ -287,6 +287,7 @@
         "src/core2/modules/life.ts",
         "src/core2/modules/moves.ts",
         "src/core2/modules/counted-moves.ts",
+        "src/core2/returned-members-move.ts",
         "src/core2/modules/counted-demotion.ts",
         "src/core2/modules/health.ts",
         "src/core2/modules/housing.ts",
