@@ -5212,7 +5212,7 @@
         },
         {
           "key": "visitor",
-          "fill": "kin",
+          "fill": "kin-visiting",
           "count": "one",
           "moves": ["greet", "ask", "comfort", "offer"],
           "wants": ["help-others", "engage"],
@@ -5225,11 +5225,25 @@
         {
           "match": {
             "label": "feeling:event:person-birth",
-            "counterpart": "some"
+            "counterpart": "some",
+            "causeFacts": [{ "key": "motherId", "is": "subject" }]
           },
           "bind": {
             "parent": "subject",
-            "visitor": "kin"
+            "visitor": "kin-visiting"
+          },
+          "opener": "visitor",
+          "opening": "greet"
+        },
+        {
+          "match": {
+            "label": "feeling:event:person-birth",
+            "counterpart": "some",
+            "causeFacts": [{ "key": "otherParentId", "is": "subject" }]
+          },
+          "bind": {
+            "parent": "subject",
+            "visitor": "kin-visiting"
           },
           "opener": "visitor",
           "opening": "greet"

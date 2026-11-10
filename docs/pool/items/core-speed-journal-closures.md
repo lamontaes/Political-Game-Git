@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: speed/journal-closures
-pr:
+pr: #8094
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-10T01:40:18.811Z

@@ -87,6 +87,7 @@ import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
+import { birthFacts } from "./birth-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -647,6 +648,16 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // A new baby (`person-birth`): the child's name, the other parent and the
+    // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
+    ...birthFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      placeNamed,
+    ),
   }))
     facts[key] = fact;
   // A damaged home (disasters.ts, the day its aid is paid): the kind of home,
