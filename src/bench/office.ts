@@ -40,6 +40,7 @@ import {
   pendingGovernorOrders,
 } from "../core2/modules/executive";
 import { policyNames } from "./words";
+import { actOn, waitingEntries } from "../core2/office-day-state";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
@@ -220,6 +221,27 @@ export function deskDecide(core: CoreState, billId: string, how: string) {
     return decideDesk(api, billId, how === "sign");
   if (how === "own") return leaveDeskToCharacter(api, billId);
   throw new Error("Unknown desk decision.");
+}
+
+/**
+ * Whatever holds the player's clock now, left to the character: a meeting's
+ * agenda voted by the character's own choice and adjourned, the bills on the
+ * desk signed or vetoed by the character's own lean, and a state legislator's
+ * waiting hearing or session day done on their own choice. A held stop stays
+ * until its owner releases it, so a check that presses on through a week
+ * answers it here, the way a player who leaves it to the character would.
+ */
+export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
+  const api = coreAPI(core);
+  const meeting = meetingInProgress(api);
+  if (meeting) {
+    for (const billId of meeting.agenda)
+      takeUpItem(api, meeting.id, billId, "own");
+    adjourn(api, meeting.id);
+  }
+  for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+  if (holderId)
+    for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
 }
 
 /** The office panel: the seat as a job, the next meetings, what stops the player, and the acts kept. */
