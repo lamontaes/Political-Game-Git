@@ -32,7 +32,7 @@ import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
-import { lawReach } from "../core2/law-reach/host";
+import { lawReach } from "../core2/law-reach/applied";
 import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
@@ -79,7 +79,7 @@ import {
 import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
-import { residentsRuntime } from "../core2/modules/residents";
+import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
@@ -89,7 +89,6 @@ import {
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
-import { isDemoted } from "../core2/counted-groups";
 import { buildBenchWorld, buildRecipeOf } from "./world";
 import type { BenchPlayer } from "./player";
 import { budgetView } from "./budget";
@@ -597,11 +596,11 @@ export class DevMode {
 
   /**
    * Who a law reached: the core's one reader over every store that records a
-   * law applied to someone (`lawReach`, law-reach/host.ts), with the names of
+   * law applied to someone (`lawReach`, law-reach/applied.ts), with the names of
    * the full people it reached, the most money first. It reads only.
    */
   reach(lawId: string) {
-    const { people, ...reach } = lawReach(this.api, lawId);
+    const { people, ...reach } = lawReach(this.api, lawId, this.townId());
     return {
       ...reach,
       /** The first of the full people it named; a screen lists these. */

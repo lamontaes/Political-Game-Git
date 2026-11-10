@@ -17,9 +17,10 @@ import { lawChain, lawInForce } from "../core2/modules/laws";
 import { inTownChain } from "../core2/laws-in-force";
 import {
   LAW_APPLIED_TABLE,
+  lawReach,
   type LawAppliedRow,
 } from "../core2/law-reach/applied";
-import { LAW_REACH_HOST_ID, lawReach } from "../core2/law-reach/host";
+import { LAW_REACH_HOST_ID } from "../core2/law-reach/host";
 import {
   castChairHearing,
   castMemberVote,
@@ -113,7 +114,10 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       reach.fullPeople,
     );
     // The core's reader and dev mode's are the same read.
-    expect(lawReach(api(), lawId).records, where).toBe(reach.records);
+    expect(
+      lawReach(api(), lawId, lawChain(api()).townPlaceId).records,
+      where,
+    ).toBe(reach.records);
   }, 600_000);
 
   it("a law nothing has applied reads zero, not an error", () => {
@@ -196,6 +200,14 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       passed.ending.how,
       `${where}: ${JSON.stringify(passed.ending)}`,
     ).toBe("law");
+    // Every vote was cast, so the sponsor was never short of one: no trade added a section, in
+    // any of the four bills (the audit found a second section on 35 of 40 such bills in Congress).
+    for (const result of [sunk, lost, short, passed])
+      expect(
+        result.addedSections,
+        `${where}: ${result.bill.number} left with a section nobody introduced`,
+      ).toBe(0);
+    expect(passed.bill.provisions.length, where).toBe(1);
     // The outcome names the law rows the bill made, each with its reach.
     const outcome = dev.billOutcome(wide.id);
     expect(outcome.laws.length, where).toBeGreaterThan(0);
@@ -220,6 +232,10 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
         if (bill.status === "blocked") continue search;
         const result = dev.decideAt(bill.id, 1000, { sign: true });
         tried.push(`${body.kind}: ${result.ending.how}`);
+        expect(
+          result.addedSections,
+          `${where}: ${result.bill.number}, every vote cast`,
+        ).toBe(0);
         if (result.ending.how === "committee-held") {
           held = result;
           break search;

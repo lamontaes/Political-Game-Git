@@ -9,7 +9,7 @@ Scripts live in `scripts/dev-tests/` (`law-run.ts`, `twin.ts`, `bodies.ts`, `bri
 
 ## Method
 
-- **Who a law reached is one read.** `lawReach(api, lawRowId)` in `src/core2/law-reach/host.ts` reads every store that records a law applied to someone (the applied table, both law-reach stores, the wage raises) and returns full people in town and elsewhere, counted people, organizations, governments and dollars by engine. Dev mode's bill card and `law-run.ts` both call it. Never count the records that cite a law: on Nov 9 that count was the 175 members who voted.
+- **Who a law reached is one read.** `lawReach(api, lawRowId, townPlaceId)` in `src/core2/law-reach/applied.ts` reads every store that records a law applied to someone (the applied table, both law-reach stores, the wage raises) and returns full people in town and elsewhere, counted people, organizations, governments and dollars by engine. Dev mode's bill card and `law-run.ts` both call it. Never count the records that cite a law: on Nov 9 that count was the 175 members who voted.
 - **A forced bill says how it ended.** `billEnding(api, billId)` (legislature) names a chair's hold, a lost committee or floor vote, the Senate short of cloture, a veto or a session's end; `decideAt` returns it with `addedSections`, the sections a trade put on the bill. Discard a run whose `addedSections` is above zero, or name the rider.
 - **The money check is in dev mode.** `DevMode.twinMoney()` builds the same world left alone and sums cash by holder in both; use it in place of comparing people's and organizations' cash by hand.
 

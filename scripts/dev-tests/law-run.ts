@@ -16,10 +16,10 @@ import { billCatalog, provisionFor } from "../../src/core2/bill-catalog";
 import { coreAPI } from "../../src/core2/state";
 import { townSeats } from "../../src/core2/modules/offices";
 import {
-  bodyOf, chambersOf, draftBill, castMemberVote, castChairHearing, holdVote, executiveDecision, members, memberKey, billOf,
+  bodyOf, chambersOf, draftBill, castMemberVote, castChairHearing, holdVote, executiveDecision, members, memberKey,
   billEnding, sectionsAddedTo,
 } from "../../src/core2/modules/legislature";
-import { lawReach } from "../../src/core2/law-reach/host";
+import { lawReach } from "../../src/core2/law-reach/applied";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../../src/core2/modules/laws";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
@@ -121,7 +121,7 @@ for (const p of policies) {
       rec.kindDiff = diffKinds(t.kinds, ctlAfterPass.kinds);
     }
     // Who the law reached: the one reader dev mode's bill card shows, without the list of names.
-    if (afterLag) { const { people, ...reach } = lawReach(api, afterLag.id); rec.reach = { ...reach, named: people.length }; }
+    if (afterLag) { const { people, ...reach } = lawReach(api, afterLag.id, lawChain(api).townPlaceId); rec.reach = { ...reach, named: people.length }; }
     // repeal
     if (r.status === "enacted" && p.operations.some((o) => ["repeal", "lower", "restrict"].includes(o))) {
       const rop = p.operations.includes("repeal") ? "repeal" : p.operations.includes("lower") ? "lower" : "restrict";
