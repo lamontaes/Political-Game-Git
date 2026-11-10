@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/rewrite-queue-nov10
-pr: 0
+pr: 8169
 blocked-on:
 lead: words
 source: data/english/pulled.json on main after #8117 and #8124 (Nov 10), the rewrite queue the CTO's 12:20 p.m. line hands to Story
