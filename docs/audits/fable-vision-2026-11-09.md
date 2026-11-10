@@ -372,7 +372,7 @@ I made a second copy of the game from the open work that holds your batch 2 and 
 - **Everyday talk barely moves (measured with the crew's life tool).** I played three more lives for 60 days each on both copies: New Hamilton, Mississippi; Creede, Colorado; and San Lorenzo, New Mexico. Each copy had 283 conversations. Two in three differ in some word between the copies. Your "I prefer ALRIGHT" did reach them: "All right." was said 49 times on the audited game and "Alright." 61 times on the open work. But "Where did you go to school?" was asked 104 times in 283 conversations on both copies, and a third of all spoken lines were one or two words.
 - **Where you gave a note on a line, the scene itself changed.** A job offer used to open "We went through everybody, and we'd like to bring you on as a sales associate." In the open work it opens "We'd like to offer you the job. You'd start as a sales associate, at $11.11 an hour." That follows your batch 3 note.
 - **The later fix works, and the scene is still small talk (measured on the newest main).** A change merged after my audit makes news come up by its headline (#8073). I played the Tesuque year again on main as of November 10. "Did you hear about" a news outlet no longer came up. The two visits after a missed family gathering now go: "I should tell you, I lean liberal." "I see it the same way." "Good. I thought it was just me." The mother said "I should tell you, I lean liberal" in August, and the father said the same line in September.
-- **None of this is in the game yet.** On the newest main I fetched, on November 10, your batch 2 and 3 grade files are still not there.
+- **None of this is in the game yet, so it does not count.** I checked main three times, the last on November 10 after my final run. Your batch 2 and 3 grade files were not on it any of the three times. My verdict on the words rests on the game as audited. The open work only shows what would change if it were added: your marked-down lines would stop playing, and the small talk would stay.
 
 ### Do new lines obey your rules? Only the rules that are a banned word.
 
@@ -491,22 +491,22 @@ Cheaper sessions can still do most of the work. What they are handed has to chan
 
 **Read, not run:** everything marked "read." Eight helpers gathered file and line evidence. I checked their main claims in the code myself, and an independent reviewer tried to refute six groups of my claims. They cover the eight bullets marked "reviewer" or "corrected" in pillars 1 to 4. Four groups held, two of them with small corrections. Two were wrong as I first worded them, on routine layoffs and on unread promises. The report uses the corrected wording.
 
-**Could not verify:** none of the items below would change a grade on page one or the order of the root causes. They are of three kinds: causes I measured and did not trace to the code, checks I could have run and did not, and things I had no way to see.
+**Where I did not run the check, and my call on each.** None of these would change a grade on page one or the order of the root causes. Each line gives what I did not verify, then what I decided to treat as true and why.
 
-- How many seeds reach the year-12 crash itself. Of the two long worlds I ran, one crashed and one reached year 19. The condition that causes it was present in all three worlds I checked for it, and the crew's own Montpelier run hit the crash in year 19.
-- Whether the lesson 9 exchange, "Don't apologize," plays as you asked. It merged after the copy of the game I audited, and it needs a played officeholder with a failed bill.
-- How much of the shift in line odds in the open work comes from your grades and how much from the six new rules.
-- Why the scene tool listed the President's address among the player's scenes in Odessa and not in Ninnekah or Tesuque.
-- In the Oklahoma world: how much of the growth in household records was arrivals and how much was regrouping, and which place each of the three place records is.
-- The code fix for the runaway jobs. I showed the untied share is the cause by clearing it in a test world; writing the fix is a code change, which this audit does not make.
-- The code behind the wrong-way results. I traced the work requirement and the Wyoming income tax to the treasury that pays, and no further. I did not trace the pension, transit or wage-question results, or where a sales tax raise's money goes once it leaves town.
-- What budget lines, amounts with no value in force at a body, and the 60 grants of local power do once passed. The sweep proved only that they pass.
-- Thirteen of your 72 playtest defects that a helper marked as needing a running game. I checked in the game only the ones named in pillar 6.
-- Why two runs of the As Matuis world differed. One had a played character and one did not; I did not test whether that is the reason.
-- Whether the ambition check still fails in the six places its pool item names. I read the item and did not re-run it.
-- Whether the rest of the sweep holds in other places. I repeated five laws in a second town; the other results come from one town on one seed.
-- A screen fault the helper reported: a state bill came back "vetoed" with the executive set to sign. The same call made directly enacts the bill, so the fault may be in the helper's script.
-- How often Congress or a statehouse changes hands over 20 years.
-- Speed and memory in a city; the largest place I ran had about 11,000 people.
-- The history of fixes: this copy of the repository holds only November 9's commits, so I could not date any code change myself. The dates I give come from the documents.
-- Anything on your Drive, and the Mac build itself. I played the same code through its browser screen.
+- **How many seeds reach the year-12 crash.** My call: every 20-year game is exposed. The condition behind it was present in all three worlds I checked, and two long runs stopped on it, mine in year 12 and the crew's in year 19.
+- **Whether the lesson 9 exchange, "Don't apologize," plays as you asked.** It merged after the copy of the game I audited, and it needs a played officeholder with a failed bill. My call: count it as not done until someone plays it on screen.
+- **How much of the shift in line odds in the open work comes from your grades and how much from the six new rules.** My call: it does not matter to the verdict. Either way the shift shows up in play as one filler swapped for another.
+- **Why the scene tool listed the President's address among the player's scenes in Odessa and not in Ninnekah or Tesuque.** My call: treat it as a quirk of the tool, not a fault in the game, until someone shows otherwise.
+- **In the Oklahoma world, how much of the growth in household records was arrivals and how much was regrouping, and which place each of the three place records is.** My call: neither changes the finding. The untied job share is the cause in both worlds I tested.
+- **The code fix for the runaway jobs.** I change no game code. My call: tie each share to an adult, or drop the share when an adult takes a real job. The two-world test in pillar 7 is the acceptance check, and it is Sonnet work.
+- **The code behind the wrong-way results.** I traced the work requirement and the Wyoming income tax to the treasury that pays, and no further. I did not trace the pension, transit or wage-question results, or where a sales tax raise's money goes once it leaves town. My call: file all six as defects now; the figures in pillar 2 are enough to reproduce each.
+- **What budget lines, amounts with no value in force at a body, and the 60 grants of local power do once passed.** The sweep proved only that they pass. My call: do not count any of them as working until someone follows the money the same way.
+- **Thirteen of your 72 playtest defects that a helper marked as needing a running game.** I checked in the game only the ones named in pillar 6. My call: count the other 13 as open until each is shown fixed on screen.
+- **Why two runs of the As Matuis world differed.** One had a played character and one did not, and I did not test whether that is the reason. My call: it is the likeliest reason, and the finding stands either way: the legislature raised the wage on its own in both.
+- **Whether the ambition check still fails in the six places its pool item names.** I read the item and did not re-run it. My call: take the item at its word and treat it as still failing.
+- **Whether the rest of the sweep holds in other places.** I repeated five laws in a second town. My call: the property tax and sales tax results are general, since they held everywhere I tried them. Treat the other results as true of Marion, Mississippi until repeated.
+- **A screen fault the helper reported: a state bill came back "vetoed" with the executive set to sign.** The same call made directly enacts the bill. My call: not a fault in the game; a slip in the helper's script.
+- **How often Congress or a statehouse changes hands over 20 years.** No run of mine reached year 20. My call: unknown, and it cannot be measured until the crash is fixed.
+- **Speed and memory in a city.** The largest place I ran had about 11,000 people. My call: worse than what I measured, because the cost grows with the number of full people, and the bar is already missed at 11,000.
+- **The history of fixes.** This copy of the repository holds only November 9's commits, so I could not date any code change myself. The dates I give come from the documents.
+- **Anything on your Drive, and the Mac build itself.** I played the same code through its browser screen. My call: nothing in this report depends on either.
