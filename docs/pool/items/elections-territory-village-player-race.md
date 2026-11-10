@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: high
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** A New Game life in an American Samoa village finds no local race to enter in six years. In Malaeimi, American Samoa (territory:AS:malaeimi, replay f857db7436bf7449, the fixed town list's Cabo Rojo number), the path check on main listed no contest the player could enter from 2025 to 2031: no local office the player may run for exists or comes up. The golden path starts with a local race in every one of the 56 places; American Samoa's own elected local government (village and county offices, or the Fono's House districts) has no race the player is offered. Without a local race the file-for-office step cannot start there.

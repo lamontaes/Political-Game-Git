@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: split from elections-county-race-sees-only-the-town in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The countywide weight exists because only the town weighed county seats. Once the county tail weighs them (parts 1 and 2) the weight should be refit against what the county shows, or removed. A test must fail when the rest of the county is taken out, so the county cannot silently go back to the town alone.

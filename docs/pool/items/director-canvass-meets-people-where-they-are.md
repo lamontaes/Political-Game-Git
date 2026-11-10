@@ -10,13 +10,14 @@ standard: 2
 claimed-by:
 pr:
 after:
-blocked-on: Lane 1 record (agreements/1-3.md, met away from home)
+blocked-on:
 lead: director
 model: opus
 effort: high
 root: design-director-on-core2
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T16:21:08.503Z
+checked: fable 2026-11-10
 ---
 
 **What.** The owner ruled on Oct 27 at 5 PM that every campaign act is a scene: sometimes uneventful, sometimes you meet someone at the library, sometimes someone waiting outside a job. The porch scene stages every canvass at the resident's door, because the campaign engine knocks household doors and keeps no record of meeting voters anywhere else. Where a person is at the canvass hour (at work, at a public building) comes from the work schedule and place hours, which exist now. This item makes the engine reach a resident away from home, records where, and stages the scene there.
@@ -31,7 +32,7 @@ claimed-at: 2026-11-04T16:21:08.503Z
 
 **Done when.** A second session plays a year in a drawn place from `buildBenchWorld` (place and seed written down) with the player canvassing, and finds at least one canvass scene staged outside a resident's workplace on a day their shift covers the canvass hour, citing the door's campaign record id and the job record id. It also finds a canvass scene still staged at the door on a day the resident is home. `src/director/circumstance.test.ts` covers both.
 
-**Waits on.** Nothing. The `blocked-on` line in the front matter names a Lane 1 record (agreements/1-3.md) that is gone from the repository; this item now builds that record itself as part 1, so the line can be cleared.
+**Waits on.** Nothing. This item builds the engine's side itself as part 1 (a canvass reaching a resident away from home, with where recorded).
 
 **Files.** src/core2/modules/campaigns.ts, src/director/doors.ts, src/director/scheduling.ts, src/director/data/circumstances.json, src/director/circumstance.test.ts, src/bench/story.ts
 

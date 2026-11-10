@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The clerk's petition check counts one or two fewer signatures than were signed. `src/core2/petition-filing.test.ts` ("the clerk puts a filing on the ballot by its signatures") fails at some drawn places because a checked petition's valid count plus its struck names comes out one or two below its signature rows. Seen Nov 9, 2026: Mount Carbon, West Virginia, run seed b013e990be582152 (123 against 124), and Alma, Illinois, run seed ef2460c2d6b1632b (130 against 132). Every signature must end up counted or struck, and the fix is in the check, not the test.

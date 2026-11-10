@@ -11,11 +11,12 @@ claimed-by:
 pr:
 after:
 blocked-on:
-lead: fable
+lead: cto
 model: sonnet
 effort: medium
 root: design-guards
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Pointing the zero-dice guard at src/core2, src/bench and src/director found shares written as numbers in code. Six remain in the allowlist: SAME_SEX_COUPLE_SHARE (town-households.ts), TOWN_PART_TIME_SHARE (town-workplaces.ts), COUNCIL_SIZE_SHARES and COUNCIL_TERM_SHARES (gov-rules/typical-council-size.ts), and the 0.5 even split in electorate-places.ts and modules/campaigns.ts. The seventh, HIDDEN_SHARE in bench/scene.ts, is no longer in src. Every number lives in a parameter table with its tag, so each moves to its module's parameters with a source and spread, or is shown to be a structural one-half that the guard should not read as a share.

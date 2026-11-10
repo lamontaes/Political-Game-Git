@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from elections-county-race-sees-only-the-town in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Once the county's people exist (part 1), the county seat has to be weighed by them. Today a county contest is weighed by the town's people alone. A county contest should draw challengers from the whole county on the same chooser's reasons, and the one drawn to run is filled in as a full person, seeded so the same person returns.

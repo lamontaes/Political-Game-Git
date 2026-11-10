@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: high
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** Once jobs, business, housing, campaigns and retirement claims read groups, nothing builds a record from the packed columns for the engines. Delete `CountedHouseholdMap`, `personInput` for engine reads and `householdView`, keep `takeResidentHousehold` for fill-in, and mark the stopgap resolved with how. The counted tier then has one way to be read. What still reads the views on main: src/core2/births-counted.ts (the legacy births, deaths and arrivals pass) through `countedHouseholdsByPlace`, and a few modules and tests listed in the Notes.
