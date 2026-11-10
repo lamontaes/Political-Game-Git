@@ -24609,6 +24609,372 @@
       "origin": "authored",
       "author": "Story session (story-person-view-learned)",
       "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-work-new-answer-detail.i-work-at-employer-i-live-in-my-place",
+      "move": "own-work-new-answer-detail",
+      "kind": "spoken",
+      "text": "I work at {employer}. I live in {my_place}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-detail",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-new-answer-detail.at-employer-i-m-living-in-my-place",
+      "move": "own-work-new-answer-detail",
+      "kind": "spoken",
+      "text": "At {employer}. I'm living in {my_place}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-detail",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-new-answer-deflect.i-d-rather-not-get-into-work-ask-me-another-time",
+      "move": "own-work-new-answer-deflect",
+      "kind": "spoken",
+      "text": "I'd rather not get into work. Ask me another time.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-deflect",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-new-answer-deflect.work-s-a-long-story-ask-me-another-day",
+      "move": "own-work-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Work's a long story. Ask me another day.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-deflect",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-new-answer-change.employer-but-where-are-you-from",
+      "move": "own-work-new-answer-change",
+      "kind": "spoken",
+      "text": "{employer}. But where are you from?",
+      "uses": [
+        {
+          "move": "own-work-new-answer-change",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-new-answer-change.i-m-at-employer-where-did-you-grow-up",
+      "move": "own-work-new-answer-change",
+      "kind": "spoken",
+      "text": "I'm at {employer}. Where did you grow up?",
+      "uses": [
+        {
+          "move": "own-work-new-answer-change",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-work-answer-detail.i-remember-employer-i-m-at-my-employer-now",
+      "move": "shared-work-answer-detail",
+      "kind": "spoken",
+      "text": "I remember {employer}. I'm at {my_employer} now.",
+      "uses": [
+        {
+          "move": "shared-work-answer-detail",
+          "subject": "shared-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-work-answer-detail.sure-these-days-i-m-at-my-employer",
+      "move": "shared-work-answer-detail",
+      "kind": "spoken",
+      "text": "Sure. These days I'm at {my_employer}.",
+      "uses": [
+        {
+          "move": "shared-work-answer-detail",
+          "subject": "shared-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-work-answer-deflect.i-d-have-to-think-ask-me-again-another-time",
+      "move": "shared-work-answer-deflect",
+      "kind": "spoken",
+      "text": "I'd have to think. Ask me again another time.",
+      "uses": [
+        {
+          "move": "shared-work-answer-deflect",
+          "subject": "shared-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-work-answer-deflect.that-needs-a-minute-ask-me-again-later",
+      "move": "shared-work-answer-deflect",
+      "kind": "spoken",
+      "text": "That needs a minute. Ask me again later.",
+      "uses": [
+        {
+          "move": "shared-work-answer-deflect",
+          "subject": "shared-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-work-answer-change.employer-sure-do-we-know-anyone-else-from-there",
+      "move": "shared-work-answer-change",
+      "kind": "spoken",
+      "text": "{employer}, sure. Do we know anyone else from there?",
+      "uses": [
+        {
+          "move": "shared-work-answer-change",
+          "subject": "shared-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "mutual"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-work-answer-change.of-course-who-else-do-we-know-from-employer",
+      "move": "shared-work-answer-change",
+      "kind": "spoken",
+      "text": "Of course. Who else do we know from {employer}?",
+      "uses": [
+        {
+          "move": "shared-work-answer-change",
+          "subject": "shared-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "mutual"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.heard-work-answer-detail.that-s-right-i-live-in-my-place",
+      "move": "heard-work-answer-detail",
+      "kind": "spoken",
+      "text": "That's right. I live in {my_place}.",
+      "uses": [
+        {
+          "move": "heard-work-answer-detail",
+          "subject": "heard-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.heard-work-answer-detail.yes-that-s-me-i-m-living-in-my-place",
+      "move": "heard-work-answer-detail",
+      "kind": "spoken",
+      "text": "Yes, that's me. I'm living in {my_place}.",
+      "uses": [
+        {
+          "move": "heard-work-answer-detail",
+          "subject": "heard-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.heard-work-answer-deflect.that-s-right-i-d-rather-not-talk-shop-maybe-another-time",
+      "move": "heard-work-answer-deflect",
+      "kind": "spoken",
+      "text": "That's right. I'd rather not talk shop. Maybe another time.",
+      "uses": [
+        {
+          "move": "heard-work-answer-deflect",
+          "subject": "heard-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.heard-work-answer-deflect.yes-it-s-a-long-story-ask-me-another-day",
+      "move": "heard-work-answer-deflect",
+      "kind": "spoken",
+      "text": "Yes. It's a long story. Ask me another day.",
+      "uses": [
+        {
+          "move": "heard-work-answer-deflect",
+          "subject": "heard-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.heard-work-answer-change.that-s-right-where-are-you-from",
+      "move": "heard-work-answer-change",
+      "kind": "spoken",
+      "text": "That's right. Where are you from?",
+      "uses": [
+        {
+          "move": "heard-work-answer-change",
+          "subject": "heard-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.heard-work-answer-change.yes-where-did-you-grow-up",
+      "move": "heard-work-answer-change",
+      "kind": "spoken",
+      "text": "Yes. Where did you grow up?",
+      "uses": [
+        {
+          "move": "heard-work-answer-change",
+          "subject": "heard-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, work four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
     }
   ]
 }
