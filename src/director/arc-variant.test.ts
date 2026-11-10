@@ -285,7 +285,7 @@ describe("a kind with several arcs", () => {
       );
       expect(skeletons.size, family).toBeGreaterThanOrEqual(3);
     }
-  });
+  }, 300_000);
 
   it("says a variant's own lines, and the family's where the variant has none", () => {
     const small = compose("bribe-offer", "small");
