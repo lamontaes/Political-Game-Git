@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/story-read-closers
-pr: pending
+pr: 8148
 blocked-on:
 lead: words
 source: "coordinator, Nov 10: story-read closes repeat within one talk (Okay. Go. We'll pick it up some other time.)"
