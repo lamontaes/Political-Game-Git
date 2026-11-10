@@ -78,7 +78,9 @@ import {
 } from "../core2/modules/campaigns";
 import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
-import { nationalPanel } from "../core2/modules/macro";
+import { countryOutlook, nationalPanel } from "../core2/modules/macro";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import type { EntityId } from "../core2/types";
 import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
@@ -1715,6 +1717,49 @@ export class DevMode {
       if (this.core.date.slice(0, 7) !== month) this.snapshot();
     }
     return { from, to: this.core.date, ms: Date.now() - started };
+  }
+
+  /**
+   * The country some years on if nothing else changes (the game's own month run ahead on a
+   * copy; see `countryOutlook`). Read-only: no record, no date moves, and the save is not
+   * marked. The played town is not in it. Returns the nation's and the player's state's
+   * figures today and at years 1, 5, 10, 15 and 20 (or the last year when fewer), every state's
+   * first and last, and whether every count stayed possible.
+   */
+  outlook(input: { years?: number } = {}) {
+    const years = input.years ?? 20;
+    if (!Number.isInteger(years) || years < 1 || years > 40)
+      throw new Error("The outlook runs from 1 to 40 whole years.");
+    const started = Date.now();
+    const result = countryOutlook(this.api, years * 12);
+    const seconds = (Date.now() - started) / 1000;
+    const shown = [
+      ...new Set([0, 1, 5, 10, 15, 20].filter((year) => year < years)),
+      years,
+    ].sort((a, b) => a - b);
+    const place = corePlaceByJurisdictionId(this.townId() as EntityId);
+    const usps = place?.stateJurisdictionKey?.slice("US-".length);
+    const own = usps ? result.states[usps] : undefined;
+    return {
+      seconds,
+      from: result.from,
+      to: result.nation.at(-1)!.month,
+      years,
+      shown,
+      state: usps ?? null,
+      nation: shown.map((year) => result.nation[year]!),
+      mine: own ? shown.map((year) => own[year]!) : [],
+      states: Object.fromEntries(
+        Object.entries(result.states).map(([key, points]) => [
+          key,
+          { first: points[0]!, last: points.at(-1)! },
+        ]),
+      ),
+      monthsWithProblems: result.monthsWithProblems,
+      problems: result.problems,
+      moneyDrift: result.moneyDrift,
+      couldBe: result.monthsWithProblems === 0 && result.moneyDrift < 1e-9,
+    };
   }
 
   /**
