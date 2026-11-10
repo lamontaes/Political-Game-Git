@@ -5,19 +5,20 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: pool/play-campaign-interview-recheck
 pr:
 blocked-on:
 source: added by the acting CTO, Oct 22 merge sample
-claimed-at:
+claimed-at: 2026-11-10T22:40:32.048Z
 after:
 lead: play-first
 model: haiku
 effort: low
 root: none
 checked: fable 2026-11-10
+branch: pool/play-campaign-interview-recheck
 ---
 
 **What.** The Codex merger sent a pull request back on Oct 21 for a missing Done-when evidence table. No fix answered that send-back; instead a later pull request (tests-campaign-day-canvass-someone-answers, #5793) merged on Oct 22 carrying the first one's whole diff, and the first was marked merged a second later. The item play-campaign-interview-and-event-without-seat reads done with pr #5710, and its Notes end on the uncleared send-back. #5793's body does carry the table: two 'Combined parent feature' rows (a candidate with no seat takes the interview and event controls in buildBenchWorld; the interview and event causes named by id) and a fresh run in Summit, South Carolina (4570315, run seed 4a10490584c40563aaf32c2cc3d17e7a) with the filing, interview and three event cause ids.
