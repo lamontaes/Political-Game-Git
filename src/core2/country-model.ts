@@ -75,7 +75,7 @@ export interface CountryRules {
   firmSpread: number;
   staffAdjustPerMonth: number;
   openingsPerSeeker: number;
-  openingsLapsePerMonth: number;
+  postingsLapsePerMonth: number;
   matchSeekerWeight: number;
   payPerLogTightness: number;
   usualTightnessMonths: number;
@@ -98,6 +98,9 @@ export interface CountryRules {
   deathsPerYear: readonly number[];
   yearsAsChild: number;
   yearsInBand: readonly number[];
+  /** Of people arriving from abroad, the share who are children and the share in each adult age band; together they are everyone. */
+  abroadChildShare: number;
+  abroadShare: readonly number[];
   lowPayOverFloor: number;
   placeFitPasses: number;
   placeFitStep: number;
@@ -151,7 +154,7 @@ export function countryRules(p: MacroParameter): CountryRules {
     firmSpread: p("countryFirmSpread"),
     staffAdjustPerMonth: p("countryStaffAdjustPerMonth"),
     openingsPerSeeker: p("countryOpeningsPerSeeker"),
-    openingsLapsePerMonth: p("countryOpeningsLapsePerMonth"),
+    postingsLapsePerMonth: p("countryOpeningsLapsePerMonth"),
     matchSeekerWeight: p("countryMatchSeekerWeight"),
     payPerLogTightness: p("countryPayPerLogTightness"),
     usualTightnessMonths: p("countryUsualTightnessMonths"),
@@ -174,6 +177,10 @@ export function countryRules(p: MacroParameter): CountryRules {
     deathsPerYear: bands("countryDeathsPerYear"),
     yearsAsChild: p("countryYearsAsChild"),
     yearsInBand: bands("countryYearsInBand"),
+    // Whoever arrives from abroad and is not an adult is a child, so the shares are everyone.
+    abroadChildShare:
+      1 - bands("countryAbroadShare").reduce((sum, share) => sum + share, 0),
+    abroadShare: bands("countryAbroadShare"),
     lowPayOverFloor: p("countryLowPayOverFloor"),
     placeFitPasses: p("countryPlaceFitPasses"),
     placeFitStep: p("countryPlaceFitStep"),
@@ -254,6 +261,8 @@ export interface CountryState {
   /** The share of each age band that leaves for another state in a year, at the opening. */
   leaveYear: number[];
   arrivalsYear: number;
+  /** People arriving from abroad in a year, for each resident (the survey's rate, at the opening). */
+  abroadYear: number;
   /** What firms paid out last month that this state's owners receive this month. */
   ownersIncome: number;
 }
@@ -315,6 +324,8 @@ export interface CountryStateOpening {
   budgetYear: number;
   leaveYear: readonly number[];
   arrivalsYear: number;
+  /** People arriving from abroad in a year, for each resident. */
+  abroadYear: number;
 }
 
 export interface CountryOpening {
@@ -341,6 +352,8 @@ export interface CountryMonth {
   moved: number;
   births: number;
   deaths: number;
+  /** People who arrived from abroad this month. */
+  arrived: number;
   /** The month's price change at a yearly rate, a share. */
   inflationYear: number;
 }
@@ -505,7 +518,9 @@ function demands(
     const wanted =
       (share * income + rules.cashSpentPerMonth * (cell.cash - usual)) *
       (1 - rules.heldBackPerPoint * rising);
-    const buys = Math.min(Math.max(0, wanted), cell.cash + income);
+    // A household spends no more than it holds, and never less than nothing.
+    const onHand = cell.cash + income;
+    const buys = wanted > onHand ? onHand : wanted > 0 ? wanted : 0;
     // What is not spent out of income is saved into assets, which the cells do not hold.
     const saved = Math.min((1 - share) * income, cell.cash + income - buys);
     spent += buys;
@@ -713,10 +728,11 @@ function moves(
 function people(
   tier: CountryTier,
   rules: CountryRules,
-): { births: number; deaths: number } {
+): { births: number; deaths: number; arrived: number } {
   const months = rules.monthsPerYear;
   let births = 0,
-    deaths = 0;
+    deaths = 0,
+    arrived = 0;
   for (const state of tier.states) {
     const before = sum(state.cells.map((cell) => cell.workers));
     const older = state.cells.map(() => ({
@@ -753,19 +769,26 @@ function people(
       }
     });
     const grown = state.children / rules.yearsAsChild / months;
-    state.children += born - grown;
+    // People from abroad come from no state's leavers: the state grows by them. The adults
+    // arrive looking for work at their age's rate, in every income fifth alike.
+    const abroad = (countryPeople(state) * state.abroadYear) / months;
+    state.children += born - grown + abroad * rules.abroadChildShare;
     births += born;
+    arrived += abroad;
     state.cells.forEach((cell, index) => {
       for (const key of CELL_COUNTS) cell[key] += older[index]![key];
       if (cell.band === 0) {
         cell.people += grown / COUNTRY_FIFTHS;
         cell.seekers += (grown / COUNTRY_FIFTHS) * rules.participation[0]!;
       }
+      const came = (abroad * rules.abroadShare[cell.band]!) / COUNTRY_FIFTHS;
+      cell.people += came;
+      cell.seekers += came * rules.participation[cell.band]!;
     });
     if (before > 0)
       for (const row of state.sectors) row.jobs *= 1 - workersGone / before;
   }
-  return { births, deaths };
+  return { births, deaths, arrived };
 }
 
 /** Every state at the opening, from the figures passed in, with its books made to add up. */
@@ -871,6 +894,7 @@ export function openCountry(
       homeTie: 1,
       leaveYear: [...row.leaveYear],
       arrivalsYear: row.arrivalsYear,
+      abroadYear: row.abroadYear,
       ownersIncome: 0,
     };
   });
@@ -1101,10 +1125,10 @@ export function stepCountry(
     );
     state.openingsPerJobAdded ??=
       posted > 0
-        ? (steadyHires + rules.openingsLapsePerMonth * state.openings) / posted
+        ? (steadyHires + rules.postingsLapsePerMonth * state.openings) / posted
         : 1;
     state.openings =
-      state.openings * (1 - rules.openingsLapsePerMonth) +
+      state.openings * (1 - rules.postingsLapsePerMonth) +
       state.openingsPerJobAdded * posted;
     const found = (efficiency: number) =>
       efficiency *
@@ -1259,6 +1283,7 @@ export function stepCountry(
     moved,
     births: lives.births,
     deaths: lives.deaths,
+    arrived: lives.arrived,
     inflationYear,
   };
 }

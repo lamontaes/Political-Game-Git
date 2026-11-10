@@ -164,11 +164,12 @@ describe(`the country tier's month: ${where}`, () => {
           worstMoney,
           Math.abs(countryMoney(tier) - money) / row.sales,
         );
-        // People change only by births and deaths: a move takes nobody out of the country.
+        // People change only by births, deaths and arrivals from abroad: a move between states takes nobody out of the country.
         worstPeople = Math.max(
           worstPeople,
-          Math.abs(row.population - (people + row.births - row.deaths)) /
-            row.population,
+          Math.abs(
+            row.population - (people + row.births - row.deaths + row.arrived),
+          ) / row.population,
         );
         people = row.population;
         if (!problems.length) problems = countryProblems(tier);

@@ -1627,6 +1627,50 @@
     "role": "coefficient",
     "stopgapId": "SG-NATION-country-tier-working-values"
   },
+  "countryAbroadShareAge18To29": {
+    "value": 0.2984,
+    "tag": "TUNABLE",
+    "citation": "Of people arriving from abroad, the share aged 18 to 29. Working value, set near the age mix of arrivals from abroad in data/research/migration/mover-rates-acs-2024.json (national, American Community Survey 2024); the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryAbroadShareAge30To44": {
+    "value": 0.2601,
+    "tag": "TUNABLE",
+    "citation": "Of people arriving from abroad, the share aged 30 to 44. Working value, set near the age mix of arrivals from abroad in data/research/migration/mover-rates-acs-2024.json (national, American Community Survey 2024); the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryAbroadShareAge45To64": {
+    "value": 0.1498,
+    "tag": "TUNABLE",
+    "citation": "Of people arriving from abroad, the share aged 45 to 64. Working value, set near the age mix of arrivals from abroad in data/research/migration/mover-rates-acs-2024.json (national, American Community Survey 2024); the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryAbroadShareAge65Plus": {
+    "value": 0.0807,
+    "tag": "TUNABLE",
+    "citation": "Of people arriving from abroad, the share aged 65 and over. Working value, set near the age mix of arrivals from abroad in data/research/migration/mover-rates-acs-2024.json (national, American Community Survey 2024); the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
   "countryYearsAsChild": {
     "value": 18,
     "tag": "TUNABLE",

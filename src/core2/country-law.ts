@@ -6,10 +6,13 @@
  */
 import type { CountryLaw, CountryState } from "./country-model";
 import { unemploymentTermsOf } from "./jobs-benefits";
-import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
-import { startingLawRows } from "./laws-starting";
-import type { LawRowInput } from "./laws-starting";
-import { withholdingFor } from "./tax-withholding";
+import { withholdingFor } from "./budgets-treasury";
+import {
+  resolveLawInForce,
+  startingLawRows,
+  type LawInForceAnswer,
+  type LawRowInput,
+} from "./laws-in-force";
 
 const DAYS_PER_YEAR = 365;
 const WEEKS_PER_YEAR = 52;

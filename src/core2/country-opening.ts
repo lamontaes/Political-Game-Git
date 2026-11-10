@@ -29,15 +29,18 @@ interface BudgetPlace {
 }
 interface MoverPlace {
   departurePerYearByAge: Record<string, number>;
+  /** Newcomers from another county, state or abroad, for each resident. */
   arrivalsPerResidentPerYear: number;
+  abroadPerResidentPerYear: number;
 }
+type MoverLines = Partial<MoverPlace>;
 const BUDGETS = budgetBases as unknown as {
   calibration: { factor: number };
   places: Record<string, BudgetPlace>;
 };
 const MOVERS = moverRates as unknown as {
   national: MoverPlace;
-  places: Record<string, MoverPlace>;
+  places: Record<string, MoverLines>;
 };
 
 const total = (lines: Lines | undefined) =>
@@ -86,7 +89,8 @@ export function countryOpening(
           total(budget.local?.spending) -
           (budget.state.spending.localAid ?? 0)
         : p("countryBudgetPerHeadFallback");
-      const movers = MOVERS.places[key] ?? MOVERS.national;
+      // A place the survey gives no line for takes the nation's.
+      const movers = { ...MOVERS.national, ...MOVERS.places[key] };
       const own = figures(fips);
       return {
         key,
@@ -110,8 +114,15 @@ export function countryOpening(
               ages.length) *
             interstate,
         ),
+        // Arrivals from other states only: those from abroad are a flow into the nation.
         arrivalsYear:
-          movers.arrivalsPerResidentPerYear * interstate * state.population,
+          Math.max(
+            0,
+            movers.arrivalsPerResidentPerYear - movers.abroadPerResidentPerYear,
+          ) *
+          interstate *
+          state.population,
+        abroadYear: movers.abroadPerResidentPerYear,
       };
     },
   );

@@ -446,6 +446,23 @@ function open(api: CoreAPI): MacroStateRow {
       policyRatePct,
       primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
     };
+    // A chosen inflation is the rise in prices over the year before the opening, so the year's
+    // price history is the chosen pace: the months after it then measure their own year from it.
+    if (chosen.inflationPct !== undefined) {
+      const perMonth =
+        (p("one") + chosen.inflationPct / p("macroHundred")) **
+        (p("one") / p("macroMonthsPerYear"));
+      const end = rows.length - p("one");
+      for (
+        let back = p("one");
+        back <= p("macroMonthsPerYear") && end - back >= p("zero");
+        back += p("one")
+      )
+        rows[end - back] = {
+          ...rows[end - back]!,
+          priceIndex: last.priceIndex / perMonth ** back,
+        };
+    }
   }
   for (const row of rows) months.put(row as unknown as { id: string });
   const board = generateBoard(core, p);
