@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
-pr:
+pr: #8261
 after:
 blocked-on:
 standard: 2
