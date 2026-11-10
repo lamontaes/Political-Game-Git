@@ -5,8 +5,8 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
 pr: #6111
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:13:14.631Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-06-texas-shows-local-income-tax
 ---
@@ -51,3 +51,5 @@ Acceptance audit 2026-10-27 from PR #6111: repaired implementation merged by Mer
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:01 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
 
 Released (2026-11-10): Replay passed in Abbott TX and Acalanes Ridge CA (details on #6111), but pool seen needs status merged; CTO to flip it and record the check. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:12 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
