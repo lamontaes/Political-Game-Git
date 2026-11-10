@@ -3,7 +3,7 @@ id: research-town-counts-34-places
 title: "Source a population count for the 34 places the Census estimates leave out"
 area: play
 kind: research
-priority: 4
+priority: 3
 size: S
 status: open
 claimed-by:
