@@ -128,6 +128,42 @@ export function inForceOn(row: LawRowInput, date: string): boolean {
 }
 
 /**
+ * Rows for laws recorded only from a later date: for each level's series with
+ * no phase in force on the start date, its earliest phase (every tier of it)
+ * applies from the start until that phase begins, marked as an estimate.
+ */
+export function rowsCarriedToStart(
+  rows: readonly LawRowInput[],
+  today: string,
+): LawRowInput[] {
+  const groups = new Map<string, LawRowInput[]>();
+  for (const row of rows) {
+    const key = `${row.jurisdiction}|${row.level}|${row.series}`;
+    groups.set(key, [...(groups.get(key) ?? []), row]);
+  }
+  const out: LawRowInput[] = [];
+  for (const group of groups.values()) {
+    if (group.some((row) => inForceOn(row, today))) continue;
+    const later = group.filter((row) => row.effectiveDate > today);
+    if (!later.length) continue;
+    const first = later.map((row) => row.effectiveDate).sort()[0]!;
+    for (const row of later.filter((r) => r.effectiveDate === first))
+      out.push({
+        ...row,
+        id: `${row.id}:from-start`,
+        effectiveDate: today,
+        endDate: first,
+        source: [
+          ...(Array.isArray(row.source) ? row.source : [row.source]),
+          `estimate: the phase recorded from ${first}, applied from the start date until then`,
+        ].join(" ; "),
+        estimate: true,
+      });
+  }
+  return out;
+}
+
+/**
  * The general tier for a place: a region tier whose counties include the
  * place's county, else the rest-of-state region, else the general rate.
  */
