@@ -146,12 +146,16 @@ export function talkTypes(): PurposeType[] {
  * once more where the player asks, from different askers. Skipped ones are
  * left out: a scene the bank cannot word never plays.
  */
-export function buildTalks(options: SceneTalkOptions = {}): SceneTalk[] {
+export function buildTalks(
+  options: SceneTalkOptions = {},
+  limit = Infinity,
+): SceneTalk[] {
   const talks: SceneTalk[] = [];
   const askers = adults.slice(1, 4).map((row) => row.id);
   for (const type of talkTypes())
     for (const [index, asker] of askers.entries()) {
       // The first asker for every type; the others only for the first dozen, for variety.
+      if (talks.length >= limit) return talks;
       if (index > 0 && talks.length > 150) break;
       const result = composeSceneTalk(
         core,
@@ -164,7 +168,7 @@ export function buildTalks(options: SceneTalkOptions = {}): SceneTalk[] {
       );
       if (result.kind === "composed") talks.push(result.talk);
     }
-  return talks;
+  return talks.slice(0, limit);
 }
 
 /** A pair the director produced: the piece said, and the piece it answered. */

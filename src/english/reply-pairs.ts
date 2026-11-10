@@ -300,7 +300,7 @@ export function replyPairs(
 }
 
 /** A short stable hash (53 bits) as eleven base-36 characters. */
-function hash53(text: string): string {
+export function hash53(text: string): string {
   let h1 = 0xdeadbeef;
   let h2 = 0x41c6ce57;
   for (let i = 0; i < text.length; i += 1) {
