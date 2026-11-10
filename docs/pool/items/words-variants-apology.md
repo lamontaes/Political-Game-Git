@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: story/variants-apology
-pr: 8077
+pr: #8077
 blocked-on:
 lead: words
 source: owner, Nov 8, 9:50 voice note ("they've gotta have like a variance"); the Nov 9 brief to widen variants
