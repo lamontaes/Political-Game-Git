@@ -32,7 +32,15 @@
     "held": "How long a job lasted, in months as people say it, from the job record's dates.",
     "last_employer": "The employer who let the person go before a stretch out of work, from that job's record.",
     "paid_more_than": "What the job before paid an hour, said only when this one paid more.",
-    "paid_less_than": "What the job before paid an hour, said only when this one paid less."
+    "paid_less_than": "What the job before paid an hour, said only when this one paid less.",
+    "moved_from": "The place a person moved from, from the moves engine's record of the move.",
+    "moved_with": "The children born before a move who came with the person, by relation and name, from the family records.",
+    "age_then": "The person's age on the day of the event, from the birth record and the event's day.",
+    "firstborn": "The name of the person's first child, from the family record.",
+    "together": "How long a couple has been together, from the day their partnership's record names, to the day told.",
+    "death_age": "The age of a person who died, from their birth record and the day of the death.",
+    "after_illness": "What the death record's topic says the person had been, in plain words.",
+    "school_for": "How long the person had been at a school, from the school's attendance record."
   },
   "maxWords": 10,
   "mining": {
@@ -10299,6 +10307,526 @@
       ],
       "origin": "authored",
       "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-from.i-came-here-from-moved-from",
+      "move": "memoir-moved-from",
+      "kind": "spoken",
+      "text": "I came here from {moved_from}.",
+      "uses": [
+        {
+          "move": "memoir-moved-from",
+          "subject": "memoir",
+          "role": "moved-from",
+          "choice": "moved-from",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-from.i-had-been-living-in-moved-from-before-that",
+      "move": "memoir-moved-from",
+      "kind": "spoken",
+      "text": "I had been living in {moved_from} before that.",
+      "uses": [
+        {
+          "move": "memoir-moved-from",
+          "subject": "memoir",
+          "role": "moved-from",
+          "choice": "moved-from",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-with.moved-with-came-too",
+      "move": "memoir-moved-with",
+      "kind": "spoken",
+      "text": "{moved_with} came too.",
+      "uses": [
+        {
+          "move": "memoir-moved-with",
+          "subject": "memoir",
+          "role": "moved-with",
+          "choice": "moved-with",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-with.moved-with-came-with-me",
+      "move": "memoir-moved-with",
+      "kind": "spoken",
+      "text": "{moved_with} came with me.",
+      "uses": [
+        {
+          "move": "memoir-moved-with",
+          "subject": "memoir",
+          "role": "moved-with",
+          "choice": "moved-with",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-age.i-was-age-then-at-the-time",
+      "move": "memoir-moved-age",
+      "kind": "spoken",
+      "text": "I was {age_then} at the time.",
+      "uses": [
+        {
+          "move": "memoir-moved-age",
+          "subject": "memoir",
+          "role": "moved-age",
+          "choice": "moved-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-age.i-was-age-then-that-year",
+      "move": "memoir-moved-age",
+      "kind": "spoken",
+      "text": "I was {age_then} that year.",
+      "uses": [
+        {
+          "move": "memoir-moved-age",
+          "subject": "memoir",
+          "role": "moved-age",
+          "choice": "moved-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-age.i-was-age-then-then",
+      "move": "memoir-birth-age",
+      "kind": "spoken",
+      "text": "I was {age_then} then.",
+      "uses": [
+        {
+          "move": "memoir-birth-age",
+          "subject": "memoir",
+          "role": "birth-age",
+          "choice": "birth-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-age.i-was-age-then-when-it-happened",
+      "move": "memoir-birth-age",
+      "kind": "spoken",
+      "text": "I was {age_then} when it happened.",
+      "uses": [
+        {
+          "move": "memoir-birth-age",
+          "subject": "memoir",
+          "role": "birth-age",
+          "choice": "birth-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-first.firstborn-was-my-first-child",
+      "move": "memoir-birth-first",
+      "kind": "spoken",
+      "text": "{firstborn} was my first child.",
+      "uses": [
+        {
+          "move": "memoir-birth-first",
+          "subject": "memoir",
+          "role": "birth-first",
+          "choice": "birth-first",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-first.firstborn-was-our-first",
+      "move": "memoir-birth-first",
+      "kind": "spoken",
+      "text": "{firstborn} was our first.",
+      "uses": [
+        {
+          "move": "memoir-birth-first",
+          "subject": "memoir",
+          "role": "birth-first",
+          "choice": "birth-first",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-together-for.we-have-been-together-together",
+      "move": "memoir-together-for",
+      "kind": "spoken",
+      "text": "We have been together {together}.",
+      "uses": [
+        {
+          "move": "memoir-together-for",
+          "subject": "memoir",
+          "role": "together-for",
+          "choice": "together-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "togetherFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-together-for.it-has-been-together-since-then",
+      "move": "memoir-together-for",
+      "kind": "spoken",
+      "text": "It has been {together} since then.",
+      "uses": [
+        {
+          "move": "memoir-together-for",
+          "subject": "memoir",
+          "role": "together-for",
+          "choice": "together-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "togetherFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-age.name-was-death-age",
+      "move": "memoir-death-age",
+      "kind": "spoken",
+      "text": "{name} was {death_age}.",
+      "uses": [
+        {
+          "move": "memoir-death-age",
+          "subject": "memoir",
+          "role": "death-age",
+          "choice": "death-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-age.name-was-death-age-years-old",
+      "move": "memoir-death-age",
+      "kind": "spoken",
+      "text": "{name} was {death_age} years old.",
+      "uses": [
+        {
+          "move": "memoir-death-age",
+          "subject": "memoir",
+          "role": "death-age",
+          "choice": "death-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-illness.name-had-been-after-illness",
+      "move": "memoir-death-illness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-illness",
+          "subject": "memoir",
+          "role": "death-illness",
+          "choice": "death-illness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-illness.name-had-been-after-illness-for-some-time",
+      "move": "memoir-death-illness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness} for some time.",
+      "uses": [
+        {
+          "move": "memoir-death-illness",
+          "subject": "memoir",
+          "role": "death-illness",
+          "choice": "death-illness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-for.i-had-been-at-school-for-school-for",
+      "move": "memoir-school-for",
+      "kind": "spoken",
+      "text": "I had been at {school} for {school_for}.",
+      "uses": [
+        {
+          "move": "memoir-school-for",
+          "subject": "memoir",
+          "role": "school-for",
+          "choice": "school-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-for.that-ended-school-for-at-school",
+      "move": "memoir-school-for",
+      "kind": "spoken",
+      "text": "That ended {school_for} at {school}.",
+      "uses": [
+        {
+          "move": "memoir-school-for",
+          "subject": "memoir",
+          "role": "school-for",
+          "choice": "school-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-age.i-was-age-then-that-day",
+      "move": "memoir-school-age",
+      "kind": "spoken",
+      "text": "I was {age_then} that day.",
+      "uses": [
+        {
+          "move": "memoir-school-age",
+          "subject": "memoir",
+          "role": "school-age",
+          "choice": "school-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-age.i-was-age-then-when-it-ended",
+      "move": "memoir-school-age",
+      "kind": "spoken",
+      "text": "I was {age_then} when it ended.",
+      "uses": [
+        {
+          "move": "memoir-school-age",
+          "subject": "memoir",
+          "role": "school-age",
+          "choice": "school-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
       "date": "2026-11-10",
       "tag": {
         "move": "tell"
