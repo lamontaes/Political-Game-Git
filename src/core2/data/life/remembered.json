@@ -155,6 +155,7 @@
       "life": "politics",
       "what": "won",
       "who": "named",
+      "onlyFact": "winnerId",
       "facts": ["office", "contestId"]
     },
     {

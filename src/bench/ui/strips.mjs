@@ -115,6 +115,32 @@ export function introText(...parts) {
   return el("p", { className: "intro" }, ...parts);
 }
 
+/**
+ * A life told as sentences, never a list of dates: the card's lines (oldest
+ * first, each with its kind and the record behind it) grouped by what mattered
+ * (`groups`: the kinds that belong together, in the order they are read), one
+ * paragraph in the story face for each group, each sentence on its record.
+ */
+export function lifeStory(lines, groups) {
+  const at = new Map(
+    groups.flatMap((kinds, i) => kinds.map((kind) => [kind, i])),
+  );
+  const paragraphs = [...groups, []].map(() => []);
+  for (const line of lines)
+    paragraphs[at.get(line.kind) ?? groups.length].push(line);
+  return paragraphs
+    .filter((rows) => rows.length)
+    .map((rows) =>
+      introText(
+        ...rows.flatMap((row, i) => {
+          const sentence = el("span", { textContent: row.text });
+          sentence.dataset.record = row.recordId;
+          return i ? [" ", sentence] : [sentence];
+        }),
+      ),
+    );
+}
+
 /** A name that opens its card: bold gold in the sentence, a button for keyboard and screen reader. */
 export function nameLink(text, onOpen) {
   const node = el("span", { className: "nm pick", textContent: text });

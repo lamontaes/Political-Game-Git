@@ -176,6 +176,37 @@ describe(`the life record in ${where}`, () => {
     );
   }, 600_000);
 
+  it("2b: a vote names every candidate and only the winner remembers winning it", () => {
+    const [winner, loser] = strangers();
+    expect(winner && loser, `${where}: two strangers`).toBeTruthy();
+    const id = `election-result:test-${winner!.id}`;
+    emit(
+      {
+        id,
+        kind: "election-result",
+        personIds: [winner!.id, loser!.id],
+        publicRecord: true,
+        news: true,
+        facts: {
+          contestId: "contest-test",
+          office: "Council Member",
+          winnerId: winner!.id,
+        },
+      },
+      winner!.id,
+    );
+    const won = lifeOf(core, winner!.id).find((event) => event.id === id);
+    expect([won?.life, won?.what], `${where}: ${winner!.id}`).toEqual([
+      "politics",
+      "won",
+    ]);
+    expect(won?.facts?.office, where).toBe("Council Member");
+    expect(
+      lifeOf(core, loser!.id).some((event) => event.id === id),
+      `${where}: ${loser!.id} lost and does not remember winning`,
+    ).toBe(false);
+  }, 600_000);
+
   it("3: a death is a loss for every living family member and nothing for the dead", () => {
     const dead = [...core.people.values()].find(
       (person) =>

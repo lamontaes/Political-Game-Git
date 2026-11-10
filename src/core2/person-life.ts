@@ -55,6 +55,8 @@ interface EventRow {
   readonly what: string;
   readonly who: "named" | "not" | "kin-of-named";
   readonly notFact?: string;
+  /** Only the named person this fact of the record names remembers it (a vote names every candidate; the fact names the winner). */
+  readonly onlyFact?: string;
   readonly facts: readonly string[];
   readonly topicAs?: string;
 }
@@ -141,6 +143,10 @@ function rememberers(
       for (const other of core.people.get(id)?.familyIds ?? [])
         if (!event.personIds.includes(other)) kin.add(other);
     return [...kin];
+  }
+  if (row.onlyFact) {
+    const only = event.facts?.[row.onlyFact];
+    return event.personIds.filter((id) => id === only);
   }
   const left = row.who === "not" ? event.facts?.[row.notFact ?? ""] : undefined;
   return event.personIds.filter((id) => id !== left);

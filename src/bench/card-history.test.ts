@@ -65,7 +65,7 @@ describe("a person's history on their card", () => {
     // timeline's icon on the card.
     for (const line of card.history)
       expect(line.kind, `${where}: ${line.text}`).toMatch(
-        /^(born|school|moved|partner|child|work|loss|office|tie)$/,
+        /^(born|school|moved|home|partner|child|work|business|loss|health|law|office|tie)$/,
       );
     // Your own birth is said to you, not by your name.
     const yours = card.history.filter((line) =>
