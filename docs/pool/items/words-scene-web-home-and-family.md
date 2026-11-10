@@ -5,8 +5,8 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/pool-words-scene-web-home-and-family
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
@@ -18,7 +18,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T23:52:56.699Z
+claimed-at:
 branch: claude/pool-words-scene-web-home-and-family
 ---
 
@@ -51,3 +51,5 @@ Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): needs lines under data/english/parts, which only Story writes; not for a builder. Continue on branch claude/pool-words-scene-web-home-and-family.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:52 UTC) on branch claude/pool-words-scene-web-home-and-family.
+
+Released (2026-11-10): Needs bank lines under data/english/parts, which only the Story session writes; nothing a builder can play. Continue on branch claude/pool-words-scene-web-home-and-family.
