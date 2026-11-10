@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-pool-next-release-note-id-already-used
-pr:
+pr: #8264
 after:
 blocked-on:
 lead: cto
