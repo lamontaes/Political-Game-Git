@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/budget-cut-head-turnover
-pr: pending
+pr: 8105
 blocked-on:
 lead: words
 source: CI red on #8097 and on clean main, seed 394907bded87e789979eb7c8e9de22236b4bf5bb (Enigma, Georgia)
