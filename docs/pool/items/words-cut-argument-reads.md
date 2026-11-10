@@ -5,14 +5,15 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: story/director-cut-argument-reads
-pr: 8097
+pr: #8097
 blocked-on:
 lead: words
 milestone: play-first
 source: "owner graded the cut-argument scene and could not follow it: a narrator line named a {post} and said the head 'has the page', and a reply asked for a list no one mentioned"
 claimed-at: 2026-11-10T03:00:00.000Z
+merged-at: 2026-11-10T19:41:52.540Z
 ---
 
 **What.** The narrator line about the cut now says what the budget line pays for ("fire protection", "highways"), from the budget line's own name on the record, in a new fact `line`; it no longer says "has the page". The reply "Send me the list. I'll answer tomorrow." now stands alone ("Put it in writing. I'll answer tomorrow."), and the thank-you "I'll get the list to you" no longer names a list no one raised. Piece keys are unchanged, so grades carry over.
