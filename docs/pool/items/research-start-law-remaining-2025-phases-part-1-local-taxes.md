@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from research-start-law-remaining-2025-phases in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Source the phase in force on January 20, 2025 for the county and city income taxes (150 jurisdictions) and the city sales taxes (61) that the opening still carries back from January 2026. Read each jurisdiction's rate and base from its published table or ordinance, quote it, and write the 2025 phase the same way the national and state tables were written. The part is done when the series no longer reaches the opening's law rows.

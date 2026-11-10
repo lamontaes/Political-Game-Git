@@ -9,13 +9,14 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: roadmap-m1-06-default-witness
+after:
 source: added with npm run pool -- add
 standard: 2
 model: sonnet
 effort: medium
 root: none
 lead: m0-m2
+checked: fable 2026-11-10
 ---
 
 **What.** M1-06 fails in two of three drawn towns for reasons other than defaults. In Four Mile Road, Alaska (0226835, seed bc9b44e021f9c5be525ef539ca9ded0c982e03ed0ab1c862f32e4904374f843d) and Thendara, New York (3673495, seed dda9cc7d63ad5f78f20a3a89912368c2cf05057810c489e010858924308b2fbb), clause 1 says a mortgage's money 'did not reach the borrower', for example mortgage-loan:household_44bb4236a3b69864:2025-03-06 paid to outside-market:jurisdiction_59b4ccc532fc959f. That is the engine's design, so the check is wrong: the seller is the recipient of the same household's down-payment entries (down-payment:<household>:<member>:<date>, src/core2/modules/housing.ts), and the mortgage should be held to that recipient. In Thendara, clause 4 says facility:organization:bank:jurisdiction_6279c0b1c71f0416:organization_3f2d1597758cbd90 holds a principal of 2,611,928 while the journal's draws less repayments give 729,784; a line opened in play on 2025-06-01, so a draw path whose journal id the check does not read (possibly the counted wage-flow draw, finance-cash.ts transferWageFlowCreditJournal) is the first lead.
@@ -30,7 +31,7 @@ lead: m0-m2
 
 **Done when.** A second session runs the M1-06 command in the runner's drawn place and in Four Mile Road and Thendara by the seeds above and sees it pass, with the mortgage clause reading each mortgage's seller from its down-payment entries and the credit-line clause accounting for every draw by journal id; docs/roadmap/features.json reads passes: true for M1-06, with a bench screenshot.
 
-**Waits on.** roadmap-m1-06-default-witness (this item's after: field names it).
+**Waits on.** Nothing. roadmap-m1-06-default-witness changes the same check file (src/core2/tooling/m1-06-check.ts): merge main in before pushing. Whichever of the two merges second flips M1-06 to passing.
 
 **Files.** src/core2/tooling/m1-06-check.ts, src/core2/modules/credit.ts, src/core2/modules/housing.ts, docs/roadmap/features.json
 

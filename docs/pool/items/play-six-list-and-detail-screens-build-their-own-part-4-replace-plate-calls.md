@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The play screen still calls the older framed plate 8 times beside the newer strip section 47 times, so two generations of panel sit side by side. Replace each `plate(` call with the strip section part and delete the plate part and its styles. The words, rows and order on each screen stay exactly as they are. Two of the eight calls hold a timeline that another item deletes.

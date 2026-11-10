@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Campaign's debate card builds its own tab nav by hand beside the shared `tabBar`, and the sheet's tabs are built with `makeTab` straight into the sheet. Put them on `tabBar`, and add a guard that fails when a second list-and-detail part or a hand-built tab nav is added, so the duplicates cannot come back. The tabs look and work as they do today. The guard sits beside the existing kit-only-ui guard.

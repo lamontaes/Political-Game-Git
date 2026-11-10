@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Merger 2 independent audit of PR #5886, October 25
+checked: fable 2026-11-10
 ---
 
 **What.** A fresh election-window trait audit in Pagai, American Samoa found four zero-call sites with no gap row: parties.join, meetings.take-part, meetings.hold-town-hall and campaigns.party-firmness. They are outside the older never-run target list handled by the current audit PR. Trace the actual guards and place records for these calls and report whether each is legitimately absent in that year or needs a bounded engine fix.
