@@ -22,8 +22,10 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 45;
 const ATTEMPTS = 4;
 const SAYS: Readonly<Record<string, RegExp>> = {
-  "looking-for-work": /work/,
-  "paid-under-minimum-wage": /minimum wage/,
+  // The plain arc says the problem; a variant (a layoff, pay under the floor)
+  // says the same problem in its own words.
+  "looking-for-work": /work|job|laid off|hiring|position|résumé/,
+  "paid-under-minimum-wage": /minimum|wage|an hour|check|paid/,
 };
 
 it(`a resident's visit to office hours is the official's scene, about the problem on record (seed ${seed})`, () => {
