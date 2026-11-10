@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/purposes-visit-ill
-pr: pending
+pr: 8089
 blocked-on:
 lead: words
 source: CTO brief, Nov 9 ("a purpose for every scene kind that lacks one"); stopgap SG-WORDS-visit-ill-no-purpose
