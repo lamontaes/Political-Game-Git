@@ -43,6 +43,26 @@ director.start(core);
 advanceCore(core, addDays(makeIsoDate(core.date), 31));
 const chapters = composeJournal(core, director, player.id);
 
+/**
+ * The watched people first, then any other full person of the world, each in
+ * order. A drawn place may give the watched none with the relatives a test
+ * needs, so the test takes the next person who has them and has the director
+ * watch them (`watching`).
+ */
+const peopleToTry = (): string[] => [
+  ...[...director.ledger.people.keys()].sort(),
+  ...[...core.people.values()]
+    .filter((row) => row.alive && row.tier !== "husk")
+    .map((row) => row.id as string)
+    .filter((id) => !director.ledger.people.has(id as PersonId))
+    .sort(),
+];
+const watching = (id: string) => {
+  if (!director.ledger.people.has(id as PersonId))
+    director.watch(core, id as PersonId);
+  return id;
+};
+
 /** Every record id a journal line may cite. */
 function resolves(state: CoreState, id: string): boolean {
   const person = state.people.get(player.id)!;
@@ -307,20 +327,23 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       row.lines.map((line) => line.text),
     );
     // A death in the family is a hard time; running begins with deciding to.
+    // A line may open on the time since the one before it ("One month on,").
     // The relative is named by relation, or by their given name when another
     // relative already holds the relation (two sons are not both "my son").
     const relative = core.people.get(relativeId)!;
     expect(
       text.some((line) =>
         new RegExp(
-          `^(My \\w+|${relative.givenName}) (died|passed away)\\.`,
+          `^(?:[^.]*, )?(?:[Mm]y \\w+|${relative.givenName}) (died|passed away)\\.`,
         ).test(line),
       ),
       text.join(" | "),
     ).toBe(true);
     expect(
       text.some((line) =>
-        /^(So )?I filed to run for City Council, Seat 2[.,]/.test(line),
+        /^(?:[^.]*, )?(?:[Ss]o )?[Ii] filed to run for City Council, Seat 2[.,]/.test(
+          line,
+        ),
       ),
     ).toBe(true);
   });
@@ -577,15 +600,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       const other = core.people.get(id);
       return !!other?.alive && other.tier !== "husk";
     };
-    const watcherId = [...director.ledger.people.keys()]
-      .sort()
-      .find(
-        (id) =>
-          inTown(id) &&
-          [...core.people.get(id)!.familyIds].some(
-            (other) => other !== id && inTown(other),
-          ),
-      )!;
+    const watcherId = peopleToTry().find(
+      (id) =>
+        inTown(id) &&
+        [...core.people.get(id)!.familyIds].some(
+          (other) => other !== id && inTown(other),
+        ),
+    )!;
+    watching(watcherId);
     const watcher = core.people.get(watcherId)!;
     const relativeId = [...watcher.familyIds].find(
       (id) => id !== watcherId && inTown(id),
@@ -633,19 +655,18 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       const other = core.people.get(id);
       return !!other?.alive && other.tier !== "husk";
     };
-    const moverId = [...director.ledger.people.keys()]
-      .sort()
-      .find(
-        (id) =>
-          inTown(id) &&
-          (core.households.get(core.people.get(id)!.householdId)?.memberIds
-            .length ?? 0) > 1 &&
-          [...core.people.get(id)!.familyIds].some(
-            (other) =>
-              core.people.get(other)?.householdId ===
-                core.people.get(id)!.householdId && inTown(other),
-          ),
-      )!;
+    const moverId = peopleToTry().find(
+      (id) =>
+        inTown(id) &&
+        (core.households.get(core.people.get(id)!.householdId)?.memberIds
+          .length ?? 0) > 1 &&
+        [...core.people.get(id)!.familyIds].some(
+          (other) =>
+            core.people.get(other)?.householdId ===
+              core.people.get(id)!.householdId && inTown(other),
+        ),
+    )!;
+    watching(moverId);
     const mover = core.people.get(moverId)!;
     const withIds = [
       moverId,
@@ -757,9 +778,16 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
             (row) => row.kind === "coworker",
           ),
         );
+    // The player and the watched first; a drawn place where none of them has a
+    // coworker on record falls back to any full person of the world, whom the
+    // director then watches (the world draws who the player knows).
     const holderId = [
       player.id,
       ...[...director.ledger.people.keys()].sort(),
+      ...[...core.people.values()]
+        .filter((row) => row.alive && row.tier !== "husk")
+        .map((row) => row.id)
+        .sort(),
     ].find(
       (id) =>
         mateOf(id) &&
@@ -767,7 +795,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
           (fact) => fact.kind === "work:opening",
         ),
     )!;
-    expect(holderId, "nobody watched knows a coworker").toBeDefined();
+    expect(holderId, "nobody in the world knows a coworker").toBeDefined();
     const person = core.people.get(holderId)!;
     const mateId = mateOf(holderId)!;
     const employerId = core.jobs.get(person.jobId!)!.organizationId;
@@ -789,6 +817,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       hindsightAt: makeIsoDate(setting.date),
       echoes: [],
     };
+    if (!director.ledger.people.has(holderId)) director.watch(core, holderId);
     const book = director.ledger.people.get(holderId)!;
     const fixture = {
       ...director,
