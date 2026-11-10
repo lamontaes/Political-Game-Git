@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The golden-path-year job's M0-13 assertion 'counted voters vote in local races' (tests/golden-path/played-world.node-test.ts) fails in Corral Viejo, Puerto Rico (place key 7220998, seed 1535847a3bc4628b67822b11fbd7cef189e4ea931e8e1a6ce9da641882a2bb7c). On clean main bd8947e723, 6 of 6 municipal legislator races decided in the played year had no votes from the counted population, although the town has 15 counted adults and each has a counted ballot record. It turned lamontaes/Political-Game-Git#6033 red twice, since the place follows the head commit. The Randall, Kansas fix (gov-played-world-counted-voters-red) and the township-board fix (gov-played-world-counted-voters-township-board) do not reach it. Find why a town this small casts no counted vote (no choice offered, a weight that rounds to zero, or turnout below one voter) and fix it at the root, or, if a handful of counted adults casting no vote is a fair outcome, have the check judge only a counted electorate large enough to expect votes, naming the numbers.

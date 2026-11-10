@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
+checked: fable 2026-11-10
 ---
 
 **What.** A government that makes transit free gives up its fares, and in the game it ends richer. Measured in the Nov 9 law sweep in Marion, Mississippi (seed 7df73e53cd67): making transit free left governments $8.25 million higher against a twin world with no bill, with the public broadband rider's amounts taken out by the audit because the bill left the body with that rider. The audit lists this among results that point the wrong way and did not trace it to a payer or to code; it does not name the body or restate the days, only that the Mississippi House's bills ran 180 days. Find which payment carries the $8.25 million, by its own label, and fix it at the cause for every government that runs transit: riders stop paying fares, the transit operator loses that revenue, and the government that passed the law pays the operator the lost farebox from its own treasury.

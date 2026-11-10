@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** In a played year of Euharlee, Georgia (seed life-2), Nicholas Phillips shared the same cause with the same neighbor, the mayor, every day from May 5 to May 11, 2025. The drives engine is built to tell each person once: its drive-confidant offer skips anyone already in the drive's told set and the share effect adds the target to that set. So either the told set is not kept across days, a second drive on the same topic offers the same person again, or another path produces the repeat. A worker must reproduce the week before changing anything.

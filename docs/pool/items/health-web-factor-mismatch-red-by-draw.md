@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The health-web test is red on main by draw. src/core2/health-web.test.ts ('moves full people's hazards and counted deaths by age and income') failed on clean main (1f6096efa1, Oct 29 01:50 UTC) with HEALTH_WEB_SEED=e278a4ff7b6b5d53, Bayside, Wisconsin: 'expected 0.9091826820185239 to be close to 0.9088579189485213'. A full person's booked death factor differs from the factor the test computes from the shifted web month by 0.000325. Other seeds pass. Found by the laws session while gating the mortality family.
