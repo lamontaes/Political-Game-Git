@@ -82,10 +82,13 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
-  // The Politics sheet, where the Bills tab is.
-  await page.locator('#rings [data-tab="politics"]');
   // Dev mode on, from Options, so the bill's page carries its dev card.
   await devModeOn(page);
+  // The Politics sheet, where the Bills tab is.
+  await page
+    .locator('#rings [data-tab="politics"]')
+    .first()
+    .evaluate((e) => e.click());
   // A state bill that changes an amount, passed through the game's own votes with the chair cast to
   // hear it and the governor to sign. A bill a trade added a section to is not a clean test: try the
   // next law until one becomes law with no section added.
