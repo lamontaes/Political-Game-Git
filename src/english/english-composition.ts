@@ -464,21 +464,22 @@ export function composeJoinedLine(
     SOFTENED_ACTS.includes(named)
       ? "tell"
       : named;
-  const parts = Object.fromEntries(
-    Object.entries(byPart).map(([part, variants]) => [
-      part,
-      {
-        ...(required.has(part as LinePart) ? { required: true } : {}),
-        variants,
-      },
-    ]),
-  ) as ComposedLineBank["parts"];
+  // Every part that has pieces, the core among them (checked above).
+  const parts: Partial<Record<LinePart, LinePartBank>> = {};
+  for (const [part, variants] of Object.entries(byPart) as [
+    LinePart,
+    LinePartVariant[],
+  ][])
+    parts[part] = {
+      ...(required.has(part) ? { required: true } : {}),
+      variants,
+    };
   const result = composeGroundedLine(packet, {
     key: sentence.key,
     version: sentence.version,
     surface: packet.surface,
     act,
-    parts,
+    parts: { ...parts, core: parts.core! },
   });
   return result.kind === "rendered" ? result : null;
 }
