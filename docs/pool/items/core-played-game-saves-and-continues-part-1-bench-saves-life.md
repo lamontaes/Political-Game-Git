@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: none
 source: split from core-played-game-saves-and-continues in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T03:13:14.424Z
 branch: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
 **Files.** src/bench/handler.ts, src/core2/saves.ts, src/core2/snapshot.ts, src/core2/saves.test.ts
 
 **Notes.** Released (2026-11-11): Cause differs from code (Nov 11, opus-1fd7): saveGame can only save a bench life through a snapshot, and 62 of a bench world's 81 modules are not declared covered (uncoveredModules, src/core2/snapshot.ts line 67; measured in Neptune Beach, Florida, seed snap1). The bench's actions do not go through runCommand, so the command replay cannot save it either, and the bench builds its world with benchWorldStages (src/bench/world.ts line 357), not newGame, so loadGame cannot rebuild it. The snapshot is 150 MB of JSON and takes 2 s. Needs a cause-and-split: audit each engine for state outside its tables and declare it covered (declareSnapshotCovered), then a load path that rebuilds through benchWorldStages. Continue on branch claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:12 UTC) on branch claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life.
