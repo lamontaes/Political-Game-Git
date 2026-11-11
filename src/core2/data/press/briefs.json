@@ -12,7 +12,8 @@
     "housing.purchase",
     "person.milestone-birthday",
     "organization.anniversary",
-    "person.retired"
+    "person.retired",
+    "person.moved-away"
   ],
   "townWide": ["crime.month", "school.graduation", "school.tests"],
   "milestones": {
