@@ -1154,7 +1154,12 @@ describe("hellos and goodbyes are composed from the records", () => {
         const employer = talk.topicFacts?.employer?.text;
         if (employer) {
           aboutWork += 1;
-          expect(bye.text, `${otherId}: ${bye.text}`).toContain(employer);
+          // One screen names a thing once: a goodbye names the employer
+          // only when no line before it in the talk did; else the player.
+          const before = talk.lines.filter((line) => line !== bye);
+          if (before.some((line) => line.text.includes(employer)))
+            expect(bye.text, `${otherId}: ${bye.text}`).not.toContain(employer);
+          else expect(bye.text, `${otherId}: ${bye.text}`).toContain(employer);
         }
       }
     }

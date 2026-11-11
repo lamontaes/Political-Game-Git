@@ -3485,7 +3485,21 @@ function partingLine(
 ): ReturnType<typeof words> {
   const facts: Facts = {};
   const topic = conversation.topicFacts ?? {};
-  const key = GREET_AND_PART.aboutFacts.find((fact) => topic[fact]?.text);
+  const found = GREET_AND_PART.aboutFacts.find((fact) => topic[fact]?.text);
+  // One screen names a thing once: a topic the talk already named is not
+  // named again; the goodbye names the player instead.
+  const named =
+    found !== undefined &&
+    conversation.lines.some((line) => line.text.includes(topic[found]!.text));
+  const key = named ? undefined : found;
+  const player = core.people.get(conversation.playerId);
+  if (named && player?.givenName) {
+    facts["about-again"] = topic[found!]!;
+    facts["player-first"] = {
+      text: player.givenName,
+      sourceRecordIds: [player.id],
+    };
+  }
   if (key) {
     const ids = topic[key]!.sourceRecordIds;
     facts["about-said"] = topic[key]!;
@@ -3502,7 +3516,7 @@ function partingLine(
       facts[`about-${key}-${whose}`] = { text: "yes", sourceRecordIds: ids };
   }
   // Someone of the player's they know, when the talk named nothing else.
-  if (family && !key) facts.name = family;
+  if (family && !found) facts.name = family;
   if (housemate)
     for (const mark of dayParts(
       conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
