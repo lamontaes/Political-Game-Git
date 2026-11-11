@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,4 +36,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/modules/housing.ts, src/core2/housing-construction.ts, scripts/law-wiring/check.ts
 
-**Notes.** Laws lead, Oct 26, from the rights-env helper's regrade. Part of `laws-nine-links-rights-env`.
+**Notes.** Laws lead, Oct 26, from the rights-env helper's regrade. Part of `laws-nine-links-rights-env`. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it would change which dollars the matrix credits to one farmland law's builder cost; the law already reaches the builder and no screen shows that cost.

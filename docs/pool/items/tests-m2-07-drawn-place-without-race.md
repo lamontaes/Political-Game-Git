@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: merged
+status: done
 standard: 2
 claimed-by: claude/fable-b4-election-tests-wait
 pr: #8218
@@ -19,6 +19,8 @@ effort: medium
 root: rc9-place-facts-one-default
 checked: fable 2026-11-10
 merged-at: 2026-11-10T20:42:12.830Z
+seen-by: second-session-2
+seen-at: 2026-11-11T00:43:26.185Z
 ---
 
 **What.** Two tests fail on main by draw, and neither failure is the game's. src/bench/election-day.test.ts fails with "No draw reached election day: no race the player could enter" in every one of its eight drawn places (GOLDEN_PATH_SEED=dcba28c7e37e52d9 on Nov 10, and GOLDEN_PATH_SEED=e253fc7f73075455 on Nov 4). src/core2/voting.test.ts (roadmap spec M2-07) fails with "no open local or state race" (Ivan, Arkansas, place key 0534540, seed 8204cf02c98b04d40207d6a46ee6d70f291c3712872130e95c5e24b207debf76; Waikoloa Village, Hawaii, place key 1576600, seed 67c6696d488be63625780c83a2553abb64a3aaf1df2ea0e0a9ccbb0136e6adcc, after nine places). Since Nov 4 every race opens its filing on a real day (pull request #7168), so on a day early in 2025 most places have no race open yet. The player can still run: the race opens later and the game offers it then.
@@ -40,3 +42,5 @@ merged-at: 2026-11-10T20:42:12.830Z
 **Notes.** Found Oct 26 by the traits lead while diagnosing #5979's golden-path red.
 
 Nov 8, merge desk: it fails again on main at 757242caa6. Waikoloa Village, Hawaii (place key 1576600, seed 67c6696d488be63625780c83a2553abb64a3aaf1df2ea0e0a9ccbb0136e6adcc): no open local or state race in any of the nine places tried (1576600, 2539152, 1150000, 3731360, 0937770, 2880160, 4001400, 4454460, 1150000); 1150000 is tried twice. It is the same on #7455's head, so it is not that PR's. Reopened.
+
+Seen in the game (2026-11-11, second-session-2): drawn seeds; named seeds dcba28c7e37e52d9, e253fc7f73075455, Waikoloa Village HI, seed fresh 0cb6ae68a2cd election-day; fresh 5d0f9bb8681b and 373179596575 voting, main c330c7fe: election-day.test.ts passed on both named seeds and a fresh one; voting.test.ts passed on the Waikoloa seed and two fresh seeds, one test each
