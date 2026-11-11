@@ -169,13 +169,13 @@ try {
     .first()
     .click();
   // The debate: a tab for each position on each question, one chosen at a time.
-  const bars = page.locator("#sheet-body nav.tabs");
+  const bars = page.locator("#sheet-body nav.tab-rail");
   // The card draws once the tile's page has loaded.
   await bars.first().waitFor();
   assert.equal(await bars.count(), 2, "two questions, two position bars");
   assert.equal(
     await page
-      .locator("#sheet-body nav.tabs ~ select, #sheet-body select")
+      .locator("#sheet-body nav.tab-rail ~ select, #sheet-body select")
       .count(),
     0,
     "no select in the debate",
@@ -228,6 +228,7 @@ try {
   console.log("PASS debate and speech panels from the shared parts");
 } catch (error) {
   console.log("PAGE ERRORS", errors);
+  await page.screenshot({ path: `${shots}/stopped.png` }).catch(() => {});
   throw error;
 } finally {
   await browser.close();
