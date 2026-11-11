@@ -339,7 +339,7 @@
     "id": "SG-PLAY-campaign-ask-on-screen",
     "kind": "partial-model",
     "file": "src/bench/play.mjs",
-    "line": 4407,
+    "line": 4414,
     "whatItFakes": "A candidate's ask for money reaches the player as a request on the Campaigns screen (the candidate, the race, the sum they would give by their own reasons and the cash they hold, with Give, an amount and Decline), not as a conversation or letter the director stages.",
     "why": "play-campaign-ask-reaches-player asks for the request in a conversation or a letter; the director's letter is a relative's (letter-facts.ts) and a talk whose replies move money needs a situation type and bank lines the words session writes.",
     "addedBy": "play-campaign-ask-reaches-player",
