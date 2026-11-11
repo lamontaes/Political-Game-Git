@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-laws-medical-bills-year-cost
-pr: #8710
+pr: #8719
 after:
 blocked-on:
 model: sonnet
