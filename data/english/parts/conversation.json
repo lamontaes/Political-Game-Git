@@ -28995,7 +28995,8 @@
           "move": "greet-core",
           "subject": "greet",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "requiresFacts": ["when-month"]
         }
       ],
       "origin": "authored",
@@ -29017,7 +29018,8 @@
           "move": "greet-core",
           "subject": "greet",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "requiresFacts": ["when-long"]
         }
       ],
       "origin": "authored",
@@ -29039,7 +29041,8 @@
           "move": "greet-core",
           "subject": "greet",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "requiresFacts": ["when-long"]
         }
       ],
       "origin": "authored",
@@ -29061,7 +29064,8 @@
           "move": "greet-core",
           "subject": "greet",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "requiresFacts": ["when-long"]
         }
       ],
       "origin": "authored",
@@ -29130,7 +29134,7 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-since"]
+          "requiresFacts": ["when-month", "when-since"]
         }
       ],
       "origin": "authored",
@@ -29153,7 +29157,7 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-since"]
+          "requiresFacts": ["when-long", "when-since"]
         }
       ],
       "origin": "authored",
@@ -29176,7 +29180,7 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-while"]
+          "requiresFacts": ["when-long"]
         }
       ],
       "origin": "authored",
@@ -29917,7 +29921,8 @@
           "move": "greet-core",
           "subject": "greet",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "requiresFacts": ["when-month"]
         }
       ],
       "origin": "authored",
@@ -29940,7 +29945,7 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-since"]
+          "requiresFacts": ["when-long", "when-since"]
         }
       ],
       "origin": "authored",
@@ -29962,7 +29967,8 @@
           "move": "greet-core",
           "subject": "greet",
           "role": "core",
-          "stages": ["default"]
+          "stages": ["default"],
+          "requiresFacts": ["when-month"]
         }
       ],
       "origin": "authored",
@@ -30008,7 +30014,7 @@
           "subject": "greet",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["when-while"]
+          "requiresFacts": ["when-long"]
         }
       ],
       "origin": "authored",
@@ -30032,6 +30038,190 @@
           "role": "core",
           "stages": ["default"],
           "requiresFacts": ["when-long"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.back-again-i-saw-you-just-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Back again? I saw you just {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-recent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.twice-in-two-days-i-saw-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Twice in two days. I saw you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-recent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-back-again-i-saw-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, back again? I saw you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-recent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.you-again-i-saw-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "You again. I saw you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-recent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.we-haven-t-crossed-paths-since-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "We haven't crossed paths since {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-month", "when-since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.last-time-was-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Last time was {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-month"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-i-haven-t-seen-you-since-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, I haven't seen you since {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-month", "when-since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-last-time-was-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, last time was {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-month"]
         }
       ],
       "origin": "authored",
