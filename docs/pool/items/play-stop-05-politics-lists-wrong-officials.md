@@ -5,11 +5,11 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
 pr: #8261
 after:
-blocked-on:
+blocked-on: parties-list-shows-ballot-lines-as-parties
 standard: 2
 model: sonnet
 effort: low
