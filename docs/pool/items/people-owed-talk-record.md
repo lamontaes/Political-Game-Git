@@ -5,8 +5,8 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-people-owed-talk-record
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: design-life-record
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:21:39.561Z
+branch: claude/pool-people-owed-talk-record
 ---
 
 **What.** Today a reply such as "Give me tonight. Sunday we sit down with the bills." is stored as a scene reply with its line and move, and nothing records that a talk is owed, to whom, about what or for which day. The closing lines "We'll talk more later." and "I'll see you later." write nothing either. This item adds the record, written by the relationships writer when a reply defers a matter to a day, with the person owed, the topic (money or evenings, from the stake record), the due day, and closed or moved when they next talk. Seen: a talk the player or a neighbor put off, coming due on the promised day.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/people.ts, src/director/purpose-scene.ts, docs/design/scenes/from-life/owed-talk-comes-due.md
 
 **Notes.** Needed by scene-owed-talk-comes-due (packet docs/design/scenes/from-life/owed-talk-comes-due.md). Filed by Scene researcher A, Oct 27; lead effects owns the relationships writer.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:21 UTC) on branch claude/pool-people-owed-talk-record.
