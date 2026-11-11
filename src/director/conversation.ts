@@ -2710,7 +2710,12 @@ function mainTopic(
   core: Readonly<CoreState>,
   conversation: Conversation,
   data: ConversationData,
-): { subject: Subject; asks: boolean } | null {
+): {
+  subject: Subject;
+  asks: boolean;
+  /** Where they stand, when another subject leads: said if the leading one cannot be. */
+  standing?: { subject: Subject; asks: boolean };
+} | null {
   const { playerId, otherId, director } = conversation;
   let best: { subject: Subject; asks: boolean; weight: number } | null = null;
   let standing: { subject: Subject; asks: boolean; weight: number } | null =
@@ -2757,7 +2762,9 @@ function mainTopic(
       consider(subject, true, playerId);
   for (const subject of subjectsBetween(core, otherId, playerId, director))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
-  return best ?? standing;
+  const lead = best as { subject: Subject; asks: boolean } | null;
+  const stand = standing as { subject: Subject; asks: boolean } | null;
+  return lead ? { ...lead, ...(stand ? { standing: stand } : {}) } : stand;
 }
 
 /**
@@ -2914,13 +2921,15 @@ export function openConversation(
     if (key.startsWith(talkedKeyPrefix(playerId)))
       conversation.used.push(fact.value);
   const main = raisedBrought ? null : mainTopic(core, conversation, data);
+  const open = (topic: { subject: Subject; asks: boolean }) =>
+    topic.asks
+      ? askSubject(core, conversation, data, topic.subject)
+      : raiseSubject(core, conversation, data, topic.subject);
+  // The leading subject first; when it cannot be said (no wording fits its
+  // facts), where they stand, if they would say it, rather than nothing.
   const opened =
     raisedBrought ||
-    (main
-      ? main.asks
-        ? askSubject(core, conversation, data, main.subject)
-        : raiseSubject(core, conversation, data, main.subject)
-      : false);
+    (main ? open(main) || (!!main.standing && open(main.standing)) : false);
   // A scene's talk keeps to its occasion: if nothing can be said about it,
   // the talk doesn't turn to small talk instead.
   if (

@@ -11,7 +11,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import type { PersonId } from "../../src/core2/types";
-import { openConversation } from "../../src/director/conversation";
+import { openConversation, say } from "../../src/director/conversation";
 import {
   strongestQuestion,
   viewTopicWeight,
@@ -51,8 +51,15 @@ for (const { person, weight } of ranked) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId)?.name : "-";
   const home = person.householdId === player.householdId ? "home" : "away";
-  const talk = openConversation(core, me, id, { director });
-  const line = talk.lines.find((row) => row.kind === "own-view");
+  let talk = openConversation(core, me, id, { director });
+  let line = talk.lines.find((row) => row.kind === "own-view");
+  // With --again, a second talk right after the first: the first topic is
+  // behind them, and the next one leads.
+  if (!line && process.argv.includes("--again") && talk.choices.length) {
+    say(core, talk, talk.choices[0]!.key);
+    talk = openConversation(core, me, id, { director });
+    line = talk.lines.find((row) => row.kind === "own-view");
+  }
   out(
     `${id} ${person.givenName} ${person.familyName} (${home}, ${org}) weight ${weight.toFixed(2)} top ${strongestQuestion(api, id)?.about ?? "-"}: ${line ? line.text : `[${talk.lines.map((l) => l.kind).join(",")}]`}`,
   );
