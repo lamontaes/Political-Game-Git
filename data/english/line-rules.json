@@ -663,7 +663,19 @@
         "Bob Johnson signs to play at a Division I school.",
         "Bob Johnson wins the Lexington Spelling Bee.",
         "You'd be a dishwasher at $13 an hour to start."
-      ]
+      ],
+      "applies": {
+        "banks": [
+          "scene-talk",
+          "conversation",
+          "scene-words",
+          "bring-it-up",
+          "choice-names",
+          "opening-speech",
+          "speech-stages",
+          "newscast"
+        ]
+      }
     },
     {
       "id": "scene-opens-with-when-where-who",
@@ -1037,7 +1049,7 @@
       "test": {
         "kind": "judged"
       },
-      "note": "Stays judged: whether a line explains its own subtext or tells the player what to feel is meaning, and the only phrases in the banks that come near it (\"what that means\") are also ordinary speech; its saved verdicts come with part 7."
+      "note": "Stays judged: whether a line explains its own subtext or tells the player what to feel is meaning, and the only phrases in the banks that come near it (\"what that means\") are also ordinary speech; its saved verdicts come with part 7. Keeps no `applies`: it covers every spoken and written line."
     },
     {
       "id": "no-quick-resolution",
@@ -1189,7 +1201,11 @@
       },
       "catches": ["I really need this one."],
       "spares": ["I wish I could, but I can't."],
-      "note": "Stays judged: whether \"I really need this one\" names its reason depends on the move and the record the line commits to, which no pattern on the line's words can read."
+      "note": "Stays judged: whether \"I really need this one\" names its reason depends on the move and the record the line commits to, which no pattern on the line's words can read.",
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "-(promise|refuse|threaten)$"
+      }
     },
     {
       "id": "stake-is-named",
@@ -1296,7 +1312,11 @@
         "I could lose my primary over this",
         "this is a two-way street"
       ],
-      "note": "Stays judged: a stake can be a figure, a favor or a name in any words, so no pattern separates \"We're close, but not there yet.\" from a line that names its stake."
+      "note": "Stays judged: a stake can be a figure, a favor or a name in any words, so no pattern separates \"We're close, but not there yet.\" from a line that names its stake.",
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "-(plea|bargain)$"
+      }
     },
     {
       "id": "reply-follows-the-line-before",
@@ -2090,7 +2110,8 @@
         "I'll sign it again tomorrow.",
         "Your son has been waiting for you to get home.",
         "Things are better than they were a year ago, and I intend to keep it going."
-      ]
+      ],
+      "note": "Keeps no `applies`: any line that speaks of a vote or an event can break it."
     },
     {
       "id": "fits-speaker-and-tie",
@@ -2357,7 +2378,10 @@
         "Not bad for a first run, right?",
         "Madam Speaker, members of Congress, my fellow Americans.",
         "Mr. Speaker, everybody in this room and everybody at home. Thank you very much."
-      ]
+      ],
+      "applies": {
+        "banks": ["scene-talk", "conversation", "scene-words", "bring-it-up"]
+      }
     },
     {
       "id": "pressure-sounds-like-politics",
@@ -2955,7 +2979,10 @@
         "Madam Speaker and everyone watching, thank you for having me.",
         "I'll keep this practical tonight. Here's what I want to get done."
       ],
-      "note": "Stays judged: whether a speech reads as speech, takes a stance and fits the speaker is meaning, and every figure-heavy catch he named uses ordinary words."
+      "note": "Stays judged: whether a speech reads as speech, takes a stance and fits the speaker is meaning, and every figure-heavy catch he named uses ordinary words.",
+      "applies": {
+        "banks": ["opening-speech", "speech-stages"]
+      }
     },
     {
       "id": "concrete-image-over-generic",
@@ -3033,7 +3060,7 @@
         "Before anything else, let's take a breath. A lot of families are living through the worst days of their lives.",
         "They taped it to the door on Thursday. I read it 9 times and I still don't know who I'm supposed to call."
       ],
-      "note": "Stays judged: a concrete image against a generic statement is taste, and his notes liked and rejected near-twins (\"Door by door\" kept, \"write that on your hand\" cut)."
+      "note": "Stays judged: a concrete image against a generic statement is taste, and his notes liked and rejected near-twins (\"Door by door\" kept, \"write that on your hand\" cut). Keeps no `applies`: it covers every spoken line."
     },
     {
       "id": "trade-not-bribe",
@@ -3053,6 +3080,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "-(offer|bargain|accept-terms)$"
       }
     },
     {
@@ -4040,6 +4071,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["journal"]
       }
     },
     {
@@ -4088,6 +4122,19 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": [
+          "conversation",
+          "scene-talk",
+          "bring-it-up",
+          "news",
+          "headlines",
+          "newscast",
+          "minutes",
+          "hearing",
+          "notice"
+        ]
       }
     },
     {
@@ -4124,6 +4171,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["news", "headlines"]
       }
     },
     {
@@ -4140,6 +4190,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["person-history"]
       }
     },
     {
@@ -4156,6 +4209,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^narrate-"
       }
     },
     {
@@ -4218,7 +4275,11 @@
       "test": {
         "kind": "judged"
       },
-      "note": "Stays judged: whether a reply's second sentence follows its first is meaning across two sentences, and the picker's reply-follows verdicts judge a line against the one before it, not within one reply."
+      "note": "Stays judged: whether a reply's second sentence follows its first is meaning across two sentences, and the picker's reply-follows verdicts judge a line against the one before it, not within one reply.",
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^reply-"
+      }
     },
     {
       "id": "many-variants-of-the-same-meaning",
@@ -4250,6 +4311,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["person-history", "person-sketch"]
       }
     },
     {
@@ -4271,6 +4335,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["journal"]
       }
     },
     {
@@ -4297,6 +4364,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["journal"]
       }
     },
     {
@@ -4323,6 +4393,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["bill-paper", "legislation", "minutes"]
       }
     },
     {
@@ -4345,7 +4418,18 @@
       "test": {
         "kind": "judged"
       },
-      "note": "Moved to judge a piece in context: the bank line holds only the slot {bill}, and whether it is filled with a real name or the catalog's name is known only from the record at play, so part 2 reads the filled line."
+      "note": "Moved to judge a piece in context: the bank line holds only the slot {bill}, and whether it is filled with a real name or the catalog's name is known only from the record at play, so part 2 reads the filled line.",
+      "applies": {
+        "banks": [
+          "bill-paper",
+          "legislation",
+          "minutes",
+          "news",
+          "headlines",
+          "newscast",
+          "bring-it-up"
+        ]
+      }
     },
     {
       "id": "business-names-sound-real",
@@ -4424,6 +4508,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk", "conversation"],
+        "moves": "(^|-)(open|greet)"
       }
     },
     {
@@ -4532,6 +4620,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "-(promise|offer)$"
       }
     },
     {
@@ -4548,7 +4640,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Keeps no `applies`: any line that names a person can break it."
     },
     {
       "id": "speech-craft-is-earned",
@@ -4570,7 +4663,10 @@
       "test": {
         "kind": "judged"
       },
-      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited."
+      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited.",
+      "applies": {
+        "banks": ["opening-speech", "speech-stages"]
+      }
     },
     {
       "id": "regional-speech-is-word-choice-only",
@@ -4610,6 +4706,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk", "conversation"]
       }
     },
     {
@@ -4626,6 +4725,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["bring-it-up"]
       }
     },
     {
@@ -4642,6 +4744,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "^narrate-"
       }
     },
     {
@@ -4658,6 +4764,10 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["journal"],
+        "moves": "^memoir"
       }
     },
     {
@@ -4675,7 +4785,7 @@
       "test": {
         "kind": "judged"
       },
-      "note": "Sept 7 style authority; the later rule concrete-image-over-generic asks for a concrete image where the voice allows, which this does not forbid. Stays judged: a metaphor or an epigram has no word list his notes name, and \"as if\" and \"like a\" are ordinary speech that a pattern would pull by mistake."
+      "note": "Sept 7 style authority; the later rule concrete-image-over-generic asks for a concrete image where the voice allows, which this does not forbid. Stays judged: a metaphor or an epigram has no word list his notes name, and \"as if\" and \"like a\" are ordinary speech that a pattern would pull by mistake. Keeps no `applies`: it covers every line the player reads or hears."
     },
     {
       "id": "news-comes-from-a-record",
@@ -4696,6 +4806,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["news", "headlines"]
       }
     },
     {
@@ -4754,6 +4867,9 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "applies": {
+        "banks": ["address", "opening-speech"]
       }
     },
     {
@@ -4779,7 +4895,11 @@
       "catches": [
         "I'm sorry. {winner} won the {office} race.",
         "You'll have to ask the chair."
-      ]
+      ],
+      "applies": {
+        "banks": ["scene-talk"],
+        "moves": "-(apologize|congratulate|deflect|stall|deliver-news|tell)$"
+      }
     }
   ]
 }
