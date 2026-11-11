@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-speed-world-races-election-month
 pr: #8677
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:17:55.925Z
 branch: claude/pool-core-speed-world-races-election-month
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-core-speed-world-races-election-month
 **Notes.** Filed Oct 25 by the speed lead from the Bedford month-by-month profile (main a351e12f45). The same place counted again for each race it votes in (House, Senate, governor, legislature) may be the first cut: a place's coarse count does not change between its races on one day.
 
 Released (2026-11-11): Re-measured in Bedford WY 9a4dd331ace7: decide is 3.6 s of an 18.6 s election month and campaigns 6.4 s, so counting each place once cannot bring the month within twice an ordinary one (PR 8677). Continue on branch claude/pool-core-speed-world-races-election-month and pull request #8677.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:17 UTC) on branch claude/pool-core-speed-world-races-election-month.
