@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-zero-dice-generation-rolls
-pr:
+pr: #8577
 after:
 blocked-on:
 lead: cto
