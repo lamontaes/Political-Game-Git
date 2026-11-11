@@ -23,7 +23,7 @@ branch: claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files
 
 **What.** The live tree still carries ended per-session status files, the BOARD, handoffs, work orders, M0 packages and old-engine reports. They mislead a session that reads them as current. This part moves each ended file to docs/archive/2026-10-23/ and deletes the original. The pointers to them are repaired in the next part.
 
-**Cause.** Found in code: `BOARD.md` (`docs/coordination/BOARD.md`), `docs/coordination/SESSION-A.md`, `docs/coordination/HANDOFF-2026-10-12.md` and `docs/coordination/OPUS-CORE.md` are ended per-session status files still in the live tree.
+**Cause.** Found in code: `BOARD.md` (`docs/archive/2026-10-23/coordination/BOARD.md`), `docs/archive/2026-10-23/coordination/SESSION-A.md`, `docs/archive/2026-10-23/coordination/HANDOFF-2026-10-12.md` and `docs/archive/2026-10-23/coordination/OPUS-CORE.md` are ended per-session status files still in the live tree.
 
 **Fix.** List the ended per-session status files, the BOARD, the two handoffs, the work orders under docs/work-orders that are done, the M0 packages and the old-engine reports in docs/coordination, docs/packages and docs/reports. Move each to docs/archive/2026-10-23/ with its original deleted in the same commit. Do not touch OWNER-DECISIONS.md, CREW.md, LEADS-2026-10-24.md, MERGE-FIRST.md or DECISION-REGISTER.md.
 

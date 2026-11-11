@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-nov8-news-lead-has-no-picture-of-its-story
-pr:
+pr: #8539
 after:
 blocked-on:
 standard: 2
