@@ -14,7 +14,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { buildMonth } from "./housing-construction";
 import { reviewHomeless } from "./housing-homeless";
-import { renewRentalLeases } from "./housing-occupancy";
+import { renewRentalLeases, tenants } from "./housing-occupancy";
 import { webFactorFor } from "./outcome-web-reach";
 import { townFigures } from "./modules/housing";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
@@ -33,8 +33,18 @@ const workingHousehold = (core: CoreState, town: string) =>
         return job !== undefined && job.endsAt === undefined;
       }),
   );
-const first = worldWith(seed, "web-housing", (world) =>
-  Boolean(workingHousehold(world.core, world.placeId)),
+// The draw needs both tiers of renter (the check reads every lease, full and
+// counted) as well as a working household: a place without a counted renter
+// is passed over, not failed.
+const first = worldWith(
+  seed,
+  "web-housing",
+  (world) =>
+    Boolean(workingHousehold(world.core, world.placeId)) &&
+    tenants(coreAPI(world.core as CoreState)).some(
+      (tenant) => tenant.tier === "counted",
+    ),
+  24,
 );
 const place = first.place;
 
@@ -44,6 +54,7 @@ interface Run {
   carryMulti: number;
   exited: boolean;
   homelessFactor: number;
+  townLeases: Set<string>;
   homelessFactorRecord: string | null;
 }
 
@@ -94,6 +105,8 @@ function play(
       ...row,
       renewedAt: `${Number(row.renewedAt.slice(0, 4)) - 1}${row.renewedAt.slice(4)}`,
     } as never);
+  // Where each lease's household lives: the shift moves the town's web only.
+  const placeOf = new Map(tenants(api).map((t) => [t.leaseId, t.placeId]));
   renewRentalLeases(api);
   const rents = new Map<
     string,
@@ -179,6 +192,9 @@ function play(
     carryMulti,
     exited,
     homelessFactor,
+    townLeases: new Set(
+      [...placeOf].filter(([, place]) => place === town).map(([id]) => id),
+    ),
     homelessFactorRecord: latest.id,
   };
 }
@@ -187,17 +203,26 @@ describe(`housing follows the outcome web (${place.name}, seed ${seed})`, () => 
   it("renewed rents, apartment starts and a homeless household's way back move with the web's factors", () => {
     const base = play(false, first.world);
     const moved = play(true, undefined, base.homelessFactor);
-    // Rents: every lease, full and counted, renews 5 percent higher in the shifted run.
-    expect(moved.rents.size).toBeGreaterThan(0);
-    expect(new Set([...moved.rents.values()].map((r) => r.tier))).toContain(
-      "counted",
-    );
+    // Rents: every lease of the town, full and counted, renews 5 percent
+    // higher in the shifted run. The county's households outside the town sit
+    // on webs the shift did not touch, and renew on a steady factor.
     const ratios: number[] = [];
+    const tiers = new Set<string>();
     for (const [id, row] of moved.rents) {
-      expect(row.change, id).toBeCloseTo(1.05, 9);
       expect(base.rents.get(id)!.change, id).toBe(1);
+      if (!moved.townLeases.has(id)) {
+        expect(row.change, `${place.name}, seed ${seed}: ${id}`).toBe(1);
+        continue;
+      }
+      expect(row.change, `${place.name}, seed ${seed}: ${id}`).toBeCloseTo(
+        1.05,
+        9,
+      );
+      tiers.add(row.tier);
       ratios.push(row.rent / base.rents.get(id)!.rent);
     }
+    expect(ratios.length, `${place.name}, seed ${seed}`).toBeGreaterThan(0);
+    expect(tiers, `${place.name}, seed ${seed}`).toContain("counted");
     expect(Math.min(...ratios)).toBeGreaterThan(1.045);
     expect(Math.max(...ratios)).toBeLessThan(1.055);
     // Apartment starts: by-right doubles them and rent control takes 15 percent off.
