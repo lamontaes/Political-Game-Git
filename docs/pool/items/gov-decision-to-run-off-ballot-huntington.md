@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/pool-gov-decision-to-run-off-ballot-huntington
-pr:
+pr: #8552
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T04:06:25.798Z
