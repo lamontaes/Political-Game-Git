@@ -227,7 +227,11 @@ try {
   for (let turn = 0; turn < 10 && !filedSeen; turn += 1) {
     const choices = page.locator("#talk-choices button");
     const labels = await choices.allInnerTexts();
-    const fileAt = labels.findIndex((l) => /^File\b|papers/i.test(l.trim()));
+    // The clerk words the commit choice from a bank (File, take the papers, Where do I sign...): the
+    // choice that is not a way out is the filing.
+    const fileAt = labels.findIndex(
+      (l) => !/\b(?:not now|think|leave|walk|never mind|later|see)\b/i.test(l),
+    );
     if (fileAt >= 0) await choices.nth(fileAt).click();
     else if (await page.locator("#talk-next").isVisible())
       await page.locator("#talk-next").click();
