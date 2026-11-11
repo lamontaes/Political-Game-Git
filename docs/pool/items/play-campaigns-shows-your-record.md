@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-play-campaigns-shows-your-record
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:52:46.666Z
+claimed-at:
 branch: claude/pool-play-campaigns-shows-your-record
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-play-campaigns-shows-your-record
 **Notes.** TODO
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:52 UTC) on branch claude/pool-play-campaigns-shows-your-record.
+
+Released (2026-11-11): Needs a new record view (src/core2/campaign-views.ts has none; no reader of the player's roll calls, sponsored bills and promises for a screen) plus English-engine lines for each row, which are Story's under data/english/parts; not buildable by a builder alone in one pass. Continue on branch claude/pool-play-campaigns-shows-your-record.
