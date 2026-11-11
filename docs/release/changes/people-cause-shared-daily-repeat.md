@@ -3,4 +3,4 @@ id: people-cause-shared-daily-repeat
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A person who holds a cause now tells each neighbor about it once, instead of repeating the same telling every day of a week.

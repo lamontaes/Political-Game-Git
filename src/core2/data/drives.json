@@ -559,6 +559,9 @@
       "prerequisites": [
         {
           "operation": "has-drive"
+        },
+        {
+          "operation": "drive-target-untold"
         }
       ],
       "stopgapId": "SG-P10-drive-acts",

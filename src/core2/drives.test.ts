@@ -1,4 +1,8 @@
+import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
@@ -464,6 +468,34 @@ describe("P10 drives and causes", () => {
     for (const act of shares.slice(p("one")))
       expect(act.reasons!.module!).toBeLessThan(p("zero"));
   });
+
+  it("a drive tells each person once in played worlds, even when a planned day repeats the offer", () => {
+    const seed = randomBytes(8).toString("hex");
+    const draw = drawPlace(seed, "drive-tells-once");
+    const worlds = [
+      { seed: "life-2", key: "1327988", name: "Euharlee, Georgia" },
+      { seed: draw.seed, key: draw.key, name: draw.name },
+    ];
+    for (const w of worlds) {
+      const world = buildBenchWorld(w.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: w.key,
+      });
+      advanceCore(world.core, "2025-05-01");
+      const told = new Map<string, number>();
+      for (const drive of drivesReport(world.core).drives)
+        for (const act of drive.acts)
+          if (act.actionId === "share-cause" && act.targetId) {
+            const key = `${drive.id}->${act.targetId}`;
+            told.set(key, (told.get(key) ?? p("zero")) + p("one"));
+          }
+      const where = `${w.name} (${w.key}), seed ${w.seed}`;
+      expect(
+        [...told].filter(([, count]) => count > p("one")),
+        where,
+      ).toEqual([]);
+    }
+  }, 600000);
 
   it("a donation moves the donor's money to the group through the cash journal", () => {
     const core = bereavedCore();
