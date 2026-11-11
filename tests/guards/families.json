@@ -285,7 +285,8 @@
         "src/core2/husk-promoters.ts",
         "src/core2/closeness.ts",
         "src/core2/trait-decisions.ts",
-        "src/core2/modules/moves.ts"
+        "src/core2/modules/moves.ts",
+        "src/core2/person-work.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",

@@ -19,7 +19,7 @@ function grouped(entries) {
 }
 
 /**
- * `entries`: [{ group, title, picture, onOpen?, load?, go? }]. An entry with `onOpen`
+ * `entries`: [{ group, title, picture, onOpen?, load?, go?, home? }]. An entry with `onOpen`
  * opens its own screen when chosen; otherwise `load()` gives { open, who, does } for the
  * detail side (`who` a node or null, `does` an array of texts) and `go` = { label, onClick }.
  * `labels`: { whoIsThere, whatICanDo }.
@@ -28,7 +28,10 @@ export function travelScreen({ entries, labels }) {
   const tiles = el("div", { className: "travel-tiles" });
   const detail = el("div", { className: "travel-detail strip-screen strips" });
   const groups = grouped(entries);
-  let selected = entries.find((e) => !e.onOpen);
+  // The way home is listed first while you are out, and the first place is
+  // still the one chosen: Travel opens on somewhere to go.
+  let selected =
+    entries.find((e) => !e.onOpen && !e.home) ?? entries.find((e) => !e.onOpen);
   let request = 0;
   const choose = (entry) => {
     if (entry.onOpen) return entry.onOpen();

@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: in-pr
 standard: 2
-claimed-by: claude/words-opening-address-versions
-pr:
+claimed-by: claude (Words builder W2 for Fable B)
+pr: 8743
 after:
 blocked-on:
 lead: words
@@ -60,5 +60,7 @@ Released (2026-11-11): The Fix is lines under data/english/parts, which this bui
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:37 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
 
 Released (2026-11-11): The Fix is lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8717). Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Built (2026-11-11) by the Words builder W2 for Fable B on branch claude/words-opening-address-versions: every move of the President's address is an opener and a core with a slot from the world; ten drawn worlds share no sentence among three addresses (src/director/opening-address-versions.test.ts); before and after in docs/seen/opening-address/.
 
 Assigned by name (2026-11-11 07:10 UTC): the lead holds the words work (CTO, Nov 11, on the owner's ruling that every line goes through the English engine) and assigned this item to the Words builder W2 on branch claude/words-opening-address-versions, started 06:20 UTC. `next` should not hand it to a pool builder. Who writes the lines: the Words builder drafts the pieces under `data/english/parts` in its own pull request with `Review: words`; a pool builder still writes nothing there. The lead told the CTO this at 06:10 UTC on the crew's issue.
