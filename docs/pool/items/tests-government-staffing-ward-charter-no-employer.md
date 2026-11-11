@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-government-staffing-ward-charter-no-employer
-pr:
+pr: #8790
 blocked-on:
 source: added with npm run pool -- add
 after:
