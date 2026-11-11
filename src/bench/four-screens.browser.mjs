@@ -151,7 +151,7 @@ try {
     }
     if (days > 0) {
       const ran = await page.request.post(`${base}/api/dev/run-until`, {
-        data: { days },
+        data: { days, cap: days },
         timeout: 1800000,
       });
       assert.equal(ran.status(), 200, await ran.text());
@@ -182,17 +182,16 @@ try {
           { method: "POST" },
         );
         const body = await r.json().catch(() => ({}));
-        if (
-          r.ok &&
-          ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-        )
-          return contest.id;
+        // On the ballot at once: a race filed by petition reaches the ballot
+        // (and its debate) only with signatures, which this check does not gather.
+        if (r.ok && body.filing?.status === "on-ballot")
+          return { id: contest.id, electionDate: contest.electionDate };
       }
       return null;
     }, view.contests ?? []);
     if (!filed) {
       passedOver.push(
-        `${place} (seed ${campaignSeed}): ${view.contests?.length ?? 0} races open on ${next.filingOpens}, none would take the filing`,
+        `${place} (seed ${campaignSeed}): ${view.contests?.length ?? 0} races open on ${next.filingOpens}, none would put the player on the ballot`,
       );
       console.log("Passed over:", passedOver.at(-1));
     }
@@ -201,7 +200,35 @@ try {
     filed,
     `the player could file for nothing in three draws: ${passedOver.join("; ")}`,
   );
-  console.log("Filed:", filed);
+  console.log("Filed:", filed.id, "election", filed.electionDate);
+  // A race's debate is set about two weeks before its general election
+  // (meetings' debate week): the world runs to ten days before it.
+  const today = (await (await page.request.get(`${base}/api/title`)).json())
+    .life.date;
+  const toDebate =
+    Math.round(
+      (Date.parse(filed.electionDate) - Date.parse(today)) / 86400000,
+    ) - 10;
+  if (toDebate > 0) {
+    const ran = await page.request.post(`${base}/api/dev/run-until`, {
+      data: { days: toDebate, cap: toDebate },
+      timeout: 1800000,
+    });
+    assert.equal(ran.status(), 200, await ran.text());
+    await page.reload();
+    await page
+      .locator("#front-continue")
+      .click()
+      .catch(() => {});
+    await page.waitForFunction(() =>
+      document.getElementById("card-name").textContent.trim(),
+    );
+    await finishTalk(page);
+  }
+  console.log(
+    "Debate season:",
+    (await page.locator("#card-clock").innerText()).replace(/\s+/g, " "),
+  );
   await openCampaignTrail(page);
 
   // The debate: a tab for each position on each question, one chosen at a time.
