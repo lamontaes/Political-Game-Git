@@ -188,12 +188,21 @@ function playTo(draw: number) {
       filings.length > 1 && sides.includes(1) && sides.includes(-1);
     if (!contested) continue;
     partisan += 1;
-    // Both major-party candidates get real votes.
-    for (const f of filings)
+    // Both major-party candidates get real votes. A candidate of no party
+    // stands on the labelled ballot without a side, and a voter goes whole to
+    // the first in their own appeal (countedShareRule): one with no votes is
+    // one no kept ballot put first, read from the ballots themselves.
+    for (const f of filings) {
+      const got = result.totals[f.personId] ?? 0;
+      if (f.party || got > 0) {
+        expect(got, `${contest.title} ${f.party}`).toBeGreaterThan(0);
+        continue;
+      }
       expect(
-        result.totals[f.personId] ?? 0,
-        `${contest.title} ${f.party}`,
-      ).toBeGreaterThan(0);
+        kept.filter((b) => countedChoice(b.appeal) === f.personId).length,
+        `${state} ${key}, seed ${seed}: ${contest.title}: ${f.personId} of no party got no votes though a kept ballot put them first`,
+      ).toBe(0);
+    }
     let r = 0;
     let d = 0;
     for (const f of filings) {
@@ -301,7 +310,14 @@ describe("elections in the two-level world", () => {
             .get(`${contest.id}:second`),
           `${contest.title} ${method}`,
         ).toBeDefined();
-      else expect(["legislature-decides", "board-decides"]).toContain(method);
+      else {
+        // The state's rule names a winner: its legislature or board, or a lot
+        // drawn by law (election-ties.ts), always one of the two tied.
+        expect(["legislature-decides", "board-decides", "lot"]).toContain(
+          method,
+        );
+        expect(tied, `${contest.title} ${method}`).toContain(winner);
+      }
       break;
     }
     govReport(
