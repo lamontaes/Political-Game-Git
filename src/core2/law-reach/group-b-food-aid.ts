@@ -156,20 +156,35 @@ export function runFoodAid(
     );
     const limited = timeLimitedNow(api, gov.id, FOOD_AID_KEY, timeLimit);
     const paid: string[] = [];
+    // Each covered adult's own months count (7 CFR 273.24): the people the
+    // work requirement reaches in each household, so a stopped member leaves
+    // the assistance unit and only their share of the benefit drops out.
+    const reachedIn = new Map<string, string[]>();
+    if (timeLimit)
+      for (const r of facts.residents)
+        if (timeLimit.reachedIds.has(r.id))
+          reachedIn.set(r.householdId, [
+            ...(reachedIn.get(r.householdId) ?? []),
+            r.id,
+          ]);
     let countedMinor = 0;
     let countedHouseholds = 0;
     const lawId = lawInForce(api, "snap-maximum").governing?.id ?? "";
     for (const head of heads) {
-      if (limited.has(head.id)) continue;
       const household = facts.households.get(head.householdId);
       if (!household) continue;
+      const covered = reachedIn.get(head.householdId) ?? [];
+      const stopped = covered.filter((id) => limited.has(id));
+      // The stopped member's income still counts; the allotment is for the rest.
+      const unit = Math.max(0, household.size - stopped.length);
+      if (unit <= 0) continue;
       const dollars = foodAidDollars(
-        household,
+        stopped.length ? { ...household, size: unit } : household,
         povertyLineDollars(chain.stateKey, household.size),
         allotment,
       );
       if (dollars <= 0) continue;
-      paid.push(head.id);
+      paid.push(...covered.filter((id) => !limited.has(id)));
       if (head.named) {
         want.set(`${gov.id}|${head.id}`, dollars * cents);
         // The maximum allotment is read here, where the household's benefit is set.
