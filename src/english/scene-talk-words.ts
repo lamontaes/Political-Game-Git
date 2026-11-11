@@ -144,6 +144,13 @@ export interface SceneWordingOptions {
   replyFollows?: ReplyFollowsTable;
   /** The pieces the picker reads instead of the bank's (the tests pass a fixture). */
   parts?: readonly BankPart[];
+  /**
+   * Slots the other replies on this screen already fill: a piece that names
+   * none of them is said first, so one screen names a thing once (lead, Nov
+   * 11, 2026). Where every fitting piece names one, the move is worded as
+   * if none were named.
+   */
+  avoidSlots?: ReadonlySet<string>;
 }
 
 /** A worded turn: its text, the piece it came from and what the piece carries. */
@@ -152,6 +159,8 @@ export interface WordedMove {
   pieceKey: string;
   /** Every piece a joined sentence was made of, in order; absent for a whole piece. */
   pieceKeys?: readonly string[];
+  /** The slots the line's pieces name, so the next reply on the screen can name others. */
+  slots?: readonly string[];
   /** The step the piece was written for (a "continue" may fall back to "follow"). */
   step: SceneTalkStep;
   bearing?: string;
@@ -272,6 +281,11 @@ function scoredFits(
   };
 }
 
+/** The slots a piece names, written in braces. */
+export function slotsOf(text: string): string[] {
+  return [...text.matchAll(/\{([^{}\s]+)\}/g)].map((match) => match[one]!);
+}
+
 /** A sentence the engine can join for a move: its pieces by part, and how closely its core fits. */
 export interface JoinedSentence {
   of: string;
@@ -340,19 +354,33 @@ export function joinedFitting(
  * Null where nothing fits; `{ unused }` where a strict page has no piece left
  * that no other scene used (a gap the page reports).
  */
-export function wordSceneMove(input: {
-  move: SceneMove;
-  facts: Readonly<Record<string, Fact>>;
-  seed: string;
-  speakerId: string;
-  traits: Readonly<Record<string, number>>;
-  momentKey: string;
-  /** Pieces already said on this branch. */
-  said: ReadonlySet<string>;
-  /** Only the extra option drawn from the player's own life. */
-  tagged?: boolean;
-  options?: SceneWordingOptions;
-}): WordedMove | { unused: string } | null {
+export function wordSceneMove(
+  input: Parameters<typeof wordSceneMoveOnce>[zero],
+): WordedMove | { unused: string } | null {
+  const avoid = input.options?.avoidSlots;
+  if (avoid?.size) {
+    const fresh = wordSceneMoveOnce(input, avoid);
+    if (fresh && "text" in fresh) return fresh;
+  }
+  return wordSceneMoveOnce(input);
+}
+
+function wordSceneMoveOnce(
+  input: {
+    move: SceneMove;
+    facts: Readonly<Record<string, Fact>>;
+    seed: string;
+    speakerId: string;
+    traits: Readonly<Record<string, number>>;
+    momentKey: string;
+    /** Pieces already said on this branch. */
+    said: ReadonlySet<string>;
+    /** Only the extra option drawn from the player's own life. */
+    tagged?: boolean;
+    options?: SceneWordingOptions;
+  },
+  avoid?: ReadonlySet<string>,
+): WordedMove | { unused: string } | null {
   const { move: use, facts } = input;
   const options = input.options ?? {};
   const onlyTagged = input.tagged ?? false;
@@ -368,6 +396,7 @@ export function wordSceneMove(input: {
     );
   // Tagged pieces are only ever the extra option.
   const keepPart = (part: BankPart) =>
+    !(avoid && slotsOf(part.text).some((slot) => avoid.has(slot))) &&
     !!taggedBy(part) === onlyTagged &&
     !(options.freshOnly && options.shown?.has(part.key)) &&
     !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero);
@@ -428,10 +457,7 @@ export function wordSceneMove(input: {
       ? fitting(
           { ...use, purpose: use.family, family: undefined },
           facts,
-          (part) =>
-            !!taggedBy(part) === onlyTagged &&
-            !(options.freshOnly && options.shown?.has(part.key)) &&
-            !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
+          (part) => !part.piece && keepPart(part),
           pool,
           options.replyFollows,
         ).filter((part) => !input.said.has(part.key))
@@ -493,6 +519,7 @@ export function wordSceneMove(input: {
     asks: /\?$/.test(line.text.trim()),
     invites: INVITES.test(line.text.trim()),
     slotRecordIds: [...line.sourceRecordIds],
+    ...(part ? { slots: slotsOf(part.text) } : {}),
   };
 }
 
@@ -576,6 +603,13 @@ function joinedMove(
     text,
     pieceKey: coreKey,
     pieceKeys: line.parts.map((part) => part.variantKey),
+    slots: line.parts.flatMap((part) =>
+      slotsOf(
+        LINE_PARTS.flatMap((name) => sentence.parts[name] ?? []).find(
+          (row) => row.key === part.variantKey,
+        )?.text ?? "",
+      ),
+    ),
     step: (core?.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
       steps[zero]) as SceneTalkStep,
     ...(core?.bearing ? { bearing: core.bearing } : {}),

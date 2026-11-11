@@ -521,6 +521,8 @@ export function composeSceneTalk(
   const closesSaid = new Set<string>();
   /** How many closes of each move this talk has said. */
   const closesByMove = new Map<string, number>();
+  /** The slots each rendered line's pieces name (a reply set names a thing once). */
+  const slotsOfLine = new WeakMap<SceneTalkLine, readonly string[]>();
   const render = (
     use: FitUse,
     speakerId: PersonId,
@@ -528,6 +530,7 @@ export function composeSceneTalk(
     moment: string,
     said: ReadonlySet<string>,
     onlyTagged = false,
+    avoidSlots?: ReadonlySet<string>,
   ): SceneTalkLine | null => {
     // The English engine picks and words the piece; the director only says
     // which move this is, who says it and what it answers.
@@ -544,12 +547,13 @@ export function composeSceneTalk(
       momentKey: `${scene}:${moment}`,
       said,
       tagged: onlyTagged,
-      options: closing
-        ? {
-            ...options,
-            shown: new Set([...(options?.shown ?? []), ...closesSaid]),
-          }
-        : options,
+      options: {
+        ...options,
+        ...(closing
+          ? { shown: new Set([...(options?.shown ?? []), ...closesSaid]) }
+          : {}),
+        ...(avoidSlots?.size ? { avoidSlots } : {}),
+      },
     });
     if (worded && "pieceKey" in worded && closing)
       closesSaid.add(worded.pieceKey);
@@ -561,7 +565,7 @@ export function composeSceneTalk(
     // A reaction is told, not said ("Ryan Wagner grumbles something and
     // heads for the door"): the narrator speaks it.
     const role = use.move === "react" ? "narrator" : use.role;
-    return {
+    const line: SceneTalkLine = {
       n: zero,
       step: worded.step,
       role,
@@ -588,6 +592,8 @@ export function composeSceneTalk(
       asks: worded.asks,
       invites: worded.invites,
     };
+    if (worded.slots) slotsOfLine.set(line, worded.slots);
+    return line;
   };
   let unusedGap = "";
   const none: ReadonlySet<string> = new Set();
@@ -1442,6 +1448,9 @@ export function composeSceneTalk(
     // this path is never offered again.
     const fresh = [...new Set(moves)];
     const seen = new Set([...path.said, ...path.offeredPieces]);
+    // One screen names a thing once (lead, Nov 11, 2026): each reply prefers
+    // a piece naming none of the slots an earlier reply on it named.
+    const named = new Set<string>();
     const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
       const reply = render(
         {
@@ -1456,6 +1465,8 @@ export function composeSceneTalk(
         askedTraits,
         `${path.id}:reply:${move}`,
         seen,
+        false,
+        named,
       );
       if (!reply) {
         gap("reply", move, path.askerMove);
@@ -1463,6 +1474,7 @@ export function composeSceneTalk(
       }
       // A line already offered or said on this path is not offered again.
       if (seen.has(reply.parts[zero] ?? "")) return [];
+      for (const slot of slotsOfLine.get(reply) ?? []) named.add(slot);
       reply.round = round;
       return [reply];
     });
