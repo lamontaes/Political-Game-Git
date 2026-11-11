@@ -9,8 +9,16 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
-import { governments, openBudgets } from "./modules/budgets";
-import { federalDebtOf, treasuryMonthsOf } from "./budgets-treasury";
+import { BUDGETS_MODULE_ID, governments, openBudgets } from "./modules/budgets";
+import {
+  debtBalanceMinor,
+  debtBalanceExact,
+  debtBorrowedExact,
+  debtBorrowedMinor,
+  DEBT_SPLIT,
+  federalDebtOf,
+  treasuryMonthsOf,
+} from "./budgets-treasury";
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import ofs2 from "../../data/source/treasury-ofs2/ofs2-2026-03-31.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -74,11 +82,11 @@ describe("the federal debt", { timeout: 600_000 }, () => {
         (n, m) => n + (m.borrowedByHolder[row.id] ?? 0),
         0,
       );
-      expect(row.borrowedMinor, `${where} ${row.id}`).toBe(lent);
-      expect(row.balanceMinor, `${where} ${row.id}`).toBe(
-        before.balanceMinor + lent - row.repaidMinor,
+      expect(debtBorrowedMinor(row), `${where} ${row.id}`).toBe(lent);
+      expect(debtBalanceMinor(row), `${where} ${row.id}`).toBe(
+        debtBalanceMinor(before) + lent - row.repaidMinor,
       );
-      expect(row.balanceMinor).toBeGreaterThan(0);
+      expect(debtBalanceMinor(row)).toBeGreaterThan(0);
     }
     // Interest went to the groups that hold the debt, the larger holder more.
     const interest = months.reduce(
@@ -88,7 +96,9 @@ describe("the federal debt", { timeout: 600_000 }, () => {
     );
     expect(interest, where).toBeGreaterThan(0);
     expect(debt.reduce((n, r) => n + r.interestPaidMinor, 0)).toBe(interest);
-    const biggest = [...debt].sort((a, b) => b.balanceMinor - a.balanceMinor);
+    const biggest = [...debt].sort(
+      (a, b) => debtBalanceMinor(b) - debtBalanceMinor(a),
+    );
     expect(biggest[0]!.interestPaidMinor).toBeGreaterThan(
       biggest.at(-1)!.interestPaidMinor,
     );
@@ -136,5 +146,67 @@ describe("the federal debt", { timeout: 600_000 }, () => {
     for (const holder of debtData.holders)
       expect(holder.share, holder.id).toBeCloseTo(rows[holder.id]! / total, 5);
     expect(debtData.holders.reduce((n, h) => n + h.share, 0)).toBeCloseTo(1, 9);
+  });
+
+  it("keeps every holder's balance and lifetime lending exact past 2^53 minor units", () => {
+    const state = pick(states, "state-exact");
+    const places = [
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const place = pick(places, "place-exact").key;
+    const where = `seed ${seed}, ${state} place ${place}`;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: place,
+        startedAt: START,
+        minimumPeople: 30,
+      }),
+    );
+    openLaws(core);
+    openBudgets(core);
+    const api = coreAPI(core);
+    // The largest holder has already lent past the safe range in a long save: a count of whole
+    // units that puts balance and lifetime lending beyond 2^53, with an odd remainder.
+    const rows = api.moduleState(BUDGETS_MODULE_ID).table("federalDebt");
+    const largest = [...federalDebtOf(api)].sort((a, b) =>
+      Number(debtBalanceExact(b) - debtBalanceExact(a)),
+    )[0]!;
+    rows.put({
+      ...largest,
+      balanceWhole: largest.balanceWhole + 9,
+      borrowedWhole: largest.borrowedWhole + 9,
+      borrowedRest: largest.borrowedRest + 1,
+    } as unknown as { id: string });
+    const before = federalDebtOf(api).find((r) => r.id === largest.id)!;
+    expect(
+      debtBalanceExact(before) > BigInt(Number.MAX_SAFE_INTEGER),
+      where,
+    ).toBe(true);
+    advanceCore(core, "2027-01-05");
+    const months = treasuryMonthsOf(
+      api,
+      governments(api).find((g) => g.level === "federal")!.id,
+    );
+    const lent = months.reduce(
+      (n, m) => n + BigInt(m.borrowedByHolder[largest.id] ?? 0),
+      0n,
+    );
+    const after = federalDebtOf(api).find((r) => r.id === largest.id)!;
+    expect(lent > 0n, where).toBe(true);
+    // Exact to the minor unit: the sum before plus every borrowing, none rounded away.
+    expect(debtBorrowedExact(after), where).toBe(
+      debtBorrowedExact(before) + lent,
+    );
+    expect(debtBalanceExact(after), where).toBe(
+      debtBalanceExact(before) + lent,
+    );
+    expect(
+      after.balanceRest < DEBT_SPLIT && after.borrowedRest < DEBT_SPLIT,
+      where,
+    ).toBe(true);
   });
 });
