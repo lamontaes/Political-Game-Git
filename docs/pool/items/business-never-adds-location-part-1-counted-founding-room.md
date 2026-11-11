@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 claimed-by: claude/pool-business-never-adds-location-part-1-counted-founding-room
-pr:
+pr: #8706
 after:
 blocked-on:
 lead: jobs
