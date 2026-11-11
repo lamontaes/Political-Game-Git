@@ -108,6 +108,7 @@ export const facts: Record<string, Fact> = {
   where: fact("county clerk's office"),
   executive: fact("governor"),
   employer: fact("the hardware store"),
+  "donor-first": fact("Pat"),
   position: fact("a cashier"),
   pay: fact("$15.00"),
   when: fact("this morning"),
