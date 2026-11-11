@@ -24,7 +24,12 @@ import {
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
 import { storiesHeard } from "../core2/modules/news";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { outletsHere, schoolResultKind } from "../core2/modules/press";
+import {
+  outletsHere,
+  PRESS_MODULE_ID,
+  schoolResultKind,
+} from "../core2/modules/press";
+import pressBriefs from "../core2/data/press/briefs.json" with { type: "json" };
 import { placeLocalities } from "../core2/places";
 import {
   SCHOOL_MODULE_ID,
@@ -543,5 +548,64 @@ describe("printed stories in News", () => {
       if (before !== after)
         expect(worded?.lede ?? "", where).toContain(dollars(before));
     }
+  }, 900_000);
+  it("prints a brief for every brief kind the wire held in a played year, and a brief in each month its records reached the wire", () => {
+    setBookkeeping(false);
+    const place = drawPlace(seed, "printed-words-briefs-print");
+    const where = `${place.name} (${place.key}), seed ${seed}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const core = world.core;
+    const api = coreAPI(core);
+    const kinds = new Set<string>(pressBriefs.kinds);
+    // What reached the wire, by record id and the month it first stood there.
+    const onWire = new Map<string, { kind: string; month: string }>();
+    for (let day = 0; day < 365; day += 1) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      for (const row of api
+        .moduleState(PRESS_MODULE_ID)
+        .table("wire")
+        .rows() as unknown as { id: string; kind: string }[])
+        if (kinds.has(row.kind) && !onWire.has(row.id))
+          onWire.set(row.id, { kind: row.kind, month: core.date.slice(0, 7) });
+    }
+    const printed = new Map<string, string>();
+    for (const story of api
+      .moduleState("news")
+      .table("stories")
+      .rows() as unknown as {
+      date: string;
+      facts?: Record<string, string>;
+    }[])
+      if (onWire.has(String(story.facts?.sourceRecordId)))
+        printed.set(String(story.facts?.sourceRecordId), story.date);
+    expect(
+      onWire.size,
+      `${where}: no brief kind reached the wire`,
+    ).toBeGreaterThan(0);
+    // Each kind the wire held is printed at least once: the desk had space
+    // (briefsPerOutletWeek) and a kind never printed is a column that skips it.
+    const wireKinds = new Set([...onWire.values()].map((row) => row.kind));
+    for (const kind of wireKinds)
+      expect(
+        [...onWire].some(([id, row]) => row.kind === kind && printed.has(id)),
+        `${where}: ${kind} was on the wire and nothing of it printed`,
+      ).toBe(true);
+    // And a month whose records reached the wire has a brief printed that month or the next.
+    const printedMonths = new Set(
+      [...printed.values()].map((date) => date.slice(0, 7)),
+    );
+    const next = (month: string) =>
+      addDays(makeIsoDate(`${month}-01`), 31).slice(0, 7);
+    for (const { month } of onWire.values())
+      expect(
+        printedMonths.has(month) || printedMonths.has(next(month)),
+        `${where}: records on the wire in ${month}, no brief printed in ${month} or after`,
+      ).toBe(true);
+    console.log(
+      `printed-words briefs on the wire: ${where}; ${onWire.size} records, ${printed.size} printed, kinds ${[...wireKinds].join(", ")}`,
+    );
   }, 900_000);
 });

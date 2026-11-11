@@ -3,4 +3,4 @@ id: words-paper-side-stories
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A new check holds the town paper to printing the one-line side stories its records hold, each month they arrive.
