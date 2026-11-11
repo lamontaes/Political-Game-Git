@@ -38,7 +38,13 @@ import {
   type MacroParameter,
 } from "../macro-model";
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
-import { countryLaw, startingLawReader } from "../country-law";
+import {
+  countryLaw,
+  federalSpendingReader,
+  startingLawReader,
+} from "../country-law";
+import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
+import { stateStake } from "../budget-stakes";
 import {
   countryMoney,
   countryPeople,
@@ -212,7 +218,29 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
     ? (stateKey: string, series: string) =>
         stateLawInForce(api, stateKey, series, date)
     : startingLawReader(date, api.state.startedAt);
-  return countryLaw(read, params(api), date);
+  return countryLaw(read, params(api), date, federalOn(api, date));
+}
+
+/**
+ * The federal budget in force on a day as it reaches each state, line by line: the budget the
+ * game's Congress adopted (the budgets engine's rows), shared among the states by population and
+ * this world's stake of each state in each line. None where the world keeps no budgets.
+ */
+function federalOn(api: CoreAPI, date: string) {
+  if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
+    return federalSpendingReader(undefined, () => 1, 1);
+  const nation = governments(api).find((gov) => gov.level === "federal");
+  const budget = nation
+    ? budgetsOf(api, nation.id)
+        .filter((row) => row.startsOn <= date)
+        .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+        .at(-1)
+    : undefined;
+  return federalSpendingReader(
+    budget,
+    (stateKey, line) => stateStake(api, stateKey, `budget-line:${line}`),
+    params(api)("minorPerDollar"),
+  );
 }
 
 /**
@@ -222,7 +250,12 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
  */
 function lawAtTheStart(api: CoreAPI) {
   const start = api.state.startedAt;
-  return countryLaw(startingLawReader(start, start), params(api), start);
+  return countryLaw(
+    startingLawReader(start, start),
+    params(api),
+    start,
+    federalOn(api, start),
+  );
 }
 
 /** The country tier as the tables keep it: one row for the nation's accounts, one for each state. A copy, so a month can change it. */
