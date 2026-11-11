@@ -13,7 +13,7 @@ after:
 blocked-on:
 lead: play-first
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, Dev mode on the screen)
-model: opus
+model: fable
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-11
