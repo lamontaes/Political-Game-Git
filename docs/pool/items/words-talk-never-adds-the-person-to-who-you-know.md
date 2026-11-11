@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/words-w4-meet
-pr: 8836
+pr: #8836
 after: words-home-school-mutual-lines-are-composed
 blocked-on:
 lead: words
@@ -19,6 +19,7 @@ source: Words builder W4, Nov 11, 2026, from twelve weeks of bench play on the b
 checked:
 claimed-at:
 branch: claude/words-w4-meet
+merged-at: 2026-11-11T18:53:41.909Z
 ---
 
 **What.** The player talks to dozens of people around town, but none of them joins the people the player knows. So the talks the owner asked for on Nov 11 ("This introduces people to their world") that need someone both people know never fire in play: a person both know raised with what happened to them ("Did you hear about Alex? Moved over to Hawaii County.", PR 8816), and a relative asked after by someone who knows them (PR 8801). In twelve weeks of an adult life in Kingsville, Maryland (seed w4seed-d), visiting every place in town each week and talking to everyone there, about 400 lines were said and not one was about someone both know or a relative's news. Seen: a talk with someone you met last week who brings up a person you both know, by name, with what happened to them and when.
