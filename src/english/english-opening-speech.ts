@@ -28,12 +28,12 @@ import type {
 import type { SpeechDevice } from "./speech-registers";
 
 interface OpeningPart extends BankPart {
-  /** The speaker's manner this wording is for. */
-  voice: SpeechVoice;
+  /** The speaker's manner this wording is for; a list when it reads the same in several. */
+  voice: SpeechVoice | readonly SpeechVoice[];
   /** How the sentence lands (glad, braced, tender, calm), for the speaker's trait pulls. */
   bearing?: string;
-  /** The country's subject the sentence is about ("unemployment", "wages"). */
-  topic?: string;
+  /** The country's subject the sentence is about ("unemployment", "wages"); a list when one wording serves several. */
+  topic?: string | readonly string[];
   /** The Speaker's gender the salutation is for (`chair-male`, `chair-female`). */
   stages?: string[];
   /** The crafted device the sentence makes, earned by the speaker's addresses. */
@@ -108,6 +108,27 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   change: "tell",
 };
 
+/**
+ * Whether a piece's voice or topic is `wanted`: the piece holds one value or
+ * a list of them, since a wording that reads the same in two voices or two
+ * topics is one piece (the bank holds a text once).
+ */
+export function partHolds(
+  value: string | readonly string[] | undefined,
+  wanted: string,
+): boolean {
+  return typeof value === "string"
+    ? value === wanted
+    : !!value?.includes(wanted);
+}
+
+/** A piece's voice or topic as a list: its one value, or the list it holds. */
+export function partValues(
+  value: string | readonly string[] | undefined,
+): readonly string[] {
+  return value === undefined ? [] : typeof value === "string" ? [value] : value;
+}
+
 /** The line part a piece is said as: an opener, a closer, or the core. */
 function lineOf(part: OpeningPart): "opener" | "core" | "closer" {
   return part.piece?.part === "opener" || part.piece?.part === "closer"
@@ -129,9 +150,11 @@ function variantsFor(
   addressKind?: string,
 ): LinePartVariant[] {
   const fits = (part: OpeningPart) =>
-    part.voice === voice &&
+    partHolds(part.voice, voice) &&
     lineOf(part) === line &&
-    (!topic || part.topic === topic || (line !== "core" && !part.topic)) &&
+    (!topic ||
+      partHolds(part.topic, topic) ||
+      (line !== "core" && !part.topic)) &&
     part.uses.some((use) => use.subject === kind && use.role === role);
   // A kind of address that has cores of its own for the role says only
   // those; every other kind says the role's general cores. An opener or a
