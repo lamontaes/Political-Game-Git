@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-life-record-part-8-a-race-lost-before-the-start-is-told
+pr: #8616
 after:
 blocked-on:
 lead: elections
@@ -17,9 +17,11 @@ effort: medium
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:19:32.947Z
+branch: claude/pool-core-life-record-part-8-a-race-lost-before-the-start-is-told
 ---
 
-**What.** The simulated past elects the town's officials and records each race's challenger as a party and a lean, not a person. So nobody in town ever lost a race before the game began, and no card says so. This part keeps the person who fits the challenger on the race, so their card tells the race they lost.
+**What.** The simulated past elects the town's officials and records each race's challenger as a party and a lean, not a person. So nobody in town ever lost a race before the game began, and no card says so. This part keeps the person who fits the challenger on the race, so their card tells the race they lost. Seen: the card of the person who lost a race before the game began.
 
 **Cause.** Found in code: src/core2/past-elections.ts keeps a past race's challenger as a lean and a party (`challengerLean`, line 381; `challengerParty`, line 480) with no person id.
 
@@ -31,6 +33,8 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, opens the card of someone who has lived in town since before the start and held or sought office, or uses dev mode's Trace on a town race from before the start to find its named loser, then opens that person's card and reads the lost race with its year; Trace on the sentence opens the race.
 
-**Waits on.** Pull request 8139 on main.
+**Waits on.** Nothing. Pull request #8139 is on main.
 
 **Files.** src/core2/past-elections.ts, src/core2/person-life.ts (new)
+
+**Notes.** Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 05:19 UTC) on branch claude/pool-core-life-record-part-8-a-race-lost-before-the-start-is-told.

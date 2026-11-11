@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-release-repo-large-files
-pr:
+pr: #8385
 after:
 source: "docs/reports/repo-audit-2026-10-19.md sections B4 and E"
 standard: 2

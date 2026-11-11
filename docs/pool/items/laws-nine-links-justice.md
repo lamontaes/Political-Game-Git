@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 
 **What.** Three laws of the justice family are still short of the nine wiring links: the police budget line (its low-level-arrests link), the corrections budget line (its money is untraced) and restore-voting-after-sentence (its turnout link, carried by stopgap SG-GOV-REACH-A-convictions). The other nine landed in PR #6012 as laws-nine-links-justice-nine. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.
 
-**Cause.** Design: the nine-link standard in docs/work-orders/lead-laws-2026-10-24.md. The three remaining laws are carried by news-low-level-arrests-rate (open), laws-checker-follows-line-transfers (done) and stopgap SG-GOV-REACH-A-convictions.
+**Cause.** Design: the nine-link standard in docs/archive/2026-10-23/work-orders/lead-laws-2026-10-24.md. The three remaining laws are carried by news-low-level-arrests-rate (open), laws-checker-follows-line-transfers (done) and stopgap SG-GOV-REACH-A-convictions.
 
 **Fix.** Finish the three: land news-low-level-arrests-rate so people hear of minor arrests, regrade budget-line:corrections now that laws-checker-follows-line-transfers is done, and give restored voters a turnout reader to close SG-GOV-REACH-A-convictions. Then grade budget-line:police, budget-line:corrections and restore-voting-after-sentence in two drawn places.
 
@@ -36,7 +36,7 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/modules/crime.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/applied.ts
 
-**Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: merged, #5642. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-justice`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. Merged does not mean nine links: on Oct 20 civilian oversight, the juvenile court age and the handgun purchase age only wrote a record nobody read. Bail money is `justice-bail-moves-the-cash` (in review).
+**Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/archive/2026-10-23/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: merged, #5642. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-justice`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. Merged does not mean nine links: on Oct 20 civilian oversight, the juvenile court age and the handgun purchase age only wrote a record nobody read. Bail money is `justice-bail-moves-the-cash` (in review).
 
 Laws lead, Oct 25 10:20: PR #6012 opened at 681395e90d. 10 of 12 wired over a year in both audit towns (jail line's money untraced). Police line's low-level-arrests link waits on justice-low-level-offenses; restore voting waits on laws-checker-enacts-where-no-power. Merge after #5582.
 

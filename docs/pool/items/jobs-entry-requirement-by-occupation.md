@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Written Oct 20 (claude/entry-spec) from the code. `experienceYears` (jobs.ts about line 2271) sums a person's commitments in the occupation; the counted tier keeps its own `countedExperience`. The follow-up is `jobs-occupation-entry-experience`. Waits on `jobs-no-openings-in-small-towns` per its `after:`.
 
 Oct 25 audit: unblocked; the spec was written Oct 20, so the empty-shell block no longer holds.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a BLS table of the experience each occupation asks, so entry-level applicants rank differently; no player sees the table, and a single weight stays an estimate.

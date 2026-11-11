@@ -127,6 +127,7 @@
             type="button"
             data-testid="start-life"
           >
+            <span id="new-start-busts" class="new-busts"></span>
             <b>Start a life</b>
           </button>
           <button
@@ -135,6 +136,7 @@
             type="button"
             data-testid="advanced"
           >
+            <span id="new-advanced-busts" class="new-busts"></span>
             <b>Advanced</b>
           </button>
         </div>
@@ -218,23 +220,10 @@
           </div>
           <div id="pick-detail" class="mx3col"></div>
         </div>
-        <!-- The creator: one screen (the Nov 8 front mock): the figure, who I am, where I'm from, how I look. -->
+        <!-- The creator: one screen (the Nov 8 front mock): the bust, who I am, where I'm from, how I look. -->
         <div id="cr-screen" class="strip-screen" hidden>
           <div id="cr-figure" class="mx3left">
-            <div class="portraits">
-              <img
-                id="cr-portrait"
-                class="portrait"
-                alt=""
-                data-testid="creator-engine-figure"
-              />
-              <img
-                id="cr-portrait-work"
-                class="portrait"
-                alt=""
-                data-testid="creator-engine-figure-work"
-              />
-            </div>
+            <div id="cr-bust" data-testid="creator-bust"></div>
             <p id="cr-figure-name" class="strip-name"></p>
             <button id="cr-randomize" class="action small" type="button">
               Random
@@ -477,7 +466,6 @@
           data-testid="sheet-close"
         ></span>
         <nav id="sheet-tabs" class="tabs"></nav>
-        <div id="sheet-media" class="screen-media" hidden></div>
         <div id="sheet-body"></div>
       </section>
 
