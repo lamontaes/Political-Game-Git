@@ -1,10 +1,18 @@
 PLAYER w7-press-h: Amir Chan in Lesslie, South Carolina
-FILED w7-press-h: {"me":"person_740fc20c61b6f628","body":"office:gus2025:134417:board","billId":"bill:office:gus2025:134417:board:2025-01-20:person_740fc20c61b6f628:5","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
-SEEN 5: Evelyn Fernandez | Evelyn Fernandez | I'm writing about the Free Fares for Riders Ordinance for Lesslie Times. Mind if I ask you a few things? | I'm writing about the Free Fares for Riders Ordinance, 
-SEEN 6: Evelyn Fernandez | Evelyn Fernandez | AMIR CHAN | I put the Free Fares for Riders Ordinance in because free fares on public transit is overdue. | What do you tell people in Lesslie who wanted the othe
-SEEN 7: Evelyn Fernandez | Evelyn Fernandez | AMIR CHAN | Read the bill before you judge it. My door's open to anyone who wants to talk about the Free Fares for Riders Ordinance. | Even if the Free Fares for 
-SEEN 8: Evelyn Fernandez | Evelyn Fernandez | AMIR CHAN | Even then. It's the right call. People in Lesslie can judge me on the Free Fares for Riders Ordinance. | What do you say to people in Lesslie who disa
-SEEN 9: Evelyn Fernandez | Evelyn Fernandez | AMIR CHAN | Read the bill before you judge it. Most of the worry in Lesslie is over things it doesn't do. | Who in Lesslie was asking you for free fares on public
-SEEN 14: Evelyn Fernandez | Evelyn Fernandez | I've been waiting to ask. | I didn't come down here to be polite about Ordinance 2025-2. It would hurt us. Will you vote no? | I gave you my answer on that, and I
-SEEN 15: Evelyn Fernandez | Evelyn Fernandez | AMIR CHAN | I gave you my answer on that, and I meant it. | Easy to say from up there. | You're right to ask. I stand where I said I do. | Give my office your nam
-SEEN 19: Joshua Herrera | Joshua Herrera | You voted against Ordinance 2025-4, Amir. We were counting on you. We'll remember that in the spring. | I heard your case. It didn't change what I thought was right. 
+FILED w7-press-h: {"me":"person_740fc20c61b6f628","body":"office:gus2025:134417:board","billId":"bill:office:gus2025:134417:board:2025-01-20:person_740fc20c61b6f628:7","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+SEEN 5: Evelyn Fernandez | Evelyn Fernandez | I'm writing about the Free Fares for Riders Ordinance for Lesslie Times. Mind if I ask you a few things? | People are asking about the Free Fares for Riders Ordinance. Would you like
+TALK w7-press-h (asked):
+Evelyn Fernandez
+Evelyn Fernandez
+I'm writing about the Free Fares for Riders Ordinance for Lesslie Times. Mind if I ask you a few things?
+People are asking about the Free Fares for Riders Ordinance. Would you like to respond?
+A staffer hovers at your elbow while Evelyn Fernandez writes.
+I put the Free Fares for Riders Ordinance in because free fares on public transit is overdue.
+--
+TALK w7-press-h (answered):
+Evelyn Fernandez
+Evelyn Fernandez
+AMIR CHAN
+I put the Free Fares for Riders Ordinance in because free fares on public transit is overdue.
+Even if it costs you votes in Lesslie?
+Even then. It's the right call. People in Lesslie can judge me on it.

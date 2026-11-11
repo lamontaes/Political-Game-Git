@@ -1,0 +1,22 @@
+PLAYER w7-press-b: Amber Holmes in Pocatello, Idaho
+FILED w7-press-b: {"me":"person_7a090974d8fd3110","body":"office:gus2025:102377:council","billId":"bill:office:gus2025:102377:council:2025-01-20:person_7a090974d8fd3110:19","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+SEEN 5: Diana Hurst | Diana Hurst | Thank you, Chair. I rise in support of Ordinance 2025-4. | Chair, I stand with the member on this. | Chair, I respectfully disagree with the member. | Will the member yield for a question? | C
+SEEN 8: Micah Holmes | Micah Holmes | You missed it again. | I've let things slide at home. I know. | I'll set one night a week that's ours. No exceptions. | It's just a busy stretch. | I'm doing this for us, too. | This is the 
+SEEN 13: William McClure | William McClure | You voted against Ordinance 2025-7, Amber. We were counting on you. We'll remember that in the spring. | I voted the way I thought was right for Pocatello. | I take your case seriously
+SEEN 14: William McClure | William McClure | AMBER HOLMES | I voted the way I thought was right for Pocatello. | That's not an answer I can take back to them. | I heard your case. It didn't change what I thought was right. | I do
+SEEN 19: Ethan Velez | Eva Holmes | Ethan Velez | Have you got thirty seconds for Pocatello Review? | People are asking about the Free Fares for Riders Ordinance. Would you like to respond? | A second reporter drifts over, and Et
+TALK w7-press-b (asked):
+Ethan Velez
+Eva Holmes
+Ethan Velez
+Have you got thirty seconds for Pocatello Review?
+People are asking about the Free Fares for Riders Ordinance. Would you like to respond?
+A second reporter drifts over, and Ethan Velez steps in closer.
+--
+TALK w7-press-b (answered):
+Ethan Velez
+Eva Holmes
+Ethan Velez
+AMBER HOLMES
+I filed the Free Fares for Riders Ordinance because people asked me to. You can print that, word for word.
+What do you say to people in Pocatello who disagree with you on it?
