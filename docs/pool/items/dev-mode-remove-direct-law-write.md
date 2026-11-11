@@ -5,9 +5,9 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-dev-mode-remove-direct-law-write
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:36:17.748Z
 branch: claude/pool-dev-mode-remove-direct-law-write
 ---
 
