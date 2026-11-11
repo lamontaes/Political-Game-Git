@@ -183,7 +183,11 @@ function pool(
   const cwd = process.cwd();
   process.chdir(dir);
   try {
-    const err = command(argv, {}, { out: (l) => out.push(l), beforePush });
+    const err = command(
+      argv,
+      {},
+      { out: (l) => out.push(l), beforePush, progress: () => {} },
+    );
     return { err, out };
   } finally {
     process.chdir(cwd);
@@ -484,6 +488,69 @@ describe("next for real", () => {
     git(a, "checkout", "-q", "main");
     expect(pool(a, ["status", "laws-h", "in-pr", "--pr", "77"]).err).toBeNull();
     expect(onOrigin("main", `${ITEM}/laws-h.md`)).toContain("status: in-pr");
+  });
+
+  it("starts the note under a free id: the item's own when free, -2 when main already used it", () => {
+    fakeGh(null);
+    const { clones, onOrigin } = world({
+      "laws-h": unit("laws-h", { model: "haiku" }),
+      "laws-k": unit("laws-k", { model: "haiku", priority: "2" }),
+    });
+    const [a] = clones;
+    // main has released laws-h before (a sent-back item): listed in consumed-changes.json.
+    mkdirSync(join(a, "docs/release"), { recursive: true });
+    writeFileSync(
+      join(a, "docs/release/consumed-changes.json"),
+      JSON.stringify({ entries: [{ changeIds: ["laws-h"] }] }),
+    );
+    git(a, "add", ".");
+    git(a, "commit", "-qm", "consumed");
+    git(a, "push", "-q", "origin", "main");
+    // laws-k has priority 2 so it is offered first: its id is free.
+    const first = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
+    expect(first.err).toBeNull();
+    expect(first.out).toContain("Release note: docs/release/changes/laws-k.md");
+    // laws-h's id is used: the note is laws-h-2, in both its path and its id line.
+    const second = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
+    expect(second.err).toBeNull();
+    expect(second.out).toContain(
+      "Release note: docs/release/changes/laws-h-2.md",
+    );
+    expect(onOrigin("pool/laws-h", "docs/release/changes/laws-h-2.md")).toBe(
+      `---\nid: laws-h-2\nimpact: none\n---\n\n${NOTE_PLACEHOLDER}`,
+    );
+    // The guard finds the note by scanning the branch, so it refuses while laws-h-2 holds the placeholder.
+    expect(pool(a, ["status", "laws-h", "in-pr", "--pr", "5"]).err).toMatch(
+      /changes\/laws-h-2\.md on pool\/laws-h still says "Not written yet/,
+    );
+  });
+
+  it("asks whether a recorded pull request is open and opens a new draft when it is closed", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-gh-"));
+    const script = join(dir, "gh");
+    writeFileSync(
+      script,
+      `#!/bin/sh\nif [ "$2" = view ]; then echo '{"state":"CLOSED"}'; else echo https://github.com/o/r/pull/90; fi\n`,
+    );
+    chmodSync(script, 0o755);
+    process.env.PATH = `${dir}:${savedPath}`;
+    const { clones, onOrigin } = world({
+      "laws-h": unit("laws-h", { model: "haiku" }),
+    });
+    const [a] = clones;
+    const item = readFileSync(join(a, `${ITEM}/laws-h.md`), "utf8").replace(
+      /^pr:$/m,
+      "pr: #55",
+    );
+    writeFileSync(join(a, `${ITEM}/laws-h.md`), item);
+    git(a, "add", ".");
+    git(a, "commit", "-qm", "pr");
+    git(a, "push", "-q", "origin", "main");
+    const r = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
+    expect(r.err).toBeNull();
+    expect(r.out).toContain("Pull request #55 is closed; opening a new draft.");
+    expect(r.out).toContain("Pull request: #90 (draft)");
+    expect(onOrigin("main", `${ITEM}/laws-h.md`)).toContain("pr: #90");
   });
 
   it("two callers racing for one item end with two different items", () => {
