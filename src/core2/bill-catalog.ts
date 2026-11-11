@@ -68,10 +68,7 @@ const subjects = (
 export function billCatalog(
   api: CoreAPI,
   level: Level,
-  jurisdiction: string = billLevelJurisdiction(
-    api,
-    level === "county" ? "city" : level,
-  ),
+  jurisdiction: string = billLevelJurisdiction(api, level),
 ): readonly CatalogMenu[] {
   return subjects.map((subject) => ({
     id: subject.id,

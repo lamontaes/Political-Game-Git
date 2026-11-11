@@ -22,9 +22,13 @@ export interface BillValue {
 /** Default jurisdiction for a catalog whose caller supplies only a level. */
 export function billLevelJurisdiction(
   api: CoreAPI,
-  level: "federal" | "state" | "city",
+  level: "federal" | "state" | "county" | "city",
 ): string {
   const chain = lawChain(api);
+  // A county body's laws are the county's own; with no county in the chain
+  // there is no county jurisdiction (an empty one reads no law in force).
+  if (level === "county")
+    return chain.levels.find((l) => l.level === "county")?.jurisdiction ?? "";
   return level === "federal"
     ? "US"
     : level === "state"
