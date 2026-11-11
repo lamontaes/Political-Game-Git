@@ -27227,44 +27227,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-answer-here.how-would-it-land-in-place",
-      "move": "address-point-answer-here",
-      "kind": "spoken",
-      "text": "How would it land in {place}?",
-      "uses": [
-        {
-          "move": "address-point-answer-here",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "here"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.address-point-answer-here.how-does-it-look-from-place",
       "move": "address-point-answer-here",
       "kind": "spoken",
       "text": "How does it look from {place}?",
-      "uses": [
-        {
-          "move": "address-point-answer-here",
-          "subject": "address-point",
-          "role": "answer",
-          "choice": "here"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-answer-here.what-would-it-change-in-place",
-      "move": "address-point-answer-here",
-      "kind": "spoken",
-      "text": "What would it change in {place}?",
       "uses": [
         {
           "move": "address-point-answer-here",
@@ -27295,10 +27261,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-answer-here.what-do-people-in-place-make-of-it",
+      "key": "conversation.address-point-answer-here.what-would-that-mean-for-folks-in-place",
       "move": "address-point-answer-here",
       "kind": "spoken",
-      "text": "What do people in {place} make of it?",
+      "text": "What would that mean for folks in {place}?",
       "uses": [
         {
           "move": "address-point-answer-here",
@@ -27329,6 +27295,42 @@
       "date": "2026-11-11"
     },
     {
+      "key": "conversation.address-point-answer-here.how-would-it-land-in-place",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "How would it land in {place}?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here",
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.what-would-it-change-in-place",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "What would it change in {place}?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here",
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
       "key": "conversation.address-point-answer-here.what-would-it-look-like-here-in-place",
       "move": "address-point-answer-here",
       "kind": "spoken",
@@ -27338,7 +27340,8 @@
           "move": "address-point-answer-here",
           "subject": "address-point",
           "role": "answer",
-          "choice": "here"
+          "choice": "here",
+          "requiresFacts": ["policy-point"]
         }
       ],
       "origin": "authored",
@@ -27356,7 +27359,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "instead",
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "stand-against"]
         }
       ],
       "origin": "authored",
@@ -27374,7 +27377,7 @@
           "subject": "address-point",
           "role": "answer",
           "choice": "instead",
-          "requiresFacts": ["policy-point"]
+          "requiresFacts": ["policy-point", "stand-against"]
         }
       ],
       "origin": "authored",
@@ -27436,10 +27439,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-answer-instead.what-should-washington-do-next-with-about",
+      "key": "conversation.address-point-answer-instead.what-should-washington-do-next-about-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "What should Washington do next, with {about}?",
+      "text": "What should Washington do next about {about}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -27472,10 +27475,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-answer-instead.so-what-comes-next-with-about",
+      "key": "conversation.address-point-answer-instead.so-what-comes-next-for-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "So what comes next, with {about}?",
+      "text": "So what comes next for {about}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -27637,7 +27640,8 @@
           "move": "address-point-back-disagree",
           "subject": "address-point-back",
           "role": "core",
-          "stages": ["disagree"]
+          "stages": ["disagree"],
+          "requiresFacts": ["stand-decided"]
         }
       ],
       "piece": {
@@ -27706,7 +27710,8 @@
           "move": "address-point-back-disagree",
           "subject": "address-point-back",
           "role": "core",
-          "stages": ["disagree"]
+          "stages": ["disagree"],
+          "requiresFacts": ["stand-decided"]
         }
       ],
       "piece": {
@@ -27981,10 +27986,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-back-here.around-here-there-s-town-figure-that-s-what-i-d-watch",
+      "key": "conversation.address-point-back-here.place-has-town-figure-that-s-what-i-d-watch",
       "move": "address-point-back-here",
       "kind": "spoken",
-      "text": "Around here there's {town_figure}. That's what I'd watch.",
+      "text": "{place} has {town_figure}. That's what I'd watch.",
       "uses": [
         {
           "move": "address-point-back-here",
@@ -28039,7 +28044,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["instead"],
-          "requiresFacts": ["stand-with"]
+          "requiresFacts": ["stand-with", "policy-point"]
         }
       ],
       "piece": {
@@ -28063,7 +28068,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["instead"],
-          "requiresFacts": ["stand-with"]
+          "requiresFacts": ["stand-with", "policy-point"]
         }
       ],
       "piece": {
@@ -28087,7 +28092,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["instead"],
-          "requiresFacts": ["stand-with"]
+          "requiresFacts": ["stand-with", "policy-point"]
         }
       ],
       "piece": {
@@ -28111,7 +28116,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["instead"],
-          "requiresFacts": ["stand-against"]
+          "requiresFacts": ["stand-against", "policy-point"]
         }
       ],
       "piece": {
@@ -28135,7 +28140,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["instead"],
-          "requiresFacts": ["stand-against"]
+          "requiresFacts": ["stand-against", "policy-point"]
         }
       ],
       "piece": {
@@ -28159,7 +28164,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["instead"],
-          "requiresFacts": ["stand-against"]
+          "requiresFacts": ["stand-against", "policy-point"]
         }
       ],
       "piece": {
@@ -28168,6 +28173,30 @@
         "required": true
       },
       "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.i-d-ask-the-folks-who-run-place-first",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "I'd ask the folks who run {place} first.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-unsure", "policy-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
       "date": "2026-11-11"
@@ -28197,10 +28226,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-back-instead.i-d-ask-the-folks-who-run-place-first",
+      "key": "conversation.address-point-back-instead.i-don-t-know-yet-ask-me-after-president-does-something",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I'd ask the folks who run {place} first.",
+      "text": "I don't know yet. Ask me after {president} does something.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -28221,17 +28250,89 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-back-instead.i-don-t-know-yet-ask-me-after-president-does-something",
+      "key": "conversation.address-point-back-instead.that-depends-on-what-president-does-next",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I don't know yet. Ask me after {president} does something.",
+      "text": "That depends on what {president} does next.",
       "uses": [
         {
           "move": "address-point-back-instead",
           "subject": "address-point-back",
           "role": "core",
           "stages": ["instead"],
-          "requiresFacts": ["stand-unsure"]
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.depends-on-president-i-m-not-holding-my-breath",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "Depends on {president}. I'm not holding my breath.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.if-president-means-it-place-will-see-it",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "If {president} means it, {place} will see it.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.ask-me-in-a-few-months-once-place-has-seen-it",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "Ask me in a few months, once {place} has seen it.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["year-point"]
         }
       ],
       "piece": {
