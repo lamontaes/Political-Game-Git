@@ -267,6 +267,27 @@ function check(
     );
     expect(answered, where).not.toMatch(/that's all i know for sure/i);
   }
+  // The answer to the count names it as the result record has it: the margin
+  // or the winner's share, or where the winner did best.
+  const said = (key: string) =>
+    scene.facts.find((row) => row.key === key)?.text;
+  const counted = ["margin", "vote-share", "best-place", "turnout"]
+    .map(said)
+    .filter((text): text is string => !!text);
+  if (asking && counted.length)
+    expect(
+      counted.some((text) => answered.includes(text)),
+      `${where}: "${answered}" names none of ${counted.join(", ")}`,
+    ).toBe(true);
+  // One screen names a thing once: no two replies carry the same insert.
+  for (const key of ["winner", "seat", "place"]) {
+    const text = said(key);
+    if (text)
+      expect(
+        root.filter((row) => row.text.includes(text)).length,
+        `${where}: ${key} in more than one reply`,
+      ).toBeLessThanOrEqual(1);
+  }
 
   // The reply is written back: a record that names the cause, and the tie.
   const replyId = replyInScene(core, director, personId, entry, [P.zero], {
@@ -308,6 +329,30 @@ function check(
       .join("\n");
   expect(text(2), where).toBe(text(2));
   expect(text(2), where).not.toBe(text(-2));
+  // A teller who backed the winner and one who backed the loser say the
+  // count differently: the same race, the same words for it, a different
+  // reason, read from their lean against the winner's party.
+  const sided = (side: "bearer-with" | "bearer-against") => {
+    const own = Object.fromEntries(
+      Object.entries(facts).filter(
+        ([key]) => key !== "bearer-with" && key !== "bearer-against",
+      ),
+    );
+    own[side] = { text: "yes", sourceRecordIds: [moment.causeId] };
+    const out = composeSceneTalk(
+      core,
+      director,
+      { askerId: scene.askerId, askedId: scene.askedId },
+      TYPE,
+      own,
+      {},
+    );
+    if (out.kind !== "composed") return "";
+    const ask = out.talk.tree.replies.find((row) => row.line.move === "ask");
+    return (ask?.next?.lines ?? []).map((row) => row.text).join(" ");
+  };
+  if (facts.margin || facts["vote-share"])
+    expect(sided("bearer-with"), where).not.toBe(sided("bearer-against"));
 
   const log = `${moment.date} ${moment.label}, cause record ${moment.causeId}, asker ${scene.askerId} (${[...scene.facts.map((row) => row.key).filter((key) => /^(bearer|you)-|^(kin|acquainted|stranger)$/.test(key))].join(", ") || "no ran facts"}), reply ${replyId}\nREPLIES: ${root.map((row) => `${row.move}: ${row.text}`).join(" | ")}\nA friendly, affectionate speaker:\n${text(2)}\nA hostile, argumentative speaker:\n${text(-2)}\n`;
   if (process.env.SCENE_LOG)
