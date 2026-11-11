@@ -614,16 +614,27 @@ export interface EmployerRecord {
 /**
  * An employer's name as people say it in a sentence, from the kind of its
  * record, never a list of names: a government or one of its offices takes
- * "the" ("the Village of Athens treasury", "the Island Falls Police
- * Department"), by the government it belongs to on record; a school system ("Island Falls Public Schools"), a business
- * or any other employer keeps its name as it stands. `name` is the name as
- * the reader already spells it (`properName`).
+ * "the" ("the Island Falls Police Department"), by the government it belongs
+ * to on record; a government's treasury is not an employer, so the government
+ * is said ("the Village of Athens", "the government of Maine", "the federal
+ * government"; skill words-engine). A school system ("Island Falls Public
+ * Schools"), a business or any other employer keeps its name as it stands.
+ * `name` is the name as the reader already spells it (`properName`).
  */
 export function employerSaid(name: string, record: EmployerRecord): string {
+  if (record.kind === "government-outside")
+    return name === "US"
+      ? "the federal government"
+      : `the government of ${name}`;
+  if (record.kind === "government-treasury") {
+    const government = name.replace(/\s+treasury$/i, "");
+    return /\bof\b/.test(government)
+      ? `the ${government}`
+      : `the government of ${government}`;
+  }
   // A business keeps its name, whatever public contracts its record lists.
   const business = !!record.classification?.startsWith("enterprise:");
   const government =
-    record.kind.startsWith("government") ||
     !!record.governmentFacts?.governmentKind ||
     !!record.governmentFacts?.governmentKey;
   const schools = record.classification === "service:school";

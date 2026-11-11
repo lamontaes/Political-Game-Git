@@ -249,7 +249,9 @@ function employerName(
   const org = organizationId
     ? core.organizations.get(organizationId)
     : undefined;
-  return org
+  // The outside buyers and sellers are the market's stand-in for work out of
+  // town, never an employer to name (skill words-engine).
+  return org && org.kind !== "outside-market"
     ? {
         text: employerSaid(properName(org.name), org),
         sourceRecordIds: [...recordIds, org.id],
