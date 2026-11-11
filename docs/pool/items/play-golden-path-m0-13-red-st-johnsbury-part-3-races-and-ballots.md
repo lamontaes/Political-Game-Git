@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots
+pr: #8259
 after: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split
 blocked-on:
 lead: play-first
@@ -17,6 +17,8 @@ effort: medium
 root: rc2-done-from-records
 source: split from play-golden-path-m0-13-red-st-johnsbury in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T22:56:11.886Z
+branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots
 ---
 
 **What.** In the played year of St. Johnsbury, Vermont, one of the three Selectboard races of March 4, 2025 has no one on the ballot, and a challenger who decided to run in another is not on it. Both filed and both petitions came up short of the 30 signatures the law asks for. Each had gathered 25 or more on the one day their campaign worked, and then did nothing for the five days left.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing. The re-run its first part was to make is done (Nov 10, main cb25bfa5c8) and is in the Cause.
 
 **Files.** src/core2/modules/campaigns.ts, tests/golden-path/played-world.node-test.ts, src/core2/campaign-turn.test.ts
+
+**Notes.** Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots.

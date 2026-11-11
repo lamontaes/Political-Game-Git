@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-long-run-tables-grow-with-history-part-2-durable-log-and-speech
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: rc5-full-detail-every-day
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:32:33.817Z
 ---
 
 **What.** Two tables keep a row per event forever: the durable log (10,438 to 149,782 rows between years 1 and 6 in Ringgold, Louisiana) and speech retellings (1,088 to 95,783). Fold what still grows into a summary once play no longer reads the detail; the speech half was folded after this was measured. Keep what the person card, the director, the journal and the trace read, and keep the player's own and the people they deal with whole.

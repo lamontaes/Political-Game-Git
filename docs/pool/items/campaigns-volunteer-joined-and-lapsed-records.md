@@ -18,6 +18,7 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
+branch: claude/pool-campaigns-volunteer-joined-and-lapsed-records
 ---
 
 **What.** A person joins a campaign through askToVolunteer or enlistVolunteer, which only adds their id to the campaign row, and nothing records when or why. Nothing records a volunteer who stops coming either, so the quiet summer months have no cause to name. In a played world (Kanorado, Kansas, a resident's Senate filing) the candidate had 17 speech and 34 message records from May to September 2026 and 6 scenes among 102 schedule entries. Write a record when a volunteer joins, naming the speech or ask that brought them, and one when a volunteer lapses, naming the reason from their free time, the campaign's activity and their agreement.
@@ -37,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/campaigns.ts
 
 **Notes.** Found while packeting scene-listener-offers-to-work.
+
+Released (2026-11-10): Done-when needs the director's listener scene to read a lapse record, which needs scene lines under data/english/parts (Story session only) and a lapse rule the item does not define; join record alone is buildable. Continue on branch claude/pool-campaigns-volunteer-joined-and-lapsed-records.

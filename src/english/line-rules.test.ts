@@ -495,3 +495,70 @@ describe("the grade notes no rule cites", () => {
     expect(new Set(reasonsText).size).toBeGreaterThan(10);
   });
 });
+
+describe("the rules that judge one line", () => {
+  const file = JSON.parse(
+    readFileSync(
+      path.resolve(__dirname, "../../data/english/line-rules.json"),
+      "utf8",
+    ),
+  ) as LineRulesFile;
+  const byId = new Map(file.rules.map((r) => [r.id, r]));
+  const TESTED: readonly [string, "enforced" | "sample"][] = [
+    ["question-names-its-subject", "enforced"],
+    ["no-filler", "sample"],
+    ["no-stock-phrases", "sample"],
+    ["pressure-sounds-like-politics", "enforced"],
+    ["traits-read-as-plain-sentences", "enforced"],
+    ["office-named-as-people-say-it", "enforced"],
+    ["regional-speech-is-word-choice-only", "enforced"],
+    ["the-word-lie-never-appears", "enforced"],
+  ];
+
+  it.each(TESTED)(
+    "%s is tested (%s): it flags its catches and spares its spares",
+    (id, status) => {
+      const r = byId.get(id)!;
+      expect(r.status).toBe(status);
+      expect(["phrases", "patterns"]).toContain(r.test.kind);
+      expect((r.catches ?? []).length, `${id} catches`).toBeGreaterThan(0);
+      expect((r.spares ?? []).length, `${id} spares`).toBeGreaterThan(0);
+      for (const line of r.catches ?? [])
+        expect(textBreaksRule(r, line), `${id} must catch: ${line}`).toBe(true);
+      for (const line of r.spares ?? [])
+        expect(textBreaksRule(r, line), `${id} must spare: ${line}`).toBe(
+          false,
+        );
+    },
+  );
+
+  it("the rules that apply to certain banks flag only there", () => {
+    const traits = byId.get("traits-read-as-plain-sentences")!;
+    const lie = byId.get("the-word-lie-never-appears")!;
+    expect(
+      ruleFlags(
+        traits,
+        piece("t", "Neither, much", [], { bank: "person-sketch" }),
+      ),
+    ).toBe(true);
+    expect(ruleFlags(traits, piece("t", "Neither, much"))).toBe(false);
+    expect(
+      ruleFlags(lie, piece("l", "Lie.", [], { bank: "choice-names" })),
+    ).toBe(true);
+    expect(ruleFlags(lie, piece("l", "Lie.", [], { bank: "journal" }))).toBe(
+      false,
+    );
+  });
+
+  it("a rule left judged says in one sentence why, in its note", () => {
+    const left = file.rules.filter(
+      (r) =>
+        r.judges === "line" &&
+        r.status === "awaiting-test" &&
+        r.test.kind === "judged",
+    );
+    expect(left.length).toBeGreaterThan(0);
+    for (const r of left)
+      expect(r.note ?? "", r.id).toMatch(/^.*Stays judged: [^.]+\./s);
+  });
+});

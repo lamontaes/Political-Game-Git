@@ -787,10 +787,16 @@ export const MACRO_MODULE: PreStartModule = {
     else if (work.kind === "macro-rate-effective")
       takeEffect(api, work.sourceRecordIds[0]!);
   },
-  onDay(api) {
-    if (!readState(api)) open(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its months, meetings and rate changes are dated work and run.
+  onResultsMonth: openOnce,
 };
+
+/** The economy opens on the first day the engine runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (!readState(api)) open(api);
+}
 
 /** The board members are people in the world; add them to the opening input. */
 export function withCentralBank(input: CoreInput): CoreInput {
@@ -860,6 +866,11 @@ const OUTLOOK_PROBLEMS_KEPT = 8;
 /** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
 export function countryOpened(api: CoreAPI): boolean {
   return readState(api) !== undefined;
+}
+
+/** The tier's own check for counts that cannot be (negative, more working than people, jobs not matching workers); empty before the economy opens. */
+export function countryTierProblems(api: CoreAPI): string[] {
+  return readState(api) ? countryProblems(readCountry(api)) : [];
 }
 
 export function countryOutlook(api: CoreAPI, months: number): CountryOutlook {

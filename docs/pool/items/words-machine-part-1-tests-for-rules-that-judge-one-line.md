@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/fable-b3-line-rule-tests
-pr:
+pr: #8204
 after:
 blocked-on:
 lead: words
@@ -18,6 +18,7 @@ root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
 claimed-at: 2026-11-10T19:03:00.636Z
+merged-at: 2026-11-10T22:54:21.024Z
 ---
 
 **What.** The owner's notes are rules now, and most of the newer ones are written down without a test, so they pull nothing. This part writes the test for each rule that can be judged from one line alone. A rule with a test pulls the lines that break it and refuses new ones by name.

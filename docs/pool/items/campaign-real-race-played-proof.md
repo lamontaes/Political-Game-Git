@@ -18,6 +18,7 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
+branch: claude/pool-campaign-real-race-played-proof
 ---
 
 **What.** campaign-like-real-races has two halves: path-check winning a council seat in 7 of 10 drawn places, and a buildBenchWorld played-year test showing an organization endorsing and sending volunteers, a forum the player hosts, money raised by named donors and the incumbent changing their schedule after the player gains, each by record id. This item is the second half, so its PR can merge on its own while the first is measured. The test is src/core2/campaign-real-race-played.test.ts, read on the eve of the election before any fold.
@@ -37,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/campaign-real-race-played.test.ts (new)
 
 **Notes.** Nov 2, 01:40 (governing lead): branch governing/real-race-played-proof at ede6bf1934. Not re-checked since Nov 1. Next: run its played test on two fresh seeds against the done-when, then open the PR or write what is left here.
+
+Released (2026-11-10): Branch test ran on main (draw seed b1bd9499354f0084): clauses a b c hold by record id (Lake Lure NC, council, eve 2025-11-03); clause d fails: incumbent person_0ffc0a527c69b850 shows 0 polls and never stepped up on reading the player ahead; draws 2-5 offered the player no council race on the day tried; draw 1 TypeError at test line 374 (petition.signers undefined). Needs the incumbent step-up engine read before the test can pass; not opened as PR. Continue on branch claude/pool-campaign-real-race-played-proof.

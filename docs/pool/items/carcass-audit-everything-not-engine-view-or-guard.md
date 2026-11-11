@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-carcass-audit-everything-not-engine-view-or-guard
 pr: #8232
 after:
