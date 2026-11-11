@@ -28,7 +28,7 @@ import {
   firearmOwnershipRate,
   householdOwnsFirearm,
 } from "../firearm-ownership";
-import { lawChain } from "../modules/laws";
+import { lawChain, yesLevels } from "../modules/laws";
 import { residentsRuntime } from "../modules/residents";
 import { countedJobHeads } from "../residents-economy";
 import {
@@ -153,7 +153,11 @@ export function selectorGroup(name: string): readonly string[] {
 
 // --- the module --------------------------------------------------------------
 
-import { runReachCalendar, runReachPayroll } from "./reach-workers";
+import {
+  onReachCalendar,
+  runReachCalendar,
+  runReachPayroll,
+} from "./reach-workers";
 
 interface PremiumRecord {
   readonly id: string;
@@ -525,9 +529,120 @@ export function applyRecords(
     }
     return;
   }
-  for (const spec of policy.reaches)
+  for (const spec of policy.reaches) {
     writeRows(api, key, lawId, spec, targetsOf(api, spec));
+    scheduleAgeChecks(api, key, lawId, spec);
+  }
 }
+
+/** The calendar kind that re-reads a person's age-gated rows on the day their age or their home's youngest child's age crosses a gate. */
+const REACH_AGE_KIND = "reach-age-check";
+
+/** The day a person turns `years`, a February 29 birthday falling on March 1 in a common year. */
+function birthdayAt(birthDate: string, years: number): string {
+  const year = Number(birthDate.slice(0, 4)) + years;
+  const rest = birthDate.slice(4);
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return rest === "-02-29" && !leap
+    ? `${year}-03-01`
+    : `${String(year).padStart(4, "0")}${rest}`;
+}
+
+/**
+ * Age-gated rows open and end on a cause, not a scan: the birthday that
+ * crosses a gate (turning the age a law starts at or stops at), and the
+ * birthday on which the youngest child of a home outgrows a "child in the
+ * home" gate. When a row is written (a law takes effect), the next such day
+ * for each full person the gate could change is put on the module's
+ * calendar; on that day the person's rows are read again and the next day
+ * is booked. A birth or a move into a home with a child is not yet a cause
+ * read here.
+ */
+function scheduleAgeChecks(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  spec: ReachSpec,
+): void {
+  const select = spec.select;
+  if (
+    spec.target !== "people" ||
+    !select ||
+    !(select.ageFrom || select.ageBelow || select.withChildBelow)
+  )
+    return;
+  for (const person of townPeople(api))
+    scheduleNextAgeCheck(api, key, lawId, spec, person.id);
+}
+
+function scheduleNextAgeCheck(
+  api: CoreAPI,
+  key: string,
+  lawId: string,
+  spec: ReachSpec,
+  personId: string,
+): void {
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  const select = spec.select;
+  if (!person?.alive || !select) return;
+  const today = core.date;
+  const days: string[] = [];
+  const age = ageOn(person.birthDate, today);
+  for (const gate of [select.ageFrom, select.ageBelow])
+    if (gate) {
+      const at = reachParameter(gate);
+      if (age < at) days.push(birthdayAt(person.birthDate, at));
+    }
+  if (select.withChildBelow) {
+    const below = reachParameter(select.withChildBelow);
+    for (const id of core.households.get(person.householdId)?.memberIds ?? []) {
+      const member = core.people.get(id);
+      if (member?.alive && ageOn(member.birthDate, today) < below)
+        days.push(birthdayAt(member.birthDate, below));
+    }
+  }
+  const next = days.filter((day) => day > today).sort()[0];
+  if (!next) return;
+  const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
+  const id = `${REACH_AGE_KIND}:${key}:${spec.id}:${personId}:${next}`;
+  if (calendar.get(id)) return;
+  calendar.schedule({
+    key: id,
+    date: next,
+    kind: REACH_AGE_KIND,
+    source: {
+      tag: "SOURCED",
+      citation: `A birthday that crosses the age gate of ${key} (law ${lawId}).`,
+      asOf: today,
+    },
+    sourceRecordIds: [key, spec.id, personId, lawId],
+  });
+}
+
+onReachCalendar(REACH_AGE_KIND, (api, work) => {
+  const [key, specId, personId, lawId] = work.sourceRecordIds as [
+    string,
+    string,
+    string,
+    string,
+  ];
+  const spec = POLICIES[key]?.reaches.find((row) => row.id === specId);
+  const person = api.state.people.get(personId);
+  if (!spec?.select || !person?.alive) return;
+  // The law decides whether rows may exist, independently of the rows held.
+  if (!yesLevels(api, key).length) return;
+  const table = reachTable(api, "reach");
+  const held = openReach(api, key).find(
+    (row) => row.spec === spec.id && row.targetId === personId,
+  );
+  const matches = personMatches(api, person, spec.select);
+  if (matches && !held)
+    writeRows(api, key, lawId, spec, [{ id: personId, personId, count: null }]);
+  else if (!matches && held)
+    table.put({ ...held, endedOn: api.state.date } as unknown as ModuleRow);
+  scheduleNextAgeCheck(api, key, lawId, spec, personId);
+});
 
 /** The spec a mechanic writes its own rows with. */
 export function specOf(key: string, specId: string): ReachSpec {
