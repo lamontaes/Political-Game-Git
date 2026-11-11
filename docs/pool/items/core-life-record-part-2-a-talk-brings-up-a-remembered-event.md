@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-life-record-part-2-a-talk-brings-up-a-remembered-event
-pr:
+pr: #8646
 after:
 blocked-on:
 lead: director
