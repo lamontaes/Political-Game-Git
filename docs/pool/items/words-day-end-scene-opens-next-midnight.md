@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-words-day-end-scene-opens-next-midnight
-pr:
+pr: #8673
 after:
 blocked-on:
 lead: words
