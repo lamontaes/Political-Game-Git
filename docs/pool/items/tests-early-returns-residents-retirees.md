@@ -5,13 +5,13 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #5037
+claimed-by: claude/pool-tests-early-returns-residents-retirees
+pr: #8540
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T03:48:33.776Z
 after:
 lead: laws-effects
 model: sonnet

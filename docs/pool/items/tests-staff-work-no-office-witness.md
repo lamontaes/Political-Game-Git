@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: dropped
+status: in-pr
 standard: 2
-claimed-by: claude/staff-no-office-witness
-pr:
+claimed-by: claude/pool-tests-staff-work-no-office-witness
+pr: #8419
 after:
 blocked-on:
 lead: governing
@@ -16,8 +16,9 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T02:56:19.248Z
+claimed-at: 2026-11-11T01:14:14.602Z
 checked: fable 2026-11-10
+branch: claude/pool-tests-staff-work-no-office-witness
 ---
 
 **What.** At seed196612b7b9cc3d9b7c955d1fdc5446b2, src/core2/staff.test.ts exhausts its bounded draws with no office could hire: KY2135362, OH3984308, OR4181300, NH3369940, WY5640120, IA1937200 and NJ3430420. The exact assertion and places reproduce on clean main d3b95c2b3e3ccf419c4fc19bdb08225b336af67a and on the timeout-only PR5837. Diagnose which seat, candidate or post-hire-work gate rejects each draw; this is not a timeout failure.
@@ -46,4 +47,8 @@ Diagnosed Oct 26 (claude/staff-no-office-witness), at seed 196612b7b9cc3d9b7c955
 
 Merger 1, 2026-10-26 after #5769 merged: the primary office-week fix is delivered and its 120-day schedule/attendance test passed. The required named-seed staff file was rerun on merged main 6aa5524acdd1a679086455a28980a06c171a99f4 and still fails earlier at staff.test.ts:150, retained work rows0 versus5, exactly as on the clean pre-merge base and on an independent PR draw. This secondary item is not done; its blocker is now tests-staff-work-why-records-empty-on-main rather than the merged schedule item. Preserve all original staff/work/payroll assertions and rerun the named and independent seeds after the retention-fixture issue is fixed.
 
-Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed a test of aide hiring, and the aide is a payroll line no player screen shows (the aide items gov-official-staff-allowance-by-office and gov-staff-review-hires-unpaid-aide are dropped too).
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:12 UTC) on branch claude/pool-tests-staff-work-no-office-witness.
+
+Released (2026-11-11): Cause differs: src/core2/staff.test.ts passes (2 of 2) on main 43a170eac2d at both named seeds 196612b7... and c3be1ee2..., and at seed 5d3a0c9e1b7f4a62; no red to fix. Needs a CTO close or a new repro. Continue on branch claude/pool-tests-staff-work-no-office-witness.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:14 UTC) on branch claude/pool-tests-staff-work-no-office-witness.

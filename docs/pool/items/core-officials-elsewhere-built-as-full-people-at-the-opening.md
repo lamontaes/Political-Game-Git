@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr: #8390
-after:
+after: core-officials-elsewhere-part-1-past-terms-on-demand
 blocked-on:
 lead: fable
 model: opus
@@ -18,7 +18,6 @@ root: design-country-tier
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 3, "The legislators are built at the opening anyway", and Pillar 7)
 checked: fable 2026-11-10
 claimed-at:
-branch: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
 ---
 
 **What.** Most of the people and office records the game builds on day one belong to officials the player will never meet. Measured in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af): 716 of the world's 910 full people on day one were officials somewhere else; another 139 lived in the town, 31 worked for the press and 24 were others. A village in Vermont held 21,030 office-term records after one year, the largest table in the game, and 34,088 by year four; on day one of a North Dakota game the Play as list offered 6,489 officeholders. The owner ruled on November 5 that other states' legislators are not built at the opening and are named and built on demand. For every office of another state or territory the opening keeps a result (the seat, the party holding it and the views its body decides from) and writes no named holder and no term history; the person, their name and their past terms are built the first time the player meets or opens them, the same every time. Officials in the player's own chain who serve somewhere else vote from the same kept views and are not walked daily or given a home and bills until met or opened, unless the country tier design says a group stays full.
@@ -42,3 +41,7 @@ branch: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:39 UTC) on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening.
 
 Released (2026-11-11): Part 1 (other states' earlier terms written when the holder is opened) is core-officials-elsewhere-part-1-past-terms-on-demand on PR 8390; the rest (no named holder or term record for other states on day one, the Watch counts, Play as building the person, the player's chain walked daily) is still this item's, its branch reused by part 1. Continue on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening and pull request #8390.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:04 UTC) on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening.
+
+Released (2026-11-11): Waits on its part 1, core-officials-elsewhere-part-1-past-terms-on-demand (PR 8390), now named in after:. Continue on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening and pull request #8390.

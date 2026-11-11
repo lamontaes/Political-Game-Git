@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 **Notes (Fable's check, Nov 10).** How to find the cause: run src/core2/counted-weight-release.test.ts at the two named places on today's main; if it is still red, bisect main between the commit where it last passed and fa97c57fc5 with that one test. The fix then restores staff following sales at Census size, at the line that change touched, and never loosens the test.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `WEIGHT_RELEASE_KEY=1150000 WEIGHT_RELEASE_SEED=dc-closures-a npx vitest run src/core2/counted-weight-release.test.ts` (Washington, D.C.): still red: "expected 4.482247597547775 to be less than or equal to 1.6780313630358783" (organization_62c301b7c927f6ee 55.4/12.4, organization_40122d8e46bcac2a 1354.3/334.6). `WEIGHT_RELEASE_KEY=2079000 WEIGHT_RELEASE_SEED=0930f1635339f81e` (Wichita, Kansas): the Washington case fails the same way, and the pinned case fails: "the sample world's weights: expected 1327.941996153882 to be 1". Fresh draw `GOLDEN_PATH_SEED=17d959027ccbe10f`: the Washington case fails the same way. Still red. Each run took 12 to 14 minutes.

@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/voting.ts, tests/golden-path/played-world.node-test.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=7220998 GOLDEN_PATH_SEED=1535847a...2bb7 node --max-old-space-size=8192 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts` (Corral Viejo, Puerto Rico): exit 0, 18 passed; the assertion 'counted voters vote in local races' passed without being exercised: "UNOBSERVED ... no local race was decided in the run". Fresh draw `GOLDEN_PATH_SEED=bf3319d282b6140c88a874df3adfe330` (Wheat Ridge, Colorado, 0884440): green, and exercised: "counted voters voted in all 4 local races". The item's own case is therefore unproved either way in Corral Viejo; the fresh draw is green and observed. Proposed for the CTO: drop as fixed on main.

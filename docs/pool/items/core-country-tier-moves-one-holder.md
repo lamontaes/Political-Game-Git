@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-core-country-tier-moves-one-holder
-pr:
+pr: #8412
 after:
 blocked-on:
 lead: fable
