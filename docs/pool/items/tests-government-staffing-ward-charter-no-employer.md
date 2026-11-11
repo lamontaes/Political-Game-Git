@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-government-staffing-ward-charter-no-employer
-pr:
+pr: #8790
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T09:07:00.344Z
+claimed-at: 2026-11-11T09:43:46.932Z
 branch: claude/pool-tests-government-staffing-ward-charter-no-employer
 ---
 
@@ -44,3 +44,23 @@ branch: claude/pool-tests-government-staffing-ward-charter-no-employer
 Cause found (Nov 11, 2026, cause finder for Fable B): the staffing reach did reach an employer (staff-funded, 3 positions); the hire is missing only because the test looks before the opening's vacancy wait ends. The first four draws for this seed have at-large councils, so this seed always lands on the ward-charter fallback and always hits the short horizon.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:06 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause does not hold: with the item's fix (play on weekly to 63 days after the change) the ward-charter draw still has no hired-on-budget-line row at day 63 on seed 446eaae155bdacc270446225a696c32454dda4b0 (place 3050200) and on fresh seeds a1b2c3d4e5f60718 (3314200) and 9f8e7d6c5b4a3921 (1825000); on the last the organization staffing row is missing too, so the reach itself misses an employer. Needs a new cause find. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:16 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause does not hold: weekly play to 63 days after the change still leaves no hired-on-budget-line row on seeds 446eaae155bdacc270446225a696c32454dda4b0 (place 3050200), a1b2c3d4e5f60718 (3314200), 9f8e7d6c5b4a3921 (1825000); on the last the organization staffing row is missing too. Test change reverted; needs a new cause find. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:16 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause does not hold (see earlier release note: no hire after 63 days on three seeds); needs a new cause find, not another build attempt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:21 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): The Cause does not hold (three releases say so); rewritten as Needs cause on pool/notes-2026-11-11-10 (31523b368aa9), not rebuilt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:23 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause found by probe (the hire comes after the April job-finding review, about 77 days after the change); written on pool/notes-2026-11-11-10 (0806785e43f1) with checked cleared for Fable's check; not built. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:43 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
