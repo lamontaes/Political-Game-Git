@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/modules/interest-groups.ts, src/core2/modules/jobs.ts, src/core2/data/stopgaps/gov.json, src/core2/modules/interest-groups.traits.test.ts
 
-**Notes.** Oct 20 (pool feeder): the row SG-GOV-group-lobbyist-stand-in stays open while its only pool item is done.
+**Notes.** Oct 20 (pool feeder): the row SG-GOV-group-lobbyist-stand-in stays open while its only pool item is done. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A hired lobbyist paid from dues with a memory of votes; a stand-in lobbyist already meets members and the player sees the same meetings.

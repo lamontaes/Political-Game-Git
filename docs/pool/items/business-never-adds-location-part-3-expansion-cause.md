@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: business-never-adds-location-part-1-counted-founding-room, business-never-adds-location-part-2-all-markets
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** business-never-adds-location-part-1-counted-founding-room and business-never-adds-location-part-2-all-markets.
 
 **Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, src/core2/tooling/m1-08-check.ts, src/core2/business.test.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a business open a second location from demand outgrowing capacity; no screen or scene shows a business's locations, and the town's founding count is already fixed by parts 1 and 2.
