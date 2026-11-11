@@ -182,10 +182,11 @@ try {
     return list.findIndex((item) => item.id === id);
   }, result.billId);
   assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
+  // The bill by its own row in the list (the row carries the bill's id).
   await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .nth(place)
+    .locator(
+      `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
+    )
     .click();
   await page.getByText("In committee: ", { exact: false }).first().waitFor();
   const paper = await page.locator("#sheet-body").innerText();

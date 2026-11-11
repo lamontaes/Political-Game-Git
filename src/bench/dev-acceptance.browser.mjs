@@ -193,21 +193,18 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
     .click();
-  await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .first()
-    .waitFor();
+  await page.locator(".roster-screen.bills .roster-row").first().waitFor();
   // The list's order moves as bills come and go: find the bill's place in it.
   const listed = await page.evaluate(async (id) => {
     const list = await (await fetch("/api/bills/following")).json();
     return list.findIndex((item) => item.id === id);
   }, result.billId);
   assert.ok(listed >= 0, "the Bills tab follows the bill dev mode decided");
+  // The bill by its own row in the list (the row carries the bill's id).
   await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .nth(listed)
+    .locator(
+      `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
+    )
     .click();
   await page.locator('[data-testid="dev-bill-ending"]').waitFor();
   const read = (testid) =>

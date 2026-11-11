@@ -7,8 +7,9 @@ import { pickGroup, pickHead, pickRow } from "./list-row.mjs";
 import { pager } from "./pager.mjs";
 
 /**
- * `groups`: [{ title?, entries: [{ key, label, aside?, onSelect?, data? }] }]; `render(entry)`
- * gives the page nodes (or a promise of them); `className`
+ * `groups`: [{ title?, entries: [{ key, label, aside?, onSelect?, data? }] }]; `render(entry, show)`
+ * gives the page nodes (or a promise of them), or calls `show(...nodes)` itself, now and
+ * whenever the page changes; `className`
  * names the screen for its checks. An entry with `onSelect` runs it instead of opening a page.
  */
 export function rosterScreen({
@@ -33,8 +34,13 @@ export function rosterScreen({
     const mine = ++request;
     for (const b of roster.querySelectorAll(".roster-row"))
       b.setAttribute("aria-pressed", String(b.dataset.key === entry.key));
-    const nodes = await render(entry);
-    if (mine === request) page.replaceChildren(...nodes);
+    // A page that redraws itself later (a bill after a vote) is handed `show`
+    // and returns nothing; one drawn once returns its nodes.
+    const show = (...nodes) => {
+      if (mine === request) page.replaceChildren(...nodes);
+    };
+    const nodes = await render(entry, show);
+    if (nodes) show(...nodes);
   };
   const rowOf = ({ heading, entry }) => {
     if (heading) return pickGroup(heading, "roster-group");

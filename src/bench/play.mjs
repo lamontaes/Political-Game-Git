@@ -4452,57 +4452,27 @@ const sheets = {
     const words = controls.billFollow ?? {};
     const status = controls.floor?.status ?? {};
     const list = await api("/api/bills/following");
-    const body = (...nodes) => $("sheet-body").replaceChildren(...nodes);
-    const open = (item) =>
-      openBillPaper(item.id, body, () => openSheet("bills"));
-    return [
-      stripScreen({
-        name: controls.titles.bills,
-        role: "",
-        face: null,
-        columns: [
-          list.length
-            ? list.map((item, at) => {
-                const button = makeButton({
-                  className: "action",
-                  textContent: words.open,
-                });
-                button.addEventListener("click", () => open(item));
-                return stripSection(
-                  1 + (at % 5),
-                  `${item.number} · ${item.title}`,
-                  line(
-                    [
-                      status[item.status],
-                      ...item.floor.map(
-                        (f) => `${f.chamberTitle}: ${f.result}`,
-                      ),
-                      item.reachesYou ? words.reaches : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  ),
-                  ...(item.mine.length
-                    ? [
-                        introText(
-                          `${words.yourMembers}: `,
-                          ...item.mine.flatMap((m, i) => [
-                            ...(i ? [", "] : []),
-                            nameLink(m.name, () =>
-                              showPerson({ personId: m.memberId }),
-                            ),
-                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
-                          ]),
-                        ),
-                      ]
-                    : []),
-                  button,
-                );
-              })
-            : [stripSection(1, controls.titles.bills, prose(words.empty))],
-        ],
-      }),
-    ];
+    if (!list.length)
+      return [stripSection(1, controls.titles.bills, prose(words.empty))];
+    // The bills a player follows, listed by where each stands, beside the
+    // chosen bill's own page (the one list-beside-page part): no button to
+    // read a bill and no Back from it.
+    const stages = [...new Set(list.map((item) => item.status))];
+    return rosterScreen({
+      title: controls.titles.bills,
+      className: "bills",
+      groups: stages.map((stage) => ({
+        title: status[stage] ?? "",
+        entries: list
+          .filter((item) => item.status === stage)
+          .map((item) => ({
+            key: item.id,
+            label: item.title,
+            aside: item.number,
+          })),
+      })),
+      render: (entry, show) => void openBillPaper(entry.key, show, () => {}),
+    });
   },
   async government() {
     const labels = controls.politics;
@@ -5287,7 +5257,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "news"].includes(tab) &&
+    !["calendar", "people", "news", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );

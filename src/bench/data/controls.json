@@ -1177,9 +1177,6 @@
     "callOverride": "Take up the veto message"
   },
   "billFollow": {
-    "open": "Read the bill",
-    "reaches": "Reaches your town",
-    "yourMembers": "Your members",
     "empty": "No bill is before your town, county, state or Congress yet."
   },
   "frontTitles": {

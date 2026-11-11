@@ -233,8 +233,8 @@ try {
     0,
     "every cosponsor is a member of a body in this world",
   );
-  // Back, and open the paper again: it now says what the aide expects.
-  await page.locator("#sheet-body button.action").first().click();
+  // Back to the seat by its tab (a menu has no Back), and open the paper again: it now says what the aide expects.
+  await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
   await page.waitForTimeout(800);
   await page
     .locator("#sheet-body button", { hasText: /Read the bill/ })
@@ -302,8 +302,8 @@ try {
     return r.status;
   }, billId);
   assert.equal(held, 200, "dev mode holds the floor vote");
-  // Back, and open the paper again: the floor now has a result by name.
-  await page.locator("#sheet-body button.action").first().click();
+  // Back to the seat by its tab, and open the paper again: the floor now has a result by name.
+  await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
   await page.waitForTimeout(800);
   await page
     .locator("#sheet-body button", { hasText: /Read the bill/ })
@@ -336,16 +336,15 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
     .click();
-  // A bill before the state or Congress lists with a Read the bill control; a world with none says so.
+  // Each bill before the town, the state or Congress is a row in the list; a world with none says so.
   await page
-    .locator("#sheet-body")
-    .getByText(
-      /Read the bill|No bill is before your town, county, state or Congress yet\./,
-    )
+    .locator(".roster-screen.bills .roster-row, #sheet-body .sec")
     .first()
     .waitFor();
   const followed = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .sec")].map((n) => n.innerText),
+    [
+      ...document.querySelectorAll("#sheet-body .roster-row, #sheet-body .sec"),
+    ].map((n) => n.innerText),
   );
   console.log("followed bills:", followed.slice(0, 3));
   assert.ok(followed.length > 0, "the Bills tab lists a bill");

@@ -101,20 +101,19 @@ try {
   }
   // Bills: a bill's page has no Back, and the tabs reach the list and Government.
   await politics("Bills");
-  const card = page.getByRole("button", { name: /read the bill/i });
+  // A followed bill is a row in the list; its page stands beside it.
+  await page.waitForTimeout(1200);
+  const card = page.locator(".roster-screen.bills .roster-row");
   if (await card.count()) {
     await card.first().click();
-    await page.waitForTimeout(1500);
+    await page.locator(".roster-screen.bills .bill-doc").waitFor();
     assert.deepEqual(await backButtons(), [], "Back on a bill from Bills");
     await shot("bill-from-bills");
     await page
       .locator("#sheet-tabs")
       .getByRole("button", { name: "Bills", exact: true })
       .click();
-    await page
-      .getByRole("button", { name: /read the bill/i })
-      .first()
-      .waitFor();
+    await page.locator(".roster-screen.bills .roster-row").first().waitFor();
     await page
       .locator("#sheet-tabs")
       .getByRole("button", { name: "Government", exact: true })
