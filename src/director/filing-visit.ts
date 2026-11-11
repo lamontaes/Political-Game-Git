@@ -130,7 +130,9 @@ export function openFilingVisit(
   // says who they are where the records name the clerk.
   const greet = visitLine(core, visit, "clerk", "greet-counter", {
     ...placeFact(core, playerId),
-    ...(filedWith
+    // An office the record names only as a choice ("City or town clerk")
+    // is no name a clerk says of their own office; the town is said instead.
+    ...(filedWith && !/ or /i.test(spokenOffice(filedWith))
       ? {
           where: {
             text: titleInSentence(spokenOffice(filedWith)),
