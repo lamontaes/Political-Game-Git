@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/pool-play-states-screen-opens-any-state
-pr:
+pr: #8462
 after:
 blocked-on:
 standard: 2
