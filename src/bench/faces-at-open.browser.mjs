@@ -7,6 +7,7 @@
 // must have its picture.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { startLife } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -17,26 +18,15 @@ page.on("pageerror", (e) => errors.push(e.message));
 const shots = process.env.FACE_SHOTS;
 const WITHIN = 300;
 try {
-  const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
-  await ready;
   // Every picture the page loads is kept in the timings, not only the first 250.
-  await page.evaluate(() => performance.setResourceTimingBufferSize(100000));
-  const made = page.waitForResponse(
-    (r) => new URL(r.url()).pathname === "/api/newlife",
-    { timeout: 600000 },
+  await page.addInitScript(() =>
+    performance.setResourceTimingBufferSize(100000),
   );
-  await page.locator("#new-life").click();
-  await page.locator("#new-advanced").click();
-  // FACES_SEED replays one world (the seed a failed run printed).
-  if (process.env.FACES_SEED)
-    await page.locator("#seed").fill(process.env.FACES_SEED);
-  await page.locator("#new-world").click();
-  console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
-  console.log("Place:", await page.locator("#card-place").innerText());
+  // A new life in a drawn place, its opening played as a player plays it.
+  await startLife(page, {
+    url: `http://localhost:${process.env.BENCH_PORT ?? 3000}/play`,
+    fresh: true,
+  });
   await page.locator("#rings").waitFor({ state: "visible" });
   for (const tab of ["people", "politics"]) {
     await page.locator(`#rings [data-tab="${tab}"]`).click();
@@ -61,17 +51,21 @@ try {
           Math.min(arrived.get(key) ?? Infinity, entry.responseEnd),
         );
       }
-      return [...document.querySelectorAll("#sheet .headshot")]
-        .map((h) => h.style.backgroundImage.match(/url\("(.*)"\)/)?.[1])
-        .filter(Boolean)
-        .map((url) => ({
-          url,
-          ms: Math.round((arrived.get(url) ?? Infinity) - opened),
-        }));
+      // A face is a bust: a few shared pictures stacked (ui/bust.mjs).
+      return [
+        ...new Set(
+          [...document.querySelectorAll("#sheet .bust-stack img")].map(
+            (img) => new URL(img.src).pathname,
+          ),
+        ),
+      ].map((url) => ({
+        url,
+        ms: Math.round((arrived.get(url) ?? Infinity) - opened),
+      }));
     }, opened);
     const missing = faces.filter((face) => !(face.ms <= WITHIN));
     console.log(
-      `${tab}: ${faces.length - missing.length} of ${faces.length} faces drawn ${WITHIN} ms after the sheet opened (latest ${Math.max(0, ...faces.map((face) => face.ms))} ms)`,
+      `${tab}: ${faces.length - missing.length} of ${faces.length} bust pieces drawn ${WITHIN} ms after the sheet opened (latest ${Math.max(0, ...faces.map((face) => face.ms))} ms)`,
     );
     if (shots) await page.screenshot({ path: `${shots}/faces-${tab}.png` });
     assert.deepEqual(

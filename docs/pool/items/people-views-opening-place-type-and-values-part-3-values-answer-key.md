@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** people-views-opening-place-type-and-values-part-2-the-14-values.
 
 **Files.** src/core2/views.test.ts, src/core2/modules/views.ts, data/research/people/, docs/packages/M1-views.md
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have found and quoted a survey to check the 14 values; research precision that no player sees, and the values themselves are borderline on part 2.

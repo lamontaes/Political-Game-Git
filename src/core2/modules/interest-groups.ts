@@ -37,7 +37,8 @@ import {
   type BillRow,
 } from "./legislature";
 import { personLean } from "../campaign-views";
-import { registerStanceListener, viewOf, viewOn } from "./views";
+import { registerStanceListener } from "../stance-listeners";
+import { viewOf, viewOn } from "./views";
 import { makeCase } from "./speech";
 import { concerns, meetingParameter } from "./meetings";
 import type { PersonState } from "../types";
