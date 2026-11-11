@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-job-openings-on-screen
 pr:
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from world-player-jobless-no-offers)
@@ -18,6 +18,8 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:01:25.296Z
+branch: claude/pool-play-job-openings-on-screen
 ---
 
 **What.** A jobless 18-year-old player can go a whole year with no job offer in some towns, and world-player-jobless-no-offers is fixing the offers. Jobs and study says No current job and nothing more, and the only openings shown anywhere is a Jobs open count on Metrics. List the open positions in town with employer, hours and pay, mark the ones the player fits by the jobs engine's own fit rule, and let the player apply to one; when none fit, say why (experience asked, hours, distance), read from the position records.
@@ -41,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Notes.** Filed by the Oct 25 pool audit: world-player-jobless-no-offers's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with world-player-jobless-no-offers (needs-from in the handoff line).
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:01 UTC) on branch claude/pool-play-job-openings-on-screen.
