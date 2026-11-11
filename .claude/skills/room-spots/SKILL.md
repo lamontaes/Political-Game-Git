@@ -5,6 +5,8 @@ description: How a room picture for Our Civic Duty is painted in the standard ca
 
 # Rooms and their spots
 
+**Set aside until after early access (owner, Nov 10 and 11, 2026).** Rooms draw no figures now: a room is its painting, and the people in it are a strip of busts (`src/bench/ui/bust-strip.mjs`, `peopleHere` in `src/bench/scene.ts`). Nothing in this skill is built or fixed while busts are the system. `docs/art/full-body-people-after-early-access.md` says what was removed, where the last working copy is, and how the work comes back. The methods and traps below are kept for that day.
+
 Owner, Oct 29: "5 angles per pose and have those 5 angles be able to be used throughout the game"; two standard shots per place (wide and medium) with the same eye-level camera and horizon; Firefly paints the room empty. Oct 28: "do not put people in until there are mannequins in there for every position" (positions are still required first); Nov 3: "Delete that mannequin." The green mannequin pictures are gone and seats are blobs, positions only (`art/people-rooms/mannequin-plates/README.md`). Oct 29, on couches: "They have to sit on the seat, but it has to appear behind the arm thing."
 
 The tools and the worked Oval Office are on the art branch under `art/people-rooms/standard/` (`tools/`, `PLAN.md`).
