@@ -19,7 +19,7 @@ source: split from core-speed-counted-payroll-into-named-ledger in the pool redo
 checked: fable 2026-11-10
 ---
 
-**What.** Counted groups keep per-group arrears outside the named ledger (`rt.arrears` and the `carry` book in `payGroups`, src/core2/counted-money.ts around line 762). Keep them on the group record, so a group in arrears is carried and paid when the employer's cash returns, the way a named worker's unpaid wages are. This is part 3 of core-speed-counted-payroll-into-named-ledger.
+**What.** Counted groups keep per-group arrears outside the named ledger (`rt.arrears` and the `carry` book in `payGroups`, src/core2/counted-money.ts around line 762). Keep them on the group record, so a group in arrears is carried and paid when the employer's cash returns, the way a named worker's unpaid wages are. This is part 3 of core-speed-counted-payroll-into-named-ledger. Feeds: core-speed-counted-payroll-into-named-ledger
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, Nov 8 night Coordinator call "Counted payroll: the same rule, times the count, on the employer's own calendar." `payGroups` in src/core2/counted-money.ts (around line 762) carries a group's arrears in its own book, not in the ledger.
 

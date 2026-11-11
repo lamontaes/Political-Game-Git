@@ -6,17 +6,17 @@ lead: laws
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-group-quarters-means-tests
+pr: #8690
 blocked-on:
 after: core-group-quarters-population
 model: sonnet
 effort: medium
 root: none
 source: speed lead, Nov 1, review of core-group-quarters-population
-claimed-at:
+claimed-at: 2026-11-11T06:12:07.893Z
 checked: fable 2026-11-10
 ---
 
