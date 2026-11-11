@@ -3,4 +3,4 @@ id: gov-congress-passes-policy-laws-part-1-question-list-from-data
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Background Congress files only on questions the research list admits, from both chambers; no change a player can see yet.
