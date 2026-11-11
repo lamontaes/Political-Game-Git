@@ -350,8 +350,7 @@ function pressBillFacts(
       text: billTitleSaid(named.title),
       sourceRecordIds: facts.bill.sourceRecordIds,
     };
-    if (facts.story?.text === facts.bill.text)
-      out.story = { ...out.bill };
+    if (facts.story?.text === facts.bill.text) out.story = { ...out.bill };
   }
   const yes = Number(said.yes);
   const no = Number(said.no);

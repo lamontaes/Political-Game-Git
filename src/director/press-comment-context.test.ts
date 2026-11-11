@@ -170,7 +170,10 @@ it(`a reporter's call names its story, and every line stands on it (seed ${seed}
         : first.next
           ? toRecord(first.next, [onRecord])
           : null;
-    expect(ends, `${where}: no path from the answer ends on the record`).toBeTruthy();
+    expect(
+      ends,
+      `${where}: no path from the answer ends on the record`,
+    ).toBeTruthy();
     const replyId = replyInScene(core, director, me, entry, ends!.path, {
       typeKey: "press-interview",
     });
