@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/pool-play-your-life-draws-a-full-body-figure
-pr: #8609
+pr: #8608
 after:
 blocked-on:
 standard: 2
