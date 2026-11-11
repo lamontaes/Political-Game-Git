@@ -4,8 +4,8 @@ title: "A reunion over a shared cause talks about the cause, not the old school"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-reunion-talks-the-shared-cause
 pr:
 blocked-on:
 milestone:
@@ -18,7 +18,7 @@ effort: medium
 root: rc6-scenes-repeat
 size: S
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T02:21:46.071Z
 branch: claude/pool-words-reunion-talks-the-shared-cause
 ---
 
@@ -39,3 +39,5 @@ branch: claude/pool-words-reunion-talks-the-shared-cause
 **Files.** src/director/conversation.ts, data/english/parts/conversation.json, src/director/data/conversation-rules.json, src/director/data/situation-types.json
 
 **Notes.** Released (2026-11-11): needs Story's opener line under data/english/parts; see draft PR. Continue on branch claude/pool-words-reunion-talks-the-shared-cause.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:21 UTC) on branch claude/pool-words-reunion-talks-the-shared-cause.
