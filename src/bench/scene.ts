@@ -78,6 +78,8 @@ export interface BenchScenePerson {
   name: string;
   reason: StageReason;
   face: PersonFace;
+  /** The office the scene names them by, said under their name (an address's cutaway to officials). */
+  role?: string;
 }
 
 export function orgPlace(
@@ -700,7 +702,12 @@ export function peopleHere(
   core: CoreState,
   /** The backdrop file the scene shows: people are dressed for its place. */
   backdropFile: string,
-  ids: readonly { id: string; name: string; reason: StageReason }[],
+  ids: readonly {
+    id: string;
+    name: string;
+    reason: StageReason;
+    role?: string;
+  }[],
   /** Whose speech it is: first in the strip. */
   speaker?: string,
 ): { people: BenchScenePerson[]; more: number } {
@@ -708,11 +715,13 @@ export function peopleHere(
   const viewer = ids.find((entry) => entry.reason === "you")?.id;
   const known = viewer ? core.people.get(viewer)?.knownIds : undefined;
   const seen = new Set<string>();
-  const present = ids.flatMap(({ id, name, reason }) => {
+  const present = ids.flatMap(({ id, name, reason, role }) => {
     if (!reason || reason === "you" || seen.has(id)) return [];
     seen.add(id);
     const face = faceOf(core, id, place);
-    return face ? [{ personId: id, name, reason, face }] : [];
+    return face
+      ? [{ personId: id, name, reason, face, ...(role ? { role } : {}) }]
+      : [];
   });
   // First whoever speaks and whoever the scene is about, then the people the
   // player knows, then the rest, each group in the order the records gave.
