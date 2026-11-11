@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/words-conversation-four-answers
-pr: 8166
+pr: 8366
 blocked-on:
 lead: words
 source: added by hand on the branch
