@@ -1,266 +1,294 @@
 [
- {
-  "file": "men/front/shirt-dress-cream.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "shirt",
-  "name": "dress",
-  "color": "cream"
- },
- {
-  "file": "men/front/shirt-dress-lightblue.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "shirt",
-  "name": "dress",
-  "color": "lightblue"
- },
- {
-  "file": "men/front/shirt-dress-white.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "shirt",
-  "name": "dress",
-  "color": "white"
- },
- {
-  "file": "men/front/top-chambray-blue.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "chambray",
-  "color": "blue",
-  "use": "everyday"
- },
- {
-  "file": "men/front/top-chambray-olive.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "chambray",
-  "color": "olive",
-  "use": "everyday"
- },
- {
-  "file": "men/front/top-chambray-tan.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "chambray",
-  "color": "tan",
-  "use": "everyday"
- },
- {
-  "file": "men/front/top-sweater-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "sweater",
-  "color": "gray",
-  "use": "everyday"
- },
- {
-  "file": "men/front/top-sweater-green.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "sweater",
-  "color": "green",
-  "use": "everyday"
- },
- {
-  "file": "men/front/top-sweater-maroon.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "sweater",
-  "color": "maroon",
-  "use": "everyday"
- },
- {
-  "file": "men/front/tie-silk-burgundy.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "tie",
-  "name": "silk",
-  "color": "burgundy"
- },
- {
-  "file": "men/front/tie-silk-forestgreen.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "tie",
-  "name": "silk",
-  "color": "forestgreen"
- },
- {
-  "file": "men/front/tie-silk-navy.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "tie",
-  "name": "silk",
-  "color": "navy"
- },
- {
-  "file": "men/front/tie-silk-navystripe.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "tie",
-  "name": "silk",
-  "color": "navystripe"
- },
- {
-  "file": "men/front/jacket-suit-brown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "jacket",
-  "name": "suit",
-  "color": "brown"
- },
- {
-  "file": "men/front/jacket-suit-charcoal.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "jacket",
-  "name": "suit",
-  "color": "charcoal"
- },
- {
-  "file": "men/front/jacket-suit-navy.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "jacket",
-  "name": "suit",
-  "color": "navy"
- },
- {
-  "file": "women/front/shirt-dress-cream.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "shirt",
-  "name": "dress",
-  "color": "cream"
- },
- {
-  "file": "women/front/shirt-dress-lightblue.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "shirt",
-  "name": "dress",
-  "color": "lightblue"
- },
- {
-  "file": "women/front/shirt-dress-white.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "shirt",
-  "name": "dress",
-  "color": "white"
- },
- {
-  "file": "women/front/top-cardigan-cream.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "cardigan",
-  "color": "cream",
-  "use": "work"
- },
- {
-  "file": "women/front/top-cardigan-navy.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "cardigan",
-  "color": "navy",
-  "use": "work"
- },
- {
-  "file": "women/front/top-cardigan-rust.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "cardigan",
-  "color": "rust",
-  "use": "work"
- },
- {
-  "file": "women/front/top-henley-gray.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "henley",
-  "color": "gray",
-  "use": "everyday"
- },
- {
-  "file": "women/front/top-henley-green.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "henley",
-  "color": "green",
-  "use": "everyday"
- },
- {
-  "file": "women/front/top-henley-maroon.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "henley",
-  "color": "maroon",
-  "use": "everyday"
- },
- {
-  "file": "women/front/jacket-blazer-burgundy.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "jacket",
-  "name": "blazer",
-  "color": "burgundy"
- },
- {
-  "file": "women/front/jacket-blazer-charcoal.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "jacket",
-  "name": "blazer",
-  "color": "charcoal"
- },
- {
-  "file": "women/front/jacket-blazer-navy.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "jacket",
-  "name": "blazer",
-  "color": "navy"
- }
+  {
+    "file": "men/front/shirt-dress-cream.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "cream",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/shirt-dress-lightblue.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "lightblue",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/shirt-dress-white.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "white",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/top-chambray-blue.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "chambray",
+    "color": "blue",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-chambray-olive.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "chambray",
+    "color": "olive",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-chambray-tan.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "chambray",
+    "color": "tan",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-sweater-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "sweater",
+    "color": "gray",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-sweater-green.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "sweater",
+    "color": "green",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-sweater-maroon.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "sweater",
+    "color": "maroon",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/tie-silk-burgundy.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "burgundy",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/tie-silk-forestgreen.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "forestgreen",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/tie-silk-navy.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "navy",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/tie-silk-navystripe.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "navystripe",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/jacket-suit-brown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "suit",
+    "color": "brown",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/jacket-suit-charcoal.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "suit",
+    "color": "charcoal",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/jacket-suit-navy.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "suit",
+    "color": "navy",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/shirt-dress-cream.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "cream",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/shirt-dress-lightblue.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "lightblue",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/shirt-dress-white.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "white",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/top-cardigan-cream.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "cardigan",
+    "color": "cream",
+    "use": "work",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-cardigan-navy.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "cardigan",
+    "color": "navy",
+    "use": "work",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-cardigan-rust.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "cardigan",
+    "color": "rust",
+    "use": "work",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-henley-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "henley",
+    "color": "gray",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-henley-green.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "henley",
+    "color": "green",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-henley-maroon.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "henley",
+    "color": "maroon",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/jacket-blazer-burgundy.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "blazer",
+    "color": "burgundy",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/jacket-blazer-charcoal.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "blazer",
+    "color": "charcoal",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/jacket-blazer-navy.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "blazer",
+    "color": "navy",
+    "formality": "formal"
+  }
 ]
