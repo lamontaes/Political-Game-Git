@@ -1,6 +1,6 @@
 # Scene web, the campaign: pass 2
 
-Run of `npm run scene-web` by the builder in Bay, Arkansas (0504180), seed `8fe21c34d136a80cb4b0c0276d8cee1d6b1b4e36`. The domain has 8 rows. Every row names at least one episode packet in `docs/design/scenes/from-life/`, and every speaker role of every row has at least three lines (the fewest is the narrator of `campaign-stop`, 3, and `asked` of `door-ask` and `speech-afterward`, 10). Which rows fire depends on the drawn year: in this one only `filing` fired (8 times).
+A played year in Bay, Arkansas fired one of the campaign's eight scene rows: the filing scene, eight times. Every row has an episode packet and at least three lines for each speaker, so the other seven wait on what the year brings, not on words.
 
 ## Rows that did not fire in this year, and what each waits on
 
@@ -24,3 +24,7 @@ Run of `npm run scene-web` by the builder in Bay, Arkansas (0504180), seed `8fe2
 ## Lines Story needs
 
 None: every role of every campaign row has at least three lines.
+
+## How this was run
+
+Run of `npm run scene-web` by the builder in Bay, Arkansas (0504180), seed `8fe21c34d136a80cb4b0c0276d8cee1d6b1b4e36`. The domain has 8 rows. Every row names at least one episode packet in `docs/design/scenes/from-life/`, and every speaker role of every row has at least three lines (the fewest is the narrator of `campaign-stop`, 3, and `asked` of `door-ask` and `speech-afterward`, 10). Which rows fire depends on the drawn year.
