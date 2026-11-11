@@ -1708,6 +1708,7 @@ async function campaignParts() {
     pollSample,
     outings,
     standing,
+    issues,
     debates,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
@@ -1984,6 +1985,22 @@ async function campaignParts() {
             1,
             controls.raceStanding.title,
             ...(standing ?? []).map((text) => introText(text)),
+          ),
+          stripSection(
+            2,
+            controls.raceIssues.title,
+            ...(issues?.length
+              ? issues.flatMap((issue) => {
+                  const pct = (n) =>
+                    `${Math.round((100 * n) / Math.max(1, issue.people))}%`;
+                  return [
+                    rosterTitle(policyLabel(issue.question)),
+                    row(controls.raceIssues.toward, pct(issue.toward)),
+                    row(controls.raceIssues.against, pct(issue.against)),
+                    row(controls.raceIssues.between, pct(issue.between)),
+                  ];
+                })
+              : [introText(controls.raceIssues.none)]),
           ),
         ],
         [
