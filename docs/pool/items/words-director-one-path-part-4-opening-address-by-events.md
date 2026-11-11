@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-words-director-one-path-part-4-opening-address-by-events
-pr:
+pr: #8512
 after:
 blocked-on:
 lead: words
