@@ -5,14 +5,14 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-elections-polls-core2
 pr: #5815
 after:
 blocked-on:
 milestone:
 source: acting CTO ruling, Oct 19; replaces the old-core poll work in PRs #5091 and #5081
-claimed-at:
+claimed-at: 2026-11-11T04:53:23.410Z
 lead: elections
 standard: 2
 model: sonnet
