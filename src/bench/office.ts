@@ -40,7 +40,6 @@ import {
   pendingGovernorOrders,
 } from "../core2/modules/executive";
 import { policyNames } from "./words";
-import { actOn, waitingEntries } from "../core2/office-day-state";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
