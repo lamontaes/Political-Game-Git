@@ -2657,6 +2657,9 @@ function billEstimate(paper, section) {
       proposed: roundedMoney(est.ofMinor + est.lineAmountMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // A phase-in's step names the day it takes effect.
+  if (est.effectiveDate)
+    lines.push(`${words.takesEffectOn ?? ""} ${dateWords(est.effectiveDate)}`);
   // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
@@ -2985,6 +2988,8 @@ async function seatRows() {
         today: seat.today ?? "",
         newAmount: seat.newAmount ?? "",
         draft: seat.draft ?? "",
+        addStep: seat.addStep ?? "",
+        stepDate: seat.stepDate ?? "",
         none: controls.bill?.none ?? "",
       },
       groups: (body.menus ?? []).map((menu) => ({
@@ -3012,7 +3017,7 @@ async function seatRows() {
               : "",
         })),
       })),
-      onDraft: (item, typed) => {
+      onDraft: (item, typed, steps = []) => {
         const [kind, key] = [
           item.value.slice(0, item.value.indexOf(":")),
           item.value.slice(item.value.indexOf(":") + 1),
@@ -3025,7 +3030,23 @@ async function seatRows() {
             : kind === "line"
               ? { line: key }
               : { question: key }),
-          value: item.cents ? String(Math.round(Number(typed) * 100)) : typed,
+          // A phase-in names each step's amount and day; a single bill, one amount.
+          ...(steps.length
+            ? {
+                steps: JSON.stringify(
+                  steps.map((step) => ({
+                    value: item.cents
+                      ? Math.round(Number(step.amount) * 100)
+                      : Number(step.amount),
+                    effectiveDate: step.date,
+                  })),
+                ),
+              }
+            : {
+                value: item.cents
+                  ? String(Math.round(Number(typed) * 100))
+                  : typed,
+              }),
         });
       },
     });
