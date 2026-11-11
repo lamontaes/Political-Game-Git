@@ -1441,6 +1441,11 @@ async function talkTo(otherId, momentId) {
   const opened = await post(
     `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
   );
+  // A scene waiting for the two of you to meet plays in place of the talk.
+  if (opened?.scene) {
+    await showStory(opened.scene);
+    return;
+  }
   renderTalk(opened);
   // Nothing to say opens no box (the server answers none): the room is handed
   // back, as after a talk's end.
@@ -2546,6 +2551,8 @@ async function visit(organizationId) {
   $("card-place").textContent = v.name;
   // The visit's hour moved the clock: the card shows the new time.
   if (v.packet) renderPacket(v.packet);
+  // Someone here had a scene waiting for the two of you to meet: it plays now.
+  if (v.scene) await showStory(v.scene);
 }
 
 // ---- Go home from a place: the trip back, then the room the day has you in ----

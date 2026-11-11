@@ -190,7 +190,12 @@ export interface Director {
     pace: number;
     date: IsoDate;
     openUntil: IsoDate;
+    /** Due on the clock: timed at its cause and its date has come. */
     due: boolean;
+    /** It waits for the player and one of `withIds` to be in one place. */
+    nextTogether: boolean;
+    /** The people the scene is with, besides the player. */
+    withIds: readonly PersonId[];
   }[];
 }
 
@@ -1797,6 +1802,8 @@ export function createDirector(
       date: IsoDate;
       openUntil: IsoDate;
       due: boolean;
+      nextTogether: boolean;
+      withIds: PersonId[];
       entry: ScheduleEntry;
     }[] = [];
     for (const momentId of waiting.get(personId) ?? []) {
@@ -1819,12 +1826,23 @@ export function createDirector(
         pace: entry.pace,
         date: entry.date,
         openUntil,
-        // stopgapId: SG-STORY-waiting-next-together-unread. A scene that
-        // waits for the two people to be in one place is not opened by their
-        // meeting yet; it waits out its open days and closes as a journal line.
+        // A scene timed at its cause is due on its date and opens on the
+        // clock; one that waits for the two people to be in one place is
+        // opened by their meeting (the bench's talk and visit read `withIds`).
         due:
           entry.date <= date &&
           entry.bindings.some((row) => row.timing !== "next-together"),
+        nextTogether: entry.bindings.some(
+          (row) => row.timing === "next-together",
+        ),
+        withIds: [
+          ...new Set([
+            ...(book?.momentsById.get(momentId)?.counterpartIds ?? []),
+            ...entry.bindings.flatMap((row) =>
+              row.roles.flatMap((role) => role.personIds),
+            ),
+          ]),
+        ].filter((id) => id !== personId),
         entry,
       });
     }

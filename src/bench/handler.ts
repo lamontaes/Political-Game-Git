@@ -96,6 +96,7 @@ import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { openWaitingSceneWith } from "./waiting-scene";
 import {
   ageAtStart,
   applyChosenPerson,
@@ -198,6 +199,22 @@ const state: ServerState = {
   marker: undefined,
 };
 /** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
+
+/** The waiting scene with one of `otherIds`, opened at the player's clock. */
+function openSceneWith(otherIds: readonly string[]): string | undefined {
+  const playerId = state.player?.personId as PersonId | undefined;
+  if (!state.director || !playerId || !state.core) return undefined;
+  return openWaitingSceneWith(
+    state.director,
+    playerId,
+    state.player?.packet?.at ?? {
+      date: makeIsoDate(state.core.date),
+      minuteOfDay: 0,
+    },
+    otherIds,
+  );
+}
+
 function sceneNow(current: CoreState, id: string) {
   const playing = state.player?.personId === id;
   const openingDay =
@@ -594,6 +611,14 @@ const ROUTES: readonly Route[] = [
         throw new Error("Talk to a living resident.");
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
+      // A scene waiting for the two of them to meet plays first, in place of
+      // the stock talk: the page opens it as a story.
+      const waitingScene = occasionId ? undefined : openSceneWith([otherId]);
+      if (waitingScene) {
+        state.conversation = undefined;
+        send(200, { scene: waitingScene });
+        return;
+      }
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
@@ -1031,6 +1056,11 @@ const ROUTES: readonly Route[] = [
         url.searchParams.get("org") ?? "",
         state.player.packet?.at.minuteOfDay ?? 12 * 60,
       );
+      // Someone here has a scene waiting for the two of them to meet: it
+      // plays on arrival, before the errand's hour.
+      const waitingScene = openSceneWith(
+        visit.people.map((person) => person.personId),
+      );
       const spent =
         state.player.spend(parameter("visitHours", parameters)) ?? trip;
       const arrived = state.player.packet?.at;
@@ -1039,6 +1069,7 @@ const ROUTES: readonly Route[] = [
         : undefined;
       send(200, {
         ...visit,
+        ...(waitingScene ? { scene: waitingScene } : {}),
         ...(spent
           ? {
               packet: spent.packet,
