@@ -85,6 +85,7 @@
     "citation": "A chamber that turns over half its seats takes up the questions its new members ran on in its first session (NCSL turnover studies, 2010 and 2018 wave years); at weight 2, half new members carry each question one whole."
   },
   "openingYear": {
+    "role": "opening",
     "value": 0.35,
     "tag": "TUNABLE",
     "spread": [0.25, 1],
