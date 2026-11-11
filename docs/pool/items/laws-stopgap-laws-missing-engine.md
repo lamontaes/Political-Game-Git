@@ -4,14 +4,14 @@ title: "Stopgaps in laws (missing-engine): 1 open"
 area: laws
 kind: stopgap
 priority: 3
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-stopgap-laws-missing-engine
 pr: #5575
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/laws.ts, kind missing-engine"
-claimed-at:
+claimed-at: 2026-11-11T04:21:12.719Z
 after:
 lead: laws-effects
 model: sonnet
