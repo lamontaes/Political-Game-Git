@@ -111,7 +111,7 @@ describe(`moves before the start, ${label}`, () => {
         const employer = String(spell.facts.organizationId ?? "");
         if (employer.startsWith(ELSEWHERE_EMPLOYER)) {
           expect(organizationName(core, employer), spell.id).toBeTruthy();
-          expect(spell.facts.employerEstimated, spell.id).toBe(true);
+          expect(spell.facts.employerEstimated, spell.id).toBe("true");
         }
       }
     }

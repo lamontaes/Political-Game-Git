@@ -868,7 +868,7 @@ function recordsOf(
           : {}),
         // An employer named for a place the world keeps none for.
         ...(row.spell.organizationId?.startsWith(ELSEWHERE_EMPLOYER)
-          ? { employerEstimated: true }
+          ? { employerEstimated: "true" }
           : {}),
         ...(row.endedAt ? { endedAt: row.endedAt } : {}),
         ...(row.end ? { end: row.end } : {}),
