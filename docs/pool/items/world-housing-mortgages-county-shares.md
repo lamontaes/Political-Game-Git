@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-housing-mortgages-county-shares
-pr:
+pr: #8546
 blocked-on:
 after:
 lead: laws-effects
