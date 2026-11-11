@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: merged
+status: open
 standard: 2
 claimed-by:
-pr: #8206
+pr: #8522
 after:
 blocked-on:
 lead: words
@@ -17,12 +17,14 @@ effort: medium
 root: design-words-machine
 source: written by Fable, Nov 10, 2026, from the CTO's line of 18:50Z on issue 7365 (the saved-verdict store for the meaning-and-tone rules is part of the test parts) and docs/design/words-machine.md
 checked: fable 2026-11-10
-merged-at: 2026-11-10T20:23:10.401Z
+merged-at:
+claimed-at:
+branch: claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
 ---
 
 **What.** Most of the owner's rules about words are about meaning and tone: whether a line names something specific, explains itself, or sounds like the person saying it. A program cannot judge those. The design has a reviewer judge each line once and save the verdict, and the run then reads the saved verdicts. One rule already works this way, the rule that a reply follows the line before it. This part makes that one store serve every such rule, so each of them can start pulling lines.
 
-**Cause.** Found in code: `breaks` in src/english/line-rules.ts (line 188) returns false for every rule whose test is `{ kind: "judged" }`, so such a rule flags nothing. data/english/line-rules.json holds 53 of them on main at f04686d130, all `status: awaiting-test` (17 judge one line, 24 a piece in its spot, 8 a set and 4 an exchange). The only saved verdicts are for one rule, `reply-follows-the-line-before`: sheets written by scripts/words/reply-pairs.ts (`npm run words:pairs`), folded by scripts/words/reply-verdicts.ts and scripts/words/fold-verdicts.ts (`npm run words:verdicts`) into data/english/judged/reply-follows.json, and read through src/english/reply-follows.ts. Nothing writes a sheet, folds a verdict or reads one for any other rule.
+**Cause.** Needs cause. Built on main already (opus-5251, Nov 11, PR #8522): line-rules.ts reads every judged rule's verdicts through src/english/judged.ts, `words:pairs -- --rule` writes sheets for any judged rule, data/english/judged/ holds six rules' verdicts, and the words-engine skill says how a reviewer judges a sheet. For the CTO to close or re-aim. The earlier text: Found in code: `breaks` in src/english/line-rules.ts (line 188) returns false for every rule whose test is `{ kind: "judged" }`, so such a rule flags nothing. data/english/line-rules.json holds 53 of them on main at f04686d130, all `status: awaiting-test` (17 judge one line, 24 a piece in its spot, 8 a set and 4 an exchange). The only saved verdicts are for one rule, `reply-follows-the-line-before`: sheets written by scripts/words/reply-pairs.ts (`npm run words:pairs`), folded by scripts/words/reply-verdicts.ts and scripts/words/fold-verdicts.ts (`npm run words:verdicts`) into data/english/judged/reply-follows.json, and read through src/english/reply-follows.ts. Nothing writes a sheet, folds a verdict or reads one for any other rule.
 
 **Fix.** Extend that one store; build no second one. Read docs/design/words-machine.md (the section on three kinds of test) and `.agents/skills/words-engine/SKILL.md` first.
 
@@ -45,3 +47,9 @@ Write no verdicts beyond the examples the tests need, and change no bank line: S
 **Waits on.** Nothing. words-machine-part-1-tests-for-rules-that-judge-one-line and words-machine-part-2-tests-for-rules-that-judge-a-piece-in-its-spot edit the same two files (data/english/line-rules.json and src/english/line-rules.ts): merge main in before pushing.
 
 **Files.** src/english/line-rules.ts, src/english/line-rules.test.ts, src/english/reply-follows.ts, scripts/words/reply-pairs.ts, scripts/words/verdicts.ts, scripts/words/fold-verdicts.ts, scripts/words/run-rules.ts, data/english/judged/, tests/guards/english/line-rules.test.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
+
+**Notes.** Not seen in the game (2026-11-11, second-session-2): no place (words machine, no-explaining rule), seed none, main 170bd92c: marked one no-explaining line bad, folded it, ran words:rules: pulled.json stayed empty because every judged rule is awaiting-test; only the reply rule is enforced
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:28 UTC) on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge.
+
+Released (2026-11-11): Its Fix is already on main (judged.ts store, words:pairs --rule, six verdict files, guard, skill); see PR #8522. Continue on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge and pull request #8522.

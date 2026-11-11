@@ -19,7 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 ---
 
-**What.** When someone dies and leaves money or a home, the record is kept and the heir's card says nothing, because the kind has no sentence. This part adds the row that tells it, with who left it, the year and the amount. Story writes the sentence.
+**What.** When someone dies and leaves money or a home, the record is kept and the heir's card says nothing, because the kind has no sentence. This part adds the row that tells it, with who left it, the year and the amount. Story writes the sentence. Seen: the heir's card, which says who left the money or home, the year and the amount.
 
 **Cause.** Design: docs/design/life-record.md. Pull request 8139 lists the inheritance among the kinds of record that name a person and are not told, with the reason that it has no sentence yet.
 

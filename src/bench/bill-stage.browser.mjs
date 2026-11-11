@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event, fetch */
+/* global process, URL, console, document, fetch, setTimeout */
 // The bill stage (legislation mocks, Nov 8): a member drafts a bill, the dev route holds its
 // floor vote, and the bill's paper then shows the floor result by name: each chamber's yes and no,
 // every name that has a card opening it.
@@ -114,31 +114,33 @@ try {
   await page.locator(".office-board").waitFor();
   const draftTab = page.locator('.office-tabs [data-office="draft"]');
   if (await draftTab.isVisible()) await draftTab.click();
-  await page.locator(".draft-card select").waitFor();
+  // Writing a bill opens from the board: a list of subjects beside the chosen one's page.
+  await page.locator('.office-board [data-act="write-a-bill"]').first().click();
+  await page.locator(".draft-card .pick").first().waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card.png` });
-  const chosen = await page.evaluate(() => {
-    const select = document.querySelector(".draft-card select");
-    const allowed = [...select.options].filter(
+  const chosen = await page.evaluate(async () => {
+    const rows = [...document.querySelectorAll(".draft-card .pick")];
+    const allowed = rows.filter(
       (o) =>
-        o.value.startsWith("series:") &&
+        o.dataset.value.startsWith("series:") &&
         !/Not a power|preempts|levy no|restricts|bars/i.test(o.textContent),
     );
     // The sales tax where the body may draft it (the case the merger found), else the first issue with
     // an amount in force today: staff redraft a section against the law in force, so one that is not set has nothing to redraft.
-    const pick = (option) => {
-      select.value = option.value;
-      select.dispatchEvent(new Event("change", { bubbles: true }));
-      return document.querySelector(".draft-today").textContent;
-    };
+    // A row carries what is in force today as its aside.
+    const todayOf = (option) => option.querySelector("span")?.textContent ?? "";
     const ordered = [
       ...allowed.filter((o) => /Sales tax rate/i.test(o.textContent)),
       ...allowed.filter((o) => !/Sales tax rate/i.test(o.textContent)),
     ];
-    const option = ordered.find((o) => !/not set/i.test(pick(o))) ?? ordered[0];
+    const option =
+      ordered.find((o) => todayOf(o) && !/not set/i.test(todayOf(o))) ??
+      ordered[0];
     if (!option) return null;
-    pick(option);
+    option.click();
+    await new Promise((done) => setTimeout(done, 100));
     return {
-      issue: option.textContent,
+      issue: option.querySelector("b").textContent,
       today: document.querySelector(".draft-today").textContent,
       unit: document.querySelector(".draft-unit").textContent,
     };

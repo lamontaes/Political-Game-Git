@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #8266
 after:
 blocked-on:
 standard: 2
@@ -55,3 +55,11 @@ Released (2026-11-10): Replay-only item: pool seen refuses a claimed item (only 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:06 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
 
 Released (2026-11-10): Replayed on main (bench, 1440x900): News, all Politics tabs and clerk talk box show no code, ISO date or status; but plain-text.browser.mjs turns dev mode on so Mark gap shows, and it fails at line 173 (#talk-leave not visible after the race choice for an age-17 life); needs a dev-mode-off run and a fixed flow, then pool seen once merged. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-02-developer-text-on-play-screens since 2026-11-10 22:59 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens and pull request #8266.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:17 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Released (2026-11-11): Replayed again with the bench on main (BENCH_BROWSER=/opt/pw-browsers/chromium node src/bench/plain-text.browser.mjs); the check is red for three reasons in the CHECK, not the screens: (1) it turns dev mode on to run until a seat may file and never turns it off, so Mark gap shows and its own tell fires (needs a devModeOff in dev-setup.mjs before reading screens); (2) its filing step looks for a reply starting 'File', but the clerk now says 'Alright. I'll take the papers and get started.' (filing.browser.mjs picks the reply without .reply-facts instead); (3) leaving a talk at #talk-leave (lines 173 and 205) fails while the clerk's scene is live, with a reply, Continue or Skip scene showing and Leave hidden. With (1) and (2) fixed and a leave helper that skips, continues or answers, it still stalled in Anson TX (4803372) on a reply click inside that loop, so I pushed nothing. Screens themselves: News, Politics and the clerk's talk showed no code, ISO date or status text in Basking Ridge, Cleveland, Niles, Round Valley and Burlingame. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens and pull request #8266.
+
+Released (2026-11-11): Correction to my release just above: I did not check the screens for developer text in Niles, Round Valley or Burlingame (the check failed before reading them there); the clean News, Politics and talk-box reads are the earlier builders' replays (sonnet-a266, Basking Ridge NJ). My finding is only that plain-text.browser.mjs fails for the three check-side reasons named. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens and pull request #8266.

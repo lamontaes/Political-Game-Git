@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: merged
+status: done
 standard: 2
 claimed-by: claude/fable-b2-skip-pay-prices-jobs
 pr: #8238
@@ -18,6 +18,8 @@ root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
 merged-at: 2026-11-10T22:52:21.793Z
+seen-by: second-session-1
+seen-at: 2026-11-11T00:00:38.282Z
 ---
 
 **What.** With only dated work running, a skipped year leaves prices flat and unemployment well above the day-by-day year's. Some of what moves prices and fills jobs runs in daily loops. This part finds which, and gives those engines a monthly step.
@@ -35,3 +37,5 @@ merged-at: 2026-11-10T22:52:21.793Z
 **Waits on.** core-fast-clock-part-1-a-results-mode-for-skipped-time.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/place-prices.ts, src/core2/life.ts, src/core2/results-mode-pay-prices-jobs.test.ts (new)
+
+**Notes.** Seen in the game (2026-11-11, second-session-1): Barrigada, Guam, seed 9d41e6a07b3c58f2e610, main c330c7fe8fe102d9e3932836b4e5a307cb26d32d: Test printed prices 2.13% and 10.29% out of work day by day against 2.44% and 11.00% skipped, within a fifth; in the browser the skip in Ponce, Puerto Rico (seed 835bc84d-d3db-4c92-92e3-08c18fed5ed9) read every count possible, took 63.0 seconds a year, and a played week afterward ran with no error.

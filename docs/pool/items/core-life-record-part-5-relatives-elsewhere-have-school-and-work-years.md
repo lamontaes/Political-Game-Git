@@ -19,7 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 ---
 
-**What.** A relative who grew up in the player's household and moved away opens with a birth year and little else, unless something has happened to them in play. The household's own records already say where they went to school and when they left. This part builds their school years in town and their work since from those records, when they are opened.
+**What.** A relative who grew up in the player's household and moved away opens with a birth year and little else, unless something has happened to them in play. The household's own records already say where they went to school and when they left. This part builds their school years in town and their work since from those records, when they are opened. Seen: a relative's card, which now names their school years in town and their work since.
 
 **Cause.** Measured: Agana Heights, Guam, seed 170bfc65-a2ed-43db-9c8f-3665dac576a4: the player's 20-year-old sister reads "Born in 2004" and nothing else. Found in code: the stopgap SG-P15-kin-light-past (src/core2/data/stopgaps/p15.json) says relatives outside the town are not run through the years before the start; `schoolHistoryFor` (src/core2/past-school.ts line 176) and `pastWorkFor` (src/core2/past-work.ts line 896) are not called for them.
 
