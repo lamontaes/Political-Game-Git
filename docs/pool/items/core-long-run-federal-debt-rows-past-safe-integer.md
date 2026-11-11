@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-long-run-federal-debt-rows-past-safe-integer
-pr:
+pr: #8392
 after:
 blocked-on:
 source: added with npm run pool -- add

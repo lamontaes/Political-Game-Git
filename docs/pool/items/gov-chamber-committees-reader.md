@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -40,4 +40,4 @@ checked: fable 2026-11-10
 
 Folded in Oct 25 from gov-chamber-committees-data-a-m. Its done when: chamber-committees.json has a row for every chamber in these places with a source and retrieval date; a test in src/core2/legislature-committees.test.ts checks every catalog topic is heard by some committee in each chamber, and a one-year run of the played world (buildBenchWorld) in a drawn place from this half with a seed the builder did not choose sends its bills to the chamber's own committees, shown by bill and committee record ids.
 
-Folded in Oct 25 from gov-chamber-committees-data-n-z. Its done when: chamber-committees.json has a row for every chamber in these places with a source and retrieval date; a one-year run of the played world (buildBenchWorld) in a drawn place from this half with a seed the builder did not choose sends its bills to the chamber's own committees, shown by bill and committee record ids in src/core2/legislature-committees.test.ts, and SG-GOV-committee-names-national is resolved in src/core2/data/stopgaps.json.
+Folded in Oct 25 from gov-chamber-committees-data-n-z. Its done when: chamber-committees.json has a row for every chamber in these places with a source and retrieval date; a one-year run of the played world (buildBenchWorld) in a drawn place from this half with a seed the builder did not choose sends its bills to the chamber's own committees, shown by bill and committee record ids in src/core2/legislature-committees.test.ts, and SG-GOV-committee-names-national is resolved in src/core2/data/stopgaps.json. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Per-chamber standing committee lists would have renamed the committees on a bill; the national nine already route and seat every chamber, and no player sees the difference.
