@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-campaign-day-test-spring-election-weeks
-pr:
+pr: #8447
 after:
 blocked-on:
 source: governing lead, Oct 30 (found in phase A runs)

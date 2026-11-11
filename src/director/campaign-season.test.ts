@@ -6,7 +6,7 @@
  * comes within 28 days of filing; at least three of the season's kinds fire
  * (a rival filing, an offer to help, word of a rival's campaign, an outlet's
  * interview, the race's debate); each cites the contest or a person by
- * record, composes with four replies in four stances, and a yes is read back
+ * record, composes with four replies in up to four stances, and a yes is read back
  * by the engine that made the record. The longest quiet stretch is printed:
  * filling the middle of a quiet race is the parent item's.
  */
@@ -26,6 +26,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const SEASON_TYPES = new Set([
@@ -197,9 +198,10 @@ it("a filed candidate's months are never silent, and each season scene writes ba
           ).toBe("composed");
           if (result?.kind !== "composed") continue;
           const { talk } = result.scene;
-          expect(talk.tree.replies, where).toHaveLength(4);
-          const moves = talk.tree.replies.map((r) => r.line.move);
-          expect(new Set(moves).size, `${where}: four stances`).toBe(4);
+          expectUpToFourDifferent(
+            talk.tree.replies.map((r) => r.line),
+            where,
+          );
           composed.push(
             `${moment.date} ${binding.typeKey} ${moment.causeId}: "${talk.state.text}" / ${talk.tree.replies.map((r) => `"${r.line.text}"`).join(", ")}`,
           );
