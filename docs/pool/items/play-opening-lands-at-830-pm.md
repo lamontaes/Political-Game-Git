@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-opening-lands-at-830-pm
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Not fixed (measured)")
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:40:11.902Z
 branch: claude/pool-play-opening-lands-at-830-pm
 ---
 
