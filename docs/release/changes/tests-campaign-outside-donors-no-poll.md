@@ -3,4 +3,4 @@ id: tests-campaign-outside-donors-no-poll
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The outside-donors test now plays each drawn world forward to its first state or federal filing window before anyone files, and names every place it passes over. Nothing in the game changes.
