@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** The largest direct source of unkeyed money after the law payouts. Measured Oct 19 in Glasgow, Delaware (seed from drawPlace("unkeyed-audit-1")): one played year had 501 unkeyed hits, 12 monthly sweeps of the residents account of about $80,000 each; direct credits into that account over the year: school-voucher $840,505, bank-withdrawal $842,511, assistance-benefit $562,379, returned-to-counts cash $927,326 (dollars), and 489 unemployment-benefit payments.
 
 Oct 20 (pool feeder): spec written; likely already built: counted-demotion.ts lines 266-285 and 379-392 pay into countedFundOf, and credit-deposits.ts builds a counted target with fundOf(rt, h.group). The spec is measure-first so the builder either locks it with a test or finds the path that still leaks. The lead may close it as already built if the tally by reason key comes back empty.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). The code on main already sends both paths to the household's own group account, so it only asks for a check that finds no change a player could see.

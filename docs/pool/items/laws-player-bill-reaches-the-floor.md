@@ -6,18 +6,19 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-player-bill-reaches-the-floor
+pr: #8348
 blocked-on: play-legislature-floor-date-and-whip
 source: CTO's relay of the owner's Oct 26 playtest (MERGE-FIRST.md, Oct 26, 23:05 UTC)
-claimed-at:
+claimed-at: 2026-11-10T23:42:03.712Z
 after:
 model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
+branch: claude/pool-laws-player-bill-reaches-the-floor
 ---
 
 **What.** In the owner's Oct 26 playtest his H.R. 1 sat drafted for a year: a bill in a chamber that votes on its floor calendar was kept drafted and never given a floor date. Since then both halves have landed on main: the core half (laws-floor-takes-every-chamber-bill, done: `chamberBills` and `floorQueue` in src/core2/modules/world-legislating.ts take up every drafted bill of the session's chambers) and the screen half (play-legislature-floor-date-and-whip, done: `floorOf` in src/bench/legislature.ts returns the floor date and the whip count). What this item still owns is the finish line: every player bill in a state legislature or in Congress gets a floor date through the same calendar the members' bills use, reaches a recorded floor vote within the sitting, and the legislature screen shows the scheduled date, the whip count and the result; and the law matrix row of a law passed this way names the screen it shows on.
@@ -41,3 +42,5 @@ checked: fable 2026-11-10
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/laws-player-bill-floor` is kept; claiming this item takes it over.
 
 **Notes (pool redo, Nov 10).** Checked against main: the code named as the cause is fixed (see Cause), so the item is now a replay of the finish line plus the matrix row. If the replay passes and the row names the screen, the CTO can set it done.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:42 UTC) on branch claude/pool-laws-player-bill-reaches-the-floor.

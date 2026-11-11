@@ -83862,10 +83862,10 @@
       }
     },
     {
-      "key": "scene-talk.beat-beat.name-keeps-one-hand-flat-on-the-clipboard-as-if-it-might-blow-away",
+      "key": "scene-talk.beat-beat.name-has-a-clipboard-and-a-pen-ready",
       "move": "beat-beat",
       "kind": "spoken",
-      "text": "{name} keeps one hand flat on the clipboard, as if it might blow away.",
+      "text": "{name} has a clipboard and a pen ready.",
       "uses": [
         {
           "subject": "scene",
@@ -126865,10 +126865,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.thank-you-but-i-m-going-to-pass",
+      "key": "scene-talk.reply-decline.thank-you-but-i-m-going-to-pass-on-the-position-job-it-isn-t-what-i-m-looking-for",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Thank you, but I'm going to pass.",
+      "text": "Thank you, but I'm going to pass on the {position} job. It isn't what I'm looking for.",
       "uses": [
         {
           "subject": "scene",
@@ -126889,10 +126889,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-appreciate-it-but-it-isn-t-the-right-fit-for-me-right-now",
+      "key": "scene-talk.reply-decline.i-appreciate-it-but-position-isn-t-the-work-i-want-to-do",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I appreciate it, but it isn't the right fit for me right now.",
+      "text": "I appreciate it, but {position} isn't the work I want to do.",
       "uses": [
         {
           "subject": "scene",
@@ -151368,10 +151368,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.the-asks-dont-get-smaller-after-the-applause-they-get-bills",
+      "key": "scene-talk.follow-press.the-governor-s-asks-will-come-back-to-us-as-bills-and-we-ll-have-to-vote-on-every-one",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "The asks don't get smaller after the applause. They get bills.",
+      "text": "The governor's asks will come back to us as bills, and we'll have to vote on every one.",
       "uses": [
         {
           "subject": "scene",
@@ -151632,10 +151632,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.understood-the-bills-will-bring-us-back-to-this",
+      "key": "scene-talk.close-accept.understood-we-ll-talk-again-when-the-governor-s-asks-come-up-as-bills",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Understood. The bills will bring us back to this.",
+      "text": "Understood. We'll talk again when the governor's asks come up as bills.",
       "uses": [
         {
           "subject": "scene",
@@ -173687,10 +173687,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-disagree.i-saw-it-they-left-out-the-part-that-matters",
+      "key": "scene-talk.reply-disagree.i-saw-it-they-only-told-one-side-of-story-and-that-s-the-side-people-will-remember",
       "move": "reply-disagree",
       "kind": "spoken",
-      "text": "I saw it. They left out the part that matters.",
+      "text": "I saw it. They only told one side of {story}, and that's the side people will remember.",
       "uses": [
         {
           "subject": "scene",
@@ -174408,10 +174408,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.so-why-does-it-feel-like-nobody-s-doing-anything",
+      "key": "scene-talk.follow-press.so-why-isn-t-anyone-doing-anything-about-story-we-re-the-ones-who-live-with-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "So why does it feel like nobody's doing anything?",
+      "text": "So why isn't anyone doing anything about {story}? We're the ones who live with it.",
       "uses": [
         {
           "subject": "scene",
@@ -174558,10 +174558,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-say-later-but-later-never-comes-humor-me",
+      "key": "scene-talk.follow-press.just-read-the-part-about-story-it-won-t-take-long",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You say later, but later never comes. Humor me.",
+      "text": "Just read the part about {story}. It won't take long.",
       "uses": [
         {
           "subject": "scene",
@@ -174797,10 +174797,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.it-helps-to-say-it-out-loud-to-somebody",
+      "key": "scene-talk.close-thank.thanks-for-hearing-me-out-about-the-story-on-story",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "It helps to say it out loud to somebody.",
+      "text": "Thanks for hearing me out about the story on {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -174962,10 +174962,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.think-about-it-will-you-it-matters-more-than-it-looks",
+      "key": "scene-talk.close-press.think-about-the-story-on-story-will-you-whatever-happens-with-it-we-all-live-with-it",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Think about it, will you? It matters more than it looks.",
+      "text": "Think about the story on {story}, will you? Whatever happens with it, we all live with it.",
       "uses": [
         {
           "subject": "scene",
@@ -174995,10 +174995,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.just-read-it-before-you-decide-it-doesn-t-matter",
+      "key": "scene-talk.close-press.read-the-article-on-story-before-you-decide-it-doesn-t-matter-to-you",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Just read it before you decide it doesn't matter.",
+      "text": "Read the article on {story} before you decide it doesn't matter to you.",
       "uses": [
         {
           "subject": "scene",
@@ -183649,10 +183649,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-take-that-on-right-now",
+      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-don-t-have-the-time-to-do-it-properly-right-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I wish I could, but I can't take that on right now.",
+      "text": "I wish I could, but I don't have the time to do it properly right now.",
       "uses": [
         {
           "subject": "scene",
@@ -183815,10 +183815,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-hope-you-ll-understand",
+      "key": "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-just-don-t-have-the-time-for-it",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry, but I still can't do it. I hope you'll understand.",
+      "text": "I'm sorry, but I still can't do it. I just don't have the time for it.",
       "uses": [
         {
           "subject": "scene",
