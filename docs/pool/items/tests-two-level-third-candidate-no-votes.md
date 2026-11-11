@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-two-level-third-candidate-no-votes
-pr:
+pr: #8541
 after:
 blocked-on:
 lead: wire-elections
