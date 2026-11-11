@@ -27,7 +27,14 @@
         "retrieved": "2026-10-12",
         "estimate": false,
         "unit": "percent-of-wages",
-        "terms": { "wageBase": 184500 }
+        "terms": {
+          "wageBase": 184500,
+          "indexed": {
+            "dollarYear": 2026,
+            "wageBase": "wages",
+            "source": "42 U.S.C. 430(b): the contribution and benefit base is raised each year in step with the national average wage index (SSA, Automatic Determinations)."
+          }
+        }
       },
       {
         "level": "federal",
@@ -177,6 +184,12 @@
                 { "over": 640600.0, "rate": 37.0 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "26 U.S.C. 1(f): the bracket amounts are adjusted each year by the cost-of-living adjustment (chained CPI-U); 26 U.S.C. 63(c)(4): the standard deduction is adjusted the same way."
           }
         }
       },
@@ -243,6 +256,12 @@
                 { "over": 626350.0, "rate": 37.0 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "26 U.S.C. 1(f): the bracket amounts are adjusted each year by the cost-of-living adjustment (chained CPI-U); 26 U.S.C. 63(c)(4): the standard deduction is adjusted the same way."
           }
         }
       },
@@ -257,7 +276,14 @@
         "retrieved": "2026-10-23",
         "estimate": false,
         "unit": "percent-of-wages",
-        "terms": { "wageBase": 176100 }
+        "terms": {
+          "wageBase": 176100,
+          "indexed": {
+            "dollarYear": 2025,
+            "wageBase": "wages",
+            "source": "42 U.S.C. 430(b): the contribution and benefit base is raised each year in step with the national average wage index (SSA, Automatic Determinations)."
+          }
+        }
       }
     ],
     "US-AK": [
@@ -1431,6 +1457,12 @@
                 { "ratePercent": 3.7, "overMarriedJoint": 4600 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -1637,6 +1669,12 @@
                 { "over": 4500, "rate": 3.9 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -2618,6 +2656,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -2809,6 +2852,11 @@
               "standardDeduction": 30000,
               "brackets": [{ "over": 0, "rate": 2.5 }]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -3094,6 +3142,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": true
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -3308,6 +3362,12 @@
                 { "over": 1442628, "rate": 13.3 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -4535,6 +4595,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -4739,6 +4804,11 @@
                 { "over": 1000000, "rate": 10.75 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -7632,6 +7702,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": true
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -7823,6 +7899,12 @@
               "standardDeduction": 30000,
               "brackets": [{ "over": 9346, "rate": 5.695 }]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -8083,6 +8165,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -8276,6 +8363,11 @@
               "standardDeduction": null,
               "brackets": [{ "over": 0, "rate": 4.95 }]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -9414,6 +9506,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -9605,6 +9702,11 @@
               "standardDeduction": 6540,
               "brackets": [{ "over": 0, "rate": 4.0 }]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -9840,6 +9942,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -10031,6 +10138,11 @@
               "standardDeduction": 25000,
               "brackets": [{ "over": 0, "rate": 3.0 }]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -10301,6 +10413,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": true
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -10498,6 +10615,11 @@
                 { "over": 1083150, "rate": 9.0 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -11280,6 +11402,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": true
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -11487,6 +11615,12 @@
                 { "over": 126900, "rate": 7.15 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -11750,6 +11884,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -11941,6 +12080,11 @@
               "standardDeduction": null,
               "brackets": [{ "over": 0, "rate": 4.25 }]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -12214,6 +12358,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -12416,6 +12566,12 @@
                 { "over": 330410, "rate": 9.85 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -12680,6 +12836,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -12888,6 +13050,12 @@
                 { "over": 9191, "rate": 4.7 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -13752,6 +13920,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -13950,6 +14124,12 @@
                 { "over": 42200, "rate": 5.9 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -14599,6 +14779,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": true
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -14803,6 +14989,12 @@
                 { "over": 298075, "rate": 2.5 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -15106,6 +15298,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -15307,6 +15505,12 @@
                 { "over": 77730, "rate": 5.2 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -16544,6 +16748,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -16750,6 +16959,11 @@
                 { "over": 315000, "rate": 5.9 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -17968,6 +18182,11 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -18152,6 +18371,11 @@
                 { "over": 100000, "rate": 3.5 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -18959,6 +19183,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -19167,6 +19397,12 @@
                 { "over": 250000, "rate": 9.9 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -20230,6 +20466,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -20429,6 +20671,12 @@
                 { "over": 181650, "rate": 5.99 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -20679,6 +20927,12 @@
                 { "ratePercent": 5.21, "overMarriedJoint": 30000 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -20878,6 +21132,12 @@
                 { "over": 17830, "rate": 6.2 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -23619,6 +23879,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": true
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -23827,6 +24093,12 @@
                 { "over": 294600, "rate": 8.75 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -24516,6 +24788,12 @@
               "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
               "estimate": false
             }
+          },
+          "indexed": {
+            "dollarYear": 2026,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },
@@ -24717,6 +24995,12 @@
                 { "over": 431060, "rate": 7.65 }
               ]
             }
+          },
+          "indexed": {
+            "dollarYear": 2025,
+            "brackets": "prices",
+            "standardDeduction": "prices",
+            "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
           }
         }
       },

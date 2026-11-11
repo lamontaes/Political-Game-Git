@@ -15,6 +15,8 @@ import { openBudgets, withholdingOf } from "./modules/budgets";
 import { scheduleTax, withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
+import indexing from "../../data/research/money/tax-indexing-2026.json" with { type: "json" };
 
 const START = "2026-01-05";
 const seed =
@@ -236,5 +238,134 @@ describe("a state rate repealed to zero with its table kept", () => {
     expect(pay(table(4))[0]!.minor).toBe(4_000);
     expect(pay(table(4.4))[0]!.minor).toBe(4_400);
     expect(pay(table(0))).toEqual([]);
+  });
+});
+
+describe("amounts the law indexes move with prices and pay (money-tax-brackets-and-benefits-not-indexed-to-prices)", () => {
+  // A federal-style schedule written in 2026 dollars.
+  const schedule = (indexed: boolean) =>
+    income([
+      {
+        level: "federal",
+        row: {
+          value: 24,
+          unit: "percent-top-rate",
+          terms: {
+            schedules: {
+              single: {
+                standardDeduction: 16_100,
+                brackets: [
+                  { over: 0, rate: 10 },
+                  { over: 12_400, rate: 12 },
+                  { over: 50_400, rate: 22 },
+                  { over: 105_700, rate: 24 },
+                ],
+              },
+            },
+            ...(indexed
+              ? {
+                  indexed: {
+                    dollarYear: 2026,
+                    brackets: "prices",
+                    standardDeduction: "prices",
+                  },
+                }
+              : {}),
+          },
+        },
+      },
+    ]);
+  const share = (indexed: boolean, paidMinor: number, raised: number) => {
+    const lines = withholdingFor({
+      paidMinor,
+      periodDays: 14,
+      yearToDateMinor: 0,
+      incomeTax: schedule(indexed),
+      socialSecurity: none,
+      medicare: none,
+      index: () => raised,
+    });
+    return lines.reduce((sum, line) => sum + line.minor, 0) / paidMinor;
+  };
+
+  it("an indexed schedule takes the same share after prices and pay both double; an unindexed one takes more", () => {
+    const before = share(true, 250_000, 1);
+    const after = share(true, 500_000, 2);
+    expect(after).toBeCloseTo(before, 3);
+    const fixedBefore = share(false, 250_000, 1);
+    const fixedAfter = share(false, 500_000, 2);
+    expect(fixedBefore).toBeCloseTo(before, 6);
+    expect(fixedAfter).toBeGreaterThan(fixedBefore + 0.02);
+  });
+
+  it("the Social Security wage base moves with pay where its row says so", () => {
+    const ss = (indexed: boolean) =>
+      ({
+        governing: {
+          id: "ss",
+          value: 6.2,
+          estimate: false,
+          terms: {
+            wageBase: 184_500,
+            ...(indexed
+              ? { indexed: { dollarYear: 2026, wageBase: "wages" } }
+              : {}),
+          },
+        },
+      }) as unknown as LawInForceAnswer;
+    // A paycheck of $10,000 with $360,000 already paid this year: past a
+    // fixed base, and mostly inside a base that doubled with pay.
+    const take = (indexed: boolean) =>
+      withholdingFor({
+        paidMinor: 1_000_000,
+        periodDays: 14,
+        yearToDateMinor: 36_000_000,
+        incomeTax: income([]),
+        socialSecurity: ss(indexed),
+        medicare: none,
+        index: (by) => (by === "wages" ? 2 : 1),
+      }).find((line) => line.tax === "social-security")?.minor ?? 0;
+    expect(take(false)).toBe(0);
+    // The doubled base is $369,000: $9,000 of this check is under it, at 6.2%.
+    expect(take(true)).toBe(55_800);
+  });
+
+  it("the starting law marks the federal rows and the indexing states' rows indexed, and others not", () => {
+    const law = startingLaw as unknown as {
+      jurisdictions: Record<
+        string,
+        { series: string; terms?: Record<string, unknown> }[]
+      >;
+    };
+    const indexedOf = (key: string, series: string) =>
+      law.jurisdictions[key]?.find((row) => row.series === series)?.terms
+        ?.indexed as Record<string, unknown> | undefined;
+    expect(indexedOf("US", "income-tax")).toMatchObject({
+      dollarYear: 2026,
+      brackets: "prices",
+      standardDeduction: "prices",
+    });
+    expect(indexedOf("US", "social-security-tax")).toMatchObject({
+      wageBase: "wages",
+    });
+    for (const key of indexing.states.bracketsIndexed)
+      expect(indexedOf(key, "income-tax")?.brackets, key).toBe("prices");
+    // A state with an income tax on neither list keeps its dollars (Tax Foundation 2026).
+    const listed = new Set([
+      ...indexing.states.bracketsIndexed,
+      ...indexing.states.standardDeductionIndexed,
+    ]);
+    const unlisted = Object.keys(law.jurisdictions).filter(
+      (key) =>
+        /^US-[A-Z]{2}$/.test(key) &&
+        !listed.has(key) &&
+        law.jurisdictions[key]!.some((row) => row.series === "income-tax"),
+    );
+    expect(unlisted.length).toBeGreaterThan(0);
+    const drawn = pick(unlisted, "unindexed-state");
+    expect(
+      indexedOf(drawn, "income-tax"),
+      `${drawn} (seed ${seed})`,
+    ).toBeUndefined();
   });
 });

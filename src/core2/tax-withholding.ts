@@ -14,6 +14,7 @@
 import type { GovernmentLevelWithTownship } from "./government-level";
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { LawRowInput } from "./laws-starting";
+import type { TaxIndex, TaxIndexBy } from "./tax-index";
 
 export interface WithholdingLine {
   readonly level: GovernmentLevelWithTownship;
@@ -49,8 +50,8 @@ function topRate(schedule: Schedule): number {
  * rate; a schedule whose top rate differs from it (the rate was changed
  * without a new table) is scaled to it, the way a bill scales a table.
  */
-function scheduleOf(row: LawRowInput): Schedule | null {
-  const schedule = single(row);
+function scheduleOf(row: LawRowInput, index?: TaxIndex): Schedule | null {
+  const schedule = single(row, index);
   if (!schedule || typeof row.value !== "number") return schedule;
   // A zero rate keeps the schedule's terms (a repeal that leaves the table in
   // place) but taxes nothing: every bracket scales to zero.
@@ -89,20 +90,64 @@ export function scheduleTax(schedule: Schedule, annualDollars: number): number {
  * standard deduction where its schedule carries one, else the federal one
  * (the usual starting point for a local base). Dollars a year.
  */
-function localStandardDeduction(answer: LawInForceAnswer): number {
+function localStandardDeduction(
+  answer: LawInForceAnswer,
+  index?: TaxIndex,
+): number {
   for (const wanted of ["state", "federal"] as const) {
     const level = answer.levels.find((l) => l.level === wanted);
     if (!level?.row || level.setAside) continue;
-    const deduction = single(level.row)?.standardDeduction;
+    const deduction = single(level.row, index)?.standardDeduction;
     if (typeof deduction === "number" && deduction > 0) return deduction;
   }
   return 0;
 }
 
-function single(row: LawRowInput): Schedule | null {
+function single(row: LawRowInput, index?: TaxIndex): Schedule | null {
   const schedules = row.terms?.schedules as
     Record<string, Schedule> | undefined;
-  return schedules?.single ?? null;
+  const schedule = schedules?.single ?? null;
+  return schedule && index ? indexedSchedule(row, schedule, index) : schedule;
+}
+
+/** What a law row says moves with prices or wages, and from which year (`terms.indexed`). */
+interface Indexed {
+  readonly dollarYear?: number;
+  readonly brackets?: TaxIndexBy;
+  readonly standardDeduction?: TaxIndexBy;
+  readonly wageBase?: TaxIndexBy;
+}
+
+function indexedOf(row: LawRowInput): Indexed | undefined {
+  const indexed = row.terms?.indexed as Indexed | undefined;
+  return typeof indexed?.dollarYear === "number" ? indexed : undefined;
+}
+
+/**
+ * A schedule with the amounts its law row indexes raised by the index since
+ * the row's dollar year: the bracket thresholds, the standard deduction, or
+ * both. Rates never move; an amount the row does not index stays as written.
+ */
+function indexedSchedule(
+  row: LawRowInput,
+  schedule: Schedule,
+  index: TaxIndex,
+): Schedule {
+  const indexed = indexedOf(row);
+  if (!indexed) return schedule;
+  const year = indexed.dollarYear!;
+  const brackets = indexed.brackets ? index(indexed.brackets, year) : 1;
+  const deduction = indexed.standardDeduction
+    ? index(indexed.standardDeduction, year)
+    : 1;
+  if (brackets === 1 && deduction === 1) return schedule;
+  return {
+    ...schedule,
+    ...(typeof schedule.standardDeduction === "number"
+      ? { standardDeduction: schedule.standardDeduction * deduction }
+      : {}),
+    brackets: schedule.brackets.map((b) => ({ ...b, over: b.over * brackets })),
+  };
 }
 
 /**
@@ -116,6 +161,12 @@ export function withholdingFor(input: {
   readonly incomeTax: LawInForceAnswer;
   readonly socialSecurity: LawInForceAnswer;
   readonly medicare: LawInForceAnswer;
+  /**
+   * How far prices and pay have moved since a law row's dollar year
+   * (`taxIndexOf`): the amounts a row indexes move with it. Without one, every
+   * amount stands as written.
+   */
+  readonly index?: TaxIndex;
 }): readonly WithholdingLine[] {
   const lines: WithholdingLine[] = [];
   const periods = 365 / Math.max(1, input.periodDays);
@@ -123,7 +174,7 @@ export function withholdingFor(input: {
   for (const level of input.incomeTax.levels) {
     const row = level.row;
     if (!row || level.setAside || row.value === null) continue;
-    const schedule = scheduleOf(row);
+    const schedule = scheduleOf(row, input.index);
     // A flat rate: a starting row's "percent-flat", or an enacted act's
     // "percent" with no bracket schedule (audit 3: city tax collected $0).
     const flat = row.unit === "percent-flat" || row.unit === "percent";
@@ -140,7 +191,10 @@ export function withholdingFor(input: {
       : undefined;
     const taxed =
       base === "taxable income"
-        ? Math.max(0, annual - localStandardDeduction(input.incomeTax))
+        ? Math.max(
+            0,
+            annual - localStandardDeduction(input.incomeTax, input.index),
+          )
         : annual;
     const yearly = schedule
       ? scheduleTax(schedule, annual)
@@ -167,7 +221,15 @@ export function withholdingFor(input: {
   }
   const ss = input.socialSecurity.governing;
   if (ss?.value) {
-    const base = Math.round(Number(ss.terms?.wageBase ?? Infinity) * 100);
+    // The wage base moves with average pay where its row says so (42 U.S.C. 430).
+    const indexed = indexedOf(ss);
+    const raised =
+      indexed?.wageBase && input.index
+        ? input.index(indexed.wageBase, indexed.dollarYear!)
+        : 1;
+    const base = Math.round(
+      Number(ss.terms?.wageBase ?? Infinity) * raised * 100,
+    );
     const taxable = Math.max(
       0,
       Math.min(input.paidMinor, base - input.yearToDateMinor),

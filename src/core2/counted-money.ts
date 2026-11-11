@@ -16,6 +16,7 @@
  * place as a whole) is shared by the place's groups by their people
  * (SG-CORE-counted-unkeyed-money).
  */
+import { taxIndexOf } from "./tax-index";
 import { transferSplit } from "./accounts";
 import {
   PAID_LEAVE_KEY,
@@ -508,6 +509,7 @@ export function groupWithholding(
     incomeTax: law.incomeTax,
     socialSecurity: law.socialSecurity,
     medicare: law.medicare,
+    index: taxIndexOf(api),
   });
   rt.withholdingYtd.set(ytdKey, ytd + perWorker);
   const out: Withheld[] = [];

@@ -160,7 +160,7 @@ def payroll_taxes(rows):
     """Federal payroll taxes on wages, from the statute and SSA's 2026 wage base."""
     rows.append(row("US", "federal", "social-security-tax", 6.2, "2026-01-01", "2027-01-01",
                     "26 U.S.C. 3101(a); 2026 contribution and benefit base $184,500 (SSA, 2026 COLA fact sheet; also stated by the Oregon and Washington paid-leave programs, data/research/money/state-paid-leave-premiums-2026.json)",
-                    False, unit="percent-of-wages", terms={"wageBase": 184500}))
+                    False, unit="percent-of-wages", terms={"wageBase": 184500, **wage_base_indexing()}))
     rows.append(row("US", "federal", "medicare-tax", 1.45, "2013-01-01", FOREVER,
                     "26 U.S.C. 3101(b)(1); additional 0.9% on wages over $200,000 for a single filer, 26 U.S.C. 3101(b)(2)",
                     False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
@@ -319,6 +319,36 @@ def local_wage_authority(rows):
                                "answer": answer["answer"], "cite": answer.get("cite")}))
 
 
+def indexing():
+    """Which amounts the law moves with prices or wages (data/research/money/tax-indexing-2026.json)."""
+    return load(RESEARCH / "money/tax-indexing-2026.json")
+
+
+def wage_base_indexing(dollar_year=None):
+    found = indexing()
+    rule = found["federal"]["socialSecurityTax"]
+    return {"indexed": {"dollarYear": dollar_year or found["dollarYear"], "wageBase": rule["wageBase"],
+                        "source": rule["source"]}}
+
+
+def income_tax_indexing(state, dollar_year):
+    """terms.indexed for an income tax row: what moves with prices, from its dollar year."""
+    found = indexing()
+    if state == "US":
+        rule = found["federal"]["incomeTax"]
+        return {"indexed": {"dollarYear": dollar_year, "brackets": rule["brackets"],
+                            "standardDeduction": rule["standardDeduction"], "source": rule["source"]}}
+    states = found["states"]
+    moves = {}
+    if state in states["bracketsIndexed"]:
+        moves["brackets"] = "prices"
+    if state in states["standardDeductionIndexed"]:
+        moves["standardDeduction"] = "prices"
+    if not moves:
+        return {}
+    return {"indexed": {"dollarYear": dollar_year, **moves, "source": states["source"]["url"]}}
+
+
 def income_taxes(rows):
     federal = load(RESEARCH / "money/federal-income-tax-schedules.json")
     for record in federal["records"]:
@@ -333,7 +363,8 @@ def income_taxes(rows):
             }
         rows.append(row("US", "federal", "income-tax", schedules["single"]["brackets"][-1]["rate"],
                         f"{record['taxYear']}-01-01", f"{record['taxYear'] + 1}-01-01", source, False,
-                        unit="percent-top-rate", terms={"system": "graduated", "schedules": schedules}))
+                        unit="percent-top-rate", terms={"system": "graduated", "schedules": schedules,
+                                                        **income_tax_indexing("US", record["taxYear"])}))
     states = load(RESEARCH / "money/state-income-tax-2026.json")
     married = (optional("state-income-tax-married-2026.json") or {}).get("places", {})
     for state, place in states["places"].items():
@@ -358,7 +389,8 @@ def income_taxes(rows):
         top = brackets[-1]["rate"] if brackets else 0
         rows.append(row(state, "state", "income-tax", top, "2026-01-01", "2027-01-01",
                         states["source"]["url"], False, unit="percent-top-rate",
-                        terms={"system": place["wageIncomeTax"], "schedules": schedules}))
+                        terms={"system": place["wageIncomeTax"], "schedules": schedules,
+                               **income_tax_indexing(state, indexing()["dollarYear"])}))
     territories = (optional("territory-income-tax-2026.json") or {}).get("places", {})
     for state, place in territories.items():
         brackets = [{"over": b["overSingle"], "rate": b["ratePercent"]} for b in place.get("bracketsSingle") or []]
@@ -530,12 +562,14 @@ def start_phases(rows):
                  for filing, s in tax["schedules"].items()}
     rows.append(row("US", "federal", "income-tax", schedules["single"]["brackets"][-1]["rate"],
                     f"{tax['taxYear']}-01-01", f"{tax['taxYear'] + 1}-01-01", federal["sourceUrl"], False,
-                    unit="percent-top-rate", terms={"system": "graduated", "schedules": schedules},
+                    unit="percent-top-rate", terms={"system": "graduated", "schedules": schedules,
+                                                    **income_tax_indexing("US", tax["taxYear"])},
                     retrieved=federal["retrievedOn"]))
     ss = federal["socialSecurity"]
     rows.append(row("US", "federal", "social-security-tax", ss["ratePercent"], "2025-01-01", "2026-01-01",
                     f"26 U.S.C. 3101(a); 2025 social security wage base ${ss['wageBase']:,} ({ss['source']})",
-                    False, unit="percent-of-wages", terms={"wageBase": ss["wageBase"]},
+                    False, unit="percent-of-wages",
+                    terms={"wageBase": ss["wageBase"], **wage_base_indexing(2025)},
                     retrieved=federal["retrievedOn"]))
     income = load(LAWS / "taxfoundation-2025-state-income-tax.json")
     for state, place in income["places"].items():
@@ -547,7 +581,8 @@ def start_phases(rows):
                                                    "brackets": joint}
         rows.append(row(state, "state", "income-tax", single[-1]["rate"] if single else 0, "2025-01-01",
                         "2026-01-01", income["sourceUrl"], False, unit="percent-top-rate",
-                        terms={"system": place["wageIncomeTax"], "schedules": schedules},
+                        terms={"system": place["wageIncomeTax"], "schedules": schedules,
+                               **income_tax_indexing(state, 2025)},
                         note=place.get("note"), retrieved=income["retrievedOn"]))
     sales = load(LAWS / "taxfoundation-2025-sales-tax.json")
     later = optional("sales-tax.json")["places"]

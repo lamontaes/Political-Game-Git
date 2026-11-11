@@ -16,6 +16,7 @@
  * (`onCountedWages`), and the same share is posted for those workers: the
  * law's rates and wage bases per worker, times the workers the flow pays.
  */
+import { taxIndexOf } from "../tax-index";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -429,6 +430,7 @@ function passThroughCounted(
     incomeTax: law.incomeTax,
     socialSecurity: law.socialSecurity,
     medicare: law.medicare,
+    index: taxIndexOf(api),
   });
   const treasuryOf = new Map(
     governments(api).map((row) => [row.id, row.organizationId]),

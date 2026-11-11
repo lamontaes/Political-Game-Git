@@ -13,6 +13,7 @@
  * pulled hardest. People arrive in the town the same way from every other
  * place. The regional engine reads each state's counts.
  */
+import { taxIndexOf } from "../tax-index";
 import { placeStateKey } from "../place-map";
 import { worldRateFactor } from "../world-base-rates";
 import { createStableId, stableHash } from "../kernel/ids";
@@ -292,6 +293,7 @@ function stateIncomeTax(
     // Only the income tax is weighed here: no payroll lines.
     socialSecurity: { ...answer, governing: null },
     medicare: { ...answer, governing: null },
+    index: taxIndexOf(api),
   });
   let minor = 0;
   for (const line of lines)

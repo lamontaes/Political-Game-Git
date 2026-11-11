@@ -6,6 +6,7 @@
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
  */
+import { taxIndexOf } from "../tax-index";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
@@ -223,7 +224,7 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
     ? (stateKey: string, series: string) =>
         stateLawInForce(api, stateKey, series, date)
     : startingLawReader(date, api.state.startedAt);
-  return countryLaw(read, params(api), date);
+  return countryLaw(read, params(api), date, taxIndexOf(api, date));
 }
 
 /**
