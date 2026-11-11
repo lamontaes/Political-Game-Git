@@ -5,10 +5,10 @@ area: office
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-office-m5-02-governor-and-mayor-play-part-1-gap-list
-pr:
+pr: #8630
 after:
 blocked-on:
 lead: governing
