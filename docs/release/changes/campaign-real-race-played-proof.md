@@ -3,4 +3,4 @@ id: campaign-real-race-played-proof
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A played-year test for a real race (volunteers, a forum, named donors, the incumbent); no player-facing change.
