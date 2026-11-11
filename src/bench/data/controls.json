@@ -73,7 +73,7 @@
   "campaignUnavailable": {
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
-    "eventMoney": "Hall {price} \u00b7 campaign {cash}",
+    "eventMoney": "The hall costs {price}. The campaign has {cash}.",
     "forumHeld": "You hosted a forum today",
     "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
@@ -970,6 +970,10 @@
     "note": "One word",
     "saved": "Graded"
   },
+  "here": {
+    "label": "Here",
+    "more": "and {count} more"
+  },
   "talkBox": {
     "continue": "Continue",
     "skipScene": "Skip scene",
@@ -1197,6 +1201,7 @@
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
+    "notToday": "Not today",
     "groupOut": "Out and about",
     "groupAsk": "Ask",
     "groupMoney": "Money",

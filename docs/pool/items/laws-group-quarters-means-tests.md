@@ -6,10 +6,10 @@ lead: laws
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-group-quarters-means-tests
-pr:
+pr: #8690
 blocked-on:
 after: core-group-quarters-population
 model: sonnet

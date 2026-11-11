@@ -61,7 +61,8 @@ import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { roomPeople, clockLines } from "./ui/room.mjs";
+import { clockLines } from "./ui/room.mjs";
+import { bustStrip } from "./ui/bust-strip.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -216,13 +217,61 @@ for (const box of document.querySelectorAll("#game .chat"))
   docking.observe(box);
 window.addEventListener("resize", clearDock);
 
-function drawPeople(people, onClick) {
-  $("people").replaceChildren(
-    ...roomPeople(people, {
-      selfId: me?.id,
-      backdropUrl: $("backdrop").src,
-      onClick,
-    }),
+/** How many people stand on the talk box's strip at most (the owner's sizes: one, two and four). */
+const TALK_STRIP_PEOPLE = 4;
+/** Who is in the room now: the people the strip names, how many more, and what a click on one does. */
+let here = { people: [], more: 0 };
+/**
+ * Who is here, along the foot of the room (ui/bust-strip.mjs): a room is its
+ * painting, and the people in it are a strip of busts. `scene` is anything
+ * with `people` and `more` (a scene, a visit, a story beat); none clears it.
+ * `onClick` makes each person with something to say a way into a talk.
+ */
+function drawHere(scene, onClick) {
+  here = { people: scene?.people ?? [], more: scene?.more ?? 0 };
+  $("here").replaceChildren(
+    ...(here.people.length
+      ? [
+          bustStrip({
+            people: here.people,
+            more: here.more,
+            words: controls.here,
+            onClick,
+          }),
+        ]
+      : []),
+  );
+  drawTalkStrip();
+}
+/**
+ * The same people on top of the talk box while a talk is open, whoever speaks
+ * lit and a little larger. A speaker who is not in the room (a caller, someone
+ * a scene brings in) stands first, by the face their card gave.
+ */
+let talkFace;
+/** Who you are talking to, when someone speaks; nobody while the narrator does. */
+let talkPersonId;
+function drawTalkStrip() {
+  const name = $("talk-name").textContent;
+  const inRoom = here.people.some((p) => p.personId === talkPersonId);
+  const speaker =
+    talkPersonId && !inRoom && talkFace
+      ? [{ personId: talkPersonId, name, face: talkFace }]
+      : [];
+  const others = here.people.filter((p) => p.personId !== talkPersonId);
+  const speaking = here.people.filter((p) => p.personId === talkPersonId);
+  // The speaker is always among those shown; the rest keep the room's order.
+  const shown = [...speaker, ...speaking, ...others]
+    .slice(0, TALK_STRIP_PEOPLE)
+    .sort(
+      (a, b) =>
+        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
+        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
+    );
+  $("talk-strip").replaceChildren(
+    ...(shown.length
+      ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
+      : []),
   );
 }
 
@@ -353,7 +402,7 @@ async function renderScene({ keepBackdrop = false } = {}) {
   if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
-  drawPeople(scene.people, (p) => talkTo(p.personId));
+  drawHere(scene, (p) => talkTo(p.personId));
   me.scene = scene;
 }
 
@@ -724,7 +773,7 @@ function inMeeting() {
     const draw = (scene) => {
       if (!scene) return finish();
       $("backdrop").src = scene.backdrop.url;
-      drawPeople(scene.people);
+      drawHere(scene);
       $("card-place").textContent = scene.title;
       $("meeting-title").textContent = scene.title;
       $("meeting-items").replaceChildren(
@@ -1130,7 +1179,7 @@ function electionMorning(scene) {
       setClock(day.at);
       if (scene) {
         $("backdrop").src = scene.backdrop.url;
-        drawPeople(scene.people);
+        drawHere(scene);
       }
       $("election-day-lines").replaceChildren();
       say(day.lines);
@@ -1142,7 +1191,7 @@ function electionMorning(scene) {
               const done = await post("/api/election-day/canvass");
               if (done.scene) {
                 $("backdrop").src = done.scene.backdrop.url;
-                drawPeople(done.scene.people);
+                drawHere(done.scene);
               }
               if (done.line) say([done.line]);
               ask(day);
@@ -1166,7 +1215,7 @@ function electionNight(night) {
     const labels = controls.returns ?? {};
     if (night.scene) {
       $("backdrop").src = night.scene.backdrop.url;
-      drawPeople(night.scene.people);
+      drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
     // call, two columns of rows, so all of them fit the panel at 1024x768
@@ -1218,7 +1267,7 @@ function atThePolls(scene) {
     const draw = (value) => {
       scene = value;
       $("backdrop").src = scene.backdrop.url;
-      drawPeople(scene.people);
+      drawHere(scene);
       $("ballot").replaceChildren(
         ballotPaper({
           contests: scene.contests,
@@ -1299,19 +1348,21 @@ $("continue").addEventListener("click", () => {
 // ---- Conversation (lower third: portraits top left, scales upper right) ----
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
-/** Who you are talking to: their bust, name and what you know of their work. */
-let talkPersonId;
+/** Who you are talking to: their name on the box, and their bust lit on the strip above it. */
 async function setWho(personId, name) {
   talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
-  setFace("talk-bust", null);
+  talkFace = undefined;
   show("talk-who", Boolean(name));
-  if (!personId) return;
+  drawTalkStrip();
+  // Someone in the room is already on the strip; anyone else stands there by their card's face.
+  if (!personId || here.people.some((p) => p.personId === personId)) return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
-  setFace("talk-bust", c.face);
+  talkFace = c.face ?? undefined;
+  drawTalkStrip();
 }
 /** A talk's lines: what you said before, what they said before, and what is said now. */
 function spokenLines(lines) {
@@ -1475,7 +1526,7 @@ function renderFiling(value) {
   filing = value;
   if (!value) return;
   $("backdrop").src = value.backdrop.url;
-  drawPeople(value.people);
+  drawHere(value);
   show("talk", true);
   const clerkName = value.visit.clerkId
     ? value.names[value.visit.clerkId]
@@ -1675,8 +1726,8 @@ function playAsks({ asked, summary, scene }) {
   renderTalk(undefined);
   if (scene) {
     $("backdrop").src = scene.backdrop.url;
-    // Each person is heard by name and bust, not drawn in the room.
-    drawPeople(scene.people.filter((p) => p.personId === me.id));
+    // Each person is heard by name and bust as they answer.
+    drawHere();
   }
   show("talk", true);
   const step = (at) => {
@@ -1710,6 +1761,7 @@ async function campaignParts() {
     outings,
     standing,
     debates,
+    pictures,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -1760,7 +1812,7 @@ async function campaignParts() {
       if (result.scene || moment) closeSheet();
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
-        drawPeople(result.scene.people);
+        drawHere(result.scene);
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -1808,7 +1860,7 @@ async function campaignParts() {
       if (result.scene) {
         closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
-        drawPeople(result.scene.people);
+        drawHere(result.scene);
         return;
       }
       reopenTrail(filing.id);
@@ -1841,6 +1893,7 @@ async function campaignParts() {
         return {
           group: T.groupOut,
           title: controls.campaignOutings[choice.outing],
+          picture: choice.picture,
           load: async () => ({
             facts: [
               {
@@ -1863,6 +1916,7 @@ async function campaignParts() {
       ].map(([kind, extra]) => ({
         group: T.groupAsk,
         title: controls.campaignActs[kind],
+        picture: pictures?.[kind],
         load: async () => ({}),
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
@@ -1870,6 +1924,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignActs.mail,
+        picture: pictures?.mail,
         load: async () => {
           const dollarsOut = numberBox({
             value: 50,
@@ -1887,6 +1942,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
+        picture: pictures?.contribute,
         load: async () => {
           const dollarsIn = numberBox({
             value: 0,
@@ -1908,6 +1964,7 @@ async function campaignParts() {
       {
         group: T.groupSpeak,
         title: T.speech,
+        picture: pictures?.speech,
         load: async () => ({
           nodes: [
             speechCard({
@@ -1933,7 +1990,7 @@ async function campaignParts() {
                 // A speech is seen where it was given, with the people it reached.
                 closeSheet();
                 $("backdrop").src = result.scene.backdrop.url;
-                drawPeople(result.scene.people);
+                drawHere(result.scene);
               },
             }),
           ],
@@ -1943,6 +2000,7 @@ async function campaignParts() {
       ...(debates ?? []).map((debate) => ({
         group: T.groupSpeak,
         title: controls.debate.title ?? T.debate,
+        picture: pictures?.debate,
         load: async () => ({
           nodes: [
             debateCard({
@@ -1966,7 +2024,8 @@ async function campaignParts() {
     const trail = [
       ...travelScreen({
         entries,
-        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        // The only list under a trail tile is why the act is out of reach today.
+        labels: { whoIsThere: "", whatICanDo: T.notToday },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
@@ -2074,10 +2133,9 @@ async function showStory(momentId) {
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
-  drawPeople(story.people);
+  drawHere(story);
   show("talk", true);
-  show("talk-who", false);
-  $("talk-name").textContent = "";
+  setWho(null, null);
   // A scene with a purpose is its own exchange; any other opens a talk.
   // The narrator sets the scene alone; Continue, then the person speaks.
   const withId = story.talk?.askerId ?? story.talkToId;
@@ -2108,7 +2166,7 @@ async function showStory(momentId) {
       const beat = story.beats?.[at];
       if (beat) {
         $("backdrop").src = beat.backdrop.url;
-        drawPeople(beat.people);
+        drawHere(beat);
       }
       talkControls({ silent: false, leave: false });
       fillTalk({
@@ -2446,7 +2504,7 @@ async function visit(organizationId) {
   );
   me.names = { ...me.names, ...v.names };
   $("backdrop").src = v.backdrop.url;
-  drawPeople(v.people, (p) => talkTo(p.personId));
+  drawHere(v, (p) => talkTo(p.personId));
   $("card-place").textContent = v.name;
   // The visit's hour moved the clock: the card shows the new time.
   if (v.packet) renderPacket(v.packet);
