@@ -2,10 +2,10 @@
 name: pool-notes
 description: >
   How pool-only changes for Our Civic Duty reach main: cause write-ups, new
-  items, status notes and relabels go as commits on the hour's own branch,
-  `pool/notes-<date>-<hour>`, with one pull request for the hour, gated by
-  Desk B and merged once an hour (owner, Nov 11), instead of one pull request
-  each. Also the
+  items, status notes and relabels go as commits on the hour's own branch
+  (named for the date and the hour), with one pull request for the hour,
+  gated by Desk B and merged once an hour (owner, Nov 11), instead of one
+  pull request each. Also the
   cap on new work while too many game pull requests are open. Use before you
   commit any change that touches only `docs/pool/items`, when you are Desk B
   or the CTO at the top of the hour, and before a builder takes a new item.
