@@ -9,13 +9,21 @@
  */
 import { P } from "../core2/parameters";
 import type { PersonId } from "../core2/types";
-import { renderLine, type Fact } from "./bank-line";
+import { conversationPacket, renderLine, type Fact } from "./bank-line";
 import { RELATION_WORDS } from "./journal-words";
 import {
   CONVERSATION_BANK,
   MINED_CONVERSATION,
 } from "./mined/conversation-bank";
 import { fitMoves, moveVariantKey } from "./move-fit";
+import { admittedParts, directorSlots } from "./bank-parts";
+import {
+  composeGroundedLine,
+  LINE_PARTS,
+  type ComposedLineBank,
+  type LinePart,
+  type LinePartVariant,
+} from "./english-composition";
 
 export type { Fact };
 
@@ -211,4 +219,114 @@ export function joinedReply(
 /** Whether a line someone said asks a question. */
 export function asksQuestion(line: { text: string }): boolean {
   return asks(line.text.trim());
+}
+
+const COMPOSED = new Map<string, ComposedLineBank | null>();
+
+/**
+ * The bank a subject's composed lines are made from: its pieces in the
+ * conversation bank by the part of the line each says (opener, core, reason,
+ * closer: a use whose role is one of those), for `composeGroundedLine`. Null
+ * when the subject has no core. A piece the grades or the rules hold back is
+ * never in it.
+ */
+export function composedConversationBank(
+  subject: string,
+): ComposedLineBank | null {
+  if (COMPOSED.has(subject)) return COMPOSED.get(subject)!;
+  const parts: Partial<Record<LinePart, LinePartVariant[]>> = {};
+  for (const piece of admittedParts(CONVERSATION_BANK.parts))
+    for (const use of piece.uses)
+      if (
+        use.subject === subject &&
+        (LINE_PARTS as readonly string[]).includes(use.role)
+      )
+        (parts[use.role as LinePart] ??= []).push({
+          key: piece.key,
+          kind: "template",
+          text: directorSlots(piece.text),
+          pieceKey: piece.key,
+          ...(use.stages ? { stages: use.stages } : {}),
+          ...(use.requiresFacts
+            ? {
+                requiresFacts: use.requiresFacts.map((key) =>
+                  key.replace(/_/g, "-"),
+                ),
+              }
+            : {}),
+          ...(piece.bearing ? { bearing: piece.bearing } : {}),
+        });
+  const bank: ComposedLineBank | null = parts.core?.length
+    ? {
+        key: `conversation.${subject}`,
+        version: "words-composed-conversation-v1",
+        surface: "dialogue",
+        act: "tell",
+        parts: {
+          ...Object.fromEntries(
+            Object.entries(parts).map(([part, variants]) => [
+              part,
+              { variants },
+            ]),
+          ),
+          core: { required: true, variants: parts.core },
+        },
+      }
+    : null;
+  COMPOSED.set(subject, bank);
+  return bank;
+}
+
+/**
+ * A conversation line the engine composes from a subject's parts (opener,
+ * core, reason, closer) in the speaker's voice, avoiding the parts they said
+ * before. Null when no core can be said from the facts given.
+ */
+export function composeConversationLine(request: {
+  seed: string;
+  subject: string;
+  speakerId: PersonId;
+  traits: Readonly<Record<string, number>>;
+  facts: Readonly<Record<string, Fact>>;
+  stage: string;
+  momentKey: string;
+  /** Piece keys the speaker said earlier in the talk. */
+  said?: readonly string[];
+}): Said | null {
+  const bank = composedConversationBank(request.subject);
+  if (!bank) return null;
+  const line = composeGroundedLine(
+    conversationPacket({
+      surface: "dialogue",
+      momentKey: request.momentKey,
+      worldSeed: request.seed,
+      bankVersion: bank.version,
+      stage: request.stage,
+      holderId: request.speakerId,
+      facts: request.facts,
+      fallbackSourceId: request.speakerId,
+      voice: { traits: request.traits, register: "conversation" },
+    }),
+    bank,
+    {
+      speakerTraits: request.traits,
+      // What they said before, in every part it could be said in.
+      recentPartKeys: (request.said ?? []).flatMap((key) =>
+        LINE_PARTS.map((part) => `${bank.key}:${part}:${key}`),
+      ),
+    },
+  );
+  if (line.kind !== "rendered") return null;
+  return {
+    text: line.text,
+    sourceRecordIds: line.sourceRecordIds,
+    wording: {
+      bank: `conversation:${request.subject}:composed`,
+      parts: line.parts.map((part) => part.variantKey),
+      stage: request.stage,
+      facts: [...new Set(line.parts.flatMap((part) => part.usedFactKeys))],
+    },
+    asks: asks(line.text),
+    afterPlain: false,
+  };
 }
