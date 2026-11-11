@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/pool-words-past-fact-renderings
-pr: #5194
+pr: #8484
 blocked-on:
 source: "split from core-needs-opus-core-23; docs/coordination/OPUS-CORE.md"
 claimed-at: 2026-11-11T02:38:00.400Z
