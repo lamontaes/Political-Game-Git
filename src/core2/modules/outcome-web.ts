@@ -467,8 +467,17 @@ function causeAt(r: Reading, measure: string, index: number): number | null {
   // opening. The opening month's row is rewritten when a law or a budget
   // change takes effect that month, and reading that row back would carry the
   // change into every earlier month a phased link averages.
-  if (index < r.openingIndex && r.first[measure] !== undefined)
-    return r.first[measure];
+  if (index < r.openingIndex) {
+    // A cause set by law reads as the law stood the day before the web
+    // opened (its baseline reader), not as first read: a rate raised in the
+    // opening month is already in the first reading, and a lagged link must
+    // not see it before its lag has passed.
+    const lawLevel = engineMeasure(measure)?.baselineReader
+      ? baselineOf(r, measure)
+      : undefined;
+    if (lawLevel !== undefined) return lawLevel;
+    if (r.first[measure] !== undefined) return r.first[measure];
+  }
   return (
     (row ?? rowAt(r, r.openingIndex))?.values[measure] ??
     r.values[measure] ??
