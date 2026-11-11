@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-life-record-part-8-a-race-lost-before-the-start-is-told
-pr:
+pr: #8606
 after:
 blocked-on:
 lead: elections
