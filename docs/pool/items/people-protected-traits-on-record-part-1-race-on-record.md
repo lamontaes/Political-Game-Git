@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-people-protected-traits-on-record-part-1-race-on-record
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:17:48.481Z
 branch: claude/pool-people-protected-traits-on-record-part-1-race-on-record
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-people-protected-traits-on-record-part-1-race-on-record
 Released (2026-11-11): Cause differs from code: each household already has a race-and-origin drawn from Census shares (opening-origin.ts, looks.origin) and counted members carry it (counted-groups.ts originIx); the Fix would add a second writer. Continue on branch claude/pool-people-protected-traits-on-record-part-1-race-on-record.
 
 Nov 11 (cause finder for Fable B): the race writer exists and is right; only its shares are the state's. Traced `withOrigins` → `originAt(stateKey)` → `originShares`, which reads the CPS state table alone (opening-origin.ts line 64). The ACS place file B03002 for 2020-2024 is published in the same summary-file folder the household mix was cut from (HTTP 200, 83 MB), so the fix copies that pattern. Moving the value out of `looks` was dropped: no player sees it, and the readers in parts 3 and 4 can read `looks.origin`. Part 2 is already dropped.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:17 UTC) on branch claude/pool-people-protected-traits-on-record-part-1-race-on-record.
