@@ -8,7 +8,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/pool-gov-m3-05-mayor-appoints-someone-they-know
-pr: #8390
+pr: #8394
 blocked-on:
 standard: 2
 model: sonnet
