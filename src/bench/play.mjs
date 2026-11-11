@@ -4679,10 +4679,14 @@ const sheets = {
       item.kind === "meeting"
         ? labels.regularMeeting
         : item.kind === "bill"
-          ? fill(labels.billOnFloor, {
-              number: item.number ?? "",
-              title: item.title ?? "",
-            })
+          ? // A bill with no composed title is named by the law it changes; a
+            // row never ends in a colon.
+            item.title || item.law
+            ? fill(labels.billOnFloor, {
+                number: item.number ?? "",
+                title: item.title || policyLabel(item.law),
+              })
+            : (item.number ?? "")
           : (item.title ?? "");
     const comingList = (items) =>
       dateList(
