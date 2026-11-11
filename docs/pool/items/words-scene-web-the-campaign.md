@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-scene-web-the-campaign
 pr: #8369
 blocked-on:
