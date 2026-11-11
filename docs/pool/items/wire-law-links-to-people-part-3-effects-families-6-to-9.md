@@ -19,7 +19,7 @@ source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Part of wire-law-links-to-people. Families 6 to 9 of the Oct 29 effects plan (sentencing law, place prices, child health, births into credit) are unread links: the research exists but no engine reads the measure, so the law's effect stops at a record. Each family is one PR, proven in two drawn places, with the matrices regenerated once.
+**What.** Part of wire-law-links-to-people. Families 6 to 9 of the Oct 29 effects plan (sentencing law, place prices, child health, births into credit) are unread links: the research exists but no engine reads the measure, so the law's effect stops at a record. Each family is one PR, proven in two drawn places, with the matrices regenerated once. Seen: a person's place prices, child health and credit after a law (the sentencing family waits on the crime system).
 
 **Cause.** Found in code: docs/reports/effects-web-plan-2026-10-29.md lists families 6 to 9 (sentencing law, place prices, child health, births into credit); their links are rows in src/core2/data/outcome-web/unwired.json, read by no engine (see `unwired.json`).
 

@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: merged
-claimed-by:
-pr: #6038
+status: claimed
+claimed-by: claude/pool-play-stop-08-no-high-school-at-seventeen
+pr: #8515
 after:
 blocked-on:
 standard: 2
@@ -17,10 +17,9 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T03:10:58.179Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-08-no-high-school-at-seventeen
-merged-at: 2026-10-26T17:25:35.000Z
 ---
 
 **What.** A life started as a 17-year-old in Anson, Texas on the v0.22.10 release listed "Anson Middle" and "Anson El" under school, no high school, and no enrollment in the senior year. It is implemented by play-teen-has-current-high-school (done; merged as 48d74a8b39). The Nov 4 check in the Notes (Anson, Texas, age 17) shows Who you are with School "Anson Public Schools" and Jobs and study reading "You went on to high school." What is left is a closing check by a second session in a drawn place, including whether a current high school should be named by its own name and not its district.
@@ -63,4 +62,10 @@ Released (2026-11-10): Replayed on main 94969ad22a, not recorded as seen (pool s
 
 Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:07 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
 
-**Notes (Fable B, Nov 10, marked merged by hand).** Nothing is left to build here: what is left is a second session's check in the running game. Its build is pull request 6038, merged Oct 26. While the item stayed open, `next` handed it to builders, who replayed it, could not record the result (`pool seen` takes only merged work) and released it; this one went round several builders on Nov 10. It is now with the second-session checkers, who record it with `npm run pool -- seen`. The builders' replays above are theirs to read first (pool item pool-open-items-with-nothing-to-build-are-handed-to-builders).
+Released by next (2026-11-11): no push to claude/pool-play-stop-08-no-high-school-at-seventeen since 2026-11-10 23:02 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #6038.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:09 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
+
+Released (2026-11-11): Replayed (details on #6038): history reads high school, but no current school is named by its own name; pool seen refuses non-merged items. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #6038.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:10 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.

@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: merged
-claimed-by:
-pr: #6111
+status: claimed
+claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
+pr: #8357
 after:
 blocked-on:
 standard: 2
@@ -17,10 +17,9 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:58:25.416Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-06-texas-shows-local-income-tax
-merged-at: 2026-10-27T02:24:27.000Z
 ---
 
 **What.** Politics, then Issues in Anson, Texas on the v0.22.10 release read "Local income tax rate 37% top rate". Texas has no state income tax and Anson no local one; 37 percent is the federal top rate shown under a local label, so a player choosing what to run on would believe the town taxes income at 37 percent. The fix is merged (commit 6029ce3efe and PR 6111, which name a rate's government from the budgets where no seat names it, in src/bench/government.ts). The item stayed open only for the owner's installed-build check, which the second-session rule replaces; the Texas no-income-tax row was never confirmed in a game.
@@ -67,4 +66,14 @@ Released (2026-11-10): replay test passes on two seeds; needs a running-game ses
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:22 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
 
-**Notes (Fable B, Nov 10, marked merged by hand).** Nothing is left to build here: what is left is a second session's check in the running game. Its build is pull request 6111, merged Oct 27. While the item stayed open, `next` handed it to builders, who replayed it, could not record the result (`pool seen` takes only merged work) and released it; this one went round several builders on Nov 10. It is now with the second-session checkers, who record it with `npm run pool -- seen`. The builders' replays above are theirs to read first (pool item pool-open-items-with-nothing-to-build-are-handed-to-builders).
+Released (2026-11-10): partial in-game replay (6 random places); seed and place names not captured, needs a full seen check. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:56 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
+
+Released (2026-11-10): Already replayed twice with a pass (sonnet-fd29, sonnet-cc77); pool seen cannot record it while the item is claimed, so the CTO must flip it to merged and record the check. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:57 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
+
+Released (2026-11-10): Nothing a builder can build: replay already recorded on the PR, or its lines are under data/english/parts (Story only); released so the claim is not held. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:58 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
