@@ -20,7 +20,7 @@ lead: cto
 checked: fable 2026-11-10
 ---
 
-**What.** On the opening evening at home the player's household is cast into the living room but nobody is drawn and nobody can be talked to when the home picture has no mannequin plate: every member is unplaced with reason no-plate. People are drawn only on a plate (owner, Oct 28 and 29), and of the home living rooms the opening shows only house-suburban-living at night has one. The owner's first screen is that evening, so every home living room the dwelling records can pick needs its plate, in the light the opening uses (night) and then the others. This is full-body staging, and on Nov 10 the owner ruled that staging waits while busts are decided.
+**What.** On the opening evening at home the player's household is cast into the living room but nobody is drawn and nobody can be talked to when the home picture has no mannequin plate: every member is unplaced with reason no-plate. People are drawn only on a plate (owner, Oct 28 and 29), and of the home living rooms the opening shows only house-suburban-living at night has one. The owner's first screen is that evening, so every home living room the dwelling records can pick needs its plate, in the light the opening uses (night) and then the others. This is full-body staging, and on Nov 10 the owner ruled that staging waits while busts are decided. Seen: the opening evening at home, drawn with the household in the room.
 
 **Cause.** Measured: Albany, Vermont, seed d25a6da2-6418-4903-aa38-7114f4ae08ac, home picture suburban-house: three housemates unplaced as no-plate (Red main report; panels.browser.mjs fails there). Code: plates are read by src/bench/mannequin-plates.ts and the staging engine stagePeople.
 
