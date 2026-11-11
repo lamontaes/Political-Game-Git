@@ -44,7 +44,7 @@ import {
   startingLawReader,
 } from "../country-law";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./budgets";
-import { stateStake } from "../budget-stakes";
+import { stateStake } from "../budgets-treasury";
 import {
   countryMoney,
   countryPeople,
