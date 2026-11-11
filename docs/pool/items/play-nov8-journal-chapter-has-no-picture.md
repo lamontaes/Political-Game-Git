@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-nov8-journal-chapter-has-no-picture
-pr:
+pr: #8468
 after:
 blocked-on:
 standard: 2
