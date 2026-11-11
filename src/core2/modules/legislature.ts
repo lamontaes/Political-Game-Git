@@ -4355,6 +4355,11 @@ function committeeStage(
           // A witness paid under the proposed floor speaks for the raise.
           desiredChange: question.position > 0 ? "enact" : "repeal",
           audienceIds: room.filter((id) => id !== w.personId),
+          // The hearing's own record, written below (`committee:<bill>:<chamber>`).
+          occasion: {
+            recordId: `committee:${bill.id}:${chamber}`,
+            kind: "committee-hearing",
+          },
         });
   }
   // Markup: the committee's holdouts trade for sections of their own, and
@@ -5071,6 +5076,10 @@ function reportStudy(api: CoreAPI, studyId: string): void {
         topic: study.topic,
         desiredChange: finding > 0 ? "enact" : "repeal",
         audienceIds: audience,
+        occasion: {
+          recordId: `study-reported:${studyId}`,
+          kind: "study-reported",
+        },
       });
     }
   }
