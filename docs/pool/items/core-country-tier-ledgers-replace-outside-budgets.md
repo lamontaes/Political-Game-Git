@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-country-tier-ledgers-replace-outside-budgets
 pr: #8329
 after:

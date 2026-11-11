@@ -19,7 +19,7 @@ source: split from justice-federal-case-stream in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** The federal courts keep only a monthly flow and a stock by offense group, so no federal defendant, judge or sentence exists to read. Build one on open: choose a federal offense group and a month from the flow, fill in a defendant from the counted population, name a judge, and file the case and its sentence through justice.ts's existing case flow, with the sentence length from the Sentencing Commission's mean for the group reduced by the mandatory-minimum law in force. The filled-in defendant must match the counts the flow stands on.
+**What.** The federal courts keep only a monthly flow and a stock by offense group, so no federal defendant, judge or sentence exists to read. Build one on open: choose a federal offense group and a month from the flow, fill in a defendant from the counted population, name a judge, and file the case and its sentence through justice.ts's existing case flow, with the sentence length from the Sentencing Commission's mean for the group reduced by the mandatory-minimum law in force. The filled-in defendant must match the counts the flow stands on. Feeds: justice-federal-case-stream.
 
 **Cause.** Found in code: src/core2/modules/federal-courts.ts (`federalCourtsFor`, line 142; header: "No case, judge or defendant is kept") keeps counts only; src/core2/modules/justice.ts has no federal case (it declines a federal office at line 1426). The sentence reduction is `reductionFactor` (federal-courts.ts, line 112) and the law key is `REDUCE_MANDATORY_MINIMUMS`.
 

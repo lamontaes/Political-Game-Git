@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
+pr: #8414
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,9 +17,11 @@ model: sonnet
 effort: medium
 root: rc2-done-from-records
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:03:26.601Z
+branch: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
 ---
 
-**What.** The test 'law reach, group B: Medicaid expansion and its work requirement' in src/core2/law-reach-group-b.test.ts throws 'no town with an employed adult and medicaid in forty draws' at its build helper (line 239). It fails the same way on clean main with GOLDEN_PATH_SEED=ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab, found by Merger 4 on Oct 27 while checking PR 6339. Forty drawn towns had no employed adult with Medicaid, so either the fixture's need changed with a recent engine merge or the draw is too narrow.
+**What.** The test 'law reach, group B: Medicaid expansion and its work requirement' in src/core2/law-reach-group-b.test.ts throws 'no town with an employed adult and medicaid in forty draws' at its build helper (line 239). It fails the same way on clean main with GOLDEN_PATH_SEED=ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab, found by Merger 4 on Oct 27 while checking PR 6339. Forty drawn towns had no employed adult with Medicaid, so either the fixture's need changed with a recent engine merge or the draw is too narrow. Guards: the Medicaid expansion and its work requirement reach a person's coverage in any town the player is dealt.
 
 **Cause.** Found in code: src/core2/law-reach-group-b.test.ts, in its build helper, picks the player as the first employed adult by id (lines 139 to 142) and collapses the world to two levels (`collapseToTwoLevels`, line 149), which leaves only the player's household and circle as named people. For the Medicaid need it then keeps only named residents the two questions cover (`covers`, lines 162 to 165, the filter on `r.named`; a named resident is a full person, src/core2/law-reach/group-b-people.ts line 74) and redraws the place when either list is empty (lines 186 to 190). So a place passes only when one of the handful of named people happens to sit in the expansion's income band and one in the work requirement's reach, and forty draws can all miss. The towns do hold such adults among the counted residents; the fixture never makes one of them a named person. Read, not re-run: seed ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab was not replayed on today's main.
 
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Found Oct 27 by Merger 4; red on clean main with the seed above.
 
 **Notes (Fable's check, Nov 10).** How to find the cause: Read why forty drawn towns hold no employed Medicaid adult (the coverage record or the opening changed), fix at that, and never pin a place.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:03 UTC) on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town.

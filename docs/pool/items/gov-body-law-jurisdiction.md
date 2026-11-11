@@ -14,7 +14,7 @@ claimed-at:
 branch: lane-2/body-law-jurisdiction
 ---
 
-**What.** Implement step2 of the existing world-governing U2 spec: the shared law-jurisdiction reader takes an office's actual state, county, township or place, and billJurisdiction uses it. The current reader assigns every state bill to the played state and looks up county units by a place-only index. The broader every-state-and-town parent remains unfinished.
+**What.** Implement step2 of the existing world-governing U2 spec: the shared law-jurisdiction reader takes an office's actual state, county, township or place, and billJurisdiction uses it. The current reader assigns every state bill to the played state and looks up county units by a place-only index. The broader every-state-and-town parent remains unfinished. Seen: the bill card's "in force today" line for a state, county or township bill.
 
 **Rules.** One engine per mechanic: use the existing office rows, government-unit reader and legislature. One rule, all 56 places: preserve municipio and no-county-law fallbacks from actual chain data, without named-place branches. Wire to the world: normal bills and enacted rows read the actual body key. Record the previously agreed U2 seam in docs/lanes/agreements/1-2.md before source edits. No voting, calendars, core state, offices module or screens change.
 

@@ -6,10 +6,10 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-nine-links-taxes
+pr: #8372
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 after:
@@ -17,11 +17,11 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T00:39:02.122Z
 branch: claude/pool-laws-nine-links-taxes
 ---
 
-**What.** Two parts of the taxes and public finance family are still short of the nine wiring links: the estate tax, whose money cannot move until a played town has an estate above the exemption (people-estate-wealth-top-tail, open), and the local income tax grant's bill, whose Words row words-bill-section-local-income-tax-authority is now done. Ten laws landed in PR #5649 as laws-nine-links-taxes-ten. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.
+**What.** Two parts of the taxes and public finance family are still short of the nine wiring links: the estate tax, whose money cannot move until a played town has an estate above the exemption (people-estate-wealth-top-tail, open), and the local income tax grant's bill, whose Words row words-bill-section-local-income-tax-authority is now done. Ten laws landed in PR #5649 as laws-nine-links-taxes-ten. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. Seen: the tax a household or business pays after a tax law passes, on the bill card.
 
 **Cause.** Design: the nine-link standard in docs/work-orders/lead-laws-2026-10-24.md. The estate tax cannot show money until people-estate-wealth-top-tail gives a played town an estate above the exemption.
 
@@ -50,3 +50,13 @@ Released (2026-11-11): local income tax authority already graded wired in the ma
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:16 UTC) on branch claude/pool-laws-nine-links-taxes.
 
 Released (2026-11-11): re-offered by next after release; see PR 8372, grant half already wired. Continue on branch claude/pool-laws-nine-links-taxes.
+
+Claimed by next for muse-8740 (Muse Spark in Muse Code, tier mid) (2026-11-11 00:19 UTC) on branch claude/pool-laws-nine-links-taxes.
+
+Released (2026-11-11): grant half already wired on current code and estate half still waits on the open people-estate-wealth-top-tail. Continue on branch claude/pool-laws-nine-links-taxes and pull request #8372.
+
+Claimed by next for muse-8740 (Muse Spark in Muse Code, tier mid) (2026-11-11 00:29 UTC) on branch claude/pool-laws-nine-links-taxes.
+
+Released (2026-11-11): grant half already wired on current code and estate half still waits on the open people-estate-wealth-top-tail. Continue on branch claude/pool-laws-nine-links-taxes and pull request #8372.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:38 UTC) on branch claude/pool-laws-nine-links-taxes.

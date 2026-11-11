@@ -19,7 +19,7 @@ source: split from world-disasters-from-conditions in the pool redo, Nov 10, 202
 checked: fable 2026-11-10
 ---
 
-**What.** Disasters after FEMA's records end already come from weather: on the first of each month the county's exposure to each hazard grows by the climate's rate (hazardRate) and a disaster happens the month the exposure holds one more whole one. But the damage is a lump paid to the counted residents with no harm to businesses, public buildings or people. Make a hazard-caused disaster damage named homes, named businesses and named public buildings, sized from the county's NOAA storm-episode history, each damage a record by id.
+**What.** Disasters after FEMA's records end already come from weather: on the first of each month the county's exposure to each hazard grows by the climate's rate (hazardRate) and a disaster happens the month the exposure holds one more whole one. But the damage is a lump paid to the counted residents with no harm to businesses, public buildings or people. Make a hazard-caused disaster damage named homes, named businesses and named public buildings, sized from the county's NOAA storm-episode history, each damage a record by id. Seen: the paper and the town after a disaster, with named homes, businesses and buildings damaged (owner, Oct 16).
 
 **Cause.** Design: the owner's Oct 16, 2026 ruling in the item (both FEMA's records and the world's own conditions; the game makes its own weather after the records end) and docs/coordination/OWNER-DECISIONS.md, Nov 8, about 7:15 p.m. (weather is basic climate change through the effect map). Open stopgap SG-CORE-disasters-from-records (src/core2/data/stopgaps/core.json) names the missing damage.
 

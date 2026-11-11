@@ -19,7 +19,7 @@ source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Part of wire-law-links-to-people. Families 2 to 5 of the Oct 29 effects plan (treasury interest, medical bills, voting relief, jobs pull to work) are unread links: the research exists but no engine reads the measure, so the law's effect stops at a record. Each family is one PR, proven in two drawn places, with the matrices regenerated once.
+**What.** Part of wire-law-links-to-people. Families 2 to 5 of the Oct 29 effects plan (treasury interest, medical bills, voting relief, jobs pull to work) are unread links: the research exists but no engine reads the measure, so the law's effect stops at a record. Each family is one PR, proven in two drawn places, with the matrices regenerated once. Seen: a person's medical bills, treasury interest, voting relief and job pull after a law.
 
 **Cause.** Found in code: docs/reports/effects-web-plan-2026-10-29.md lists families 2 to 5 (treasury interest, medical bills, voting relief, jobs pull to work); their links are rows in src/core2/data/outcome-web/unwired.json (for example relief-spending-to-votes, broadband-to-employment), read by no engine (see `unwired.json`).
 
