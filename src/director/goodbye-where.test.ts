@@ -118,4 +118,6 @@ it(`says a goodbye only where and when it is true (${place.name}, seed ${seed})`
     `GOODBYE WHERE ${place.name}: ${home.length} at home, ${out.length} away, ${idle.length} to ${jobless!.givenName} (no job)\n`,
   );
   expect(home.length + out.length, "goodbyes said").toBeGreaterThan(0);
-});
+  // A heavy draw takes about 47 s (Phoenixville, Pennsylvania, seed 785d131f…;
+  // Gate desk 5, Nov 11), past vitest's 30 s default.
+}, 180_000);
