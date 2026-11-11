@@ -44,3 +44,7 @@ Released (2026-11-11): Read and scoped, not built: the two readers are not the s
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:21 UTC) on branch claude/pool-web-budget-line-added-one-reader.
 
 Released (2026-11-11): Not built; analysis for the next builder. The three readers measure different things, so folding them changes numbers: budgetLineAddedPct (gov-measures.ts 299) weights every government's line by its town share (townShare) and picks the record of the government that moved most; schoolsLineAboveBase (school-budget-line.ts 21) sums only the place's own city and county budgets, unweighted, and registers the SG-SCHOOL-spending-line-for-per-pupil stopgap; parks-added-pct and highways-added-pct read a stored gov measure (govMeasure/govMeasureRecord via lineAddedPct, outcome-web.ts 340). One function means choosing one weighting and then rechecking the web links, outcome-web.test.ts and both families' tests (law-reach-group-a, law-wiring-rights-env, web-gov-measures) at their numbers. The weighting is a decision to record first. Continue on branch claude/pool-web-budget-line-added-one-reader.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:40 UTC) on branch claude/pool-web-budget-line-added-one-reader.
+
+Released (2026-11-11): opus-5251: released unbuilt; the cap on new work is on (368 open pull requests on Nov 11, skill pool-notes). Continue on branch claude/pool-web-budget-line-added-one-reader.
