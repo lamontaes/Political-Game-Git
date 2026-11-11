@@ -45,3 +45,25 @@ export function screenLine(
   });
   return missing ? null : text;
 }
+
+/**
+ * Every way the bank says `key` that the owner's grades let play: the piece
+ * itself, then its other wordings (`<key>.w2`, `<key>.w3` ...), in the bank's
+ * order. A screen that tells several lines of one kind picks among them, so no
+ * two lines read the same.
+ */
+export function screenWays(bank: string, key: string): string[] {
+  const parts = BANKS[bank];
+  if (!parts) return [];
+  return [...parts.values()]
+    .filter(
+      (part) =>
+        (part.key === key || part.key.startsWith(`${key}.w`)) && playable(part),
+    )
+    .map((part) => part.key);
+}
+
+/** The words of part `key` of `bank` before its slots are filled, or "". */
+export function partText(bank: string, key: string): string {
+  return BANKS[bank]?.get(key)?.text ?? "";
+}
