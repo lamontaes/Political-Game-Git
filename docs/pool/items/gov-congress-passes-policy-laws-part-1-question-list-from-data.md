@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
 pr: #8380
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: rc1-world-outside-town
 source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:16:38.161Z
 branch: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
 ---
 
@@ -48,3 +48,5 @@ branch: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-da
 Released (2026-11-11): The Fix's admission rule admits one question (only medicaid-work-requirement has an axis among those with a key reader) and filings get one sponsor in one chamber, so both chambers cannot file on the list; findings on PR 8380. Continue on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data and pull request #8380.
 
 Nov 11 (cause finder for Fable B): read on main d64255aa31. Congress's filing loop is the state axis list, so only four federal questions are ever weighed; the 25 in the research file are never read and have no axis, so every stance on them is 0. The Senate's empty column follows from one sponsor per question across both chambers and is not a defect. The fix above gives the federal questions an axis from the file's own party roll calls, widens Congress's list to the 7 questions a reader reads, and records their answers. The axis also gives the President a stance, which part 2 asked for. Also found: the starting-law writer at src/core2/modules/laws.ts (about line 191) never gives the town the federal Medicaid work rule, because every state answers that question; that belongs to part 3.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:16 UTC) on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data.
