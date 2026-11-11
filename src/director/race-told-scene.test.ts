@@ -34,7 +34,7 @@ import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 // different moves, the same speaker says the same thing twice and opposite
 // speakers say it differently, and a reply is written back as a record.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const ATTEMPTS = 8;
+const ATTEMPTS = 24;
 const DAYS = 365;
 const TYPE = SITUATION_LIBRARY.types.find(
   (row) => row.key === "race-told",
