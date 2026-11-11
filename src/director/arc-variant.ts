@@ -665,6 +665,24 @@ function readOf(
 }
 
 /**
+ * One named read of the variant table (`reads` in data/arc-variants.json)
+ * for an asker and a cause, with the records it came from: a scene's words
+ * cite the same reads that choose its arc, never a second reader. 0 and no
+ * records where the read is not in the table or the records hold nothing.
+ */
+export function readFor(
+  core: Readonly<CoreState>,
+  name: string,
+  input: VariantInput,
+): { value: number; recordIds: string[] } {
+  const spec = DATA.reads[name];
+  if (!spec) return { value: P.zero, recordIds: [] };
+  const recordIds = new Set<string>();
+  const value = readOf(core, spec, input, recordIds);
+  return { value, recordIds: [...recordIds] };
+}
+
+/**
  * Which variant of the scene's purpose the records give, or null when the
  * purpose has none (it plays its one arc).
  */

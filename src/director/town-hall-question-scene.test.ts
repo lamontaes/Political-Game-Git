@@ -12,6 +12,8 @@ import type { PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
 import { purposeScene } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
+import { expectUpToFourDifferent } from "./reply-set-check";
+import { wordSceneMove } from "../english/scene-talk-words";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 
 // A town hall a local official held is a scene for the official, about the
@@ -26,6 +28,7 @@ const READINGS = ["host-agreed", "host-opposed", "host-declined"];
 
 it(`a town hall is the host's scene about a resident's question and the answer it got (seed ${seed})`, () => {
   const tried: string[] = [];
+  const stakes: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "town-hall-question");
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
@@ -79,9 +82,32 @@ it(`a town hall is the host's scene about a resident's question and the answer i
         readings,
         `${here}: exactly one reading of the answer`,
       ).toHaveLength(1);
-      // About the question, not about a lost job or an eviction.
-      expect(scene.talk.state.text, here).not.toMatch(/lost my job|evict/);
+      // About the question first; the resident's own stake, where the
+      // records hold one, is the reason after it, cited to its row (a job
+      // lost from an employer, or rent owed).
       expect(scene.talk.state.text, here).toContain(issue!.text);
+      const employer = scene.facts.find((row) => row.key === "employer");
+      if (scene.facts.some((row) => row.key === "stake-work")) {
+        expect(scene.talk.state.text, here).toContain(employer!.text);
+        stakes.push(`${here}: ${scene.talk.state.text}`);
+      }
+      const owed = scene.facts.find((row) => row.key === "owed");
+      if (scene.facts.some((row) => row.key === "stake-money")) {
+        expect(scene.talk.state.text, here).toContain(owed!.text);
+        stakes.push(`${here}: ${scene.talk.state.text}`);
+      }
+      // Up to four replies, each a different move, and one screen names a
+      // thing once (lead, Nov 11, 2026).
+      const root = scene.talk.tree.replies.map((reply) => reply.line);
+      expectUpToFourDifferent(root, here);
+      for (const row of scene.facts.filter((fact) => fact.text.length > 2))
+        expect(
+          root.filter((reply) => reply.text.includes(row.text)).length,
+          `${here}: "${row.text}" in two replies: ${root.map((reply) => reply.text).join(" / ")}`,
+        ).toBeLessThanOrEqual(1);
+      process.stdout.write(
+        `TOWN HALL ${here}: "${scene.talk.state.text}" | ${root.map((row) => `${row.move}: ${row.text}`).join(" | ")}\n`,
+      );
       // The same scene reads differently when the answer was opposed, agreed
       // with or not given: the cast and the question stay, the reading moves.
       const type = (
@@ -122,3 +148,74 @@ it(`a town hall is the host's scene about a resident's question and the answer i
     `no official held a town hall in ${DAYS} days in ${tried.join("; ")} (seed ${seed})`,
   );
 }, 900_000);
+
+// A resident's own stake is the reason after their question (owner, Nov 11,
+// 2026: "This introduces people to their world."): one who lost a job names
+// the employer, one behind on rent names what they owe, and a host who
+// answered against them hears a different question than one who agreed.
+it(`a resident's question gives their own reason, from a lost job or rent owed (seed ${seed})`, () => {
+  const fact = (text: string, id: string) => ({ text, sourceRecordIds: [id] });
+  const base = {
+    name: fact("Dana Ruiz", "person:resident"),
+    first: fact("Sam", "person:host"),
+    place: fact("the town", "place:town"),
+    issue: fact("free fares on public transit", "town-hall:1"),
+    "asker-first": fact("Dana", "person:resident"),
+  };
+  const ask = (
+    facts: Record<string, { text: string; sourceRecordIds: string[] }>,
+    momentKey: string,
+  ) => {
+    const worded = wordSceneMove({
+      move: {
+        step: "state",
+        move: "ask",
+        role: "asker",
+        purpose: "town-hall-question",
+        key: "favor-asked",
+      },
+      facts,
+      seed,
+      speakerId: "person:resident",
+      traits: {},
+      momentKey,
+      said: new Set(),
+    });
+    return worded && "text" in worded ? worded.text : "";
+  };
+  const work = {
+    stake: fact("work", "change:1"),
+    "stake-work": fact("work", "change:1"),
+    employer: fact("Harlan Mill", "org:mill"),
+  };
+  const money = {
+    stake: fact("money", "case:1"),
+    "stake-money": fact("money", "case:1"),
+    owed: fact("about $400", "case:1"),
+  };
+  const opposed = ask(
+    { ...base, ...work, "host-opposed": fact("host-opposed", "town-hall:1") },
+    "a",
+  );
+  const agreed = ask(
+    { ...base, ...work, "host-agreed": fact("host-agreed", "town-hall:1") },
+    "a",
+  );
+  const behind = ask(
+    {
+      ...base,
+      ...money,
+      "host-declined": fact("host-declined", "town-hall:1"),
+    },
+    "b",
+  );
+  process.stdout.write(
+    `TOWN HALL STAKES: "${opposed}" | "${agreed}" | "${behind}"\n`,
+  );
+  for (const text of [opposed, agreed, behind])
+    expect(text).toContain("free fares on public transit");
+  expect(opposed).toContain("Harlan Mill");
+  expect(agreed).toContain("Harlan Mill");
+  expect(opposed).not.toBe(agreed);
+  expect(behind).toContain("about $400");
+});

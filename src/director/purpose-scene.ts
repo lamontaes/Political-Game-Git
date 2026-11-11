@@ -85,6 +85,7 @@ import { reunionFacts } from "./reunion-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
+import { TOWN_HALL_PURPOSE, townHallFacts } from "./town-hall-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -918,6 +919,17 @@ function composeBinding(
     // The bill the donor holds the strongest view on, when one is pending.
     if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
   }
+  // A resident's own stake in the question they stand up with at a town hall,
+  // a protest or a strike: a job they lost, or rent they owe.
+  if ((type.purpose ?? type.key) === TOWN_HALL_PURPOSE)
+    Object.assign(
+      facts,
+      townHallFacts(core, askerId, askedId, {
+        id: moment.causeId,
+        date: record?.date ?? core.date,
+        facts: said,
+      }),
+    );
   // A donor's own reasons: where they work, what the bill they named is
   // about and which side of it they are on.
   if (type.key === DONOR_ASK_TYPE)
