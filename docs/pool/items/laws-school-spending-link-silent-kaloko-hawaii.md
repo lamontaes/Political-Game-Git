@@ -29,7 +29,7 @@ checked: fable 2026-11-10
 
 **Rules.** One rule for all 56 places. Read the records first: the schools line's raise (the council's budget row and the treasury's payments on it), and the cause the web reads for the link (budget.schools-added-pct) in the town's month rows.
 
-**Done when.** After the teacher item's fix is on main, a second session runs the test on the Kaloko pin above and one fresh seed, and sees it pass, with `school-spending-to-attainment` firing in a named web month row by record id.
+**Done when.** After the teacher item's fix is on main, a second session runs the test on the Kaloko pin above and in one fresh drawn place (named with its seed), and sees it pass, with `school-spending-to-attainment` firing in a named web month row by record id.
 
 **Waits on.** laws-teacher-minimum-misses-a-named-teacher.
 
