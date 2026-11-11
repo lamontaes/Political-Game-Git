@@ -48,4 +48,5 @@ branch: claude/words-w4-work
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 90 distinct lines across the four subjects, 23 with no insert and not excused (own-work 39 and 8, other-work 42 and 14, heard-work 21 and 3, shared-work 17 and 1). Three today: "What do you do?", "Have you been there long?", "Let's not talk shop. Maybe another time." Work is not talked about between relatives (`familyTalk.dropped`), so this is heard away from home.
+
 - 2026-11-11, Words builder W4: built on claude/words-w4-work. In the conversation-test worlds nobody has a start-date record for their current job (`heldSinceRecord` finds none), so "how long" is offered only where the bench's played worlds have one; the test checks that an offered "how long" is answered with the years.
