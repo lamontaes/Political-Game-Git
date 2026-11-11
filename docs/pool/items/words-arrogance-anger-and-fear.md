@@ -7,7 +7,7 @@ priority: 2
 status: claimed
 standard: 2
 claimed-by: claude/pool-words-arrogance-anger-and-fear
-pr: #5219
+pr: #8480
 after:
 blocked-on:
 lead: words
