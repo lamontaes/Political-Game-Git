@@ -15,6 +15,8 @@ import {
 import { policyAuthority } from "../core2/policy-authority";
 import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { coreAPI } from "../core2/state";
+import { enactLaw, lawChain } from "../core2/modules/laws";
+import { spokenDesignation } from "../english/bill-names";
 import { billPaper, seatAct, seatView } from "./legislature";
 
 // A bill opens as one paper document read from its own records: the
@@ -264,11 +266,14 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     const set = budgetRow.provisions.find(
       (p) => p.kind === "budget-line" && p.line === line,
     )!;
-    expect(set.value, budget.id).toBe(BUDGET_LINE_AMOUNT_MINOR);
+    // The player types the line's new amount; the section records the change
+    // on the amount in force (the engine adds the change to the line), so the
+    // law sets the line to what was typed, and the paper says that amount.
+    expect((set.of ?? 0) + set.value, budget.id).toBe(BUDGET_LINE_AMOUNT_MINOR);
     expect(
-      budgetPaper.sections[0]!.estimate.lineAmountMinor,
-      `${budget.id} carries its line amount`,
-    ).toBe(set.value);
+      budgetPaper.sections[0]!.estimate.lineNewMinor,
+      `${budget.id} carries the amount it sets its line to`,
+    ).toBe(BUDGET_LINE_AMOUNT_MINOR);
     expect(budgetPaper.estimate, budget.id).toEqual({
       workers: budgetRow.costEstimate.workersRaised,
       payMinor: budgetRow.costEstimate.annualPayMinor,
@@ -276,7 +281,94 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     });
     expect(budgetPaper.estimate.note.length, budget.id).toBeGreaterThan(0);
     console.log(
-      `budget line: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${budget.id} line ${line} amount ${budgetPaper.sections[0]!.estimate.lineAmountMinor} minor, note ${budgetPaper.estimate.workers} workers ${budgetPaper.estimate.payMinor} minor`,
+      `budget line: ${where} (${key}, root seed ${seed}, place seed ${drawn}) bill ${budget.id} line ${line} amount ${budgetPaper.sections[0]!.estimate.lineNewMinor} minor, note ${budgetPaper.estimate.workers} workers ${budgetPaper.estimate.payMinor} minor`,
+    );
+  }, 600_000);
+
+  it("an amending bill's estimate names the bill that passed the law, as its section text does", () => {
+    const tried: string[] = [];
+    for (let i = 0; i < 10; i += 1) {
+      const draw = drawPlace(
+        `${seed}:amend:${i}`,
+        "bill-paper",
+        grantsLocalWage,
+      );
+      const where = `${draw.name} (${draw.key}), place seed ${draw.seed}`;
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(world.core);
+      const offices = api
+        .moduleState("core2-offices-v1")
+        .table("offices")
+        .rows() as unknown as { id: string; kind: string }[];
+      const council = ["council", "township-board", "county-board"]
+        .map((kind) => offices.find((o) => o.kind === kind))
+        .find((o) => o !== undefined);
+      const [first] = council ? members(api, council.id) : [];
+      if (!council || !first) {
+        tried.push(`${where}: no body with a member`);
+        continue;
+      }
+      const wage = seatView(world.core, memberKey(first)).amounts.find(
+        (a) => a.series === "minimum-wage",
+      );
+      const draft = (value: number) =>
+        seatAct(world.core, memberKey(first), {
+          kind: "draft",
+          officeId: council.id,
+          series: "minimum-wage",
+          value,
+        }) as { id: string; number: string; status: string };
+      const earlier = draft((wage?.current ?? 0) + 200);
+      if (earlier.status !== "drafted") {
+        tried.push(`${where}: the body may not set it`);
+        continue;
+      }
+      const row = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(earlier.id) as unknown as BillRow;
+      const level = council.kind === "county-board" ? "county" : "city";
+      const at = lawChain(api).levels.find((l) => l.level === level);
+      if (!at) {
+        tried.push(`${where}: no ${level} level`);
+        continue;
+      }
+      // The law that bill enacted is in force: its row names the enacting bill.
+      enactLaw(api, {
+        jurisdiction: at.jurisdiction,
+        level: at.level,
+        series: "minimum-wage",
+        value: (wage?.current ?? 0) + 200,
+        effectiveDate: world.core.date,
+        measureId: earlier.id,
+        citation: `Bill ${earlier.id}`,
+        terms: { enactedByBill: earlier.id },
+      });
+      const amending = draft((wage?.current ?? 0) + 400);
+      if (amending.status !== "drafted") {
+        tried.push(`${where}: the amending bill is blocked`);
+        continue;
+      }
+      const paper = billPaper(world.core, amending.id);
+      const spoken = spokenDesignation(row.number, row.form.kind);
+      expect(
+        paper.sections[0]!.estimate.statute,
+        `${where}: ${amending.id} amends the law ${earlier.id} enacted`,
+      ).toBe(spoken);
+      expect(spoken, where).toMatch(/[A-Za-z]+ \S+/);
+      expect(paper.sections[0]!.estimate.statute ?? "", where).not.toMatch(
+        /https?:/,
+      );
+      process.stdout.write(
+        `bill-paper amends: ${where}: ${amending.id} amends "${spoken}" (${earlier.id})\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place drafted an amending bill: ${tried.join("; ")}`,
     );
   }, 600_000);
 });

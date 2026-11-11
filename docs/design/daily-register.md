@@ -312,6 +312,7 @@ Every table a world keeps, as dev mode's records proof sees it (`src/bench/dev-p
 | `core2-justice-v1.fines`                         | flat  | measured flat over the years above | 0 / 15 / 21 / 30                  | none needed                       |
 | `core2-meetings-v1.debates`                      | flat  | measured flat over the years above | 1 / 10 / 12 / 29                  | none needed                       |
 | `core2-campaigns-v1.races`                       | flat  | measured flat over the years above | 25 / 25 / 25 / 26                 | none needed                       |
+| `core2-campaigns-v1.asks`                        | flat  | one ask that reached the player    | not yet measured (new Nov 11)     | none needed                       |
 | `core2-justice-v1.complaints`                    | flat  | measured flat over the years above | 0 / 6 / 15 / 25                   | none needed                       |
 | `core2-executive-v1.appointments`                | flat  | measured flat over the years above | 24 / 24 / 24 / 24                 | none needed                       |
 | `core2-office-day-v1.officeJobs`                 | flat  | measured flat over the years above | 13 / 17 / 18 / 24                 | none needed                       |

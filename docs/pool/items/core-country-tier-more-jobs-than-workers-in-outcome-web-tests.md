@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/core-country-tier-jobs-over-workers
+pr: #8852
 after:
 blocked-on:
 lead: speed
@@ -16,6 +16,8 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T17:14:29.664Z
+merged-at: 2026-11-11T17:42:42.822Z
 ---
 
 **What.** On main (Nov 11), src/core2/outcome-web.test.ts fails in drawn places with the tier's bookkeeping check: 'The country tier holds counts that cannot be: US-IN: 3318085.2067525927 jobs for 3317720.325176492 workers' (Earl Park, Indiana, GOLDEN_PATH_SEED=3110f870cf52c299, test 'low birth weight reads the sized link to drinking-water violations'), and US-CO 2805771.97 jobs for 2805763.44 workers on the same seed in Silver Plume, Colorado. The played town's part of its state puts in more jobs than workers each month, because a counted record can hold more jobs than the people it stands for, and the part caps the workers but not the jobs. Seen: dev mode's Run panel and Metrics tab, whose state rows show no more jobs than workers.
@@ -35,3 +37,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/residents.ts, src/core2/country-model.ts, src/core2/country-model.test.ts, src/core2/outcome-web.test.ts
 
 **Notes.** Cause found (Nov 11, 2026, cause finder for Fable B): a probe built the test's own world for Earl Park with the seed above, advanced month by month with bookkeeping off, and read each month's `countryParts` row (jobs and workers) beside `residentsPart`'s raw counts. The difference starts in the month the raw workers first pass the adults in a band and equals the failing message to the cent.
+
+**Notes (R2 for Fable B, Nov 11, 13:10 UTC).** The same cause is why a played world in Washington, D.C. still grows its jobs without bound once core-country-tier-empty-sector-prices-run-away-in-dc (#8810) ends the crash. The part D.C.'s town reports, as jobs over workers, month by month (place 1150000, world seed c2ff19100a2c2f424292deca7b7fe760abec51ebe682d9ad572706e6ff3ae925, #8810's branch): 378,048 over 378,048 in February, 789,218 over 500,912 in March, 2,159,314 over 502,103 in April (4.30), then 3.95 to 4.17 for the rest of the year. The state's jobs go from 378,246 to about 2.1 million. Charlotte Amalie, U.S. Virgin Islands (the part is 39.6% of its state) ends its year at 1.42 jobs per worker, and its state's jobs go from 42,483 to 61,949. Zillah, Washington ends at 1.027 on main. Because the part's jobs go into the state, they show up as the region's jobs growth, which the town's outside demand reads (`regionalFactors`), so the jobs engine hires against a count its own heads inflated. Making that demand read only the jobs outside the town was tried and does not shut it: D.C. reached 69 jobs per worker by August with it, and it moved ordinary worlds off main, so it was reverted. The fix above is the one to build. Its done-when should add a played year in D.C. on the seed above, with the part's jobs within a few percent of its workers each month.
