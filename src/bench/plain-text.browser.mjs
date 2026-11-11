@@ -5,7 +5,7 @@
 // no field name, status code, ISO date or developer button.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { finishTalk, playOpening } from "./start-life.mjs";
 import { devModeOff, devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -213,8 +213,10 @@ try {
   await counter("grown");
   const choices = page.locator("#talk-choices button");
   const labels = await choices.allInnerTexts();
-  const fileAt = labels.findIndex((l) =>
-    /^File\b|take the papers/i.test(l.trim()),
+  // The clerk words the commit choice from a bank (File, take the papers, Let's do it...): the
+  // choice that is not a way out is the filing.
+  const fileAt = labels.findIndex(
+    (l) => !/\b(?:not now|think|leave|walk|never mind|later)\b/i.test(l),
   );
   assert.ok(fileAt >= 0, `no File choice: ${labels.join(" | ")}`);
   const filed = page.waitForResponse(
@@ -239,6 +241,10 @@ try {
       (r) => new URL(r.url()).pathname === "/api/advance",
       { timeout: 600000 },
     );
+    // A failed click must report itself, not the closed browser's unhandled wait.
+    moved.catch(() => {});
+    // A scene that opened on its own (a visit from a neighbor) is played to its end first.
+    if (await page.locator("#talk").isVisible()) await finishTalk(page);
     await page.locator("#week").click();
     await moved;
     await page.waitForTimeout(1000);
