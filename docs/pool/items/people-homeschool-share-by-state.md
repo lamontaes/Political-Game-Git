@@ -5,12 +5,12 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-people-homeschool-share-by-state
 pr: #5493
 blocked-on: a researcher: choose the homeschool definition (Household Pulse is broader than NHES), then build the state table from the Pulse public-use files; see the Notes
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:03:10.243Z
 after:
 standard: 2
 model: sonnet
