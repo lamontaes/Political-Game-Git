@@ -3,4 +3,4 @@ id: tests-campaign-calibration-door-contact-by-seed
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The campaign calibration test reports a town's door contact rate beside the field band instead of failing on it, and fails only a walk that opens no door.
