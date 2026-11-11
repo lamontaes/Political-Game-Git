@@ -182,6 +182,8 @@ export interface ConversationData {
    * offered once the line before already said it.
    */
   answeredBy?: Readonly<Record<string, string>>;
+  /** The kinds of line whose replies never say the same record's words twice on one screen. */
+  namesOnce?: { kinds: readonly string[] };
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
   /** A relative's latest happening, by label prefix, as the stage their news is told in. */
@@ -359,6 +361,24 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
 }
 
 /**
+ * An employer said the way people say it: a government named for its place
+ * ("Village of Jackson Center") takes "the", as in "I work for the Village of
+ * Jackson Center".
+ */
+function employerText(name: string): string {
+  const said = properName(name);
+  return /^\p{Lu}\p{Ll}+ of /u.test(said) ? `the ${said}` : said;
+}
+
+/**
+ * Whether a job's title can be said the way people say a job: never a form's
+ * title with a parenthesis, a comma or a slash in it.
+ */
+function sayableTitle(title: string | undefined): title is string {
+  return !!title && !/[(),/]/.test(title);
+}
+
+/**
  * What a person does at their job and, when the employer is out of their
  * town, the town it is in: from the job record's title and the employer's
  * place, each citing its record. Under the slot names given (the speaker's
@@ -371,7 +391,7 @@ function workDetail(
   slots: { position: string; place?: string },
 ): Facts {
   const facts: Facts = {};
-  if (held.job.title)
+  if (sayableTitle(held.job.title))
     facts[slots.position] = {
       text: withArticle(held.job.title),
       sourceRecordIds: [held.job.id],
@@ -1036,14 +1056,14 @@ export function subjectsBetween(
       kind: "own-work",
       facts: {
         employer: {
-          text: properName(mine.org.name),
+          text: employerText(mine.org.name),
           sourceRecordIds: [mine.job.id, mine.org.id],
         },
         ...workDetail(core, speaker, mine, WORK_SLOTS),
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
       // A true answer also tells what they do there, for the person card.
-      ...(mine.job.title
+      ...(sayableTitle(mine.job.title)
         ? {
             alsoOwn: [
               {
@@ -1214,13 +1234,13 @@ export function subjectsBetween(
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
-  if (theirs?.job.title)
+  if (sayableTitle(theirs?.job.title))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
       facts: {
         employer: {
-          text: properName(theirs.org.name),
+          text: employerText(theirs.org.name),
           sourceRecordIds: [theirs.job.id, theirs.org.id],
         },
       },
@@ -1890,7 +1910,7 @@ function replyFacts(
         return {
           facts: {
             employer: {
-              text: properName(theirs.org.name),
+              text: employerText(theirs.org.name),
               sourceRecordIds: [theirs.job.id, theirs.org.id],
             },
             ...workDetail(core, listener, theirs, WORK_SLOTS),
@@ -1906,7 +1926,7 @@ function replyFacts(
         facts: was
           ? {
               employer: {
-                text: properName(was.name),
+                text: employerText(was.name),
                 sourceRecordIds: [ended!.id, was.id],
               },
             }
@@ -1916,11 +1936,11 @@ function replyFacts(
     }
     case "their-position": {
       const theirs = jobOf(core, listener);
-      return theirs?.job.title
+      return theirs && sayableTitle(theirs.job.title)
         ? {
             facts: {
               employer: {
-                text: properName(theirs.org.name),
+                text: employerText(theirs.org.name),
                 sourceRecordIds: [theirs.job.id, theirs.org.id],
               },
               ...workDetail(core, listener, theirs, WORK_SLOTS),
@@ -2005,7 +2025,7 @@ function playerFacts(
   const mine = jobOf(core, player);
   if (mine) {
     facts["my-employer"] = {
-      text: properName(mine.org.name),
+      text: employerText(mine.org.name),
       sourceRecordIds: [mine.job.id, mine.org.id],
     };
     Object.assign(
@@ -2939,7 +2959,15 @@ function offerChoices(
   conversation.choices = [];
   conversation.lies = [];
   const own = playerFacts(core, playerId, last);
-  const facts = { ...own.facts, ...last.facts };
+  const other = core.people.get(otherId);
+  const facts: Facts = {
+    ...own.facts,
+    ...last.facts,
+    // The other person's given name, as the player says it to them.
+    ...(other
+      ? { "their-first": { text: other.givenName, sourceRecordIds: [otherId] } }
+      : {}),
+  };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
   const between = subjectsBetween(
@@ -3178,6 +3206,27 @@ function offerChoices(
     ...(before ? { previous: asksQuestion(before) ? "ask" : before.act } : {}),
     table: data.calibration ?? CALIBRATION,
   });
+  // One screen names a thing once (lead, Nov 11): of the replies that would
+  // say the same record's words, one stays: a reply that carries the talk on
+  // (turns the question back, asks more) before one that only answers, then
+  // by rank.
+  if (data.namesOnce?.kinds.includes(last.kind)) {
+    const named = new Set<string>();
+    const kept = new Set<ConversationChoice>();
+    const ranked = conversation.choices;
+    for (const choice of [
+      ...ranked.filter((row) => row.raises),
+      ...ranked.filter((row) => !row.raises),
+    ]) {
+      const said = (choice.wording?.facts ?? [])
+        .map((key) => facts[key]?.text)
+        .filter((text): text is string => !!text);
+      if (said.some((text) => named.has(text))) continue;
+      for (const text of said) named.add(text);
+      kept.add(choice);
+    }
+    conversation.choices = ranked.filter((row) => kept.has(row));
+  }
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (

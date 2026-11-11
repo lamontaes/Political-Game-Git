@@ -29,7 +29,8 @@
     "rival": "A rival on the same ballot, by name, from their filing.",
     "president": "The President's name, from the officials engine's record of who holds the office, as the opening story names them.",
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
-    "my_position": "The player's job, with its article (\"a server\"), from the job record's title."
+    "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
+    "their_first": "The given name of the person the player is talking to, from the person's record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -2186,13 +2187,6 @@
           "role": "reply",
           "choice": "at",
           "stages": ["working"]
-        },
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
         }
       ],
       "transcriptsUsing": 74,
@@ -3150,13 +3144,6 @@
           "role": "reply",
           "choice": "at",
           "stages": ["working"]
-        },
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
         }
       ],
       "transcriptsUsing": 1075,
@@ -3232,13 +3219,6 @@
           "role": "reply",
           "choice": "at",
           "stages": ["working"]
-        },
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
         }
       ],
       "transcriptsUsing": 15,
@@ -3364,13 +3344,6 @@
       "text": "{employer}, right.",
       "uses": [
         {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        },
-        {
           "move": "shared-work-answer-plain",
           "subject": "shared-work",
           "role": "answer",
@@ -3416,13 +3389,6 @@
       "kind": "spoken",
       "text": "Oh, {employer}.",
       "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        },
         {
           "move": "heard-work-reply-ok",
           "subject": "heard-work",
@@ -12012,67 +11978,6 @@
         "date": "2026-04-18",
         "granule": "DCPD-202600268",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600268/html/DCPD-202600268.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.own-work-new-answer-brief.with-employer",
-      "move": "own-work-new-answer-brief",
-      "kind": "spoken",
-      "text": "With {employer}.",
-      "uses": [
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 636,
-      "bySource": {
-        "Air Force Historical Research Agency, USAF Oral History Program": 1,
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 4,
-        "National Archives History Office oral history project": 5,
-        "National Archives History Office oral history project (brooks-oral-histories)": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 3,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 6,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 19,
-        "U.S. Senate Historical Office oral history": 16,
-        "blm": 1,
-        "briefing": 33,
-        "crec": 53,
-        "dcpd": 122,
-        "doj": 1,
-        "dol-osha": 3,
-        "epa": 13,
-        "fdic": 3,
-        "hearings": 191,
-        "house": 15,
-        "hud": 1,
-        "nasa": 40,
-        "nasa2": 31,
-        "ncua": 1,
-        "nih": 10,
-        "nps": 50,
-        "nps.gov": 2,
-        "nps.gov (PDF)": 2,
-        "ntia": 1,
-        "sba": 1,
-        "va": 2
-      },
-      "source": {
-        "document": "Remarks in Las Vegas, Nevada",
-        "date": "2026-08-05",
-        "granule": "DCPD-202600518",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -27871,13 +27776,6 @@
           "role": "reason",
           "choice": "own",
           "for": "answer"
-        },
-        {
-          "move": "work-own-reason",
-          "subject": "own-work-new",
-          "role": "reason",
-          "choice": "plain",
-          "for": "answer"
         }
       ],
       "bearing": "calm",
@@ -27896,13 +27794,6 @@
           "subject": "other-work",
           "role": "reason",
           "choice": "own",
-          "for": "answer"
-        },
-        {
-          "move": "work-own-reason",
-          "subject": "own-work-new",
-          "role": "reason",
-          "choice": "plain",
           "for": "answer"
         }
       ],
@@ -27925,11 +27816,11 @@
           "for": "answer"
         },
         {
-          "move": "work-own-reason",
+          "move": "own-work-new-answer-brief",
           "subject": "own-work-new",
-          "role": "reason",
-          "choice": "plain",
-          "for": "answer"
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
         }
       ],
       "bearing": "calm",
@@ -28444,14 +28335,6 @@
       "text": "What do you do at {employer}?",
       "uses": [
         {
-          "move": "other-work-answer-detail",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "detail",
-          "stages": ["working"],
-          "raises": "their-position"
-        },
-        {
           "move": "their-position-raise-ask",
           "subject": "their-position",
           "role": "raise",
@@ -28469,14 +28352,6 @@
       "kind": "spoken",
       "text": "What do you do over at {employer}?",
       "uses": [
-        {
-          "move": "other-work-answer-detail",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "detail",
-          "stages": ["working"],
-          "raises": "their-position"
-        },
         {
           "move": "their-position-raise-ask",
           "subject": "their-position",
@@ -28496,14 +28371,6 @@
       "text": "What's your job at {employer}?",
       "uses": [
         {
-          "move": "other-work-answer-detail",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "detail",
-          "stages": ["working"],
-          "raises": "their-position"
-        },
-        {
           "move": "their-position-raise-ask",
           "subject": "their-position",
           "role": "raise",
@@ -28521,14 +28388,6 @@
       "kind": "spoken",
       "text": "What kind of work do you do at {employer}?",
       "uses": [
-        {
-          "move": "other-work-answer-detail",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "detail",
-          "stages": ["working"],
-          "raises": "their-position"
-        },
         {
           "move": "their-position-raise-ask",
           "subject": "their-position",
@@ -28548,14 +28407,6 @@
       "text": "What do they have you doing at {employer}?",
       "uses": [
         {
-          "move": "other-work-answer-detail",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "detail",
-          "stages": ["working"],
-          "raises": "their-position"
-        },
-        {
           "move": "their-position-raise-ask",
           "subject": "their-position",
           "role": "raise",
@@ -28573,14 +28424,6 @@
       "kind": "spoken",
       "text": "And what do you do for {employer}?",
       "uses": [
-        {
-          "move": "other-work-answer-detail",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "detail",
-          "stages": ["working"],
-          "raises": "their-position"
-        },
         {
           "move": "their-position-raise-ask",
           "subject": "their-position",
@@ -28700,6 +28543,124 @@
         }
       ],
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-new-answer-brief.i-work-as-my-position",
+      "move": "own-work-new-answer-brief",
+      "kind": "spoken",
+      "text": "I work as {my_position}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-new-answer-brief.these-days-i-work-as-my-position",
+      "move": "own-work-new-answer-brief",
+      "kind": "spoken",
+      "text": "These days I work as {my_position}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-you-do-there-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do you do there, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.so-whats-your-job-there-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "So what's your job there, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.and-what-do-you-do-there-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "And what do you do there, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-they-have-you-doing-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do they have you doing, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["working"],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
       "origin": "authored",
       "author": "Words builder W4 (words-home-work-lines-are-composed)",
       "date": "2026-11-11"

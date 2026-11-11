@@ -160,6 +160,18 @@
     "their-tenure": "years",
     "their-position": "position"
   },
+  "namesOnce": {
+    "about": "Lead, Nov 11, 2026, from the reviews of PR 8736 and PR 8750: one screen names a thing once. For these kinds of line, no two of the player's replies say the same record's words (the employer, the job, a name); the reply ranked first keeps it. Kinds only; no sentence.",
+    "kinds": [
+      "own-work",
+      "own-work-new",
+      "other-work",
+      "heard-work",
+      "shared-work",
+      "tenure-reply",
+      "position-reply"
+    ]
+  },
   "tells": {
     "about": "Owner, Oct 14, 2026, night (Q10: one 'listen' and one 'ask more'): when the player answers the other person's line with a choice that asks for more, the other person tells this subject of their own, from their records, as a side remark on the same topic. By the line's kind, then the choice.",
     "job-lost-reply": {
