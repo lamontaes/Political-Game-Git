@@ -1,5 +1,6 @@
 // "Go to": the town's places from its organizations and the art library,
 // who works there, who's there now and what the player can do there.
+import { personWorkOf } from "../core2/person-work";
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -66,6 +67,9 @@ const SCHOOL_AGE_UNDER = 19;
  * organization with a picture (owner, Oct 13: "Why would you need to visit
  * the market?").
  */
+/** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
+const PARTY_OFFICE = "membership:political-party";
+
 export function townPlaces(
   core: CoreState,
   playerId: string,
@@ -79,13 +83,16 @@ export function townPlaces(
   const household = core.households.get(player.householdId)?.memberIds ?? [
     playerId,
   ];
+  // By the one reader of what a person does (`personWorkOf`), which the card
+  // and the journal tell too: their job's employer and each seat's own.
   const ownWork = new Set(
-    [...household, ...player.familyIds]
-      .map((id) => core.people.get(id)?.jobId)
-      .map((jobId) =>
-        jobId ? core.jobs.get(jobId)?.organizationId : undefined,
-      )
-      .filter((id): id is string => !!id),
+    [...household, ...player.familyIds].flatMap((id) => {
+      const work = personWorkOf(core, id);
+      return [
+        work.job?.organizationId,
+        ...work.offices.map((office) => office.organizationId),
+      ].filter((org): org is string => !!org);
+    }),
   );
   const ownJob = player.jobId
     ? core.jobs.get(player.jobId)?.organizationId
@@ -135,6 +142,11 @@ export function townPlaces(
           })),
           ...(official && STATE_OFFICES.has(org.classification ?? "")
             ? [{ kind: "serve" as const, recordId: org.id }]
+            : []),
+          // The office of a party the player belongs to (their membership record).
+          ...(core.memberships.has(`${playerId}:${org.id}`) &&
+          org.classification === PARTY_OFFICE
+            ? [{ kind: "member" as const, recordId: org.id }]
             : []),
         ];
         const open = PUBLIC_PLACES.has(place);
