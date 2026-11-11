@@ -1,9 +1,11 @@
+import { lawDid } from "./law-did";
 import {
   drawAheadNow,
   drawAheadOn,
   figureAtPath,
   figurePng,
 } from "./people-pack";
+import { bustPath } from "./bust";
 import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
@@ -21,7 +23,9 @@ import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { nationStories } from "./nation-news";
 import {
+  answerAsk,
   campaignAct,
+  donationAsksView,
   campaignDay,
   campaignView,
   debateAnswer,
@@ -68,6 +72,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   colleagueDeal,
+  hireAide,
   nameHeadPick,
   nominationDecide,
   nominationsView,
@@ -89,6 +94,7 @@ import {
   backdropPath,
   benchScene,
   faceOf,
+  scenePlace,
 } from "./scene";
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
@@ -111,9 +117,9 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
-  portraitPng,
+  newGameFaces,
+  portraitFace,
   readRecipe,
-  setColor,
 } from "./appearance";
 import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
@@ -123,6 +129,7 @@ import {
   sayNothing,
   type Conversation,
 } from "../director/conversation";
+import { chapterPicture } from "./journal-pictures";
 import { composeJournal } from "../director/journal";
 import {
   fileForOffice,
@@ -157,6 +164,11 @@ interface ServerState {
   titleVisits: number;
   conversation: Conversation | undefined;
   filingVisit: BenchFilingVisit | undefined;
+  /**
+   * The place the player went to and the day they went: they are there until
+   * they go somewhere else, go home, or the day ends.
+   */
+  visit: { organizationId: string; date: string } | undefined;
   /** The election nights each player has watched, and the mornings they canvassed. */
   nightsWatched: Set<string>;
   canvassedOn: Set<string>;
@@ -181,6 +193,7 @@ const state: ServerState = {
   titleVisits: 0,
   conversation: undefined,
   filingVisit: undefined,
+  visit: undefined,
   nightsWatched: new Set<string>(),
   canvassedOn: new Set<string>(),
   speechBuild: undefined,
@@ -196,12 +209,22 @@ function sceneNow(current: CoreState, id: string) {
     playing &&
     !state.player!.packet &&
     state.director?.ledger.opening?.date === current.date;
-  const scene = benchScene(
-    current,
-    id,
-    playing ? state.player!.packet : undefined,
-    openingDay ? OPENING_EVENING_MINUTE : undefined,
-  );
+  // A place the player went to is where they are for the rest of that day:
+  // a talk there, or an hour's wait, leaves them in the same room. The visit
+  // ends with the day (the next morning is at home), with another trip, or
+  // with going home.
+  const at = playing ? state.player!.packet?.at : undefined;
+  if (playing && state.visit && at?.date !== state.visit.date)
+    state.visit = undefined;
+  const scene =
+    playing && state.visit && at
+      ? visitPlace(current, id, state.visit.organizationId, at.minuteOfDay)
+      : benchScene(
+          current,
+          id,
+          playing ? state.player!.packet : undefined,
+          openingDay ? OPENING_EVENING_MINUTE : undefined,
+        );
   // Who has something to say: the director's own answer (a talk that opens with
   // no lines is no talk), read without writing anything. The room leaves the
   // rest unclickable (owner, Nov 1).
@@ -387,6 +410,7 @@ const ROUTES: readonly Route[] = [
         state.director = world.director;
         state.player = new BenchPlayer(world.core, world.director);
         state.conversation = undefined;
+        state.visit = undefined;
         state.placeId = world.placeId;
         state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
@@ -454,6 +478,21 @@ const ROUTES: readonly Route[] = [
       response.end(
         figurePng(figure, Object.fromEntries(url.searchParams.entries())),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname.startsWith("/art/busts/"),
+    run: async ({ url, response }) => {
+      // A piece of a bust (bust.ts): the same file for everyone who wears it,
+      // so the screen fetches each piece once.
+      const content = await readFile(bustPath(url.pathname));
+      response.writeHead(200, {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=86400, immutable",
+      });
+      response.end(content);
       return;
     },
   },
@@ -557,6 +596,14 @@ const ROUTES: readonly Route[] = [
           ? { director: state.director, ...(occasionId ? { occasionId } : {}) }
           : {},
       );
+      // A talk with no line is no talk (owner, Nov 1), on every road: a scene,
+      // the room, a workplace visit. Nothing opens, and the screen hands the
+      // room back.
+      if (!state.conversation.lines.length) {
+        state.conversation = undefined;
+        send(200, null);
+        return;
+      }
       send(200, talkView(state.conversation));
       return;
     },
@@ -622,8 +669,12 @@ const ROUTES: readonly Route[] = [
         : 0;
       state.conversation = undefined;
       const parameters = requireCore().data.parameters;
+      // The opening evening comes before the player's first morning, and the
+      // clock has not started: a talk then is part of that evening and holds
+      // it. Spent, its minutes would run from tomorrow morning, and the next
+      // Day would land a day late.
       const spent =
-        lines > 0 && state.player?.personId
+        lines > 0 && state.player?.personId && state.player.packet
           ? state.player.spend(
               (lines * parameter("talkMinutesPerLine", parameters)) /
                 parameter("minutesPerHour", parameters),
@@ -662,19 +713,25 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/journal",
     run: async ({ url, send }) => {
       if (!state.director) throw new Error("Generate a town first.");
+      const who = url.searchParams.get("id") ?? "";
+      const chapters = composeJournal(
+        requireCore(),
+        state.director,
+        who,
+        // The player's own journal reads to their clock, which stands at
+        // the start of a day the core has yet to run (a birthday morning).
+        state.player?.packet && state.player.personId === who
+          ? { through: state.player.packet.at.date }
+          : {},
+      );
+      // A chapter carries the picture of the place its lines were written from;
+      // with no place on record it carries none.
       send(
         200,
-        composeJournal(
-          requireCore(),
-          state.director,
-          url.searchParams.get("id") ?? "",
-          // The player's own journal reads to their clock, which stands at
-          // the start of a day the core has yet to run (a birthday morning).
-          state.player?.packet &&
-            state.player.personId === url.searchParams.get("id")
-            ? { through: state.player.packet.at.date }
-            : {},
-        ),
+        chapters.map((chapter) => {
+          const picture = chapterPicture(requireCore(), who, chapter);
+          return picture ? { ...chapter, picture } : chapter;
+        }),
       );
       return;
     },
@@ -705,46 +762,22 @@ const ROUTES: readonly Route[] = [
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"
-            ? q.get("value")
-              ? setColor(
-                  readRecipe(q.get("recipe")!),
-                  q.get("row") ?? "",
-                  q.get("value")!,
-                )
-              : moveAppearance(
-                  readRecipe(q.get("recipe")!),
-                  gender,
-                  q.get("row") ?? "",
-                  Number(q.get("by") ?? 1),
-                )
+            ? moveAppearance(
+                readRecipe(q.get("recipe")!),
+                gender,
+                q.get("row") ?? "",
+                Number(q.get("by") ?? 1),
+              )
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);
-        send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
+        // The look, its rows and the bust every screen will draw for it.
+        send(200, {
+          recipe: fitted,
+          rows: appearanceRows(fitted, gender),
+          face: portraitFace(fitted),
+        });
       } else send(404, { error: "Unknown bench route." });
-      return;
-    },
-  },
-  {
-    match: ({ request, url }) =>
-      request.method === "GET" && url.pathname === "/api/portrait",
-    run: async ({ url, response }) => {
-      // The creator's portrait of a look not yet anyone's (a person's own
-      // face is their pack figure, faceOf).
-      const kept = url.searchParams.get("recipe");
-      if (!kept) throw new Error("No portrait.");
-      response.writeHead(200, {
-        "Content-Type": "image/png",
-        "Cache-Control": "max-age=3600",
-      });
-      // Everyday clothes, or with dress=work the work clothes (the creator
-      // shows the two side by side).
-      response.end(
-        portraitPng(
-          readRecipe(kept),
-          url.searchParams.get("dress") === "work" ? "work" : "everyday",
-        ),
-      );
       return;
     },
   },
@@ -763,6 +796,8 @@ const ROUTES: readonly Route[] = [
         ...scenes[0]!,
         scenes,
         rotateSeconds: TITLE_ROTATE_SECONDS,
+        // New game's busts, before any world exists.
+        newGame: newGameFaces(),
         life: personId
           ? {
               personId,
@@ -774,8 +809,14 @@ const ROUTES: readonly Route[] = [
                 ),
                 makeIsoDate(state.core!.date),
               ),
-              // The life's one face, as every other view of the player reads it.
-              face: faceOf(state.core!, personId),
+              // The face the creator saved, for Continue's headshot.
+              face: state.core!.people.get(personId)?.looks?.recipe
+                ? portraitFace(
+                    readRecipe(
+                      state.core!.people.get(personId)!.looks!.recipe!,
+                    ),
+                  )
+                : null,
               placeName: state.placeName,
               date: state.core!.date,
               minuteOfDay:
@@ -891,7 +932,7 @@ const ROUTES: readonly Route[] = [
       const id = url.searchParams.get("id") ?? "";
       send(200, {
         face: core.people.has(id)
-          ? faceOf(core, id)
+          ? faceOf(core, id, scenePlace(core, id).place)
           : null,
       });
       return;
@@ -928,6 +969,50 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/goto/home",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      // Whether the player is out at a place, and where the day has them
+      // otherwise (its picture and who is there), for Travel's way home.
+      const id = state.player.personId;
+      const there = benchScene(requireCore(), id, state.player.packet);
+      send(200, {
+        away: Boolean(state.visit),
+        picture: there.backdrop.url,
+        who: there.people
+          .filter((person) => person.personId !== id)
+          .map((person) => person.name),
+      });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/goto/home",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      // Going home from a place is a trip like the one that took them there;
+      // from home it is nothing.
+      // stopgapId: SG-PLAY-trip-time-average
+      const parameters = requireCore().data.parameters;
+      const spent = state.visit
+        ? state.player.spend(
+            parameter("tripMinutes", parameters) /
+              parameter("minutesPerHour", parameters),
+          )
+        : undefined;
+      state.visit = undefined;
+      send(200, {
+        scene: sceneNow(requireCore(), state.player.personId),
+        ...(spent
+          ? { packet: spent.packet, names: namesFor(spent.packet) }
+          : {}),
+      });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/goto/visit",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -948,6 +1033,10 @@ const ROUTES: readonly Route[] = [
       );
       const spent =
         state.player.spend(parameter("visitHours", parameters)) ?? trip;
+      const arrived = state.player.packet?.at;
+      state.visit = arrived
+        ? { organizationId: visit.organizationId, date: arrived.date }
+        : undefined;
       send(200, {
         ...visit,
         ...(spent
@@ -965,6 +1054,15 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/changes",
     run: async ({ url, send }) => {
       send(200, lawChanges(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/law/did",
+    run: async ({ url, send }) => {
+      // What a law passed in play did: whom it reached, by record (law-did.ts).
+      send(200, lawDid(requireCore(), url.searchParams.get("series") ?? ""));
       return;
     },
   },
@@ -1431,6 +1529,22 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/office/hire-aide",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        hireAide(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("personId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/budget-line",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -1624,6 +1738,31 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/campaign/asks",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(200, donationAsksView(requireCore(), state.player.personId));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/campaign/asks/answer",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        answerAsk(requireCore(), state.player.personId, {
+          askId: url.searchParams.get("askId") ?? "",
+          answer: url.searchParams.get("answer") ?? "",
+          amountMinor: Number(url.searchParams.get("amountMinor")) || undefined,
+        }),
+      );
       return;
     },
   },
@@ -2268,6 +2407,7 @@ const ROUTES: readonly Route[] = [
       const id = url.searchParams.get("id") ?? "";
       personOrFillIn(requireCore(), id);
       state.player.select(id);
+      state.visit = undefined;
       if (state.conversation?.playerId !== state.player.personId)
         state.conversation = undefined;
       send(200, {
@@ -2305,6 +2445,7 @@ const ROUTES: readonly Route[] = [
         state.director = nextDirector;
         state.player = new BenchPlayer(next, nextDirector);
         state.conversation = undefined;
+        state.visit = undefined;
         state.placeId = place.context.jurisdiction.id;
         state.placeName = place.displayName;
         send(200, {

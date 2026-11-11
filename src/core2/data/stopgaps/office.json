@@ -1,5 +1,17 @@
 [
   {
+    "id": "SG-OFFICE-deciding-seats",
+    "kind": "approximation",
+    "file": "src/core2/modules/office-day.ts",
+    "line": 464,
+    "whatItFakes": "Whether a member's seat could decide a meeting's votes is read from the body's size alone (at most decidingSeats seats, with a bill on the agenda), not from how close each vote is.",
+    "why": "The player would learn the count of the other members' positions from a test that read them (N2, docs/coordination/night-2026-11-08/rulings-legislation.md), and on a board of three or five one seat turns most votes.",
+    "addedBy": "opus-5251 (office-member-ordinance-voted-without-player-stop)",
+    "addedAt": "2026-11-11",
+    "replacement": "A whip count the player's character could know (what members said in public or to the player), read as how close the vote is, so a larger body's close vote holds the player too.",
+    "status": "open"
+  },
+  {
     "id": "SG-OFFICE-gov-meeting-dates",
     "kind": "calendar",
     "file": "src/core2/office-day-calendar.ts",

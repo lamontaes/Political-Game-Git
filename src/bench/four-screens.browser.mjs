@@ -67,7 +67,7 @@ try {
   console.log("Place:", await page.locator("#card-place").innerText());
 
   // The dossier: panel head, side figure and sections from the shared parts.
-  const figure = page.locator("#people .talkable").first();
+  const figure = page.locator("#here .busts-person.talkable").first();
   await figure.waitFor();
   await figure.focus();
   await page.keyboard.press("Enter");
@@ -140,11 +140,11 @@ try {
   await openCampaignTrail(page);
 
   // The debate: a tab for each position on each question, one chosen at a time.
-  const bars = page.locator("#sheet-body nav.tabs");
+  const bars = page.locator("#sheet-body nav.tab-rail");
   assert.equal(await bars.count(), 2, "two questions, two position bars");
   assert.equal(
     await page
-      .locator("#sheet-body nav.tabs ~ select, #sheet-body select")
+      .locator("#sheet-body nav.tab-rail ~ select, #sheet-body select")
       .count(),
     0,
     "no select in the debate",

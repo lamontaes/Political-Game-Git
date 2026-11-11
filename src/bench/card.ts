@@ -1,5 +1,11 @@
 import { servingTermsOf } from "../core2/modules/offices";
-import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
+import {
+  ageInYears,
+  ageOnDate,
+  daysBetween,
+  makeIsoDate,
+} from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
@@ -18,7 +24,14 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
-import { screenLine } from "../english/screen-words";
+import {
+  partText,
+  screenLine,
+  screenPick,
+  screenWays,
+} from "../english/screen-words";
+import { framedByAge } from "../english/journal-words";
+import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
   pronounWords,
@@ -31,7 +44,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { faceOf } from "./scene";
+import { faceOf, scenePlace } from "./scene";
 import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
@@ -60,6 +73,8 @@ export function personCard(core: CoreState, personId: string) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
   const household = core.households.get(person.householdId);
+  // Faces for the People map: each the figure a room here would draw.
+  const place = scenePlace(core, personId).place;
   // The People screen's groups a tie falls in: family by kind, by a relation
   // word or by sharing the home; coworkers at work; friends; politics.
   const homeIds = new Set(household?.memberIds ?? []);
@@ -89,7 +104,7 @@ export function personCard(core: CoreState, personId: string) {
         level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
-        face: faceOf(core, otherId),
+        face: faceOf(core, otherId, place),
         // Why the tie last changed, from its own record.
         latestChange: row.latestChange && {
           date: row.latestChange.date,
@@ -104,7 +119,7 @@ export function personCard(core: CoreState, personId: string) {
   return {
     id: person.id,
     name: name(person.id),
-    face: faceOf(core, person.id),
+    face: faceOf(core, person.id, place),
     birthDate: person.birthDate,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
     alive: person.alive,
@@ -118,7 +133,7 @@ export function personCard(core: CoreState, personId: string) {
           relation: relationWord(core, id, relationOf(id)),
           groups: ["family"],
           alive: core.people.get(id)?.alive ?? true,
-          face: faceOf(core, id),
+          face: faceOf(core, id, place),
         })),
     },
     job: job && {
@@ -238,11 +253,14 @@ function historyLines(
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
 ) {
   const lines: HistoryLine[] = [];
+  // A person met or opened for the first time has their whole past written now,
+  // before their schools are read: read first, the school they attend stands
+  // on a record the written past replaces (Holt, Minnesota, seed
+  // f602ba0f9501e66f: "school.started:<person>:2007", a year no record holds).
+  openWholePast(core, other.id);
   const schools = new Map(
     schoolsOf(core, other.id).map((school) => [school.recordId, school]),
   );
-  // A person met or opened for the first time has their whole past written now.
-  openWholePast(core, other.id);
   const life = lifeOf(core, other.id);
   const firstSchool = life.find(
     (event) => event.life === "school" && event.what === "started",
@@ -386,7 +404,13 @@ function lineOf(
       const childId = facts.childId ?? partner;
       const name = personName(childId);
       if (!name) return null;
-      return make(childId === viewerId ? "child.you" : "child.born", { name });
+      // A child is born by their first name, inside the family's own story
+      // (lead, Nov 11: "Jeremiah was born in 1996.").
+      const child = core.people.get(String(childId ?? ""))?.givenName ?? name;
+      return make(childId === viewerId ? "child.you" : "child.born", {
+        name,
+        child,
+      });
     }
     case "loss/died": {
       // A parent's death, from the fact (a name and a relation); a death in play, from the
@@ -422,6 +446,22 @@ function lineOf(
           : null;
       // Each stage of school after the first is its own line (the first is
       // the line that names the school).
+      // A stage whose school has a record of its own is told with its name,
+      // when that is not the school the story has named already.
+      const stageSchool = orgName(facts.schoolId);
+      const namedAlready = [...schools.values()].some(
+        (row) => row.name === stageSchool,
+      );
+      if (
+        facts.stage &&
+        event.id !== firstSchoolId &&
+        stageSchool &&
+        !namedAlready
+      )
+        return make("school.joined", {
+          school: stageSchool,
+          stage: String(facts.stage),
+        });
       return facts.stage && event.id !== firstSchoolId
         ? make("school.stage", { stage: facts.stage })
         : null;
@@ -468,7 +508,18 @@ function lineOf(
       const how = facts.ended;
       if (how === "moved") return null;
       const employer = orgName(facts.organizationId);
-      if (!how) return make("work.out", {});
+      // How long they were out, when the record holds both ends.
+      if (!how)
+        return facts.startedAt && facts.endedAt
+          ? make("work.out-for", {
+              span: spanSaid(
+                daysBetween(
+                  makeIsoDate(String(facts.startedAt)),
+                  makeIsoDate(String(facts.endedAt)),
+                ),
+              ),
+            })
+          : make("work.out", {});
       if (how === "retired" && !employer) return make("work.retired-plain", {});
       return employer && ["quit", "retired", "closed"].includes(how)
         ? make(`work.${how}`, { employer })
@@ -480,8 +531,11 @@ function lineOf(
         ? make("work.job-lost", { employer })
         : make("work.job-lost-plain", {});
     }
-    case "move/moved-in":
-      return make("moved.in", {});
+    case "move/moved-in": {
+      // Where they came to: the town they live in now.
+      const here = placeName(other.placeId);
+      return here ? make("moved.in", { here }) : null;
+    }
     case "move/moved-home":
       return make("moved.home", {});
     case "move/moved-away": {
@@ -580,9 +634,29 @@ interface HistoryLine {
   start?: string;
 }
 
-/** Office titles read in running text: "council member", but "U.S. senator". */
-const inSentence = (title: string) =>
-  /^[A-Z][a-z]/.test(title) ? title.toLowerCase() : title;
+/** Office titles read in running text: the one wording the journal shares. */
+const inSentence = officeInSentence;
+
+/**
+ * One of a kind's wordings for a record, by the English engine's own stable
+ * pick for that record (the same record reads the same each time the card
+ * opens), passing over any the story has used and any whose slots the record
+ * cannot fill.
+ */
+function pickWay(
+  ways: readonly string[],
+  used: ReadonlySet<string>,
+  recordId: string,
+  slots: Readonly<Record<string, string>>,
+  part = "",
+): { key: string; text: string } | null {
+  return screenPick(
+    "person-history",
+    ways.filter((key) => !used.has(key)),
+    slots,
+    { momentKey: `${recordId}${part}`, sourceIds: [recordId] },
+  );
+}
 
 /** Who a card's story is about, and the form its sentences take. */
 interface Teller {
@@ -592,6 +666,8 @@ interface Teller {
   readonly name: string;
   /** Their recorded pronouns, for the third-person form. */
   readonly words: PronounWords | null;
+  /** Their birth date, for the age a sentence opens on ("At 14, ..."). */
+  readonly born?: string;
 }
 
 /** The teller for one person's card, as the viewer reads it. */
@@ -600,10 +676,13 @@ function tellerOf(
   personId: string,
   name: string,
   pronouns: string | undefined,
+  born?: string,
 ): Teller {
-  if (viewerId === personId) return { form: "you", name, words: null };
+  const birth = born ? { born } : {};
+  if (viewerId === personId)
+    return { form: "you", name, words: null, ...birth };
   const words = pronounWords(pronouns);
-  return { form: words ? "third" : "they", name, words };
+  return { form: words ? "third" : "they", name, words, ...birth };
 }
 
 /**
@@ -720,6 +799,18 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
   const voice = teller.form === "you" ? "i" : teller.form;
   const said = new Set<string>();
   let named = false;
+  // Each kind has several wordings; a story never uses one twice, and a kind
+  // told before is told the second time as a second time ("again").
+  const used = new Set<string>();
+  const kinds = new Set<string>();
+  // A screen tells the story in paragraphs by kind (`lifeGroups`), so the
+  // line before is the one before in the same paragraph.
+  const groupOf = (kind: string) =>
+    controls.lifeGroups.findIndex((kinds) => kinds.includes(kind));
+  const before = new Map<
+    number,
+    { year: string; when: string | undefined; framed: boolean }
+  >();
   return folded.flatMap((line) => {
     // The same record twice (a move the person's own facts and the moves
     // engine both keep, a school started twice) is said once.
@@ -739,19 +830,94 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // they form when their record holds none.
     const first = teller.form !== "you" && !named;
     const form = first ? "third" : voice;
-    const text = screenLine(
-      "person-history",
-      `person-history.story.${again}.${form}`,
-      {
-        ...line.slots,
-        ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
-        who: first ? teller.name : (teller.words?.subject ?? ""),
-        whom: first ? teller.name : (teller.words?.object ?? ""),
-        their: teller.words?.possessive ?? (first ? "their" : ""),
-      },
-    );
-    if (!text) return [];
-    if (first) named = true;
+    const slots = {
+      ...line.slots,
+      ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
+      who: first ? teller.name : (teller.words?.subject ?? ""),
+      whom: first ? teller.name : (teller.words?.object ?? ""),
+      their: teller.words?.possessive ?? (first ? "their" : ""),
+    };
+    // A kind said the same in every form (a child born, by name) keeps one
+    // set of wordings under `.any`.
+    const waysOf = (kind: string) => {
+      const own = screenWays(
+        "person-history",
+        `person-history.story.${kind}.${form}`,
+      );
+      return own.length
+        ? own
+        : screenWays("person-history", `person-history.story.${kind}.any`);
+    };
+    const second = kinds.has(again) ? waysOf(`${again}-second`) : [];
+    const ways = second.length ? second : waysOf(again);
+    const wording = pickWay(ways, used, line.recordId, slots);
+    if (!wording) return [];
+    used.add(wording.key);
+    kinds.add(again);
+    let text = wording.text;
+    // A sentence that says no time of its own opens on one: the year, the
+    // same year as the line before, or their age then.
+    const year = line.date.slice(0, 4);
+    const group = groupOf(line.key.split(".")[0]!);
+    const last = before.get(group);
+    const lastYear = last?.year;
+    const lastWhen = last?.when;
+    let framed = false;
+    let whenKey: string | undefined;
+    // Not after a line that opened on a time, unless a year or more went by,
+    // and never on a sentence that says how long ("worked for seven years").
+    const gap = lastYear ? Number(year) - Number(lastYear) : Infinity;
+    const frame =
+      !/\{(?:years?|span)\}/.test(partText("person-history", wording.key)) &&
+      (!last?.framed || gap > 1);
+    if (frame) {
+      // Their age then, for what a person does at an age (school, a move,
+      // work); a partner or a child is told by the year.
+      const aged = ["school", "moved", "work"].includes(again.split(".")[0]!);
+      const age =
+        aged && teller.born && line.date > teller.born
+          ? ageInYears(teller.born, line.date)
+          : undefined;
+      const whens = (
+        year === lastYear
+          ? ["person-history.when.same-year"]
+          : [
+              "person-history.when.year",
+              // Only after the first sentence: "Then in 2008, ...".
+              ...(lastYear !== undefined
+                ? [
+                    "person-history.when.then-year",
+                    "person-history.when.later-year",
+                  ]
+                : []),
+              ...(age !== undefined && age > 0
+                ? ["person-history.when.age", "person-history.when.age-years"]
+                : []),
+            ]
+      ).filter((key) => key !== lastWhen);
+      const when = pickWay(
+        whens,
+        new Set(),
+        line.recordId,
+        { year, age: String(age ?? "") },
+        ":when",
+      );
+      if (when) {
+        // The engine's one joiner: the opening's stop becomes a comma and
+        // the sentence goes on in lower case, unless it opens on a name.
+        text = framedByAge(
+          { text: when.text, sourceRecordIds: [line.recordId] },
+          { text, sourceRecordIds: [line.recordId] },
+          first ? { name: { text: teller.name } } : {},
+        ).text;
+        whenKey = when.key;
+        framed = true;
+      }
+    }
+    before.set(group, { year, when: whenKey ?? lastWhen, framed });
+    // The story names them in the first sentence that says who it is about.
+    if (first && partText("person-history", wording.key).includes("{who}"))
+      named = true;
     // The kind of record (born, school, work, office...) picks the
     // group a screen tells it in: the key's first part.
     return [
@@ -762,6 +928,8 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
         recordId: line.recordId,
         // Every record the sentence tells: a run's later terms too.
         records: [line.recordId, ...(line.later ?? [])],
+        // The bank piece that worded it, so a story can be checked for variety.
+        piece: wording.key,
       },
     ];
   });
@@ -877,7 +1045,7 @@ function summaryOf(
     teller.form === "you" ? ".you" : teller.form === "first" ? ".first" : "";
   const line = (key: string, slots: Record<string, string>) =>
     screenLine("person-history", `person-history.summary.${key}${you}`, slots);
-  const role = now.office
+  const office = now.office
     ? line(
         now.office.terms > 1 && now.office.wonAgain
           ? "office.run"
@@ -887,13 +1055,20 @@ function summaryOf(
           year: now.office.since.slice(0, 4),
         },
       )
-    : now.work?.employer
-      ? now.work.title
-        ? line("work.title", {
-            title: inSentence(now.work.title),
-            employer: now.work.employer,
-          })
-        : line("work.employer", { employer: now.work.employer })
+    : null;
+  // Their job, from the same record the journal reads (`personWorkOf`): told
+  // beside an office they hold too, never in place of it.
+  const work = now.work?.employer
+    ? now.work.title
+      ? line("work.title", {
+          title: inSentence(now.work.title),
+          employer: now.work.employer,
+        })
+      : line("work.employer", { employer: now.work.employer })
+    : null;
+  const role =
+    office || work
+      ? null
       : now.school
         ? line("school", { school: now.school })
         : now.place
@@ -907,7 +1082,9 @@ function summaryOf(
   const before = now.before
     ? line(`before.${now.before.kind}`, { state: now.before.state })
     : null;
-  return [role, before, born].filter((text): text is string => !!text);
+  return [office, work, role, before, born].filter(
+    (text): text is string => !!text,
+  );
 }
 
 /**
@@ -1209,7 +1386,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
       },
       run,
     ),
-    face: faceOf(core, term.id),
+    face: faceOf(core, term.id, scenePlace(core, viewerId).place),
   };
 }
 
@@ -1253,7 +1430,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const shared = sharedHistory(core, viewerId, otherId);
   const housemate = shared.some((row) => row.kind === "household");
   const coworker = shared.some((row) => row.kind === "coworker");
-  const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
+  // What they do: one reader for the card, the journal and Travel.
+  const job = personWorkOf(core, otherId).job;
   const tie = tieBetween(core, viewerId, otherId);
   const publicKnowledge = core.modules.has(PAST_MODULE_ID)
     ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
@@ -1267,7 +1445,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
-  const face = faceOf(core, otherId);
+  const face = faceOf(core, otherId, scenePlace(core, viewerId).place);
   const lines = (() => {
     const base = historyLines(core, viewerId, other);
     const entered = enteredOffice(core, otherId, publicKnowledge);
@@ -1288,6 +1466,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     otherId,
     name,
     other.looks?.pronouns ?? pronounSetOfGender(other.looks?.gender),
+    other.birthDate,
   );
   // Where they live, when the viewer knows it: their own life, family,
   // housemates and coworkers, or anyone living in the viewer's town.
@@ -1456,9 +1635,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // past module's public tier), serving since the run's first term; null
     // for anyone else.
     publicKnowledge: publicKnowledge && withSince(publicKnowledge, run),
-    // Their headshot for the talk box (the same face the People map draws),
-    // and the card's standing figure: the same picture, whole.
+    // Their bust for the talk box: the same face the People map draws.
     face,
-    figureUrl: face?.url ?? null,
   };
 }

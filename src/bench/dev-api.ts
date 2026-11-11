@@ -309,6 +309,9 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET bill-deciders":
+      send(200, mode.billDeciders(q("billId")));
+      return true;
     case "GET wealthiest":
       send(200, mode.wealthiest());
       return true;
@@ -348,6 +351,15 @@ export async function handleDev(
           },
         ),
       );
+      return true;
+    }
+    case "GET run-year-notice": {
+      send(200, { notDone: mode.skipNotice() });
+      return true;
+    }
+    case "POST run-year": {
+      await body(request);
+      send(200, mode.runYear());
       return true;
     }
     case "POST outlook": {
