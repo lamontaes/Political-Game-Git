@@ -3591,14 +3591,11 @@ const sheets = {
     // One story from birth, a page to each chapter of the life, with no heading over any
     // part of it (owner, Oct 27: "written like a story, not individual sections... from
     // birth"; "remove all those subheadings").
-    return [
-      journalScreen({
-        chapters,
-        labels: controls.journal,
-        yearOf: (iso) => iso.slice(0, 4),
-        rows: Math.max(4, Math.floor((viewHeight() - 360) / 54)),
-      }),
-    ];
+    return journalScreen({
+      chapters,
+      labels: controls.journal,
+      yearOf: (iso) => iso.slice(0, 4),
+    });
   },
   async handoff() {
     const people = [
@@ -4004,9 +4001,8 @@ const sheets = {
     const { releases } = await api("/api/patch-notes");
     const labels = controls.patchNotes ?? {};
     return [
-      patchNotesScreen({
+      ...patchNotesScreen({
         title: labels.builds,
-        rows: Math.max(4, Math.floor((viewHeight() - 340) / 54)),
         builds: releases.map((r) => ({
           name: r.version,
           // The release file says "Released November 8, 2026."; the list shows "Nov 8".
