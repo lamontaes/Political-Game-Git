@@ -228,9 +228,10 @@ describe("the one order", () => {
       row("laws-urgent", { priority: "1", size: "L", effort: "high" }),
     ];
     const ids = [...rows].sort(makeOrder(rows, order)).map((r) => r.id);
+    // A check comes before even a priority 1 item that is no rule, check or red.
     expect(ids).toEqual([
-      "laws-urgent",
       "tests-a-check",
+      "laws-urgent",
       "core-life-record-part-9",
       "laws-rooted",
       "laws-lane",
@@ -242,6 +243,35 @@ describe("the one order", () => {
       "laws-plain-l",
       "laws-plain-high",
     ]);
+  });
+  it("puts what the player sees first: reds and checks, then Seen (play first), Feeds, Guards, the rest", () => {
+    const rows = [
+      row("laws-says-nothing", { priority: "1" }),
+      row("laws-guards", { priority: "1", shown: "Guards:" }),
+      row("laws-feeds", { priority: "1", shown: "Feeds:" }),
+      row("laws-seen", { priority: "3", shown: "Seen:" }),
+      row("play-seen-low", { priority: "3", shown: "Seen:", area: "play" }),
+      row("gov-seen-by-screens", { shown: "Seen:", lead: "screens" }),
+      row("play-says-nothing", { priority: "3", area: "play" }),
+      row("gov-a-test-red-on-main", { priority: "3", shown: "Guards:" }),
+      row("skills-a-skill", { priority: "3" }),
+    ];
+    expect([...rows].sort(makeOrder(rows, order)).map((r) => r.id)).toEqual([
+      "skills-a-skill",
+      "gov-a-test-red-on-main",
+      "gov-seen-by-screens",
+      "play-says-nothing",
+      "play-seen-low",
+      "laws-seen",
+      "laws-feeds",
+      "laws-guards",
+      "laws-says-nothing",
+    ]);
+    // With no `visible` block the order is the old one: priority first.
+    const plain = { ...order, visible: undefined };
+    expect([...rows].sort(makeOrder(rows, plain)).map((r) => r.id)[0]).toBe(
+      "laws-feeds",
+    );
   });
   it("keeps the play-first lane's own order inside the stops-play class", () => {
     const lane = { milestone: "play-first" };
@@ -373,9 +403,13 @@ describe("next --for <kind>", () => {
   };
   const take = (dir: string, extra: string[]): string =>
     line(pool(dir, ["next", "--dry-run", ...extra]).out, "Would take:");
-  it("plain next takes the first item; --for play takes the first play item, by area or by lead", () => {
+  it("plain next takes the first item, which is play work since what the player sees leads; --for play takes the first play item, by area or by lead", () => {
     const { clones } = world(items);
-    expect(take(clones[0], [])).toBe("Would take: laws-top (sonnet, p1)");
+    // The play item is priority 3 and the laws item priority 1: visible work leads (owner, Nov 11).
+    expect(take(clones[0], [])).toBe("Would take: play-area (sonnet, p3)");
+    expect(take(world({ "laws-top": items["laws-top"] }).clones[0], [])).toBe(
+      "Would take: laws-top (sonnet, p1)",
+    );
     expect(take(clones[0], ["--for", "play"])).toBe(
       "Would take: play-area (sonnet, p3)",
     );
@@ -392,6 +426,57 @@ describe("next --for <kind>", () => {
         readOrder(join(ROOT, "docs/pool")).kinds.play,
       ),
     ).toBe(true);
+  });
+  it("hands out no new item while the cap is on, except what still comes first", () => {
+    const withCheck = {
+      ...items,
+      "tests-a-check": unit("tests-a-check", { area: "laws", priority: "3" }),
+    };
+    const run = (set: typeof withCheck | typeof items, open: number | null) => {
+      const { clones } = world(set);
+      const out: string[] = [];
+      const said: string[] = [];
+      const cwd = process.cwd();
+      process.chdir(clones[0]);
+      try {
+        const err = command(
+          ["next", "--dry-run"],
+          {},
+          {
+            out: (l) => out.push(l),
+            progress: (l) => said.push(l),
+            openGame: () => open,
+          },
+        );
+        return { err, out, said };
+      } finally {
+        process.chdir(cwd);
+      }
+    };
+    const most = readOrder(join(ROOT, "docs/pool")).cap!.openGamePullRequests;
+    // Over the cap with only game items: nothing is taken, and the line says why.
+    const over = run(items, most + 1);
+    expect(over.err).toBeNull();
+    expect(line(over.out, "The cap is on:")).toContain(`${most + 1} game`);
+    expect(line(over.out, "Would take:")).toBe("");
+    expect(over.out).toContain(
+      "Nothing that comes before the cap is ready for your tier.",
+    );
+    // Over the cap, a check is still handed out.
+    expect(line(run(withCheck, most + 1).out, "Would take:")).toBe(
+      "Would take: tests-a-check (sonnet, p3)",
+    );
+    // At the cap, and when the count cannot be read, items are handed out as before.
+    expect(line(run(items, most).out, "Would take:")).toBe(
+      "Would take: play-area (sonnet, p3)",
+    );
+    const blind = run(items, null);
+    expect(line(blind.out, "Would take:")).toBe(
+      "Would take: play-area (sonnet, p3)",
+    );
+    expect(blind.said).toContain(
+      "Could not count the open pull requests, so the cap was not checked.",
+    );
   });
   it("claims the play item for real, and leaves the higher one for plain next", () => {
     fakeGh(null);
