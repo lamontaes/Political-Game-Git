@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-laws-nine-links-taxes
 ---
 
 **What.** Two parts of the taxes and public finance family are still short of the nine wiring links: the estate tax, whose money cannot move until a played town has an estate above the exemption (people-estate-wealth-top-tail, open), and the local income tax grant's bill, whose Words row words-bill-section-local-income-tax-authority is now done. Ten laws landed in PR #5649 as laws-nine-links-taxes-ten. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.
@@ -40,3 +42,11 @@ checked: fable 2026-11-10
 Laws lead, Oct 25: PR #5649 now lands the eleven laws that are wired as `laws-nine-links-taxes-eleven`. This item stays for the estate tax, whose money cannot move until a played town has an estate above an exemption (`people-estate-wealth-top-tail`); once it does, rerun the estate tax in a drawn place on the checker and finish it here.
 
 Laws lead, Oct 26: PR #5649 now lands ten as `laws-nine-links-taxes-ten`. This item stays open for the estate tax (blocked on `people-estate-wealth-top-tail`) and for the local income tax grant's bill, which waits on the Words row `words-bill-section-local-income-tax-authority`.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:05 UTC) on branch claude/pool-laws-nine-links-taxes.
+
+Released (2026-11-11): local income tax authority already graded wired in the matrix; only the estate half (people-estate-wealth-top-tail, open) remains. Continue on branch claude/pool-laws-nine-links-taxes.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:16 UTC) on branch claude/pool-laws-nine-links-taxes.
+
+Released (2026-11-11): re-offered by next after release; see PR 8372, grant half already wired. Continue on branch claude/pool-laws-nine-links-taxes.
