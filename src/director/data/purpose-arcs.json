@@ -481,7 +481,7 @@
     },
     "press-comment": {
       "state": "ask",
-      "replies": ["answer", "deflect", "refuse", "lie"],
+      "replies": ["answer", "refuse", "stall", "confront"],
       "follow": {
         "answer": ["ask", "thank"],
         "deflect": ["press", "accept"],

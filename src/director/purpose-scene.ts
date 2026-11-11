@@ -312,6 +312,66 @@ export function tieSide(
 }
 
 /** One purpose scene of a moment, worded from its records. */
+/**
+ * What a reporter's questions and the player's answers say about the bill
+ * (words-run-press-comment-lines-are-composed): the floor vote's count from
+ * the vote record ("5 to 2") with whether it carried, from the bill row; the
+ * bill's question as the catalog names it (`about`); and, before the asked
+ * person has a vote on record, the side their own views on the bill's
+ * questions put them on (`leans-for`, `leans-against`), from the same read
+ * the legislature's vote casts. Each fact cites the bill and vote records.
+ */
+function pressBillFacts(
+  core: Readonly<CoreState>,
+  record: { readonly kind?: string; readonly date?: string } | undefined,
+  said: Readonly<Record<string, string>>,
+  causeId: string,
+  askedId: PersonId,
+  facts: Readonly<Record<string, Fact>>,
+): Record<string, Fact> {
+  const out: Record<string, Fact> = {};
+  const billId = said.billId ?? said.enactedBy;
+  if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return out;
+  const api = coreAPI(core as CoreState);
+  const bill = billOf(api, billId);
+  if (!bill) return out;
+  const yes = Number(said.yes);
+  const no = Number(said.no);
+  if (
+    record?.kind === "legislative-vote" &&
+    Number.isFinite(yes) &&
+    Number.isFinite(no) &&
+    said.yes !== undefined &&
+    said.no !== undefined
+  ) {
+    out.count = {
+      text: `${yes.toLocaleString("en-US")} to ${no.toLocaleString("en-US")}`,
+      sourceRecordIds: [causeId, bill.id],
+    };
+    out[bill.failedOn === record.date ? "vote-failed" : "vote-carried"] = {
+      text: "yes",
+      sourceRecordIds: [causeId, bill.id],
+    };
+  }
+  const question = bill.provisions
+    .map((row) => row.question)
+    .find((key): key is string => !!key && !!questionAbout(key));
+  if (question)
+    out.about = {
+      text: questionAbout(question)!,
+      sourceRecordIds: [bill.id, causeId],
+    };
+  if (!facts["voted-yes"] && !facts["voted-no"]) {
+    const views = memberPosition(api, bill.id, askedId).views;
+    if (views !== P.zero)
+      out[views > P.zero ? "leans-for" : "leans-against"] = {
+        text: "yes",
+        sourceRecordIds: [bill.id, askedId],
+      };
+  }
+  return out;
+}
+
 function composeBinding(
   core: Readonly<CoreState>,
   director: Director,
@@ -1275,6 +1335,11 @@ function composeBinding(
         sourceRecordIds: about.sourceRecordIds,
       };
   }
+  if (type.purpose === "press-comment")
+    Object.assign(
+      facts,
+      pressBillFacts(core, record, said, moment.causeId, askedId, facts),
+    );
   // The kind's own arc, or the variant of it the records give this cause. A
   // scene where the player asks plays the kind's own arc: its variants are
   // the colleague's ask of the player.
