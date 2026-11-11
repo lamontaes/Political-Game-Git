@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
-pr:
+pr: #8380
 after:
 blocked-on:
 lead: laws
