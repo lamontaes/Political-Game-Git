@@ -136,6 +136,10 @@ let me;
 let packet;
 /** The News tab the player last chose, kept while the game is open. */
 let newsTab = null;
+// The tab order News first opened with, kept while the game is open, and
+// whose life they are (another life starts its own).
+let newsOrder = [];
+let newsFor = null;
 // The game's date is the clock's, the packet's; me.date is only the day the
 // screen loaded (P15, C10: the News kept the opening day).
 const today = () => packet?.at?.date ?? me.date;
@@ -3844,6 +3848,11 @@ const sheets = {
     // One feed, what you heard, newest first: News and the toast read the
     // news engine's same stories through storyHeadline.
     const { stories } = await nightsNews(me.id);
+    if (newsFor !== me.id) {
+      newsFor = me.id;
+      newsOrder = [];
+      newsTab = null;
+    }
     const outlets = new Map();
     // The player's own outlets have a tab from the first day, before they print.
     for (const paper of await api(
@@ -3885,14 +3894,24 @@ const sheets = {
           : outlet.id === "nation"
             ? 3
             : 2;
+    // Tabs News showed before keep their places; new ones follow by rank.
+    const placeOf = (key) => {
+      const at = newsOrder.indexOf(key);
+      return at < 0 ? newsOrder.length : at;
+    };
     const ordered = new Map(
       [...outlets].sort(
-        ([, a], [, b]) =>
+        ([keyA, a], [keyB, b]) =>
+          placeOf(keyA) - placeOf(keyB) ||
           rank(a) - rank(b) ||
           // The player's own outlets keep the order the press record gives them.
           (rank(a) ? String(a.name).localeCompare(String(b.name)) : 0),
       ),
     );
+    newsOrder = [
+      ...newsOrder,
+      ...[...ordered.keys()].filter((key) => !newsOrder.includes(key)),
+    ];
     return [
       newsBoard({
         outlets: ordered,

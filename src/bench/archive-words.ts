@@ -1,5 +1,12 @@
 import type { EntityId } from "../core2/kernel/brands";
 import { spokenDate } from "../core2/kernel/dates";
+import {
+  followersOf,
+  outletsHere,
+  townOutlet,
+  type OutletRow,
+} from "../core2/modules/press";
+import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
@@ -157,33 +164,45 @@ export function outletOf(
 }
 
 /**
- * The player's own outlets: the press of the place they live in, newspapers
- * first, which News shows from the first day, before they print: the town's
- * press, not the outlets the household follows.
+ * The player's own outlets: the local press of the town they live in, which
+ * News shows from the first day, before they print. The ones the player
+ * follows first (the press engine's followersOf: News lists what they heard,
+ * and they hear what they follow), newspapers before the rest; then the
+ * town's paper of record (townOutlet, which carries the public record); then
+ * the other local outlets, newspapers first, in the order the press recorded
+ * them.
  */
 // stopgapId: SG-SCREENS-news-opens-on-town-paper
 export function homePapers(
   core: CoreState,
   personId: string,
-): { id: string; name: string; layout: string; home: true }[] {
+): {
+  id: string;
+  name: string;
+  layout: string;
+  home: true;
+  /** Why it is the player's: they follow it, it is the paper of record, or it is local. */
+  why: "follows" | "record" | "local";
+}[] {
   const placeId = core.people.get(personId as EntityId)?.placeId;
   if (!placeId) return [];
-  const paperFirst = (id: string) =>
-    id.startsWith("organization:press:newspaper:") ? 0 : 1;
-  return [...core.organizations.values()]
-    .filter(
-      (org) =>
-        org.placeId === placeId &&
-        String(org.id).startsWith("organization:press:"),
-    )
-    .sort(
-      (a, b) =>
-        paperFirst(a.id) - paperFirst(b.id) ||
-        String(a.name).localeCompare(String(b.name)),
-    )
-    .flatMap((org) => {
-      const outlet = outletOf(core, org.id);
-      return outlet ? [{ ...outlet, home: true as const }] : [];
+  const api = coreAPI(core);
+  const record = townOutlet(api)?.organizationId;
+  const paper = (row: OutletRow) => (row.kind === "newspaper" ? 0 : 1);
+  const rank = (row: OutletRow) =>
+    followersOf(api, row.id).includes(personId)
+      ? paper(row)
+      : row.organizationId === record
+        ? 2
+        : 3 + paper(row);
+  return outletsHere(api)
+    .filter((row) => row.tier === "local" && row.placeId === placeId)
+    .map((row) => ({ row, rank: rank(row) }))
+    .sort((a, b) => a.rank - b.rank)
+    .flatMap(({ row, rank }) => {
+      const outlet = outletOf(core, row.organizationId);
+      const why = rank < 2 ? "follows" : rank === 2 ? "record" : "local";
+      return outlet ? [{ ...outlet, home: true as const, why }] : [];
     });
 }
 

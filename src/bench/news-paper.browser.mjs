@@ -51,8 +51,18 @@ if (process.env.NEWS_PLACE_KEY)
 try {
   const life = await startLife(page, { fresh: true });
   console.log("Place:", life.placeName, "Seed:", life.seed);
+  const opened = Date.now();
   await openNews();
   const first = await tabs();
+  // The outlet in front: its record id and why it is the player's.
+  const home = await page.evaluate(async () => {
+    const id = (await (await fetch("/api/dev/state")).json()).playerId;
+    return (await fetch(`/api/news/home?id=${id}`)).json();
+  });
+  const own = home.find((outlet) => outlet.id === first.front);
+  console.log(
+    `In front: ${first.front} (${own?.name ?? "no outlet of the town"}), ${own?.why ?? "no press of the town's own"}; News opened in ${Date.now() - opened - 500} ms`,
+  );
   console.log(
     `Day one: front "${first.front}", tabs ${JSON.stringify(first.order)}`,
   );
