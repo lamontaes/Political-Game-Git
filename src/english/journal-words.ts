@@ -582,11 +582,63 @@ export function journalEntry(parts: readonly JournalWorded[]): string {
   return parts.map((part) => part.text).join(" ");
 }
 
+/**
+ * A job title as people say it inside a sentence: lower case, each word, as
+ * "chief administrative officer" (the records spell it "Chief Administrative
+ * Officer"); a run of capitals (an initialism such as "IT") keeps them.
+ */
+export function jobSaid(title: string): string {
+  return title
+    .split(/(\s+)/)
+    .map((word) =>
+      /^[A-Z]{2,}[a-z]?$/.test(word.replace(/[^A-Za-z]/g, ""))
+        ? word
+        : word.toLowerCase(),
+    )
+    .join("");
+}
+
 /** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
 export function withArticle(title: string): string {
-  const said =
-    title.length > one && title.charAt(one) === title.charAt(one).toLowerCase()
-      ? title.charAt(zero).toLowerCase() + title.slice(one)
-      : title;
+  const said = jobSaid(title);
   return `${/^[aeiou]/i.test(said) ? "an" : "a"} ${said}`;
+}
+
+/** What an employer's record says it is, enough to say its name in a sentence. */
+export interface EmployerRecord {
+  readonly kind: string;
+  readonly classification?: string;
+  readonly governmentFacts?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * An employer's name as people say it in a sentence, from the kind of its
+ * record, never a list of names: a government or one of its offices takes
+ * "the" ("the Island Falls Police Department"), by the government it belongs
+ * to on record; a government's treasury is not an employer, so the government
+ * is said ("the Village of Athens", "the government of Maine", "the federal
+ * government"; skill words-engine). A school system ("Island Falls Public
+ * Schools"), a business or any other employer keeps its name as it stands.
+ * `name` is the name as the reader already spells it (`properName`).
+ */
+export function employerSaid(name: string, record: EmployerRecord): string {
+  if (record.kind === "government-outside")
+    return name === "US"
+      ? "the federal government"
+      : `the government of ${name}`;
+  if (record.kind === "government-treasury") {
+    const government = name.replace(/\s+treasury$/i, "");
+    return /\bof\b/.test(government)
+      ? `the ${government}`
+      : `the government of ${government}`;
+  }
+  // A business keeps its name, whatever public contracts its record lists.
+  const business = !!record.classification?.startsWith("enterprise:");
+  const government =
+    !!record.governmentFacts?.governmentKind ||
+    !!record.governmentFacts?.governmentKey;
+  const schools = record.classification === "service:school";
+  return government && !business && !schools && !/^the\s/i.test(name)
+    ? `the ${name}`
+    : name;
 }
