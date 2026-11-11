@@ -5,8 +5,8 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-people-opening-household-cannot-be-a-mixed-couple
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: high
 root: rc3-thin-life-record
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:40:40.884Z
+claimed-at:
 branch: claude/pool-people-opening-household-cannot-be-a-mixed-couple
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-people-opening-household-cannot-be-a-mixed-couple
 **Notes.** From the Fable audit, Pillar 4, "Family looks", read in the code; the audit's played life in Blodgett Landing, New Hampshire shows the neighboring face defect (one person, two faces: "The You screen's bust has light brown hair and pale skin. The Your life tab shows a full figure with black hair and tan skin. Her mother's bust resembles neither of them"), which is a separate defect in how a face is drawn and is not part of this item. The audit did not count households by origin in any world and did not look for the surname records. Confirmed on main, Nov 10 (helper): `withOrigins` gives every person without a given origin their household's one draw (`householdOrigin`), kin outside the town take the nearest resident relative's, and `childOrigin` picks one of the known parents' origins by the child's id. Related: `play-stop-15-family-unexplained` (marked done, still shows in part: "My family is the Steins, I am Bo Snider, and nothing explains who they are"; the audit finds no record that explains a sibling's surname), `people-partnership-counted` (open: counted adults partner by the same rules as full people).
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:40 UTC) on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.
+
+Released (2026-11-11): Cause confirmed in src/core2/opening-origin.ts (withOrigins gives a household one origin draw, childOrigin picks one parent's). The Fix needs a sourced rate of couples across origins by place (a researched table with fetched pages and spread), per-adult draws, child looks from both parents, and a family-event record explaining a differing surname: more than a bounded pass, and the rate must be researched first (skill researcher). Split into research, per-adult origin and couple formation, child looks, surname record. Continue on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.
