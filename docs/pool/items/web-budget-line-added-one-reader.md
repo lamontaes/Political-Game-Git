@@ -6,9 +6,9 @@ lead: laws-effects
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-web-budget-line-added-one-reader
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:39:13.564Z
 ---
 
 **What.** Once the rights and environment family (#5669) and the health and schools family (#6026) are both on main, the outcome web reads "a budget line above its Census base" in two ways. The rights family keeps `budget.parks-added-pct` and `budget.highways-added-pct` as government measures in `src/core2/gov-measures.ts`, read through `lineAddedPct`. The health family reads `budget-line-added:<line>` for the health and hospitals, welfare and Medicaid, higher education and schools lines through `budgetLineAddedPct` in `src/core2/modules/outcome-web.ts`. Both measure the same thing for different lines (found by the laws lead while working out the merge of the two branches, Oct 25). Seen: the Metrics tab's measures a budget line moves, read by one reader (one engine per mechanic).
