@@ -566,13 +566,17 @@ const ROUTES: readonly Route[] = [
         throw new Error("Talk to a living resident.");
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
-      // The minute the talk is had at, as the scene shows it: the opening
-      // day is that evening at home (as /api/scene), else the player's clock.
+      // The minute the talk is had at: the opening day is that evening at
+      // home, whatever the clock's own start of the day says (the opening's
+      // talks spend their minutes from the clock's morning); else the clock.
+      const clockMinute = state.player.packet?.at.minuteOfDay;
       const minuteOfDay =
-        state.player.packet?.at.minuteOfDay ??
-        (state.director?.ledger.opening?.date === requireCore().date
-          ? OPENING_EVENING_MINUTE
-          : undefined);
+        state.director?.ledger.opening?.date === requireCore().date
+          ? Math.max(
+              clockMinute ?? OPENING_EVENING_MINUTE,
+              OPENING_EVENING_MINUTE,
+            )
+          : clockMinute;
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
