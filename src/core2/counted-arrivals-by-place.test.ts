@@ -52,10 +52,11 @@ describe.each(["a", "b"])("arrivals by place (draw %s)", (draw) => {
         Math.max(largest.get(h.placeId) ?? 0, store!.weightedCount(h)),
       );
     const carried = new Map<string, number>();
-    for (const [at, value] of rt!.arriveAt ?? []) {
-      const placeId = at.slice(0, at.indexOf(">"));
-      carried.set(placeId, (carried.get(placeId) ?? 0) + value);
-    }
+    for (const [placeId, own] of rt!.arriveAt ?? [])
+      carried.set(
+        placeId,
+        [...own.values()].reduce((sum, value) => sum + value, 0),
+      );
     const moves = api
       .moduleState(COUNTED_MOVES_MODULE_ID)
       .table("moves")

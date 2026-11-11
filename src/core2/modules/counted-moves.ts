@@ -159,11 +159,11 @@ export interface Runtime {
   /** People due to arrive this month, by origin state and coarse band, before they are shared among places. */
   arrive: Map<string, number>;
   /**
-   * People due to arrive in each place, by origin and band (`place>origin|band`):
+   * People due to arrive in each place, by origin and band (`origin|band`):
    * each place's share of every month's due, kept until households arrive. A
    * balance may go below zero, owed from then on, as departures' are.
    */
-  arriveAt: Map<string, number>;
+  arriveAt: Map<string, Map<string, number>>;
   /** Each state's people at the end of each month (the regional engine reads the change). */
   totals: Map<string, Map<string, number>>;
   /** Each state's attractiveness as a destination, fitted once in the first month the engine runs (the opening) and kept; a world saved before it was kept fits it on its next month. */
@@ -1356,20 +1356,17 @@ function arrivals(
     for (const place of places) {
       const weight = agedHere.get(place)?.[band] ?? 0;
       if (weight <= 0) continue;
-      const at = `${place}>${key}`;
-      rt.arriveAt.set(
-        at,
-        (rt.arriveAt.get(at) ?? 0) + (due * weight) / weightSum,
-      );
+      const own = rt.arriveAt.get(place) ?? new Map<string, number>();
+      rt.arriveAt.set(place, own);
+      own.set(key, (own.get(key) ?? 0) + (due * weight) / weightSum);
     }
     rt.arrive.delete(key);
   }
   for (const place of places) {
-    const prefix = `${place}>`;
+    const own = rt.arriveAt.get(place);
+    if (!own) continue;
     const owed = () =>
-      [...rt.arriveAt]
-        .filter(([at]) => at.startsWith(prefix))
-        .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+      [...own].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
     const byBand = templates.get(place)!;
     for (;;) {
       const balances = owed();
@@ -1377,7 +1374,7 @@ function arrivals(
       const [largest] = balances;
       if (!largest || largest[1] <= 0) break;
       // The newcomer comes from the place's largest balance: its origin and age.
-      const key = largest[0].slice(prefix.length);
+      const key = largest[0];
       const [origin, bandText] = key.split("|");
       const band = Number(bandText);
       const shapes =
@@ -1393,19 +1390,19 @@ function arrivals(
       );
       const template = shapes[unit % shapes.length]!;
       const size = store.weightedCount(template);
-      // A household arrives once the place's whole due reaches half of one.
-      if (total < size / 2) break;
+      // A household arrives once the place's whole due reaches half of one
+      // (a shape that stands for nobody brings no one).
+      if (size <= 0 || total < size / 2) break;
       // Its people are taken from that balance first, then the next; what it
       // lacks is owed by the place from then on.
       let take = size;
       for (const [at, have] of balances) {
         const used = Math.max(0, Math.min(have, take));
-        rt.arriveAt.set(at, have - used);
+        own.set(at, have - used);
         take -= used;
         if (take <= 0) break;
       }
-      if (take > 0)
-        rt.arriveAt.set(largest[0], (rt.arriveAt.get(largest[0]) ?? 0) - take);
+      if (take > 0) own.set(key, (own.get(key) ?? 0) - take);
       const placeId = template.placeId;
       const record = newcomers(api, rt, residents, template, origin!, source);
       // A newcomer household stands for as many as the one it resembles.
