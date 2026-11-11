@@ -2664,6 +2664,8 @@ function otherRaises(
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id),
   );
+  // The first of these kinds, in the order given.
+  theirs.sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind));
   for (const subject of theirs)
     if (raiseSubject(core, conversation, data, subject)) return true;
   return false;
@@ -2679,14 +2681,14 @@ function otherRaises(
 const OPENING_ORDER = [
   "shared-school",
   "shared-work",
+  // Someone both know, raised only for something recorded that happened to
+  // them (owner, Q7), with what and when: news comes before routine.
+  "mutual",
   "own-work",
   "home",
   // A relative the listener has not met, by name, with their town or work
   // (owner, Nov 11: "This introduces people to their world").
   "kin",
-  // Someone both know, raised only for something recorded that happened to
-  // them (owner, Q7), with what and when.
-  "mutual",
   "address",
   "quiet",
 ];
