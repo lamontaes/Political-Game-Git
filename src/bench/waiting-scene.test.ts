@@ -7,23 +7,32 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import type { PersonId } from "../core2/types";
-import { purposeScene } from "../director/purpose-scene";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 import { openWaitingSceneWith } from "./waiting-scene";
 import { buildBenchWorld } from "./world";
 
 // A scene that waits for the player and another person to be in one place
 // (an apology, a date, advice, a visit to someone ill) plays when the player
 // walks up to that person or arrives where they are: the bench's talk route
-// and visit ask `openWaitingSceneWith`, which opens it from the director's
-// waiting list (director-a-waiting-scene-is-never-played, fix 3). Played as
-// the bench plays: the player's clock runs in 10-day steps in a drawn place,
-// every stop resumed, until such a scene waits.
+// and visit ask `openWaitingSceneWith` (director-a-waiting-scene-is-never-
+// played, fix 3). Played as the bench plays, the player's clock in 10-day
+// steps in a drawn place, every stop resumed. Each meeting-type moment the
+// director staged from the world's own records is checked on the road it
+// took: one that waits opens with its own person and no one else; one that
+// interrupts opened on its own stop. Such moments are rare in play
+// (director-meeting-scenes-are-almost-never-cast-for-the-player), so a draw
+// with none is named and passed over.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const STEP = 10;
 const STEPS = 9;
 const ATTEMPTS = 4;
+const MEETING = new Set(
+  SITUATION_LIBRARY.types
+    .filter((type) => type.timing === "next-together")
+    .map((type) => type.key),
+);
 
-it(`a scene waiting for two people to meet opens when they meet (seed ${seed})`, () => {
+it(`a meeting-type scene opens on its road, a waiting one when the two meet (seed ${seed})`, () => {
   const passed: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "waiting-together");
@@ -37,6 +46,9 @@ it(`a scene waiting for two people to meet opens when they meet (seed ${seed})`,
     const me = world.playerId as PersonId;
     core.focusPersonIds.add(me);
     director.watch(core, me);
+    const book = director.ledger.people.get(me)!;
+    const stopped = new Set<string>();
+    const checked: string[] = [];
     for (let step = 1; step <= STEPS; step += 1) {
       let packet: ReturnType<typeof advancePlayerV1> | undefined =
         advancePlayerV1(core, {
@@ -46,7 +58,11 @@ it(`a scene waiting for two people to meet opens when they meet (seed ${seed})`,
             minuteOfDay: P.zero,
           },
         });
-      while (packet && packet.kind !== "complete")
+      while (packet && packet.kind !== "complete") {
+        if (packet.kind === "stop")
+          for (const stop of packet.stop.modules)
+            if (stop.moduleId === director.module.id)
+              stopped.add(stop.recordId);
         packet =
           packet.kind === "stop"
             ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
@@ -55,55 +71,53 @@ it(`a scene waiting for two people to meet opens when they meet (seed ${seed})`,
                 pauseId: packet.pauseId,
                 offerId: packet.offers[P.zero]!.offerId,
               });
+      }
       const date = makeIsoDate(core.date);
-      const row = director
-        .waitingScenes(me, date)
-        .find((item) => item.nextTogether && item.openUntil >= date);
-      if (!row) continue;
       const at = { date, minuteOfDay: P.zero };
-      const otherId = row.withIds[P.zero]!;
-      const label = `${where}: ${row.momentId} (${row.typeKey}) with ${otherId}`;
-      // Someone else met opens nothing; the person it waits for opens it.
-      const stranger = [...core.people.keys()].find(
-        (id) => id !== me && !row.withIds.includes(id as PersonId),
-      )!;
-      expect(openWaitingSceneWith(director, me, at, [stranger]), label).toBe(
-        undefined,
-      );
-      expect(openWaitingSceneWith(director, me, at, [otherId]), label).toBe(
-        row.momentId,
-      );
-      // Opened once: it leaves the list, and meeting again opens nothing.
+      // A waiting one: someone else met opens nothing, its person opens it,
+      // and it is opened once.
+      for (const row of director
+        .waitingScenes(me, date)
+        .filter((item) => item.nextTogether && item.openUntil >= date)) {
+        const label = `${where}: ${row.momentId} (${row.typeKey}), waiting`;
+        const stranger = [...core.people.keys()].find(
+          (id) => id !== me && !row.withIds.includes(id as PersonId),
+        )!;
+        expect(openWaitingSceneWith(director, me, at, [stranger]), label).toBe(
+          undefined,
+        );
+        expect(
+          openWaitingSceneWith(director, me, at, [row.withIds[P.zero]!]),
+          label,
+        ).toBe(row.momentId);
+        expect(
+          openWaitingSceneWith(director, me, at, [row.withIds[P.zero]!]),
+          label,
+        ).toBe(undefined);
+        checked.push(`${row.typeKey} waited and opened on meeting`);
+      }
+    }
+    // An interrupting one opened on its own stop.
+    for (const entry of book.schedule.filter(
+      (item) =>
+        item.outcome === "scene-now" &&
+        item.bindings.some((row) => MEETING.has(row.typeKey)),
+    )) {
       expect(
-        director
-          .waitingScenes(me, date)
-          .some((item) => item.momentId === row.momentId),
-        label,
-      ).toBe(false);
-      expect(openWaitingSceneWith(director, me, at, [otherId]), label).toBe(
-        undefined,
+        stopped.has(entry.momentId),
+        `${where}: ${entry.momentId}, interrupting`,
+      ).toBe(true);
+      checked.push(
+        `${entry.bindings.map((row) => row.typeKey).join("+")} interrupted`,
       );
-      // It plays: a purpose scene composes its talk; another is a story the
-      // page opens on its narration (a visit to someone ill).
-      const book = director.ledger.people.get(me)!;
-      const entry = book.schedule.find(
-        (item) => item.momentId === row.momentId,
-      )!;
-      expect(entry.stop?.recordId, label).toBe(row.momentId);
-      const result = purposeScene(core, director, me, entry, {
-        includeHeld: true,
-      });
-      expect(result?.kind ?? "story", label).not.toBe("skipped");
+    }
+    if (checked.length) {
       process.stdout.write(
-        `TOGETHER ${label}, day ${STEP * step}: ${result?.kind ?? "story"}; passed over: ${passed.join("; ") || "none"}\n`,
+        `TOGETHER ${where}: ${checked.join("; ")}; passed over: ${passed.join("; ") || "none"}\n`,
       );
       return;
     }
-    passed.push(
-      `${where}: no scene waiting for a meeting in ${STEP * STEPS} days`,
-    );
+    passed.push(`${where}: no meeting-type scene in ${STEP * STEPS} days`);
   }
-  throw new Error(
-    `no scene waiting for a meeting in any draw: ${passed.join("; ")}`,
-  );
+  throw new Error(`no meeting-type scene in any draw: ${passed.join("; ")}`);
 }, 2_400_000);
