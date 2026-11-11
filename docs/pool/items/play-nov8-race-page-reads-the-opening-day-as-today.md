@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-nov8-race-page-reads-the-opening-day-as-today
-pr:
+pr: #8469
 after:
 blocked-on:
 standard: 2
