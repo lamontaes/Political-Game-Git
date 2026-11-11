@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-filing-petition-scene-not-staged-by-seed
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:10:35.638Z
 ---
 
 **What.** src/bench/filing-counter-petition.test.ts fails on main and on #7101 at GOLDEN_PATH_SEED=96f34b32a90f7079: North Amityville, New York (3651396), world seed 48ecdf8d2595a1bafbf052509fe6e2fa00f861fe559fbc7a97fa73f32b6b6d62. The player files, the elections engine writes the petition, but the director's book holds no filing scene for it ('no filing scene staged'). Found by Words while answering Checker 1's send-back on #7101 (Nov 2).
