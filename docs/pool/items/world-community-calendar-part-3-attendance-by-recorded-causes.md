@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -19,7 +19,7 @@ source: split from world-community-calendar in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Events exist as records after part 2; now people go to them. Each person who could attend decides from their own traits, their ties to others who will be there, their schedule and their health, and the decision is kept as an attendance record naming the person, the event and the reasons, for the player and the people the player deals with. Counted groups attend by the same rule times their count. An outcome such as a game's score or a contest's winner follows people's traits, skills and the place's conditions.
+**What.** Events exist as records after part 2; now people go to them. Each person who could attend decides from their own traits, their ties to others who will be there, their schedule and their health, and the decision is kept as an attendance record naming the person, the event and the reasons, for the player and the people the player deals with. Counted groups attend by the same rule times their count. An outcome such as a game's score or a contest's winner follows people's traits, skills and the place's conditions. Feeds: world-community-calendar
 
 **Cause.** Design: docs/design/life-record.md, the owner's Nov 1, 2026 question recorded in the parent item, and the one-model-two-tiers rule in AGENTS.md.
 
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** world-community-calendar-part-2-event-records-on-scheduler, and the life record's writer (item core-life-record; on main once pull requests 8115, 8123 and 8139 merge).
 
 **Files.** src/core2/modules/community-events.ts (new), src/core2/modules/life.ts, src/core2/community-events.test.ts (new)
+
+**Notes (Fable B, Nov 10, the owner's answer).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). The owner set the size of the town events that day: the paper reports them and a candidate can campaign at one. Deciding who attends, person by person, is not part of it.
