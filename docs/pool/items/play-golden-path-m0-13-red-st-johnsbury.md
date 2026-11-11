@@ -5,19 +5,20 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-play-golden-path-m0-13-red-st-johnsbury
+claimed-by:
 pr:
 blocked-on: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split, play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth, play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots, play-golden-path-m0-13-red-st-johnsbury-part-4-homes-and-pay, play-golden-path-m0-13-red-st-johnsbury-part-5-business-borrowing
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T01:43:01.575Z
+claimed-at:
 after:
 lead: play-first
 model: sonnet
 effort: medium
 root: rc2-done-from-records
 checked: fable 2026-11-10
+branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury
 ---
 
 **What.** The accepted spec M0-13 (tests/golden-path/played-world.node-test.ts) failed on main 663a38fedf in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) on six played-year checks: heap growth of 110.5 MiB a month against the test's 5 MiB ceiling; modules that never ran (public projects, succession, world races, ballot measures, past); 2 of 15 races with no one on the ballot (Commissioner and County treasurer, 2025-11-04); 9 of 2,830 homes with no value or rent; 7 of 42 people paid in the last month with no cash at the end; and both new businesses borrowing more than 9 times the founder's cash (largest $215,153). The golden-path-year check turned red on a pull request by this draw. The draw is more than a month old and no cause was traced for any symptom, so the work is split: re-run and split first, then one part per symptom.
@@ -39,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/quirky-ride-vrwwz4-m0-13-stj` is kept; claiming this item takes it over.
+
+Released (2026-11-11): umbrella that waits on its five parts; part 1 is the work. Continue on branch claude/pool-play-golden-path-m0-13-red-st-johnsbury.
