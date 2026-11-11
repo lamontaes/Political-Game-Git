@@ -216,7 +216,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(talk.nodes).toBeLessThanOrEqual(
         RULES_BOUND.tree.maxNodes.value + 10,
       );
-      expect(talk.depth).toBeGreaterThanOrEqual(2);
+      expect(talk.depth, type.key).toBeGreaterThanOrEqual(2);
       const numbers: number[] = [];
       let lies = 0;
       const walk = (node: typeof talk.tree) => {

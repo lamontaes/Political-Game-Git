@@ -103762,7 +103762,7 @@
       "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-first",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll hold you to that, {first}.",
+      "text": "I'll hold you to that on {bill}, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -103787,7 +103787,7 @@
       "key": "scene-talk.follow-press.then-where-you-re-the-one-we-elected",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Then where? You're the one we elected.",
+      "text": "Not the place? Then where? You're the one we elected.",
       "uses": [
         {
           "subject": "scene",
@@ -205452,7 +205452,7 @@
       "key": "scene-talk.follow-disagree.your-no-vote-didn-t-change-anything-for-place",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "Your no vote didn't change anything for {place}.",
+      "text": "Your no vote on {bill} didn't change anything for us.",
       "uses": [
         {
           "subject": "scene",
@@ -205515,7 +205515,7 @@
       "key": "scene-talk.follow-accept.thank-you-for-voting-no-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Thank you for voting no, {first}.",
+      "text": "Thank you for voting no on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -205557,7 +205557,7 @@
       "key": "scene-talk.follow-disagree.you-should-have-been-in-that-vote-first",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "You should have been in that vote, {first}.",
+      "text": "You should have been in the vote on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -205683,7 +205683,7 @@
       "key": "scene-talk.follow-thank.then-i-ll-wait-to-hear-back-first",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then I'll wait to hear back, {first}.",
+      "text": "Then I'll wait to hear back about {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -205723,7 +205723,7 @@
       "key": "scene-talk.follow-thank.a-call-this-week-then-i-ll-hold-you-to-it-first",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "A call this week, then. I'll hold you to it, {first}.",
+      "text": "I'll hold you to that promise on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -205763,7 +205763,7 @@
       "key": "scene-talk.follow-press.looking-into-it-isn-t-fixing-it-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Looking into it isn't fixing it, {first}.",
+      "text": "Looking into {bill} isn't the same as fixing it.",
       "uses": [
         {
           "subject": "scene",
@@ -205803,7 +205803,7 @@
       "key": "scene-talk.follow-press.not-the-place-then-tell-me-where-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Not the place? Then tell me where, {first}.",
+      "text": "Not the place? Then tell me where we talk about {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -205979,6 +205979,126 @@
           "role": "asker",
           "after": "blame",
           "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-answer.a-few-of-us-will-but-cause-carries-more-weight-with-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A few of us will, but {cause} carries more weight with you in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.who-s-going-to-speak-for-you-at-the-council"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-answer.i-am-and-two-neighbors-who-have-lived-with-cause",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I am, and two neighbors who have lived with {cause}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.who-s-going-to-speak-for-you-at-the-council"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-answer.whoever-we-can-get-cause-needs-more-voices-than-mine",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whoever we can get. {cause} needs more voices than mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.who-s-going-to-speak-for-you-at-the-council"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.we-can-write-up-cause-but-it-matters-that-you-stand-there",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We can write up {cause}, but it matters that you stand there with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-deflect.write-it-down-and-send-it-over-first"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.i-will-put-cause-on-paper-but-paper-does-not-stand-up",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I will put {cause} on paper, but paper does not stand up in a room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-deflect.write-it-down-and-send-it-over-first"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.fine-i-will-send-it-will-you-read-what-we-wrote-about",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Fine, I will send it. Will you read what we wrote about {cause}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-deflect.write-it-down-and-send-it-over-first"
         }
       ],
       "origin": "authored",

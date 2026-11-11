@@ -69,6 +69,9 @@ const flags = [
   "winner-is-other",
   // The clerk's petition lines are worded for a first filing or a repeat one.
   "first-filing",
+  // The asked's own row on the roll call of the bill a scene is about: a
+  // reply that says they voted is offered only where it is.
+  "voted-for",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),

@@ -537,9 +537,10 @@ export function composeSceneTalk(
     // fits: the closes already said anywhere in this talk are shown (the
     // English engine leaves a shown piece out while an unseen one fits).
     const closing = use.step === "close";
-    // The line this speaker said just before, in the same box: the words
-    // refuse a line that opens the same way or says the same clause around
-    // the same insert again ("I read about X." then "I keep reading about X.").
+    // The line this speaker said just before, in the opening box (the setup
+    // and the statement play together): the words refuse a line that opens
+    // the same way or says the same clause around the same insert again ("I
+    // read about X." then "I keep reading about X.").
     const last = [...said].at(-one);
     const prior = last ? spoken.get(last) : undefined;
     const worded = wordSceneMove({
@@ -558,7 +559,9 @@ export function composeSceneTalk(
               shown: new Set([...(options?.shown ?? []), ...closesSaid]),
             }
           : options),
-        ...(prior && prior.speakerId === speakerId
+        ...(prior &&
+        prior.speakerId === speakerId &&
+        (use.step === "open" || use.step === "state")
           ? { before: prior.text }
           : {}),
       },

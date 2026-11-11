@@ -18,6 +18,7 @@ import {
   favorWorth,
   memberPosition,
   votesOn,
+  type BillRow,
 } from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
@@ -181,6 +182,62 @@ export type PurposeSceneResult =
 const TYPES = new Map(
   SITUATION_LIBRARY.types.map((row) => [row.key, row as unknown]),
 );
+
+/**
+ * What a scene about a bill may say of it and of the one asked (the words
+ * lead's play walk, Nov 11): the bill by what it does, as its own page titles
+ * it ("the County Budget Ordinance"), never its number while the catalog names
+ * one of its sections; how the asked voted, from their own row on the roll
+ * call (`voted-for`, `voted-against`, or `no-vote` where their seat has no
+ * row), so a line that says they voted is said only where the row is; and the
+ * asked hailed by the office they hold and their family name ("County
+ * Commissioner McGee"), from the offices engine's term.
+ */
+export function measureFacts(
+  core: Readonly<CoreState>,
+  bill: BillRow | undefined,
+  askedId: PersonId,
+  billSourceId: string,
+  causeId: string,
+): Record<string, Fact> {
+  const facts: Record<string, Fact> = {};
+  const titled = bill ? billTitleOf(bill)?.title : undefined;
+  if (titled)
+    facts.bill = {
+      text: billTitleSaid(titled),
+      sourceRecordIds: [billSourceId, causeId],
+    };
+  if (bill) {
+    const row = votesOn(coreAPI(core as CoreState), bill.id)
+      .filter((vote) => vote.memberId === askedId)
+      .at(-P.one);
+    const side =
+      row?.vote === "yes"
+        ? "voted-for"
+        : row?.vote === "no"
+          ? "voted-against"
+          : "no-vote";
+    facts[side] = { text: "yes", sourceRecordIds: [bill.id, causeId] };
+  }
+  if (core.modules.has(OFFICES_MODULE_ID)) {
+    const api = coreAPI(core as CoreState);
+    const term = servingTermsOf(api, askedId)[P.zero];
+    const office = term
+      ? (api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .get(term.officeId) as unknown as
+          { readonly title?: string } | undefined)
+      : undefined;
+    const asked = core.people.get(askedId);
+    if (term && office?.title && asked)
+      facts.hail = {
+        text: `${office.title} ${asked.familyName}`,
+        sourceRecordIds: [term.id, askedId],
+      };
+  }
+  return facts;
+}
 
 /**
  * The exchange for a scheduled moment whose situation type has a purpose, or
@@ -373,56 +430,22 @@ function composeBinding(
       ? billOf(coreAPI(core as CoreState), billId)
       : undefined;
   const number = said.number ?? named?.number;
-  // A bill is said by what it does, as its own page titles it ("the County
-  // Budget Ordinance"); its number only when the catalog names none of its
-  // sections (the words lead's play walk, Nov 11: "I read about Ordinance
-  // 2025-1." when it was the county's budget).
-  const titled = named ? billTitleOf(named)?.title : undefined;
-  if (titled)
-    facts.bill = {
-      text: billTitleSaid(titled),
-      sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
-    };
-  else if (number) {
+  Object.assign(
+    facts,
+    measureFacts(
+      core,
+      named,
+      askedId,
+      billId ?? moment.causeId,
+      moment.causeId,
+    ),
+  );
+  if (!facts.bill && number)
     // Said as a clerk reads it: a bare number takes its form's word first.
     facts.bill = {
       text: spokenDesignation(number, named?.form.kind ?? ""),
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
-  }
-  // How the asked voted on it, from their own row on the roll call: a line
-  // that says they voted, or how, is said only where the row is; where their
-  // seat has none, the lines of a member who was not in the vote.
-  if (named) {
-    const row = votesOn(coreAPI(core as CoreState), named.id)
-      .filter((vote) => vote.memberId === askedId)
-      .at(-P.one);
-    const side =
-      row?.vote === "yes"
-        ? "voted-for"
-        : row?.vote === "no"
-          ? "voted-against"
-          : "no-vote";
-    facts[side] = { text: "yes", sourceRecordIds: [named.id, moment.causeId] };
-  }
-  // The asked hailed by the office they hold and their family name
-  // ("County Commissioner McGee"), from the offices engine's term.
-  if (core.modules.has(OFFICES_MODULE_ID)) {
-    const api = coreAPI(core as CoreState);
-    const term = servingTermsOf(api, askedId)[P.zero];
-    const office = term
-      ? (api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("offices")
-          .get(term.officeId) as unknown as
-          { readonly title?: string } | undefined)
-      : undefined;
-    if (term && office?.title)
-      facts.hail = {
-        text: `${office.title} ${asked.familyName}`,
-        sourceRecordIds: [term.id, askedId],
-      };
-  }
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
   if (said.lawId && said.series) {
