@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-release-repo-large-files
+pr: #8385
 after:
 source: "docs/reports/repo-audit-2026-10-19.md sections B4 and E"
 standard: 2
@@ -17,6 +17,8 @@ root: none
 lead: cto
 blocked-on:
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:24:35.103Z
+branch: claude/pool-release-repo-large-files
 ---
 
 **What.** The repository is large and has no large-file storage, so every session's clone carries all of it. The owner ruled on Oct 19 to move art intermediates and large raw data to Git LFS, and to delete the raw publisher captures in data/source/*/raw/ that nothing reads. A clone should be a few hundred MB, so every session's clone gets smaller and faster. The Oct 19 audit snapshot (commit 0104686) said 3.13 GB, with art about 1.4 GB and about 520 MB of captures; recount every path and size before implementing.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** .gitattributes, art, data/source, docs/reports/repo-audit-2026-10-19.md
 
 **Notes.** The audit's pool row `release-ship-weight`; `public/education` is handled by release-repo-archive-docs instead.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:24 UTC) on branch claude/pool-release-repo-large-files.

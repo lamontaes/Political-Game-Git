@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-journal-says-one-thing-three-times
+pr: #8642
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc4-hand-written-words
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:37:50.463Z
 ---
 
 **What.** Measured by the Nov 9 audit in Blodgett Landing, New Hampshire (a random world, no seed), playing a 17-year-old girl the game named Ray Kent: "The journal's third paragraph says one thing three times: 'Three years on, my mother started a new job. My mother got a new job. My mother Tonya works as a sales representative.'" The journal makes one moment for each work spell a parent began while the player was a child at home, and those moments carry no facts, so their only wordings are bare pieces; it then adds a livelihood moment for the job each earner holds on day one. Two spells and the current job give three sentences that tell a reader one thing. Fix the cause for every relative and every kind of record: a moment that adds nothing beyond a line already in the paragraph is not told, and a new-job line names the job and the employer from the spell's record so two of them are two different facts.

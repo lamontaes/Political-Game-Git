@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-day-one-job-before-employer-founded
-pr:
+pr: #8377
 after:
 blocked-on:
 source: added with npm run pool -- add
