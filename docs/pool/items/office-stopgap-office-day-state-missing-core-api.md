@@ -4,13 +4,13 @@ title: "Stopgaps in office-day-state (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-office-stopgap-office-day-state-missing-core-api
 pr: #5247
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-state.ts, kind missing-core-api"
-claimed-at:
+claimed-at: 2026-11-11T04:21:33.049Z
 after:
 standard: 2
 model: sonnet
