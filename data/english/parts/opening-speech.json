@@ -62692,6 +62692,806 @@
       "date": "2026-11-11"
     },
     {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-still-unemployment-rose-change-unemployment-and-we-owe-those-families",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "still, unemployment rose {change-unemployment}, and we owe those families an answer.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-but-the-jobless-rate-rose-change-unemployment-and-that-is",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "but the jobless rate rose {change-unemployment}, and that is where we begin.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-even-so-more-people-lost-work-and-joblessness-rose-change",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "even so, more people lost work, and joblessness rose {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-work-though-grew-scarcer-with-unemployment-up-change-unemployment",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "work, though, grew scarcer, with unemployment up {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-and-still-the-jobless-rate-rose-change-unemployment-this-past",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "and still the jobless rate rose {change-unemployment} this past year.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-yet-too-many-are-still-looking-and-unemployment-rose-change",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "yet too many are still looking, and unemployment rose {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-but-in-home-state-and-across-the-land-more-people",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "but in {home-state} and across the land, more people are looking for work.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-even-so-a-job-is-harder-to-find-in-home",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "even so, a job is harder to find in {home-state} than it was.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-the-hard-part-is-work-where-unemployment-rose-change-unemployment",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "the hard part is work, where unemployment rose {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-all-unemployment-core-for-all-of-it-the-jobless-rate-went-up-change",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "for all of it, the jobless rate went up {change-unemployment}, and I see it.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-but-more-folks-are-out-of-work-with-joblessness-up",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "but more folks are out of work, with joblessness up {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-still-jobs-got-scarcer-and-unemployment-went-up-change-unemployment",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "still, jobs got scarcer, and unemployment went up {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-the-bad-news-is-work-the-jobless-rate-went-up",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "the bad news is work; the jobless rate went up {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-even-so-unemployment-rose-change-unemployment-and-we-ve-got",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "even so, unemployment rose {change-unemployment}, and we've got to fix that.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-but-jobs-dried-up-some-and-unemployment-rose-change-unemployment",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "but jobs dried up some, and unemployment rose {change-unemployment}.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-but-finding-work-got-tougher-in-home-state-and-beyond",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "but finding work got tougher in {home-state} and beyond.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-trouble-is-more-folks-in-home-state-are-hunting-for",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "trouble is, more folks in {home-state} are hunting for a job.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "home-state"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-yet-the-jobless-rate-went-up-change-unemployment-plain-and",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "yet the jobless rate went up {change-unemployment}, plain and simple.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-still-joblessness-rose-change-unemployment-and-i-won-t-dress",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "still, joblessness rose {change-unemployment}, and I won't dress that up.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-but-more-people-are-out-of-work-up-change-unemployment",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "but more people are out of work, up {change-unemployment} from last year.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": [
+            "unemployment-up",
+            "unemployment-up-but",
+            "change-unemployment"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment",
+      "piece": {
+        "of": "opening-story-says",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
       "key": "opening-speech.story-says.plain-ina-sta-all-unemployment-core-and-the-jobless-count-went-up-change-unemployment-too",
       "move": "story-says",
       "kind": "spoken",
