@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-civic-clerk-fill-seed-red
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:58:41.040Z
+claimed-at:
+branch: claude/pool-words-civic-clerk-fill-seed-red
 ---
 
 **What.** On Plandome Heights, New York (place 3658486, GOLDEN_PATH_SEED=f38fd92f521cda30), src/director/civic-roles.test.ts 'fills the clerk with the person the filing office's records name' fails on clean main. The clerk the fill returns carries an end date of 2025-02-19, where the test expects a sitting clerk with no end date. Find whether the fill reads an ended clerk term or the test reads the wrong field. Fix it at the root, not in the test.
@@ -37,3 +38,5 @@ claimed-at: 2026-11-11T02:58:41.040Z
 **Files.** src/director/civic-roles.ts, src/director/civic-roles.test.ts, src/core2/modules/filing-clerk.ts
 
 **Notes.** TODO
+
+Released (2026-11-11): Cause differs on main 67fe8ebbf1: at GOLDEN_PATH_SEED=f38fd92f521cda30 (Plandome Heights, New York, 3658486) src/director/civic-roles.test.ts 'fills the clerk with the person the filing office's records name' now fails earlier, at its first line (civic-roles.test.ts:163, expect(contests.length).toBeGreaterThan(0): expected 0 to be greater than 0), because openContests holds no open contest in that world at the test's date; the clerk's ended payroll job (endsAt 2025-02-19) the item names is never reached. So localClerkFor cannot be judged from this seed; the failure is the test's setup finding no open contest in a drawn place, and needs the item re-written around that. Continue on branch claude/pool-words-civic-clerk-fill-seed-red.
