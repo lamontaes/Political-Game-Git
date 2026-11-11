@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** world-community-calendar-part-2-event-records-on-scheduler, and the life record's writer (item core-life-record; on main once pull requests 8115, 8123 and 8139 merge).
 
 **Files.** src/core2/modules/community-events.ts (new), src/core2/modules/life.ts, src/core2/community-events.test.ts (new)
+
+**Notes (Fable B, Nov 10, the owner's answer).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). The owner set the size of the town events that day: the paper reports them and a candidate can campaign at one. Deciding who attends, person by person, is not part of it.

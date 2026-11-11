@@ -2,25 +2,28 @@
 
 For the owner. Nov 10, 2026. From Fable B.
 
-Every live pool item got your one test: where does the player see or feel this? Most answers were clear. The sweepers set 61 items aside as borderline. I read all of them, and checked each against the code and your rulings before deciding. Two calls are yours. Both go to the CTO's page of design calls; they are here for the record.
+Every live pool item got your one test: where does the player see or feel this? Most answers were clear. The sweepers set 61 items aside as borderline. I read all of them, and checked each against the code and your rulings before deciding. Two calls were yours, and you have answered both.
 
-## The two calls that are yours
+## The two calls that were yours, and your answers
+
+You answered both on Nov 10, about 7:16 p.m.
 
 ### 1. A recount after a close race
 
-Today a close race is counted once and certified. The loser can say he will not concede yet, and nothing comes of it. The CTO has this call on your page.
+"Recount by own states rules. You need a 2000 to be able to happen. And sure, yeah, court after early access."
+
+A close race now recounts by its own state's rule, and the player can ask for one where the law allows (`elections-contested-count-record`, rewritten to this size). A court fight over a count is its own item, after early access (`elections-count-challenge-in-court`).
 
 ### 2. People's 14 values
 
-The design gives every adult 14 values (limited government, personal liberty, public safety and so on), each with its reasons. Today people hold stances on issues, formed from their records, and no screen or talk reads values. The values come from a design package, not from a ruling of yours.
+"Not now."
 
-- **Leave it out (my pick).** People keep their stances as they are. No work.
-- **Build the values and show them.** A person's card says what they value and why, and talks read it. About 16 hours: 8 to form the values and about 8 for the card and the talks. Cost in speed: paid once, when the world is made.
+The two items that would have built them are dropped. People keep the stances they form from their records.
 
 ## Kept, because you already ruled or asked
 
 - **The ban on discrimination in hiring and renting.** You said yes on Oct 24 and again on Oct 26. A hire records its reasons, and a ban refuses one that cites a protected trait. It is not asked again.
-- **Town life in the paper: the fair, the parade, homecoming.** You asked on Nov 1 for "real ones with some good fluff".
+- **Town life in the paper.** You asked on Nov 1 for "real ones with some good fluff", and on Nov 10 set the size: each town's own real festival from basic research, like Ham Days, plus a few general events a year. The paper reports them and a candidate can campaign at one. Who attends, person by person, is dropped.
 - **Meeting new people at a council meeting or a town hall.** "Meet people" is a step of the golden path, and today you meet someone only on a visit or by joining a group.
 - **The six list screens in the one approved look.** You asked tonight for a builder on the screens you designed; Builder P1 has it.
 - **Removing second money paths** (three items). Your one-money-system rule asks for it. Nothing changes on screen; it stays low in the order.
