@@ -248,7 +248,10 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
       const side = result.scene.facts.find((row) =>
         ["side-for", "side-against"].includes(row.key),
       );
-      if (employer && about && side) {
+      // A variant (small, large, friend, again) states its ask in its own
+      // lines, which name the gift; the family's joined request gives the
+      // reason.
+      if (employer && about && side && talk.purpose === "donor-ask") {
         expect(talk.state.text, here).toContain(employer.text);
         expect(talk.state.text, here).toContain(about.text);
         expect(side.recordIds, here).toContain(donorId);
