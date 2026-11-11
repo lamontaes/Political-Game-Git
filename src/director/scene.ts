@@ -72,6 +72,21 @@ export interface Scene {
   occasion?: string;
 }
 
+/** Whether two people share a household. */
+function livesWith(
+  core: Readonly<CoreState>,
+  personId: string,
+  otherId: string,
+): boolean {
+  const person = core.people.get(personId as PersonId);
+  return (
+    !!person &&
+    (core.households.get(person.householdId)?.memberIds ?? []).includes(
+      otherId as PersonId,
+    )
+  );
+}
+
 export function composeScene(
   core: Readonly<CoreState>,
   director: Director,
@@ -198,7 +213,14 @@ export function composeScene(
       return facts;
     },
     `${moment.id}:arrival`,
-    (facts) => (facts.name ? "other" : "alone"),
+    // Someone who lives with the player does not arrive: they are home
+    // (the receive rule's facts), so their line is the housemate's stage.
+    (facts) =>
+      facts.name
+        ? meeting && livesWith(core, personId, meeting.id)
+          ? "housemate"
+          : "other"
+        : "alone",
   );
   // The call or letter line is the fallback when no arrival is worded.
   const setting = arrival
