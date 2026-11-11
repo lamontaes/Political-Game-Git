@@ -1,15 +1,15 @@
 {
   "generated": "2026-11-11",
-  "place": "Chicken, Alaska (0213450)",
-  "seed": "b50afed5fec00f3ca1fbc544afe5ef25876bcbf0",
+  "place": "Fords, New Jersey (3424030)",
+  "seed": "e6dc171c4483b9d4ad5f247529e97e0506749c70",
   "year": "2025-01-20 to 2026-01-20",
-  "watched": 11,
+  "watched": 28,
   "counts": {
     "types": 103,
     "rows": 168,
-    "typesFired": 13,
+    "typesFired": 37,
     "rowsWaitingOnProducer": 3,
-    "rowsWithoutEpisode": 81,
+    "rowsWithoutEpisode": 78,
     "ownerExamples": 112,
     "ownerScenesMissing": 8
   },
@@ -105,8 +105,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -127,8 +127,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -149,8 +149,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -171,8 +171,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -193,8 +193,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -215,8 +215,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -237,8 +237,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -259,8 +259,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -281,8 +281,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -303,8 +303,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -325,8 +325,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -347,8 +347,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -369,8 +369,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "home-and-family",
@@ -391,8 +391,8 @@
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "election-day-and-night",
@@ -445,8 +445,8 @@
       "lines": 88,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 21,
-      "firedExample": "person_8513ab240f840495:2025-03-01:family.contact:person_8513ab240f840495:person_67841d17b861a5db:2025-03-01"
+      "firedInYear": 23,
+      "firedExample": "person_01daa6c45eb69e9a:2025-03-01:family.contact:person_01daa6c45eb69e9a:person_6ee4e436cbba0d0c:2025-03-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -485,8 +485,8 @@
         "making-up-after-the-fight"
       ],
       "ownerAsked": [],
-      "firedInYear": 1,
-      "firedExample": "person_8513ab240f840495:2025-12-01:family.quarrel:person_8513ab240f840495:person_8513aa240f8402e2:2025-12-01"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "meeting-people-and-places",
@@ -523,8 +523,8 @@
         "introduced-at-a-civic-event"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 7,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:person_90ab918d698c4b43:person_f0b416ab27a73d5d"
     },
     {
       "domain": "home-and-family",
@@ -546,8 +546,8 @@
         "Wedding",
         "The world happens around you"
       ],
-      "firedInYear": 2,
-      "firedExample": "person_8513ab240f840495:2025-10-06:job:position:organization_ccf14be090367ac2:2025-08-01:1:person_8513ab240f840495"
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-08-01:job:commuter:person_c3244ccea8606800:2025-08-02"
     },
     {
       "domain": "home-and-family",
@@ -569,8 +569,8 @@
         "Wedding",
         "The world happens around you"
       ],
-      "firedInYear": 2,
-      "firedExample": "person_8513ab240f840495:2025-10-06:job:position:organization_ccf14be090367ac2:2025-08-01:1:person_8513ab240f840495"
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-08-01:job:commuter:person_c3244ccea8606800:2025-08-02"
     },
     {
       "domain": "home-and-family",
@@ -592,8 +592,8 @@
         "Wedding",
         "The world happens around you"
       ],
-      "firedInYear": 2,
-      "firedExample": "person_8513ab240f840495:2025-10-06:job:position:organization_ccf14be090367ac2:2025-08-01:1:person_8513ab240f840495"
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-08-01:job:commuter:person_c3244ccea8606800:2025-08-02"
     },
     {
       "domain": "home-and-family",
@@ -648,8 +648,8 @@
       "ownerAsked": [
         "Family absence"
       ],
-      "firedInYear": 2,
-      "firedExample": "person_8513ab240f840495:2025-05-01:family.gathering-missed:person_8513ab240f840495:person_ff384fef6b912e51:2025-05-01"
+      "firedInYear": 12,
+      "firedExample": "person_01daa6c45eb69e9a:2025-09-11:family.gathering-missed:person_01daa7c45eb6a04d:person_f7c927ca69d379a9:2025-09-11"
     },
     {
       "domain": "home-and-family",
@@ -669,8 +669,8 @@
         "news-at-the-table"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 4,
+      "firedExample": "person_90ab918d698c4b43:2026-01-01:life.death:person_a2cc23d6dd05163e:2026-01-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -711,8 +711,8 @@
         "first-day-at-the-new-job"
       ],
       "ownerAsked": [],
-      "firedInYear": 1,
-      "firedExample": "person_8513ab240f840495:2025-10-06:job:position:organization_ccf14be090367ac2:2025-08-01:1:person_8513ab240f840495"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -731,8 +731,8 @@
         "first-day-at-the-new-job"
       ],
       "ownerAsked": [],
-      "firedInYear": 1,
-      "firedExample": "person_8513ab240f840495:2025-10-06:job:position:organization_ccf14be090367ac2:2025-08-01:1:person_8513ab240f840495"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -749,8 +749,8 @@
       "lines": 129,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 2,
-      "firedExample": "person_8513ab240f840495:2026-01-01:job:position:organization_ccf14be090367ac2:2025-08-01:1:person_8513ab240f840495"
+      "firedInYear": 4,
+      "firedExample": "person_90ab918d698c4b43:2025-02-01:work-relationship_eea629e4cac3c585"
     },
     {
       "domain": "home-and-family",
@@ -767,8 +767,8 @@
       "lines": 129,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 2,
-      "firedExample": "person_8513ab240f840495:2026-01-01:job:position:organization_ccf14be090367ac2:2025-08-01:1:person_8513ab240f840495"
+      "firedInYear": 4,
+      "firedExample": "person_90ab918d698c4b43:2025-02-01:work-relationship_eea629e4cac3c585"
     },
     {
       "domain": "meeting-people-and-places",
@@ -823,8 +823,8 @@
       "lines": 54,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_bb7e0d179a023e44:2025-03-01:family.separated:partnership_97e9fdf457893026:2025-03-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -877,8 +877,8 @@
       "lines": 52,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_a2cc24d6dd0517f1:2025-12-01:health.rescued:person_a2cc23d6dd05163e:person_a2cc24d6dd0517f1:2025-12-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -969,8 +969,8 @@
       "ownerAsked": [
         "Door knocking as a montage"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_a2cc24d6dd0517f1:2025-12-01:health.serious-illness:person_a2cc23d6dd05163e:2025-12-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -989,8 +989,8 @@
       "ownerAsked": [
         "Door knocking as a montage"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_a2cc24d6dd0517f1:2025-12-01:health.serious-illness:person_a2cc23d6dd05163e:2025-12-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -1009,8 +1009,8 @@
       "ownerAsked": [
         "Door knocking as a montage"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_a2cc24d6dd0517f1:2025-12-01:health.serious-illness:person_a2cc23d6dd05163e:2025-12-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -1029,8 +1029,8 @@
       "ownerAsked": [
         "Door knocking as a montage"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_a2cc24d6dd0517f1:2025-12-01:health.serious-illness:person_a2cc23d6dd05163e:2025-12-01"
     },
     {
       "domain": "home-and-family",
@@ -1085,8 +1085,8 @@
       "ownerAsked": [
         "Mentor scene"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-06-01:work.mentorship-formed:person_c3244dcea86069b3:person_0082877795d5da50:2025-06-01"
     },
     {
       "domain": "home-and-family",
@@ -1105,8 +1105,8 @@
       "ownerAsked": [
         "Mentor scene"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-06-01:work.mentorship-formed:person_c3244dcea86069b3:person_0082877795d5da50:2025-06-01"
     },
     {
       "domain": "home-and-family",
@@ -1125,8 +1125,8 @@
       "ownerAsked": [
         "Mentor scene"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-06-01:work.mentorship-formed:person_c3244dcea86069b3:person_0082877795d5da50:2025-06-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -1143,8 +1143,8 @@
       "lines": 39,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 2,
+      "firedExample": "official:term:seat:US-NJ:lower:019:1:2025-01-20:2025-07-02:justice.accused:complaint:bribe:2025-07-01:person_6dc618da40f50b7a:official:term:seat:US-NJ:lower:019:1:2025-01-20:contract:US-NJ:highways:2025-07-01:official:term:seat:US-NJ:lower:019:1:2025-01-20:person_6dc618da40f50b7a"
     },
     {
       "domain": "meeting-people-and-places",
@@ -1161,8 +1161,8 @@
       "lines": 39,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 2,
+      "firedExample": "official:term:seat:US-NJ:lower:019:1:2025-01-20:2025-07-02:justice.accused:complaint:bribe:2025-07-01:person_6dc618da40f50b7a:official:term:seat:US-NJ:lower:019:1:2025-01-20:contract:US-NJ:highways:2025-07-01:official:term:seat:US-NJ:lower:019:1:2025-01-20:person_6dc618da40f50b7a"
     },
     {
       "domain": "meeting-people-and-places",
@@ -1370,8 +1370,8 @@
         "Concede or celebrate",
         "Election night with your real people"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 13,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-04:election-result:contest:seat:gus2025:170104:clerk:0:2025-11-04"
     },
     {
       "domain": "election-day-and-night",
@@ -1396,8 +1396,8 @@
         "Election night with your real people",
         "Loser's podium"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 7,
+      "firedExample": "official:term:seat:US-NJ:lower:019:1:2025-01-20:2025-06-03:primary-result:contest:seat:US-NJ:lower:019:1:2025-11-04"
     },
     {
       "domain": "election-day-and-night",
@@ -1422,8 +1422,8 @@
         "Election night with your real people",
         "Loser's podium"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 7,
+      "firedExample": "official:term:seat:US-NJ:lower:019:1:2025-01-20:2025-06-03:primary-result:contest:seat:US-NJ:lower:019:1:2025-11-04"
     },
     {
       "domain": "legislating",
@@ -1447,8 +1447,8 @@
         "Floor switch",
         "Legislature in the background"
       ],
-      "firedInYear": 51,
-      "firedExample": "official:term:seat:US-AK:us-senate:0:2025-01-20:2025-03-10:bill-vote:bill:federal:us-house:2025-02-11:official:seat:US-TX:us-house:30:29:federal:us-senate"
+      "firedInYear": 141,
+      "firedExample": "person_01daa2c45eb697ce:2025-08-05:bill-vote:bill:office:gus2025:130897:board:2025-08-05:person_90ab918d698c4b43:68:office:gus2025:130897:board"
     },
     {
       "domain": "the-executive",
@@ -1575,8 +1575,8 @@
       "ownerAsked": [
         "Recall"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 30,
+      "firedExample": "person_01daa6c45eb69e9a:2025-11-17:recall-outcome:recall:term:seat:gus2025:170104:board:0:2025-01-20:2025-03-27:kept"
     },
     {
       "domain": "the-executive",
@@ -1597,8 +1597,8 @@
       "ownerAsked": [
         "Recall"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 30,
+      "firedExample": "person_01daa6c45eb69e9a:2025-11-17:recall-outcome:recall:term:seat:gus2025:170104:board:0:2025-01-20:2025-03-27:kept"
     },
     {
       "domain": "legislating",
@@ -1620,8 +1620,8 @@
         "Bill scenes at every stage",
         "Public meeting agenda"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 6,
+      "firedExample": "person_90ab918d698c4b43:2026-01-06:public-comment:bill:office:gus2025:170104:board:2026-01-06:person_6d6597d03e6f6287:77"
     },
     {
       "domain": "none",
@@ -1638,8 +1638,8 @@
       "lines": 52,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 104,
+      "firedExample": "person_90ab918d698c4b43:2025-10-21:speech:remark:bill:office:gus2025:130897:board:2025-10-21:person_90ab918d698c4b43:71:person_edc372e4d74fce09"
     },
     {
       "domain": "the-press",
@@ -1664,8 +1664,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 59,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-01:office.introduced:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:58"
+      "firedInYear": 177,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-01:interview-published:interview:outlet:newspaper:3:jurisdiction_7dce8d2d33199161:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:2025-11-01:0"
     },
     {
       "domain": "the-press",
@@ -1690,8 +1690,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 59,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-01:office.introduced:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:58"
+      "firedInYear": 177,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-01:interview-published:interview:outlet:newspaper:3:jurisdiction_7dce8d2d33199161:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:2025-11-01:0"
     },
     {
       "domain": "the-press",
@@ -1716,8 +1716,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 59,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-01:office.introduced:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:58"
+      "firedInYear": 177,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-01:interview-published:interview:outlet:newspaper:3:jurisdiction_7dce8d2d33199161:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:2025-11-01:0"
     },
     {
       "domain": "the-press",
@@ -1742,8 +1742,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 59,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-01:office.introduced:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:58"
+      "firedInYear": 177,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-01:interview-published:interview:outlet:newspaper:3:jurisdiction_7dce8d2d33199161:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:2025-11-01:0"
     },
     {
       "domain": "the-press",
@@ -1768,8 +1768,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 59,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-01:office.introduced:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:58"
+      "firedInYear": 177,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-01:interview-published:interview:outlet:newspaper:3:jurisdiction_7dce8d2d33199161:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:2025-11-01:0"
     },
     {
       "domain": "the-press",
@@ -1794,8 +1794,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 59,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-01:office.introduced:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:58"
+      "firedInYear": 177,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-01:interview-published:interview:outlet:newspaper:3:jurisdiction_7dce8d2d33199161:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:2025-11-01:0"
     },
     {
       "domain": "the-press",
@@ -2007,8 +2007,8 @@
         "Speech per world",
         "Real figures in speeches"
       ],
-      "firedInYear": 8,
-      "firedExample": "person_8513ab240f840495:2025-01-20:president.address:2025-01-20"
+      "firedInYear": 15,
+      "firedExample": "person_01daa6c45eb69e9a:2025-01-20:president.address:2025-01-20"
     },
     {
       "domain": "the-executive",
@@ -2029,8 +2029,8 @@
         "Speech per world",
         "Real figures in speeches"
       ],
-      "firedInYear": 8,
-      "firedExample": "person_8513ab240f840495:2025-01-20:president.address:2025-01-20"
+      "firedInYear": 15,
+      "firedExample": "person_01daa6c45eb69e9a:2025-01-20:president.address:2025-01-20"
     },
     {
       "domain": "the-executive",
@@ -2051,8 +2051,8 @@
         "Speech per world",
         "Real figures in speeches"
       ],
-      "firedInYear": 8,
-      "firedExample": "person_8513ab240f840495:2025-01-20:president.address:2025-01-20"
+      "firedInYear": 15,
+      "firedExample": "person_01daa6c45eb69e9a:2025-01-20:president.address:2025-01-20"
     },
     {
       "domain": "the-executive",
@@ -2073,8 +2073,8 @@
         "Speech per world",
         "Real figures in speeches"
       ],
-      "firedInYear": 8,
-      "firedExample": "person_8513ab240f840495:2025-01-20:president.address:2025-01-20"
+      "firedInYear": 15,
+      "firedExample": "person_01daa6c45eb69e9a:2025-01-20:president.address:2025-01-20"
     },
     {
       "domain": "the-campaign",
@@ -2100,8 +2100,8 @@
         "Rally as a public scene",
         "Campaign volunteer or opponent at a rally"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 34,
+      "firedExample": "person_01daa7c45eb6a04d:2025-09-20:speech:person_01daa7c45eb6a04d:2025-09-20:speech:organization_b7b48d2111502199"
     },
     {
       "domain": "the-campaign",
@@ -2122,8 +2122,8 @@
       "ownerAsked": [
         "Volunteer after a rally"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 3,
+      "firedExample": "person_01daa2c45eb697ce:2025-10-29:speech:person_8035d0672f81efb4:2025-10-29:speech:organization_b7b48d2111502199"
     },
     {
       "domain": "the-campaign",
@@ -2145,8 +2145,8 @@
         "Filing deliberately marked",
         "Filing is a conversation at the clerk"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 7,
+      "firedExample": "official:term:seat:US-NJ:governor:2025-01-20:2025-01-23:candidate-filed:filing:contest:seat:US-NJ:governor:2025-11-04:official:term:seat:US-NJ:governor:2025-01-20"
     },
     {
       "domain": "home-and-family",
@@ -2259,7 +2259,9 @@
         "asked": 10
       },
       "lines": 54,
-      "episodes": [],
+      "episodes": [
+        "the-first-door-of-the-day"
+      ],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
@@ -2277,7 +2279,9 @@
         "asked": 10
       },
       "lines": 54,
-      "episodes": [],
+      "episodes": [
+        "the-first-door-of-the-day"
+      ],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
@@ -2496,7 +2500,9 @@
         "asked": 10
       },
       "lines": 34,
-      "episodes": [],
+      "episodes": [
+        "the-party-asks-you-to-run"
+      ],
       "ownerAsked": [
         "Party asks you to run",
         "Working with other candidates and officials"
@@ -2523,8 +2529,8 @@
       "ownerAsked": [
         "Office hours"
       ],
-      "firedInYear": 28,
-      "firedExample": "official:term:seat:US-AK:upper:00R:0:2025-01-20:2025-12-16:office-approached:case:person_14b8c640db2840d2:2025-12-16"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -2547,8 +2553,8 @@
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-01-23:candidate-filed:filing:contest:seat:gus2025:170104:sheriff:0:2025-11-04:person_c3244dcea86069b3"
     },
     {
       "domain": "home-and-family",
@@ -2571,8 +2577,8 @@
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 9,
+      "firedExample": "person_01daa7c45eb6a04d:2025-11-04:election-result:contest:seat:gus2025:170104:clerk:0:2025-11-04"
     },
     {
       "domain": "home-and-family",
@@ -2664,8 +2670,8 @@
         "Rally as a public scene",
         "Campaign volunteer or opponent at a rally"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 4,
+      "firedExample": "official:term:seat:US-NJ:governor:2025-01-20:2025-10-27:debate:debate:contest:seat:US-NJ:governor:2025-11-04"
     },
     {
       "domain": "the-campaign",
@@ -2688,8 +2694,8 @@
         "Rally as a public scene",
         "Campaign volunteer or opponent at a rally"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 4,
+      "firedExample": "official:term:seat:US-NJ:governor:2025-01-20:2025-10-27:debate:debate:contest:seat:US-NJ:governor:2025-11-04"
     },
     {
       "domain": "none",
@@ -2797,8 +2803,8 @@
         "Election team",
         "Staff bring bad news"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 5,
+      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-22:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:69:federal:us-senate"
     },
     {
       "domain": "the-executive",
@@ -2820,8 +2826,8 @@
         "Election team",
         "Staff bring bad news"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 5,
+      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-22:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:69:federal:us-senate"
     },
     {
       "domain": "the-executive",
@@ -2843,8 +2849,8 @@
         "Election team",
         "Staff bring bad news"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 5,
+      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-22:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:69:federal:us-senate"
     },
     {
       "domain": "legislating",
@@ -2870,7 +2876,7 @@
         "Legislature in the background"
       ],
       "firedInYear": 1,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-21:bill-amendment:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:58:federal:us-house:committee:10"
+      "firedExample": "person_6d6597d03e6f6287:2025-02-25:bill-amendment:bill:office:gus2025:170104:board:2025-02-25:person_6d6597d03e6f6287:29:office:gus2025:170104:board:floor:1"
     },
     {
       "domain": "none",
@@ -2909,8 +2915,8 @@
         "bill-held-in-committee"
       ],
       "ownerAsked": [],
-      "firedInYear": 3,
-      "firedExample": "official:term:seat:US-AK:upper:00R:0:2025-01-20:2025-02-17:committee:bill:office:US-AK:legislature-upper:2025-01-28:official:term:seat:US-AK:upper:00H:0:2025-01-20:10:office:US-AK:legislature-upper"
+      "firedInYear": 2,
+      "firedExample": "official:term:seat:US-NJ:lower:019:0:2025-01-20:2025-03-09:committee:bill:office:US-NJ:legislature-lower:2025-02-11:official:term:seat:US-NJ:lower:040:1:2025-01-20:20:office:US-NJ:legislature-lower"
     },
     {
       "domain": "home-and-family",
@@ -2927,8 +2933,8 @@
       "lines": 64,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-10-16:person_2a1aff96f3d1b574:birth"
     },
     {
       "domain": "home-and-family",
@@ -2945,8 +2951,8 @@
       "lines": 64,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_c3244dcea86069b3:2025-10-16:person_2a1aff96f3d1b574:birth"
     },
     {
       "domain": "meeting-people-and-places",
@@ -2967,8 +2973,8 @@
       "ownerAsked": [
         "Shared-cause invitation"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 56,
+      "firedExample": "person_01daa6c45eb69e9a:2025-11-23:cause.shared:2025-11-23:person_0391db9bd0a298ec:person_01daa6c45eb69e9a:cause:us-policy-positions:justice-public-safety.child-access-prevention"
     },
     {
       "domain": "none",
@@ -2987,8 +2993,8 @@
         "concession-call-received"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 7,
+      "firedExample": "official:term:seat:US-NJ:governor:2025-01-20:2025-11-04:election-result:contest:seat:US-NJ:governor:2025-11-04"
     },
     {
       "domain": "none",
@@ -3047,8 +3053,8 @@
         "town-hall-goes-wrong"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 37,
+      "firedExample": "person_01daa7c45eb6a04d:2025-09-08:town-hall:town-hall:person_01daa7c45eb6a04d:2025-09-08"
     },
     {
       "domain": "none",
@@ -3315,8 +3321,8 @@
       "ownerAsked": [
         "Election team"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_01daa7c45eb6a04d:2025-10-30:volunteer-offered:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:person_1ea8f189d0a9b559"
     },
     {
       "domain": "none",
@@ -3335,8 +3341,8 @@
       "ownerAsked": [
         "Election team"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_01daa7c45eb6a04d:2025-01-24:volunteer-offered:filing:contest:seat:gus2025:170104:clerk:0:2025-11-04:person_01daa7c45eb6a04d:person_01daa2c45eb697ce"
     },
     {
       "domain": "none",
@@ -3353,8 +3359,8 @@
       "lines": 47,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 14,
-      "firedExample": "person_8513aa240f8402e2:2025-03-17:job-offered:job-offer:position:organization_9051c56745fe598c:2025-03-01:4:person_8513aa240f8402e2"
+      "firedInYear": 4,
+      "firedExample": "person_01daa2c45eb697ce:2025-03-24:job-offered:job-offer:position:organization_33790255b5548fab:2025-03-01:2:person_01daa2c45eb697ce"
     },
     {
       "domain": "none",
@@ -3485,8 +3491,8 @@
         "sworn-in"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 12,
+      "firedExample": "official:term:seat:US-NJ:governor:2025-01-20:2026-01-20:took-office:seat:US-NJ:governor:2026-01-20"
     }
   ],
   "missing": [

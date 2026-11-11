@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: pool/play-repeal-action-on-every-law-page
 pr: #8284
 after:
