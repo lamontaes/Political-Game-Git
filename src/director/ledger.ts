@@ -169,6 +169,16 @@ export interface Director {
    * dev mode lists them: type, rank against the life's pace, the day it was
    * staged, the last day it may open and whether it is due on this date.
    */
+  /**
+   * A waiting scene the player was shown by another route (the opening
+   * evening's scene, sent with a new life) is marked opened, so the clock
+   * does not stop for it again. False when it is not waiting.
+   */
+  openWaiting(
+    personId: PersonId,
+    momentId: string,
+    at: { date: IsoDate; minuteOfDay: number },
+  ): boolean;
   waitingScenes(
     personId: PersonId,
     date: IsoDate,
@@ -1738,6 +1748,9 @@ export function createDirector(
         pace: entry.pace,
         date: entry.date,
         openUntil,
+        // stopgapId: SG-STORY-waiting-next-together-unread. A scene that
+        // waits for the two people to be in one place is not opened by their
+        // meeting yet; it waits out its open days and closes as a journal line.
         due:
           entry.date <= date &&
           entry.bindings.some((row) => row.timing !== "next-together"),
@@ -2159,6 +2172,18 @@ export function createDirector(
           .map((row) => row.momentId);
         if (ids.length) waiting.set(personId, ids);
       }
+    },
+    openWaiting(personId, momentId, at) {
+      const row = waitingFor(personId, at.date).find(
+        (item) => item.momentId === momentId,
+      );
+      if (!row) return false;
+      row.entry.stop = { recordId: momentId, at };
+      waiting.set(
+        personId,
+        (waiting.get(personId) ?? []).filter((id) => id !== momentId),
+      );
+      return true;
     },
     waitingScenes(personId, date) {
       return waitingFor(personId, date).map(({ entry: _entry, ...row }) => row);
