@@ -35,6 +35,8 @@ import { composeJournal } from "./journal";
 // drawn in turn until one's mayor has a veto.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 8;
+// A time turn the journal opens a line with: "Nine months on, ", "Eight years later, ".
+const TIME_TURN = /^[A-Z][^,.]*\b(?:on|later|after|before|ago)\b[^,.]*, /;
 
 it(`the mayor's journal tells a signing and a veto, and so does the sponsor's (seed ${seed})`, () => {
   const tried: string[] = [];
@@ -121,7 +123,10 @@ it(`the mayor's journal tells a signing and a veto, and so does the sponsor's (s
       const all = `${where}: ${action} ${bill.id}\n mayor: ${mine.map((l) => l.text).join(" | ")}\n sponsor: ${theirs.map((l) => l.text).join(" | ")}`;
       expect(own?.text, all).toContain(number);
       // The mayor tells their own act; a veto the council overrode says so.
-      expect(own!.text, all).toMatch(
+      // The journal may open the line with a time turn ("Nine months on, I
+      // signed ..."), so the act is read after it.
+      const act = own!.text.replace(TIME_TURN, "");
+      expect(act, all).toMatch(
         action === "signed"
           ? /^I signed\b/
           : action === "overridden"
@@ -132,7 +137,7 @@ it(`the mayor's journal tells a signing and a veto, and so does the sponsor's (s
       // their own act.
       const sponsors = told(theirs, bill.id);
       expect(sponsors?.text, all).toContain(number);
-      expect(sponsors!.text, all).not.toMatch(/^I /);
+      expect(sponsors!.text.replace(TIME_TURN, ""), all).not.toMatch(/^I /);
       expect(sponsors!.text, all).toMatch(
         action === "signed"
           ? /\bsigned\b/

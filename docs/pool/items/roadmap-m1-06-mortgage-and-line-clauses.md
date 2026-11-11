@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/tooling/m1-06-check.ts, src/core2/modules/credit.ts, src/core2/modules/housing.ts, docs/roadmap/features.json
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed two clauses of the M1-06 roadmap check script that wrongly fail on the engine's design; the check guards nothing on main and the player sees no change.

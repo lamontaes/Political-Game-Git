@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-bill-menu-for-mayors-and-governors
+pr: #8341
 after:
 blocked-on:
 lead: screens
@@ -17,6 +17,8 @@ model: sonnet
 effort: high
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:30:41.538Z
+branch: claude/pool-play-bill-menu-for-mayors-and-governors
 ---
 
 **What.** A player who wins an executive office cannot send a bill to the body that votes. Measured by the Nov 9 audit in Davenport, North Dakota (three seats taken through Advanced, Play as; no seed given): the council member's Your office screen has a Draft a bill list, a state legislator drafts from 152 policies, and the mayor's shows "Office: Mayor" and "Pay: $4,262.00 a year" and nothing else. The engine for an executive's bill already exists and the player's screen never calls it. Build the screen for the class: any single-seat executive whose office has a proposal right gets the same draft card, for the body that votes on their government's bills, and drafting goes through `proposeAsExecutive`, the way real mayors and governors send bills. The member asked decides as anyone asked would; the player sees who was asked and what they said, and follows the bill from there.
@@ -42,3 +44,9 @@ Look-first, Nov 10: the executive's side of the engine is built (`proposalRight`
 Not verified: I did not open the mayor's screen on Nov 10's main. I did not check whether a town whose mayor also sits on the council as a voting member already gets the council's menu through that seat, or whether `proposeAsExecutive` returns nothing for a body with no other member (it returns null when no member can be asked); the builder says what the screen shows then. The audit did not test a governor or a county executive.
 
 Related: play-repeal-action-on-every-law-page (an executive's repeal goes through this), play-what-this-law-did-page, play-menus-your-office-plates (done; the Your office layout).
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:26 UTC) on branch claude/pool-play-bill-menu-for-mayors-and-governors.
+
+Released (2026-11-10): Builder stopping for now (usage); not started, no branch work. Continue on branch claude/pool-play-bill-menu-for-mayors-and-governors.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:30 UTC) on branch claude/pool-play-bill-menu-for-mayors-and-governors.

@@ -1,10 +1,6 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {
-    "conversation.news-ask-think.what-do-you-think": [
-      "question-names-its-subject"
-    ]
-  },
+  "pulled": {},
   "waiting": {},
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [

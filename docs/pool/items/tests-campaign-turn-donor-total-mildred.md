@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/campaigns.ts, src/core2/campaign-turn.test.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=2046500 GOLDEN_PATH_SEED=5c889114...207f npx vitest run src/core2/campaign-turn.test.ts`: still red, three tests. The donor-total test no longer fails as the item says; it errors: "no drawn town had a named donor: Mildred, Kansas ... no two candidates for the first contest" (the same for Aleneva, Chatham, Eastpointe, Southwest City, Greenfield, Washington, D.C. and San Antonio, Northern Mariana Islands). Also red: 'a rich rival holds an event' (Golden Hills, California): "expected null to be 'event'", and 'a stance is one platform entry per question and every promise keeps its own record'. Still red, on different assertions.

@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** In a random small place (drawPlace('nov8a','biz') in the Jobs session's scratchpad probe, played 3 years on main 03b2d7f87c) the mean of price over anchorPrice across open firms goes 1.000, 0.986, 0.957, 0.940 at years 0 to 3, while firms ever opened go 30, 46, 54, 58 and open firms 30, 45, 50, 50. A firm's price follows generalPriceFactor and wagePriceFactor from the macro conditions plus its own costs and demand. A steady fall may be the national price index falling, entrants' competition, or both, and has not been separated.
+**What.** In a random small place (drawPlace('nov8a','biz') in the Jobs session's scratchpad probe, played 3 years on main 03b2d7f87c) the mean of price over anchorPrice across open firms goes 1.000, 0.986, 0.957, 0.940 at years 0 to 3, while firms ever opened go 30, 46, 54, 58 and open firms 30, 45, 50, 50. A firm's price follows generalPriceFactor and wagePriceFactor from the macro conditions plus its own costs and demand. A steady fall may be the national price index falling, entrants' competition, or both, and has not been separated. Seen: the prices the player pays and the Metrics price index in a small town, which fall 6% in three years for no known reason.
 
 **Cause.** Needs cause. Measured: the probe above (a small place played 3 years on main 03b2d7f87c, mean price over anchorPrice 1.000, 0.986, 0.957, 0.940); the probe lives in the Jobs session's scratchpad, not the repo. Candidates named but not read: the national price index, entrants' competition, or both (`src/core2/finance-state.ts`, `src/core2/modules/macro.ts`, `src/core2/modules/business.ts`).
 

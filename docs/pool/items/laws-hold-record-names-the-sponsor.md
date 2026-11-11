@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-hold-record-names-the-sponsor
 pr:
 after:
 blocked-on:
@@ -16,11 +16,11 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T01:00:05.539Z
 checked: fable 2026-11-10
 ---
 
-**What.** The committee record bill-held-in-committee lists the committee's members and chair but not the bill's sponsor, so the sponsor never meets the hold as a moment and no scene can be theirs. It also carries news false, so the paper never says a bill died without a hearing, and nothing reads the scene.reply that the sponsor-asks-chair scene writes, so a chair who says yes in the scene does not set a hearing. Add the sponsor to the record's personIds with a sponsorId fact, set news so the press engine can run a held-bill line, and have the chair's hold decision read a scene.reply of type bill-held-chair that agreed. Found by scene builder C in docs/design/scenes/from-life/bill-held-in-committee.md.
+**What.** The committee record bill-held-in-committee lists the committee's members and chair but not the bill's sponsor, so the sponsor never meets the hold as a moment and no scene can be theirs. It also carries news false, so the paper never says a bill died without a hearing, and nothing reads the scene.reply that the sponsor-asks-chair scene writes, so a chair who says yes in the scene does not set a hearing. Add the sponsor to the record's personIds with a sponsorId fact, set news so the press engine can run a held-bill line, and have the chair's hold decision read a scene.reply of type bill-held-chair that agreed. Found by scene builder C in docs/design/scenes/from-life/bill-held-in-committee.md. Seen: the paper's line that a bill died in committee and the sponsor's scene with the chair.
 
 **Cause.** Found in code: `committeeStage` in src/core2/modules/legislature.ts (line 4274) emits the record with `kind: "bill-held-in-committee"` (line 4409) and `personIds` of the committee members and witnesses only, with news false.
 
