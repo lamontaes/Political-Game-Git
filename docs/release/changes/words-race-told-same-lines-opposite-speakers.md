@@ -3,4 +3,4 @@ id: words-race-told-same-lines-opposite-speakers
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A director test draws more places so a year with no race told does not fail it; no player-facing change.
