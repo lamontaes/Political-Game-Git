@@ -41,7 +41,8 @@ jobs:
           set -euo pipefail
           docs_only=false
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            files="$(gh api --paginate "repos/${{ github.repository }}/pulls/${PR_NUMBER}/files" --jq '.[].filename')"
+            # If the file list cannot be read, the game runs go ahead.
+            files="$(gh api --paginate "repos/${{ github.repository }}/pulls/${PR_NUMBER}/files" --jq '.[].filename')" || files=""
             if [[ -n "$files" ]] && ! grep -qvE '^(docs/.*|[^/]*\.md)$' <<<"$files"; then
               docs_only=true
             fi
@@ -50,7 +51,8 @@ jobs:
   new-game:
     name: new game
     needs: scope
-    if: needs.scope.outputs.docs_only != 'true'
+    # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
+    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
