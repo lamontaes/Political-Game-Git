@@ -380,10 +380,16 @@ function lineOf(
     }
     case "partner/engaged":
     case "partner/married":
-    case "partner/separated":
-      return partnerName
-        ? make(`partner.${event.what}`, { name: partnerName })
-        : null;
+    case "partner/separated": {
+      // An earlier partner before the start is a name on the record, never a
+      // person in the world until met.
+      const name = partnerName || String(facts.partnerName ?? "");
+      if (!name) return null;
+      return make(
+        facts.ended === "widowed" ? "partner.widowed" : `partner.${event.what}`,
+        { name },
+      );
+    }
     case "child/born": {
       const childId = facts.childId ?? partner;
       const name = personName(childId);

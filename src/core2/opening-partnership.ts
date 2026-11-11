@@ -901,6 +901,25 @@ export function partneringPerYear(
     : p("zero");
 }
 
+/**
+ * The chain's shares of people of one age and sex: never married (the
+ * place's ACS shares), partnered now (`partneredByAge`) and previously
+ * partnered, the rest. The same three `partneringPerYear` weighs.
+ */
+export function maritalShares(
+  geo: { key: string; rows: Geo },
+  sex: Sex,
+  age: number,
+): { never: number; partnered: number; previously: number } {
+  const never = neverMarriedShare(geo.rows, sex, age);
+  const partnered = partneredByAge(geo.key, geo.rows, sex)[age] ?? p("zero");
+  return {
+    never,
+    partnered,
+    previously: Math.max(p("one") - never - partnered, p("zero")),
+  };
+}
+
 /** A marriage's yearly pace of ending by divorce in its given year (NSFG first marriages). */
 export function separatingPerYear(years: number): number {
   const longest = data.marriageIntact.points.at(-p("one"))!.years;

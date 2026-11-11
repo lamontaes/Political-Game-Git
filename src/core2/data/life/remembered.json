@@ -1002,6 +1002,11 @@
       "kind": "office.seat-reached",
       "life": "politics",
       "what": "took-office"
+    },
+    {
+      "kind": "family.partnership-ended",
+      "life": "partner",
+      "what": "separated"
     }
   ]
 }
