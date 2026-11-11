@@ -3,4 +3,4 @@ id: core-zero-dice-shares-in-code
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The shares the town and council rules read now live in one tagged parameter table instead of in code; the values are unchanged.
