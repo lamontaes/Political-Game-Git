@@ -6,10 +6,10 @@ lead: effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-web-engine-reader-causes-ignore-lag
-pr:
+pr: #8645
 after:
 blocked-on:
 model: sonnet
