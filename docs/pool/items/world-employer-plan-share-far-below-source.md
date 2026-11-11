@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the share of a town's people with health coverage on the Metrics tab, 3 to 5 percent against a real 53.7 percent.
 
 **Rules.** No dice. Find the cause by file and line: how many counted households hold a countedCoverage row against how many hold a job with an employer plan, and what the covered field counts. Real ranges are not targets (owner, Nov 8): fix only when nothing in the world explains the value.
 

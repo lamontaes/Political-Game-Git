@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-price-learning-observer-mixes-laws
-pr:
+pr: #8421
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add

@@ -10,7 +10,7 @@ standard: 2
 claimed-by:
 pr:
 after:
-blocked-on: the owner's word to start (Nov 10: not now)
+blocked-on: after the gameplay work (owner, Nov 10)
 lead: laws-effects
 model: sonnet
 effort: low
@@ -31,6 +31,8 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, not a builder of any part, plays a drawn place (place and seed named) on main and follows one ordinary offense end to end by record id: the person's decision with its three reasons, the row in the one crimes table, the victim's record, the arrest and the case on the one justice path, and the story in the paper. It sees the town's yearly counts of each offense beside the real rate as a report, a year no more than 20 percent slower than its base, and no rate-driven victimization left in the code.
 
-**Waits on.** The owner's word to start, and then its parts: justice-one-crime-system-part-0-the-design, justice-one-crime-system-part-1-a-named-persons-offense, justice-one-crime-system-part-2-the-counted-populations-offenses and justice-one-crime-system-part-3-victims-and-arrests-read-the-offenses. What waits on it: gov-justice-incident-producer and the items that name it, and world-gun-sale-flow, should be built to fit this design; the diversion parts (gov-treasury-diversion) already do and do not wait.
+**Waits on.** The gameplay work first (owner, Nov 10: "I want to be able to play the game"), and then its parts: justice-one-crime-system-part-0-the-design, justice-one-crime-system-part-1-a-named-persons-offense, justice-one-crime-system-part-2-the-counted-populations-offenses and justice-one-crime-system-part-3-victims-and-arrests-read-the-offenses. What waits on it: gov-justice-incident-producer and the items that name it should be built to fit this design; the diversion parts (gov-treasury-diversion) already do and do not wait.
 
 **Files.** src/core2/modules/corruption.ts, src/core2/modules/justice.ts, src/core2/modules/crime.ts, src/core2/public-safety.ts, src/core2/data/stopgaps/core.json
+
+**Notes (Fable B, Nov 10, the owner's answers).** Owner, Nov 10, 2026, about 7:16 p.m. Two rulings the design starts from. When it starts: "I want to be able to play the game", so the one crime system starts after the gameplay work. What the player may do: "Only corruption for the player." The player's only crime is corruption; every ordinary crime is something other people do, and the design offers the player no other offense.
