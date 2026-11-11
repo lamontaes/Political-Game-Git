@@ -140,7 +140,11 @@ it(`the first evening's journal names the family from their records (seed ${seed
 // capital inside a sentence.
 const LIVES = 10;
 /** Draws that once failed, kept as cases (seed and life, as the test draws them). */
-const KNOWN_DRAWS = ["3ce58b155d125aeb788fea59f8353c954131e6f3:work:0"];
+const KNOWN_DRAWS = [
+  "3ce58b155d125aeb788fea59f8353c954131e6f3:work:0",
+  // Stowe, Vermont: "My father DeAndre ..." (a capital inside a name).
+  "0da7d0ae7277eff20bce2be78ff0923fcf5a106a:work:1",
+];
 /**
  * A note's sentences: split after a stop, never after an initial such as the
  * "U.S." in "U.S. Virgin Islands".
@@ -151,7 +155,8 @@ it(`the first note says each thing once and names each parent's employer (seed $
   const evidence: string[] = [];
   let parentJobs = 0;
   // Ten fresh draws, and the draws that once failed (Tutu, U.S. Virgin
-  // Islands: "U.S." is an initial, not a sentence's end).
+  // Islands: "U.S." is an initial, not a sentence's end; Stowe, Vermont:
+  // "DeAndre" is one name).
   const draws = [
     ...Array.from({ length: LIVES }, (_, life) => `${seed}:work:${life}`),
     ...KNOWN_DRAWS,
@@ -190,7 +195,9 @@ it(`the first note says each thing once and names each parent's employer (seed $
       const said = sentencesOf(row.text);
       const subjects = said.map(
         (sentence) =>
-          /^My [a-z]+(?: [a-z]+)? ([A-Z][a-z]+)\b/.exec(sentence)?.[1],
+          // A given name may carry a capital inside ("DeAndre") or an
+          // apostrophe or hyphen.
+          /^My [a-z]+(?: [a-z]+)? ([A-Z][\w'-]*)/.exec(sentence)?.[1],
       );
       expect(subjects, `${where}: "${row.text}"`).not.toContain(undefined);
       expect(
