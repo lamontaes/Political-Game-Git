@@ -19,7 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 ---
 
-**What.** A person's past now reaches back to their birth. For the years before they moved to town, the school has no name and the work has no employer, so the card reads as a gap. This part names a school and an employer in the place the person came from, the same every time they are opened.
+**What.** A person's past now reaches back to their birth. For the years before they moved to town, the school has no name and the work has no employer, so the card reads as a gap. This part names a school and an employer in the place the person came from, the same every time they are opened. Seen: the school and employer a person's card names for the years before they moved to town.
 
 **Cause.** Found in code: `schoolHistoryFor` (src/core2/past-school.ts line 176) and `pastWorkFor` (src/core2/past-work.ts line 896) build schooling and work from the played town's own schools and employers; for years a person lived elsewhere (before the date of their move record, src/core2/past-moves.ts) they have none to name. Noted after the life record's step 2, pull request 8123.
 

@@ -5,8 +5,8 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-people-opening-household-cannot-be-a-mixed-couple
 pr:
 after:
 blocked-on:
@@ -17,9 +17,11 @@ model: sonnet
 effort: high
 root: rc3-thin-life-record
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:41:21.901Z
+branch: claude/pool-people-opening-household-cannot-be-a-mixed-couple
 ---
 
-**What.** The owner said on November 8: "I'm Mexican and my son is white." The crew's check that day found no origin record at all. One is on main now, and it overcorrects. A household shares one origin, drawn once by the household's id, and a newborn takes one parent's origin, so a mixed couple cannot exist at the opening, in any household in any place, and a child of two origins is never both. No record explains a sibling's different surname either: nothing says a mother kept her name, a parent remarried or a child came from an earlier partner. Each adult's origin should be their own, couples should form across origins at the rate real couples do in that place, a child's origin and looks should come from both parents, and a surname that differs inside a family should follow from a recorded event in the family's past.
+**What.** The owner said on November 8: "I'm Mexican and my son is white." The crew's check that day found no origin record at all. One is on main now, and it overcorrects. A household shares one origin, drawn once by the household's id, and a newborn takes one parent's origin, so a mixed couple cannot exist at the opening, in any household in any place, and a child of two origins is never both. No record explains a sibling's different surname either: nothing says a mother kept her name, a parent remarried or a child came from an earlier partner. Each adult's origin should be their own, couples should form across origins at the rate real couples do in that place, a child's origin and looks should come from both parents, and a surname that differs inside a family should follow from a recorded event in the family's past. Seen: the faces and surnames of the opening household (owner, Nov 8: "I'm Mexican and my son is white").
 
 **Cause.** Found in code: src/core2/opening-origin.ts withOrigins (line 96) gives a household one origin draw and childOrigin (line 153) takes one parent's origin, so no mixed couple exists on day one. Read in the code, not measured in play (Fable audit, Nov 9, Pillar 4, "Family looks").
 
@@ -36,3 +38,9 @@ checked: fable 2026-11-10
 **Files.** src/core2/opening-origin.ts, src/core2/opening-kin.ts, src/core2/modules/people.ts, src/bench/people-pack.ts, src/bench/ui/dev-person.mjs
 
 **Notes.** From the Fable audit, Pillar 4, "Family looks", read in the code; the audit's played life in Blodgett Landing, New Hampshire shows the neighboring face defect (one person, two faces: "The You screen's bust has light brown hair and pale skin. The Your life tab shows a full figure with black hair and tan skin. Her mother's bust resembles neither of them"), which is a separate defect in how a face is drawn and is not part of this item. The audit did not count households by origin in any world and did not look for the surname records. Confirmed on main, Nov 10 (helper): `withOrigins` gives every person without a given origin their household's one draw (`householdOrigin`), kin outside the town take the nearest resident relative's, and `childOrigin` picks one of the known parents' origins by the child's id. Related: `play-stop-15-family-unexplained` (marked done, still shows in part: "My family is the Steins, I am Bo Snider, and nothing explains who they are"; the audit finds no record that explains a sibling's surname), `people-partnership-counted` (open: counted adults partner by the same rules as full people).
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:40 UTC) on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.
+
+Released (2026-11-11): Cause confirmed in src/core2/opening-origin.ts (withOrigins gives a household one origin draw, childOrigin picks one parent's). The Fix needs a sourced rate of couples across origins by place (a researched table with fetched pages and spread), per-adult draws, child looks from both parents, and a family-event record explaining a differing surname: more than a bounded pass, and the rate must be researched first (skill researcher). Split into research, per-adult origin and couple formation, child looks, surname record. Continue on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:41 UTC) on branch claude/pool-people-opening-household-cannot-be-a-mixed-couple.

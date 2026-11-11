@@ -19,7 +19,7 @@ source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Four links wait on a cause the health engine does not record as a measure: coverage-to-catastrophic-bills, coverage-to-medical-debt, coverage-to-depression and marriage-equality-to-coverage. Each cause is a share over the place's people read from the coverage and health rows the engines already write. Record the cause as an engine measure and keep the outcome the web needs, with its base and source, so each link runs.
+**What.** Four links wait on a cause the health engine does not record as a measure: coverage-to-catastrophic-bills, coverage-to-medical-debt, coverage-to-depression and marriage-equality-to-coverage. Each cause is a share over the place's people read from the coverage and health rows the engines already write. Record the cause as an engine measure and keep the outcome the web needs, with its base and source, so each link runs. Seen: the Metrics tab's medical-debt, catastrophic-bill and depression measures after a coverage law.
 
 **Cause.** Found in code: src/core2/data/outcome-web/coverage.json lists these four links under "waiting" (waitingOn health.coverage, health.catastrophic-medical-bills, health.coverage-pct, health.depression and law.marriage-equality); linkCoverage in src/core2/outcome-web-model.ts (line 456) wires a link only when its cause is readable and its outcome is a kept outcome in src/core2/data/outcome-web/outcome-web.json.
 

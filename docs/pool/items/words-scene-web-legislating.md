@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-words-scene-web-legislating
+pr: #8360
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:58:33.077Z
 after:
 standard: 2
 model: sonnet
@@ -49,3 +49,21 @@ Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:53 UTC) on branch claude/pool-words-scene-web-legislating.
 
 Released (2026-11-10): Needs bank lines under data/english/parts, which only the Story session writes; nothing a builder can play. Continue on branch claude/pool-words-scene-web-legislating.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:55 UTC) on branch claude/pool-words-scene-web-legislating.
+
+Released (2026-11-10): Mostly Story-session lines under data/english/parts; the buildable remainder (episode packets, producer items) is larger than I can finish in this session. Continue on branch claude/pool-words-scene-web-legislating.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:56 UTC) on branch claude/pool-words-scene-web-legislating.
+
+Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-web-legislating.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:57 UTC) on branch claude/pool-words-scene-web-legislating.
+
+Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-web-legislating.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:57 UTC) on branch claude/pool-words-scene-web-legislating.
+
+Released (2026-11-10): Nothing a builder can build: replay already recorded on the PR, or its lines are under data/english/parts (Story only); released so the claim is not held. Continue on branch claude/pool-words-scene-web-legislating.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:58 UTC) on branch claude/pool-words-scene-web-legislating.
