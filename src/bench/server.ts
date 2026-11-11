@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
-import { benchRequest, benchWorld, serialize } from "./handler";
+import { benchRequest, benchWorld, saveLifeNow, serialize } from "./handler";
 import { handleDev } from "./dev-api";
 
 // The developer listener. The play routes live in handler.ts, which the
@@ -82,3 +82,9 @@ const port = Number(process.env.BENCH_PORT ?? 3000);
 server.listen(port, "0.0.0.0", () => {
   process.stdout.write(`M0 bench: http://localhost:${port}\n`);
 });
+// On quit the played life is saved (saves.ts), as it is after each advance.
+for (const signal of ["SIGINT", "SIGTERM"] as const)
+  process.once(signal, () => {
+    saveLifeNow();
+    process.exit(0);
+  });
