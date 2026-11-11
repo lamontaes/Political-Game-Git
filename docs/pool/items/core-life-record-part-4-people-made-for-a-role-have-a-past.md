@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past
-pr:
+pr: #8381
 after:
 blocked-on:
 lead: lives
