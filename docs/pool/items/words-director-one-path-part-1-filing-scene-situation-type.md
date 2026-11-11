@@ -5,9 +5,9 @@ area: director
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-director-one-path-part-1-filing-scene-situation-type
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:32:46.828Z
+claimed-at:
 branch: claude/pool-words-director-one-path-part-1-filing-scene-situation-type
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-words-director-one-path-part-1-filing-scene-situation-type
 **Files.** src/director/filing-visit.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/bench/filing.ts, data/english/parts/scene-talk.json
 
 **Notes.** Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:32 UTC) on branch claude/pool-words-director-one-path-part-1-filing-scene-situation-type.
+
+Released (2026-11-11): Cause no longer matches main: the after-filing talk is already the filing scene; the pre-filing counter is SG-WORDS-filing-counter-prompts, kept by the CTO's Nov 1 ruling (see the item's PR). Continue on branch claude/pool-words-director-one-path-part-1-filing-scene-situation-type.
