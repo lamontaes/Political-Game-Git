@@ -211,6 +211,15 @@
     "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
       "favor-job/press"
     ],
+    "scene-talk.reply-promise.i-ll-get-my-diploma-this-year-so-i-can-look-for-real-work": [
+      "no-diploma-home/press"
+    ],
+    "scene-talk.reply-promise.i-m-going-to-finish-school-i-don-t-want-this-following-me": [
+      "no-diploma-home/press"
+    ],
+    "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test": [
+      "no-diploma-home/press"
+    ],
     "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up": [
       "conflict-accuse.friend/ask"
     ],

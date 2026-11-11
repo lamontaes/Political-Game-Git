@@ -135833,6 +135833,54 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.good-then-let-s-write-down-when-so-it-doesn-t-slide-again",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Good. Then let's write down when, so it doesn't slide again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-hold-you-to-that-which-is-it-summer-school-or-the-test",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll hold you to that. Which is it, summer school or the test?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "no-diploma-home",
+          "key": "no-diploma"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "no-diploma"
+      }
+    },
+    {
       "key": "scene-talk.reply-answer.go-back-i-think-one-more-try",
       "move": "reply-answer",
       "kind": "spoken",
