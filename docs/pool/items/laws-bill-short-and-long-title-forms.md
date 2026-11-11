@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-bill-short-and-long-title-forms
-pr:
+pr: #8436
 after:
 blocked-on:
 lead: laws

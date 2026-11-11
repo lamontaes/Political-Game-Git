@@ -43,7 +43,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
-import { backdropFor, homeOf, stagePeople } from "./scene";
+import { backdropFor, homeOf, peopleHere } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -85,6 +85,7 @@ export function campaignView(core: CoreState, personId: string) {
       .table("filings")
       .query("byPerson", [personId]) as unknown as FilingRow[]
   ).filter((row) => row.status !== "withdrawn");
+  const pictures = filings.length ? trailPictures(core, personId) : {};
   return {
     venues: scenePlaces.speechPlaces,
     campaigns: filings.map((filing) => {
@@ -149,6 +150,7 @@ export function campaignView(core: CoreState, personId: string) {
           return [
             {
               outing,
+              picture: pictures[outing],
               hours: choice.hours,
               available: choice.available,
               ...(outletId ? { outletId } : {}),
@@ -156,6 +158,8 @@ export function campaignView(core: CoreState, personId: string) {
             },
           ];
         }),
+        // The picture on each of the trail's other tiles (the asks, the money, the speech, a debate).
+        pictures,
         // Debates the outlet has invited the candidates to, waiting for their answers.
         debates: debatesIn(api, filing.contestId)
           .filter((row) => row.status === "invited")
@@ -392,6 +396,62 @@ export function campaignAct(
   }
 }
 
+/**
+ * Where each act on the campaign trail happens before anyone is met: the
+ * street of doors, the hall, the outlet's newsroom, the campaign office. One
+ * list, read by the act's scene and by the trail's tile, so the tile shows
+ * the place the act opens in (owner, Oct 20: "campaign acts are scenes you go
+ * to"). An act with no place of its own is not listed: a house party is the
+ * host's living room, and the player's own money is given from home.
+ */
+const TRAIL_PLACES: Readonly<Record<string, string>> = {
+  doors: scenePlaces.doorKnockingPlaces.house,
+  calls: scenePlaces.phoneBankPlace,
+  event: scenePlaces.speechPlaces[0]!,
+  forum: scenePlaces.sceneSettings.venue[0]!,
+  interview: scenePlaces.interviewPlace,
+  volunteer: scenePlaces.volunteerOfficePlace,
+  endorsement: scenePlaces.endorsementMeetingPlace,
+  ad: scenePlaces.adBuyPlace,
+  // Mail and a poll are ordered at the campaign office.
+  mail: scenePlaces.volunteerOfficePlace,
+  poll: scenePlaces.volunteerOfficePlace,
+  speech: scenePlaces.speechPlaces[0]!,
+  debate: scenePlaces.debatePlace,
+};
+
+/** The hour a trail act is pictured at: the afternoon, a house party and the player's own money in the evening at home. */
+const TRAIL_HOUR = 16 * 60;
+const TRAIL_EVENING = 20 * 60;
+
+/**
+ * The picture on each trail tile, by the name the screen's control carries:
+ * the place the act opens in, in this town's light and season. A house party
+ * and the player's own money show the player's living room in the evening,
+ * since the host's home is not known until the party is held.
+ */
+function trailPictures(
+  core: CoreState,
+  personId: string,
+): Record<string, string> {
+  const home = backdropFor(
+    core,
+    homeOf(core, personId, TRAIL_EVENING),
+    TRAIL_EVENING,
+    personId,
+  ).url;
+  return {
+    ...Object.fromEntries(
+      Object.entries(TRAIL_PLACES).map(([act, place]) => [
+        act,
+        backdropFor(core, place, TRAIL_HOUR).url,
+      ]),
+    ),
+    party: home,
+    contribute: home,
+  };
+}
+
 /** A place where the player asks people for something (the campaign office, the phone bank), the player at it; each person asked is heard by name. */
 function askScene(core: CoreState, personId: string, place: string) {
   const backdrop = backdropFor(core, place, 18 * 60);
@@ -399,7 +459,7 @@ function askScene(core: CoreState, personId: string, place: string) {
   return {
     place,
     backdrop,
-    ...stagePeople(core, backdrop.file, [
+    ...peopleHere(core, backdrop.file, [
       {
         id: personId,
         name: row ? `${row.givenName} ${row.familyName}` : "",
@@ -426,7 +486,7 @@ function speechScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
@@ -502,18 +562,14 @@ function outingScene(
   const place = party
     ? homeOf(core, met[0]!, minute)
     : kind === "canvass"
-      ? (doors[dwelling] ?? doors.house!)
-      : kind === "event"
-        ? scenePlaces.speechPlaces[0]!
-        : kind === "forum"
-          ? scenePlaces.sceneSettings.venue[0]!
-          : scenePlaces.phoneBankPlace;
+      ? (doors[dwelling] ?? TRAIL_PLACES.doors!)
+      : TRAIL_PLACES[OUTINGS[kind] ?? "calls"]!;
   const ids = [personId, ...met].filter((id) => core.people.get(id)?.alive);
   const backdrop = backdropFor(core, place, minute, party ? met[0] : undefined);
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {

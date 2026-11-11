@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-one-sponsor-one-evening-setup
-pr:
+pr: #8460
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,7 +17,7 @@ effort: medium
 root: rc2-done-from-records
 lead: director
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:35:03.469Z
+claimed-at: 2026-11-11T02:01:06.869Z
 branch: claude/pool-words-one-sponsor-one-evening-setup
 ---
 
@@ -44,3 +44,7 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Tried staging two bills of one sponsor with draftBill + placeOnAgenda in the test: upcomingMeeting(api, state chamber) returned nothing in 150 days in 6 drawn places (Declo ID, Sand Pillow WI, Sweet Home AR, Scappoose OR, Briar Chapel NC, Pinehurst ID, seed fd20a2a4fc1f6997), so bills cannot be placed that way; the floor-day source of floorAgendaOn needs reading first. A 240-day draw also ran out of memory. No code pushed. Continue on branch claude/pool-words-one-sponsor-one-evening-setup.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:35 UTC) on branch claude/pool-words-one-sponsor-one-evening-setup.
+
+Released (2026-11-11): Second attempt: state chambers use the weekly floor, not meetings, so draftBill alone puts bills on a floor day; with 10 candidate minimum-wage bills (-100 to +600 cents) from one non-player member, seed fd20a2a4fc1f6997, 6 places (Declo ID, Sand Pillow WI, Sweet Home AR, Scappoose OR, Briar Chapel NC, Pinehurst ID), 150 days: no evening with two vote-ahead asks of the player. Debug shows many such bills fail in committee (committee records reported:false), and askBeforeTheRoll skips held bills. Needs someone who can steer which bills pass committee but fail the floor, or a different staging in the engine (src/core2/modules/legislature.ts askBeforeTheRoll). No code pushed. Continue on branch claude/pool-words-one-sponsor-one-evening-setup.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:01 UTC) on branch claude/pool-words-one-sponsor-one-evening-setup.

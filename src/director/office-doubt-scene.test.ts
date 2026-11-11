@@ -14,6 +14,7 @@ import { coreAPI } from "../core2/state";
 import { TERM_MEASURES } from "../core2/term-read";
 import type { CoreState, PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The day after a crowd forms against the town's term (a protest or a strike
 // from the public-action engine), someone who lives with a sitting official
@@ -139,11 +140,13 @@ it(`a crowd against the term brings the question home to the official (seed ${se
           const asker = core.people.get(scene.askerId)!;
           const official = core.people.get(personId)!;
           expect(asker.householdId, here).toBe(official.householdId);
-          // Four replies, four stances, in plain words.
+          // Up to four replies, all different stances, in plain words (owner, Nov 10).
           const root = scene.talk.tree.replies.map((reply) => reply.line);
-          expect(new Set(root.map((row) => row.move)), here).toEqual(
-            new Set(["tell", "comfort", "promise", "deflect"]),
-          );
+          expectUpToFourDifferent(root, here);
+          for (const row of root)
+            expect(["tell", "comfort", "promise", "deflect"], here).toContain(
+              row.move,
+            );
           for (const row of [scene.talk.state, ...root])
             expect(row.text, here).not.toMatch(
               /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
