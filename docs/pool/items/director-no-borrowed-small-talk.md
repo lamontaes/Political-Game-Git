@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-director-no-borrowed-small-talk
-pr:
+pr: #8282
 after:
 blocked-on:
 model: sonnet

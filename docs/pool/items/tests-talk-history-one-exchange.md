@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-talk-history-one-exchange
-pr:
+pr: #8427
 after:
 blocked-on:
 lead: play-first

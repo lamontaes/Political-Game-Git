@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_SEED=277237f6...320d npx vitest run src/core2/counted-deaths-opening.test.ts`: the test draws its own places, not Wiley Ford. Still red: Centennial, Wyoming (5613440): "4 died, 103.4 expected, at least 30.1 needed", and Whippoorwill, Oklahoma (4080675): "illnesses under way at the opening: expected 0 to be greater than 0". Fresh draw `GOLDEN_PATH_SEED=1955dd6301face7e`: red the same way (Centennial: 4 died, 103.4 expected; Grandview Lake, Indiana: illnesses under way 0). Still red.

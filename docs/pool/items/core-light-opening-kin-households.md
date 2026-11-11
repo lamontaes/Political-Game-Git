@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-core-light-opening-kin-households
+pr: #8622
 after:
 blocked-on:
 source: split from core-light-opening (M, really L) by the claiming session, Oct 19
-claimed-at:
+claimed-at: 2026-11-11T05:19:55.224Z
 lead: m0-m2
 standard: 2
 model: sonnet
@@ -37,3 +37,7 @@ checked: fable 2026-11-10
 **Files.** src/core2/population.ts, src/core2/residents.ts, src/bench/world.ts, src/core2/representative-sample.ts, src/core2/population-start-law.test.ts
 
 **Notes.** Measured: Vonore, Tennessee (seed hours-a) gives every one of 4,373 households relatives, so the wider population grows from 9,940 to 39,685 people (docs/coordination/core.md, OPUS-PEOPLE note). Profile of one opening: openingFamilies 8.8 s, opening-kin 3.6 s, opening-personality 3.1 s, falling-outs 2.0 s.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:48 UTC) on branch claude/pool-core-light-opening-kin-households.
+
+Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
