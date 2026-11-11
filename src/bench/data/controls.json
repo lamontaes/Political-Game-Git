@@ -621,6 +621,8 @@
   "travel": {
     "filing": "Filing office",
     "go": "Go to",
+    "home": "Home",
+    "goHome": "Go home",
     "open": "Open now",
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
