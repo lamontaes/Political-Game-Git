@@ -98,7 +98,10 @@ import {
   ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
-import { registerBillIntroduced } from "./modules/world-legislating";
+import {
+  registerBillIntroduced,
+  registerLeaderRefusalReader,
+} from "./modules/world-legislating";
 import { followersOf, outletsHere } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import type {
@@ -1827,6 +1830,17 @@ export function askLeaderForHearing(
   table(api, "leaderRequests").put(row as unknown as ModuleRow);
   return row;
 }
+
+// The leader's refused answer keeps the bill off the floor's own order.
+registerLeaderRefusalReader(
+  (api, billId) =>
+    api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
+    (
+      table(api, "leaderRequests").get(
+        `leader-request:${billId}`,
+      ) as unknown as LeaderRequestRow | undefined
+    )?.granted === false,
+);
 
 /**
  * The member has just offered a deal on a bill whose request the leader

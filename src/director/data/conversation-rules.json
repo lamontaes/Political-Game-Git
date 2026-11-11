@@ -169,7 +169,10 @@
       "heard-work",
       "shared-work",
       "tenure-reply",
-      "position-reply"
+      "position-reply",
+      "family",
+      "asked-kin",
+      "kin"
     ]
   },
   "tells": {
@@ -312,7 +315,8 @@
       "home:moved": "moved",
       "money:job-started": "job",
       "money:job-changed": "job",
-      "feeling:event:person-birth": "baby"
+      "feeling:event:person-birth": "baby",
+      "feeling:event:life.death": "died"
     }
   },
   "happenings": {

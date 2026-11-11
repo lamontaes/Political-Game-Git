@@ -4,7 +4,7 @@
    .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
    plain is Back; one size for all; the brass corner mark shows only while .active or
-   pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
+   pressed), .tab-rail / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
    radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
@@ -397,6 +397,44 @@ ol {
 #game:has(#front:not([hidden])) #here {
   display: none;
 }
+/* A panel at the side of the room (the meeting, the desk, the ballot, election
+   day, the returns) never covers the people: they stand in the room it leaves,
+   smaller, and nobody is cut in half (owner, Nov 11: "it's being covered up by
+   the menu"). A bill read there takes the whole frame, and the foot with it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here {
+  right: calc(
+    var(--gutter) + min(560px, calc(var(--vw) - 2 * var(--gutter))) + 16px
+  );
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .bust-strip {
+  --bust: 96px;
+}
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-row {
+  padding: 0 8px;
+}
+/* The band is too narrow there for its label beside the names. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-label {
+  display: none;
+}
+/* Three stand in the room the panel leaves; the rest are the faces on it. */
+#game:has(:is(#ballot, #election-day, #returns, #meeting, #desk):not([hidden]))
+  #here
+  .busts-person
+  ~ .busts-person
+  ~ .busts-person
+  ~ .busts-person {
+  display: none;
+}
+#game:has(:is(#meeting, #desk) .bill-board) #here {
+  display: none;
+}
 /* On the talk box the strip joins its top edge, and the busts follow how many
    stand there (the owner's sizes: one, two, and three or four). */
 #talk-strip {
@@ -612,7 +650,6 @@ select:focus-visible {
    and something to delineate that that's the one that's selected"): a recessed bar with
    a brass edge; a tab at rest is plain type in it, and the chosen one is a raised glass
    plate, lit, with a gold bar where it meets what it shows. */
-.tabs,
 .tab-rail {
   display: flex;
   flex-wrap: wrap;
@@ -630,7 +667,6 @@ select:focus-visible {
     inset 0 -1px 0 rgba(255, 240, 199, 0.05),
     0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.tabs:empty,
 .tab-rail:empty {
   display: none;
 }
@@ -2344,6 +2380,14 @@ body:not(.dev) .dev-only {
   margin: 0 0 8px;
   color: var(--text-2);
   font: var(--t-label) var(--ui);
+}
+.meeting-remarks small {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--gold);
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 .meeting-acts {
   display: flex;

@@ -176,3 +176,7 @@ A pass ends when every PR in your share is checked at its current head or sent b
 
 - **A deleted file is still named by pool items.** A pull request that deletes a file fails the pool check on every item whose Files line names it. After a deletion, run `git grep -n "<the file's path>" -- docs/pool/items` and fix each line in the same pull request (now also: add the path to the replaced list, skill `current-pointers`).
 - **Prettier runs on every changed file, pictures' pages and release notes included,** not only on the code.
+
+## Lesson of Nov 11 (a merger on any tool)
+
+- **A merger started from `docs/pool/START-A-MERGER.md` gates the way this skill says and merges what passes.** Where a desk can gate and cannot merge, its `ready #N <full sha>` line is what the merger or the CTO merges from, pinned to that sha. Post the line the moment the gate passes; a result that is not posted is lost when a session ends.
