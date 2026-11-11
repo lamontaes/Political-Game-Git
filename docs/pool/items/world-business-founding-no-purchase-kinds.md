@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-business-founding-no-purchase-kinds
 pr:
 blocked-on:
 after:
@@ -16,8 +16,9 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:21:56.561Z
 checked: fable 2026-11-10
+branch: claude/pool-world-business-founding-no-purchase-kinds
 ---
 
 **What.** A professional-services business founded on 2026-04-01 by person_84379c678df01275 stopped a 600-day played world with 'No purchase kinds to enter for organization:founded:professional:person_84379c678df01275:2026-04-01 (give financeKinds or a rival)', thrown by enterResidentMarket from business.found. The founding gives the new firm no purchase kinds and no rival to copy. Find which sector row has no financeKinds and give it the kinds its customers buy, or have the founding refuse a firm no one would buy from. Seen: the game itself, which stops with an error when a professional-services business is founded.
@@ -39,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-20). Cleared from the front matter and kept here.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:21 UTC) on branch claude/pool-world-business-founding-no-purchase-kinds.
