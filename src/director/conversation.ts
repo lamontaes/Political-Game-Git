@@ -2673,6 +2673,9 @@ const OPENING_ORDER = [
   "shared-work",
   "own-work",
   "home",
+  // A relative the listener has not met, by name, with their town or work
+  // (owner, Nov 11: "This introduces people to their world").
+  "kin",
   "address",
   "quiet",
 ];
