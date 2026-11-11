@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
+claimed-by:
 pr: #8380
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: rc1-world-outside-town
 source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T00:25:40.090Z
+claimed-at:
 branch: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-da
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/data/legislature/congress-sessions.json, data/research/campaigns/federal-questions-2026.json, src/core2/world-legislating-federal.test.ts (new)
 
 **Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:25 UTC) on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data.
+
+Released (2026-11-11): The Fix's admission rule admits one question (only medicaid-work-requirement has an axis among those with a key reader) and filings get one sponsor in one chamber, so both chambers cannot file on the list; findings on PR 8380. Continue on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data and pull request #8380.
