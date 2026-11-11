@@ -9,9 +9,7 @@ import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { isDemoted } from "../../src/core2/counted-groups";
 import { residentsRuntime } from "../../src/core2/modules/residents";
-import { setFastForward } from "../../src/core2/fast-forward";
 setBookkeeping(false);
-if (process.env.CORE2_FAST_FORWARD === "1") setFastForward(true);
 const [seed = "mont1", key = "5046000", years = "3"] = process.argv.slice(2);
 const w = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,

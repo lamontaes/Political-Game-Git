@@ -5,11 +5,10 @@
  * where JSON sizes count them in every table that holds them). Removals are
  * cumulative, in the order printed; the world is not usable afterwards.
  *   node --expose-gc --import tsx scripts/speed-years/probe-retained.ts <seed> <placeKey> <years>
- * CORE2_FAST_FORWARD=1 turns on the campaign stride; the seed is the world seed as given.
+ * The seed is the world seed as given.
  */
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { setFastForward } from "../../src/core2/fast-forward";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
@@ -18,7 +17,6 @@ import { worldRecords } from "../../src/core2/snapshot";
 const [seed = "mont1", placeKey = "5046000", years = "2"] =
   process.argv.slice(2);
 setBookkeeping(false);
-if (process.env.CORE2_FAST_FORWARD === "1") setFastForward(true);
 const world = buildBenchWorld(seed, gameStartDate(), {
   twoLevel: true,
   placeKey,
