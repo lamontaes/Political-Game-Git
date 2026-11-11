@@ -476,6 +476,7 @@ export function joinParty(
     : undefined;
   if (left && left.id !== party.id) api.leave(personId, left.organizationId);
   api.join(personId, party.organizationId);
+  // stopgapId: SG-PLAY-party-joined-scene-awaits-words
   // Joining is an act at a place with a person: the record the director's
   // scene, the journal and Travel read, at the party's office, with the
   // party's leader (its chair) as the one who signs them up.
