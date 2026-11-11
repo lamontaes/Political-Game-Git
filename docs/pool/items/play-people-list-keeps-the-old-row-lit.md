@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/fable-b-people-list-follows-the-card
 pr: #8835
@@ -18,6 +18,7 @@ root: rc10-screens-keep-own-facts
 source: lead's play walk on Nov 11, 2026 (Jim Thorpe, Pennsylvania, seed 390bcb5a-59a1-4d8a-9c85-785b90538bd7), then the code
 checked:
 claimed-at: 2026-11-11
+merged-at: 2026-11-11T16:34:08.395Z
 ---
 
 **What.** People is where the player looks up who they know. A person's card there names other people ("His people"), and clicking a name shows that person's card beside the list. The list does not follow. In the walk above the player chose their father, Arthur Bolton, and clicked Corey Moody on his card: the card showed Corey Moody, Arthur Bolton's row stayed lit as if it were his card, and clicking Arthur Bolton's row did nothing. The player had to choose a third person and come back. Seen: the People screen at 1440x900, where the lit row is always the person shown, no row is lit for someone who is not on the list, and one click on any row shows its person.
