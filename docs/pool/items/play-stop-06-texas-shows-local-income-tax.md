@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
 pr: #8357
 after:
