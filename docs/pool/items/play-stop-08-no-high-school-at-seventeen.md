@@ -5,11 +5,11 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/pool-play-stop-08-no-high-school-at-seventeen
 pr: #8515
 after:
-blocked-on:
+blocked-on: jobs-and-study-shows-no-current-school
 standard: 2
 model: sonnet
 effort: low
