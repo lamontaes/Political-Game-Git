@@ -5,13 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-staffing-line-unstaffed-employer
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T02:35:58.154Z
 after:
 lead: laws-effects
 model: sonnet
