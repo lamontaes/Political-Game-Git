@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-08-no-high-school-at-seventeen
+status: open
+claimed-by:
 pr: #8515
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-11T03:10:58.179Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-08-no-high-school-at-seventeen
 ---
@@ -69,3 +69,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Replayed (details on #6038): history reads high school, but no current school is named by its own name; pool seen refuses non-merged items. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #6038.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:10 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-08-no-high-school-at-seventeen since 2026-11-10 23:02 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #8515.
