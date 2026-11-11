@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-screens-campaign-board
-pr:
+pr: #8391
 blocked-on:
 source: added with npm run pool -- add
 after:
