@@ -194,7 +194,14 @@ function viewReason(
         if (match && row.value === "ended") job = core.jobs.get(match[one]!);
       }
     const employer = job ? core.organizations.get(job.organizationId) : null;
-    if (job && employer)
+    // Never the outside account or a government's treasury as an employer
+    // ("I see it every day at Town of Plymouth treasury."): no work reason.
+    if (
+      job &&
+      employer &&
+      !employer.outsideFlow &&
+      employer.kind !== "government-treasury"
+    )
       return {
         reason: "work",
         employer: employer.name,
