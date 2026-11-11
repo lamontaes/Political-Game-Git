@@ -74,36 +74,39 @@ export function personCard(core: CoreState, personId: string) {
     ...(kind === "friend" ? ["friends"] : []),
     ...(kind === "politics" ? ["politics"] : []),
   ];
-  const ties = [...(core.relationshipsByPerson.get(personId) ?? [])]
+  // Everyone this person knows, closest first: one entry per relationship
+  // record (a meeting writes one). The People screen lists them all; the
+  // card's own page shows the closest few, with faces and why each changed.
+  const known = [...(core.relationshipsByPerson.get(personId) ?? [])]
     .map((id) => core.relationships.get(id))
     .filter((row) => row !== undefined)
     .map((row) => {
       const otherId = row.actorId === personId ? row.otherId : row.actorId;
+      const relation = relationWord(core, otherId, relationOf(otherId));
       return {
+        row,
         personId: otherId,
         name: name(otherId),
         kind: row.kind,
-        relation: relationWord(core, otherId, relationOf(otherId)),
-        groups: groupsOf(
-          otherId,
-          row.kind,
-          relationWord(core, otherId, relationOf(otherId)),
-        ),
+        relation,
+        groups: groupsOf(otherId, row.kind, relation),
         level: currentCloseness(core, row),
-        lastContactDate: row.lastContactDate,
-        recordId: row.id,
-        face: faceOf(core, otherId, place),
-        // Why the tie last changed, from its own record.
-        latestChange: row.latestChange && {
-          date: row.latestChange.date,
-          cause: row.latestChange.reason?.cause ?? row.latestChange.cause,
-          before: row.latestChange.before.level,
-          after: row.latestChange.after.level,
-        },
       };
     })
-    .sort((a, b) => b.level - a.level)
-    .slice(0, CLOSEST);
+    .sort((a, b) => b.level - a.level);
+  const ties = known.slice(0, CLOSEST).map(({ row, ...tie }) => ({
+    ...tie,
+    lastContactDate: row.lastContactDate,
+    recordId: row.id,
+    face: faceOf(core, tie.personId, place),
+    // Why the tie last changed, from its own record.
+    latestChange: row.latestChange && {
+      date: row.latestChange.date,
+      cause: row.latestChange.reason?.cause ?? row.latestChange.cause,
+      before: row.latestChange.before.level,
+      after: row.latestChange.after.level,
+    },
+  }));
   return {
     id: person.id,
     name: name(person.id),
@@ -181,6 +184,14 @@ export function personCard(core: CoreState, personId: string) {
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
       : null,
     ties,
+    known: known.map((tie) => ({
+      personId: tie.personId,
+      name: tie.name,
+      kind: tie.kind,
+      relation: tie.relation,
+      groups: tie.groups,
+      level: tie.level,
+    })),
     schools: schoolsOf(core, personId),
     // The school they are at now: the latest one, while they are of school
     // age (under voting age), the same rule the cards of others use.

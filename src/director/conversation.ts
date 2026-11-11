@@ -2858,19 +2858,32 @@ export function openConversation(
     }
     endConversation(core, conversation, data);
   }
-  // A talk that really opened (a line was said) is how two people meet: the
-  // encounters engine's own meeting, once per pair, the talk's time together
-  // as its hours. Nobody else in the room is met by it.
-  if (conversation.lines.some((line) => line.speakerId === otherId))
-    meetInTalk(
-      coreAPI(core as CoreState),
-      playerId,
-      otherId,
-      player.placeId,
-      (data.minutesPerExchange * conversation.lines.length) / P.minutesPerHour,
-      `conversation:${playerId}:${otherId}:${core.date}:met`,
-    );
   return conversation;
+}
+
+/**
+ * A talk the player really opened (the other person said a line) is how the
+ * two meet: the encounters engine's own meeting, once per pair, the talk's
+ * time together as its hours. Nobody else in the room is met by it. Called
+ * only where the player opens a talk, never by a probe of who has something
+ * to say (the room's `sceneNow` reads `openConversation` without writing).
+ */
+export function meetOverTalk(
+  core: CoreState,
+  conversation: Conversation,
+  data: ConversationData = CONVERSATION_DATA,
+): boolean {
+  const { playerId, otherId } = conversation;
+  if (!conversation.lines.some((line) => line.speakerId === otherId))
+    return false;
+  return meetInTalk(
+    coreAPI(core),
+    playerId,
+    otherId,
+    core.people.get(playerId)!.placeId,
+    (data.minutesPerExchange * conversation.lines.length) / P.minutesPerHour,
+    `conversation:${playerId}:${otherId}:${core.date}:met`,
+  );
 }
 
 /**

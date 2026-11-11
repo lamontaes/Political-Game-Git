@@ -123,6 +123,7 @@ import {
 import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
+  meetOverTalk,
   openConversation,
   say,
   sayNothing,
@@ -603,6 +604,9 @@ const ROUTES: readonly Route[] = [
         send(200, null);
         return;
       }
+      // The player talked with them: the two have met (the encounters
+      // engine's meeting, through the director's one entry for it).
+      meetOverTalk(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },

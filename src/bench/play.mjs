@@ -3410,7 +3410,8 @@ const sheets = {
     for (const person of [
       ...(me.card.home?.members ?? []),
       ...(me.scene?.people ?? []),
-      ...me.card.ties,
+      // Everyone you know, not only the card's closest page.
+      ...(me.card.known ?? me.card.ties),
     ]) {
       if (person.personId === me.id) continue;
       const prior = records.get(person.personId) ?? {};
@@ -3423,8 +3424,16 @@ const sheets = {
         ],
       });
     }
+    // Closest first within each group (the roster keeps this order).
+    const level = new Map(
+      (me.card.known ?? me.card.ties).map((t) => [t.personId, t.level]),
+    );
     return peopleScreen({
-      people: [...records.values()],
+      people: [...records.values()].sort(
+        (a, b) =>
+          (level.get(b.personId) ?? -Infinity) -
+          (level.get(a.personId) ?? -Infinity),
+      ),
       household,
       labels,
       card: (person, stillWanted, openOther) =>

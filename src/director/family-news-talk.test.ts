@@ -10,7 +10,11 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { wordConversationMove } from "../english/conversation-words";
-import { openConversation, subjectsBetween } from "./conversation";
+import {
+  meetOverTalk,
+  openConversation,
+  subjectsBetween,
+} from "./conversation";
 import { spoken } from "./words";
 
 // Asked after a relative, the player can tell what happened to them, from
@@ -183,7 +187,7 @@ it(`a relative's recorded move is the player's answer when someone asks after th
   );
 }, 1_800_000);
 
-it(`a talk makes the person someone the player knows, so their news comes up from someone both know (seed ${seed})`, () => {
+it(`a talk the player opens makes that one person someone they know (the room's probe meets nobody), so their news comes up from someone both know (seed ${seed})`, () => {
   const tried: string[] = [];
   for (let draw = 0; draw < 8; draw += 1) {
     const place = drawPlace(`${seed}:met:${draw}`, "family-news");
@@ -234,12 +238,49 @@ it(`a talk makes the person someone the player knows, so their news comes up fro
     }
     // Before any talk, the player does not know them: neither is someone both know.
     expect(player.knownIds.has(pair.a), where).toBe(false);
-    const talkA = openConversation(core, me, pair.a as PersonId, { director });
-    const talkB = openConversation(core, me, pair.b as PersonId, { director });
+    // The room's probe of who has something to say (handler.ts `sceneNow`)
+    // opens a talk with everyone present and writes nothing: nobody is met.
+    const knownBefore = [...player.knownIds].sort();
+    const present = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.tier !== "husk" &&
+          row.id !== me &&
+          (row.placeId === player.placeId ||
+            row.id === pair.a ||
+            row.id === pair.b),
+      )
+      .sort(
+        (x, y) =>
+          Number(y.id === pair.a || y.id === pair.b) -
+          Number(x.id === pair.a || x.id === pair.b),
+      )
+      .slice(0, 40);
+    const talks = new Map(
+      present.map((row) => [
+        row.id,
+        openConversation(core, me, row.id as PersonId, { director }),
+      ]),
+    );
+    expect([...core.people.get(me)!.knownIds].sort(), where).toEqual(
+      knownBefore,
+    );
+    const talkA = talks.get(pair.a)!;
+    const talkB = talks.get(pair.b)!;
     if (!talkA.lines.length || !talkB.lines.length) {
       tried.push(`${where}: a talk said nothing, so nobody was met`);
       continue;
     }
+    // The player opens one talk, as the talk route does: exactly that person is met.
+    expect(meetOverTalk(core, talkA), where).toBe(true);
+    expect(
+      [...core.people.get(me)!.knownIds].filter(
+        (id) => !knownBefore.includes(id),
+      ),
+      where,
+    ).toEqual([pair.a]);
+    expect(meetOverTalk(core, talkB), where).toBe(true);
     // The talk is how they met: each now knows the other.
     expect(core.people.get(me)!.knownIds.has(pair.a as PersonId), where).toBe(
       true,
