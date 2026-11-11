@@ -617,6 +617,26 @@ function servesLocally(api: CoreAPI, personId: string): boolean {
 }
 
 /**
+ * Between two items of equal score, the one more people saw happen leads
+ * (the witnesses its record names), then the earlier, and only then the id:
+ * never the alphabet alone (the President's inaugural address lost every
+ * national desk to a cabinet nomination on its id, Arrowhead Springs,
+ * Wyoming, seed da5c1844fcee4270). Returns the rule that decided.
+ */
+export function tieRule(
+  a: WireItem,
+  b: WireItem,
+): { readonly order: number; readonly rule: "witnesses" | "date" | "id" } {
+  const witnesses = (b.witnessCount ?? 0) - (a.witnessCount ?? 0);
+  if (witnesses) return { order: witnesses, rule: "witnesses" };
+  const date = a.date.localeCompare(b.date);
+  if (date) return { order: date, rule: "date" };
+  return { order: a.id.localeCompare(b.id), rule: "id" };
+}
+
+const tieOrder = (a: WireItem, b: WireItem): number => tieRule(a, b).order;
+
+/**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
  */
@@ -786,7 +806,7 @@ export function runDesk(
               p("storyDriveWeight") * drive),
         };
       })
-      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
     const count = Math.min(
       p(
         outlet.tier === "national"
@@ -859,7 +879,7 @@ export function runDesk(
             p("storyPeopleWeight") * row.people +
             p("storyRenownWeight") * row.renown),
       }))
-      .sort((a, b) => b.score - a.score || a.item.id.localeCompare(b.item.id));
+      .sort((a, b) => b.score - a.score || tieOrder(a.item, b.item));
     const space = Math.min(p("briefsPerOutletWeek"), column.length);
     for (let rank = 0; rank < space; rank += 1) {
       const row = column[rank]!;
