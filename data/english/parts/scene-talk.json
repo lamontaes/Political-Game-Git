@@ -202968,10 +202968,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.if-it-s-good-for-place-i-m-with-you",
+      "key": "scene-talk.reply-agree.okay-donor-first-you-ll-have-my-help",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "If it's good for {place}, I'm with you.",
+      "text": "Okay, {donor-first}. You'll have my help.",
       "uses": [
         {
           "subject": "scene",
@@ -202979,7 +202979,8 @@
           "move": "agree",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -203117,10 +203118,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.come-by-the-office-donor-first-and-we-ll-go-through-it-properly",
+      "key": "scene-talk.reply-offer.come-by-the-office-here-in-place-and-we-ll-go-through-it-properly",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Come by the office, {donor-first}, and we'll go through it properly.",
+      "text": "Come by the office here in {place}, and we'll go through it properly.",
       "uses": [
         {
           "subject": "scene",
@@ -203128,8 +203129,7 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["donor-first"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -203147,10 +203147,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.let-s-sit-down-somewhere-we-can-actually-talk-donor-first",
+      "key": "scene-talk.reply-offer.let-s-sit-down-somewhere-in-place-where-we-can-actually-talk",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Let's sit down somewhere we can actually talk, {donor-first}.",
+      "text": "Let's sit down somewhere in {place} where we can actually talk.",
       "uses": [
         {
           "subject": "scene",
@@ -203158,8 +203158,7 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["donor-first"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -203177,10 +203176,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.my-door-is-open-donor-first-call-and-set-a-time",
+      "key": "scene-talk.reply-offer.my-door-in-place-is-open-call-and-set-a-time",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "My door is open, {donor-first}. Call and set a time.",
+      "text": "My door in {place} is open. Call and set a time.",
       "uses": [
         {
           "subject": "scene",
@@ -203188,8 +203187,7 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["donor-first"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -203207,10 +203205,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-d-rather-do-this-properly-come-see-me-at-the-office-donor-first",
+      "key": "scene-talk.reply-offer.i-d-rather-do-this-properly-come-see-me-at-the-office-in-place",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I'd rather do this properly. Come see me at the office, {donor-first}.",
+      "text": "I'd rather do this properly. Come see me at the office in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -203218,8 +203216,7 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["donor-first"]
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -203805,10 +203802,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.it-s-handled-i-made-some-calls-around-place",
+      "key": "scene-talk.reply-lie.it-s-handled-donor-first-i-made-some-calls",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "It's handled. I made some calls around {place}.",
+      "text": "It's handled, {donor-first}. I made some calls.",
       "uses": [
         {
           "subject": "scene",
@@ -203816,7 +203813,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -203834,10 +203832,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.it-s-already-moving-i-ve-talked-to-the-right-people-in-place",
+      "key": "scene-talk.reply-lie.it-s-already-moving-donor-first-i-ve-talked-to-the-right-people",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "It's already moving. I've talked to the right people in {place}.",
+      "text": "It's already moving, {donor-first}. I've talked to the right people.",
       "uses": [
         {
           "subject": "scene",
@@ -203845,7 +203843,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -203863,10 +203862,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.already-done-half-of-place-knows-where-i-stand-on-it",
+      "key": "scene-talk.reply-lie.already-done-donor-first-i-put-in-a-word",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "Already done. Half of {place} knows where I stand on it.",
+      "text": "Already done, {donor-first}. I put in a word.",
       "uses": [
         {
           "subject": "scene",
@@ -203874,7 +203873,8 @@
           "move": "lie",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -204248,10 +204248,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-i-got-ahead-of-myself-on-bill",
+      "key": "scene-talk.reply-apologize.i-m-sorry-i-can-t-promise-you-anything-on-bill",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. I got ahead of myself on {bill}.",
+      "text": "I'm sorry. I can't promise you anything on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -204278,10 +204278,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.you-gave-money-and-deserved-the-truth-i-m-sorry",
+      "key": "scene-talk.reply-apologize.you-gave-money-and-i-m-sorry-i-can-t-give-you-more-than-a-hearing",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "You gave {money} and deserved the truth. I'm sorry.",
+      "text": "You gave {money}, and I'm sorry I can't give you more than a hearing.",
       "uses": [
         {
           "subject": "scene",
@@ -204308,10 +204308,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-place-deserves-better-from-me-and-so-do-you",
+      "key": "scene-talk.reply-apologize.i-m-sorry-donor-first-i-can-t-make-that-promise",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. {place} deserves better from me, and so do you.",
+      "text": "I'm sorry, {donor-first}. I can't make that promise.",
       "uses": [
         {
           "subject": "scene",
@@ -204319,7 +204319,8 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "contrite",
