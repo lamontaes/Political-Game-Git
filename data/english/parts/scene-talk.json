@@ -202625,10 +202625,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.on-office-you-d-help-set-the-town-s-budget-and-pass-its-local-laws",
+      "key": "scene-talk.state-tell-duty.whoever-wins-the-race-for-office-helps-set-the-town-s-budget-and-pass-its-local",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "On {office}, you'd help set the town's budget and pass its local laws.",
+      "text": "Whoever wins the race for {office} helps set the town's budget and pass its local laws.",
       "uses": [
         {
           "subject": "scene",
@@ -202650,10 +202650,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.as-office-you-d-sit-with-the-others-deciding-place-s-budget-its-roads-and-its-ru",
+      "key": "scene-talk.state-tell-duty.win-this-one-and-you-d-sit-with-the-others-deciding-place-s-budget-its-roads-and",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "As {office}, you'd sit with the others deciding {place}'s budget, its roads and its rules.",
+      "text": "Win this one, and you'd sit with the others deciding {place}'s budget, its roads and its rules.",
       "uses": [
         {
           "subject": "scene",
@@ -202675,10 +202675,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.as-office-you-d-run-place-day-to-day-the-departments-the-budget-and-whatever-com",
+      "key": "scene-talk.state-tell-duty.win-this-one-and-you-d-run-place-day-to-day-the-departments-the-budget-and-whate",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "As {office}, you'd run {place} day to day: the departments, the budget, and whatever comes to your desk to sign.",
+      "text": "Win this one, and you'd run {place} day to day: the departments, the budget, and whatever comes to your desk to sign.",
       "uses": [
         {
           "subject": "scene",
@@ -202700,10 +202700,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.office-helps-set-the-county-s-budget-and-keeps-an-eye-on-its-roads-its-jail-and",
+      "key": "scene-talk.state-tell-duty.whoever-wins-the-race-for-office-helps-set-the-county-s-budget-and-keeps-an-eye",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "{office} helps set the county's budget and keeps an eye on its roads, its jail and the courthouse.",
+      "text": "Whoever wins the race for {office} helps set the county's budget and keeps an eye on its roads, its jail and the courthouse.",
       "uses": [
         {
           "subject": "scene",
@@ -202725,10 +202725,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.as-office-you-d-vote-on-every-bill-the-legislature-takes-up-and-carry-your-own-d",
+      "key": "scene-talk.state-tell-duty.win-the-race-for-office-and-you-d-vote-on-every-bill-the-legislature-takes-up-an",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "As {office}, you'd vote on every bill the legislature takes up, and carry your own district's.",
+      "text": "Win the race for {office}, and you'd vote on every bill the legislature takes up, and carry your own district's.",
       "uses": [
         {
           "subject": "scene",
@@ -202750,10 +202750,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.office-votes-on-every-bill-the-legislature-takes-up-and-speaks-for-the-district",
+      "key": "scene-talk.state-tell-duty.whoever-wins-the-race-for-office-votes-on-every-bill-the-legislature-takes-up-an",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "{office} votes on every bill the legislature takes up and speaks for the district in the capitol.",
+      "text": "Whoever wins the race for {office} votes on every bill the legislature takes up and speaks for the district in the capitol.",
       "uses": [
         {
           "subject": "scene",
@@ -202775,10 +202775,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.as-office-you-d-run-part-of-the-state-government-and-every-voter-in-the-state-wo",
+      "key": "scene-talk.state-tell-duty.win-the-race-for-office-and-you-d-run-part-of-the-state-government-and-every-vot",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "As {office}, you'd run part of the state government, and every voter in the state would be your boss.",
+      "text": "Win the race for {office}, and you'd run part of the state government, and every voter in the state would be your boss.",
       "uses": [
         {
           "subject": "scene",
@@ -202800,10 +202800,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.office-is-a-statewide-office-every-voter-in-the-state-gets-a-say-in-who-holds-it",
+      "key": "scene-talk.state-tell-duty.the-race-for-office-is-statewide-every-voter-in-the-state-gets-a-say-in-who-wins",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "{office} is a statewide office. Every voter in the state gets a say in who holds it.",
+      "text": "The race for {office} is statewide. Every voter in the state gets a say in who wins it.",
       "uses": [
         {
           "subject": "scene",
@@ -202825,10 +202825,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.office-means-representing-this-district-in-congress-and-voting-on-every-bill-the",
+      "key": "scene-talk.state-tell-duty.whoever-wins-the-race-for-office-represents-this-district-in-congress-and-votes",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "{office} means representing this district in Congress and voting on every bill the House takes up.",
+      "text": "Whoever wins the race for {office} represents this district in Congress and votes on every bill the House takes up.",
       "uses": [
         {
           "subject": "scene",
@@ -202850,10 +202850,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-duty.as-office-you-d-speak-for-this-district-in-washington-and-vote-on-every-bill-the",
+      "key": "scene-talk.state-tell-duty.win-the-race-for-office-and-you-d-speak-for-this-district-in-washington-and-vote",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "As {office}, you'd speak for this district in Washington and vote on every bill the House takes up.",
+      "text": "Win the race for {office}, and you'd speak for this district in Washington and vote on every bill the House takes up.",
       "uses": [
         {
           "subject": "scene",
@@ -202923,10 +202923,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.then-office-will-have-to-wait",
+      "key": "scene-talk.state-accept-terms.then-running-for-office-will-have-to-wait",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "Then {office} will have to wait.",
+      "text": "Then running for {office} will have to wait.",
       "uses": [
         {
           "subject": "scene",
@@ -202992,10 +202992,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.i-guess-office-isn-t-for-me-this-time",
+      "key": "scene-talk.state-accept-terms.i-guess-i-won-t-run-for-office-this-time",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "I guess {office} isn't for me this time.",
+      "text": "I guess I won't run for {office} this time.",
       "uses": [
         {
           "subject": "scene",
@@ -203406,10 +203406,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.what-are-the-dates-for-office-again",
+      "key": "scene-talk.reply-tell.what-are-the-dates-for-the-office-race-again",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "What are the dates for {office} again?",
+      "text": "What are the dates for the {office} race again?",
       "uses": [
         {
           "subject": "scene",
@@ -203429,10 +203429,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.when-do-the-voters-decide-office",
+      "key": "scene-talk.reply-tell.when-do-the-voters-decide-the-race-for-office",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "When do the voters decide {office}?",
+      "text": "When do the voters decide the race for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -203475,10 +203475,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.when-would-office-be-on-the-ballot",
+      "key": "scene-talk.reply-tell.when-would-the-race-for-office-be-on-the-ballot",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "When would {office} be on the ballot?",
+      "text": "When would the race for {office} be on the ballot?",
       "uses": [
         {
           "subject": "scene",
@@ -203567,10 +203567,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-to-think-about-office-a-little-longer",
+      "key": "scene-talk.reply-leave.i-need-to-think-about-running-for-office-a-little-longer",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I need to think about {office} a little longer.",
+      "text": "I need to think about running for {office} a little longer.",
       "uses": [
         {
           "subject": "scene",
@@ -203590,10 +203590,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.let-me-sleep-on-office",
+      "key": "scene-talk.reply-leave.let-me-sleep-on-running-for-office",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Let me sleep on {office}.",
+      "text": "Let me sleep on running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -203613,10 +203613,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.not-today-i-ll-come-back-about-office",
+      "key": "scene-talk.reply-leave.not-today-i-ll-come-back-about-running-for-office",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not today. I'll come back about {office}.",
+      "text": "Not today. I'll come back about running for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -203682,10 +203682,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.give-me-a-few-days-on-office",
+      "key": "scene-talk.reply-leave.give-me-a-few-days-before-i-file-for-office",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Give me a few days on {office}.",
+      "text": "Give me a few days before I file for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -203705,10 +203705,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-ll-be-back-once-i-ve-made-up-my-mind-on-office",
+      "key": "scene-talk.reply-leave.i-ll-be-back-once-i-ve-made-up-my-mind-about-the-office-race",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'll be back once I've made up my mind on {office}.",
+      "text": "I'll be back once I've made up my mind about the {office} race.",
       "uses": [
         {
           "subject": "scene",
@@ -203728,10 +203728,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.maybe-office-can-wait-a-year",
+      "key": "scene-talk.reply-leave.maybe-i-ll-run-for-office-some-other-year",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Maybe {office} can wait a year.",
+      "text": "Maybe I'll run for {office} some other year.",
       "uses": [
         {
           "subject": "scene",
@@ -204013,10 +204013,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.you-won-t-have-office-to-yourself-opponent-filed-and-that-makes-filed-so-far",
+      "key": "scene-talk.follow-answer.you-won-t-have-the-race-for-office-to-yourself-opponent-filed-and-that-makes-fil",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "you won't have {office} to yourself. {opponent} filed, and that makes {filed} so far.",
+      "text": "you won't have the race for {office} to yourself. {opponent} filed, and that makes {filed} so far.",
       "uses": [
         {
           "subject": "scene",
@@ -204163,10 +204163,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.so-far-nobody-office-is-wide-open-in-place",
+      "key": "scene-talk.follow-answer.so-far-nobody-the-race-for-office-is-wide-open-in-place",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "so far, nobody. {office} is wide open in {place}.",
+      "text": "so far, nobody. The race for {office} is wide open in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -204955,10 +204955,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.office-has-one-more-name-now",
+      "key": "scene-talk.follow-accept.the-race-for-office-has-one-more-name-now",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "{office} has one more name now.",
+      "text": "the race for {office} has one more name now.",
       "uses": [
         {
           "subject": "scene",
