@@ -127129,10 +127129,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.good-luck-with-whatever-comes-next",
+      "key": "scene-talk.close-accept.all-right-call-me-back-before-deadline",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Good luck with whatever comes next.",
+      "text": "All right. Call me back before {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -127145,8 +127145,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11",
       "tag": {
         "move": "accept",
         "key": "favor-asked"
@@ -151560,10 +151560,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.glad-we-found-each-other-after-all-that-first",
+      "key": "scene-talk.close-thank.glad-i-caught-you-after-the-governor-s-speech-first",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Glad we found each other after all that, {first}.",
+      "text": "Glad I caught you after the governor's speech, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -151576,8 +151576,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11",
       "tag": {
         "move": "thank",
         "key": "governor-answer-word"
@@ -174764,10 +174764,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thanks-for-hearing-me-out",
+      "key": "scene-talk.close-thank.thanks-i-ll-watch-for-what-outlet-runs-next-on-it",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thanks for hearing me out.",
+      "text": "Thanks. I'll watch for what {outlet} runs next on it.",
       "uses": [
         {
           "subject": "scene",
@@ -174789,8 +174789,8 @@
       ],
       "bearing": "warm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11",
       "tag": {
         "move": "thank",
         "key": "story-read"
@@ -174830,10 +174830,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-m-glad-i-asked-you",
+      "key": "scene-talk.close-thank.i-m-glad-i-asked-you-about-story",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'm glad I asked you.",
+      "text": "I'm glad I asked you about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -174855,8 +174855,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11",
       "tag": {
         "move": "thank",
         "key": "story-read"
@@ -175373,10 +175373,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.thank-you-for-taking-the-time-i-ll-let-you-get-back-to-your-day",
+      "key": "scene-talk.close-thank.that-s-all-i-had-on-story-go-on-with-your-day",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for taking the time. I'll let you get back to your day.",
+      "text": "That's all I had on {story}. Go on with your day.",
       "uses": [
         {
           "subject": "scene",
@@ -175398,8 +175398,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Director helper (pool item words-story-read-closers), civic-prose",
-      "date": "2026-11-10",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11",
       "tag": {
         "move": "thank",
         "key": "story-read"
@@ -200376,12 +200376,12 @@
         "move": "accept",
         "key": "favor-asked"
       },
-      "key": "scene-talk.close-accept.okay-i-hope-something-good-comes-your-way",
-      "text": "Okay. I hope something good comes your way.",
+      "key": "scene-talk.close-accept.okay-if-pay-an-hour-is-what-s-holding-you-back-tell-me-when-you-call",
+      "text": "Okay. If {pay} an hour is what's holding you back, tell me when you call.",
       "bearing": "warm",
       "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11"
     },
     {
       "move": "close-accept",
@@ -200400,12 +200400,12 @@
         "move": "accept",
         "key": "favor-asked"
       },
-      "key": "scene-talk.close-accept.i-understand-take-care-of-yourself",
-      "text": "I understand. Take care of yourself.",
+      "key": "scene-talk.close-accept.i-understand-thanks-for-considering-employer",
+      "text": "I understand. Thanks for considering {employer}.",
       "bearing": "calm",
       "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11"
     },
     {
       "move": "close-accept",
@@ -200448,12 +200448,12 @@
         "move": "accept",
         "key": "favor-asked"
       },
-      "key": "scene-talk.close-accept.best-of-luck-to-you",
-      "text": "Best of luck to you.",
+      "key": "scene-talk.close-accept.understood-i-can-hold-the-position-job-until-deadline",
+      "text": "Understood. I can hold the {position} job until {deadline}.",
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11"
     },
     {
       "move": "follow-thank",
@@ -200623,12 +200623,12 @@
         "move": "accept",
         "key": "favor-asked"
       },
-      "key": "scene-talk.follow-accept.okay-i-appreciate-you-listening",
-      "text": "Okay. I appreciate you listening.",
+      "key": "scene-talk.follow-accept.okay-thanks-for-hearing-me-out-on-cause",
+      "text": "Okay. Thanks for hearing me out on {cause}.",
       "bearing": "calm",
       "origin": "authored",
-      "author": "Claude Sonnet (Story, one-line spots 1)",
-      "date": "2026-11-10"
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 2)",
+      "date": "2026-11-11"
     },
     {
       "move": "follow-accept",
