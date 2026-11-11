@@ -3434,36 +3434,9 @@ details.entry[open] {
 
 /* The draft card on a body's office screen: the issue, what is in force today beside the
    amount typed, and Draft. */
-.draft-card {
-  display: grid;
-  gap: 8px;
-  margin-top: 12px;
-  padding: 12px 14px;
-  border: 1px solid rgba(214, 189, 132, 0.35);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.04);
-}
-.draft-title {
-  margin: 0;
-  font: 700 var(--t-label) var(--ui);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-.draft-amounts {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: 18px;
-}
-.draft-cell {
-  display: grid;
-  gap: 2px;
-}
-.draft-cell small {
-  color: var(--text-2);
-  font: var(--t-label) var(--ui);
-}
+/* Writing a bill (ui/draft-card.mjs): the pick list of subjects beside the
+   chosen subject's page. Its look is the roster screen's; these are only the
+   term's own line. */
 .draft-today {
   font: 600 var(--t-h3) var(--ui);
 }
@@ -3471,17 +3444,15 @@ details.entry[open] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  margin-bottom: 12px;
 }
 .draft-entry .number-box {
-  width: 110px;
+  width: 140px;
 }
 .draft-note {
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--text-2);
   font: var(--t-label) var(--ui);
-}
-.draft-note:empty {
-  display: none;
 }
 
 /* Today's amount beside the new one on the bill paper's estimate card. */

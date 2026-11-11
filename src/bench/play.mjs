@@ -3029,12 +3029,28 @@ async function seatRows() {
         });
       },
     });
+    // The body's line on the board: who sits on it, and the way in to writing
+    // a bill, which takes the whole screen (a list of subjects beside the
+    // chosen one's page) and has its way back to the seat.
+    const write = makeButton({
+      className: "action",
+      textContent: seat.title ?? "",
+    });
+    write.dataset.act = "write-a-bill";
+    write.addEventListener("click", () => {
+      const back = makeButton({
+        className: "action",
+        textContent: controls.bill?.back ?? "",
+      });
+      back.addEventListener("click", () => openSheet("office"));
+      $("sheet-body").replaceChildren(buttonRow(back), draftBlock);
+    });
     draftNodes.push(
       stripSection(
         2,
         body.title,
         line(body.members.map((m) => m.name).join(" · ")),
-        draftBlock,
+        buttonRow(write),
       ),
     );
   }
