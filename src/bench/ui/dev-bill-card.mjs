@@ -151,12 +151,21 @@ export async function devBillCard({
     });
     return button;
   };
+  // The chair of each committee is cast to hear the bill (the game's own hearing decision), so a
+  // forced vote is not stopped by a chair who would hold it unheard.
+  let chairHears = false;
+  const chairButton = lit(labels.chairHears, chairHears, (b) => {
+    chairHears = !chairHears;
+    b.setAttribute("aria-pressed", String(chairHears));
+  });
+  chairButton.dataset.testid = "dev-bill-chair-hears";
   // A decision: named members vote as named; the margin fills the rest.
   const decide = async (extra) => {
     const out = await send("decide", {
       billId: paper.id,
       margin: margin(),
       ...(named.size ? { votes: Object.fromEntries(named) } : {}),
+      ...(chairHears ? { chairHears: true } : {}),
       ...extra,
     });
     return [
@@ -194,9 +203,219 @@ export async function devBillCard({
       ? [el("h4", { className: "label", textContent: labels.members }), members]
       : []),
     stepper,
+    el("div", { className: "acts" }, chairButton),
     el("div", { className: "acts" }, ...buttons),
     result,
+    ...(await outcomeLines({ billId: paper.id, labels, onDone })),
+    ...twinLines(labels),
   );
   section.classList.add("dev-only", "dev-bill-card");
   return section;
+}
+
+const dollars = (minor) =>
+  `${minor < 0 ? "-" : ""}$${Math.round(Math.abs(minor) / 100).toLocaleString("en-US")}`;
+const fill = (text, values) =>
+  text.replace(/\{(\w+)\}/g, (_, key) => String(values[key] ?? ""));
+
+/**
+ * The money check: a button that builds the same world left alone, runs it to today and lists the
+ * cash in both by who holds it, then the holders whose cash moved most. Control names and record
+ * data only.
+ */
+function twinLines(labels) {
+  const t = labels.twin;
+  const box = el("div", { className: "dev-twin" });
+  const run = makeButton({ className: "action" }, t.run);
+  run.dataset.testid = "dev-twin-run";
+  const line = (text, testid) => {
+    const p = el("p", { className: "dev-bill-line", textContent: text });
+    if (testid) p.dataset.testid = testid;
+    return p;
+  };
+  run.addEventListener("click", async () => {
+    run.disabled = true;
+    box.replaceChildren(line(t.running));
+    try {
+      const out = await send("twin-money", {});
+      box.replaceChildren(
+        line(
+          [
+            t.span.replace("{from}", out.from).replace("{to}", out.to),
+            out.changes.length
+              ? `${t.done}: ${out.changes.map((c) => `${c.control} ${c.count}`).join(", ")}`
+              : t.nothing,
+          ].join(" · "),
+          "dev-twin-span",
+        ),
+        ...out.classes.map((row) => {
+          const p = line(
+            [
+              t.classes[row.key] ?? row.key,
+              `${t.here} ${dollars(row.hereMinor)}`,
+              `${t.twin} ${dollars(row.twinMinor)}`,
+              `${t.difference} ${dollars(row.diffMinor)}`,
+            ].join(" · "),
+            "dev-twin-class",
+          );
+          p.dataset.class = row.key;
+          return p;
+        }),
+        el("h4", {
+          className: "label",
+          textContent: t.holders.replace("{n}", String(out.holdersMoved)),
+        }),
+        ...out.holders.map((row) =>
+          line(
+            [
+              row.name,
+              t.classes[row.class] ?? row.class,
+              `${t.difference} ${dollars(row.diffMinor)}`,
+            ].join(" · "),
+            "dev-twin-holder",
+          ),
+        ),
+      );
+    } catch (error) {
+      box.replaceChildren(line(error.message));
+    } finally {
+      run.disabled = false;
+    }
+  });
+  return [
+    el("h4", { className: "label", textContent: t.title }),
+    el("div", { className: "acts" }, run),
+    box,
+  ];
+}
+
+/** How a bill ended, in the labels' words, from the legislature's own ending record. */
+export function endingText(labels, outcome) {
+  const e = outcome.ending;
+  const names = outcome.endingNames;
+  const key =
+    e.how === "committee-held" && e.discharge
+      ? "committee-held-petition"
+      : e.how === "vetoed" && e.override
+        ? "vetoed-override"
+        : e.how;
+  return fill(labels.endings[key] ?? e.how, {
+    ...e,
+    chamber: names.chamber || e.chamber,
+    chair: names.chair || e.chairId,
+    position: e.chairPosition,
+    trait: e.chairTrait,
+    signed: e.discharge?.signed,
+    needed: e.discharge?.needed ?? e.needed,
+    reasons: (e.reasons ?? []).map((r) => r.reason).join(", "),
+    tallies: (e.override ?? [])
+      .map((t) => `${t.yes} of ${t.needed}`)
+      .join(", "),
+  });
+}
+
+/**
+ * What came of the bill: how it ended and why, the sections a trade added, and each law row it
+ * made with who that law reached (the core's one reach reader), in counts and dollars. A law not
+ * yet in force can be run to its effective date. Record data and control names only.
+ */
+async function outcomeLines({ billId, labels, onDone }) {
+  let outcome;
+  try {
+    outcome = await send(`bill-outcome?billId=${encodeURIComponent(billId)}`);
+  } catch {
+    return [];
+  }
+  const line = (text, testid) => {
+    const p = el("p", { className: "dev-bill-line", textContent: text });
+    if (testid) p.dataset.testid = testid;
+    return p;
+  };
+  const out = [
+    el("h4", { className: "label", textContent: labels.outcome }),
+    line(endingText(labels, outcome), "dev-bill-ending"),
+    line(
+      labels.addedSections.replace("{n}", String(outcome.addedSections)),
+      "dev-bill-added-sections",
+    ),
+  ];
+  if (outcome.ending.how === "law" && !outcome.laws.length)
+    out.push(line(labels.noLaw));
+  for (const law of outcome.laws) {
+    const r = law.reach;
+    out.push(
+      line(
+        [
+          law.series,
+          law.level,
+          `${law.value}${law.unit ? ` ${law.unit}` : ""}`,
+          law.inForce
+            ? labels.inForce
+            : labels.notYetInForce.replace("{date}", law.effectiveDate),
+        ].join(" · "),
+        "dev-bill-law",
+      ),
+    );
+    if (!law.inForce) {
+      const run = makeButton({ className: "action small" }, labels.runToEffect);
+      run.dataset.testid = "dev-bill-run-to-effect";
+      run.addEventListener("click", async () => {
+        run.disabled = true;
+        try {
+          await send("run-until", {
+            event: "law-takes-effect",
+            subject: law.id,
+            cap: 800,
+          });
+          await onDone();
+        } finally {
+          run.disabled = false;
+        }
+      });
+      out.push(el("div", { className: "acts" }, run));
+    }
+    out.push(el("h4", { className: "label", textContent: labels.reach.title }));
+    if (!r.records) {
+      out.push(line(labels.reach.none, "dev-bill-reach-none"));
+      continue;
+    }
+    out.push(
+      line(
+        [
+          `${labels.reach.records} ${r.records}`,
+          `${labels.reach.fullPeople} ${r.fullPeople} (${labels.reach.inTown} ${r.fullPeopleInTown}, ${labels.reach.elsewhere} ${r.fullPeopleElsewhere})`,
+          `${labels.reach.counted} ${Math.round(r.counted)}`,
+          `${labels.reach.organizations} ${r.organizations}`,
+          `${labels.reach.governments} ${r.governments}`,
+          `${labels.reach.money} ${dollars(r.amountMinor)} (${labels.reach.inTown} ${dollars(r.amountInTownMinor)}, ${labels.reach.elsewhere} ${dollars(r.amountElsewhereMinor)})`,
+        ].join(" · "),
+        "dev-bill-reach",
+      ),
+      ...r.by.map((side) =>
+        line(
+          [
+            side.engine,
+            side.what,
+            `${labels.reach.records} ${side.records}`,
+            `${labels.reach.fullPeople} ${side.fullPeople}`,
+            `${labels.reach.counted} ${Math.round(side.counted)}`,
+            dollars(side.amountMinor),
+          ].join(" · "),
+          "dev-bill-reach-side",
+        ),
+      ),
+      ...r.named.map((person) =>
+        line(
+          [
+            person.name,
+            person.inTown ? labels.reach.inTown : labels.reach.elsewhere,
+            person.what,
+            dollars(person.amountMinor),
+          ].join(" · "),
+          "dev-bill-reach-person",
+        ),
+      ),
+    );
+  }
+  return out;
 }

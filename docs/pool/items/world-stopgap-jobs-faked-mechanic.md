@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: L
-status: blocked
+status: dropped
 claimed-by:
 pr:
 blocked-on: world-jobs-counted-choices-one-rule
@@ -28,3 +28,7 @@ claimed-at: 2026-10-19T22:26:02.801Z
 Oct 20: Switched from blocked to the automatic after: gate on world-jobs-opening-seekers, so it opens by itself the moment those items are done.
 
 Oct 25 audit: two of its three blockers are done; it waits on world-jobs-counted-choices-one-rule only.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. All six rows it names (SG-WORLD-jobs-opening-seekers, SG-WORLD-jobs-layoff-decider, SG-WORLD-jobs-counted-choices, SG-WORLD-jobs-agreement-pinned, SG-WORLD-jobs-counted-retiree-income, SG-WORLD-jobs-offer-deadline-reminder) have status resolved in src/core2/data/stopgaps/world.json. Its blockers are done (world-jobs-opening-seekers) or dropped (world-jobs-counted-choices-one-rule).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

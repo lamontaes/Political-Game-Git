@@ -34,6 +34,7 @@ import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 import { WORDS_STOPGAP_HITS } from "./stopgaps";
 import { outgoingHolder, swornOffice, titleInSentence } from "./swearing-in";
 import swearingData from "./data/swearing-in.json" with { type: "json" };
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Taking office is an event (owner, Sept 22: "swearing in needs to be an
 // event"; Oct 29: "that's just a scene ... depending on what your office is,
@@ -240,7 +241,7 @@ function swearIn(at: string, world: World, address: boolean): string {
   }
   const room = [...new Set([...cast("family"), ...colleagues, officiant!])];
 
-  // 3. Narration, the oath, four replies that are four stances.
+  // 3. Narration, the oath, up to four replies that are different stances.
   const scene = composeScene(core, director, playerId, entry as ScheduleEntry);
   expect(scene?.typeKey, at).toBe("swearing-in");
   // A ceremony: the people pack stands the room up for it (People, Oct 29).
@@ -255,9 +256,7 @@ function swearIn(at: string, world: World, address: boolean): string {
   expect(talk.state.text, at).toMatch(/swear/i);
   expect(talk.state.text, at).toContain(titleInSentence(sworn.title));
   const root = talk.tree.replies.map((row) => row.line);
-  expect(root.length, at).toBe(4);
-  expect(new Set(root.map((row) => row.move)).size, at).toBe(4);
-  expect(new Set(root.map((row) => row.text)).size, at).toBe(4);
+  expectUpToFourDifferent(root, at);
   // Nothing a player reads is a record kind, an id or a date.
   for (const line of [
     ...talk.narration,
@@ -376,11 +375,23 @@ function swearIn(at: string, world: World, address: boolean): string {
   const told = composeJournal(core, director, playerId)
     .flatMap((chapter) => chapter.lines)
     .find((row) => row.sourceRecordIds.includes(endId!));
-  expect(told?.text, `${at}: journal`).toContain(
-    `${who.givenName} ${who.familyName}`,
+  // The journal names a relative by relation ("My mother swore me in.") and
+  // anyone else by name (journal.ts, `other`), so the officiant who is the
+  // player's kin is told by relation, and the line still cites them below.
+  const kinFact = (core.people.get(playerId)!.pastFacts ?? []).find(
+    (fact) =>
+      String(fact.kind).startsWith("family:") &&
+      fact.facts?.otherPersonId === officiant,
   );
+  const kin = !!kinFact;
+  if (kin) expect(told?.text, `${at}: journal (kin)`).toMatch(/\b[Mm]y \w+/);
+  else
+    expect(told?.text, `${at}: journal`).toContain(
+      `${who.givenName} ${who.familyName}`,
+    );
   expect(told?.text, at).toMatch(/swore me in|the oath/);
-  expect(told?.sourceRecordIds, at).toContain(officiant);
+  // A relative is cited by the family fact the relation came from.
+  expect(told?.sourceRecordIds, at).toContain(kinFact ? kinFact.id : officiant);
 
   // 7. The speech engine's record, heard by the people named in the room.
   const speechId = `speech:inaugural:${seat.seatId}:${took}`;

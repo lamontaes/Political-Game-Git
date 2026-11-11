@@ -47,17 +47,6 @@
       "replacement": null
     },
     {
-      "file": "src/bench/m0-check.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "sample.add(ids[hash(`${seed}:m0-04:${i}`) % ids.length]!);",
-      "class": "PRESENTATION",
-      "keyedBy": "seed + check index",
-      "reason": "Which saved records a bench check opens: the observer's sample, not a choice anyone in the world makes.",
-      "replacement": null
-    },
-    {
       "file": "src/bench/scene.ts",
       "kind": "list-pick",
       "build": null,

@@ -12,7 +12,7 @@
  * can bring up, like the President's.
  */
 import { placeStateKey } from "../core2/place-map";
-import { townSeats } from "../core2/modules/offices";
+import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/modules/outcome-web";
 import { P } from "../core2/parameters";
@@ -122,6 +122,8 @@ function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
         }
       : null;
   }
+  // A core without the offices engine installed has no town seats to read.
+  if (!core.modules.has(OFFICES_MODULE_ID)) return null;
   const seat = townSeats(api).find(
     (row) =>
       row.office.level === "city" &&

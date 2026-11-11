@@ -12,15 +12,30 @@ blocked-on:
 after: world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
 claimed-at:
+lead: speed
+standard: 2
+model: sonnet
+effort: high
+root: design-one-model-two-tiers
+checked: fable 2026-11-10
+branch: claude/pool-core-counted-views-delete
 ---
 
-**What.** Once jobs, business, housing, campaigns and retirement claims read groups, nothing builds a record from the packed columns for the engines. Delete `CountedHouseholdMap`, `personInput` for engine reads and `householdView`, keep `takeResidentHousehold` for fill-in, and mark the stopgap resolved with how. The counted tier then has one way to be read.
+**What.** Once jobs, business, housing, campaigns and retirement claims read groups, nothing builds a record from the packed columns for the engines. Delete `CountedHouseholdMap`, `personInput` for engine reads and `householdView`, keep `takeResidentHousehold` for fill-in, and mark the stopgap resolved with how. The counted tier then has one way to be read. What still reads the views on main: src/core2/births-counted.ts (the legacy births, deaths and arrivals pass) through `countedHouseholdsByPlace`, and a few modules and tests listed in the Notes.
+
+**Cause.** Found in code: src/core2/modules/residents.ts still builds `CountedHouseholdMap` (lines 57, 278 and 730) and exposes `countedHouseholdsByPlace` (line 2622) and `store.householdView`; src/core2/births-counted.ts reads them (lines 409, 839 and 892). The stopgap SG-CORE-counted-person-views (src/core2/data/stopgaps/core.json line 405) is open.
+
+**Fix.** Move births-counted and the remaining readers onto `store.liveHouseholds()` and `store.memberIdsOf()`, then delete `CountedHouseholdMap`, `householdView` and `ResidentsRuntime.households` (keep `takeResidentHousehold` for fill-in) and resolve the stopgap with its replacement named.
+
+**Time box.** 6 hours for a Sonnet session.
 
 **Rules.** Replace, never layer: the views are deleted, not left beside the group reads. A row is never closed by deleting it without the mechanic; the five engines above are the mechanic.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) nothing calls the household views, the stopgap row in src/core2/data/stopgaps.json is resolved with its replacement named, and the stopgap tripwire test and src/core2/counted-groups.test.ts pass. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+**Done when.** A second session, in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body), sees nothing call the household views: a search of src/core2 finds no `CountedHouseholdMap` and no `householdView`. The stopgap row SG-CORE-counted-person-views is resolved with its replacement named, and the stopgap tripwire test and src/core2/counted-groups-exact-traits.test.ts pass.
 
-**Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps.json
+**Waits on.** Nothing (the five items in after: are done).
+
+**Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/births-counted.ts, src/core2/data/stopgaps/core.json, src/core2/counted-groups-exact-traits.test.ts
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
 
@@ -48,3 +63,5 @@ Sent back 2026-10-20 from PR #5321 (branch claude/pool-views-delete): see the Cl
 Sent back 2026-10-23 from PR #4920 (branch claude/births-columns): Done when requires one-year buildBenchWorld proof and a resolved counted-person-views stopgap, but the body explicitly leaves the person source unfinished and has no Done-when evidence table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #4915 (branch claude/counted-views-delete): Current-main integration conflicts in births-counted.ts, counted-demotion.test.ts, housing-construction.ts, housing-occupancy.ts, modules/residents.ts, modules/world-metrics.ts and residents.test.ts, plus pool and stopgap data; reconcile code, retain every stopgap ID and pool Note, regenerate INDEX and provide the Done-when evidence table; finish on that branch, merge main into it first.
+
+Released (2026-11-11): read it: births-counted.ts (1,253 lines) builds ResidentHouseholdRecord shapes at four sites (lines 409, 839, 892, 1163) that its births, deaths and arrivals logic consumes, and about 15 tests read rt.households; a column-based rewrite of that pass is the item's own named prerequisite and is not a small edit; not started. Continue on branch claude/pool-core-counted-views-delete.

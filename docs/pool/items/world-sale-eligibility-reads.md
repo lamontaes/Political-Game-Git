@@ -4,7 +4,7 @@ title: "A sale, hire or rental reads the buyer or applicant rules: handgun age, 
 area: world
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -31,3 +31,7 @@ Oct 20: Switched from blocked to the automatic after: gate on world-hiring-discr
 Sent back 2026-10-23 from PR #5102 (branch claude/pool-sale-eligibility-split): Spec/body re-ask the employer-bias question already ruled Oct 19, and the Done-when table is missing; cite the ruling and name only unfinished inputs; finish on that branch, merge main into it first.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of world-hiring-bias-reasons / world-hiring-discrimination-ban-refusal / justice-discrimination-complaint; the children carry the work.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into world-hiring-discrimination-ban-refusal. This item is a roll-up: the look-first audit (docs/reports/retroactive-look-first-2026-10-27.md) says "the children carry the work". Handgun age is resolved (SG-GOV-REACH-A-handgun-age is resolved in src/core2/data/stopgaps/gov.json), age verification belongs to world-gun-sale-flow (SG-GOV-REACH-A-age-verification, open), and the hiring half is world-hiring-discrimination-ban-refusal, which waits on world-hiring-bias-reasons. The kept item should take this item's done-when line: a refused applicant's job-change record carries the law reason and a complaint id reaches justice (justice-discrimination-complaint reads it).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `world-hiring-discrimination-ban-refusal`, which carries this item's remaining work.

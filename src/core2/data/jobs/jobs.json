@@ -1769,29 +1769,6 @@
       "series": "CPS LNS13008275 (mean), LNS13008276 (median), 1990-2019"
     }
   },
-  "kindSector": {
-    "farm": "mining-logging",
-    "quarry": "mining-logging",
-    "construction": "construction",
-    "manufacturing": "manufacturing",
-    "wholesale": "trade-transport-utilities",
-    "retail": "trade-transport-utilities",
-    "trucking": "trade-transport-utilities",
-    "information": "information",
-    "insurance": "financial",
-    "realty": "financial",
-    "professional": "professional-business",
-    "building-services": "professional-business",
-    "private-school": "education-health",
-    "clinic": "education-health",
-    "care-home": "education-health",
-    "recreation": "leisure-hospitality",
-    "restaurant": "leisure-hospitality",
-    "inn": "leisure-hospitality",
-    "repair": "other-services",
-    "personal-care": "other-services",
-    "*": "total"
-  },
   "traits": {
     "restless": "personality-v1:facet-restless",
     "ambitious": "personality-v1:facet-ambitious",
