@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-staff-review-hires-unpaid-aide
 pr:
 blocked-on:
 standard: 2
@@ -15,7 +15,7 @@ effort: low
 lead: governing
 root: none
 source: found while fixing tests-small-town-treasury-payroll-red, Oct 25
-claimed-at:
+claimed-at: 2026-11-11T04:32:33.404Z
 after:
 checked: fable 2026-11-10
 branch: claude/pool-gov-staff-review-hires-unpaid-aide

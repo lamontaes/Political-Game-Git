@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #5404
+claimed-by: claude/pool-core-relocation-job-held-intermittent
+pr: #8584
 after:
 blocked-on:
 model: sonnet
@@ -16,7 +16,7 @@ effort: low
 root: none
 lead: jobs
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:51:30.751Z
 checked: fable 2026-11-10
 ---
 

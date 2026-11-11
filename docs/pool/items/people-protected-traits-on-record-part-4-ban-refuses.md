@@ -19,7 +19,7 @@ source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** The ban on discrimination in housing and work reaches nobody until a decision can cite a protected trait. Once the hire and tenant picks record reasons that cite one, a ban in force must refuse a decision whose reasons cite it, recorded by lawApplied. Until then the ban is an open stopgap and its matrix row cannot be graded.
+**What.** The ban on discrimination in housing and work reaches nobody until a decision can cite a protected trait. Once the hire and tenant picks record reasons that cite one, a ban in force must refuse a decision whose reasons cite it, recorded by lawApplied. Until then the ban is an open stopgap and its matrix row cannot be graded. Feeds: people-protected-traits-on-record
 
 **Cause.** Found in code: stopgap SG-GOV-REACH-A-discrimination (src/core2/data/stopgaps/gov.json, line 1394) stays open because no decision cites a protected trait; src/core2/law-wiring-rights-env.test.ts is the rights family's test.
 
