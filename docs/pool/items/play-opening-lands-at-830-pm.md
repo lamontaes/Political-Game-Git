@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-opening-lands-at-830-pm
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Not fixed (measured)")
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:38:26.863Z
 ---
 
 **What.** The audit measured on Nov 9 that "the opening still lands at 8:30 p.m.", with no line saying where or why (its browser life was in Blodgett Landing, New Hampshire, no seed given). The owner said it on Nov 8 at about 2:10 p.m. (v0.94.0): "I accidentally clicked skip intro, but that's fine. So then I show up somewhere randomly at 8:30 again." The playtest check found the landing follows the Oct 14 ruling (home after the address), but no line says where or why and Skip cuts straight to a room. The defect is two things: a time typed into code, and an arrival with nothing told. The hour should come from the opening's own records, and the first screen after the address, played or skipped, should say the day, the place and who is there through the scene opener every other scene uses.
