@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/director/purpose-scenes.test.ts, src/director/scheduling.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/director/purpose-scenes.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=b192e3dbed748f0f: 1 of 1 passed (green on the item's own seed). Fresh draw GOLDEN_PATH_SEED=sweep-fresh-13897: red, a different assertion from the item's. As printed: `AssertionError: Paradise, Kansas (2054325), seed sweep-fresh-13897:0: filing:contest:seat:gus2025:126960:council:0:2025-11-04:person_6ebdcf651eaa02b8: expected 'council member' to be 'Council member'`. Still red by draw.
