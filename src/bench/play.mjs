@@ -3165,6 +3165,23 @@ async function ownHistory() {
   return card.history ?? [];
 }
 /** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
+/**
+ * A tab of the You group as the approved strip screen: the player's name and
+ * the one bust every tab of the group shows (the card's own face record), with
+ * the tab's sections beside it. No whole figure stands beside a menu (owner,
+ * Nov 7).
+ */
+function ownStrip(columns) {
+  const c = me.card;
+  return stripScreen({
+    name: c.name,
+    role: c.job
+      ? [c.job.title, c.job.employer].filter(Boolean).join(", ")
+      : `${controls.who.age} ${c.age}`,
+    face: c.face ?? null,
+    columns,
+  });
+}
 function lifeParagraphs(lines) {
   // Dev mode: each sentence opens its record in the one Trace box, drawn under the story.
   if (!devModeOn()) return lifeStory(lines, controls.lifeGroups);
@@ -3418,7 +3435,8 @@ const sheets = {
     const job = me.card.job;
     const life = await ownHistory();
     const worked = life.filter((h) => h.kind === "work" || h.kind === "school");
-    const work = plate(
+    const work = stripSection(
+      1,
       labels.work,
       ...(job
         ? [
@@ -3449,16 +3467,22 @@ const sheets = {
     );
     work.classList.add("job-plate");
     return [
-      work,
-      ...(worked.length
-        ? [plate(labels.workAndSchool, ...lifeParagraphs(worked))]
-        : []),
+      ownStrip([
+        [work],
+        worked.length
+          ? [stripSection(2, labels.workAndSchool, ...lifeParagraphs(worked))]
+          : [],
+      ]),
     ];
   },
   // Your own life as sentences, the same lines a person's card tells of anyone you open.
   async history() {
     const life = await ownHistory();
-    return [plate(null, ...lifeParagraphs(life))];
+    return [
+      ownStrip([
+        [stripSection(1, controls.titles.history, ...lifeParagraphs(life))],
+      ]),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
