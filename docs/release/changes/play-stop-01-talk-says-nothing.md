@@ -3,4 +3,4 @@ id: play-stop-01-talk-says-nothing
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A second session's check of talk in the running game, with its screenshots; nothing in the game changes.
