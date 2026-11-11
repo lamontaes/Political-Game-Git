@@ -70,7 +70,11 @@ describe("M3-08 constituent cases", () => {
       // two months gives a town a few problems brought.
       advanceCore(core, ASKED);
       // The cases still open on the day: earlier ones the office has settled.
-      const cases = allCases(api).filter((c) => c.status === "open");
+      // A full resident's: a counted resident's case to an official the
+      // player does not watch stays counted (constituent-cases-counted.test.ts).
+      const cases = allCases(api).filter(
+        (c) => c.status === "open" && core.people.has(c.personId),
+      );
       if (cases.length < 2) continue;
       // Every case is a problem the resident's own records show.
       for (const c of cases)
