@@ -17,7 +17,7 @@ effort: high
 root: rc4-hand-written-words
 source: lead's play walk as a seated official on Nov 11, 2026 (Deep River, Washington, seed 253225ee-ffc1-449c-b180-ec52013de651, Advanced start as County Commissioner Holly McGee, the 24th day)
 checked:
-claimed-at:
+claimed-at: 2026-11-11T11:06:00.000Z
 ---
 
 **What.** On Feb 12 a resident crosses the street to the player, a county commissioner. His box reads "I read about Ordinance 2025-1." and, under it, "I keep reading about Ordinance 2025-1. I want to know what it means for us." The same clause twice, and a number where a person would say what the ordinance is: it was the county's budget. The first reply offered is "I voted the way I thought was right for Deep River. Here's why." The player never voted: the board passed it 2 to 0 on a day the game did not stop for her. The follow-up is the same for every reply of its kind ("That doesn't help us."). This is the one scene a new official met in 24 days, so it is the game's first word on what holding office is like. Seen: the street stop after a vote of the player's body, at 1440x900, where the resident says one thing once, says the measure by what it does, and every reply offered is true of what the player did.
