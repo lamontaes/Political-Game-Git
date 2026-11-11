@@ -13,8 +13,10 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(120000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
-// The executive branch's offices as drawn: the chief's room line and how
-// many party bars the view holds (a one-seat office gets none).
+// The executive branch's offices as drawn: the chief's room line, the chief
+// drawn as the leader block under the room (since the Nov 8 mock the
+// executive shows its chief as a leader, not a member card) and how many
+// party bars the view holds (a one-seat office gets none).
 const executiveView = () =>
   page.evaluate(() => ({
     line:
@@ -22,7 +24,9 @@ const executiveView = () =>
         .querySelector(".split-screen .chamber-line")
         ?.textContent.trim() ?? "",
     bars: document.querySelectorAll(".split-screen .seat-numbers").length,
-    cards: document.querySelectorAll(".split-screen .member-card").length,
+    leaders: [...document.querySelectorAll(".split-screen .leader")].map(
+      (node) => node.querySelector(".leader-name")?.textContent.trim() ?? "",
+    ),
   }));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -48,9 +52,12 @@ try {
   await page.waitForTimeout(800);
   const seen = await executiveView();
   console.log(
-    `State executive: line "${seen.line}", ${seen.bars} bars, ${seen.cards} cards`,
+    `State executive: line "${seen.line}", ${seen.bars} bars, leaders ${seen.leaders.join(", ") || "none"}`,
   );
-  assert.ok(seen.cards > 0, "no executive office on the State level");
+  assert.ok(
+    seen.leaders.length > 0 && seen.leaders.every(Boolean),
+    "no executive office on the State level",
+  );
   assert.ok(
     !seen.line.includes(stateName),
     "the governor's room names the state again",
