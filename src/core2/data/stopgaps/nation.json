@@ -198,5 +198,29 @@
     "addedAt": "2026-11-10",
     "replacement": "Pool item core-country-tier-moves-one-holder: the counted-moves engine reads each state's people and place constants from the tier, and its pinned departures are deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-town-part-unsorted-jobs",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/macro.ts",
+    "line": 290,
+    "whatItFakes": "A town or county worker the records place at no employer (the opening's workers outside a recorded firm, commuters among them), or at an employer whose classification and kind have no sector in the tables, is counted in the state's sectors in the shares the state's jobs are in, not in the industry they work in.",
+    "why": "The opening records those workers only as a count per household and pays them from the place's outside account; no record says which industry they work in.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Each such worker's industry drawn at the opening from the county's recorded employment by sector (the survey the county sample already reads) and kept on the household, with every employer classification given a row in business-books.json or src/core2/data/country/employer-sectors.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-town-part-scaled-books",
+    "kind": "faked-mechanic",
+    "file": "src/core2/country-model.ts",
+    "line": 1189,
+    "whatItFakes": "When the played town and its county are taken out of their state, the state's government books and what its owners are paid leave in proportion to the people taken out, and each sector's cash, sales and buyers in proportion to the jobs taken out; they are not read from the town's own treasuries, firms' books and sales.",
+    "why": "The country tier's cells hold a state's governments and firms as one ledger and one cell per sector; the town's treasuries and firms keep their own books in other units and no reader yet turns them into the tier's lines.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "The town's own treasuries' revenue and spending and its firms' sales and cash, read from their books each month and taken out of the state's ledger and sectors line by line.",
+    "status": "open"
   }
 ]

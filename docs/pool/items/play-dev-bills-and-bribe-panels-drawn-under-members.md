@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-dev-bills-and-bribe-panels-drawn-under-members
-pr:
+pr: #8297
 after:
 blocked-on:
 lead: play-first

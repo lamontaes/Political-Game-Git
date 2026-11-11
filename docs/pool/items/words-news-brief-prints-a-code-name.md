@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-words-news-brief-prints-a-code-name
+pr: #8549
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:58:46.113Z
 ---
 
 **What.** On day one of a played life in Blodgett Landing, New Hampshire (a random world; the audit gives no seed), a News brief read "State campaign contribution limit: stateHouse took effect on January 1, 2025," with a code name on the page. That was measured on the screen. Read in the code on main: the brief's name comes straight from the bill catalog, where six law names end in a code word: "State campaign contribution limit: stateHouse", "State campaign contribution limit: stateSenate", "Spending: healthAndHospitals", "Spending: higherEducation", "Spending: welfareAndMedicaid" and "Spending: naturalResources". Every screen that reads the catalog's names can print them, the News, the draft-a-bill list and the Government screen among them. The English engine already has plain words for these laws ("the state limit on a gift to a state house candidate"). Fix it at the cause: no catalog name carries a code word, the News names a law through the English engine's own subject for it, and a guard fails when any name a player can see contains a joined code word.

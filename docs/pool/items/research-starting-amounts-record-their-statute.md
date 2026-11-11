@@ -6,7 +6,7 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/data/laws/starting-law.json, scripts/research/check-start-law-2025.ts, scripts/research/build-starting-law.py
 
-**Notes.** Found Oct 28 01:20 by the laws-and-effects lead revising laws-bill-section-cites-research-source to the look-first audit's narrowing.
+**Notes.** Found Oct 28 01:20 by the laws-and-effects lead revising laws-bill-section-cites-research-source to the look-first audit's narrowing. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it adds a statute citation to 1,259 starting-law rows so a bill section can cite it; the paper reads fine without.
