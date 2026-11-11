@@ -583,6 +583,7 @@
     "bill": "The bill",
     "vote": "The vote",
     "estimate": "What it would do",
+    "noFigure": "No dollar figure on record for this section.",
     "amends": "Amends",
     "from": "from",
     "to": "to",
@@ -1072,6 +1073,7 @@
     "since": "since last year"
   },
   "titles": {
+    "watch": "Watch",
     "people": "People",
     "who": "You",
     "money": "Money and property",
