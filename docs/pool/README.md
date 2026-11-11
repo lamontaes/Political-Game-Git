@@ -21,7 +21,7 @@ This folder is that place. It replaces the pool lists inside work orders, the "N
 
 ## Pool notes go in one bundle an hour
 
-A change that touches only `docs/pool/items` (a cause written in, a new item, a note, a relabel) is one commit on the rolling branch `pool/notes`, which has one pull request open. Desk B gates it and the CTO merges it once an hour, then a fresh branch is cut from main (owner, Nov 11). A game pull request still changes its own item inside itself, and rules, checks, skills and docs keep their own pull requests. While more than 150 game pull requests are open, `next` hands out no new item. The skill `pool-notes` is the how.
+A change that touches only `docs/pool/items` (a cause written in, a new item, a note, a relabel) is one commit on the hour's own branch, `pool/notes-<date>-<hour>`, which has one pull request open. Desk B gates it and the CTO merges it once an hour, then a fresh branch is cut from main (owner, Nov 11). A game pull request still changes its own item inside itself, and rules, checks, skills and docs keep their own pull requests. While more than 150 game pull requests are open, `next` hands out no new item. The skill `pool-notes` is the how.
 
 ## Prompts
 
