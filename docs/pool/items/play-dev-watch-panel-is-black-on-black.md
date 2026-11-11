@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-dev-watch-panel-is-black-on-black
-pr:
+pr: #8371
 after:
 blocked-on:
 lead: play-first
