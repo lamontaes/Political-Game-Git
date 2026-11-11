@@ -12,7 +12,9 @@ import { electorateSides } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
-import { purposeScene } from "./purpose-scene";
+import { commentOn } from "../core2/modules/press";
+import { purposeScene, replyInScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY } from "./scheduling";
 
@@ -108,6 +110,77 @@ it(`a reporter's call names its story, and every line stands on it (seed ${seed}
     expect(story, `${where}: the call names no story`).toBeTruthy();
     expect(story!.recordIds.length, where).toBeGreaterThan(0);
     expect(story!.text, where).not.toMatch(/\{|\}|undefined/);
+
+    // After the held vote (words-run-press-comment-lines-are-composed): the
+    // count is a fact cited to the vote record; the first replies are up to
+    // four different moves, none a stall; the on-record answer names the bill
+    // and the count, and no other reply names the bill again; every reply set
+    // in the tree is up to four different moves.
+    const count = scene.facts.find((row) => row.key === "count");
+    const billFact = scene.facts.find((row) => row.key === "bill");
+    expect(count, `${where}: no count after ${voteId}`).toBeTruthy();
+    expect(count!.recordIds, where).toContain(voteId);
+    expect(billFact, where).toBeTruthy();
+    const root = scene.talk.tree.replies.map((reply) => reply.line);
+    expectUpToFourDifferent(root, where);
+    expect(
+      root.map((row) => row.move),
+      `${where}: a stall after the vote`,
+    ).not.toContain("stall");
+    const onRecord = scene.talk.tree.replies.findIndex(
+      (reply) => reply.line.move === "answer",
+    );
+    expect(onRecord, `${where}: no answer on the record`).toBeGreaterThan(-1);
+    const answer = root[onRecord]!;
+    expect(answer.text, where).toContain(billFact!.text);
+    expect(answer.text, where).toContain(count!.text);
+    expect(
+      root.filter((row) => row.text.includes(billFact!.text)).length,
+      `${where}: the bill named twice on one screen: ${root.map((r) => r.text).join(" / ")}`,
+    ).toBe(1);
+    const sets = (node: typeof scene.talk.tree): void => {
+      if (node.replies.length)
+        expectUpToFourDifferent(
+          node.replies.map((reply) => reply.line),
+          where,
+        );
+      for (const reply of node.replies) if (reply.next) sets(reply.next);
+    };
+    sets(scene.talk.tree);
+    // Answered on the record, the press keeps the player's line for the
+    // story of the vote (press.ts keepComment, read by printed-words.ts):
+    // the first path from the answer that ends on the record.
+    const toRecord = (
+      node: typeof scene.talk.tree,
+      path: number[],
+    ): { path: number[]; text: string } | null => {
+      for (const [at, reply] of node.replies.entries()) {
+        const here = [...path, at];
+        if (reply.next?.end?.ending?.id === "on-record")
+          return { path: here, text: reply.line.text };
+        const deeper = reply.next ? toRecord(reply.next, here) : null;
+        if (deeper) return deeper;
+      }
+      return null;
+    };
+    const first = scene.talk.tree.replies[onRecord]!;
+    const ends =
+      first.next?.end?.ending?.id === "on-record"
+        ? { path: [onRecord], text: first.line.text }
+        : first.next
+          ? toRecord(first.next, [onRecord])
+          : null;
+    expect(ends, `${where}: no path from the answer ends on the record`).toBeTruthy();
+    const replyId = replyInScene(core, director, me, entry, ends!.path, {
+      typeKey: "press-interview",
+    });
+    expect(replyId, where).toBeTruthy();
+    const kept = commentOn(api, voteId);
+    expect(kept?.quote, `${where}: the press kept no quote`).toBe(ends!.text);
+    expect(kept?.replyId, where).toBe(replyId);
+    process.stdout.write(
+      `PRESS ANSWER ${where}: ${root.map((row) => `[${row.move}] ${row.text}`).join(" / ")}; comment on ${voteId} quotes "${kept!.quote}" from reply ${replyId}\n`,
+    );
 
     const facts = Object.fromEntries(
       scene.facts.map((row) => [

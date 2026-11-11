@@ -7253,36 +7253,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.the-vote-was-count-reporter-first-write-that-not-a-guess",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "The vote was {count}, {reporter-first}. Write that, not a guess.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["count"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W7",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "confront",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "press.confront",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.until-then-i-ll-let-bill-speak-for-itself",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -8939,7 +8909,17 @@
           "move": "accept",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
         }
       ],
       "bearing": "calm",
@@ -8968,7 +8948,17 @@
           "move": "accept",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
         }
       ],
       "bearing": "calm",
@@ -8997,7 +8987,17 @@
           "move": "accept",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
         }
       ],
       "bearing": "calm",
@@ -9026,7 +9026,17 @@
           "move": "accept",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
         }
       ],
       "bearing": "calm",
@@ -9385,7 +9395,26 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -9414,7 +9443,26 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -9443,7 +9491,26 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -9472,7 +9539,26 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -9501,7 +9587,26 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -9530,7 +9635,26 @@
           "move": "press",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "after": "refuse"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "stall"
         }
       ],
       "bearing": "braced",
@@ -9650,7 +9774,6 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["count"],
           "after": "confront"
         }
       ],

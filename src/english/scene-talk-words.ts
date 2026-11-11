@@ -191,6 +191,30 @@ export function usesSpot(u: PartUse, use: SceneSpot): boolean {
 }
 
 /**
+ * Whether the record rules a move out here: pieces are written for it at this
+ * spot, and every one of them is held back by a fact the record holds (its
+ * `excludesFacts`), as a stall is once the vote is held (scene-standard rule
+ * 5: an option exists only when its record does). Such a move is not offered,
+ * and its absence is not a hole in the bank.
+ */
+export function ruledOutByRecord(
+  use: SceneMove,
+  facts: Readonly<Record<string, Fact>>,
+  parts: readonly BankPart[] = SHIPPED,
+): boolean {
+  const steps = Array.isArray(use.step) ? use.step : [use.step];
+  let written = false;
+  for (const part of parts)
+    for (const u of part.uses) {
+      const open = { ...u, requiresFacts: [], excludesFacts: [], after: "" };
+      if (useFit(open, use, steps, {}) < zero) continue;
+      if (!u.excludesFacts?.some((name) => facts[name])) return false;
+      written = true;
+    }
+  return written;
+}
+
+/**
  * How closely one use of a piece fits a move, or -1 where it does not fit at
  * all. The one test `fitting` and the reply pairs (`reply-pairs.ts`) both
  * make, so the pairs the judges see are the pairs the picker can offer.

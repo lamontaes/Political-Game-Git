@@ -98,6 +98,10 @@ const donorFacts: Record<string, Fact> = {
 const pressFacts: Record<string, Fact> = {
   ...generic,
   bill: fact("Bill 14"),
+  // What composeBinding always hands a reporter's call: the story it is
+  // about and the reporter's first name, from the cast.
+  story: fact("Bill 14"),
+  "reporter-first": fact("Pat"),
   outlet: fact("the Courier"),
   "vote-held": fact("Bill 14"),
   "read-town-against": fact("yes"),

@@ -180,7 +180,13 @@ export function replyPairs(
     const serving: Row[] = [];
     for (const part of parts)
       for (const use of part.uses)
-        if (use.subject === "scene" && usesSpot(use, scene)) {
+        // A sentence joined from pieces is known by its core (the line's
+        // first part); its other pieces make no pair of their own.
+        if (
+          use.subject === "scene" &&
+          usesSpot(use, scene) &&
+          (!part.piece || part.piece.part === "core")
+        ) {
           const row = { part, use };
           serving.push(row);
           const list = byStep.get(use.step) ?? [];
@@ -268,11 +274,34 @@ export function replyPairs(
                 }
                 let chosen = [...fits];
                 if (!options.everyFit) {
-                  const following = chosen.filter(([part]) =>
-                    follows(part.key, before.part.key, verdicts),
-                  );
-                  if (following.length) chosen = following;
-                  else if (chosen.length && options.onSilenced)
+                  // Whole pieces and joined sentences are weighed apart, as
+                  // the picker weighs them (wordSceneMove): each kind drops
+                  // the replies judged not to follow, keeping them only where
+                  // none of that kind is left, then takes its closest. A
+                  // joined sentence whose facts cannot all be worded gives
+                  // way to the whole pieces, so the closest of each may be said.
+                  const ofKind = (joined: boolean) => {
+                    const rows = chosen.filter(
+                      ([part]) => !!part.piece === joined,
+                    );
+                    const following = rows.filter(([part]) =>
+                      follows(part.key, before.part.key, verdicts),
+                    );
+                    const kept = following.length ? following : rows;
+                    const best = Math.max(0, ...kept.map(([, score]) => score));
+                    return {
+                      silenced: rows.length > 0 && !following.length,
+                      rows: kept.filter(([, score]) => score === best),
+                    };
+                  };
+                  const whole = ofKind(false);
+                  const joined = ofKind(true);
+                  if (
+                    (whole.silenced || !whole.rows.length) &&
+                    (joined.silenced || !joined.rows.length) &&
+                    chosen.length &&
+                    options.onSilenced
+                  )
                     options.onSilenced({
                       before: before.part.key,
                       purpose: scene.purpose,
@@ -280,8 +309,7 @@ export function replyPairs(
                       step: steps[0]!,
                       move: replyMove,
                     });
-                  const best = Math.max(0, ...chosen.map(([, score]) => score));
-                  chosen = chosen.filter(([, score]) => score === best);
+                  chosen = [...whole.rows, ...joined.rows];
                 }
                 for (const [part] of chosen) {
                   const id = `${before.part.key}|${part.key}|${scene.purpose}|${scene.key}`;
