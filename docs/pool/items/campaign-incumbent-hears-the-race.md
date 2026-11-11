@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-campaign-incumbent-hears-the-race
-pr:
+pr: #8516
 after:
 blocked-on:
 lead: governing
