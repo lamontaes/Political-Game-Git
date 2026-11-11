@@ -53,6 +53,12 @@ export interface WebLink {
   readonly group: string;
   /** Names what carries this effect through an engine's records; the link then does not run. */
   readonly carriedBy?: string;
+  /**
+   * Why an engine that reads this link's outcome still moves nothing with it
+   * (the matrix then lists the link as not reaching, under a stopgap that
+   * names it); absent for a link that reaches.
+   */
+  readonly readsNothing?: string;
   readonly evidence: string;
   readonly source: string;
   readonly moderator?: {

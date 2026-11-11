@@ -101,6 +101,7 @@ export function worldGoods(seed: string): {
       ...g.fuel,
       ceAnnualMinor: Math.round(g.fuel.ceAnnualMinor * level("fuel")),
     },
+    // stopgapId: SG-WEB-fare-free-riders-unread (a fare-free law's added riders pay a zero fare and nothing else reads them)
     "transit-fare": {
       ...g["transit-fare"],
       tripsPerHouseholdYear:
