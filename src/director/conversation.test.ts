@@ -10,7 +10,6 @@ import { advanceCore, createLifeCore } from "../core2/life";
 import { CONVERSATION_WORDS } from "../english/conversation-words";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
-import { P } from "../core2/parameters";
 import { buildPopulation } from "../core2/population";
 import { decisionLean } from "../core2/trait-decisions";
 import { applyCoreEvent, coreAPI } from "../core2/state";
@@ -31,6 +30,8 @@ import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { REGISTER_CARDS } from "../english/speech-registers";
 import { kinAddress, relationPhrase } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
+import { expectUpToFourDifferent } from "./reply-set-check";
+import { properName } from "./words";
 
 // M4-02, conversations (audit 1, Oct 12; the count is up to four since Nov 10,
 // "So just up to 4"): one to four distinct choices every turn, each answering the last line from real records; talking is
@@ -241,6 +242,83 @@ const recentDays =
   DEFAULT_DIRECTOR_DATA.parameters.directorTalkRecentDays!.value;
 const opening = (talk: Conversation) =>
   talk.lines.find((row) => row.kind !== "greet")!;
+
+// Owner, Nov 11, 2026: "all the lines in the game need to be run through the
+// English engine ... a ton of different inserts". Meeting someone new, the
+// talk turns to work: both employers are named, the job from its record, and
+// nothing is asked that no record answers (words-home-work-lines-are-composed).
+describe(`work talk names the employer and the job (${base.placeMetadata?.placeName}, seed ${seed})`, () => {
+  it("names both employers and a job, asks how long only when the years are on record, and offers up to four different replies", () => {
+    const fresh = strangers
+      .filter((row) => !me.knownIds.has(row.id))
+      .slice(0, 8);
+    expect(fresh.length).toBeGreaterThan(0);
+    const myJob = core.people.get(player.id)!.jobId;
+    const mine = myJob
+      ? properName(
+          core.organizations.get(core.jobs.get(myJob)!.organizationId)!.name,
+        ).toLowerCase()
+      : "";
+    let both = 0;
+    let named = 0;
+    const passed: string[] = [];
+    for (const row of fresh) {
+      api.meet(me.id, row.id, {
+        placeId: me.placeId,
+        sourceId: "fixture-meeting",
+        cause: "met-in-group",
+        hours: 1,
+      });
+      const talk = openConversation(core, player.id, row.id);
+      const job = core.jobs.get(row.jobId!)!;
+      const theirs = properName(
+        core.organizations.get(job.organizationId)!.name,
+      ).toLowerCase();
+      for (let turn = 0; turn < 5 && talk.choices.length; turn += 1) {
+        expectUpToFourDifferent(talk.choices, `${row.givenName}, turn ${turn}`);
+        const pick =
+          talk.choices.find((c) => c.move === "tenure") ??
+          talk.choices.find((c) => c.move === "turn") ??
+          talk.choices.find((c) => c.move === "detail") ??
+          talk.choices[0]!;
+        say(core, talk, pick.key);
+        // How long is asked only where the years are on record, and answered with them.
+        if (pick.move === "tenure")
+          expect(talk.lines.at(-1)!.text).toMatch(/\d/);
+      }
+      const said = talk.lines
+        .map((line) => line.text)
+        .join(" ")
+        .toLowerCase();
+      expect(said).not.toMatch(/\bbusy\b|like it there/);
+      if (said.includes(mine) && said.includes(theirs)) both += 1;
+      else passed.push(`${row.givenName} (${theirs})`);
+      if (job.title && said.includes(job.title.toLowerCase())) named += 1;
+    }
+    process.stdout.write(
+      `work talk: ${both} of ${fresh.length} named both employers, ${named} named a job; passed over ${passed.join(", ") || "none"}\n`,
+    );
+    expect(both).toBeGreaterThan(0);
+    expect(named).toBeGreaterThan(0);
+  });
+
+  it("keeps no work line that asks or says how busy a place is, or whether someone likes it there", () => {
+    const work = new Set([
+      "own-work",
+      "other-work",
+      "heard-work",
+      "shared-work",
+    ]);
+    const bad = Object.entries(CONVERSATION_WORDS.subjects)
+      .filter(([subject]) => work.has(subject))
+      .flatMap(([, roles]) => Object.values(roles).flat())
+      .filter((move) =>
+        /\bbusy\b|like it there|how do you like it/i.test(move.text),
+      )
+      .map((move) => move.text);
+    expect(bad).toEqual([]);
+  });
+});
 
 describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("offers up to four distinct replies every turn (one to four, the scene sets it), each answering the last line and only following on from it", () => {

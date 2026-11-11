@@ -31,7 +31,10 @@
     "state": "The speaker's state as a sentence says it, from the place record, where the state's own law on the question is on record.",
     "town_figure": "The town's own figure as a resident says it in passing (data/english/town-figures.json), from the economy engines' records against the country's.",
     "about-said": "What the talk just had was about, from its first topic's record: an employer, a school, a town, a news story or a relative, as that topic said it.",
-    "daypart": "The part of the day as said in passing (\"this morning\", \"tonight\"), from the player's clock as the scene plays (data/english/day-words.json)."
+    "daypart": "The part of the day as said in passing (\"this morning\", \"tonight\"), from the player's clock as the scene plays (data/english/day-words.json).",
+    "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
+    "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
+    "their_first": "The given name of the person the player is talking to, from the person's record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -1704,19 +1707,6 @@
       "text": "Are you still there?",
       "uses": [
         {
-          "move": "own-work-ask-still-at",
-          "subject": "own-work",
-          "role": "ask",
-          "choice": "still-at"
-        },
-        {
-          "move": "shared-work-raise-still",
-          "subject": "shared-work",
-          "role": "raise",
-          "choice": "still",
-          "requiresFacts": ["long-ago"]
-        },
-        {
           "move": "home-raise-still-in",
           "subject": "home",
           "role": "raise",
@@ -1859,14 +1849,9 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": ["working"]
-        },
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
+          "stages": [
+            "working"
+          ]
         }
       ],
       "transcriptsUsing": 74,
@@ -2322,13 +2307,6 @@
       "text": "What are you doing now?",
       "uses": [
         {
-          "move": "own-work-answer-turn",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
           "move": "own-work-new-ask-where",
           "subject": "own-work-new",
           "role": "ask",
@@ -2369,13 +2347,6 @@
       "text": "What do you do?",
       "uses": [
         {
-          "move": "own-work-answer-turn",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
           "move": "own-work-new-ask-where",
           "subject": "own-work-new",
           "role": "ask",
@@ -2386,13 +2357,6 @@
           "subject": "their-work",
           "role": "raise",
           "choice": "ask"
-        },
-        {
-          "move": "heard-work-answer-turn",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
         },
         {
           "move": "own-work-new-answer-turn",
@@ -2439,24 +2403,10 @@
       "text": "Where do you work?",
       "uses": [
         {
-          "move": "own-work-answer-turn",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
-        },
-        {
           "move": "own-work-new-ask-where",
           "subject": "own-work-new",
           "role": "ask",
           "choice": "where"
-        },
-        {
-          "move": "heard-work-answer-turn",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "their-work"
         },
         {
           "move": "own-work-new-answer-turn",
@@ -2542,38 +2492,6 @@
         "date": "2025-10-30",
         "granule": "DCPD-202501078",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202501078/html/DCPD-202501078.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.own-work-answer-brief.busy",
-      "move": "own-work-answer-brief",
-      "kind": "spoken",
-      "text": "Busy.",
-      "uses": [
-        {
-          "move": "own-work-answer-brief",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 2,
-        "nasa": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "Remarks on Presenting the Medal of Sacrifice and an Exchange With Reporters",
-        "date": "2025-05-19",
-        "granule": "DCPD-202500615",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500615/html/DCPD-202500615.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -2890,14 +2808,9 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": ["working"]
-        },
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
+          "stages": [
+            "working"
+          ]
         }
       ],
       "transcriptsUsing": 1075,
@@ -2972,14 +2885,9 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": ["working"]
-        },
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
+          "stages": [
+            "working"
+          ]
         }
       ],
       "transcriptsUsing": 15,
@@ -3064,37 +2972,6 @@
       }
     },
     {
-      "key": "conversation.other-work-reply-none.not-at-the-moment",
-      "move": "other-work-reply-none",
-      "kind": "spoken",
-      "text": "Not at the moment.",
-      "uses": [
-        {
-          "move": "other-work-reply-none",
-          "subject": "other-work",
-          "role": "reply",
-          "choice": "none",
-          "stages": ["none"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "TWITTER: TRANSPARENCY AND ACCOUNTABILITY",
-        "date": "2018-09-05",
-        "granule": "CHRG-115hhrg36155",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg36155/html/CHRG-115hhrg36155.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "guarded"
-    },
-    {
       "key": "conversation.other-work-reply-none.not-right-now",
       "move": "other-work-reply-none",
       "kind": "spoken",
@@ -3135,13 +3012,6 @@
       "kind": "spoken",
       "text": "{employer}, right.",
       "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        },
         {
           "move": "shared-work-answer-plain",
           "subject": "shared-work",
@@ -3188,13 +3058,6 @@
       "kind": "spoken",
       "text": "Oh, {employer}.",
       "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        },
         {
           "move": "heard-work-reply-ok",
           "subject": "heard-work",
@@ -3771,14 +3634,6 @@
       "text": "How long have you been there?",
       "uses": [
         {
-          "move": "other-work-answer-tenure",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "tenure",
-          "stages": ["working"],
-          "raises": "their-tenure"
-        },
-        {
           "move": "their-tenure-raise-ask",
           "subject": "their-tenure",
           "role": "raise",
@@ -3808,14 +3663,6 @@
       "kind": "spoken",
       "text": "How long have you been doing that?",
       "uses": [
-        {
-          "move": "other-work-answer-tenure",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "tenure",
-          "stages": ["working"],
-          "raises": "their-tenure"
-        },
         {
           "move": "their-tenure-raise-ask",
           "subject": "their-tenure",
@@ -5564,6 +5411,13 @@
           "subject": "shared-school",
           "role": "reply",
           "choice": "years"
+        },
+        {
+          "move": "work-own-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "choice": "own",
+          "for": "answer"
         }
       ],
       "transcriptsUsing": 24,
@@ -9153,12 +9007,6 @@
           "subject": "lie",
           "role": "doubt",
           "choice": "question"
-        },
-        {
-          "move": "heard-work-reply-ok",
-          "subject": "heard-work",
-          "role": "reply",
-          "choice": "ok"
         }
       ],
       "transcriptsUsing": 131,
@@ -11129,13 +10977,6 @@
       "text": "I'm sorry to hear that.",
       "uses": [
         {
-          "move": "other-work-answer-ack-none",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack-none",
-          "stages": ["none"]
-        },
-        {
           "move": "job-lost-reply-answer-comfort",
           "subject": "job-lost-reply",
           "role": "answer",
@@ -11589,67 +11430,6 @@
         "date": "2026-04-18",
         "granule": "DCPD-202600268",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600268/html/DCPD-202600268.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.own-work-new-answer-brief.with-employer",
-      "move": "own-work-new-answer-brief",
-      "kind": "spoken",
-      "text": "With {employer}.",
-      "uses": [
-        {
-          "move": "own-work-new-answer-brief",
-          "subject": "own-work-new",
-          "role": "answer",
-          "choice": "brief",
-          "raises": "next"
-        }
-      ],
-      "transcriptsUsing": 636,
-      "bySource": {
-        "Air Force Historical Research Agency, USAF Oral History Program": 1,
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 4,
-        "National Archives History Office oral history project": 5,
-        "National Archives History Office oral history project (brooks-oral-histories)": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 3,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 6,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 19,
-        "U.S. Senate Historical Office oral history": 16,
-        "blm": 1,
-        "briefing": 33,
-        "crec": 53,
-        "dcpd": 122,
-        "doj": 1,
-        "dol-osha": 3,
-        "epa": 13,
-        "fdic": 3,
-        "hearings": 191,
-        "house": 15,
-        "hud": 1,
-        "nasa": 40,
-        "nasa2": 31,
-        "ncua": 1,
-        "nih": 10,
-        "nps": 50,
-        "nps.gov": 2,
-        "nps.gov (PDF)": 2,
-        "ntia": 1,
-        "sba": 1,
-        "va": 2
-      },
-      "source": {
-        "document": "Remarks in Las Vegas, Nevada",
-        "date": "2026-08-05",
-        "granule": "DCPD-202600518",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -12547,13 +12327,6 @@
       "kind": "spoken",
       "text": "Sorry to hear that.",
       "uses": [
-        {
-          "move": "other-work-answer-ack-none",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack-none",
-          "stages": ["none"]
-        },
         {
           "move": "job-lost-reply-answer-comfort",
           "subject": "job-lost-reply",
@@ -16934,13 +16707,6 @@
       "text": "Have you been there long?",
       "uses": [
         {
-          "move": "other-work-answer-tenure",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "tenure",
-          "stages": ["working"]
-        },
-        {
           "move": "their-tenure-raise-ask",
           "subject": "their-tenure",
           "role": "raise",
@@ -16962,13 +16728,6 @@
       "text": "How long has it been?",
       "uses": [
         {
-          "move": "other-work-answer-tenure",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "tenure",
-          "stages": ["working"]
-        },
-        {
           "move": "their-tenure-raise-ask",
           "subject": "their-tenure",
           "role": "raise",
@@ -16979,160 +16738,6 @@
       "author": "Words session",
       "date": "2026-10-15",
       "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-tenure.is-that-new",
-      "move": "other-work-answer-tenure",
-      "kind": "spoken",
-      "text": "Is that new?",
-      "uses": [
-        {
-          "move": "other-work-answer-tenure",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "tenure",
-          "stages": ["working"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-tenure.do-you-like-it-there",
-      "move": "other-work-answer-tenure",
-      "kind": "spoken",
-      "text": "Do you like it there?",
-      "uses": [
-        {
-          "move": "other-work-answer-tenure",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "tenure",
-          "stages": ["working"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-ack.employer-how-do-you-like-it",
-      "move": "other-work-answer-ack",
-      "kind": "spoken",
-      "text": "{employer}? How do you like it?",
-      "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-ack.good-for-you-is-it-busy",
-      "move": "other-work-answer-ack",
-      "kind": "spoken",
-      "text": "Good for you. Is it busy?",
-      "uses": [
-        {
-          "move": "other-work-answer-ack",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack",
-          "stages": ["working"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-brief.oh-how-s-that-going",
-      "move": "other-work-answer-brief",
-      "kind": "spoken",
-      "text": "Oh. How's that going?",
-      "uses": [
-        {
-          "move": "other-work-answer-brief",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "brief",
-          "stages": ["working"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-brief.right-is-it-busy-there",
-      "move": "other-work-answer-brief",
-      "kind": "spoken",
-      "text": "Right. Is it busy there?",
-      "uses": [
-        {
-          "move": "other-work-answer-brief",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "brief",
-          "stages": ["working"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.other-work-answer-brief.oh-nice-how-is-it",
-      "move": "other-work-answer-brief",
-      "kind": "spoken",
-      "text": "Oh, nice. How is it?",
-      "uses": [
-        {
-          "move": "other-work-answer-brief",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "brief",
-          "stages": ["working"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
       "tag": {
         "move": "answer"
       }
@@ -18943,13 +18548,6 @@
           "choice": "react"
         },
         {
-          "move": "other-work-answer-ack-none",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack-none",
-          "stages": ["none"]
-        },
-        {
           "move": "job-lost-reply-answer-comfort",
           "subject": "job-lost-reply",
           "role": "answer",
@@ -19294,13 +18892,6 @@
       "kind": "spoken",
       "text": "I'm so sorry. That's family.",
       "uses": [
-        {
-          "move": "other-work-answer-ack-none",
-          "subject": "other-work",
-          "role": "answer",
-          "choice": "ack-none",
-          "stages": ["none"]
-        },
         {
           "move": "job-lost-reply-answer-comfort",
           "subject": "job-lost-reply",
@@ -28296,88 +27887,6 @@
       }
     },
     {
-      "key": "conversation.own-work-answer-deflect.that-s-a-long-story-ask-me-another-time",
-      "move": "own-work-answer-deflect",
-      "kind": "spoken",
-      "text": "That's a long story. Ask me another time.",
-      "uses": [
-        {
-          "move": "own-work-answer-deflect",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "deflect"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.own-work-answer-deflect.let-s-not-talk-shop-maybe-another-time",
-      "move": "own-work-answer-deflect",
-      "kind": "spoken",
-      "text": "Let's not talk shop. Maybe another time.",
-      "uses": [
-        {
-          "move": "own-work-answer-deflect",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "deflect"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.own-work-answer-change.still-there-where-are-you-living-these-days",
-      "move": "own-work-answer-change",
-      "kind": "spoken",
-      "text": "Still there. Where are you living these days?",
-      "uses": [
-        {
-          "move": "own-work-answer-change",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "change",
-          "raises": "home"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.own-work-answer-change.yes-and-where-are-you-living-now",
-      "move": "own-work-answer-change",
-      "kind": "spoken",
-      "text": "Same as ever. Where are you living now?",
-      "uses": [
-        {
-          "move": "own-work-answer-change",
-          "subject": "own-work",
-          "role": "answer",
-          "choice": "change",
-          "raises": "home"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.mutual-answer-care.say-hello-to-name-for-me",
       "move": "mutual-answer-care",
       "kind": "spoken",
@@ -30674,6 +30183,1318 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.im-over-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "I'm over at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell"
+        },
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": [
+            "working"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.ive-been-working-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "I've been working at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell"
+        },
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": [
+            "working"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.these-days-im-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "These days I'm at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell"
+        },
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": [
+            "working"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.i-work-over-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "I work over at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell"
+        },
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": [
+            "working"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-raise-tell.right-now-im-at-employer",
+      "move": "own-work-raise-tell",
+      "kind": "spoken",
+      "text": "Right now I'm at {employer}.",
+      "uses": [
+        {
+          "move": "own-work-raise-tell",
+          "subject": "own-work",
+          "role": "raise",
+          "choice": "tell"
+        },
+        {
+          "move": "other-work-reply-at",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "at",
+          "stages": [
+            "working"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.im-position-there",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "I'm {position} there.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        },
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.i-work-there-as-position",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "I work there as {position}.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        },
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.theyve-got-me-on-as-position",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "They've got me on as {position}.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.im-position",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "I'm {position}.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        },
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.im-just-position-there",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "I'm just {position} there.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.its-over-in-work-place",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "It's over in {work_place}.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.thats-out-in-work-place",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "That's out in {work_place}.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.the-jobs-in-work-place",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "The job's in {work_place}.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-reason.i-go-over-to-work-place-for-it",
+      "move": "work-reason",
+      "kind": "spoken",
+      "text": "I go over to {work_place} for it.",
+      "uses": [
+        {
+          "move": "work-reason",
+          "subject": "own-work",
+          "role": "reason",
+          "for": "raise"
+        },
+        {
+          "move": "work-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "for": "reply"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-own-reason.im-my-position-there",
+      "move": "work-own-reason",
+      "kind": "spoken",
+      "text": "I'm {my_position} there.",
+      "uses": [
+        {
+          "move": "work-own-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "choice": "own",
+          "for": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-own-reason.i-work-there-as-my-position",
+      "move": "work-own-reason",
+      "kind": "spoken",
+      "text": "I work there as {my_position}.",
+      "uses": [
+        {
+          "move": "work-own-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "choice": "own",
+          "for": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-own-reason.im-my-position",
+      "move": "work-own-reason",
+      "kind": "spoken",
+      "text": "I'm {my_position}.",
+      "uses": [
+        {
+          "move": "work-own-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "choice": "own",
+          "for": "answer"
+        },
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-own-reason.going-on-years-years-now",
+      "move": "work-own-reason",
+      "kind": "spoken",
+      "text": "Going on {years} years now.",
+      "uses": [
+        {
+          "move": "work-own-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "choice": "own",
+          "for": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.work-own-reason.been-there-years-years",
+      "move": "work-own-reason",
+      "kind": "spoken",
+      "text": "Been there {years} years.",
+      "uses": [
+        {
+          "move": "work-own-reason",
+          "subject": "other-work",
+          "role": "reason",
+          "choice": "own",
+          "for": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.are-you-still-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "Are you still at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        },
+        {
+          "move": "shared-work-raise-still",
+          "subject": "shared-work",
+          "role": "raise",
+          "choice": "still",
+          "requiresFacts": [
+            "long_ago"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.still-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "Still at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        },
+        {
+          "move": "shared-work-raise-still",
+          "subject": "shared-work",
+          "role": "raise",
+          "choice": "still",
+          "requiresFacts": [
+            "long_ago"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.you-still-working-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "You still working at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        },
+        {
+          "move": "shared-work-raise-still",
+          "subject": "shared-work",
+          "role": "raise",
+          "choice": "still",
+          "requiresFacts": [
+            "long_ago"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.are-you-still-with-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "Are you still with {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        },
+        {
+          "move": "shared-work-raise-still",
+          "subject": "shared-work",
+          "role": "raise",
+          "choice": "still",
+          "requiresFacts": [
+            "long_ago"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.still-working-for-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "Still working for {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        },
+        {
+          "move": "shared-work-raise-still",
+          "subject": "shared-work",
+          "role": "raise",
+          "choice": "still",
+          "requiresFacts": [
+            "long_ago"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-ask-still-at.you-still-over-at-employer",
+      "move": "own-work-ask-still-at",
+      "kind": "spoken",
+      "text": "You still over at {employer}?",
+      "uses": [
+        {
+          "move": "own-work-ask-still-at",
+          "subject": "own-work",
+          "role": "ask",
+          "choice": "still-at"
+        },
+        {
+          "move": "shared-work-raise-still",
+          "subject": "shared-work",
+          "role": "raise",
+          "choice": "still",
+          "requiresFacts": [
+            "long_ago"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-long-have-you-been-at-employer",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How long have you been at {employer}?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-long-have-you-worked-at-employer",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How long have you worked at {employer}?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.have-you-been-at-employer-long",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "Have you been at {employer} long?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-long-have-you-been-with-employer",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How long have you been with {employer}?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.been-at-employer-long",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "Been at {employer} long?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-many-years-have-you-put-in-at-employer",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How many years have you put in at {employer}?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-long-have-you-worked-for-employer",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How long have you worked for {employer}?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-tenure.how-long-have-you-been-working-at-employer",
+      "move": "other-work-answer-tenure",
+      "kind": "spoken",
+      "text": "How long have you been working at {employer}?",
+      "uses": [
+        {
+          "move": "other-work-answer-tenure",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "tenure",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-tenure"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.still-at-employer-and-you",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "Still at {employer}. And you?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.employer-same-as-ever-you",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "{employer}, same as ever. You?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.still-with-employer-what-about-you",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "Still with {employer}. What about you?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.im-still-at-employer-where-are-you-now",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "I'm still at {employer}. Where are you now?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.yep-employer-and-you",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "Yep, {employer}. And you?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.still-over-at-employer-you",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "Still over at {employer}. You?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.same-place-employer-where-are-you-working",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "Same place, {employer}. Where are you working?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-answer-turn.im-at-employer-still-what-about-you",
+      "move": "own-work-answer-turn",
+      "kind": "spoken",
+      "text": "I'm at {employer} still. What about you?",
+      "uses": [
+        {
+          "move": "own-work-answer-turn",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "their-work"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-you-do-at-employer",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do you do at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-you-do-over-at-employer",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do you do over at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.whats-your-job-at-employer",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What's your job at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-kind-of-work-do-you-do-at-employer",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What kind of work do you do at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-they-have-you-doing-at-employer",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do they have you doing at {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.and-what-do-you-do-for-employer",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "And what do you do for {employer}?",
+      "uses": [
+        {
+          "move": "their-position-raise-ask",
+          "subject": "their-position",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.i-work-as-position",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "I work as {position}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.im-position-at-employer",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "I'm {position} at {employer}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.position-reply-reply-at.they-have-me-working-as-position",
+      "move": "position-reply-reply-at",
+      "kind": "spoken",
+      "text": "They have me working as {position}.",
+      "uses": [
+        {
+          "move": "position-reply-reply-at",
+          "subject": "position-reply",
+          "role": "reply",
+          "choice": "at"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-reply-none.not-since-i-left-employer",
+      "move": "other-work-reply-none",
+      "kind": "spoken",
+      "text": "Not since I left {employer}.",
+      "uses": [
+        {
+          "move": "other-work-reply-none",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "none",
+          "stages": [
+            "none"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-reply-none.nothing-since-employer",
+      "move": "other-work-reply-none",
+      "kind": "spoken",
+      "text": "Nothing since {employer}.",
+      "uses": [
+        {
+          "move": "other-work-reply-none",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "none",
+          "stages": [
+            "none"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-reply-none.not-right-now-i-was-at-employer",
+      "move": "other-work-reply-none",
+      "kind": "spoken",
+      "text": "Not right now. I was at {employer}.",
+      "uses": [
+        {
+          "move": "other-work-reply-none",
+          "subject": "other-work",
+          "role": "reply",
+          "choice": "none",
+          "stages": [
+            "none"
+          ]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-new-answer-brief.i-work-as-my-position",
+      "move": "own-work-new-answer-brief",
+      "kind": "spoken",
+      "text": "I work as {my_position}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-work-new-answer-brief.these-days-i-work-as-my-position",
+      "move": "own-work-new-answer-brief",
+      "kind": "spoken",
+      "text": "These days I work as {my_position}.",
+      "uses": [
+        {
+          "move": "own-work-new-answer-brief",
+          "subject": "own-work-new",
+          "role": "answer",
+          "choice": "brief",
+          "raises": "next"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-you-do-there-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do you do there, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.so-whats-your-job-there-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "So what's your job there, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.and-what-do-you-do-there-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "And what do you do there, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.other-work-answer-detail.what-do-they-have-you-doing-their-first",
+      "move": "other-work-answer-detail",
+      "kind": "spoken",
+      "text": "What do they have you doing, {their_first}?",
+      "uses": [
+        {
+          "move": "other-work-answer-detail",
+          "subject": "other-work",
+          "role": "answer",
+          "choice": "detail",
+          "stages": [
+            "working"
+          ],
+          "raises": "their-position"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-work-lines-are-composed)",
       "date": "2026-11-11"
     }
   ]

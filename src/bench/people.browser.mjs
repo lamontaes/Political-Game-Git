@@ -57,30 +57,36 @@ try {
     .locator('[data-tab="people"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".people-roster .person").first().waitFor();
+  await page.locator(".roster-screen.people .roster-row").first().waitFor();
   // Owner, Oct 27: family is never a tab on People; the roster groups by how you know them.
   const tabs = await page.locator("#sheet-tabs").innerText();
   assert.doesNotMatch(tabs, /\bfamily\b/i, `People has a Family tab: ${tabs}`);
   // Owner, Nov 8: no explaining line under anything. The roster is headings and rows only.
   const lines = await page.evaluate(() =>
-    [...document.querySelectorAll(".people-roster > *")].map(
-      (n) => n.className,
-    ),
+    [
+      ...document.querySelectorAll(
+        ".roster-screen.people .roster-pages .pager-grid > *",
+      ),
+    ].map((n) => n.className),
   );
   assert.ok(
-    lines.every((c) => /sechead|group|person/.test(c)),
+    lines.every((c) => /group|roster-row/.test(c)),
     `a roster line is not a heading or a person: ${lines}`,
   );
   // The first person's card is already beside the roster, and picking another swaps it.
-  await page.locator(".people-pane .strip-screen").waitFor();
-  const first = await page.locator(".people-pane .strip-name").innerText();
-  const count = await page.locator(".people-roster .person").count();
+  await page
+    .locator(".roster-screen.people .roster-page .strip-screen")
+    .waitFor();
+  const first = await page
+    .locator(".roster-screen.people .roster-page .strip-name")
+    .innerText();
+  const count = await page.locator(".roster-screen.people .roster-row").count();
   if (count > 1) {
-    await page.locator(".people-roster .person").nth(1).click();
+    await page.locator(".roster-screen.people .roster-row").nth(1).click();
     await page.waitForFunction(
       (name) =>
-        document.querySelector(".people-pane .strip-name")?.textContent !==
-        name,
+        document.querySelector(".roster-screen.people .roster-page .strip-name")
+          ?.textContent !== name,
       first,
     );
   }
