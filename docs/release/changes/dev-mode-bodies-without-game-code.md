@@ -3,4 +3,4 @@ id: dev-mode-bodies-without-game-code
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Two pool items now name what dev mode needs to reach school boards and court verdicts; no game change.
