@@ -1208,9 +1208,11 @@ describe("hellos and goodbyes are composed from the records", () => {
       if (round) advanceCore(core, addDays(makeIsoDate(core.date), 1));
       for (const otherId of people) {
         const talk = play(otherId);
-        const greet = talk.lines.find((line) => line.kind === "greet");
+        // The hello is its own turn; the line after it names the last meeting.
+        const greets = talk.lines.filter((line) => line.kind === "greet");
+        const greet = greets.at(-1);
         const bye = talk.lines.find((line) => line.kind === "farewell");
-        if (greet) greetings.add(greet.text);
+        if (greet) greetings.add(greets.map((line) => line.text).join(" "));
         if (greet && round) {
           second += 1;
           expect(greet.wording?.facts, `${otherId}: ${greet.text}`).toContain(

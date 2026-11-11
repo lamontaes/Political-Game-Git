@@ -2740,14 +2740,42 @@ export function openConversation(
   const greeting = housemate
     ? null
     : greetingLine(core, data, playerId, otherId, !!knows);
-  if (greeting)
-    conversation.lines.push({
-      speakerId: otherId,
-      subjectId: `greet:${otherId}`,
-      kind: "greet",
-      act: "tell",
-      ...greeting,
-    });
+  if (greeting) {
+    // The hello is its own short turn, as people say it ("Hi." then "Back
+    // again?"): a composed greeting's opener is said first, the rest after.
+    const parts = greeting.wording?.parts ?? [];
+    const cut =
+      parts.length > 1 && parts[zero]!.includes(".greet-open-")
+        ? greeting.text.search(/[.!?] /)
+        : -1;
+    const said =
+      cut > 0 && greeting.wording
+        ? [
+            {
+              ...greeting,
+              text: greeting.text.slice(0, cut + 1),
+              wording: {
+                ...greeting.wording,
+                parts: [parts[zero]!],
+                facts: [],
+              },
+            },
+            {
+              ...greeting,
+              text: greeting.text.slice(cut + 2),
+              wording: { ...greeting.wording, parts: parts.slice(1) },
+            },
+          ]
+        : [greeting];
+    for (const line of said)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: `greet:${otherId}`,
+        kind: "greet",
+        act: "tell",
+        ...line,
+      });
+  }
   // At home, a scene with the household's hard news opens by asking for the player's attention
   // ("We need to talk.") instead of a greeting (owner, Oct 14, 2026, night: a
   // mother asking the player to sit down).
@@ -3625,7 +3653,7 @@ function greetingLine(
     "default",
     momentKey,
   );
-  if (composed) return { ...composed, asks: false, afterPlain: false };
+  if (composed) return composed;
   return words(
     core,
     data,
@@ -3709,7 +3737,7 @@ function partingLine(
     momentKey,
     saidParts(conversation, speakerId),
   );
-  return line ? { ...line, asks: false, afterPlain: false } : null;
+  return line ?? null;
 }
 
 /** The conversation runs out: the other person says goodbye. */

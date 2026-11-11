@@ -31,6 +31,7 @@
     "state": "The speaker's state as a sentence says it, from the place record, where the state's own law on the question is on record.",
     "town_figure": "The town's own figure as a resident says it in passing (data/english/town-figures.json), from the economy engines' records against the country's.",
     "about-said": "What the talk just had was about, from its first topic's record: an employer, a school, a town, a news story or a relative, as that topic said it.",
+    "player-first": "The player's first name, from their person record, said in a goodbye when the talk already named its topic.",
     "daypart": "The part of the day as said in passing (\"this morning\", \"tonight\"), from the player's clock as the scene plays (data/english/day-words.json).",
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
     "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
@@ -1849,9 +1850,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "transcriptsUsing": 74,
@@ -2808,9 +2807,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "transcriptsUsing": 1075,
@@ -2885,9 +2882,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "transcriptsUsing": 15,
@@ -29752,13 +29747,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29780,13 +29770,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29808,13 +29793,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29836,13 +29816,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29864,13 +29839,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29892,13 +29862,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29920,13 +29885,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29948,13 +29908,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -29976,13 +29931,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30004,13 +29954,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30032,13 +29977,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30060,13 +30000,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30088,13 +30023,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30116,13 +30046,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30144,13 +30069,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30172,13 +30092,8 @@
           "move": "farewell-core",
           "subject": "farewell",
           "role": "core",
-          "stages": [
-            "default"
-          ],
-          "requiresFacts": [
-            "about-again",
-            "player-first"
-          ]
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
         }
       ],
       "origin": "authored",
@@ -30202,9 +30117,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "bearing": "calm",
@@ -30229,9 +30142,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "bearing": "calm",
@@ -30256,9 +30167,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "bearing": "calm",
@@ -30283,9 +30192,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "bearing": "calm",
@@ -30310,9 +30217,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "at",
-          "stages": [
-            "working"
-          ]
+          "stages": ["working"]
         }
       ],
       "bearing": "calm",
@@ -30673,9 +30578,7 @@
           "subject": "shared-work",
           "role": "raise",
           "choice": "still",
-          "requiresFacts": [
-            "long_ago"
-          ]
+          "requiresFacts": ["long_ago"]
         }
       ],
       "bearing": "calm",
@@ -30700,9 +30603,7 @@
           "subject": "shared-work",
           "role": "raise",
           "choice": "still",
-          "requiresFacts": [
-            "long_ago"
-          ]
+          "requiresFacts": ["long_ago"]
         }
       ],
       "bearing": "calm",
@@ -30727,9 +30628,7 @@
           "subject": "shared-work",
           "role": "raise",
           "choice": "still",
-          "requiresFacts": [
-            "long_ago"
-          ]
+          "requiresFacts": ["long_ago"]
         }
       ],
       "bearing": "calm",
@@ -30754,9 +30653,7 @@
           "subject": "shared-work",
           "role": "raise",
           "choice": "still",
-          "requiresFacts": [
-            "long_ago"
-          ]
+          "requiresFacts": ["long_ago"]
         }
       ],
       "bearing": "calm",
@@ -30781,9 +30678,7 @@
           "subject": "shared-work",
           "role": "raise",
           "choice": "still",
-          "requiresFacts": [
-            "long_ago"
-          ]
+          "requiresFacts": ["long_ago"]
         }
       ],
       "bearing": "calm",
@@ -30808,9 +30703,7 @@
           "subject": "shared-work",
           "role": "raise",
           "choice": "still",
-          "requiresFacts": [
-            "long_ago"
-          ]
+          "requiresFacts": ["long_ago"]
         }
       ],
       "bearing": "calm",
@@ -30829,9 +30722,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -30851,9 +30742,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -30873,9 +30762,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -30895,9 +30782,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -30917,9 +30802,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -30939,9 +30822,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -30961,9 +30842,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -30983,9 +30862,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "tenure",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-tenure"
         }
       ],
@@ -31319,9 +31196,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "bearing": "calm",
@@ -31340,9 +31215,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "bearing": "calm",
@@ -31361,9 +31234,7 @@
           "subject": "other-work",
           "role": "reply",
           "choice": "none",
-          "stages": [
-            "none"
-          ]
+          "stages": ["none"]
         }
       ],
       "bearing": "calm",
@@ -31420,9 +31291,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "detail",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-position"
         }
       ],
@@ -31442,9 +31311,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "detail",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-position"
         }
       ],
@@ -31464,9 +31331,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "detail",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-position"
         }
       ],
@@ -31486,9 +31351,7 @@
           "subject": "other-work",
           "role": "answer",
           "choice": "detail",
-          "stages": [
-            "working"
-          ],
+          "stages": ["working"],
           "raises": "their-position"
         }
       ],
