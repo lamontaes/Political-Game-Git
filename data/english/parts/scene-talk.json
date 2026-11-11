@@ -203931,7 +203931,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -203954,7 +203954,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -203977,7 +203977,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -204000,7 +204000,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -204023,7 +204023,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -204046,7 +204046,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -204069,7 +204069,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -204092,7 +204092,7 @@
           "step": "reply",
           "move": "promise",
           "role": "asked",
-          "requiresFacts": ["stake-money"]
+          "requiresFacts": ["stake-money", "place"]
         }
       ],
       "origin": "authored",
@@ -206823,6 +206823,52 @@
       "date": "2026-11-11",
       "tag": {
         "move": "greet",
+        "key": "family-filing"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.for-remaining-i-won-t-touch-our-savings-i-promise",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "For {remaining}, I won't touch our savings. I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-filing",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-family-filing-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "promise",
+        "key": "family-filing"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-get-us-through-remaining-without-our-savings",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll get us through {remaining} without our savings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "family-filing",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-family-filing-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "promise",
         "key": "family-filing"
       }
     }

@@ -200,6 +200,10 @@ it("stages the filing talk only for a relative with a stake, and records what th
       );
       for (const move of moves)
         expect(["tell", "request", "promise", "deflect"], here).toContain(move);
+      // A promise about the stake is always offered beside asking for help.
+      expect(moves, here).toEqual(
+        expect.arrayContaining(["request", "promise"]),
+      );
       // The talk names this household's own stake, from its records: the
       // relative's question names the days the savings last or the child,
       // and the request and the promise each name a fact of the stake. No two
