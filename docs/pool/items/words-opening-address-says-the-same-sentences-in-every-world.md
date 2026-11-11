@@ -39,7 +39,7 @@ branch: claude/words-opening-address-versions
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds and reads each address through. No sentence is in more than one of the three; each address cites at least two figures or names from its own world (it checks one against the Metrics tab or the news); and each says what the President asks Congress for. tests/guards/english passes with the lowered count.
 
-**Waits on.** Nothing. Fable B holds every line in data/english/parts and writes a file or names the one helper who writes it (owner, Nov 10, about 6:15 p.m., "Story ends; Fable B takes custody of words"); Fable B named the Words builder W2 to write this file.
+**Waits on.** Nothing.
 
 **Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
@@ -62,3 +62,5 @@ Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): The Fix is lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8717). Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
 
 Built (2026-11-11) by the Words builder W2 for Fable B on branch claude/words-opening-address-versions: every move of the President's address is an opener and a core with a slot from the world; ten drawn worlds share no sentence among three addresses (src/director/opening-address-versions.test.ts); before and after in docs/seen/opening-address/.
+
+Assigned by name (2026-11-11 07:10 UTC): the lead holds the words work (CTO, Nov 11, on the owner's ruling that every line goes through the English engine) and assigned this item to the Words builder W2 on branch claude/words-opening-address-versions, started 06:20 UTC. `next` should not hand it to a pool builder. Who writes the lines: the Words builder drafts the pieces under `data/english/parts` in its own pull request with `Review: words`; a pool builder still writes nothing there. The lead told the CTO this at 06:10 UTC on the crew's issue.
