@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-medical-bills-year-cost
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:15:09.565Z
+claimed-at:
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -76,3 +76,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Re-read billMedicalCare/payCounted on the branch: no cut I can prove unchanged or faster without speed:year runs and a records proof this container cannot hold. Needs a dedicated machine. Continue on branch claude/pool-laws-medical-bills-year-cost.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:15 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Cause no longer holds on main (2026-11-11): one-year profile, Long Hill CT seed m7b, 115 s: billMedicalCare is 4.8 s of 147 s sampled (3%): payCounted 1.0, householdsToBill 0.7, putOwned 0.6, recordMedicalDebt 0.45, self 0.9. Rows are already putOwned; no 10 percent cut remains there. Close or rewrite against another hot spot (postCashJournal 6.5 s all callers, credit review 2.6 s). Continue on branch claude/pool-laws-medical-bills-year-cost.
