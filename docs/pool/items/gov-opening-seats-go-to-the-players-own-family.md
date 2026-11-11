@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/gov-opening-seats-weigh-counted-adults
 pr: #8827
