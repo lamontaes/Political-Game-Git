@@ -23,7 +23,8 @@ const tells = [
   ["a status code", /\b[a-z]+(?:-[a-z]+)+\b/],
   ["a status code", /\b[A-Z]+(?:-[A-Z]+)+\b/],
   ["a record kind", /\b[A-Z][a-z]+\.[a-z]+\b/],
-  ["a bare fraction", /(?<![$\d.])\b0\.\d+\b(?!\s*%)/],
+  // Three or more decimals is an unrounded value; a one-decimal change ("up 0.3") is rounded.
+  ["a bare fraction", /(?<![$\d.])\b0\.\d{3,}\b(?!\s*%)/],
   ["the Mark gap button", /\bMark gap\b/],
   ["a raw yes-or-no value", /\b(?:True|False)\b/],
 ];
