@@ -3299,12 +3299,6 @@ details.entry[open] {
   color: var(--text-strong);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
-.chamber-line {
-  font: 400 13px/1.3 var(--ui);
-  color: var(--text);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-}
-
 /* The party split: one bar, each party's share in its color. */
 .party-none {
   --party: #6f6c66;
