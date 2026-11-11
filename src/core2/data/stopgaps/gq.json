@@ -100,7 +100,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/counted-reach.ts",
     "line": 207,
-    "whatItFakes": "Law reach (src/core2/counted-reach.ts, src/core2/law-reach/group-b-people.ts) and the poverty count (src/core2/world-poverty.ts) read zero-income group-quarters room records as poor households: an inmate or a nursing-home resident reads as eligible and as poor. A room's counted group is keyed to the income fifth its zero or student income reads as (src/core2/modules/residents.ts, groupKeyOf); the jobs, health and births webs read no fifth for a room.",
+    "whatItFakes": "Narrowed Nov 11, 2026: the poverty count (src/core2/world-poverty.ts) and counted law reach (src/core2/counted-reach.ts) no longer read a group-quarters room as a poor household. What remains is law reach in src/core2/law-reach/group-b-people.ts, which still reads zero-income group-quarters room records as poor households: an inmate or a nursing-home resident reads as eligible there; no program records whether it serves group quarters (Medicaid does, SNAP and cash assistance do not). A room's counted group is keyed to the income fifth its zero or student income reads as (src/core2/modules/residents.ts, groupKeyOf); the jobs, health and births webs read no fifth for a room.",
     "why": "Room records are counted households to those readers, which read no group-quarters type.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",

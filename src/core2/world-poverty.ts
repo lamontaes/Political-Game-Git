@@ -167,12 +167,14 @@ export function householdPoverty(core: CoreState): HouseholdPoverty[] {
     }
     add(household.id, household.placeId, true, ages, income, 1);
   }
-  // Counted residents: the same line on each record, times its weight (a
-  // zero-income group-quarters room reads as a poor household).
-  // stopgapId: SG-GQ-means-tests-poverty
+  // Counted residents: the same line on each record, times its weight. The
+  // Census poverty universe leaves out institutional residents, military
+  // quarters and college dormitories, so a group-quarters room is no household
+  // here (it has no income of its own to measure).
   const rt = residentsRuntime(core);
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
+      if (h.quarters) continue;
       const ages = rt.store
         .countedMembers(h)
         .map((m) => ageOn(rt.store.born[m]!, core.date));
