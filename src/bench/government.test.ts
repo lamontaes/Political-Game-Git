@@ -46,14 +46,16 @@ describe(`the government view in ${place.name}, ${place.state} (seed ${seed})`, 
     const view = governmentView(core, core.playerId!);
     const held = view.seats.filter((seat) => seat.holder);
     // Every holder carries the id a click opens and a face field; a face is
-    // the figure's url and head, never initials (owner, Oct 28, point 12).
+    // the person's bust, never initials (owner, Oct 28, point 12).
     for (const seat of held) {
       const holder = seat.holder!;
       expect(holder.cardId, seat.seatId).toBeTruthy();
       expect("face" in holder, seat.seatId).toBe(true);
       if (holder.face) {
-        expect(holder.face.url, seat.seatId).toMatch(/^\/art\/people\//);
-        expect(holder.face.head.length, seat.seatId).toBe(3);
+        expect(holder.face.bust.layers[0], seat.seatId).toMatch(
+          /^\/art\/busts\//,
+        );
+        expect(holder.face.bust.head.length, seat.seatId).toBe(3);
       }
     }
     expect(held.filter((seat) => seat.holder!.face).length).toBeGreaterThan(0);

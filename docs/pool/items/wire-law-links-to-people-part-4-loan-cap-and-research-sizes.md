@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** docs/reports/effects-web-plan-2026-10-29.md, data/research/outcome-web/links.json, src/core2/modules/outcome-web.ts, scripts/outcome-web/effect-matrix.ts
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a twelve-month lag to a lender's rate under a loan-rate cap and sized a family of links from research; no player reads the lag.
