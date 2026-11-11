@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-talk-reply-not-offered-after-one-engine
+claimed-by:
 pr:
 blocked-on:
 after:
@@ -17,7 +17,7 @@ effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T09:10:44.013Z
+claimed-at:
 branch: claude/pool-words-talk-reply-not-offered-after-one-engine
 ---
 
@@ -44,3 +44,5 @@ branch: claude/pool-words-talk-reply-not-offered-after-one-engine
 Nov 11 (cause finder for Fable B): traced in code. The reply key carries its turn, the screen keeps replies live while a press is in flight, and nothing disables them, so a second press is the turn before. The Lane 3 replay script is not in the repository, so I could not replay it. Whether #7267 made the window longer (a slower `say`) is not known.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:10 UTC) on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Released (2026-11-11): Cap is on (AGENTS.md, owner Nov 11: no new item while over 150 game PRs are open; 381 PRs open now); next handed it out when gh could not open the draft PR and probably could not count. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
