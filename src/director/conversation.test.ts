@@ -10,7 +10,6 @@ import { advanceCore, createLifeCore } from "../core2/life";
 import { CONVERSATION_WORDS } from "../english/conversation-words";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
-import { P } from "../core2/parameters";
 import { buildPopulation } from "../core2/population";
 import { decisionLean } from "../core2/trait-decisions";
 import { applyCoreEvent, coreAPI } from "../core2/state";

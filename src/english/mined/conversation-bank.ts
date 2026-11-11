@@ -23,7 +23,7 @@ import bankJson from "../../../data/english/parts/conversation.json" with { type
 import { admittedParts, directorSlots, type BankPart } from "../bank-parts";
 import rulesJson from "../../director/data/conversation-rules.json" with { type: "json" };
 import type { ConversationData } from "../../director/conversation";
-import type { Move } from "../conversation-words";
+import type { ConversationPart, Move } from "../conversation-words";
 
 export { directorSlots };
 
@@ -60,7 +60,7 @@ export const CONVERSATION_RULES = rulesJson as unknown as Omit<
 >;
 
 /** The director's roles, as its data names them. */
-const ROLE_FIELD: Record<string, keyof SubjectWords> = {
+const ROLE_FIELD: Record<string, ConversationPart> = {
   ask: "ask",
   raise: "raise",
   reply: "reply",
