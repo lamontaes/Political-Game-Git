@@ -109,7 +109,9 @@
     "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
     "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
     "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
-    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record."
+    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
+    "subject": "The person a piece of news is about, by first name, from the death, pairing or parting record.",
+    "other": "The other person in a pairing or parting, by first name, from the same record."
   },
   "maxWords": 70,
   "parts": [
@@ -204688,10 +204690,10 @@
       "date": "2026-11-10"
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-news-about-deceased-and-wants-to-ask-you-something-once-you-have-heard-it",
+      "key": "scene-talk.narrate-narrate.name-has-come-to-find-you-and-it-is-plain-from-their-face-that-something-is-wrong",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has news about {deceased}, and wants to ask you something once you have heard it.",
+      "text": "{name} has come to find you, and it is plain from their face that something is wrong.",
       "uses": [
         {
           "subject": "scene",
@@ -204712,10 +204714,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-lived-with-deceased-and-has-come-to-tell-you-the-news-they-have-died",
+      "key": "scene-talk.narrate-narrate.name-has-come-straight-from-home-to-find-you-and-can-t-quite-get-the-words-out",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} lived with {deceased} and has come to tell you the news: they have died.",
+      "text": "{name} has come straight from home to find you, and can't quite get the words out.",
       "uses": [
         {
           "subject": "scene",
@@ -204836,10 +204838,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.could-you-tell-deceased-s-friends-first-i-don-t-have-all-their-numbers",
+      "key": "scene-talk.state-request.could-you-tell-their-friends-first-i-don-t-have-all-the-numbers",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Could you tell {deceased}'s friends, {first}? I don't have all their numbers.",
+      "text": "Could you tell their friends, {first}? I don't have all the numbers.",
       "uses": [
         {
           "subject": "scene",
@@ -204886,10 +204888,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-news-about-subject-who-has-someone-new-in-their-life-and-wants-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.name-has-news-to-share-and-seems-glad-to-be-the-one-sharing-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has news about {subject}, who has someone new in their life, and wants to ask you something.",
+      "text": "{name} has news to share, and seems glad to be the one sharing it.",
       "uses": [
         {
           "subject": "scene",
@@ -204910,10 +204912,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-tells-you-that-subject-is-together-with-other-and-has-something-to-ask-you",
+      "key": "scene-talk.narrate-narrate.name-has-been-waiting-all-day-to-tell-you-something-and-has-a-favor-to-ask-with-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} tells you that {subject} is together with {other}, and has something to ask you.",
+      "text": "{name} has been waiting all day to tell you something, and has a favor to ask with it.",
       "uses": [
         {
           "subject": "scene",
@@ -204984,10 +204986,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.would-you-come-and-meet-other-first-it-would-mean-a-lot-to-subject",
+      "key": "scene-talk.state-request.would-you-come-and-meet-the-two-of-them-first-it-would-mean-a-lot",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you come and meet {other}, {first}? It would mean a lot to {subject}.",
+      "text": "Would you come and meet the two of them, {first}? It would mean a lot.",
       "uses": [
         {
           "subject": "scene",
@@ -205009,10 +205011,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.would-you-keep-it-between-us-for-now-first-subject-wants-to-tell-people-in-their-own-time",
+      "key": "scene-talk.state-request.would-you-keep-it-between-us-for-now-first-they-want-to-tell-people-in-their-own-time",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you keep it between us for now, {first}? {subject} wants to tell people in their own time.",
+      "text": "Would you keep it between us for now, {first}? They want to tell people in their own time.",
       "uses": [
         {
           "subject": "scene",
@@ -205034,10 +205036,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.would-you-tell-subject-you-re-happy-for-them-first-they-re-nervous-about-what-you-ll-say",
+      "key": "scene-talk.state-request.would-you-tell-them-you-re-glad-first-they-re-nervous-about-what-you-ll-say",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you tell {subject} you're happy for them, {first}? They're nervous about what you'll say.",
+      "text": "Would you tell them you're glad, {first}? They're nervous about what you'll say.",
       "uses": [
         {
           "subject": "scene",
@@ -205059,10 +205061,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-news-about-subject-whose-relationship-has-ended-and-wants-to-ask-you-something",
+      "key": "scene-talk.narrate-narrate.name-has-news-that-isn-t-happy-and-a-favor-to-ask-with-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has news about {subject}, whose relationship has ended, and wants to ask you something.",
+      "text": "{name} has news that isn't happy, and a favor to ask with it.",
       "uses": [
         {
           "subject": "scene",
@@ -205083,10 +205085,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-tells-you-that-subject-and-other-have-split-up-and-has-something-to-ask-you",
+      "key": "scene-talk.narrate-narrate.name-sits-down-across-from-you-with-some-news-and-a-favor-to-ask-with-it",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} tells you that {subject} and {other} have split up, and has something to ask you.",
+      "text": "{name} sits down across from you with some news, and a favor to ask with it.",
       "uses": [
         {
           "subject": "scene",
@@ -205132,10 +205134,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-d-rather-you-heard-it-from-me-first-subject-s-relationship-is-over",
+      "key": "scene-talk.open-greet.i-d-rather-you-heard-it-from-me-first-subject-and-their-partner-have-split-up",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'd rather you heard it from me, {first}. {subject}'s relationship is over.",
+      "text": "I'd rather you heard it from me, {first}. {subject} and their partner have split up.",
       "uses": [
         {
           "subject": "scene",
@@ -205182,10 +205184,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.would-you-stay-out-of-taking-sides-first-subject-needs-everyone-right-now-not-a-verdict",
+      "key": "scene-talk.state-request.would-you-stay-out-of-taking-sides-first-they-both-need-people-right-now-not-a-verdict",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you stay out of taking sides, {first}? {subject} needs everyone right now, not a verdict.",
+      "text": "Would you stay out of taking sides, {first}? They both need people right now, not a verdict.",
       "uses": [
         {
           "subject": "scene",
@@ -205232,10 +205234,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-of-course-i-ll-do-that",
+      "key": "scene-talk.reply-agree.yes-of-course-for-subject-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, of course. I'll do that.",
+      "text": "Yes, of course. For {subject}, I'll do it.",
       "uses": [
         {
           "subject": "scene",
@@ -205255,10 +205257,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-telling-me-first",
+      "key": "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-telling-me-about-subject-first",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, I'll do it. Thank you for telling me first.",
+      "text": "Alright, I'll do it. Thank you for telling me about {subject} first.",
       "uses": [
         {
           "subject": "scene",
@@ -205278,10 +205280,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-you-can-rely-on-me",
+      "key": "scene-talk.reply-agree.count-on-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. You can rely on me.",
+      "text": "Count on me.",
       "uses": [
         {
           "subject": "scene",
@@ -205301,10 +205303,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-make-the-time",
+      "key": "scene-talk.reply-promise.i-promise-truly",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "You have my word. I'll make the time.",
+      "text": "I promise. Truly.",
       "uses": [
         {
           "subject": "scene",
@@ -205324,10 +205326,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-thank-you-for-coming-to-me",
+      "key": "scene-talk.reply-promise.i-promise-you",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll do it, I promise. Thank you for coming to me.",
+      "text": "I promise you.",
       "uses": [
         {
           "subject": "scene",
@@ -205347,10 +205349,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-do-you-need-most-from-me-right-now",
+      "key": "scene-talk.reply-ask.what-would-help",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What do you need most from me right now?",
+      "text": "What would help?",
       "uses": [
         {
           "subject": "scene",
@@ -205370,10 +205372,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.is-there-anything-i-should-know-before-i-say-yes",
+      "key": "scene-talk.reply-ask.how-much-exactly",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Is there anything I should know before I say yes?",
+      "text": "How much, exactly?",
       "uses": [
         {
           "subject": "scene",
@@ -205393,10 +205395,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-right-now-i-hope-you-understand",
+      "key": "scene-talk.reply-decline.i-m-sorry-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry, but I can't do that right now. I hope you understand.",
+      "text": "I'm sorry. No.",
       "uses": [
         {
           "subject": "scene",
@@ -205416,10 +205418,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-i-m-sorry",
+      "key": "scene-talk.reply-decline.sorry-i-can-t",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I wish I could, but I can't. I'm sorry.",
+      "text": "Sorry, I can't.",
       "uses": [
         {
           "subject": "scene",
@@ -205439,10 +205441,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-need-a-minute-with-the-news-and-then-i-ll-answer-you",
+      "key": "scene-talk.reply-leave.give-me-time",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I need a minute with the news, and then I'll answer you.",
+      "text": "Give me time.",
       "uses": [
         {
           "subject": "scene",
@@ -205513,10 +205515,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-that-helps-more-than-i-can-say",
+      "key": "scene-talk.follow-accept.good-that-helps-more-than-i-can-say-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Good. That helps more than I can say.",
+      "text": "Good. That helps more than I can say, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -205538,10 +205540,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-m-relieved-you-said-yes",
+      "key": "scene-talk.follow-accept.i-m-relieved-first-thank-you",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I'm relieved you said yes.",
+      "text": "I'm relieved, {first}. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -205663,10 +205665,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-understand-and-i-won-t-ask-again-today",
+      "key": "scene-talk.follow-accept.alright-i-ll-find-someone-else-in-place-to-ask",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I understand, and I won't ask again today.",
+      "text": "Alright. I'll find someone else in {place} to ask.",
       "uses": [
         {
           "subject": "scene",
@@ -205687,10 +205689,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-won-t-push-and-i-m-still-glad-you-listened",
+      "key": "scene-talk.follow-accept.i-won-t-push-first-i-m-still-glad-you-listened",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I won't push, and I'm still glad you listened.",
+      "text": "I won't push, {first}. I'm still glad you listened.",
       "uses": [
         {
           "subject": "scene",
@@ -205711,10 +205713,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-hear-you-first-is-something-in-the-way-that-i-could-help-with",
+      "key": "scene-talk.follow-press.is-something-in-the-way-first-if-it-s-something-i-can-help-with-say-so",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I hear you, {first}. Is something in the way that I could help with?",
+      "text": "Is something in the way, {first}? If it's something I can help with, say so.",
       "uses": [
         {
           "subject": "scene",
@@ -205809,10 +205811,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-i-understand-i-ll-leave-you-to-it",
+      "key": "scene-talk.close-accept.alright-first-i-ll-leave-you-to-it",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I understand. I'll leave you to it.",
+      "text": "Alright, {first}. I'll leave you to it.",
       "uses": [
         {
           "subject": "scene",
@@ -205833,10 +205835,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-ll-ask-you-again-before-long-if-that-s-alright",
+      "key": "scene-talk.close-press.i-ll-ask-you-again-before-long-first",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll ask you again before long, if that's alright.",
+      "text": "I'll ask you again before long, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -205881,10 +205883,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-finds-you-before-you-go-and-asks-you-something-with-child-in-the-next-room",
+      "key": "scene-talk.narrate-narrate.name-finds-you-before-you-go-and-keeps-their-voice-down-so-the-next-room-won-t-hear",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} finds you before you go and asks you something, with {child} in the next room.",
+      "text": "{name} finds you before you go, and keeps their voice down so the next room won't hear.",
       "uses": [
         {
           "subject": "scene",
@@ -205928,10 +205930,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-don-t-have-long-with-you-first-so-i-ll-say-it-plainly",
+      "key": "scene-talk.open-greet.we-don-t-have-long-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I don't have long with you, {first}, so I'll say it plainly.",
+      "text": "We don't have long, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -206145,10 +206147,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.alright-i-ll-do-that-for-you",
+      "key": "scene-talk.reply-agree.i-ll-do-that",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. I'll do that for you.",
+      "text": "I'll do that.",
       "uses": [
         {
           "subject": "scene",
@@ -206168,10 +206170,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-you-have-my-word",
+      "key": "scene-talk.reply-agree.yes-of-course",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. You have my word.",
+      "text": "Yes, of course.",
       "uses": [
         {
           "subject": "scene",
@@ -206191,10 +206193,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-promise-i-ll-do-it-whatever-it-takes",
+      "key": "scene-talk.reply-promise.yes-i-promise",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I promise. I'll do it, whatever it takes.",
+      "text": "Yes. I promise.",
       "uses": [
         {
           "subject": "scene",
@@ -206214,10 +206216,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.you-have-my-word-i-won-t-let-you-down-on-this",
+      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-keep-it-every-day-of-sentence",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "You have my word. I won't let you down on this.",
+      "text": "You have my word. I'll keep it every day of {sentence}.",
       "uses": [
         {
           "subject": "scene",
@@ -206237,10 +206239,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-help-you-most-while-i-m-gone",
+      "key": "scene-talk.reply-ask.what-would-help-you-most-until-release",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would help you most while I'm gone?",
+      "text": "What would help you most until {release}?",
       "uses": [
         {
           "subject": "scene",
@@ -206260,10 +206262,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-are-you-most-afraid-of-with-me-away",
+      "key": "scene-talk.reply-ask.what-s-enough",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What are you most afraid of, with me away?",
+      "text": "What's enough?",
       "uses": [
         {
           "subject": "scene",
@@ -206283,10 +206285,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-m-sorry-but-i-can-t-promise-that-i-don-t-know-what-it-will-be-like",
+      "key": "scene-talk.reply-decline.i-can-t-promise-that-i-don-t-know-what-sentence-in-there-will-be-like",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I'm sorry, but I can't promise that. I don't know what it will be like.",
+      "text": "I can't promise that. I don't know what {sentence} in there will be like.",
       "uses": [
         {
           "subject": "scene",
@@ -206306,10 +206308,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-wish-i-could-say-yes-i-can-t-and-i-m-sorry",
+      "key": "scene-talk.reply-decline.i-can-t-sorry",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I wish I could say yes. I can't, and I'm sorry.",
+      "text": "I can't. Sorry.",
       "uses": [
         {
           "subject": "scene",
@@ -206329,10 +206331,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-can-t-talk-about-it-anymore-right-now-i-ll-find-you-before-i-go",
+      "key": "scene-talk.reply-leave.not-now-please",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I can't talk about it anymore right now. I'll find you before I go.",
+      "text": "Not now, please.",
       "uses": [
         {
           "subject": "scene",
@@ -206378,10 +206380,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-ll-hold-on-to-that-while-you-re-away",
+      "key": "scene-talk.follow-thank.thank-you-i-ll-hold-on-to-that-until-release",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll hold on to that while you're away.",
+      "text": "Thank you. I'll hold on to that until {release}.",
       "uses": [
         {
           "subject": "scene",
@@ -206403,10 +206405,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-that-s-all-i-wanted",
+      "key": "scene-talk.follow-accept.good-that-s-all-i-wanted-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Good. That's all I wanted.",
+      "text": "Good. That's all I wanted, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -206428,10 +206430,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-that-s-a-relief-to-hear",
+      "key": "scene-talk.follow-accept.that-s-a-relief-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. That's a relief to hear.",
+      "text": "That's a relief, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -206478,10 +206480,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-ll-really-do-it-i-need-to-hear-you-say-it-once-more",
+      "key": "scene-talk.follow-press.you-ll-really-do-it-first-i-need-to-hear-it-once-more",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You'll really do it? I need to hear you say it once more.",
+      "text": "You'll really do it, {first}? I need to hear it once more.",
       "uses": [
         {
           "subject": "scene",
@@ -206503,10 +206505,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.just-come-back-to-us-in-one-piece-first-that-s-the-whole-ask",
+      "key": "scene-talk.follow-answer.just-come-back-to-us-safe-first-that-s-the-whole-ask",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Just come back to us in one piece, {first}. That's the whole ask.",
+      "text": "Just come back to us safe, {first}. That's the whole ask.",
       "uses": [
         {
           "subject": "scene",
@@ -206553,10 +206555,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-understand-and-i-won-t-push-you-before-you-go",
+      "key": "scene-talk.follow-accept.alright-first-i-won-t-push-you-before-you-go",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I understand, and I won't push you before you go.",
+      "text": "Alright, {first}. I won't push you before you go.",
       "uses": [
         {
           "subject": "scene",
@@ -206577,10 +206579,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-ll-let-it-go-and-i-m-still-glad-you-heard-me-out",
+      "key": "scene-talk.follow-accept.i-ll-let-it-go-first-i-m-still-glad-you-heard-me-out",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I'll let it go, and I'm still glad you heard me out.",
+      "text": "I'll let it go, {first}. I'm still glad you heard me out.",
       "uses": [
         {
           "subject": "scene",
@@ -206699,10 +206701,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.alright-i-ll-let-you-finish-getting-ready",
+      "key": "scene-talk.close-accept.alright-first-i-ll-let-you-finish-getting-ready",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I'll let you finish getting ready.",
+      "text": "Alright, {first}. I'll let you finish getting ready.",
       "uses": [
         {
           "subject": "scene",
