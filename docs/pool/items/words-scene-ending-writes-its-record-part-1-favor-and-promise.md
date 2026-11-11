@@ -5,8 +5,8 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-scene-ending-writes-its-record-part-1-favor-and-promise
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ root: design-story-director
 source: split from words-scene-ending-writes-its-record in the pool redo, Nov 10, 2026
 standard: 2
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:51:02.015Z
+branch: claude/pool-words-scene-ending-writes-its-record-part-1-favor-and-promise
 ---
 
 **What.** Scenes whose endings keep "favor-owed" (16 endings) or "promise" (79 endings) write only the label. Make those endings write a favor owed or a promise on the record the legislature, the relationship record and the campaigns engine already read, so a favor can be called in and a promise held against the player. The journal should tell it from that record.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/director/purpose-scene.ts, src/director/scene-talk.ts, src/director/data/purpose-arcs.json, src/core2/modules/legislature.ts, src/core2/modules/campaigns.ts, src/director/data/stopgaps.json
+
+**Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:50 UTC) on branch claude/pool-words-scene-ending-writes-its-record-part-1-favor-and-promise.
