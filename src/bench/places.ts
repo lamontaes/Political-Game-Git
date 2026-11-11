@@ -1,5 +1,6 @@
 // "Go to": the town's places from its organizations and the art library,
 // who works there, who's there now and what the player can do there.
+import { personWorkOf } from "../core2/person-work";
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
@@ -79,13 +80,16 @@ export function townPlaces(
   const household = core.households.get(player.householdId)?.memberIds ?? [
     playerId,
   ];
+  // By the one reader of what a person does (`personWorkOf`), which the card
+  // and the journal tell too: their job's employer and each seat's own.
   const ownWork = new Set(
-    [...household, ...player.familyIds]
-      .map((id) => core.people.get(id)?.jobId)
-      .map((jobId) =>
-        jobId ? core.jobs.get(jobId)?.organizationId : undefined,
-      )
-      .filter((id): id is string => !!id),
+    [...household, ...player.familyIds].flatMap((id) => {
+      const work = personWorkOf(core, id);
+      return [
+        work.job?.organizationId,
+        ...work.offices.map((office) => office.organizationId),
+      ].filter((org): org is string => !!org);
+    }),
   );
   const ownJob = player.jobId
     ? core.jobs.get(player.jobId)?.organizationId
