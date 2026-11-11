@@ -7,6 +7,8 @@ import { advanceCore } from "../core2/life";
 import { billForm, type BillRow } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
+import federalQuestions from "../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
+import bankData from "../../data/english/bill-sections.json" with { type: "json" };
 import { storyTopicName } from "./policy-names";
 import {
   amountWords,
@@ -36,10 +38,15 @@ describe("the bill-sections data", () => {
       expect(row!.subject.length, key).toBeGreaterThan(3);
       expect(row!.purpose.length, key).toBeGreaterThan(3);
     }
+    // A row is for a question some bill can carry: one on the catalog, or
+    // one of the federal questions Congress files on.
+    const federal = federalQuestions.questions.map((row) => row.question);
     for (const id of Object.keys(BILL_SECTIONS.policies))
       expect(
-        Object.keys(policyNames()).some((k) => k.endsWith(`:${id}`)),
-        `${id} is not on the catalog`,
+        [...Object.keys(policyNames()), ...federal].some((k) =>
+          k.endsWith(`:${id}`),
+        ),
+        `${id} is not on the catalog or the federal record`,
       ).toBe(true);
   });
 
@@ -236,6 +243,27 @@ describe("every law amount a body can draft has words", () => {
   it("words a monthly and a weekly amount", () => {
     expect(valueWords(291, "USD/month")).toBe("$291 a month");
     expect(valueWords(450, "USD/week")).toBe("$450 a week");
+  });
+});
+
+describe("the federal questions Congress files on", () => {
+  // Congress files bills on every question in the federal record; a question
+  // with no row leaves its bill with no paper (red on main, Nov 11:
+  // "H.R. 14: expected null to be truthy"). The next question added to the
+  // record fails here until it is worded.
+  it("has a subject, purpose and enacting clause for every federal question", () => {
+    const unworded = federalQuestions.questions
+      .map((row) => row.question.replace(/^[a-z]+(?:-[a-z]+)*:/, ""))
+      .filter((key) => {
+        const row = (
+          bankData.policies as Record<
+            string,
+            { subject?: string; purpose?: string; enact?: string }
+          >
+        )[key];
+        return !row?.subject || !row.purpose || !row.enact;
+      });
+    expect(unworded).toEqual([]);
   });
 });
 
