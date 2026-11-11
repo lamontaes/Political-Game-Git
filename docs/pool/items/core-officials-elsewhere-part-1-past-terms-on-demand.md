@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
 pr: #8390
