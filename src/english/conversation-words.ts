@@ -20,7 +20,6 @@ import { admittedParts, directorSlots } from "./bank-parts";
 import {
   composeGroundedLine,
   LINE_PARTS,
-  composeGroundedLine,
   type ComposedLineBank,
   type LinePart,
   type LinePartVariant,
@@ -258,22 +257,17 @@ function composedMove(
   const facts = request.facts;
   const compose = (cores: readonly Move[], withReasons: readonly Move[]) =>
     composeGroundedLine(
-      {
+      conversationPacket({
         surface: "dialogue",
         momentKey: request.momentKey,
         worldSeed: request.seed,
         bankVersion: version,
         stage,
-        sourceRecordIds: [request.speakerId as never],
+        holderId: request.speakerId,
         facts,
-        speaker: { personId: request.speakerId as never, traits: {} },
-        knowledge: Object.entries(facts).map(([factKey, row]) => ({
-          personId: request.speakerId as never,
-          factKey,
-          sourceRecordIds: row.sourceRecordIds as never[],
-        })),
+        fallbackSourceId: request.speakerId,
         voice: { traits: request.traits, register: "conversation" },
-      },
+      }),
       {
         key: bankKey,
         version,
