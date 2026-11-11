@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-older-workers-full-vs-counted-gap
-pr:
+pr: #8634
 after:
 blocked-on:
 model: sonnet
