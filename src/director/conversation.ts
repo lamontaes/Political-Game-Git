@@ -92,10 +92,16 @@ import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
-import { viewCell, viewOf, viewOn, VIEWS_KEYS } from "../core2/modules/views";
+import {
+  stanceRow,
+  viewCell,
+  viewOf,
+  viewOn,
+  VIEWS_KEYS,
+} from "../core2/modules/views";
 import { townMetrics } from "../core2/modules/world";
 import { questionSubject } from "../english/policy-names";
-import { townFigureWords } from "../english/question-names";
+import { questionAbout, townFigureWords } from "../english/question-names";
 import { lawInForce } from "../core2/modules/laws";
 import {
   composeGroundedLine,
@@ -180,7 +186,7 @@ export interface ConversationData {
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /**
    * The reply choices that answer a question, by the move of the line that
-   * asked it (`news-ask-think`, "What do you think?", is answered by an
+   * asked it (`news-ask-core`, "What do you make of {topic} closing?", is answered by an
    * opinion, not by having heard of it).
    */
   answersTo?: Readonly<Record<string, readonly string[]>>;
@@ -244,6 +250,8 @@ export interface Subject {
   stage?: string;
   /** For the address's point a hearer raises: the question and why they raised it. */
   point?: { question: string; reason: PointReason };
+  /** For news: the policy question a story is about, or the place a change in town names. */
+  news?: { question?: string; institutionId?: string };
   /**
    * How much it weighs as a talk's topic when the speaker's willingness to
    * raise it is what decides (where they stand politically), not a recorded
@@ -918,6 +926,59 @@ function knowsNews(
 }
 
 /**
+ * What a story or a change in town has to do with a person, from their own
+ * records, in order: they worked at the place that closed (their job now,
+ * or the last one they left), or they hold a view on the story's question
+ * (the views engine's, past its own no-view rule: exactly zero is none).
+ * No chance decides it.
+ */
+export function newsStake(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  subject: Pick<Subject, "news">,
+):
+  | { reason: "worked-there"; recordIds: readonly string[] }
+  | { reason: "stance"; side: "for" | "against"; recordIds: readonly string[] }
+  | { reason: "none" } {
+  const institutionId = subject.news?.institutionId;
+  if (institutionId) {
+    const person = core.people.get(personId);
+    const now = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+    const ended = lastEndedJob(core, personId);
+    const job = [now, ended].find(
+      (row) => row?.organizationId === institutionId,
+    );
+    if (job) return { reason: "worked-there", recordIds: [job.id] };
+  }
+  const question = subject.news?.question;
+  if (question) {
+    const api = coreAPI(core as CoreState);
+    const lean = viewOf(api, personId)?.lean;
+    const view =
+      lean === undefined ? zero : viewOn(api, personId, question, lean);
+    if (view !== zero)
+      return {
+        reason: "stance",
+        side: view > zero ? "for" : "against",
+        recordIds: [stanceRow(api, personId, question)?.id ?? personId],
+      };
+  }
+  return { reason: "none" };
+}
+
+/** A stake as marks a line may require: `<prefix>worked-there`, `<prefix>for` or `<prefix>against`. */
+function stakeMarks(
+  stake: ReturnType<typeof newsStake>,
+  prefix: string,
+): Facts {
+  if (stake.reason === "none") return {};
+  const key = stake.reason === "worked-there" ? "worked-there" : stake.side;
+  return {
+    [`${prefix}${key}`]: { text: "yes", sourceRecordIds: stake.recordIds },
+  };
+}
+
+/**
  * The newest printed story a person heard within the recent window, as a
  * news subject: its headline (worded by the director's story words), the
  * outlet that printed it and the story's id, each citing the story.
@@ -965,11 +1026,18 @@ function printedSubject(
     const carried = medium
       ? { [medium]: { text: "", sourceRecordIds: [story.id, row!.id] } }
       : {};
+    // The policy question the story is about, as people say it, where the
+    // story names one ("a mileage fee in place of the fuel tax").
+    const about = story.topic ? questionAbout(story.topic) : null;
     return {
       id: `news:${story.id}`,
       kind: "news",
       aboutId: story.id,
+      ...(about ? { news: { question: story.topic! } } : {}),
       facts: {
+        ...(about
+          ? { about: { text: about, sourceRecordIds: [story.id] } }
+          : {}),
         headline: { text: said.headline, sourceRecordIds: cited },
         storyId: { text: "", sourceRecordIds: [story.id] },
         ...carried,
@@ -1400,11 +1468,14 @@ export function subjectsBetween(
       id: `news:${news.eventId}`,
       kind: "news",
       aboutId: news.eventId,
+      news: { institutionId: institution.id },
       facts: {
         topic: {
           text: properName(institution.name),
           sourceRecordIds: [news.eventId, institution.id],
         },
+        // A place in town that closed, by the change's own record.
+        closed: { text: "yes", sourceRecordIds: [news.eventId] },
       },
     });
   // The President's address, once the speaker saw it or heard of it: its
@@ -2056,6 +2127,14 @@ function playerFacts(
       text: spoken(place),
       sourceRecordIds: [player.householdId],
     };
+  // News: what the story or the change has to do with the player.
+  if (last.kind === "news") {
+    const stake = newsStake(core, playerId, last.subject);
+    Object.assign(facts, stakeMarks(stake, "my-"));
+    // No stake in it: the player may say they have no view yet.
+    if (stake.reason === "none")
+      facts["my-none"] = { text: "yes", sourceRecordIds: [playerId] };
+  }
   // Asked whether they saw the President's address, the player says yes only
   // when their own record holds it; else they missed it.
   if (last.kind === "address") {
@@ -2211,18 +2290,31 @@ function askSubject(
     return false;
   }
   const kind = askedKind(core, data, otherId, playerId, subject);
-  const line = words(
+  const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:ask`;
+  // A question the engine composes, where the subject has one (news: "What
+  // do you make of {topic} closing?"), else a wording of the bank's.
+  const composedAsk = composedLine(
     core,
-    data,
     otherId,
-    kind,
-    "ask",
-    ALL,
+    `${kind}-ask`,
     subject.facts,
-    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:ask`,
     "default",
-    subject,
+    momentKey,
   );
+  const line = composedAsk
+    ? { ...composedAsk, asks: asksQuestion(composedAsk), afterPlain: false }
+    : words(
+        core,
+        data,
+        otherId,
+        kind,
+        "ask",
+        ALL,
+        subject.facts,
+        momentKey,
+        "default",
+        subject,
+      );
   conversation.used.push(subject.id);
   if (!line) return false;
   const before = conversation.last;
@@ -2335,6 +2427,7 @@ function raiseSubject(
     ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
     ...(subject.stage ? { stage: subject.stage } : {}),
     ...(subject.point ? { point: subject.point } : {}),
+    ...(subject.news ? { news: subject.news } : {}),
   };
   conversation.last = {
     subject: raised,
@@ -2573,7 +2666,10 @@ function mainTopic(
       best = { subject, asks, weight };
   };
   for (const subject of subjectsBetween(core, playerId, otherId, director))
-    if (conversationHas(subject.kind, "ask", data))
+    if (
+      conversationHas(subject.kind, "ask", data) ||
+      composedConversationBank(`${subject.kind}-ask`)
+    )
       consider(subject, true, playerId);
   for (const subject of subjectsBetween(core, otherId, playerId, director))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
@@ -3791,6 +3887,17 @@ export function say(
     answerPoint(core, conversation, data, choice, eventId);
     return conversation;
   }
+  // A reply to news: a stand on the story's question is learned by everyone
+  // who heard it (the views engine's stance record), and the other person
+  // answers in words the engine composes, from their own stake in it.
+  if (
+    last.kind === "news" &&
+    !choice.lie &&
+    composedConversationBank(NEWS_BACK)
+  ) {
+    answerNews(core, conversation, data, choice, eventId, hearers, last);
+    return conversation;
+  }
   // A choice that asks the other person to say more ("What happened?"):
   // they tell it from their own records, on the same topic.
   const told = data.tells?.[last.kind]?.[choice.move];
@@ -3943,6 +4050,76 @@ function answerPoint(
       speakerId: otherId,
       subjectId: choice.answers,
       kind: POINT_BACK,
+      act: "tell",
+      ...back,
+      sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+    });
+  carryOn(core, conversation, data);
+}
+
+/** The subject the other person's answer to a reply on news is composed under. */
+const NEWS_BACK = "news-back";
+/** The player's replies on news that take a side on the story's question. */
+const NEWS_SIDES: readonly string[] = ["for", "against"];
+
+/**
+ * The other person's answer to the player's reply on a story or a change in
+ * town: composed from the pieces under `news-back`, by the reply's move, with
+ * the other person's own stake (their side on the question, or the place
+ * they worked) and when they learned of it. A reply that takes a side is
+ * learned through `learnView`, citing the player's stance record.
+ */
+function answerNews(
+  core: CoreState,
+  conversation: Conversation,
+  data: ConversationData,
+  choice: ConversationChoice,
+  eventId: string,
+  hearers: readonly PersonId[],
+  /** The line the player answered, as `say` read it. */
+  last: LastLine,
+): void {
+  const { otherId, playerId } = conversation;
+  const api = coreAPI(core);
+  if (NEWS_SIDES.includes(choice.move) && last.subject.news?.question) {
+    const stance = stanceRow(api, playerId, last.subject.news.question);
+    for (const hearerId of hearers)
+      learnView(api, hearerId, playerId, [stance?.id ?? playerId], eventId);
+  }
+  const facts: Facts = {
+    ...last.facts,
+    ...stakeMarks(newsStake(core, otherId, last.subject), "their-"),
+    [`said-${choice.move}`]: { text: "yes", sourceRecordIds: [eventId] },
+  };
+  // When they learned of it, said in passing, from their own record of it.
+  const learned = last.subject.aboutId
+    ? core.knowledgeByPerson.get(otherId)?.get(newsKey(last.subject.aboutId))
+    : undefined;
+  const known = learned
+    ? undefined
+    : changesKnownTo(core, otherId).find(
+        (row) => row.eventId === last.subject.aboutId,
+      );
+  const at = learned?.learnedAt ?? known?.learnedAt;
+  if (at)
+    facts.when = {
+      text: spokenWhen(at, core.date),
+      sourceRecordIds: [learned?.sourceId ?? known?.eventId ?? otherId],
+    };
+  const back = composedLine(
+    core,
+    otherId,
+    NEWS_BACK,
+    facts,
+    "default",
+    `${eventId}:back`,
+    saidParts(conversation, otherId),
+  );
+  if (back)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: choice.answers,
+      kind: NEWS_BACK,
       act: "tell",
       ...back,
       sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],

@@ -27,6 +27,8 @@ const arg = (name: string, fallback: string) => {
 };
 const seed = arg("seed", "greet-part-probe");
 const talks = Number(arg("talks", "60"));
+/** With --kind <subject kind>, every line of the talks whose first topic is of that kind. */
+const kind = arg("kind", "");
 const base = withPublicSchoolDistrict(
   enrichCivicInputs(
     buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 500 }),
@@ -69,6 +71,13 @@ for (const round of [0, 1]) {
       .filter(([, fact]) => fact.text)
       .map(([key, fact]) => `${key}=${fact.text}`)
       .join("; ");
+    if (kind) {
+      if ((talk.topics[0] ?? "").replace(/^[^>]*>/, "").startsWith(`${kind}:`))
+        out(
+          `[${round}] ${talk.lines.map((line) => `${line.speakerId === player.id ? "P" : "O"}: ${line.text}`).join(" / ")}`,
+        );
+      continue;
+    }
     out(
       `[${round}] ${otherId.slice(-6)} | ${greet?.text ?? "-"} | ${talk.topics[0] ?? "-"} {${facts}} | ${bye?.text ?? "-"}`,
     );

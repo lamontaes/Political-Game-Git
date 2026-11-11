@@ -8286,71 +8286,6 @@
       }
     },
     {
-      "key": "conversation.news-answer-yes.i-heard-about-that",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I heard about that.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"]
-        }
-      ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
-        "nasa": 1,
-        "nps": 4
-      },
-      "source": {
-        "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
-        "date": "2026-08-17",
-        "granule": "DCPD-202600543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600543/html/DCPD-202600543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.news-answer-yes.i-heard-about-it",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I heard about it.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"]
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 6,
-        "wpa": 2
-      },
-      "source": {
-        "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters",
-        "date": "2025-12-02",
-        "granule": "DCPD-202501155",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501155/html/DCPD-202501155.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "conversation.news-answer-yes.i-saw-that",
       "move": "news-answer-yes",
       "kind": "spoken",
@@ -8382,39 +8317,6 @@
         "date": "2026-03-24",
         "granule": "DCPD-202600199",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600199/html/DCPD-202600199.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "conversation.news-answer-yes.i-read-about-it",
-      "move": "news-answer-yes",
-      "kind": "spoken",
-      "text": "I read about it.",
-      "uses": [
-        {
-          "move": "news-answer-yes",
-          "subject": "news",
-          "role": "answer",
-          "choice": "yes",
-          "stages": ["heard"]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "briefing": 1,
-        "dcpd": 2,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
-        "date": "2025-04-17",
-        "granule": "DCPD-202500492",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500492/html/DCPD-202500492.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -9100,54 +9002,11 @@
       "bearing": "glad"
     },
     {
-      "key": "conversation.news-answer-react.i-cant-believe-it",
-      "move": "news-answer-react",
-      "kind": "spoken",
-      "text": "I can't believe it.",
-      "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        }
-      ],
-      "transcriptsUsing": 57,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 5,
-        "briefing": 1,
-        "crec": 3,
-        "dcpd": 43,
-        "house": 1,
-        "nasa": 2,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
-        "date": "2026-08-21",
-        "granule": "DCPD-202600552",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600552/html/DCPD-202600552.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
       "key": "conversation.news-answer-react.i-didnt-know-that",
       "move": "news-answer-react",
       "kind": "spoken",
       "text": "I didn't know that.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "lie-doubt-question",
           "subject": "lie",
@@ -9275,233 +9134,6 @@
       "bearing": "braced"
     },
     {
-      "key": "conversation.news-ask-think.what-do-you-make-of-the-news",
-      "move": "news-ask-think",
-      "kind": "spoken",
-      "text": "What do you make of the news?",
-      "uses": [
-        {
-          "move": "news-ask-think",
-          "subject": "news",
-          "role": "ask",
-          "choice": "think"
-        }
-      ],
-      "transcriptsUsing": 341,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "National Archives History Office oral history project": 2,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 3,
-        "U.S. Election Assistance Commission (eac.gov)": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 18,
-        "briefing": 19,
-        "crec": 1,
-        "dcpd": 182,
-        "hearings": 50,
-        "house": 7,
-        "nasa": 19,
-        "nasa2": 10,
-        "nih": 1,
-        "nps": 17,
-        "nps.gov": 2,
-        "nps.gov (PDF)": 2
-      },
-      "source": {
-        "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
-        "date": "2026-09-02",
-        "granule": "DCPD-202600570",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600570/html/DCPD-202600570.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-ask-think.what-do-you-think-about-that",
-      "move": "news-ask-think",
-      "kind": "spoken",
-      "text": "What do you think about that?",
-      "uses": [
-        {
-          "move": "news-ask-think",
-          "subject": "news",
-          "role": "ask",
-          "choice": "think"
-        }
-      ],
-      "transcriptsUsing": 70,
-      "bySource": {
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 9,
-        "crec": 1,
-        "dcpd": 27,
-        "hearings": 25,
-        "house": 1,
-        "nasa": 2,
-        "nasa2": 3
-      },
-      "source": {
-        "document": "Remarks on United States Nuclear Innovation and an Exchange With Reporters",
-        "date": "2026-07-24",
-        "granule": "DCPD-202600489",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600489/html/DCPD-202600489.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-ask-think.what-do-you-make-of-that",
-      "move": "news-ask-think",
-      "kind": "spoken",
-      "text": "What do you make of that?",
-      "uses": [
-        {
-          "move": "news-ask-think",
-          "subject": "news",
-          "role": "ask",
-          "choice": "think"
-        }
-      ],
-      "transcriptsUsing": 34,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 16,
-        "dcpd": 13,
-        "hearings": 4
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to West Palm Beach, Florida",
-        "date": "2026-01-31",
-        "granule": "DCPD-202600074",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600074/html/DCPD-202600074.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-ask-think.what-do-you-think-of-that",
-      "move": "news-ask-think",
-      "kind": "spoken",
-      "text": "What do you think of that?",
-      "uses": [
-        {
-          "move": "news-ask-think",
-          "subject": "news",
-          "role": "ask",
-          "choice": "think"
-        }
-      ],
-      "transcriptsUsing": 46,
-      "bySource": {
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 7,
-        "dcpd": 26,
-        "hearings": 8,
-        "nasa": 3
-      },
-      "source": {
-        "document": "Remarks in Meeting With Travel Executives and an Exchange With Reporters",
-        "date": "2026-09-02",
-        "granule": "DCPD-202600570",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600570/html/DCPD-202600570.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-ask-think.how-do-you-feel-about-that",
-      "move": "news-ask-think",
-      "kind": "spoken",
-      "text": "How do you feel about that?",
-      "uses": [
-        {
-          "move": "news-ask-think",
-          "subject": "news",
-          "role": "ask",
-          "choice": "think"
-        }
-      ],
-      "transcriptsUsing": 22,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 4,
-        "crec": 1,
-        "dcpd": 9,
-        "hearings": 1,
-        "nasa": 3,
-        "nasa2": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "Remarks in a Roundtable Discussion on Federal Relief for Farmers and an Exchange With Reporters",
-        "date": "2025-12-08",
-        "granule": "DCPD-202501176",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501176/html/DCPD-202501176.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-ask-think.what-do-you-think-about-it",
-      "move": "news-ask-think",
-      "kind": "spoken",
-      "text": "What do you think about it?",
-      "uses": [
-        {
-          "move": "news-ask-think",
-          "subject": "news",
-          "role": "ask",
-          "choice": "think"
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 2,
-        "dcpd": 3,
-        "nasa": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "Remarks and an Exchange With Reporters at Al Udeid Air Base in Al Rayyan, Qatar",
-        "date": "2025-10-25",
-        "granule": "DCPD-202501046",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501046/html/DCPD-202501046.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
       "key": "conversation.news-answer-opinion.i-dont-know",
       "move": "news-answer-opinion",
       "kind": "spoken",
@@ -9511,7 +9143,8 @@
           "move": "news-answer-opinion",
           "subject": "news",
           "role": "answer",
-          "choice": "opinion"
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
         }
       ],
       "transcriptsUsing": 2084,
@@ -9559,103 +9192,6 @@
       "bearing": "guarded"
     },
     {
-      "key": "conversation.news-answer-opinion.i-think-its-a-good-thing",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "I think it's a good thing.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "dcpd": 8,
-        "nasa": 2
-      },
-      "source": {
-        "document": "Remarks on Affordability in Macungie, Pennsylvania",
-        "date": "2026-06-23",
-        "granule": "DCPD-202600423",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      },
-      "bearing": "glad"
-    },
-    {
-      "key": "conversation.news-answer-opinion.i-think-its-terrible",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "I think it's terrible.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "transcriptsUsing": 16,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 15
-      },
-      "source": {
-        "document": "Remarks on Signing the Secure America Act and an Exchange With Reporters",
-        "date": "2026-06-10",
-        "granule": "DCPD-202600391",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600391/html/DCPD-202600391.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-answer-opinion.i-think-its-great",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "I think it's great.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "transcriptsUsing": 40,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 2,
-        "dcpd": 29,
-        "hearings": 3,
-        "nasa": 3,
-        "nps": 2
-      },
-      "source": {
-        "document": "Remarks During a Greeting With California State Parks Lifeguard Ryder Williams and an Exchange With Reporters",
-        "date": "2026-08-17",
-        "granule": "DCPD-202600543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600543/html/DCPD-202600543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      },
-      "bearing": "glad"
-    },
-    {
       "key": "conversation.news-answer-opinion.its-about-time",
       "move": "news-answer-opinion",
       "kind": "spoken",
@@ -9665,7 +9201,8 @@
           "move": "news-answer-opinion",
           "subject": "news",
           "role": "answer",
-          "choice": "opinion"
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
         }
       ],
       "transcriptsUsing": 49,
@@ -9700,7 +9237,8 @@
           "move": "news-answer-opinion",
           "subject": "news",
           "role": "answer",
-          "choice": "opinion"
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
         }
       ],
       "transcriptsUsing": 70,
@@ -9736,7 +9274,8 @@
           "move": "news-answer-opinion",
           "subject": "news",
           "role": "answer",
-          "choice": "opinion"
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
         }
       ],
       "transcriptsUsing": 355,
@@ -9778,7 +9317,8 @@
           "move": "news-answer-opinion",
           "subject": "news",
           "role": "answer",
-          "choice": "opinion"
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
         }
       ],
       "transcriptsUsing": 18,
@@ -9807,85 +9347,6 @@
       "bearing": "nervous"
     },
     {
-      "key": "conversation.news-answer-opinion.i-dont-like-it",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "I don't like it.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "transcriptsUsing": 49,
-      "bySource": {
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 5,
-        "crec": 2,
-        "dcpd": 32,
-        "hearings": 2,
-        "nasa": 2,
-        "nasa2": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "Remarks at the Republican National Committee Midterm Convention Closing in Dallas, Texas",
-        "date": "2026-09-10",
-        "granule": "DCPD-202600592",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600592/html/DCPD-202600592.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-answer-opinion.i-like-it",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "I like it.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "transcriptsUsing": 59,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 2,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 9,
-        "crec": 1,
-        "dcpd": 30,
-        "hearings": 4,
-        "house": 1,
-        "nih": 2,
-        "nps": 5,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks Honoring the 2025 College Football National Champion Indiana University Hoosiers",
-        "date": "2026-05-11",
-        "granule": "DCPD-202600332",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600332/html/DCPD-202600332.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "news-received"
-      },
-      "bearing": "glad"
-    },
-    {
       "key": "conversation.news-answer-opinion.im-not-sure",
       "move": "news-answer-opinion",
       "kind": "spoken",
@@ -9895,7 +9356,8 @@
           "move": "news-answer-opinion",
           "subject": "news",
           "role": "answer",
-          "choice": "opinion"
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
         }
       ],
       "transcriptsUsing": 323,
@@ -18082,138 +17544,6 @@
       "date": "2026-10-25"
     },
     {
-      "key": "conversation.news-answer-opinion.good-that-s-been-a-long-time-coming",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "Good. That's been a long time coming.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "glad"
-    },
-    {
-      "key": "conversation.news-answer-opinion.that-worries-me-somebody-here-is-going-to-feel-it",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "That worries me. Somebody here is going to feel it.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-answer-opinion.i-d-want-more-than-a-headline-before-i-decide",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "I'd want more than a headline before I decide.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.news-answer-opinion.what-does-that-mean-for-us-though",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "What does that mean for us, though?",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "curious"
-    },
-    {
-      "key": "conversation.news-answer-opinion.i-don-t-like-the-sound-of-that",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "I don't like the sound of that.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.news-answer-opinion.could-be-good-we-ll-find-out-soon-enough",
-      "move": "news-answer-opinion",
-      "kind": "spoken",
-      "text": "Could be good. We'll find out soon enough.",
-      "uses": [
-        {
-          "move": "news-answer-opinion",
-          "subject": "news",
-          "role": "answer",
-          "choice": "opinion"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "react",
-        "key": "news-received"
-      },
-      "bearing": "calm"
-    },
-    {
       "key": "conversation.farewell-leave-home.glad-we-talked",
       "move": "farewell-leave-home",
       "kind": "spoken",
@@ -18859,13 +18189,6 @@
       "text": "Did they say why?",
       "uses": [
         {
-          "move": "news-answer-no",
-          "subject": "news",
-          "role": "answer",
-          "choice": "no",
-          "stages": ["not-heard"]
-        },
-        {
           "move": "job-lost-reply-answer-ask",
           "subject": "job-lost-reply",
           "role": "answer",
@@ -18936,12 +18259,6 @@
       "kind": "spoken",
       "text": "We'll manage. We always do.",
       "uses": [
-        {
-          "move": "news-answer-react",
-          "subject": "news",
-          "role": "answer",
-          "choice": "react"
-        },
         {
           "move": "other-work-answer-ack-none",
           "subject": "other-work",
@@ -19392,13 +18709,6 @@
       "kind": "spoken",
       "text": "Did they say when you can see them?",
       "uses": [
-        {
-          "move": "news-answer-no",
-          "subject": "news",
-          "role": "answer",
-          "choice": "no",
-          "stages": ["not-heard"]
-        },
         {
           "move": "job-lost-reply-answer-ask",
           "subject": "job-lost-reply",
@@ -30036,6 +29346,1242 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-saw-that-on-outlet",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I saw that on {outlet}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-yes.yes-outlet-had-it",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "Yes, {outlet} had it.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-caught-that-one-on-outlet",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I caught that one on {outlet}.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-yes.i-read-it-in-outlet-too",
+      "move": "news-answer-yes",
+      "kind": "spoken",
+      "text": "I read it in {outlet} too.",
+      "uses": [
+        {
+          "move": "news-answer-yes",
+          "subject": "news",
+          "role": "answer",
+          "choice": "yes",
+          "stages": ["heard"],
+          "requiresFacts": ["paper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-no.i-hadn-t-heard-about-topic",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "I hadn't heard about {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-no.this-is-the-first-i-ve-heard-of-topic",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "This is the first I've heard of {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-no.i-missed-that-on-outlet",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "I missed that on {outlet}.",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-no.i-don-t-watch-outlet-much-what-happened",
+      "move": "news-answer-no",
+      "kind": "spoken",
+      "text": "I don't watch {outlet} much. What happened?",
+      "uses": [
+        {
+          "move": "news-answer-no",
+          "subject": "news",
+          "role": "answer",
+          "choice": "no",
+          "stages": ["not-heard"],
+          "requiresFacts": ["broadcast"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-ve-wanted-about-for-a-while-now",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I've wanted {about} for a while now.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-m-all-for-about-honestly",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I'm all for {about}, honestly.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-d-vote-for-about-myself",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I'd vote for {about} myself.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-m-against-about-plain-and-simple",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I'm against {about}, plain and simple.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-d-vote-against-about-myself",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I'd vote against {about} myself.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.about-is-going-to-cost-us",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "{about} is going to cost us.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-ve-never-thought-much-of-about",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I've never thought much of {about}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.i-used-to-work-at-topic",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "I used to work at {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.i-put-in-my-time-at-topic",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "I put in my time at {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.topic-was-my-job-i-know-those-people",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "{topic} was my job. I know those people.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.i-worked-at-topic-you-know",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "I worked at {topic}, you know.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.that-hits-home-i-worked-at-topic",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "That hits home. I worked at {topic}.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-worked-there.i-know-folks-at-topic-i-worked-there",
+      "move": "news-answer-worked-there",
+      "kind": "spoken",
+      "text": "I know folks at {topic}. I worked there.",
+      "uses": [
+        {
+          "move": "news-answer-worked-there",
+          "subject": "news",
+          "role": "answer",
+          "choice": "worked-there",
+          "requiresFacts": ["my-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-why.did-they-say-why-my-place-needs-those-jobs",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Did they say why? {my_place} needs those jobs.",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-why.did-they-say-why-that-s-a-loss-for-my-place",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Did they say why? That's a loss for {my_place}.",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-why.why-now-my-place-can-t-spare-many-more",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Why now? {my_place} can't spare many more.",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-why.did-they-say-why-what-s-it-mean-for-my-place",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Did they say why? What's it mean for {my_place}?",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-why.who-s-behind-it-i-d-want-to-know-before-my-place-tries-it",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Who's behind it? I'd want to know before {my_place} tries it.",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-why.did-they-say-why-folks-in-my-place-will-ask",
+      "move": "news-answer-why",
+      "kind": "spoken",
+      "text": "Did they say why? Folks in {my_place} will ask.",
+      "uses": [
+        {
+          "move": "news-answer-why",
+          "subject": "news",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["about"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-don-t-know-enough-about-about-yet",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I don't know enough about {about} yet.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-opinion.i-haven-t-made-up-my-mind-on-about",
+      "move": "news-answer-opinion",
+      "kind": "spoken",
+      "text": "I haven't made up my mind on {about}.",
+      "uses": [
+        {
+          "move": "news-answer-opinion",
+          "subject": "news",
+          "role": "answer",
+          "choice": "opinion",
+          "requiresFacts": ["my-none"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.what-do-you-make-of-topic-closing",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "What do you make of {topic} closing?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.so-topic-closed-what-do-you-think",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "So {topic} closed. What do you think?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.how-do-you-feel-about-topic-closing-down",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "How do you feel about {topic} closing down?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.you-heard-topic-closed-what-do-you-make-of-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "You heard {topic} closed? What do you make of it?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.did-topic-closing-surprise-you",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "Did {topic} closing surprise you?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.headline-what-do-you-make-of-that",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "{headline}. What do you make of that?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["headline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.you-saw-that-outlet-story-what-did-you-think",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "You saw that {outlet} story? What did you think?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["headline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.what-did-you-think-of-the-outlet-story",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "What did you think of the {outlet} story?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["headline", "paper"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.where-are-you-on-about-after-that-story",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "Where are you on {about}, after that story?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["headline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.that-story-on-about-what-do-you-make-of-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "That story on {about}, what do you make of it?",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["headline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.same-here-i-heard-it-when-and-thought-so-too",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Same here. I heard it {when} and thought so too.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-i-heard-it-when-and-i-didn-t-like-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me. I heard it {when}, and I didn't like it.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.me-neither-i-heard-it-when-and-thought-the-same",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Me neither. I heard it {when} and thought the same.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.i-don-t-i-liked-it-when-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I don't. I liked it when I heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.maybe-i-only-heard-about-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Maybe. I only heard about it {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.could-be-i-only-heard-about-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Could be. I only heard about it {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.then-you-d-know-i-only-heard-about-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Then you'd know. I only heard about it {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.you-d-know-better-than-me-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "You'd know better than me. I heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-worked-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.nobody-said-i-only-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Nobody said. I only heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.they-didn-t-say-it-only-ran-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "They didn't say. It only ran {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "headline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.i-figured-you-d-seen-it-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I figured you'd seen it. I heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-yes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-came-on-the-news-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It came on the news {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "headline"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-s-closed-for-good-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It's closed for good. I heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-no", "closed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.that-was-my-reaction-when-too",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "That was my reaction {when}, too.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-react"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.fair-enough-i-ve-chewed-on-it-since-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Fair enough. I've chewed on it since {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-opinion"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-ve-been-for-about-a-long-time",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I've been for {about} a long time.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.count-me-in-favor-of-about",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "Count me in favor of {about}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-think-about-makes-sense",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I think {about} makes sense.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.about-would-do-some-good",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "{about} would do some good.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-m-on-the-side-of-about",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I'm on the side of {about}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["my-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-ve-been-against-about-a-long-time",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I've been against {about} a long time.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.count-me-out-on-about",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "Count me out on {about}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-don-t-think-about-makes-sense",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I don't think {about} makes sense.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.about-would-do-more-harm-than-good",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "{about} would do more harm than good.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["my-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
     }
   ]
