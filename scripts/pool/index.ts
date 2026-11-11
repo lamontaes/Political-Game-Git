@@ -20,10 +20,17 @@ import {
   readTiers,
   tierOfLevel,
 } from "./agent";
-import { NOTE_PLACEHOLDER, prBody, prTitle, releaseNote } from "./draft-pr";
+import {
+  NOTE_PLACEHOLDER,
+  chooseNoteId,
+  prBody,
+  prTitle,
+  releaseNote,
+} from "./draft-pr";
 import {
   claimable,
   DEFAULT_ORDER,
+  inKind,
   makeOrder,
   type Order,
   readOrder,
@@ -33,8 +40,10 @@ import {
   needsCause,
   readRoots,
   repoAt,
+  feedsId,
   section,
   standardProblems,
+  seenLine,
 } from "./standard";
 
 export { section };
@@ -456,6 +465,7 @@ export function run(
         ...(needsCause(fm, text) ? { "needs-cause": "1" } : {}),
         "waits-on": section(text, "Waits on"),
         "time-box": section(text, "Time box"),
+        shown: seenLine(section(text, "What"))?.kind ?? "",
       };
       items.push(row as Item);
     }
@@ -464,6 +474,13 @@ export function run(
   for (const i of items)
     for (const a of ids(i.after))
       if (!known.has(a)) errors.push(`${i.id}.md: after "${a}" is not an item`);
+  for (const i of items) {
+    const feeds = feedsId(
+      section(readFileSync(join(dir, `${i.id}.md`), "utf8"), "What"),
+    );
+    if (feeds && !known.has(feeds))
+      errors.push(`${i.id}.md: Feeds: "${feeds}" is not an item`);
+  }
   const index = buildIndex(items, readOrder(poolDir));
   const path = join(poolDir, "INDEX.md");
   if (check) {
@@ -720,13 +737,14 @@ const ADD_FLAGS = [
   "effort",
   "root",
   "lead",
+  "seen",
 ] as const;
 
 const TEMPLATE = (f: Record<string, string>, id: string): string => {
   const box = /^\d+(?:\.\d+)?$/.test(f.timebox)
     ? `${f.timebox} hours`
     : f.timebox;
-  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
+  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what} ${f.seen}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
 };
 
 /** What `seen` must be told: who looked, where, on which seed and commit, and what was on screen. */
@@ -795,22 +813,61 @@ function releasedText(id: string, lead: string): string {
   );
 }
 
-/** The release note for `id` on `branch`: origin's copy when origin has the branch, else the local branch's, else null. */
-function noteOnBranch(branch: string, id: string): string | null {
+/** The release notes a branch adds under docs/release/changes/: path and text, read from origin's copy when origin has the branch, else the local branch. Null when the branch is unreadable. */
+function notesOnBranch(
+  branch: string,
+): { path: string; text: string }[] | null {
   if (!BRANCH.test(branch)) return null;
-  const path = `docs/release/changes/${id}.md`;
-  let fetched = false;
+  let ref = branch;
   try {
     git("fetch", "-q", "origin", branch);
-    fetched = true;
+    ref = "FETCH_HEAD";
   } catch {
     /* no origin copy */
   }
   try {
-    return git("show", `${fetched ? "FETCH_HEAD" : branch}:${path}`);
+    const names = git(
+      "diff",
+      "--name-only",
+      "--diff-filter=AM",
+      `origin/main...${ref}`,
+      "--",
+      "docs/release/changes/",
+    )
+      .split("\n")
+      .filter(Boolean);
+    return names.map((path) => ({ path, text: git("show", `${ref}:${path}`) }));
   } catch {
     return null;
   }
+}
+
+/** Every change id already used on main: those listed in consumed-changes.json and the files in docs/release/changes/. */
+function usedNoteIds(): Set<string> {
+  const used = new Set<string>();
+  try {
+    const j = JSON.parse(
+      git("show", "origin/main:docs/release/consumed-changes.json"),
+    ) as { entries?: { changeIds?: string[] }[] };
+    for (const e of j.entries ?? [])
+      for (const c of e.changeIds ?? []) used.add(c);
+  } catch {
+    /* no list on main */
+  }
+  try {
+    for (const f of git(
+      "ls-tree",
+      "--name-only",
+      "origin/main",
+      "docs/release/changes/",
+    )
+      .split("\n")
+      .filter(Boolean))
+      used.add(f.replace(/^.*\//, "").replace(/\.md$/, ""));
+  } catch {
+    /* no changes folder on main */
+  }
+  return used;
 }
 
 /** When a branch was last pushed: its newest commit's time, fetched from origin or read from the local origin ref. */
@@ -860,20 +917,37 @@ export function staleClaims(
   return out;
 }
 
+/** Whether a pull request is OPEN, CLOSED or MERGED, asked of gh; null when gh cannot say. */
+function prState(pr: string): string | null {
+  try {
+    const said = execFileSync(
+      "gh",
+      ["pr", "view", pr.replace(/^#/, ""), "--json", "state"],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+    );
+    const state = (JSON.parse(said) as { state?: string }).state;
+    return state && /^[A-Z]+$/.test(state) ? state : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Where `next` prints, and a hook tests use to run another caller between the claim and its push. */
 export interface NextIO {
   out: (line: string) => void;
   beforePush?: () => void;
+  /** Where the stage lines go; standard error when unset, so the result lines stay the same. */
+  progress?: (line: string) => void;
 }
 
 const NEXT_USAGE =
-  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--no-pr] [--dry-run]';
+  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--for <kind>] [--no-pr] [--dry-run]';
 /** The subject of a new item branch's first commit; any other commit on the branch means another agent started. */
 const startSubject = (id: string): string =>
   `${id}: start the branch with its release note`;
 
 /** Makes `branch` on origin from origin/main with one commit adding the item's release note, without touching the working tree. */
-function startBranch(id: string, branch: string): void {
+function startBranch(id: string, noteId: string, branch: string): void {
   const dir = mkdtempSync(join(tmpdir(), "pool-branch-"));
   const env = { ...process.env, GIT_INDEX_FILE: join(dir, "index") };
   const g = (args: string[], input?: string): string =>
@@ -884,13 +958,13 @@ function startBranch(id: string, branch: string): void {
       stdio: ["pipe", "pipe", "pipe"],
     }).trim();
   try {
-    const blob = g(["hash-object", "-w", "--stdin"], releaseNote(id));
+    const blob = g(["hash-object", "-w", "--stdin"], releaseNote(noteId));
     g(["read-tree", "origin/main"]);
     g([
       "update-index",
       "--add",
       "--cacheinfo",
-      `100644,${blob},docs/release/changes/${id}.md`,
+      `100644,${blob},docs/release/changes/${noteId}.md`,
     ]);
     const tree = g(["write-tree"]);
     const commit = g([
@@ -925,6 +999,8 @@ function next(
   const tiers = readTiers(POOL());
   const dry = !!f["dry-run"];
   const now = Date.now();
+  const stage = (line: string): void =>
+    (io.progress ?? ((l) => void process.stderr.write(`${l}\n`)))(line);
   // The agent of this checkout: named and given its tier by the tool, from
   // what it says it is. `--tier` (or the older `--model`) and `--agent` are
   // for an owner or CTO who wants to set them by hand.
@@ -934,6 +1010,10 @@ function next(
   const at = level ? order.levels.indexOf(level) : -1;
   if (!level || at < 0)
     return `${NEXT_USAGE}\nThe tiers are ${tiers.tiers.map((x) => x.name).join(", ")}.`;
+  const kindName = f.for ?? "";
+  const kind = kindName ? order.kinds[kindName] : undefined;
+  if (kindName && !kind)
+    return `No kind of work is called "${kindName}". The kinds are ${Object.keys(order.kinds).join(", ") || "none"} (docs/pool/order.json).\n${NEXT_USAGE}`;
   const tier = tierOfLevel(level, tiers);
   const levels = order.levels.slice(0, at + 1).reverse();
   const prefix = branchPrefix(f["branch-prefix"], env);
@@ -960,24 +1040,25 @@ function next(
     );
     const known = new Set(items.map((i) => i.id));
     const cmp = makeOrder(items, order);
-    const ready = items.filter((i) => claimable(i, onMain, known)).sort(cmp);
+    const ready = items
+      .filter((i) => claimable(i, onMain, known) && (!kind || inKind(i, kind)))
+      .sort(cmp);
     for (const l of levels) {
       const hit = ready.find((i) => i.model === l);
       if (hit) return hit;
     }
     return null;
   };
-  const none = `No item is ready for tier ${tier} or any tier below it.`;
+  const none = kind
+    ? `No ${kindName} item is left for your tier (${tier}) or any tier below it.`
+    : `No item is ready for tier ${tier} or any tier below it.`;
   const staleLine = (s: Stale): string =>
     `no push to ${s.branch || "its branch"} since ${when(s.last)}, more than twice its ${s.hours}-hour time box`;
 
   if (dry) {
     const items = read();
-    const stale = staleClaims(items, now, (b) => branchTip(b, false));
-    if (stale.length)
-      io.out(
-        "These releases go by the branch times this checkout already has; next itself fetches each branch first.",
-      );
+    stage("Looking for claims gone quiet (fetching each claimed branch).");
+    const stale = staleClaims(items, now, (b) => branchTip(b, true));
     for (const s of stale) {
       io.out(`Would release ${s.id}: ${staleLine(s)}.`);
       const i = items.find((x) => x.id === s.id);
@@ -1013,6 +1094,7 @@ function next(
     return null;
   }
 
+  stage("Releasing quiet claims, choosing the item and claiming it on main.");
   let taken: Item | null = null;
   let released: Stale[] = [];
   onMain(
@@ -1079,13 +1161,14 @@ function next(
   }
   const branch = branchOf(item);
   let started: string[] | null = null;
+  stage(`Starting the branch ${branch}.`);
   try {
     git("fetch", "-q", "origin", branch);
     started = git("log", "--format=%s", "origin/main..FETCH_HEAD")
       .split("\n")
       .filter(Boolean);
   } catch {
-    startBranch(item.id, branch);
+    startBranch(item.id, chooseNoteId(item.id, usedNoteIds()), branch);
   }
   io.out(`Item: ${item.id}`);
   io.out(`Title: ${item.title}`);
@@ -1093,8 +1176,26 @@ function next(
   io.out(
     `Branch: ${branch} (to start: git fetch origin ${branch} && git checkout -B ${branch} origin/${branch})`,
   );
+  const notes = notesOnBranch(branch) ?? [];
+  io.out(
+    notes.length
+      ? `Release note: ${notes.map((n) => n.path).join(", ")}`
+      : "Release note: none on the branch yet; add one under docs/release/changes/",
+  );
   let pr = item.pr;
+  if (pr) {
+    const state = prState(pr);
+    if (state === "OPEN") {
+      /* a live draft: keep it */
+    } else if (state) {
+      io.out(
+        `Pull request ${pr} is ${state.toLowerCase()}; opening a new draft.`,
+      );
+      pr = "";
+    } else io.out(`Pull request ${pr}: gh could not say whether it is open.`);
+  }
   if (!pr) {
+    stage("Opening the draft pull request.");
     const title = prTitle(item.id, item.title);
     const body = prBody(
       item.id,
@@ -1227,10 +1328,11 @@ export function command(
         const fm = readItem(id);
         if (st === "in-pr") {
           const branch = fm.branch || fm["claimed-by"];
-          const note = branch ? noteOnBranch(branch, id) : null;
-          if (note?.includes(NOTE_PLACEHOLDER))
+          const notes = branch ? notesOnBranch(branch) : null;
+          const open = notes?.find((n) => n.text.includes(NOTE_PLACEHOLDER));
+          if (open)
             throw new Error(
-              `docs/release/changes/${id}.md on ${branch} still says "${NOTE_PLACEHOLDER}" Write the release note, push it, then set the item in-pr.`,
+              `${open.path} on ${branch} still says "${NOTE_PLACEHOLDER}" Write the release note, push it, then set the item in-pr.`,
             );
         }
         // A second merge of a checked or closed item must not undo its check.
@@ -1315,7 +1417,7 @@ export function command(
       );
     } else if (cmd === "add") {
       if (!id)
-        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
+        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> --seen '<Seen: ..., Feeds: <item id> ... or Guards: ...>' [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
       f.size = f.size || "M";
       const edit = (): void => {
         if (existsSync(itemPath(id))) throw new Error(`${id} already exists`);

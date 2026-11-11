@@ -12,7 +12,7 @@ blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: governing
 milestone: play-first
-claimed-at: 2026-11-10T22:58:55.629Z
+claimed-at: 2026-11-11T03:03:08.078Z
 after:
 standard: 2
 model: sonnet
@@ -49,3 +49,11 @@ Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): replay tests pass on three seeds; needs a running-game session for pool seen, no code change. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:58 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
+
+Released by next (2026-11-11): no push to claude/pool-elections-past-race-votes-from-electorate since 2026-11-10 22:56 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:58 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
+
+Released (2026-11-11): Replayed by test only (details on #7088): past-legislature-votes and past-race-district tests pass on 3 fresh draws each; not read on the front page in the browser; pool seen refuses non-merged items. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:03 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.

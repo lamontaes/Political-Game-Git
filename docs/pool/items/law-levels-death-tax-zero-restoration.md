@@ -14,7 +14,7 @@ claimed-at:
 branch: astra/death-tax-restoration
 ---
 
-**What.** The death-tax branch of shapedRate scales schedule rates to zero and cannot recover them when a later bill raises the top rate. The death-tax reader also selects rows by date and lexical id instead of the shared law-in-force ordering. Preserve the real schedule basis through zero and use the one resolver so same-day enacted acts govern in order.
+**What.** The death-tax branch of shapedRate scales schedule rates to zero and cannot recover them when a later bill raises the top rate. The death-tax reader also selects rows by date and lexical id instead of the shared law-in-force ordering. Preserve the real schedule basis through zero and use the one resolver so same-day enacted acts govern in order. Seen: the bill card's estate or inheritance tax rate when a later bill raises a rate an earlier bill took to zero.
 
 **Rules.** Use existing law/bill/estate assessment engines; no invented replacement rates or exemptions. Keep jurisdiction scopes and government-heir exemptions unchanged. Test actual assessment after signed bills, and distinguish this from proving all territory estate-tax scope or played votes. Wire to the world: the restored schedule is read by the real estate-tax assessment, not by a copy of it. Look before you ask: the earlier tax-migration item is about residence outcomes and is not reopened here.
 

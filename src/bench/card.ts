@@ -1462,9 +1462,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     // past module's public tier), serving since the run's first term; null
     // for anyone else.
     publicKnowledge: publicKnowledge && withSince(publicKnowledge, run),
-    // Their headshot for the talk box (the same face the People map draws),
-    // and the card's standing figure: the same picture, whole.
+    // Their bust for the talk box: the same face the People map draws.
     face,
-    figureUrl: face?.url ?? null,
   };
 }
