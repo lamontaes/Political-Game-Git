@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/fable-b-meeting-says-who-spoke
 pr: #8848
@@ -18,6 +18,7 @@ root: rc10-screens-keep-own-facts
 source: the owner, Nov 11, 2026, on a picture of the council meeting from the lead's play walk (Lino Lakes, Minnesota, seed 046d2235-27df-4daa-a680-423d6f24d0d7)
 checked:
 claimed-at: 2026-11-11
+merged-at: 2026-11-11T17:34:55.800Z
 ---
 
 **What.** The owner looked at the council meeting on Nov 11 and said three things. "Don't let dates go 2025-8 like how they are in the council member thing. Like, have August 2025 or something." Under each ordinance's name the panel printed its bare number, "2025-8", which reads as a date. "I don't like the names just in a list like that. Against, it looks like against is a name every time." After a vote the panel printed each person who spoke with the word Against after their name, beside the tally, so six residents read as six votes on a five-member council. "During scenes and menus and stuff, you need to check and see what to do about the people. Like, you see the here, it's being covered up by the menu." The strip of people along the foot of the room ran under the meeting panel, and two of the four were hidden behind it. Seen: the meeting panel and the desk panel at 1440x900, where the number reads "Ordinance 2025-8", the speakers stand under "Spoke for" and "Spoke against" with a count, and nobody in the room is half covered.
