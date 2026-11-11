@@ -517,6 +517,8 @@ export function composeSceneTalk(
   const maxReplies = RULES.tree.maxReplies.value;
   const maxNodes = RULES.tree.maxNodes.value;
 
+  /** What each piece said in this talk was, and who said it, for the next line in the same box. */
+  const spoken = new Map<string, { speakerId: PersonId; text: string }>();
   /** The pieces said as closes anywhere in this talk. */
   const closesSaid = new Set<string>();
   /** How many closes of each move this talk has said. */
@@ -535,6 +537,11 @@ export function composeSceneTalk(
     // fits: the closes already said anywhere in this talk are shown (the
     // English engine leaves a shown piece out while an unseen one fits).
     const closing = use.step === "close";
+    // The line this speaker said just before, in the same box: the words
+    // refuse a line that opens the same way or says the same clause around
+    // the same insert again ("I read about X." then "I keep reading about X.").
+    const last = [...said].at(-one);
+    const prior = last ? spoken.get(last) : undefined;
     const worded = wordSceneMove({
       move: use,
       facts,
@@ -544,13 +551,20 @@ export function composeSceneTalk(
       momentKey: `${scene}:${moment}`,
       said,
       tagged: onlyTagged,
-      options: closing
-        ? {
-            ...options,
-            shown: new Set([...(options?.shown ?? []), ...closesSaid]),
-          }
-        : options,
+      options: {
+        ...(closing
+          ? {
+              ...options,
+              shown: new Set([...(options?.shown ?? []), ...closesSaid]),
+            }
+          : options),
+        ...(prior && prior.speakerId === speakerId
+          ? { before: prior.text }
+          : {}),
+      },
     });
+    if (worded && "pieceKey" in worded)
+      spoken.set(worded.pieceKey, { speakerId, text: worded.text });
     if (worded && "pieceKey" in worded && closing)
       closesSaid.add(worded.pieceKey);
     if (!worded) return null;

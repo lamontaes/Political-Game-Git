@@ -109,7 +109,8 @@
     "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
     "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
     "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
-    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record."
+    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
+    "hail": "the official hailed by the office they hold and their family name, from the offices engine"
   },
   "maxWords": 70,
   "parts": [
@@ -30112,14 +30113,6 @@
       "kind": "spoken",
       "text": "At least you said it to my face.",
       "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "law-reaches",
-          "key": "news-received"
-        },
         {
           "subject": "scene",
           "step": "follow",
@@ -103543,105 +103536,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.you-voted-for-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You voted for {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["voted-for"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-voted-against-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You voted against {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["voted-against"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.you-re-first-aren-t-you-i-want-a-word-about-law",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "You're {first}, aren't you? I want a word about {law}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "requiresFacts": ["law"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-read-about-bill",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I read about {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "open",
-          "move": "greet",
-          "role": "asker"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.i-read-how-you-voted-on-bill-i-d-like-to-hear-why",
       "move": "state-tell",
       "kind": "spoken",
@@ -103767,54 +103661,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-voted-the-way-i-thought-was-right-for-place-here-s-why",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I voted the way I thought was right for {place}. Here's why.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.it-was-a-hard-vote-i-ll-tell-you-what-i-weighed",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "It was a hard vote. I'll tell you what I weighed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked"
-        }
-      ],
-      "bearing": "contrite",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-promise.tell-me-what-it-s-doing-to-you-and-i-ll-take-it-back-to-the-others",
       "move": "reply-promise",
       "kind": "spoken",
@@ -103909,30 +103755,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "blame",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.that-doesn-t-help-us",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "That doesn't help us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "disagree",
         "key": "news-received"
       }
     },
@@ -104058,30 +103880,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "warn",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell.i-keep-reading-about-bill-i-want-to-know-what-it-means-for-us",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I keep reading about {bill}. I want to know what it means for us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "law-reaches",
-          "key": "news-received",
-          "step": "state",
-          "move": "tell",
-          "role": "asker"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Claude Opus (words lead, for director-scenes-from-circumstance)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
         "key": "news-received"
       }
     },
@@ -204830,6 +204628,1362 @@
         "move": "confront",
         "key": "bribe-reported"
       }
+    },
+    {
+      "key": "scene-talk.open-greet.hail-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{hail}. Do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.hail-got-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{hail}? Got a second?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-hail",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me, {hail}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.hail-can-i-stop-you-a-moment",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{hail}, can I stop you a moment?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.sorry-to-bother-you-hail",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Sorry to bother you, {hail}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.hail-hold-on-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{hail}! Hold on a second.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.pardon-me-hail-have-you-got-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Pardon me, {hail}. Have you got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.hail-wait-up",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{hail}, wait up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.hail-you-re-just-the-person-i-wanted-to-see",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{hail}, you're just the person I wanted to see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.can-i-have-a-word-hail",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can I have a word, {hail}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "requiresFacts": ["hail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.you-re-first-aren-t-you-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You're {first}, aren't you? Do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-aren-t-you-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me, aren't you {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.open-greet.first-can-i-stop-you-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}? Can I stop you a second?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "open",
+          "move": "greet",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.what-does-bill-mean-for-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "What does {bill} mean for us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.i-ve-been-reading-about-bill-and-i-can-t-tell-what",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I've been reading about {bill}, and I can't tell what it means for my family.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.i-want-to-understand-bill-what-changes-for-us",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I want to understand {bill}. What changes for us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.everybody-on-my-street-is-talking-about-bill-what-s-it-going",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Everybody on my street is talking about {bill}. What's it going to cost us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.nobody-s-explained-bill-to-people-like-me",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Nobody's explained {bill} to people like me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.you-voted-for-bill-help-me-understand-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You voted for {bill}. Help me understand why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.the-paper-says-you-were-a-yes-on-bill-i-d-like",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The paper says you were a yes on {bill}. I'd like to know what you saw in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.you-voted-against-bill-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You voted against {bill}. Why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.the-paper-says-you-were-a-no-on-bill-i-want-to",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The paper says you were a no on {bill}. I want to know why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.the-paper-says-bill-passed-but-i-didn-t-see-your-name",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The paper says {bill} passed, but I didn't see your name on the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.they-passed-bill-without-you-what-happened",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "They passed {bill} without you. What happened?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.state-tell.i-read-about-bill-and-you-weren-t-in-that-vote-where",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read about {bill}, and you weren't in that vote. Where do you stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-for-bill-and-i-ll-tell-you-why",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted for {bill}, and I'll tell you why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-backed-it-because-i-thought-it-was-right-for-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I backed it because I thought it was right for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-a-yes-on-bill-let-me-tell-you-what-i",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was a yes on {bill}. Let me tell you what I weighed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-against-bill-and-i-ll-tell-you-why",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted against {bill}, and I'll tell you why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-was-a-no-because-i-didn-t-think-it-was-right",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was a no, because I didn't think it was right for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-couldn-t-back-bill-let-me-tell-you-what-i-weighed",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I couldn't back {bill}. Let me tell you what I weighed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-wasn-t-in-that-vote-on-bill-tell-me-what-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I wasn't in that vote on {bill}. Tell me what you read.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.that-vote-happened-without-me-but-i-want-to-hear-how-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "That vote happened without me, but I want to hear how it hits {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-didn-t-vote-on-bill-what-have-you-heard-about-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I didn't vote on {bill}. What have you heard about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-voted-for-bill-and-it-still-doesn-t-help-us",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You voted for {bill}, and it still doesn't help us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.i-heard-why-you-voted-yes-first-i-still-don-t-like",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "I heard why you voted yes, {first}. I still don't like it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.your-reasons-for-bill-don-t-pay-my-bills",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Your reasons for {bill} don't pay my bills.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-first-at-least-you-stand-behind-your-vote",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright, {first}. At least you stand behind your vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-if-you-ll-stand-by-that-vote-on-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough, if you'll stand by that vote on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.i-can-live-with-bill-if-you-keep-telling-people-why-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can live with {bill} if you keep telling people why you backed it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.voting-no-didn-t-stop-bill-though",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Voting no didn't stop {bill}, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.your-no-vote-didn-t-change-anything-for-place",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Your no vote didn't change anything for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.i-hear-you-voted-no-first-it-passed-anyway",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "So you voted no, {first}. It passed anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.good-somebody-had-to-say-no-to-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. Somebody had to say no to {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-for-voting-no-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for voting no, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.i-m-glad-you-were-against-bill",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'm glad you were against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-should-have-been-in-that-vote-first",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You should have been in that vote, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.not-being-there-is-no-answer-on-bill",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Not being there is no answer on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.if-you-weren-t-in-the-vote-on-bill-who-spoke-for",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "If you weren't in the vote on {bill}, who spoke for us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.then-hear-me-out-first-since-you-weren-t-in-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then hear me out, {first}, since you weren't in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-next-time-bill-comes-up-be-in-the-room",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. Next time {bill} comes up, be in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-i-ll-tell-you-about-bill-so-you-know-for-the",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair. I'll tell you about {bill}, so you know for the next vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["no-vote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-ll-wait-to-hear-back-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'll wait to hear back, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-thank.you-ll-look-into-bill-for-us-i-ll-remember-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You'll look into {bill} for us? I'll remember that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-thank.a-call-this-week-then-i-ll-hold-you-to-it-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "A call this week, then. I'll hold you to it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.when-will-you-look-into-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "When will you look into {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.looking-into-it-isn-t-fixing-it-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Looking into it isn't fixing it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.a-promise-is-easy-what-will-you-do-about-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A promise is easy. What will you do about {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.not-the-place-then-tell-me-where-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Not the place? Then tell me where, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.if-not-here-when-do-we-talk-about-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If not here, when do we talk about {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-press.you-can-t-just-walk-away-from-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can't just walk away from {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-were-one-of-the-votes-for-bill-though",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You were one of the votes for {bill}, though.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "blame",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.others-voted-for-it-first-but-so-did-you",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Others voted for it, {first}, but so did you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "blame",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.pointing-at-the-others-doesn-t-change-your-vote-on-bill",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Pointing at the others doesn't change your vote on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "blame",
+          "requiresFacts": ["voted-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.blaming-them-doesn-t-help-me-with-bill",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Blaming them doesn't help me with {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "blame",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-can-blame-them-first-but-it-passed-all-the-same",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You can blame them, {first}, but it passed all the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "blame",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "scene-talk.follow-disagree.fine-they-passed-bill-what-will-you-do-now",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Fine, they passed {bill}. What will you do now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "after": "blame",
+          "requiresFacts": ["voted-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (Words builder W2, street stop)",
+      "date": "2026-11-11"
     }
   ]
 }

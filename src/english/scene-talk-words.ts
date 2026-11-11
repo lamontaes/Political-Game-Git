@@ -114,6 +114,8 @@ export interface SceneMove {
 
 /** How a review page or a play session limits the wording. */
 export interface SceneWordingOptions {
+  /** The line the same speaker said just before, in the same box: a piece that would repeat it is left out while another fits. */
+  before?: string;
   /** How often each piece was already used on this page (variety across scenes). */
   usage?: ReadonlyMap<string, number>;
   /** Only a setup piece no other scene on the page used. */
@@ -307,6 +309,15 @@ export function wordSceneMove(input: {
     const plain = parts.filter((part) => !VOCATIVE_KEYS.has(part.key));
     if (plain.length) parts = plain;
   }
+  // No clause twice in one box (the words lead's play walk, Nov 11): a line
+  // that opens the way the speaker's last line opened, or says the same words
+  // into the same insert, is left out while another fits.
+  if (options.before) {
+    const fresh = parts.filter(
+      (part) => !echoesBefore(part.text, facts, options.before!),
+    );
+    if (fresh.length) parts = fresh;
+  }
   const unseen = parts.filter((part) => !options.shown?.has(part.key));
   if (unseen.length || options.freshOnly) parts = unseen;
   if (!parts.length) return null;
@@ -355,6 +366,38 @@ export function wordSceneMove(input: {
     invites: INVITES.test(line.text.trim()),
     slotRecordIds: [...line.sourceRecordIds],
   };
+}
+
+/** A line's words, lower case, without punctuation. */
+function wordsOf(text: string): string[] {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9' ]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+/**
+ * Whether a piece would repeat the line before it in the same box: its words
+ * up to its first insert open the line before, or the word leading into its
+ * first insert and the insert's words are already in that line.
+ */
+export function echoesBefore(
+  text: string,
+  facts: Readonly<Record<string, Fact>>,
+  before: string,
+): boolean {
+  const at = text.indexOf("{");
+  if (at < zero) return false;
+  const lead = wordsOf(text.slice(zero, at));
+  const prior = wordsOf(before).join(" ");
+  if (lead.length > one && prior.startsWith(lead.join(" "))) return true;
+  const slot = /\{([\w-]+)\}/.exec(text)?.[one];
+  const value = slot ? facts[slot]?.text : undefined;
+  if (!value || !lead.length) return false;
+  return ` ${prior} `.includes(
+    ` ${[lead.at(-one), ...wordsOf(value)].join(" ")} `,
+  );
 }
 
 /** Whether any piece can word a move from these facts (a close the asker could say). */

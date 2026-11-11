@@ -1869,7 +1869,7 @@
       "endings": [
         {
           "id": "explained",
-          "label": "You explained your vote",
+          "label": "You said where you stood",
           "keeps": "none",
           "when": {
             "anyReply": ["tell"],
