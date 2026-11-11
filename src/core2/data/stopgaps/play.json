@@ -346,5 +346,17 @@
     "addedAt": "2026-11-11",
     "replacement": "A director situation type that stages the ask record (core2-campaigns-v1 asks) as a talk with the candidate or a letter from them, whose replies call answerDonationAsk, with lines from the English engine.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-creator-bust-choices",
+    "kind": "placeholder-art",
+    "file": "src/bench/appearance.ts",
+    "line": 22,
+    "whatItFakes": "The creator offers what the bust bank paints today (round 3): three skins, six hairstyles in the two or three colors painted for that skin and, for a man, a beard or a mustache. The approved creator mock (docs/mocks/2026-11-08-front, fr-creator) also shows Face, Shirt, Jacket and Tie, which the bank has no separate pieces for; a bust wears the first top its person would wear where they are seen, so clothes are not chosen.",
+    "why": "Owner, Nov 7 and Nov 10, 2026: busts, never full figures; full bodies come back after early access. The bank (art/busts/v1) holds rounds 1 and 2 of the painting.",
+    "addedBy": "claude/fable-b-creator-on-busts",
+    "addedAt": "2026-11-11",
+    "replacement": "The layered clothes of docs/art/busts-spec.md, spec 2 (shirt, tie and jacket pieces in painted colors), as rows in art/busts/v1/manifest.json, with a Shirt, a Tie and a Jacket row in the creator.",
+    "status": "open"
   }
 ]

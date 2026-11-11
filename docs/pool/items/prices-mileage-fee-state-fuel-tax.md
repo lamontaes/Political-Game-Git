@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/place-prices.ts, data/research/outcome-web/links.json, src/core2/data/stopgaps/gov.json
 
 **Notes.** Found by the laws lead's helper on `claude/web-vehicle-miles-traveled-per-resident`, Oct 25.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given each place its own fuel tax for the mileage-fee refund; only a mileage-fee law reads it and the national average stays a labeled estimate.

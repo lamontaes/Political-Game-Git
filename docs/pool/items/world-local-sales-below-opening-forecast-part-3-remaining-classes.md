@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** For each remaining class, add a sourced customer row (household CE categories for recreation and schools, tuition or fees, firm or household buyers for insurance and realty) or size the book to the buyers the opening can name, with the choice recorded in the data. Then resolve the stopgap row.
 
-**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-local-sales-below-opening-forecast (the first-year shrink of a played town).
 
 **Rules.** Research before building: every added customer cites its source and spread. One model, two tiers: counted and full buyers use the same rule, times their count. Replace, never layer: the class's old unsupported entry is removed in the same change.
 

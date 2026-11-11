@@ -13,9 +13,41 @@ concurrency:
   # The event is in the key so the nightly run on main is never canceled by
   # the next push to main; otherwise main never gets a golden-path verdict.
   group: m0-guard-${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Only a pull request run is replaced by a newer push; hourly and manual runs finish.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
+  scope:
+    name: docs only
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      docs_only: ${{ steps.files.outputs.docs_only }}
+    steps:
+      - name: Detect docs-only pull request
+        id: files
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          docs_only=false
+          if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            # If the file list cannot be read, the game runs go ahead.
+            files="$(gh api --paginate "repos/${{ github.repository }}/pulls/${PR_NUMBER}/files" --jq '.[].filename')" || files=""
+            if [[ -n "$files" ]] && ! grep -qvE '^(docs/.*|[^/]*\.md)$' <<<"$files"; then
+              docs_only=true
+            fi
+          fi
+          echo "docs_only=$docs_only" >> "$GITHUB_OUTPUT"
   golden-path:
+    needs: scope
+    # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
+    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 35 # policies.json goldenJobMinutes; includes dependency setup
     steps:
@@ -44,6 +76,9 @@ jobs:
   # The played year (M0-13) takes most of a run's time, so it has its own job
   # and budget (policies.json longRunningMilliseconds) and cannot starve the quick specs.
   golden-path-year:
+    needs: scope
+    # Runs unless the pull request is docs only: a failed or skipped docs-only job never skips it.
+    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 35 # policies.json goldenJobMinutes; includes dependency setup
     steps:
@@ -85,8 +120,8 @@ jobs:
           fi
           echo "changed=$changed" >> "$GITHUB_OUTPUT"
   paired-performance:
-    needs: core-changes
-    if: needs.core-changes.outputs.changed == 'true'
+    needs: [scope, core-changes]
+    if: ${{ !cancelled() && needs.scope.outputs.docs_only != 'true' && needs.core-changes.outputs.changed == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 50 # policies.json performanceJobMinutes; includes dependency setup
     steps:

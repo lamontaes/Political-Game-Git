@@ -17,6 +17,7 @@ description: >
 
 ## Time it
 
+- **Read `cadence-and-summaries` first** (owner, Nov 10): every speed cut moves a daily step to its real cadence or folds a table, and changes its line in `docs/design/daily-register.md` in the same pull request; the register's unapproved entries are the list of cuts.
 - Every run: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run speed:year -- --seed <seed> --proof-out <file>`. It runs four years by default, so every check includes an election year. A one-year check measured only 2025, an off year: in a Ringgold, Louisiana save 2025 took 52 s and 2028 took 155 s.
 - Profile an election year (year 4, 2028), not year 1. `--cpu-prof` makes a year about 1.35 times slower; convert profile seconds before you quote them.
 - A cloud container has 4 cores and about 15 GB. Two heavy runs at once is the limit; a third, or a long save beside them, gets killed for memory near 4 GB each (Oct 30).
@@ -109,6 +110,13 @@ When a session builds work that runs for many people (relatives elsewhere, the c
   - A cache keyed by records inside the world (a person, a traits object), which the restore refills in place, registers its reset with `registerRestoreReset`.
   - To find which one, patch `globalThis.WeakMap` in the probe before anything else is imported. Record where each map was made and which keys it set before the restore, clear chosen ones after, and halve the set. Clearing every map breaks the world, because module state and the cash host live in maps too.
   - When the split is a record that exists in only one world, wrap that world's Map `set` to print the stack that first writes the key.
+
+## Full people that grow (Nov 11, Speed)
+
+- **When later years slow, count full people per year first** (`core.people` in `speed:year --out`). In South Hooksett, New Hampshire (3371220, seed s8333) they went 1,961, 2,921, 3,525, 4,109 while husks held, and every per-person engine (a campaign event's guest list, people acting, news, coverage, the collector) slowed with them.
+- **Then count fill-ins by caller.** A temporary counter in `fillInPerson` keyed by the two stack frames above it found three in four were `bringCases` (constituent cases at an official's office hours the player never saw). An ablation (no such cases) took year 1 from 184 to 121 s. Fix such a filler under "Keep it simple": a counted person stays counted unless the player meets them (`keepsWhy`), and the engine's record keys on their id so a later fill-in finds it (#8738).
+- **Many small exact cuts do not add up to the bar.** Two caches of stance reads gave 3 to 4% each, inside one run's noise, and one was inexact (a writer was missed; the records digest differed in year 2). Count the volume (events, guests, reads) before caching a read.
+- **This container's own noise is 10 to 20%.** Main's year 1 read 168, 184 and 203 s on the same 4-core container on Nov 11. A cut under about 10% needs alternating pairs before it is quoted; one under 5% is dropped unless its records proof and a profile both show it.
 
 ## Memory: find the cause before the fold
 
