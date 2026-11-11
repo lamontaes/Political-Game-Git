@@ -1,6 +1,8 @@
 ---
 id: laws-new-state-income-tax-pays-out-where-it-should-collect
-impact: none
+impact: patch
+section: Fixed
+title: A new income tax passed where there was none now collects
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+When a legislature passed a first income tax in a place that had none, the new tax withheld nothing from paychecks. It now withholds at the rate the bill sets.
