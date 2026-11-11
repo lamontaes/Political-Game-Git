@@ -26,8 +26,12 @@ Across ten worlds drawn with the probe (places drawn by `drawPlace` on seeds e1 
 
 ## What each address now names from its own world
 
-- Gold Hill: the President's home state (Pennsylvania), the Vice President (Thomas Houston), the President's line on legal cannabis sales, and how far pay, prices and work moved ("rose a little", "rose steadily").
-- Orchard Mesa: the home state (Montana), the Vice President (Allison Molina) and the Speaker (Cindy Chambers).
-- Lyons: the Speaker (Carol Lee), the Vice President (Patricia Parker) and the home state (South Carolina).
+- Gold Hill: the home state (Pennsylvania) twice, the Vice President (Thomas Houston) twice, the President's line on legal cannabis sales once, and how far the economy, prices and work moved, each once, in words.
+- Orchard Mesa: the home state (Montana), the Vice President (Allison Molina) and the Speaker (Cindy Chambers), each twice at most.
+- Lyons: the Speaker (Carol Lee), the Vice President (Patricia Parker) and the home state (South Carolina), each twice at most.
 
-The test `src/director/opening-address-versions.test.ts` checks the same on ten drawn worlds every run.
+## Retaken after the words lead's read (Nov 11, #8743)
+
+The "after" texts and pictures were retaken on the same seeds after four changes: lead-ins only say who is spoken to, when or where, and none is said twice; a priority is one sentence, led in by its rank; a subject's movement is told once, and a pledge says what the President will do; no name is said more than twice. None of the three has a colon lead-in. The addresses are shorter (13 to 15 sentences against 25 to 31), because each priority is now one sentence instead of four.
+
+The test `src/director/opening-address-versions.test.ts` checks all of this on ten drawn worlds every run.
