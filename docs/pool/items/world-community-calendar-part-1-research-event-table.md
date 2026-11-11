@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-world-community-calendar-part-1-research-event-table
-pr:
+pr: #8428
 after:
 blocked-on:
 lead: lives
