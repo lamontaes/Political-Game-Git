@@ -1,3 +1,4 @@
+import { lawDid } from "./law-did";
 import {
   drawAheadNow,
   drawAheadOn,
@@ -979,6 +980,15 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/changes",
     run: async ({ url, send }) => {
       send(200, lawChanges(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/law/did",
+    run: async ({ url, send }) => {
+      // What a law passed in play did: whom it reached, by record (law-did.ts).
+      send(200, lawDid(requireCore(), url.searchParams.get("series") ?? ""));
       return;
     },
   },

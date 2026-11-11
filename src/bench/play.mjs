@@ -5066,8 +5066,64 @@ const sheets = {
         : law.value !== null && law.value !== undefined
           ? lawText(law, law.value, law.unit)
           : null);
+    // What a law passed in play did (play-what-this-law-did-page): each row it
+    // passed, newest first, with whom it reached by the reach records and the
+    // money for each, full people by name and counted people by count; a row a
+    // later one replaced says when, and each person when it stopped for them.
+    const didSection = async (law) => {
+      const did = await api(
+        `/api/law/did?${new URLSearchParams({ series: law.series })}`,
+      ).catch(() => []);
+      if (!did.length) return [];
+      const w = labels.lawDid;
+      const fill = (text, values) =>
+        Object.entries(values).reduce(
+          (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
+          text ?? "",
+        );
+      const nodes = did.flatMap((d) => {
+        const head = row(
+          setBy(d.level),
+          [
+            d.repeal ? w.repealed : lawText(law, d.value, d.unit),
+            fill(w.from, { date: dateWords(d.effectiveDate) }),
+            ...(d.replacedOn
+              ? [fill(w.until, { date: dateWords(d.replacedOn) })]
+              : []),
+          ].join(" · "),
+        );
+        if (!d.records) return [head, prose(w.noOneYet, "record-empty")];
+        const group = (key, part) =>
+          part.people
+            ? [
+                row(
+                  fill(w[key], { n: part.people }),
+                  roundedMoney(part.amountMinor),
+                ),
+              ]
+            : [];
+        return [
+          head,
+          ...group("fullHere", d.fullInTown),
+          ...group("fullElsewhere", d.fullElsewhere),
+          ...group("counted", d.counted),
+          ...d.named.map((p) =>
+            row(
+              p.name,
+              [
+                roundedMoney(p.amountMinor),
+                ...(p.endedOn
+                  ? [fill(w.stopped, { date: dateWords(p.endedOn) })]
+                  : []),
+              ].join(" · "),
+            ),
+          ),
+        ];
+      });
+      return [stripSection(5, w.title, ...nodes)];
+    };
     // One law's page: what is in force at each level and since when, the statute, the
-    // measure that enacted it, what is coming, what changed and how members voted.
+    // measure that enacted it, what is coming, what changed, what it did and how members voted.
     const lawPage = async (law) => {
       const inForce = law.levels
         .filter((l) => l.row)
@@ -5117,6 +5173,7 @@ const sheets = {
             [change.measure, change.what].filter(Boolean).join(" · "),
           ),
         );
+      const did = await didSection(law);
       const votes = (law.votes ?? []).map((vote) =>
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
       );
@@ -5128,6 +5185,7 @@ const sheets = {
         ...(changed.length
           ? [stripSection(3, labels.changed, ...changed)]
           : []),
+        ...did,
         ...(votes.length ? [stripSection(4, labels.votes, ...votes)] : []),
       ];
     };
