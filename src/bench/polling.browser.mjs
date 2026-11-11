@@ -317,7 +317,8 @@ try {
     await skip.first().click();
     await page.waitForTimeout(3000);
   }
-  for (let leg = 0; leg < 48; leg += 1) {
+  // A race a year or more away has a talk every week or two on the way.
+  for (let leg = 0; leg < 100; leg += 1) {
     await toBallot();
     if (await page.locator("#ballot:not([hidden])").count()) {
       const clock = await page
@@ -374,24 +375,30 @@ try {
         .catch(() => {});
       await page.waitForTimeout(1000);
     }
-    // Run the clock again from the calendar.
+    // Run the clock again from the calendar. A talk that opened meanwhile
+    // keeps the calendar shut: the loop looks again and plays it first.
     await page
       .locator('[data-tab="calendar"]')
       .first()
       .evaluate((e) => e.click());
-    await page
+    const calendarUp = await page
       .locator(".calendar-heading h3")
       .waitFor({ timeout: 15000 })
-      .catch(() => {});
+      .then(() => true)
+      .catch(() => false);
+    if (!calendarUp) continue;
     for (let m = 0; m < 30; m += 1) {
       const heading = await page
         .locator(".calendar-heading h3")
         .innerText()
         .catch(() => "?");
       if (heading.includes(targetMonth)) break;
-      await page
+      const moved = await page
         .getByRole("button", { name: "Next month", exact: true })
-        .click();
+        .click({ timeout: 5000 })
+        .then(() => true)
+        .catch(() => false);
+      if (!moved) break;
       await page.waitForTimeout(500);
     }
     await page
