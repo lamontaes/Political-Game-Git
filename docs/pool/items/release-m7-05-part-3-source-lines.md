@@ -5,10 +5,10 @@ area: release
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-release-m7-05-part-3-source-lines
-pr:
+pr: #8636
 after:
 blocked-on:
 lead: cto
