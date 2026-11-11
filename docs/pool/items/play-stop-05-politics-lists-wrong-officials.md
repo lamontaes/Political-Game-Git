@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
 pr: #8261
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T03:08:59.895Z
 branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 ---
 
@@ -51,3 +51,5 @@ Released by next (2026-11-11): no push to claude/pool-play-stop-05-politics-list
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:03 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
 
 Released (2026-11-11): Replay-only item; partial replay posted on its child PR (mayor and council seen in Abbott TX; Federal lists the whole state delegation); pool seen refuses non-merged items; not complete. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:08 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
