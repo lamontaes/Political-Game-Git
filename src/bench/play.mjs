@@ -2722,11 +2722,13 @@ async function openBillPaper(billId, show, back, backLabel) {
     })
     .catch(() => null);
   const floor = controls.floor ?? {};
-  const backButton = makeButton({
-    className: "action",
-    textContent: backLabel ?? words.back ?? "",
-  });
-  backButton.addEventListener("click", back);
+  // A bill opened inside the meeting or the desk returns to it; a menu has no Back
+  // (owner, Oct 29: "continue and back needs to be removed from every single menu"):
+  // a menu's bill closes with the menu's tabs and close control.
+  const backButton = backLabel
+    ? makeButton({ className: "action", textContent: backLabel })
+    : null;
+  backButton?.addEventListener("click", back);
   // Where the bill is: the committee's record, what members told you, the floor and
   // the override, each member by name (ui/bill-stage.mjs). They stand in the
   // bill's own board, under Where it is.
@@ -2814,7 +2816,7 @@ async function openBillPaper(billId, show, back, backLabel) {
     },
   );
   show(
-    backButton,
+    ...(backButton ? [backButton] : []),
     billPaper({
       spoken: paper.spoken,
       title: paper.title,
@@ -4452,7 +4454,7 @@ const sheets = {
     const list = await api("/api/bills/following");
     const body = (...nodes) => $("sheet-body").replaceChildren(...nodes);
     const open = (item) =>
-      openBillPaper(item.id, body, () => openSheet("bills"), words.back);
+      openBillPaper(item.id, body, () => openSheet("bills"));
     return [
       stripScreen({
         name: controls.titles.bills,
@@ -4518,10 +4520,6 @@ const sheets = {
       closeSheet();
       showPerson({ personId: cardId });
     };
-    const stateName = (key) =>
-      key === gov.homeState?.key
-        ? gov.homeState.name
-        : (states.find((st) => st.key === key)?.name ?? key);
     // A seat as a voter says it: a town's ward, a state's district, at large.
     const seatWords = (body, district) =>
       !district
@@ -4555,27 +4553,6 @@ const sheets = {
     // the panel never scrolls, so a short window pages sooner.
     const rowsFor = (taken, most) =>
       Math.max(1, Math.min(most, Math.floor((viewHeight() - taken) / 72)));
-    // When a body meets, as its rule says it: "every Tuesday", "the 1st and
-    // 3rd Tuesday of the month".
-    const scheduleWords = (rule) => {
-      if (!rule) return null;
-      const weekday = labels.weekdays?.[rule.weekday] ?? "";
-      const nth = (i) => labels.ordinals?.[i - 1] ?? String(i);
-      const schedule =
-        rule.weeksOfMonth.length === 0
-          ? fill(labels.meetsWeekly, { weekday })
-          : rule.weeksOfMonth.length > 1
-            ? fill(labels.meetsTwice, {
-                first: nth(rule.weeksOfMonth[0]),
-                second: nth(rule.weeksOfMonth[1]),
-                weekday,
-              })
-            : fill(labels.meetsMonthly, {
-                first: nth(rule.weeksOfMonth[0]),
-                weekday,
-              });
-      return fill(labels.meets, { schedule });
-    };
     const comingWords = (item) =>
       item.kind === "meeting"
         ? labels.regularMeeting
@@ -4609,7 +4586,6 @@ const sheets = {
                           (...nodes) =>
                             $("sheet-body").replaceChildren(...nodes),
                           () => openSheet("government"),
-                          labels.backToGovernment,
                         ),
                     }
                   : {}),
@@ -4644,23 +4620,13 @@ const sheets = {
           : null,
       );
     };
-    const lawmakingView = (body, executive, level, stateKey) => {
-      const election = body.comingUp.find((c) => c.kind === "election");
+    const lawmakingView = (body, executive) => {
+      // The body's name over its room, no line under it (owner, Nov 7: no
+      // subtitles on menus): its seats are in Seats, its meeting and election
+      // in Coming up.
       const header = chamberHeader({
         picture: body.picture,
         name: body.name,
-        line: [
-          level === "federal"
-            ? fill(labels.delegation, { state: stateName(stateKey) })
-            : null,
-          scheduleWords(body.meeting),
-          fill(labels.seatsTotal, { n: body.seats }),
-          election
-            ? fill(labels.nextElection, { date: dateWords(election.date) })
-            : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
       });
       const big = body.seats > 12;
       // A big chamber: your own members and its leaders first, then everyone
@@ -4746,7 +4712,7 @@ const sheets = {
     };
     // The executive branch: the chief executive's office on the left, the
     // level's other elected officers and what is coming up on the right.
-    const executiveView = (executive, level) => {
+    const executiveView = (executive) => {
       const chief = executive.find((e) => e.chief) ?? executive[0];
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
@@ -4765,10 +4731,6 @@ const sheets = {
               chamberHeader({
                 picture: chief.picture,
                 name: chief.title,
-                // A local office is named under its government ("Village of
-                // Mokena"); a state's or the nation's never repeats the state
-                // the filter names (owner, Oct 28, point 16).
-                line: level === "local" ? chief.government : null,
               }),
               ...(head
                 ? [
@@ -4932,8 +4894,8 @@ const sheets = {
             side: [],
           }
         : branch === "executive" || !body
-          ? executiveView(v.executive, level)
-          : lawmakingView(body, v.executive, level, v.state.key);
+          ? executiveView(v.executive)
+          : lawmakingView(body, v.executive);
       const screenNode = splitScreen({
         className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
