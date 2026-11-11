@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-core-committee-world-debug-heap
-pr:
+pr: #8402
 after:
 blocked-on:
 source: added with npm run pool -- add
