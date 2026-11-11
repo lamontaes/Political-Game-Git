@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-dev-scene-list-does-not-say-what-it-can-cause
+pr: #8640
 after:
 blocked-on:
 lead: director
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:18:21.966Z
 ---
 
 **What.** Dev mode's Scenes panel on the Calendar is a row of plain buttons, one per kind of scene, and a Make it happen button. It does not say which kinds it can cause. Measured by the Nov 9 audit: the panel showed 98 buttons for the 99 kinds dev mode lists, of which dev mode can directly cause 6, for 92 it runs the world and waits, and one cannot be caused at all; in Ten Broeck, Kentucky (no seed) a "visit" began and played nothing in four days, and four waited-for scenes (a concession call, a farewell, an argument, a new friendship) each ran a full game year and never happened. The status report still says dev mode can force "79 of 97 kinds" (docs/reports/rulings-check-2026-11-08.md, line 47). The counts have moved since: read on Nov 10 from the situation-types table there are 102 distinct kinds, 6 with a direct way in, 96 that wait and 1 with none. Fix it for every kind from the same table the director reads.

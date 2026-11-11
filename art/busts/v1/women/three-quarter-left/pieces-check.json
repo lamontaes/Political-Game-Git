@@ -1,0 +1,95 @@
+{
+ "top-tee": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/top-tee.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/top-tee-tql-c1a.png",
+  "piecePixels": 391110,
+  "changedPixels": 0,
+  "softEdgePixels": 3619
+ },
+ "top-blouse": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/top-blouse.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/top-blouse-tql-c1a.png",
+  "piecePixels": 392071,
+  "changedPixels": 0,
+  "softEdgePixels": 3469
+ },
+ "top-blazer": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/top-blazer.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/top-blazer-tql-c1a.png",
+  "piecePixels": 383879,
+  "changedPixels": 0,
+  "softEdgePixels": 4209
+ },
+ "hair-short": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/hair-short.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/hair-short-tql-c2a.png",
+  "piecePixels": 94018,
+  "changedPixels": 0,
+  "softEdgePixels": 4646,
+  "outlinePixelsBrought": 406,
+  "sharedInkPixels": 80,
+  "note": "ring rule on; edge alpha from Codex background removal of the ring prep (work/cutx/KEY.ring.png), Adobe down Nov 7",
+  "gapPixelsFromFullPaintingAlpha": 0
+ },
+ "hair-shoulder": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/hair-shoulder.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/hair-shoulder-tql-c3b.png",
+  "piecePixels": 198150,
+  "changedPixels": 0,
+  "softEdgePixels": 9200,
+  "outlinePixelsBrought": 133,
+  "sharedInkPixels": 716,
+  "note": "ring rule on; edge alpha from Codex background removal of the ring prep (work/cutx/KEY.ring.png), Adobe down Nov 7",
+  "gapPixelsFromFullPaintingAlpha": 0
+ },
+ "hair-tied": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/hair-tied.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/hair-tied-tql-c2a.png",
+  "piecePixels": 100198,
+  "changedPixels": 0,
+  "softEdgePixels": 4834,
+  "outlinePixelsBrought": 29,
+  "sharedInkPixels": 645,
+  "note": "ring rule on; edge alpha from Codex background removal of the ring prep (work/cutx/KEY.ring.png), Adobe down Nov 7",
+  "gapPixelsFromFullPaintingAlpha": 0
+ },
+ "head-A": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/head-A.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/A-tql-r1a.png",
+  "candidate": "A-tql-r1a",
+  "piecePixels": 239645,
+  "changedPixels": 0,
+  "alphaNotTheCutout": 0,
+  "silhouetteWorst": 1,
+  "silhouetteWorstStraight": 1.41,
+  "differPixels": 523,
+  "over1px": 0,
+  "over1At": []
+ },
+ "head-B": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/head-B.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/B-tql-r2d.png",
+  "candidate": "B-tql-r2d",
+  "piecePixels": 239245,
+  "changedPixels": 0,
+  "alphaNotTheCutout": 0,
+  "silhouetteWorst": 1,
+  "silhouetteWorstStraight": 1.41,
+  "differPixels": 476,
+  "over1px": 0,
+  "over1At": []
+ },
+ "head-C": {
+  "file": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/bank2/tql/head-C.png",
+  "source": "/Users/lamontae/political-game-play/cto-notes/scenario/busts/work/paint2/C-tql-r5c.png",
+  "candidate": "C-tql-r5c",
+  "piecePixels": 239845,
+  "changedPixels": 0,
+  "alphaNotTheCutout": 0,
+  "silhouetteWorst": 1,
+  "silhouetteWorstStraight": 1.41,
+  "differPixels": 498,
+  "over1px": 0,
+  "over1At": []
+ }
+}

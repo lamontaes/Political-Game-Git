@@ -5,13 +5,14 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: merged
+status: open
 claimed-by:
 pr: #8225
 blocked-on:
 lead: words
 source: second rerun of scripts/words/one-line-spots.ts after words-one-line-spots-1 (Cooleemee, North Carolina; Port Alexander, Alaska; La Vista, Nebraska)
-merged-at: 2026-11-10T21:38:35.764Z
+merged-at:
+claimed-at:
 ---
 
 **What.** The thirty most-played spots that still held a single line after the first batch (the job-offer hold-it promise, the welcome-aboard close and the offer-good-until close lead the list) now hold three lines each. Each of 60 new pieces sits in the same spot as the line it varies (same subject, step, move, role, purpose, key and after), says the same fact in other words, and carries a bearing so the speaker's traits pick the tone. The existing lines stay.
@@ -23,3 +24,5 @@ merged-at: 2026-11-10T21:38:35.764Z
 **Time box.** 3 hours for one Sonnet session.
 
 **Files.** data/english/parts/scene-talk.json
+
+**Notes.** Not seen in the game (2026-11-11, second-session-2): Sedgwick CO, Hopkinton RI, Middlebury VT (drawn by one-line-spots.ts), seed ols-mwbhjuoq-0-txhb, -1-jban, -2-i4np, main 5103f744: rerun of one-line-spots.ts still lists 4 of rows 31 to 60 as one-line spots, among them 'Thursday works. What time?' and 'I'll leave you to it.'

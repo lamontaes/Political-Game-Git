@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-core-country-tier-moves-one-holder
+pr: #8412
 after:
 blocked-on:
 lead: fable
@@ -17,6 +17,7 @@ model: opus
 effort: high
 root: design-country-tier
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:39:22.465Z
 ---
 
 **What.** The country tier (src/core2/country-model.ts) holds every state's people as cells and moves them each month by pay after tax, prices and the chance of work, with each state's place constants fitted once on day one. The counted-moves engine (src/core2/modules/counted-moves.ts) fits its arrivals to the survey once, at the opening, but it still keeps its own count of each state's people by age band beside the tier, and it still accrues each band's departures from the survey's leaving rates. So the same people are held twice. This item makes the tier the one holder: the counted-moves engine reads each state's people, draw and home tie from the tier for the town's own leavers and arrivals, and its own state counts and the pinned departures are deleted. The registered stopgap is SG-NATION-country-tier-moves-twice.

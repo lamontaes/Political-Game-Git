@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: gov-failure-to-elect-by-place-part-1-holdover-rows-a-to-m, gov-failure-to-elect-by-place-part-2-holdover-rows-n-to-z-and-territories
@@ -37,4 +37,4 @@ checked: fable 2026-11-10
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-empty-race-law.
 
-**Notes (pool redo, Nov 10).** The draft sorting counted a third part, the national contingent election. Checked on main: `src/core2/contingent-election.ts` and `src/core2/data/elections/contingent-election.json` exist, the voting module handles a `contingent-election` work item, and `src/core2/world-races.test.ts` covers it, so that part was not created.
+**Notes (pool redo, Nov 10).** The draft sorting counted a third part, the national contingent election. Checked on main: `src/core2/contingent-election.ts` and `src/core2/data/elections/contingent-election.json` exist, the voting module handles a `contingent-election` work item, and `src/core2/world-races.test.ts` covers it, so that part was not created. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Each place's holdover rule for an unfilled office; the family default already seats someone and no player reads the section.
