@@ -119779,6 +119779,11 @@
       "tag": {
         "move": "answer",
         "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
       }
     },
     {
@@ -188844,6 +188849,11 @@
       "tag": {
         "move": "answer",
         "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
       }
     },
     {
@@ -188870,6 +188880,11 @@
       "tag": {
         "move": "answer",
         "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
       }
     },
     {
@@ -188896,6 +188911,11 @@
       "tag": {
         "move": "answer",
         "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
       }
     },
     {
@@ -188927,6 +188947,11 @@
       "tag": {
         "move": "answer",
         "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
       }
     },
     {
@@ -188953,6 +188978,11 @@
       "tag": {
         "move": "answer",
         "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
       }
     },
     {
@@ -188979,6 +189009,11 @@
       "tag": {
         "move": "answer",
         "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
       }
     },
     {
@@ -206657,7 +206692,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-with"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206686,7 +206722,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-with"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206715,7 +206752,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-with"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206744,7 +206782,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-with"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206773,7 +206812,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-with"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206802,7 +206842,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-with"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206831,7 +206872,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-against"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206860,7 +206902,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-against"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206889,7 +206932,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-against"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206918,7 +206962,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-against"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206947,7 +206992,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-against"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
@@ -206976,7 +207022,8 @@
           "role": "asker",
           "after": "ask",
           "requiresFacts": ["bearer-against"],
-          "key": "race-heard"
+          "key": "race-heard",
+          "excludesFacts": ["bearer-won"]
         }
       ],
       "origin": "authored",
