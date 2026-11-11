@@ -2879,6 +2879,67 @@ details.entry[open] {
 #sheet-body:has(.bill-board) {
   max-width: none;
 }
+/* The bill page keeps to the panel's height: its three columns each scroll
+   inside themselves, so the vote and the staff never fall off the foot of the
+   sheet (a menu never scrolls as a page). A bill stands straight in the sheet
+   (from Your office) or in a list's page (Bills). */
+#sheet-body:has(.bill-board) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#sheet-body > .bill-board,
+.roster-page > .bill-board {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+#sheet-body .bill-board > .board-cols {
+  flex: 1 1 auto;
+  min-height: 0;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+#sheet-body .bill-board > .board-cols > .mx3col {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+/* Bills: the list is narrow and the bill's page takes the rest of the sheet. */
+#sheet-body:has(.roster-screen.bills) {
+  max-width: none;
+}
+.roster-screen.bills {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  grid-template-columns: 250px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
+}
+.roster-screen.bills > .roster-page {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.roster-screen.bills > .roster {
+  align-self: start;
+}
+/* What stands over and under the columns keeps its own height and width. */
+#sheet-body:has(> .bill-board) > :not(.bill-board),
+#sheet-body .bill-board > .bill-band {
+  flex: none;
+}
+#sheet-body:has(> .bill-board) > button {
+  align-self: flex-start;
+}
+/* The bill's number in its column: one step down from a page title, so
+   "Ordinance 2025-1" stays on one line. */
+.bill-doc h2.heading {
+  font-size: var(--t-h2);
+}
 
 /* Compare: the clause the law in force holds struck, the bill's inserted. */
 .bill-clause {
@@ -3413,12 +3474,6 @@ details.entry[open] {
   color: var(--text-strong);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
-.chamber-line {
-  font: 400 var(--t-label)/1.3 var(--ui);
-  color: var(--text);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-}
-
 /* The party split: one bar, each party's share in its color. */
 .party-none {
   --party: #6f6c66;
