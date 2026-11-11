@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/pool-words-scene-web-the-campaign
+status: open
+claimed-by:
 pr: #8369
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-11-11T00:02:44.798Z
+claimed-at:
 after:
 standard: 2
 model: sonnet
