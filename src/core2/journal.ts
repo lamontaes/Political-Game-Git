@@ -84,6 +84,8 @@ export interface CashJournalContext {
   owners: ReadonlyMap<string, CashOwnerSnapshot>;
   /** Complete account rows for the touched owners, built from accountIds; no whole-world scan. */
   accounts: ReadonlyMap<string, CashAccountSnapshot>;
+  /** True when this posting's receipt is retained in detail (observer, a focused owner or a source that requires it): every fund keeps its change record, as the receipt copies them. */
+  keepAllFundChanges?: boolean;
 }
 
 export interface CashJournalOwnerChange {
@@ -467,14 +469,18 @@ export function projectCashJournal(
         journalMinor(zero, after, "fund after");
         fundsBefore += account.allocatedMinor;
         fundsAfter += after;
-        accounts.set(id, {
-          accountId: id,
-          ownerId,
-          beforeMinor: account.allocatedMinor,
-          afterMinor: after,
-          allocatedBeforeMinor: account.allocatedMinor,
-          allocatedAfterMinor: after,
-        });
+        // Only the posted accounts' changes are read unless the receipt is
+        // kept in detail (a posted account keeps its record even at a zero
+        // net delta); the sums over every fund stay, the residual needs them.
+        if (checked || context.keepAllFundChanges || deltas.has(id))
+          accounts.set(id, {
+            accountId: id,
+            ownerId,
+            beforeMinor: account.allocatedMinor,
+            afterMinor: after,
+            allocatedBeforeMinor: account.allocatedMinor,
+            allocatedAfterMinor: after,
+          });
       }
     }
     if (residualId === undefined)

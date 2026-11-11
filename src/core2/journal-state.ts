@@ -1422,6 +1422,14 @@ export function postCashJournal(
         resolvedSource: resolved,
         owners: portfolio.owners,
         accounts: portfolio.accounts,
+        // The receipt below is retained in detail for the observer, a focused
+        // owner or a source that requires it, and copies every fund's change.
+        keepAllFundChanges:
+          observer ||
+          required ||
+          [...portfolio.owners.keys()].some(
+            (id) => people.has(id) && (id === playerId || focus.has(id)),
+          ),
       },
       numbers,
     );

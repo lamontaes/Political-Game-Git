@@ -469,7 +469,20 @@ describe("pure balanced cash journal admission", () => {
     const before = setBookkeeping(false);
     try {
       const f = fixture();
-      expect(projectCashJournal(f.input, f.context)).toEqual(checked);
+      // A receipt kept in detail copies every fund's change, as the checked path does.
+      expect(
+        projectCashJournal(f.input, { ...f.context, keepAllFundChanges: true }),
+      ).toEqual(checked);
+      // Otherwise only the posted accounts keep a change record (the sums over every fund stay).
+      const play = projectCashJournal(f.input, f.context);
+      expect({ ...play, accounts: undefined }).toEqual({
+        ...checked,
+        accounts: undefined,
+      });
+      for (const [id, row] of play.accounts)
+        expect(row).toEqual(checked.accounts.get(id));
+      for (const posting of f.input.postings)
+        expect(play.accounts.has(posting.accountId)).toBe(true);
       // The balance check is not bookkeeping: an unbalanced set still throws.
       const lopsided = fixture([
         { id: "fixture:out", accountId: residualA, deltaMinor: -400 },
