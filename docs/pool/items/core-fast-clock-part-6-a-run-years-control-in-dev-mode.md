@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/fable-b2-run-years-control
-pr:
+pr: #8183
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ effort: medium
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+merged-at: 2026-11-11T04:52:17.505Z
 ---
 
 **What.** Dev mode can show the country's next twenty years as a forecast, and cannot run the played world twenty years. This part adds the control the owner asked for on Nov 8: click 20 years. It runs the played world itself, and the game's date moves.
