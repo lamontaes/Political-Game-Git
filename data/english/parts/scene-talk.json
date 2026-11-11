@@ -3003,35 +3003,6 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-m-writing-about-story-for-outlet",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'm writing about {story} for {outlet}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "press-comment",
-          "key": "routine"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W7",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "greet",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "press.greet.who",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.reply-answer.i-m-for-bill-and-i-ll-vote-that-way",
       "move": "reply-answer",
       "kind": "spoken",
