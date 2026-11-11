@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-elections-contested-count-record
-pr:
+pr: #8573
 after:
 blocked-on:
 model: opus
