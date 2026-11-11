@@ -14,6 +14,12 @@
       "state": "US-NE"
     },
     {
+      "seed": "1c0397c896de33bb0328e32710cb34eb125e0910381495d18fadd2e060775774",
+      "key": "4105700",
+      "name": "Bellfountain, Oregon",
+      "state": "US-OR"
+    },
+    {
       "seed": "13e8ffb8b9784c14db0727bbee4bd77596a82a7b5d8671c962bf05a634f75c0a",
       "key": "0209710",
       "name": "Butte, Alaska",
@@ -150,13 +156,19 @@
       "key": "1041700",
       "name": "Leipsic, Delaware",
       "state": "US-DE"
+    },
+    {
+      "seed": "a707c46e878cd0baeeb14e51560de30a32f0a0bda27ba897f566277a25c39191",
+      "key": "4749940",
+      "name": "Mooresburg, Tennessee",
+      "state": "US-TN"
     }
   ],
   "summary": {
-    "laws": 178,
+    "laws": 187,
     "wired": 147,
-    "partly": 31,
-    "stopgapped": 0,
+    "partly": 37,
+    "stopgapped": 3,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -181,65 +193,65 @@
     ],
     "byLink": {
       "exists": {
-        "wired": 113,
-        "partial": 4,
-        "missing": 3,
+        "wired": 122,
+        "partial": 5,
+        "missing": 2,
         "stopgap": 0,
         "n/a": 58
       },
       "change": {
-        "wired": 178,
+        "wired": 187,
         "partial": 0,
         "missing": 0,
         "stopgap": 0,
         "n/a": 0
       },
       "reach": {
-        "wired": 99,
+        "wired": 102,
         "partial": 0,
-        "missing": 19,
-        "stopgap": 0,
+        "missing": 21,
+        "stopgap": 4,
         "n/a": 60
       },
       "systems": {
         "wired": 113,
         "partial": 0,
-        "missing": 15,
-        "stopgap": 0,
+        "missing": 20,
+        "stopgap": 4,
         "n/a": 50
       },
       "money": {
         "wired": 94,
-        "partial": 10,
-        "missing": 8,
-        "stopgap": 0,
-        "n/a": 66
+        "partial": 8,
+        "missing": 12,
+        "stopgap": 4,
+        "n/a": 69
       },
       "web": {
         "wired": 75,
         "partial": 0,
-        "missing": 28,
-        "stopgap": 0,
+        "missing": 30,
+        "stopgap": 7,
         "n/a": 75
       },
       "knowing": {
         "wired": 128,
         "partial": 0,
-        "missing": 0,
+        "missing": 9,
         "stopgap": 0,
         "n/a": 50
       },
       "repeal": {
-        "wired": 100,
+        "wired": 103,
         "partial": 0,
-        "missing": 19,
+        "missing": 25,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 101,
+        "wired": 104,
         "partial": 0,
-        "missing": 19,
+        "missing": 25,
         "stopgap": 0,
         "n/a": 58
       }
@@ -1605,7 +1617,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: health and hospitals",
+      "name": "Spending: healthAndHospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -2336,7 +2348,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higher education",
+      "name": "Spending: higherEducation",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -4312,7 +4324,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfare and Medicaid",
+      "name": "Spending: welfareAndMedicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4456,6 +4468,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "child-care-income-limit",
+      "name": "Child care income limit (family of three)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "child-care-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:child-care-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "ssi-federal-benefit-rate",
+      "name": "SSI federal benefit rate (individual)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "ssi-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:ssi-federal-benefit-rate: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -4777,12 +4907,12 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
-          "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-earliest-claim-age:general:starting",
-          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+          "status": "wired",
+          "evidence": "56/56 places (budgets); src/core2/data/laws/social-security-ages.json (federal, opened by src/core2/modules/laws.ts); drawn place row law:US:federal:social-security-earliest-claim-age:general:starting",
+          "why": ""
         },
         "change": {
           "status": "wired",
@@ -4790,46 +4920,55 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open (full 672, counted groups 10/10 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open (full 848, counted groups 7/7 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open (full 743, counted groups 78/78 people, households 0, orgs 0, govts 0) e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:97, src/core2/modules/jobs.ts:2953",
+          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/life.ts:578 145839911 -> 182332013 (journal:2025-01-21:818); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/modules/residents.ts:1341 3079461367 -> 3046674609 (journal:2025-01-21:823); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/modules/residents.ts:1323 1732423193 -> 1762674300 (journal:2025-02-01:3568)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "n/a",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_e8632f5ae684089f); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-earliest-claim-age|person_21c3ca2f9d60702a)",
+          "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employment and income of people aged 62 to 64 when the earliest claim age moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82)",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 682 open under the changed row -> after the old amount is put back 0 still cite it; New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 855 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 821 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
+          "place": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a)",
+          "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
           "inForceAtOpening": false
         }
@@ -4843,12 +4982,12 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
-          "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-full-retirement-age:general:starting",
-          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+          "status": "wired",
+          "evidence": "56/56 places (budgets); src/core2/data/laws/social-security-ages.json (federal, opened by src/core2/modules/laws.ts); drawn place row law:US:federal:social-security-full-retirement-age:general:starting",
+          "why": ""
         },
         "change": {
           "status": "wired",
@@ -4856,46 +4995,55 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open (full 802, counted groups 121/121 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open (full 624, counted groups 29/29 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open (full 706, counted groups 241/241 people, households 0, orgs 0, govts 0) e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:97, src/core2/modules/jobs.ts:2953",
+          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
           "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/life.ts:578 145839911 -> 137931807 (journal:2025-01-21:818)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "n/a",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_e8632e5ae68406ec); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_a0916c9fbfd4e5df); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-full-retirement-age|person_7b48e101fed83b00)",
+          "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employment and claiming of people in their sixties when the full retirement age moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open under the changed row -> after the old amount is put back 0 still cite it; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 653 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 947 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a)",
+          "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
           "inForceAtOpening": false
         }
@@ -4909,12 +5057,12 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
-          "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-delayed-credit-age:general:starting",
-          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+          "status": "wired",
+          "evidence": "56/56 places (budgets); src/core2/data/laws/social-security-ages.json (federal, opened by src/core2/modules/laws.ts); drawn place row law:US:federal:social-security-delayed-credit-age:general:starting",
+          "why": ""
         },
         "change": {
           "status": "wired",
@@ -4922,45 +5070,55 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open (full 802, counted groups 121/121 people, households 0, orgs 0, govts 0) e.g. applied|social-security-delayed-credit-age|person_e8632e5ae68406ec; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 652 open (full 624, counted groups 28/28 people, households 0, orgs 0, govts 0) e.g. applied|social-security-delayed-credit-age|person_a0916c9fbfd4e5df; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 946 open (full 706, counted groups 240/240 people, households 0, orgs 0, govts 0) e.g. applied|social-security-delayed-credit-age|person_7b48e101fed83b00",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/retirement-claims.ts:97, src/core2/modules/jobs.ts:2953",
+          "evidence": "src/core2/modules/retirement-claims.ts:98, src/core2/modules/retirement-claims.ts:117, src/core2/modules/jobs.ts:3823",
           "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "status": "n/a",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-delayed-credit-age|person_e8632e5ae68406ec); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 652 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-delayed-credit-age|person_a0916c9fbfd4e5df); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 946 applied rows, none with an amount owed, paid or held (e.g. applied|social-security-delayed-credit-age|person_7b48e101fed83b00)",
+          "why": "its terms bound nobody in the drawn places: each of its applied rows records nothing owed, paid or held"
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employment and claiming of people aged 66 to 70 when delayed credits stop at another age (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 31 people heard (person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 67 people heard (person_b0f24dc3262e5116:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 923 open under the changed row -> after the old amount is put back 0 still cite it; Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a): 652 open under the changed row -> after the old amount is put back 0 still cite it; Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba): 946 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a); Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Bellfountain, Oregon, US-OR (seed feaa3278ac773a2a)",
+          "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Mooresburg, Tennessee, US-TN (seed da176aa4a8b36dba)",
           "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
           "inForceAtOpening": false
         }
@@ -5113,6 +5271,65 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "energy-assistance-income-limit",
+      "name": "Home energy assistance income limit (percent of the poverty line)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "energy-assistance-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:energy-assistance-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -6085,6 +6302,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "ban the box public hiring",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "hiring-record",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.ban-the-box-public-hiring: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "Local power: ban the box public hiring",
+      "kind": "amount",
+      "family": "labor",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:ban-the-box-public-hiring: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -7374,6 +7709,124 @@
       "errors": []
     },
     {
+      "key": "us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "allow retail electric choice",
+      "kind": "question",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:environment-energy.allow-retail-electric-choice: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "Local power: allow retail electric choice",
+      "kind": "amount",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:allow-retail-electric-choice: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-federal-positions:energy-environment.limit-power-plant-carbon",
       "name": "limit power plant carbon",
       "kind": "question",
@@ -7591,7 +8044,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: natural resources",
+      "name": "Spending: naturalResources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -9635,6 +10088,65 @@
       "errors": []
     },
     {
+      "key": "executive-term-limit",
+      "name": "Governor term limit (terms; 0 for none)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "partial",
+          "evidence": "55/56 places (state 55); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-DC"
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:executive-term-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-policy-positions:government-operations.all-mail-voting",
       "name": "all mail voting",
       "kind": "question",
@@ -10346,7 +10858,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit for governor",
+      "name": "State campaign contribution limit: governor",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10411,7 +10923,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit for state senate",
+      "name": "State campaign contribution limit: stateSenate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10476,7 +10988,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit for state house",
+      "name": "State campaign contribution limit: stateHouse",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10541,7 +11053,7 @@
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit for local office",
+      "name": "State campaign contribution limit: local",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10877,6 +11389,65 @@
           "status": "n/a",
           "evidence": "",
           "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "meeting-notice-hours",
+      "name": "Public notice before a regular meeting (hours)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:meeting-notice-hours: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
         }
       },
       "screens": [],

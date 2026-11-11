@@ -5,6 +5,21 @@
       "key": "local-minimum-wage-authority",
       "outcome": "local minimum wage adoption",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "social-security-earliest-claim-age",
+      "outcome": "employment and income of people aged 62 to 64 when the earliest claim age moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "social-security-full-retirement-age",
+      "outcome": "employment and claiming of people in their sixties when the full retirement age moves",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
+    },
+    {
+      "key": "social-security-delayed-credit-age",
+      "outcome": "employment and claiming of people aged 66 to 70 when delayed credits stop at another age",
+      "stopgapId": "SG-LAW-outcome-link-unresearched"
     }
   ]
 }
