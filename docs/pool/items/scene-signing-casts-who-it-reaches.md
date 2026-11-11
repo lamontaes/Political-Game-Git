@@ -5,15 +5,15 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-scene-signing-casts-who-it-reaches
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web executive pass (packet the-signing)"
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T05:27:32.524Z
 after:
 model: sonnet
 effort: medium
@@ -51,3 +51,5 @@ Released (2026-11-11): Swapping asker/asked in bill-signed would put the 55 exis
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:44 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
 
 Released (2026-11-11): the executive's four replies (commit to the next step, credit others, temper expectations, decline) are bank lines, Story's under the Nov 10 split; swapping asker/asked without them leaves the executive with no replies. Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:27 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
