@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
+claimed-by:
 pr: #8390
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: design-country-tier
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 3, "The legislators are built at the opening anyway", and Pillar 7)
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T00:39:39.683Z
+claimed-at:
 branch: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
 **Notes.** Fable's country tier design (pool item core-country-tier-first-slice) decides the shape; this item is the measured defect it must close. From the Fable audit, Pillar 3 and Pillar 7. Measured there: the count of full people in the Puerto Rico world only; the office-term counts in "a village in Vermont" (Pillar 3 does not name it; the audit's 20-year run was South Hero, Vermont, seed 9bf1ede27ce5a00e); the Play as list in "a North Dakota game" (the audit's Play as session was in Davenport, North Dakota; no seed given). The audit did not break the 716 down by office. One point where the code on main differs from the audit's wording, read Nov 10 (helper): `officials.ts` makes full people at the opening of every member of Congress and of the governor, statewide executives and legislators of the town's own state, and says another state's officials "sit as named officials on their term rows ... one becomes a full person here only when the player meets or opens them". So, as far as the code says, another state's legislators are named term rows on day one and not full people, and the 716 are members of Congress and the home state's officials. The Nov 5 ruling's point 4 as recorded covers the first group (named and built on demand, not at the opening). For the second group AGENTS.md's two-level rule lists officials among the people who are full, and the Nov 5 ruling keeps full records for the player's own state and Congress, so whether they stay full people walked daily is the design's call, which is why Fable leads this item. Helper's check on main, Nov 10 (read-only script; drawn place St. Stephen, South Carolina, world seed 1f0206147ad606b1ef8d02da84f3e7d17b8db42ee383582655128630054e3932, day one): 988 full people, 125 of them living in the town, and 21,397 office-term rows, of which 21,277 are state terms (7,881 serving and 13,396 already ended). Related: `core-long-run-election-and-term-rows` (open, priority 1: folding term and returns rows over the years; this item stops them being written on day one), `laws-property-tax-billed-to-every-home-in-the-world` (officials elsewhere own homes and pay the played town's tax), `gov-other-towns-and-counties-never-meet`, `play-states-screen-opens-any-state` (the screen that opens them on demand).
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:39 UTC) on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening.
+
+Released (2026-11-11): Part 1 (other states' earlier terms written when the holder is opened) is core-officials-elsewhere-part-1-past-terms-on-demand on PR 8390; the rest (no named holder or term record for other states on day one, the Watch counts, Play as building the person, the player's chain walked daily) is still this item's, its branch reused by part 1. Continue on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening and pull request #8390.
