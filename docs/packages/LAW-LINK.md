@@ -1,5 +1,7 @@
 # LAW-LINK: every law has an effect the game reads
 
+> **History (dated Oct 2026).** This package is the original plan for LAW-LINK. The counts below (fifty-nine policies, twenty-one with effects, thirty-eight note-only) and the single Codex builder (Astra, `codex/law-link`) describe that plan, not the present state. The laws lead owns this work now, through the law-wiring matrix and `docs/work-orders/lead-laws-2026-10-24.md`; take questions and new work there, not to this file.
+
 Fifty-nine policies can pass as law. Twenty-one change money or behavior. Thirty-eight only write a note on people's records, because their handlers were declared as note-only in data and nothing in the repository treats that as unfinished. This package links all 59 to the game using the two paths that already exist. It builds no new module, registry, store or data format.
 
 ## Who builds it, where
