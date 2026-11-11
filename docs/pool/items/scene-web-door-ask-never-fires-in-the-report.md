@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-scene-web-door-ask-never-fires-in-the-report
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T04:05:07.008Z
 ---
 
 **What.** The scene web (npm run scene-web) counts a situation type as fired when it plays in a watched year. door-ask is the scene of the player knocking on a door on their own canvass, but the report's played year never has the player canvass, so the row always reads 0 fired even though the scene exists and has a test. A domain row cannot meet its done line (fired in a played year) while the report cannot see it. Guards: the scene of the player knocking on a door on their own canvass, which the scene web report must count so that a broken door scene shows as zero and not as untested.

@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-housing-web-lease-renews-without-town-factor
+pr: #8565
 after:
 blocked-on:
 lead: laws
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T03:58:17.491Z
 branch: claude/pool-housing-web-lease-renews-without-town-factor
 ---
 
