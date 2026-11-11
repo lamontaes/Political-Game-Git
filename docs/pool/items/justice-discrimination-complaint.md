@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: dropped
+status: open
 standard: 2
 claimed-by:
 pr:
@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** A refused applicant can bring a civil complaint that the justice engine records and a commission hears. In the justice engine a `ComplaintRow` is bound to a crime (crimeId, reporter, prosecutor office); add a second kind on the same complaints table, `civil`, carrying the law row id (the discrimination reach row in the law-reach records), the respondent employer, the applicant and the refusal's job-change record id from world-hiring-discrimination-ban-refusal, with an index by refusal. Whether the applicant files is their own choice through the shared chooser: their traits, whether they learned why they were refused (the law reason on the job-change record), their money and time. The enforcer named in the law row (the human rights commission) weighs the complaint by reading the refusal record's recorded reasons and the law's penalty; where the reasons cite a protected trait it orders back pay (the applicant's wage times the days they stayed jobless, from the seeker spell) and a civil fine, both paid on the journal from the employer.
+**What.** A refused applicant can bring a civil complaint that the justice engine records and a commission hears. In the justice engine a `ComplaintRow` is bound to a crime (crimeId, reporter, prosecutor office); add a second kind on the same complaints table, `civil`, carrying the law row id (the discrimination reach row in the law-reach records), the respondent employer, the applicant and the refusal's job-change record id from world-hiring-discrimination-ban-refusal, with an index by refusal. Whether the applicant files is their own choice through the shared chooser: their traits, whether they learned why they were refused (the law reason on the job-change record), their money and time. The enforcer named in the law row (the human rights commission) weighs the complaint by reading the refusal record's recorded reasons and the law's penalty; where the reasons cite a protected trait it orders back pay (the applicant's wage times the days they stayed jobless, from the seeker spell) and a civil fine, both paid on the journal from the employer. Seen: a refused applicant's complaint, which pays back pay and a fine the player reads on the person's card and the bill card for the ban (owner, Oct 24 and Oct 26).
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)" (owner, Oct 19): the owner's traits and views are read against the applicant's record with the reasons recorded, and a discrimination ban refuses a decision whose recorded reasons cite a protected trait; the registered stopgap SG-GOV-REACH-A-discrimination (src/core2/data/stopgaps/gov.json, status open) says no complaint is brought. Found in code: `ComplaintRow` (src/core2/modules/justice.ts, line 77) has no civil kind.
 
@@ -39,5 +39,3 @@ checked: fable 2026-11-10
 **Notes.** Split from world-sale-eligibility-reads (an L item) on Oct 19; the owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. Stopgap SG-GOV-REACH-A-discrimination.
 
 Oct 20 (pool feeder): spec written; after world-hiring-discrimination-ban-refusal (which itself waits on world-hiring-bias-reasons and the employer attitude table). CTO call recorded in the report: back pay plus a fine; the fine amount comes from the law row where it carries one, else a registered ESTIMATED parameter sourced to EEOC resolution figures by the builder.
-
-Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a refused applicant file a civil complaint a commission hears; no screen shows one, and courts come after early access.
