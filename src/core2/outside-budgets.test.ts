@@ -110,9 +110,14 @@ it(`another state's budget reads its ledger in the country tier, and its own tax
 
   // The raise shows in the state's own sales tax line, and nowhere the tier
   // does not model.
+  // The first fiscal year that starts after the raise.
+  const raisedOn = addDays(makeIsoDate(gameStartDate()), 30);
   const row = (core: CoreState) =>
     budgets(core)
-      .filter((r) => r.governmentId === stateKey && r.ledgerId)
+      .filter(
+        (r) =>
+          r.governmentId === stateKey && r.ledgerId && r.startsOn > raisedOn,
+      )
       .sort((a, b) => a.fiscalYear - b.fiscalYear)[0];
   const before = row(alone);
   const after = row(raised);
