@@ -29,7 +29,14 @@ export function rosterScreen({
     ...(g.title ? [{ heading: g.title }] : []),
     ...g.entries.map((entry) => ({ entry })),
   ]);
+  // The key of the entry whose page is on screen or on its way.
+  let opened = null;
   const open = async (entry) => {
+    // The entry already open is not opened twice. A second open would strand
+    // the first page's controls: their redraws belong to a draw this list no
+    // longer shows, so a vote cast there would never appear on the page.
+    if (entry.key === opened) return;
+    opened = entry.key;
     chosen = entry;
     const mine = ++request;
     for (const b of roster.querySelectorAll(".roster-row"))
