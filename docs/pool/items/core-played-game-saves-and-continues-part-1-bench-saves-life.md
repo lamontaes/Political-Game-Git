@@ -23,9 +23,9 @@ branch: claude/pool-core-played-game-saves-and-continues-part-1-bench-saves-life
 
 **What.** The bench holds the played life only in memory, so restarting the server loses it. Write the life to a save file through saveGame in src/core2/saves.ts (backed by src/core2/snapshot.ts) when time advances and when the server quits, with no second save writer. A save made under an older CORE_API_VERSION must still load after an update (the clause taken from core-m7-02-saves-that-last), which saves.ts supports by replaying its commands. This is part 1 of core-played-game-saves-and-continues.
 
-**Cause.** Found in code: src/bench/handler.ts line 760 ("continue (the server's current life), or none") is only the server's in-memory life, and nothing in src/bench or the desktop host calls `saveGame` or `loadGame` from src/core2/saves.ts. saves.ts replays every command from the opening unless `uncoveredModules(core)` is empty (lines 215 and 238).
+**Cause.** Needs cause. The earlier cause (the bench needs only to call saveGame and loadGame) differs from the code, found by opus-1fd7 on Nov 11 and confirmed by opus-5234 on main 1d35642bf5: saveGame can save a bench life only through a snapshot, and most of a bench world's modules are not declared covered (only 9 source files call declareSnapshotCovered; uncoveredModules, src/core2/snapshot.ts line 66, listed 62 of 81 in Neptune Beach, Florida, seed snap1); the bench's actions do not go through runCommand, so the command replay cannot save it either; and the bench builds its world with benchWorldStages (src/bench/world.ts), not newGame, so loadGame cannot rebuild it. A finder splits it: an audit of each engine for state outside its tables (declareSnapshotCovered), then a load path that rebuilds through benchWorldStages, each sized.
 
-**Fix.** On advance and on quit the bench handler calls saveGame and writes the result to the saves folder; one function loads it back through loadGame. Add a test that saves a played life, loads it, and compares every field of the core.
+**Fix.** None until the cause is found.
 
 **Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
