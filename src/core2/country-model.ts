@@ -13,6 +13,7 @@
  * unless a name says a year's. The law is passed in, so this file knows no statute.
  */
 import type { MacroParameter } from "./macro-model";
+import type { CoreAPI } from "./types";
 
 export const COUNTRY_SECTORS = [
   "construction",
@@ -732,6 +733,54 @@ function flowsOf(
     return { weights, total, leaving };
   });
   return { arrivals, parts };
+}
+
+/** One state's movers this month by the tier's own rule: the share of each age band that leaves for another state, and where they go. */
+export interface CountryFlow {
+  /** The month's share of each adult age band (`COUNTRY_AGE_BANDS` order) leaving for another state. */
+  leavingByBand: number[];
+  /** The share of its leavers each state takes, in the tier's state order (none for itself). */
+  toShare: number[];
+}
+
+/**
+ * Who leaves each state this month and where they go, read without moving
+ * anyone: the same weights `moves` applies (counted-moves reads them for the
+ * played town's own leavers and arrivals, so the tier is the one holder of
+ * every state's people).
+ */
+export function countryFlows(
+  tier: CountryTier,
+  law: CountryLaw,
+  rules: CountryRules,
+): CountryFlow[] {
+  const { parts } = flowsOf(tier, offersOf(tier, law), rules, false);
+  return tier.states.map((home, h) => {
+    const { weights, total, leaving } = parts[h]!;
+    const leavingByBand = COUNTRY_AGE_BANDS.map(() => 0);
+    home.cells.forEach((cell, index) => {
+      leavingByBand[cell.band] = leaving[index]!;
+    });
+    return {
+      leavingByBand,
+      toShare: weights.map((w) => (total > 0 ? w / total : 0)),
+    };
+  });
+}
+
+/** Every state's people and this month's movers, as the economy engine reads them (`macro.ts` registers it). */
+export type CountryFlowsReader = (api: CoreAPI) => {
+  readonly states: readonly CountryState[];
+  readonly flows: readonly CountryFlow[];
+};
+let flowsReader: CountryFlowsReader | null = null;
+/** The economy engine names its reader of the tier's flows (it reads modules the movers' engine cannot import). */
+export function registerCountryFlowsReader(reader: CountryFlowsReader): void {
+  flowsReader = reader;
+}
+/** The tier's states and flows now; empty before the economy opens or where it does not run. */
+export function countryFlowsIn(api: CoreAPI): ReturnType<CountryFlowsReader> {
+  return flowsReader?.(api) ?? { states: [], flows: [] };
 }
 
 const CELL_COUNTS = ["people", "workers", "seekers", "cash"] as const;

@@ -40,6 +40,8 @@ import {
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
 import { countryLaw, startingLawReader } from "../country-law";
 import {
+  countryFlows,
+  registerCountryFlowsReader,
   countryMoney,
   countryPeople,
   countryProblems,
@@ -47,6 +49,7 @@ import {
   countryStateFigures,
   openCountry,
   stepCountry,
+  type CountryFlow,
   type CountryMonth,
   type CountryRules,
   type CountryState,
@@ -252,6 +255,25 @@ function writeCountry(api: CoreAPI, tier: CountryTier): void {
 export function countryStates(api: CoreAPI): readonly CountryState[] {
   return store(api).table("countryStates").rows() as unknown as CountryState[];
 }
+
+/**
+ * Every state's people and this month's movers by the tier's own rule, read
+ * without moving anyone (counted-moves reads them: the tier is the one holder
+ * of every state's people). Empty before the tier opens.
+ */
+export function countryFlowsNow(api: CoreAPI): {
+  states: readonly CountryState[];
+  flows: readonly CountryFlow[];
+} {
+  if (!countryOpened(api)) return { states: [], flows: [] };
+  const tier = readCountry(api);
+  return {
+    states: tier.states,
+    flows: countryFlows(tier, lawNow(api), rulesOf(api)),
+  };
+}
+
+registerCountryFlowsReader(countryFlowsNow);
 
 /** One state's figures today and at the opening, by FIPS code. */
 export function countryStateNow(api: CoreAPI, fips: string) {
