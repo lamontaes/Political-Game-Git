@@ -87,14 +87,32 @@ async function openLaw() {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Issues", exact: true })
     .click();
-  await page.locator('.roster-row[data-key="property-tax"]').click();
+  // The row sits on a later page of the roster box, scrolled inside nested boxes; Playwright's own
+  // scroll-into-view never settles there ("waiting for element to be stable"), so the check scrolls
+  // the row to the box's edge itself, as a player's wheel does, and then clicks it where it stands.
+  const law = page.locator('.roster-row[data-key="property-tax"]');
+  await law.waitFor();
+  await law.evaluate((row) => row.scrollIntoView({ block: "nearest" }));
+  await law.click();
   const section = page
     .locator("#sheet-body .sec")
     .filter({ hasText: "What this did" });
   await section.waitFor();
   const ms = Date.now() - start;
-  await section.scrollIntoViewIfNeeded();
-  return { text: await section.innerText(), ms };
+  // The page draws the section and then redraws it as its record arrives, so the section a check
+  // holds can be replaced under it: read it where it stands, in one step, once it has stopped being
+  // replaced (its text unchanged across a pause).
+  let text = await section.innerText();
+  for (let tries = 0; tries < 10; tries += 1) {
+    await page.waitForTimeout(400);
+    const now = await section.evaluate((node) => {
+      node.scrollIntoView({ block: "nearest" });
+      return node.innerText;
+    });
+    if (now === text) break;
+    text = now;
+  }
+  return { text, ms };
 }
 try {
   const life = await startLife(page, { fresh: true });
