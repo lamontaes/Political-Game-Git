@@ -31847,7 +31847,8 @@
           "requiresFacts": [
             "said-why",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -31873,7 +31874,8 @@
           "requiresFacts": [
             "said-why",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -31899,7 +31901,8 @@
           "requiresFacts": [
             "said-why",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -31925,7 +31928,8 @@
           "requiresFacts": [
             "said-why",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -31951,7 +31955,8 @@
           "requiresFacts": [
             "said-why",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -31977,7 +31982,8 @@
           "requiresFacts": [
             "said-why",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -32003,7 +32009,8 @@
           "requiresFacts": [
             "said-no",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -32029,7 +32036,8 @@
           "requiresFacts": [
             "said-no",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -32055,7 +32063,8 @@
           "requiresFacts": [
             "said-no",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -32081,7 +32090,8 @@
           "requiresFacts": [
             "said-no",
             "about",
-            "ran"
+            "ran",
+            "about-unsaid"
           ]
         }
       ],
@@ -32732,6 +32742,214 @@
           "requiresFacts": [
             "my-against",
             "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.they-didn-t-get-into-the-why-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "They didn't get into the why. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about-said",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.just-that-it-s-happening-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Just that it's happening. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about-said",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.that-s-all-they-gave-it-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "That's all they gave it. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about-said",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.no-reason-in-it-that-i-saw-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "No reason in it that I saw. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about-said",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.that-s-the-whole-of-it-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "That's the whole of it. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about-said",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.that-was-it-word-for-word-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "That was it, word for word. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about-said",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-ran-ran-just-like-that",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It ran {ran}, just like that.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about-said",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.only-that-much-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Only that much. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about-said",
+            "ran"
           ]
         }
       ],

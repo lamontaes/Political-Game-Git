@@ -2185,14 +2185,8 @@ function playerFacts(
       facts["my-none"] = { text: "yes", sourceRecordIds: [playerId] };
     // One screen names a thing once: where the headline already says the
     // question, a stand names the person told instead.
-    const about = last.facts.about?.text;
-    const headline = last.facts.headline?.text;
     const other = otherId ? core.people.get(otherId) : undefined;
-    if (
-      about &&
-      headline?.toLowerCase().includes(about.toLowerCase()) &&
-      other?.givenName
-    ) {
+    if (headlineSays(last.facts) && other?.givenName) {
       facts["about-said"] = { text: "yes", sourceRecordIds: [last.subject.id] };
       facts.first = { text: other.givenName, sourceRecordIds: [other.id] };
     } else
@@ -4220,6 +4214,13 @@ const OWN_VIEW_BACK = "own-view-back";
 
 /** The subject the other person's answer to a reply on news is composed under. */
 const NEWS_BACK = "news-back";
+
+/** Whether a story's headline already says the question it is about. */
+function headlineSays(facts: Facts): boolean {
+  const about = facts.about?.text;
+  const headline = facts.headline?.text;
+  return !!about && !!headline?.toLowerCase().includes(about.toLowerCase());
+}
 /** The player's replies on news that take a side on the story's question. */
 const NEWS_SIDES: readonly string[] = ["for", "against"];
 
@@ -4256,6 +4257,12 @@ function answerNews(
       ? { "their-none": { text: "yes", sourceRecordIds: [otherId] } }
       : {}),
     [`said-${choice.move}`]: { text: "yes", sourceRecordIds: [eventId] },
+    // One screen names a thing once: where the headline already says the
+    // question, the answer says "it" and gives what else the story holds.
+    [headlineSays(last.facts) ? "about-said" : "about-unsaid"]: {
+      text: "yes",
+      sourceRecordIds: [eventId],
+    },
     // A stand either way, for the answers that fit both.
     ...(NEWS_SIDES.includes(choice.move)
       ? { "said-side": { text: "yes", sourceRecordIds: [eventId] } }
