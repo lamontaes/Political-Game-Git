@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/law-reach/group-a-wages.ts
 
-**Notes.** Filed Oct 30 by the laws lead at the governing lead's request (its unit 3 made laws-in-force count township wages). Read: the governing lead's message; group-a-wages.ts on main 09:30 UTC.
+**Notes.** Filed Oct 30 by the laws lead at the governing lead's request (its unit 3 made laws-in-force count township wages). Read: the governing lead's message; group-a-wages.ts on main 09:30 UTC. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it changes whether a raise is credited to the grant or the floor in a record; the pay is the same and nobody sees the credit.

@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: dropped
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-core-counted-eviction-kin-notice
+pr: #8478
 blocked-on:
 after: core-evicted-counted-stays-counted
 source: added with npm run pool -- add
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:17:56.715Z
 ---
 
 **What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), an eviction names its full members and husks, and lists its counted members in the counted-subjects fact. A full person who lists a counted member as family but is not in the household does not perceive the eviction on the day, where on main they would have through the filled-in relatives. The gap is registered as SG-WORLD-counted-eviction-kin-notice, with its marker in housing.ts remove(); the counted-death notice (births-counted-death-notice) is the precedent.
@@ -36,5 +37,3 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/housing.ts, src/core2/births-counted.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Lead: speed. Filed Nov 1 from the second review of speed/evicted-stay-counted.
-
-**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A relative of an evicted counted household hears of it later through the husks instead of on the day, and no player sees which day.

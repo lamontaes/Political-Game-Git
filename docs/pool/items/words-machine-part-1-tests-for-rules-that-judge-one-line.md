@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: merged
+status: done
 standard: 2
 claimed-by: claude/fable-b3-line-rule-tests
 pr: #8204
@@ -19,6 +19,8 @@ source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2
 checked: fable 2026-11-10
 claimed-at: 2026-11-10T19:03:00.636Z
 merged-at: 2026-11-10T22:54:21.024Z
+seen-by: second-session-2
+seen-at: 2026-11-11T03:29:23.719Z
 ---
 
 **What.** The owner's notes are rules now, and most of the newer ones are written down without a test, so they pull nothing. This part writes the test for each rule that can be judged from one line alone. A rule with a test pulls the lines that break it and refuses new ones by name.
@@ -36,3 +38,5 @@ merged-at: 2026-11-10T22:54:21.024Z
 **Waits on.** Pull request 8154 on main.
 
 **Files.** data/english/line-rules.json, src/english/line-rules.ts, src/english/line-rules.test.ts, data/english/pulled.json
+
+**Notes.** Seen in the game (2026-11-11, second-session-2): Whiting, Indiana (scene-year draw), seed sy-0428053f, main 170bd92c: words:rules ran twice with no file change and Conflicts reads None; adding 'Talk to you soon' to a bank line failed the English guards by rule no-talk-to-you-soon; a year of 55 scenes ran with nothing pulled playing
