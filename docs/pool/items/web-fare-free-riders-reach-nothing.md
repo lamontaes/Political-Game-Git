@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-web-fare-free-riders-reach-nothing
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: low
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:27:37.617Z
 ---
 
 **What.** fare-free-transit-to-ridership grades as reaching in the effect matrix: the price engine reads the web's ridership factor when it settles each household's transit fares (src/core2/modules/place-prices.ts, the transit-fare price rule). But under the fare-free law the fare is zero, so the factor multiplies a zero fare, and no other engine reads transit.ridership. The 42 percent more riders the research finds move no money and change no record. Decide what reads them (for example the vehicle-miles a household no longer drives, which the price engine already prices) or mark the link with its specific reason and stopgap so the matrix stops counting it as reaching.
