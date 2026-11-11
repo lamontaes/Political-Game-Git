@@ -2733,10 +2733,7 @@ function billEstimate(paper, section) {
   const words = controls.bill ?? {};
   const est = section.estimate;
   const lines = [];
-  const webCite =
-    typeof est.statute === "string" && /^https?:\/\//.test(est.statute);
-  if (est.statute && !webCite)
-    lines.push(`${words.amends ?? ""} ${est.statute}`);
+  if (est.statute) lines.push(`${words.amends ?? ""} ${est.statute}`);
   // A question answered yes or no has no numeric scale: its clause says
   // what it does, so bare 0/1 values stay off the screen.
   const scaled = est.beforeUnit != null || est.afterUnit != null;
@@ -4511,12 +4508,12 @@ const sheets = {
               2,
               labels.dates,
               dateList([
-                ...(race.filingOpens && race.filingOpens > me.date
+                ...(race.filingOpens && race.filingOpens > today()
                   ? [
                       {
                         when: dateWords(race.filingOpens, {
                           month: "short",
-                          year: me.date,
+                          year: today(),
                         }),
                         text: labels.filingOpens,
                       },
@@ -4679,10 +4676,14 @@ const sheets = {
       item.kind === "meeting"
         ? labels.regularMeeting
         : item.kind === "bill"
-          ? fill(labels.billOnFloor, {
-              number: item.number ?? "",
-              title: item.title ?? "",
-            })
+          ? // A bill with no composed title is named by the law it changes; a
+            // row never ends in a colon.
+            item.title || item.law
+            ? fill(labels.billOnFloor, {
+                number: item.number ?? "",
+                title: item.title || policyLabel(item.law),
+              })
+            : (item.number ?? "")
           : (item.title ?? "");
     const comingList = (items) =>
       dateList(
