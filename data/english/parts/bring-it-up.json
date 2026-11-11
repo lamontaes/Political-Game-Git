@@ -5,8 +5,11 @@
   "slots": {
     "subject": "The place or business that changed, from the event record.",
     "whose": "Who made the change, with the possessive, from the event or blame record.",
-    "who": "Who made the change, by name, from the event or blame record.",
-    "topic": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
+    "who": "Who made the change, by name, from the event or blame record; for a remembered event, another person its record names (never the speaker or the listener).",
+    "topic": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record.",
+    "year": "The year of the remembered event, from its record.",
+    "employer": "The employer the remembered event names, from its record.",
+    "office": "The office the remembered event names, from its record."
   },
   "maxWords": 10,
   "mining": {
@@ -1440,6 +1443,1161 @@
       "author": "Words session",
       "date": "2026-10-30",
       "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.remembered-work-job-lost-mine.i-lost-my-job-at-employer",
+      "move": "remembered-work-job-lost-mine",
+      "kind": "spoken",
+      "text": "I lost my job at {employer}.",
+      "uses": [
+        {
+          "move": "remembered-work-job-lost-mine",
+          "subject": "remembered",
+          "role": "work/job-lost",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-work-job-lost-mine.employer-let-me-go-in-year",
+      "move": "remembered-work-job-lost-mine",
+      "kind": "spoken",
+      "text": "{employer} let me go in {year}.",
+      "uses": [
+        {
+          "move": "remembered-work-job-lost-mine",
+          "subject": "remembered",
+          "role": "work/job-lost",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-work-job-started-mine.i-started-at-employer-in-year",
+      "move": "remembered-work-job-started-mine",
+      "kind": "spoken",
+      "text": "I started at {employer} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-work-job-started-mine",
+          "subject": "remembered",
+          "role": "work/job-started",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-work-job-started-mine.i-ve-got-a-new-job-at-employer",
+      "move": "remembered-work-job-started-mine",
+      "kind": "spoken",
+      "text": "I've got a new job, at {employer}.",
+      "uses": [
+        {
+          "move": "remembered-work-job-started-mine",
+          "subject": "remembered",
+          "role": "work/job-started",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-work-job-ended-mine.i-retired-in-year-still-getting-used-to",
+      "move": "remembered-work-job-ended-mine",
+      "kind": "spoken",
+      "text": "I retired in {year}. Still getting used to it.",
+      "uses": [
+        {
+          "move": "remembered-work-job-ended-mine",
+          "subject": "remembered",
+          "role": "work/job-ended",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-work-pay-raised-mine.my-pay-went-up-in-year-with-the-minimum",
+      "move": "remembered-work-pay-raised-mine",
+      "kind": "spoken",
+      "text": "My pay went up in {year}, with the minimum wage.",
+      "uses": [
+        {
+          "move": "remembered-work-pay-raised-mine",
+          "subject": "remembered",
+          "role": "work/pay-raised",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-filed-mine.i-filed-to-run-for-office",
+      "move": "remembered-politics-filed-mine",
+      "kind": "spoken",
+      "text": "I filed to run for {office}.",
+      "uses": [
+        {
+          "move": "remembered-politics-filed-mine",
+          "subject": "remembered",
+          "role": "politics/filed",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-won-mine.i-won-the-race-for-office-in-year",
+      "move": "remembered-politics-won-mine",
+      "kind": "spoken",
+      "text": "I won the race for {office} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-won-mine",
+          "subject": "remembered",
+          "role": "politics/won",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-lost-mine.i-lost-the-race-for-office-in-year",
+      "move": "remembered-politics-lost-mine",
+      "kind": "spoken",
+      "text": "I lost the race for {office} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-lost-mine",
+          "subject": "remembered",
+          "role": "politics/lost",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-lost-primary-mine.i-lost-the-primary-for-office-in-year",
+      "move": "remembered-politics-lost-primary-mine",
+      "kind": "spoken",
+      "text": "I lost the primary for {office} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-lost-primary-mine",
+          "subject": "remembered",
+          "role": "politics/lost-primary",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-took-office-mine.i-took-office-as-office-in-year",
+      "move": "remembered-politics-took-office-mine",
+      "kind": "spoken",
+      "text": "I took office as {office} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-took-office-mine",
+          "subject": "remembered",
+          "role": "politics/took-office",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-left-office-mine.i-left-office-as-office-in-year",
+      "move": "remembered-politics-left-office-mine",
+      "kind": "spoken",
+      "text": "I left office as {office} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-left-office-mine",
+          "subject": "remembered",
+          "role": "politics/left-office",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-partnered-mine.who-and-i-got-together-in-year",
+      "move": "remembered-partner-partnered-mine",
+      "kind": "spoken",
+      "text": "{who} and I got together in {year}.",
+      "uses": [
+        {
+          "move": "remembered-partner-partnered-mine",
+          "subject": "remembered",
+          "role": "partner/partnered",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-partnered-ours.we-got-together-in-year-remember",
+      "move": "remembered-partner-partnered-ours",
+      "kind": "spoken",
+      "text": "We got together in {year}. Remember?",
+      "uses": [
+        {
+          "move": "remembered-partner-partnered-ours",
+          "subject": "remembered",
+          "role": "partner/partnered",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-engaged-mine.who-and-i-got-engaged-in-year",
+      "move": "remembered-partner-engaged-mine",
+      "kind": "spoken",
+      "text": "{who} and I got engaged in {year}.",
+      "uses": [
+        {
+          "move": "remembered-partner-engaged-mine",
+          "subject": "remembered",
+          "role": "partner/engaged",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-engaged-ours.we-got-engaged-in-year-i-remember-all-of",
+      "move": "remembered-partner-engaged-ours",
+      "kind": "spoken",
+      "text": "We got engaged in {year}. I remember all of it.",
+      "uses": [
+        {
+          "move": "remembered-partner-engaged-ours",
+          "subject": "remembered",
+          "role": "partner/engaged",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-married-mine.who-and-i-got-married-in-year",
+      "move": "remembered-partner-married-mine",
+      "kind": "spoken",
+      "text": "{who} and I got married in {year}.",
+      "uses": [
+        {
+          "move": "remembered-partner-married-mine",
+          "subject": "remembered",
+          "role": "partner/married",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-married-ours.we-got-married-in-year-seems-like-yester",
+      "move": "remembered-partner-married-ours",
+      "kind": "spoken",
+      "text": "We got married in {year}. Seems like yesterday.",
+      "uses": [
+        {
+          "move": "remembered-partner-married-ours",
+          "subject": "remembered",
+          "role": "partner/married",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-moved-in-mine.who-and-i-moved-in-together-in-year",
+      "move": "remembered-partner-moved-in-mine",
+      "kind": "spoken",
+      "text": "{who} and I moved in together in {year}.",
+      "uses": [
+        {
+          "move": "remembered-partner-moved-in-mine",
+          "subject": "remembered",
+          "role": "partner/moved-in",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-moved-in-ours.we-moved-in-together-in-year",
+      "move": "remembered-partner-moved-in-ours",
+      "kind": "spoken",
+      "text": "We moved in together in {year}.",
+      "uses": [
+        {
+          "move": "remembered-partner-moved-in-ours",
+          "subject": "remembered",
+          "role": "partner/moved-in",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-separated-mine.who-and-i-split-up-in-year",
+      "move": "remembered-partner-separated-mine",
+      "kind": "spoken",
+      "text": "{who} and I split up in {year}.",
+      "uses": [
+        {
+          "move": "remembered-partner-separated-mine",
+          "subject": "remembered",
+          "role": "partner/separated",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-partner-separated-ours.we-split-up-in-year-i-still-think-about",
+      "move": "remembered-partner-separated-ours",
+      "kind": "spoken",
+      "text": "We split up in {year}. I still think about it.",
+      "uses": [
+        {
+          "move": "remembered-partner-separated-ours",
+          "subject": "remembered",
+          "role": "partner/separated",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-child-born-mine.i-had-a-baby-in-year",
+      "move": "remembered-child-born-mine",
+      "kind": "spoken",
+      "text": "I had a baby in {year}.",
+      "uses": [
+        {
+          "move": "remembered-child-born-mine",
+          "subject": "remembered",
+          "role": "child/born",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-child-born-ours.who-was-born-in-year-where-did-the-time",
+      "move": "remembered-child-born-ours",
+      "kind": "spoken",
+      "text": "{who} was born in {year}. Where did the time go?",
+      "uses": [
+        {
+          "move": "remembered-child-born-ours",
+          "subject": "remembered",
+          "role": "child/born",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-loss-died-mine.i-lost-who-in-year",
+      "move": "remembered-loss-died-mine",
+      "kind": "spoken",
+      "text": "I lost {who} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-loss-died-mine",
+          "subject": "remembered",
+          "role": "loss/died",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-loss-died-ours.we-lost-who-in-year-i-still-miss-them",
+      "move": "remembered-loss-died-ours",
+      "kind": "spoken",
+      "text": "We lost {who} in {year}. I still miss them.",
+      "uses": [
+        {
+          "move": "remembered-loss-died-ours",
+          "subject": "remembered",
+          "role": "loss/died",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-health-serious-illness-mine.i-got-very-sick-in-year",
+      "move": "remembered-health-serious-illness-mine",
+      "kind": "spoken",
+      "text": "I got very sick in {year}.",
+      "uses": [
+        {
+          "move": "remembered-health-serious-illness-mine",
+          "subject": "remembered",
+          "role": "health/serious-illness",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-home-bought-mine.i-bought-a-house-in-year",
+      "move": "remembered-home-bought-mine",
+      "kind": "spoken",
+      "text": "I bought a house in {year}.",
+      "uses": [
+        {
+          "move": "remembered-home-bought-mine",
+          "subject": "remembered",
+          "role": "home/bought",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-home-bought-ours.we-bought-the-house-in-year",
+      "move": "remembered-home-bought-ours",
+      "kind": "spoken",
+      "text": "We bought the house in {year}.",
+      "uses": [
+        {
+          "move": "remembered-home-bought-ours",
+          "subject": "remembered",
+          "role": "home/bought",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-home-evicted-mine.i-got-evicted-in-year",
+      "move": "remembered-home-evicted-mine",
+      "kind": "spoken",
+      "text": "I got evicted in {year}.",
+      "uses": [
+        {
+          "move": "remembered-home-evicted-mine",
+          "subject": "remembered",
+          "role": "home/evicted",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-home-evicted-ours.we-got-evicted-in-year",
+      "move": "remembered-home-evicted-ours",
+      "kind": "spoken",
+      "text": "We got evicted in {year}.",
+      "uses": [
+        {
+          "move": "remembered-home-evicted-ours",
+          "subject": "remembered",
+          "role": "home/evicted",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-home-damaged-mine.my-house-got-damaged-in-the-disaster-in",
+      "move": "remembered-home-damaged-mine",
+      "kind": "spoken",
+      "text": "My house got damaged in the disaster in {year}.",
+      "uses": [
+        {
+          "move": "remembered-home-damaged-mine",
+          "subject": "remembered",
+          "role": "home/damaged",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-home-damaged-ours.our-house-got-damaged-in-the-disaster-in",
+      "move": "remembered-home-damaged-ours",
+      "kind": "spoken",
+      "text": "Our house got damaged in the disaster in {year}.",
+      "uses": [
+        {
+          "move": "remembered-home-damaged-ours",
+          "subject": "remembered",
+          "role": "home/damaged",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "damage"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-move-moved-in-mine.i-moved-here-in-year",
+      "move": "remembered-move-moved-in-mine",
+      "kind": "spoken",
+      "text": "I moved here in {year}.",
+      "uses": [
+        {
+          "move": "remembered-move-moved-in-mine",
+          "subject": "remembered",
+          "role": "move/moved-in",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-move-moved-in-ours.we-moved-here-in-year",
+      "move": "remembered-move-moved-in-ours",
+      "kind": "spoken",
+      "text": "We moved here in {year}.",
+      "uses": [
+        {
+          "move": "remembered-move-moved-in-ours",
+          "subject": "remembered",
+          "role": "move/moved-in",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-move-moved-away-mine.i-moved-away-in-year",
+      "move": "remembered-move-moved-away-mine",
+      "kind": "spoken",
+      "text": "I moved away in {year}.",
+      "uses": [
+        {
+          "move": "remembered-move-moved-away-mine",
+          "subject": "remembered",
+          "role": "move/moved-away",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-move-moved-home-mine.i-moved-to-a-new-place-in-year",
+      "move": "remembered-move-moved-home-mine",
+      "kind": "spoken",
+      "text": "I moved to a new place in {year}.",
+      "uses": [
+        {
+          "move": "remembered-move-moved-home-mine",
+          "subject": "remembered",
+          "role": "move/moved-home",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-move-moved-home-ours.we-moved-to-the-new-place-in-year",
+      "move": "remembered-move-moved-home-ours",
+      "kind": "spoken",
+      "text": "We moved to the new place in {year}.",
+      "uses": [
+        {
+          "move": "remembered-move-moved-home-ours",
+          "subject": "remembered",
+          "role": "move/moved-home",
+          "choice": "ours"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-law-victim-mine.somebody-committed-a-crime-against-me-in",
+      "move": "remembered-law-victim-mine",
+      "kind": "spoken",
+      "text": "Somebody committed a crime against me in {year}.",
+      "uses": [
+        {
+          "move": "remembered-law-victim-mine",
+          "subject": "remembered",
+          "role": "law/victim",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-law-accused-mine.i-was-accused-of-a-crime-in-year",
+      "move": "remembered-law-accused-mine",
+      "kind": "spoken",
+      "text": "I was accused of a crime in {year}.",
+      "uses": [
+        {
+          "move": "remembered-law-accused-mine",
+          "subject": "remembered",
+          "role": "law/accused",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-law-charged-mine.i-was-charged-with-a-crime-in-year",
+      "move": "remembered-law-charged-mine",
+      "kind": "spoken",
+      "text": "I was charged with a crime in {year}.",
+      "uses": [
+        {
+          "move": "remembered-law-charged-mine",
+          "subject": "remembered",
+          "role": "law/charged",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-law-convicted-mine.i-was-convicted-in-year",
+      "move": "remembered-law-convicted-mine",
+      "kind": "spoken",
+      "text": "I was convicted in {year}.",
+      "uses": [
+        {
+          "move": "remembered-law-convicted-mine",
+          "subject": "remembered",
+          "role": "law/convicted",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-law-imprisoned-mine.i-went-to-prison-in-year",
+      "move": "remembered-law-imprisoned-mine",
+      "kind": "spoken",
+      "text": "I went to prison in {year}.",
+      "uses": [
+        {
+          "move": "remembered-law-imprisoned-mine",
+          "subject": "remembered",
+          "role": "law/imprisoned",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-law-released-mine.i-got-out-of-prison-in-year",
+      "move": "remembered-law-released-mine",
+      "kind": "spoken",
+      "text": "I got out of prison in {year}.",
+      "uses": [
+        {
+          "move": "remembered-law-released-mine",
+          "subject": "remembered",
+          "role": "law/released",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-business-founded-mine.i-started-my-own-business-in-year",
+      "move": "remembered-business-founded-mine",
+      "kind": "spoken",
+      "text": "I started my own business in {year}.",
+      "uses": [
+        {
+          "move": "remembered-business-founded-mine",
+          "subject": "remembered",
+          "role": "business/founded",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-business-closed-mine.i-closed-employer-in-year",
+      "move": "remembered-business-closed-mine",
+      "kind": "spoken",
+      "text": "I closed {employer} in {year}.",
+      "uses": [
+        {
+          "move": "remembered-business-closed-mine",
+          "subject": "remembered",
+          "role": "business/closed",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-school-started-mine.i-started-school-in-year",
+      "move": "remembered-school-started-mine",
+      "kind": "spoken",
+      "text": "I started school in {year}.",
+      "uses": [
+        {
+          "move": "remembered-school-started-mine",
+          "subject": "remembered",
+          "role": "school/started",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-school-finished-mine.i-finished-school-in-year",
+      "move": "remembered-school-finished-mine",
+      "kind": "spoken",
+      "text": "I finished school in {year}.",
+      "uses": [
+        {
+          "move": "remembered-school-finished-mine",
+          "subject": "remembered",
+          "role": "school/finished",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-school-honor-mine.i-won-an-honor-at-school-in-year",
+      "move": "remembered-school-honor-mine",
+      "kind": "spoken",
+      "text": "I won an honor at school in {year}.",
+      "uses": [
+        {
+          "move": "remembered-school-honor-mine",
+          "subject": "remembered",
+          "role": "school/honor",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-took-office-mine.i-took-office-in-year",
+      "move": "remembered-politics-took-office-mine",
+      "kind": "spoken",
+      "text": "I took office in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-took-office-mine",
+          "subject": "remembered",
+          "role": "politics/took-office",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-left-office-mine.i-left-office-in-year",
+      "move": "remembered-politics-left-office-mine",
+      "kind": "spoken",
+      "text": "I left office in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-left-office-mine",
+          "subject": "remembered",
+          "role": "politics/left-office",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-won-mine.i-won-my-race-in-year",
+      "move": "remembered-politics-won-mine",
+      "kind": "spoken",
+      "text": "I won my race in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-won-mine",
+          "subject": "remembered",
+          "role": "politics/won",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-lost-mine.i-lost-my-race-in-year",
+      "move": "remembered-politics-lost-mine",
+      "kind": "spoken",
+      "text": "I lost my race in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-lost-mine",
+          "subject": "remembered",
+          "role": "politics/lost",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-lost-primary-mine.i-lost-my-primary-in-year",
+      "move": "remembered-politics-lost-primary-mine",
+      "kind": "spoken",
+      "text": "I lost my primary in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-lost-primary-mine",
+          "subject": "remembered",
+          "role": "politics/lost-primary",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "bring-it-up.remembered-politics-filed-mine.i-filed-to-run-in-year",
+      "move": "remembered-politics-filed-mine",
+      "kind": "spoken",
+      "text": "I filed to run in {year}.",
+      "uses": [
+        {
+          "move": "remembered-politics-filed-mine",
+          "subject": "remembered",
+          "role": "politics/filed",
+          "choice": "mine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), core-life-record-part-2",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }
