@@ -14,7 +14,7 @@
  */
 import { spokenDate } from "../core2/kernel/dates";
 import { properName } from "../director/words";
-import { spokenDesignation } from "./bill-names";
+import { billTitleOf, spokenDesignation } from "./bill-names";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface PolicyWords {
@@ -36,6 +36,9 @@ interface AmountWords {
 interface FormWords {
   title: string;
   repealTitle: string;
+  /** The federal and state form only: a local measure has no short title. */
+  shortTitle?: string;
+  longTitle?: string;
   first: string;
   further: string;
   repeal: string;
@@ -93,6 +96,10 @@ export interface ComposedBill {
   readonly title: string;
   /** Each section, enacting words first. */
   readonly sections: readonly string[];
+  /** "This Act may be cited as the “Fair Wage Act”." An act's short title, from the bill's own name; none for a local measure or a bill with no name. */
+  readonly shortTitle: string | null;
+  /** "To provide for a higher minimum wage, and for other purposes." An act's long title, from its sections' purposes. */
+  readonly longTitle: string | null;
   /** The closing section on when it takes effect, when the record gives one. */
   readonly effective: string | null;
   /** Title, sections and the closing section, in order: the text of the bill. */
@@ -272,6 +279,25 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
       text: w.clause,
     }),
   );
+  // An act (never a local ordinance) opens with its short and long titles, said
+  // from the bill's own name and purposes (bill-names.ts), when it has them.
+  const named =
+    form.shortTitle && form.longTitle
+      ? billTitleOf({ form: input.form, provisions: input.provisions })
+      : null;
+  const shortTitle =
+    named && form.shortTitle
+      ? fill(form.shortTitle, { act: `\u201C${named.title}\u201D` })
+      : null;
+  const longTitle =
+    named && form.longTitle
+      ? fill(form.longTitle, {
+          purpose: joinWords(
+            [...new Set(named.sections.map((row) => row.purpose))],
+            BILL_SECTIONS.joiners.purposes,
+          ),
+        })
+      : null;
   const eff = input.effective;
   const dates = new Set(input.provisions.map((p) => p.effectiveDate ?? null));
   const date = eff?.date ?? (dates.size === 1 ? [...dates][0]! : null);
@@ -284,9 +310,17 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   return {
     designation: input.number,
     title,
+    shortTitle,
+    longTitle,
     sections,
     effective,
-    text: [upperFirst(title), ...sections, ...(effective ? [effective] : [])],
+    text: [
+      upperFirst(title),
+      ...(longTitle ? [longTitle] : []),
+      ...(shortTitle ? [shortTitle] : []),
+      ...sections,
+      ...(effective ? [effective] : []),
+    ],
     keys: words.map((w) => w.key),
   };
 }
