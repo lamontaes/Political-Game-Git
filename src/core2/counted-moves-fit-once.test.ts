@@ -167,8 +167,18 @@ describe("the moves between states fit once", () => {
         `${control.date}: ${Math.round(a)} without, ${Math.round(b)} with no income tax`,
       );
     }
+    // The town's own arrivals from other states, counted from its move records.
+    const fromOtherStates = (core: CoreState) =>
+      countedMoves(coreAPI(core))
+        .filter(
+          (row) =>
+            row.direction === "in" &&
+            !row.fromPlace.startsWith(usps) &&
+            row.fromPlace !== "abroad",
+        )
+        .reduce((n, row) => n + row.people, 0);
     process.stdout.write(
-      `fit-once tax twin: ${where}; income pull from ${from} toward ${usps} ${without.toFixed(4)} without, ${withLaw.toFixed(4)} with no income tax; ${lines.join("; ")}\n`,
+      `fit-once tax twin: ${where}; income pull from ${from} toward ${usps} ${without.toFixed(4)} without, ${withLaw.toFixed(4)} with no income tax; ${lines.join("; ")}; the town's arrivals from other states in two years: ${Math.round(fromOtherStates(control))} without, ${Math.round(fromOtherStates(treated))} with no income tax\n`,
     );
     // The monthly re-fit forced the difference to exactly zero at every month.
     // Which way the people go is not asserted: ending the tax also cuts the

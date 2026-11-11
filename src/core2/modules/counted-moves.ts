@@ -149,6 +149,8 @@ export interface Runtime {
   draw: Map<string, number>;
   /** People arriving from abroad in a year, for each resident of a state (the tier's opening rate). */
   abroad: Map<string, number>;
+  /** The share of the town's state living outside its counted places, fixed when the engine opens: none where the counted places are the whole jurisdiction (Washington, D.C.). */
+  restShare: number;
   townState: string;
   /** People due to leave, by group and destination state. */
   leave: Map<string, number>;
@@ -329,6 +331,19 @@ const sum = (row: Record<string, number>) =>
   Object.values(row).reduce((n, v) => n + v, 0);
 
 /**
+ * The share of the town's state outside its counted places at the opening:
+ * the state's people by the regional data less the counted people, none where
+ * the counted places are the whole jurisdiction (Washington, D.C.).
+ */
+function openingRestShare(core: CoreState, townState: string): number {
+  const residents = residentsRuntime(core);
+  const row = Object.values(STATES).find((st) => st.usps === townState);
+  if (!residents || !row?.population) return 1;
+  const counted = countedPeople(residents);
+  return Math.max(0, row.population - counted) / row.population;
+}
+
+/**
  * Each state's people and movers this month, read from the country tier
  * (country-tier design: the tier is the one holder of every state's
  * people). Nothing here is a count
@@ -379,6 +394,7 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     flows: new Map(),
     draw: new Map(),
     abroad: new Map(),
+    restShare: 1,
     townState: key.slice("US-".length),
     leave: new Map(),
     arrive: new Map(),
@@ -389,6 +405,7 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     netCache: new Map(),
   };
   viewStates(api, rt);
+  rt.restShare = openingRestShare(core, rt.townState);
   runtimes.set(core, rt);
   return rt;
 }
@@ -544,9 +561,6 @@ function month(api: CoreAPI): void {
   if (!rt.states.size) return;
   const jobless = stateUnemployment(api);
   const stateList = [...rt.states.values()];
-  // The town's state holds its counted places apart from its coarse people:
-  // a destination's weight and the nation's total count both.
-  const countedAll = countedPeople(residents);
   const inState = countedParameter("countedMovesInStateShare");
   const store = residents.store;
   const source: Source = {
@@ -724,10 +738,6 @@ function month(api: CoreAPI): void {
     row.people += people;
     alike.set(key, row);
   }
-  // The tier's state counts hold its counted places too.
-  const statePeople = new Map(
-    stateList.map((s) => [s.usps, s.people.reduce((a, b) => a + b, 0)]),
-  );
   // The share of a home state living outside the counted places: where the
   // counted places are the whole jurisdiction (Washington, D.C.) there is no
   // remainder to move to, and a leaver within the state lands in one of the
@@ -736,12 +746,8 @@ function month(api: CoreAPI): void {
   // Where people go: each state's size times its draw, the tier's place
   // constant fitted once at the opening, times the pull below.
   const attractOf = (usps: string) => rt.draw.get(usps) ?? 0;
-  const remainderShare = (home: string) => {
-    if (home !== rt.townState) return 1;
-    const remainder = statePeople.get(home)! - countedAll;
-    const total = statePeople.get(home)!;
-    return total > 0 ? Math.max(0, remainder) / total : 1;
-  };
+  const remainderShare = (home: string) =>
+    home === rt.townState ? rt.restShare : 1;
   // Each state's share of the movers out of a home state and its pull at a
   // wage step, in `stateList` order (none for home), worked out once.
   const destRows = new Map<
@@ -1031,7 +1037,7 @@ function month(api: CoreAPI): void {
         due(
           home.usps,
           band,
-          (home.people[band]! * own.leaving[band]! * inState) /
+          (home.people[band]! * rt.restShare * own.leaving[band]! * inState) /
             Math.max(1e-9, 1 - inState),
         ),
       );
