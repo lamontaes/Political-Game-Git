@@ -2773,6 +2773,10 @@ function billEstimate(paper, section) {
  * beside it. `show` draws the nodes, `back` returns to the rows.
  */
 async function openBillPaper(billId, show, back, backLabel) {
+  // Only the newest draw of a page is shown. Two acts close together (a vote,
+  // then calling the question) each redraw the page; the earlier redraw can
+  // finish its reads last, and must not put its older page over the newer one.
+  const mine = (show.draws = (show.draws ?? 0) + 1);
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
   const stage = await api(
     `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
@@ -2895,6 +2899,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       },
     },
   );
+  if (show.draws !== mine) return;
   show(
     ...(backButton ? [backButton] : []),
     billPaper({

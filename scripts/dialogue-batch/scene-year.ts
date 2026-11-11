@@ -16,6 +16,7 @@
  */
 import { writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
+import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advancePlayerV1, resumePlayerV1 } from "../../src/core2/player-v1";
 import type { CoreState, PersonId } from "../../src/core2/types";
@@ -85,6 +86,8 @@ const report = {
   moments: [] as unknown[],
   /** Every situation type: the scenes it fired from a cause record, or why not. */
   reach: [] as ReturnType<typeof reachReport>,
+  /** Every job offer made to the player: employer, title, pay and how it ended (the jobs engine's rows). */
+  offers: [] as unknown[],
 };
 // Watched as the bench watches a chosen resident: the player and their
 // household (src/bench/player.ts, select).
@@ -224,6 +227,21 @@ for (let day = 0; day < days; day += 1) {
   }
 }
 report.householdAtEnd = membersAt();
+report.offers = (
+  coreAPI(core).moduleState("jobs").table("offers").rows() as unknown as {
+    personId: string;
+    organizationId: string;
+    title: string;
+    hourlyMinor: number;
+    offeredAt: string;
+    status: string;
+  }[]
+)
+  .filter((row) => row.personId === playerId)
+  .map((row) => ({
+    ...row,
+    employer: core.organizations.get(row.organizationId)?.name ?? "",
+  }));
 report.reach = reachReport(
   SITUATION_LIBRARY,
   (household?.memberIds ?? [playerId]).flatMap((id) => {
