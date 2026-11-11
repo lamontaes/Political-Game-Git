@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/opening-address.browser.mjs
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** `node src/bench/opening-address.browser.mjs` (BENCH_BROWSER as above) on a fresh bench. The check draws its own place; BENCH_SEED is not read, so Santa Isabel was not replayed. Run in Medora, North Dakota, check seed 6b0e7a72-83db-4781-81ff-f01adba62e25: red, earlier than the item's assertion. As printed: `AssertionError [ERR_ASSERTION]: the talk box says the address` (actual false, expected true) at src/bench/opening-address.browser.mjs:53.

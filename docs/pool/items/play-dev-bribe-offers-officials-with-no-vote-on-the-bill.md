@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-dev-bribe-offers-officials-with-no-vote-on-the-bill
-pr:
+pr: #8356
 after:
 blocked-on:
 lead: play-first

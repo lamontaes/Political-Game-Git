@@ -17,6 +17,8 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-dev-mode-remove-direct-law-write
 ---
 
 **What.** With the /dev page deleted, dev mode's server still serves a direct set-a-law write (setLaw through enactLaw, no bill, vote or signature), the built-in and saved experiments and the saved-experiments file, and dev-mode.test.ts tests them. The Bills panel and Run until do the same through the game's own code, so these are leftovers. Delete the routes, the methods, the saved-experiments storage and the tests that only cover them, and keep any test that proves a law's effect by another route.
@@ -36,5 +38,7 @@ checked: fable 2026-11-10
 **Files.** src/bench/dev-mode.ts, src/bench/dev-api.ts, src/bench/dev-mode.test.ts, src/bench/data/dev-experiments.json
 
 **Notes.** TODO
+
+Released (2026-11-11): Claimed by hand, not built: setLaw is called by eight test files (dev-acceptance x2, dev-law-day-one, dev-mode, dev-outlook, dev-state-trace, law-reach-bargaining x3, law-wiring-rights-env x5, school-voucher-law x3) that use it to set a law before proving its effect; deleting it means moving each of them to the bill route (Bills panel / hold-the-vote) first, which the item does not scope. Split: first port those tests, then delete setLaw, the experiments routes and dev-experiments.json. Continue on branch claude/pool-dev-mode-remove-direct-law-write.
 
 Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have deleted dev mode's leftover set-a-law routes and experiments; only a tester sees dev mode, and no player screen changes.

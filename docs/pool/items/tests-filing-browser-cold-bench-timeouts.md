@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/filing.browser.mjs, src/bench/handler.ts
 
 **Notes.** Follow-up to tests-filing-browser-go-times-out-on-main (#6962), which merged on warm-bench evidence. Lead: play-first.
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** `node src/bench/filing.browser.mjs` with BENCH_BROWSER=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome against `npm run bench` started a minute earlier. The check draws its own place and does not read BENCH_SEED, so the item's seeds cannot be replayed. One run, Edinburg, Missouri, check seed 8628ebb1-abd1-4ecb-bcd5-154e3fabb90a: PASS ("PASS the counter with no panels"). That bench had only served /play before the run, so it was not a true cold first request. No drop proposed: the item is about cold starts, which this run did not test.

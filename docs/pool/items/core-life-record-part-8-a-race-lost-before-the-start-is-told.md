@@ -19,7 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 ---
 
-**What.** The simulated past elects the town's officials and records each race's challenger as a party and a lean, not a person. So nobody in town ever lost a race before the game began, and no card says so. This part keeps the person who fits the challenger on the race, so their card tells the race they lost.
+**What.** The simulated past elects the town's officials and records each race's challenger as a party and a lean, not a person. So nobody in town ever lost a race before the game began, and no card says so. This part keeps the person who fits the challenger on the race, so their card tells the race they lost. Seen: the card of the person who lost a race before the game began.
 
 **Cause.** Found in code: src/core2/past-elections.ts keeps a past race's challenger as a lean and a party (`challengerLean`, line 381; `challengerParty`, line 480) with no person id.
 

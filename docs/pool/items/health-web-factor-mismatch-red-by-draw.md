@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** The health-web test is red on main by draw. src/core2/health-web.test.ts ('moves full people's hazards and counted deaths by age and income') failed on clean main (1f6096efa1, Oct 29 01:50 UTC) with HEALTH_WEB_SEED=e278a4ff7b6b5d53, Bayside, Wisconsin: 'expected 0.9091826820185239 to be close to 0.9088579189485213'. A full person's booked death factor differs from the factor the test computes from the shifted web month by 0.000325. Other seeds pass. Found by the laws session while gating the mortality family.
+**What.** The health-web test is red on main by draw. src/core2/health-web.test.ts ('moves full people's hazards and counted deaths by age and income') failed on clean main (1f6096efa1, Oct 29 01:50 UTC) with HEALTH_WEB_SEED=e278a4ff7b6b5d53, Bayside, Wisconsin: 'expected 0.9091826820185239 to be close to 0.9088579189485213'. A full person's booked death factor differs from the factor the test computes from the shifted web month by 0.000325. Other seeds pass. Found by the laws session while gating the mortality family. Guards: the town's deaths in the paper by age and income, which this test keeps right.
 
 **Cause.** Needs cause. Measured: HEALTH_WEB_SEED=e278a4ff7b6b5d53 (Bayside, Wisconsin) fails src/core2/health-web.test.ts with 0.9091826820185239 against 0.9088579189485213. Not yet looked at: either the engine booked a factor from another month, age or income fifth than the test reads (src/core2/health-web.ts, src/core2/modules/health.ts), or the test reads the wrong one.
 
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/health-web.ts, src/core2/health-web.test.ts, src/core2/modules/health.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `HEALTH_WEB_SEED=e278a4ff7b6b5d53 npx vitest run src/core2/health-web.test.ts` (Bayside, Wisconsin): green. Fresh draw `HEALTH_WEB_SEED=67bdaa02eee90b5d`: green. Proposed for the CTO: drop as fixed on main.
