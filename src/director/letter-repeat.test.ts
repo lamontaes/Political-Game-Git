@@ -116,5 +116,11 @@ describe(`a relative's letter with nothing changed (${where})`, () => {
         !again.bindings.some((row) => row.typeKey === LETTER_TYPE),
       `${where}: ${second} staged the same letter again with nothing changed since ${first}`,
     ).toBe(true);
+    // Held back with its reason on the schedule, for the journal to tell.
+    if (again)
+      expect(again.heldBack, `${where}: ${second}`).toContainEqual({
+        typeKey: LETTER_TYPE,
+        reason: "nothing-changed",
+      });
   }, 600_000);
 });

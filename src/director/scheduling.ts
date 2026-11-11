@@ -230,6 +230,12 @@ export interface ScheduleEntry {
   pace: number;
   bindings: SceneBinding[];
   /**
+   * The types this cause bound that were held back, and why: the type's
+   * season was full (`season-cap`), or a letter would have asked the same with
+   * nothing on record since (`nothing-changed`). The journal tells these.
+   */
+  heldBack?: { typeKey: string; reason: "season-cap" | "nothing-changed" }[];
+  /**
    * The bound scenes with a purpose the player has answered, by type: a
    * record that stages several plays each in turn, the next once one ends.
    */
@@ -920,11 +926,20 @@ export function scheduleMoment(
     );
     return Object.keys(said).length === zero;
   };
+  const seasonFull = (row: SceneBinding) =>
+    (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
+  const heldBack = wanted.flatMap(
+    (row): NonNullable<ScheduleEntry["heldBack"]> =>
+      seasonFull(row)
+        ? [{ typeKey: row.typeKey, reason: "season-cap" }]
+        : sameLetter(row)
+          ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
+          : [],
+  );
+  const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(
     (row) =>
-      (inSeason.get(row.typeKey) ?? zero) <
-        library.scheduling.seasonCap.value &&
-      !sameLetter(row) &&
+      !held.has(row.typeKey) &&
       (eachCause(row) ||
         (!sittingToday.has(castOf(row)) &&
           !sittingToday.has(windowKey(row, moment.id)))),
@@ -1034,6 +1049,7 @@ export function scheduleMoment(
     rank,
     pace,
     bindings,
+    ...(heldBack.length ? { heldBack } : {}),
     ...(found.length ? {} : { coverage }),
   };
 }
