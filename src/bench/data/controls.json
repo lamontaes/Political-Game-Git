@@ -813,6 +813,8 @@
     "inForce": "In force",
     "coming": "Coming",
     "changed": "What changed",
+    "repeal": "Repeal",
+    "repealElsewhere": "Only {body} can repeal this law",
     "revenue": "Revenue",
     "spending": "Spending",
     "balance": "Balance",
