@@ -3,4 +3,4 @@ id: news-low-level-arrests-rate
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The town can now hear of the month's minor-offense arrest rate moving, which gives the police line's newest effect a news row; the story's words are still to be written by Story.

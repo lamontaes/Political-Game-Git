@@ -21,6 +21,11 @@
       "topic": "crime",
       "readBy": "src/core2/electorate-inputs.ts"
     },
+    "justice.low-level-arrests": {
+      "topic": "crime",
+      "readBy": null,
+      "stopgapId": "SG-WEB-knowing-low-level-arrests-reader"
+    },
     "housing.rent": {
       "topic": "housing",
       "readBy": null,
