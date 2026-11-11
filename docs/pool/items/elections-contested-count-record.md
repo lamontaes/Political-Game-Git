@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-elections-contested-count-record
-pr:
+pr: #8573
 after:
 blocked-on:
 model: opus
