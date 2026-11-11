@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-play-dev-watch-panel-is-black-on-black
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: opus
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-11
-claimed-at: 2026-11-11T03:46:20.266Z
+claimed-at:
 branch: claude/pool-play-dev-watch-panel-is-black-on-black
 ---
 
@@ -50,3 +50,5 @@ Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): Left for Fable B, as the item's Nov 11 note says (screens are Fable B's since the owner's Nov 10 order); nothing built. Continue on branch claude/pool-play-dev-watch-panel-is-black-on-black.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:46 UTC) on branch claude/pool-play-dev-watch-panel-is-black-on-black.
+
+Released (2026-11-11): Re-offered; set model: fable so next keeps it for Fable B, as its Nov 11 note says. Continue on branch claude/pool-play-dev-watch-panel-is-black-on-black.
