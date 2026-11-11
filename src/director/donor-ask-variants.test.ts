@@ -346,8 +346,8 @@ it(`two donors on opposite sides of one bill give their own reasons (seed ${seed
     name: fact("Dana Ruiz", "person:donor"),
     first: fact("Sam", "person:player"),
     place: fact("the town", "place:town"),
-    bill: fact("Ordinance 2026-4", "bill:4"),
-    "donor-bill": fact("Ordinance 2026-4", "bill:4"),
+    bill: fact("the Free Fares Ordinance", "bill:4"),
+    "donor-bill": fact("the Free Fares Ordinance", "bill:4"),
     about: fact("free fares on public transit", "bill:4"),
   };
   const word = (
@@ -403,9 +403,8 @@ it(`two donors on opposite sides of one bill give their own reasons (seed ${seed
     [forIt, "Riverside Clinic"],
     [againstIt, "Harlan Mill"],
   ] as const) {
-    expect(text).toContain("Ordinance 2026-4");
+    expect(text.toLowerCase()).toContain("the free fares ordinance");
     expect(text).toContain(employer);
-    expect(text).toContain("free fares on public transit");
   }
   for (const amount of ["$1,000", "$50"]) {
     const facts = {

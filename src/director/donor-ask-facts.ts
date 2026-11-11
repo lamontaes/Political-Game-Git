@@ -22,13 +22,15 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
 import { questionAbout } from "../english/question-names";
+import { billTitleOf, billTitleSaid } from "../english/bill-names";
+import { employerSaid } from "../english/journal-words";
 import { properName } from "./words";
 
 /** The situation type that reads these facts. */
 export const DONOR_ASK_TYPE = "donor-ask";
 
 /**
- * The facts for `donorId`'s ask: `donor-first` (their given name), `employer` (their job's organization),
+ * The facts for `donorId`'s ask: `donor-first` (their given name), `employer` (their job's organization, as `employerSaid` says it), `bill` and `donor-bill` (the bill by its title),
  * `about` (the question of the bill `billId` names), and `side-for` or
  * `side-against` (where the donor stands on that bill), each with the
  * records behind it. `causeId` is the gift's record.
@@ -48,12 +50,25 @@ export function donorAskFacts(
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (job && org && !job.endsAt)
     facts.employer = {
-      text: properName(org.name),
+      // As people say it: "the government of Utah", never "Utah treasury".
+      text: employerSaid(properName(org.name), org),
       sourceRecordIds: [job.id, org.id],
     };
   if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return facts;
   const api = coreAPI(core as CoreState);
   const bill = billOf(api, billId);
+  // The bill as people say it, by what it does, from the title the bill's
+  // own page reads (billTitleOf): "the Civilian Oversight Ordinance", never
+  // its number. A bill with no title authored keeps the number it was said by.
+  const titled = bill ? billTitleOf(bill) : null;
+  if (titled) {
+    const said = {
+      text: billTitleSaid(titled.title),
+      sourceRecordIds: [billId, causeId],
+    };
+    facts.bill = said;
+    facts["donor-bill"] = said;
+  }
   const provision = bill?.provisions[P.zero];
   const stance = provision ? provisionStance(api, provision) : null;
   const about = stance ? questionAbout(stance.question) : null;

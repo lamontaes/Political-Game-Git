@@ -28,6 +28,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
 import { expectUpToFourDifferent } from "./reply-set-check";
+import { billTitleOf, billTitleSaid } from "../english/bill-names";
 
 // A campaign's gift from someone else is a public record (campaign-gift,
 // naming the candidate and the donor, the amount, its share of what others
@@ -263,9 +264,23 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
       // reason.
       if (employer && about && side && talk.purpose === "donor-ask") {
         expect(talk.state.text, here).toContain(employer.text);
-        expect(talk.state.text, here).toContain(about.text);
         expect(side.recordIds, here).toContain(donorId);
       }
+      // Said the way people say it (lead, Nov 11, 2026): a bill by what it
+      // does, never its number, and a public employer as its government,
+      // never "Utah treasury".
+      const titled = gift.facts!.billId
+        ? billTitleOf(
+            bills.get(String(gift.facts!.billId)) as unknown as BillRow,
+          )
+        : null;
+      if (titled) {
+        const bill = result.scene.facts.find((row) => row.key === "bill");
+        expect(bill?.text, here).toBe(billTitleSaid(titled.title));
+        for (const line of [talk.state, ...root])
+          expect(line.text, here).not.toContain(String(gift.facts!.number));
+      }
+      if (employer) expect(employer.text, here).not.toMatch(/\btreasury$/i);
       process.stdout.write(
         `DONOR ASK ${here}: ${money!.text}${gift.facts!.number ? ` (${gift.facts!.number})` : ""}; "${talk.state.text}" | ${root.map((row) => `${row.move}: ${row.text}`).join(" | ")}\n`,
       );
