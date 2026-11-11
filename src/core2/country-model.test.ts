@@ -17,6 +17,7 @@ import {
   countryTotals,
   countryUnemployment,
   openCountry,
+  resolveCountryPart,
   spreadFlows,
   stepCountry,
   type CountryMonth,
@@ -152,6 +153,44 @@ describe(`the country tier's month: ${where}`, () => {
       Math.abs(first.unemploymentPct - national.unemploymentPct),
       `${where}: month 1 is ${first.unemploymentPct}`,
     ).toBeLessThan(0.1);
+  });
+
+  it("a part that counted more workers than people in a band resolves to jobs equal to its workers", () => {
+    const tier = openCountry(opening, lawOf(), rules);
+    const state = tier.states[0]!;
+    // Every band counts a tenth more workers than it has people, and as many jobs as workers.
+    const people = COUNTRY_AGE_BANDS.map(() => 1000);
+    const workers = people.map((n) => n * 1.1);
+    const total = sum(workers);
+    const part = resolveCountryPart(state, {
+      people,
+      workers,
+      seekers: people.map(() => 0),
+      children: 0,
+      cash: 0,
+      jobs: { [COUNTRY_SECTORS[0]!]: total },
+      unsortedJobs: 0,
+    });
+    const jobs = sum(COUNTRY_SECTORS.map((sector) => part.jobs[sector]));
+    expect(sum(part.workers), where).toBeCloseTo(sum(people), 6);
+    expect(jobs, `${where}: jobs equal workers`).toBeCloseTo(
+      sum(part.workers),
+      6,
+    );
+    // A part whose counts already fit is left as it was.
+    const fits = resolveCountryPart(state, {
+      people,
+      workers: people.map((n) => n * 0.5),
+      seekers: people.map(() => 0),
+      children: 0,
+      cash: 0,
+      jobs: { [COUNTRY_SECTORS[0]!]: sum(people) * 0.5 },
+      unsortedJobs: 0,
+    });
+    expect(
+      sum(COUNTRY_SECTORS.map((sector) => fits.jobs[sector])),
+      where,
+    ).toBeCloseTo(sum(people) * 0.5, 6);
   });
 
   it("keeps every dollar and every person accounted for, each month for twenty years", () => {
