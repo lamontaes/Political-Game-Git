@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-gov-fiscal-note-reads-counted-jobs
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: governing lead, Oct 30 (review of gov-m3-01-fiscal-note-at-drafting)
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:24:39.568Z
+claimed-at:
 branch: claude/pool-gov-fiscal-note-reads-counted-jobs
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-gov-fiscal-note-reads-counted-jobs
 **Notes.** TODO
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-gov-fiscal-note-reads-counted-jobs.
+
+Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-gov-fiscal-note-reads-counted-jobs.
