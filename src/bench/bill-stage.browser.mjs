@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event, fetch */
+/* global process, URL, console, document, fetch, setTimeout */
 // The bill stage (legislation mocks, Nov 8): a member drafts a bill, the dev route holds its
 // floor vote, and the bill's paper then shows the floor result by name: each chamber's yes and no,
 // every name that has a card opening it.

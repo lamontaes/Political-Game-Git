@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, setTimeout */
 // The meeting panel (owner, Oct 29: "the UI is terrible"): a member of a body drafts a bill,
 // plays on to the meeting, and the panel shows the body's title, every member as a face,
 // and after a vote the result with its tally in words and each member's ring by how they voted.

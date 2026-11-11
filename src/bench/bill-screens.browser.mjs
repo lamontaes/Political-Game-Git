@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, setTimeout */
 // The bill screens (owner, Oct 29: "the layout of all those bill screens needs to be adjusted"):
 // a member of a body drafts a law amount on the draft card, which shows what is in force today
 // beside the new amount, and reads the bill, whose estimate shows today's amount beside the new one.
