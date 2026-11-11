@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Found by the M0-M2 lead's M1 helper, Oct 24.
 
 **Notes (Fable's check, Nov 10).** How to find the cause: in the Westport, South Dakota replay, wrap the write of `endsAt` on a full person's job and print the caller for each end that has no row in the jobs changes table. The suspect is a job reissued under a new id. The fix then records the change with its reason and decider, or keeps the same job id.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have written a reason on a reissued job id; a bookkeeping gap no player sees (the visible hires and layoffs are on world-job-turnover-far-below-jolts).
