@@ -599,11 +599,22 @@ function familyNews(
   speakerId: PersonId,
   relativeId: PersonId,
 ): { stage: string; facts: Facts } {
-  const moment = latestMoment(core, director, speakerId, relativeId);
   const stages = CONVERSATION_RULES.familyNews?.stages ?? {};
-  const prefix = moment
-    ? Object.keys(stages).find((row) => moment.label.startsWith(row))
-    : undefined;
+  const stageOf = (moment: Moment) =>
+    Object.keys(stages).find((row) => moment.label.startsWith(row));
+  // The newest happening that is news (a stage), theirs or the speaker's
+  // that names them; else their latest happening of any kind.
+  const staged = [
+    ...recentMoments(core, director, relativeId).filter(
+      (row) => !!stageOf(row),
+    ),
+    ...recentMoments(core, director, speakerId).filter(
+      (row) => !!stageOf(row) && row.counterpartIds.includes(relativeId),
+    ),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+  const moment =
+    staged[zero] ?? latestMoment(core, director, speakerId, relativeId);
+  const prefix = moment ? stageOf(moment) : undefined;
   if (!moment || !prefix) return { stage: "default", facts: {} };
   const stage = stages[prefix]!;
   const cited = [moment.causeId];
