@@ -271,7 +271,7 @@ function run(specId: string, want: readonly Subject[]) {
   for (const s of on("taxes") ? taxes : [])
     taxLaw[s] = amountAt(api, s, 1.1, s).id;
   // The weekly maximum caps a claimant whose share of pay is above it. For the
-  // maximum's own test the law is set (through the law series) to a quarter of
+  // maximum's own test the law is set (through the law series) to two fifths of
   // the best-paid resident's weekly pay, so that resident is capped.
   const bestPaid = [...(fullJobs.length ? fullJobs : namedJobs)].sort(
     (a, b) => (b.wageDailyMinor ?? 0) - (a.wageDailyMinor ?? 0),
@@ -282,7 +282,7 @@ function run(specId: string, want: readonly Subject[]) {
     on("maximum") && bestPaid && maxNowDollars > 0
       ? Math.max(
           0.01,
-          (0.25 * (bestPaid.wageDailyMinor ?? 0) * 7) /
+          (0.4 * (bestPaid.wageDailyMinor ?? 0) * 7) /
             api.parameter("minorPerDollar") /
             maxNowDollars,
         )
