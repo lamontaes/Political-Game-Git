@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-01-talk-says-nothing
+status: open
+claimed-by:
 pr: #8258
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:11:39.056Z
+claimed-at:
 branch: claude/pool-play-stop-01-talk-says-nothing
 ---
 
@@ -71,3 +71,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Claimed by my own next loop but not worked: see my earlier release notes (replay-only or heavy-run items); words-director part 2 is a six-hour refactor of presence deciders across bench and english pickers that I did not start. Continue on branch claude/pool-play-stop-01-talk-says-nothing and pull request #8258.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:11 UTC) on branch claude/pool-play-stop-01-talk-says-nothing.
+
+Released (2026-11-11): Partial replay posted on #6208 (household member offers a real line; stranger and nothing-to-say cases not replayed); pool seen refuses non-merged items. Continue on branch claude/pool-play-stop-01-talk-says-nothing and pull request #8258.
