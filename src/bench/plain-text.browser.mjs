@@ -5,7 +5,7 @@
 // no field name, status code, ISO date or developer button.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, playOpening } from "./start-life.mjs";
+import { playOpening } from "./start-life.mjs";
 import { devModeOff, devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -40,6 +40,8 @@ const words = new Set([
   "long-term",
   "short-term",
   "high-school",
+  "single-family",
+  "multi-family",
   "co-op",
   "e-mail",
   "x-ray",
@@ -59,7 +61,9 @@ async function read(screen, selector) {
   for (const line of text.split("\n"))
     for (const [what, pattern] of tells) {
       const match = line.match(pattern);
-      if (match && !words.has(match[0].toLowerCase()))
+      // A station's call sign (KCJN-TV) is a name, not a code.
+      const callSign = /^[KW][A-Z]{2,3}-(?:TV|FM|AM)$/.test(match?.[0] ?? "");
+      if (match && !callSign && !words.has(match[0].toLowerCase()))
         found.push(`${screen}: ${what} "${match[0]}" in "${line.trim()}"`);
     }
   if (shots)
@@ -211,19 +215,24 @@ try {
   await devRunUntilMayFile(page);
   await devModeOff(page);
   await counter("grown");
-  const choices = page.locator("#talk-choices button");
-  const labels = await choices.allInnerTexts();
-  // The clerk words the commit choice from a bank (File, take the papers, Let's do it...): the
-  // choice that is not a way out is the filing.
-  const fileAt = labels.findIndex(
-    (l) => !/\b(?:not now|think|leave|walk|never mind|later)\b/i.test(l),
-  );
-  assert.ok(fileAt >= 0, `no File choice: ${labels.join(" | ")}`);
-  const filed = page.waitForResponse(
-    (r) => new URL(r.url()).pathname === "/api/filing/choose",
-  );
-  await choices.nth(fileAt).click();
-  await filed;
+  // The clerk's lead-in ends on the choice to take the papers; the filing is
+  // made by the choice after it. Each is answered as a player would, until the
+  // filing is on record.
+  let filedSeen = false;
+  page.on("response", (r) => {
+    if (new URL(r.url()).pathname === "/api/filing/choose") filedSeen = true;
+  });
+  for (let turn = 0; turn < 10 && !filedSeen; turn += 1) {
+    const choices = page.locator("#talk-choices button");
+    const labels = await choices.allInnerTexts();
+    const fileAt = labels.findIndex((l) => /^File\b|papers/i.test(l.trim()));
+    if (fileAt >= 0) await choices.nth(fileAt).click();
+    else if (await page.locator("#talk-next").isVisible())
+      await page.locator("#talk-next").click();
+    else assert.fail(`no File choice: ${labels.join(" | ")}`);
+    await page.waitForTimeout(600);
+  }
+  assert.ok(filedSeen, "the filing was never made");
   await page.waitForTimeout(800);
   await read("After filing", "#talk");
   await leaveTalk();
@@ -241,10 +250,23 @@ try {
       (r) => new URL(r.url()).pathname === "/api/advance",
       { timeout: 600000 },
     );
-    // A failed click must report itself, not the closed browser's unhandled wait.
     moved.catch(() => {});
-    // A scene that opened on its own (a visit from a neighbor) is played to its end first.
-    if (await page.locator("#talk").isVisible()) await finishTalk(page);
+    // Whatever holds the clock (a scene, a stop) is answered first, as a player would.
+    for (
+      let hold = 0;
+      hold < 30 && (await page.locator("#week").isDisabled());
+      hold += 1
+    ) {
+      if (await page.locator("#talk-leave").isVisible())
+        await page.locator("#talk-leave").click();
+      else if (await page.locator("#talk-next").isVisible())
+        await page.locator("#talk-next").click();
+      else if (await page.locator("#talk-choices button").count())
+        await page.locator("#talk-choices button").first().click();
+      else if (await page.locator("#continue").isVisible())
+        await page.locator("#continue").click();
+      await page.waitForTimeout(500);
+    }
     await page.locator("#week").click();
     await moved;
     await page.waitForTimeout(1000);
