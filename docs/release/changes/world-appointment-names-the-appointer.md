@@ -3,4 +3,4 @@ id: world-appointment-names-the-appointer
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A town post's appointment record now names the official who chose, and the people they weighed, so a scene can bring the runner-up to them.
