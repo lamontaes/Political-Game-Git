@@ -2727,13 +2727,14 @@ async function showRollCall(lawId, back, backLabel) {
       stripSection(
         Math.min(at + 1, 5),
         chamber.chamber,
-        row(
-          fill(labels.rollCallYes, { n: chamber.yes.length }),
-          chamber.yes.join(", "),
+        // Each side as a paragraph of names, read left to right.
+        prose(
+          `${fill(labels.rollCallYes, { n: chamber.yes.length })}: ${chamber.yes.join(", ")}`,
+          "roll-call-names",
         ),
-        row(
-          fill(labels.rollCallNo, { n: chamber.no.length }),
-          chamber.no.join(", "),
+        prose(
+          `${fill(labels.rollCallNo, { n: chamber.no.length })}: ${chamber.no.join(", ")}`,
+          "roll-call-names",
         ),
       ),
     ),
