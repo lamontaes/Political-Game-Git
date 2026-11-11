@@ -420,18 +420,15 @@ export function billPaper(core: CoreState, billId: string) {
       (provision.series ? names[provision.series] : undefined) ??
       null;
     const section = form.sections[index] ?? null;
-    // A citation that is a web address never reaches the screen: the
-    // estimate names the law record instead, and the PR body cites it.
     // A budget line says its own name and amount (rounded as people say it), not the bill's one
     // purpose again on every line.
-    const clause = (
+    const clause =
       composed?.sections[index] ??
       (provision.kind === "budget-line" && named
         ? budgetSectionSaid(named, moneySaid(provision.value))
         : purpose && named
           ? `${named}: ${purpose}`
-          : (purpose ?? named))
-    )?.replace(/, amending https?:\/\/\S+\.?$/, "");
+          : (purpose ?? named));
     // The section's authority row as the drafting engine recorded it.
     const authority = bill.authority[index];
     return {
@@ -446,7 +443,15 @@ export function billPaper(core: CoreState, billId: string) {
           }
         : null,
       estimate: {
-        statute: section?.before.statute ?? null,
+        // The bill that passed the law this section amends, said as the section
+        // text names it ("Ordinance 2025-3"): the record's designation and form
+        // through the English engine's `spokenDesignation`.
+        statute: section?.before.statute
+          ? spokenDesignation(
+              section.before.statute,
+              section.before.statuteForm ?? "",
+            )
+          : null,
         lawId: section?.before.lawId ?? null,
         beforeValue: section?.before.value ?? null,
         beforeUnit: section?.before.unit ?? null,
