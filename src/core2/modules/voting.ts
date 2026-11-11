@@ -4021,11 +4021,25 @@ function openRecount(
   });
 }
 
+/**
+ * Where a recount is news: the town's own race in the town, a race in the
+ * town's state it does not vote in at the state, another state's at the
+ * nation (the press reads the level from the place).
+ */
+function recountPlace(api: CoreAPI, row: RecountRow): string {
+  const here = town(api);
+  if (api.moduleState(ELECTIONS_MODULE_ID).table("contests").get(row.contestId))
+    return here.townPlaceId;
+  return row.stateKey === here.stateKey
+    ? `state:${row.stateKey.slice(row.stateKey.lastIndexOf("-") + 1)}`
+    : `national:${row.stateKey}`;
+}
+
 /** A recount opens: on the record for the paper, and on the calendar for the day it ends. */
 function startRecount(api: CoreAPI, row: RecountRow): RecountRow {
   table(api, "recounts").put(row as unknown as ModuleRow);
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
-    key: `recount-ends:${row.contestId}`,
+    key: `recount-ends:${row.contestId}:${row.opened}`,
     date: row.ends,
     kind: "recount-ends",
     source: { tag: "SOURCED", citation: row.rule, asOf: api.state.date },
@@ -4038,7 +4052,7 @@ function startRecount(api: CoreAPI, row: RecountRow): RecountRow {
     personIds: [row.leaderId, row.trailingId].filter((id) =>
       api.state.people.has(id),
     ),
-    placeId: town(api).townPlaceId,
+    placeId: recountPlace(api, row),
     source: { tag: "SOURCED", citation: row.rule, asOf: api.state.date },
     publicRecord: true,
     news: true,
@@ -4106,7 +4120,9 @@ function endRecount(api: CoreAPI, recountId: string): void {
     ? (table(api, "results").get(row.resultId) as unknown as
         ResultRow | undefined)
     : undefined;
-  if (!row || row.status !== "open" || !result) return;
+  // An earlier day's entry for a recount opened again since waits for its own.
+  if (!row || row.status !== "open" || !result || row.ends > api.state.date)
+    return;
   // The game records no miscounted ballot, so the count run again on the
   // same ballots gives the same totals and the first count stands.
   // stopgapId: SG-GOV-recount-confirms-count
@@ -4135,7 +4151,7 @@ function endRecount(api: CoreAPI, recountId: string): void {
     personIds: [row.leaderId, row.trailingId].filter((id) =>
       api.state.people.has(id),
     ),
-    placeId: town(api).townPlaceId,
+    placeId: recountPlace(api, row),
     source: {
       tag: "SOURCED",
       citation: `The recount ${row.id} of ${result.id}`,
@@ -4168,7 +4184,7 @@ function heldByRecount(
   const row = recountOf(api, raceId);
   if (row?.status !== "open" || row.ends <= api.state.date) return false;
   api.moduleCalendar(VOTING_MODULE_ID).schedule({
-    key,
+    key: `${key}:after-${row.id}:${row.ends}`,
     date: row.ends,
     kind,
     source: { tag: "SOURCED", citation: row.rule, asOf: api.state.date },

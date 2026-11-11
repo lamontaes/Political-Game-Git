@@ -21,7 +21,7 @@ import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { PRESS_MODULE_ID } from "./modules/press";
-import { recountOf, resultOf } from "./modules/voting";
+import { recountOf, resultOf, VOTING_MODULE_ID } from "./modules/voting";
 import {
   countMargin,
   insideRecountMargin,
@@ -130,6 +130,38 @@ it("a count inside the place's automatic margin opens a recount, certified befor
         if (result.takesOffice)
           expect(result.takesOffice >= recount!.ends).toBe(true);
       }
+      // The player's ask (an edge case, set by hand): a recount offered to
+      // the candidate behind opens when their concession call ends without
+      // conceding, the reply the press puts on the record.
+      const asked = counted[0]!;
+      const offered = recountOf(api, asked.id)!;
+      api
+        .moduleState(VOTING_MODULE_ID)
+        .table("recounts")
+        .put({ ...offered, kind: "requested", status: "offered" } as never);
+      api.emit({
+        id: `concession:${asked.id}:${offered.trailingId}:no`,
+        date: world.core.date,
+        kind: "concession",
+        personIds: [offered.trailingId, offered.leaderId],
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: "recounts.test",
+          asOf: world.core.date,
+        },
+        facts: {
+          contestId: asked.id,
+          loserId: offered.trailingId,
+          winnerId: offered.leaderId,
+          conceded: "no",
+          replyId: "scene.reply:recounts.test",
+        },
+      });
+      expect(recountOf(api, asked.id), `${where}: the ask`).toMatchObject({
+        status: "open",
+        requestedBy: offered.trailingId,
+      });
       const last = counted
         .map((c) => recountOf(api, c.id)!.ends)
         .sort()

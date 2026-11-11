@@ -2249,7 +2249,7 @@
     "id": "SG-GOV-recount-confirms-count",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/voting.ts",
-    "line": 4112,
+    "line": 4128,
     "whatItFakes": "A recount runs the same count again on the result's own parts (its named, counted and coarsely counted votes) and so always confirms the first count: no recount moves a vote or changes a winner.",
     "why": "The game records no miscounted ballot (no machine error, no misread or lost ballot), so a second count of the same ballots has nothing to find.",
     "addedBy": "opus-5234 (elections-contested-count-record)",
