@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-elections-recall-reads-ended-term
-pr:
+pr: #8420
 blocked-on:
 source: added with npm run pool -- add
 after:
