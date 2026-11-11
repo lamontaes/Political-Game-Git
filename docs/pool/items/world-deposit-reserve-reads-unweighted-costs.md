@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-world-deposit-reserve-reads-unweighted-costs
+claimed-by:
 pr:
 blocked-on:
 after:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T06:23:18.542Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-world-deposit-reserve-reads-unweighted-costs
 ---
@@ -48,3 +48,5 @@ Fixer, Oct 27: the aggregate slice (the town's deposits per weighted flow at Cen
 **Notes (pool redo, Nov 10).** Kept with a changed premise: the proposed cause (the line reads costs without the count weight) no longer holds on main, because credit-deposits.ts now applies staffedScale to the reserve (the aggregate slice, #5791). The item is kept for its per-business proof.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:23 UTC) on branch claude/pool-world-deposit-reserve-reads-unweighted-costs.
+
+Released (2026-11-11): Re-claimed by my own next loop, not worked; see my earlier release note on this item (world-deposit-reserve-reads-unweighted-costs: the weighting is already applied at credit-deposits.ts ~122; what remains is a per-business proof at Census scale, and the spread it must sit inside is a number nobody has stated, so it needs that number first). Continue on branch claude/pool-world-deposit-reserve-reads-unweighted-costs.
