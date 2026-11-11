@@ -204690,10 +204690,10 @@
       "date": "2026-11-10"
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-come-to-find-you-and-it-is-plain-from-their-face-that-something-is-wrong",
+      "key": "scene-talk.narrate-narrate.name-has-come-to-tell-you-that-deceased-has-died",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has come to find you, and it is plain from their face that something is wrong.",
+      "text": "{name} has come to tell you that {deceased} has died.",
       "uses": [
         {
           "subject": "scene",
@@ -204714,10 +204714,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-come-straight-from-home-to-find-you-and-can-t-quite-get-the-words-out",
+      "key": "scene-talk.narrate-narrate.deceased-has-died-and-name-who-lived-with-them-has-come-to-tell-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has come straight from home to find you, and can't quite get the words out.",
+      "text": "{deceased} has died, and {name}, who lived with them, has come to tell you.",
       "uses": [
         {
           "subject": "scene",
@@ -204738,10 +204738,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-have-some-bad-news-first-deceased-has-died",
+      "key": "scene-talk.open-greet.i-m-so-sorry-first-i-came-as-soon-as-i-heard",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I have some bad news, {first}. {deceased} has died.",
+      "text": "I'm so sorry, {first}. I came as soon as I heard.",
       "uses": [
         {
           "subject": "scene",
@@ -204763,10 +204763,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-d-rather-you-heard-it-from-me-first-deceased-died",
+      "key": "scene-talk.open-greet.i-d-rather-you-heard-it-from-me-than-from-anyone-else-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'd rather you heard it from me, {first}. {deceased} died.",
+      "text": "I'd rather you heard it from me than from anyone else, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -204888,10 +204888,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-news-to-share-and-seems-glad-to-be-the-one-sharing-it",
+      "key": "scene-talk.narrate-narrate.name-has-come-to-tell-you-that-subject-is-seeing-someone",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has news to share, and seems glad to be the one sharing it.",
+      "text": "{name} has come to tell you that {subject} is seeing someone.",
       "uses": [
         {
           "subject": "scene",
@@ -204912,10 +204912,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-been-waiting-all-day-to-tell-you-something-and-has-a-favor-to-ask-with-it",
+      "key": "scene-talk.narrate-narrate.name-has-come-to-tell-you-that-subject-and-other-are-together",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has been waiting all day to tell you something, and has a favor to ask with it.",
+      "text": "{name} has come to tell you that {subject} and {other} are together.",
       "uses": [
         {
           "subject": "scene",
@@ -204936,10 +204936,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-wanted-you-to-hear-this-from-me-first-subject-is-seeing-someone",
+      "key": "scene-talk.open-greet.good-news-for-once-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I wanted you to hear this from me, {first}. {subject} is seeing someone.",
+      "text": "Good news for once, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -204961,10 +204961,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-wanted-you-to-hear-this-from-me-first-subject-and-other-are-together",
+      "key": "scene-talk.open-greet.i-wanted-you-to-hear-it-from-me-first-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I wanted you to hear this from me, {first}. {subject} and {other} are together.",
+      "text": "I wanted you to hear it from me first, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -205061,10 +205061,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-news-that-isn-t-happy-and-a-favor-to-ask-with-it",
+      "key": "scene-talk.narrate-narrate.name-has-come-to-tell-you-that-subject-has-split-up-with-their-partner",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has news that isn't happy, and a favor to ask with it.",
+      "text": "{name} has come to tell you that {subject} has split up with their partner.",
       "uses": [
         {
           "subject": "scene",
@@ -205085,10 +205085,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-sits-down-across-from-you-with-some-news-and-a-favor-to-ask-with-it",
+      "key": "scene-talk.narrate-narrate.name-has-come-to-tell-you-that-subject-and-other-have-split-up",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} sits down across from you with some news, and a favor to ask with it.",
+      "text": "{name} has come to tell you that {subject} and {other} have split up.",
       "uses": [
         {
           "subject": "scene",
@@ -205109,10 +205109,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-didn-t-want-you-to-hear-this-secondhand-first-subject-and-other-have-split-up",
+      "key": "scene-talk.open-greet.i-didn-t-want-you-to-hear-it-secondhand-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I didn't want you to hear this secondhand, {first}. {subject} and {other} have split up.",
+      "text": "I didn't want you to hear it secondhand, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -205134,10 +205134,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-d-rather-you-heard-it-from-me-first-subject-and-their-partner-have-split-up",
+      "key": "scene-talk.open-greet.sit-down-a-minute-first-it-isn-t-happy-news",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'd rather you heard it from me, {first}. {subject} and their partner have split up.",
+      "text": "Sit down a minute, {first}. It isn't happy news.",
       "uses": [
         {
           "subject": "scene",
