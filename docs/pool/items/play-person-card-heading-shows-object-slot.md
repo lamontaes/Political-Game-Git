@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-person-card-heading-shows-object-slot
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+claimed-at: 2026-11-11T18:40:15.008Z
 ---
 
 **What.** In Blodgett Landing, New Hampshire (bench seed `37f08a0a-d3e8-4547-a399-874750060651`, a life made in the creator), People opens on the player's son, Kai Walton, and his card's second section is headed "How I see {object}", the slot shown raw. Shot: docs/seen/play-one-person-shows-two-faces/blodgett-landing-nh/people.png on branch claude/pool-play-one-person-shows-two-faces. Seen: People, the open card's section under Who they are.
