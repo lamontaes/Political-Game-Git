@@ -62,19 +62,21 @@ it(`the executive over the body that votes a city's budget proposes its changes 
       .rows() as unknown as OfficeRow[];
     const own = offices.some((o) => o.kind === "mayor" && o.level === "city");
     const fy = Number(core.date.slice(0, 4));
-    const proposed = executiveBudgetChanges(api, city.id, fy);
     if (own) {
       ordinary += 1;
       continue;
     }
-    // No mayor office at the city's own level: the executive is the one over
-    // the body that votes this budget.
-    const mayor = offices.find((o) => o.kind === "mayor");
+    // No mayor office at the city's own level: the case is a city whose
+    // mayor is modeled as a state-level office (its council is the state's body).
+    const mayor = offices.find(
+      (o) => o.kind === "mayor" && o.level === "state",
+    );
     if (!mayor) {
-      passedOver.push(`${where}: no mayor office at any level`);
+      passedOver.push(`${where}: no city-level mayor and no state-level mayor`);
       continue;
     }
     found += 1;
+    const proposed = executiveBudgetChanges(api, city.id, fy);
     expect(proposed, `${where}: the city budget's proposer`).not.toBeNull();
     expect(
       Object.keys(proposed!.changes).length,
