@@ -1710,6 +1710,7 @@ async function campaignParts() {
     outings,
     standing,
     debates,
+    pictures,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -1841,6 +1842,7 @@ async function campaignParts() {
         return {
           group: T.groupOut,
           title: controls.campaignOutings[choice.outing],
+          picture: choice.picture,
           load: async () => ({
             facts: [
               {
@@ -1863,6 +1865,7 @@ async function campaignParts() {
       ].map(([kind, extra]) => ({
         group: T.groupAsk,
         title: controls.campaignActs[kind],
+        picture: pictures?.[kind],
         load: async () => ({}),
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
@@ -1870,6 +1873,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignActs.mail,
+        picture: pictures?.mail,
         load: async () => {
           const dollarsOut = numberBox({
             value: 50,
@@ -1887,6 +1891,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
+        picture: pictures?.contribute,
         load: async () => {
           const dollarsIn = numberBox({
             value: 0,
@@ -1908,6 +1913,7 @@ async function campaignParts() {
       {
         group: T.groupSpeak,
         title: T.speech,
+        picture: pictures?.speech,
         load: async () => ({
           nodes: [
             speechCard({
@@ -1943,6 +1949,7 @@ async function campaignParts() {
       ...(debates ?? []).map((debate) => ({
         group: T.groupSpeak,
         title: controls.debate.title ?? T.debate,
+        picture: pictures?.debate,
         load: async () => ({
           nodes: [
             debateCard({
@@ -1966,7 +1973,8 @@ async function campaignParts() {
     const trail = [
       ...travelScreen({
         entries,
-        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        // The only list under a trail tile is why the act is out of reach today.
+        labels: { whoIsThere: "", whatICanDo: T.notToday },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
