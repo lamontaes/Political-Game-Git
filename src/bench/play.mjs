@@ -26,7 +26,7 @@ import {
   levelChoices,
 } from "./ui/issue-filter.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
-import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
+import { tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
@@ -55,7 +55,7 @@ import {
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { picture as pictureFrame } from "./ui/picture.mjs";
-import { select, optionsOf, numberBox } from "./ui/fields.mjs";
+import { select, optionsOf, numberBox, statusLine } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
@@ -384,15 +384,32 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-// Escape opens only options and quit (M6 work order), the opening included.
+// Escape closes the top thing that is open and restores focus; only when nothing is open does it
+// open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
+// restores focus; when none is open, it opens the session menu"). In order: a person's card, the
+// news reader, a term's card, the open menu. A talk or a scene is not one of them.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
     closePerson();
     return;
   }
-  if (openTab === "options" || (openTab && !$("front").hidden)) closeSheet();
-  else if ($("front").hidden) openSheet("options");
+  if (!$("news-reader").hidden) {
+    show("news-reader", false);
+    return;
+  }
+  if (!$("tip").hidden) {
+    show("tip", false);
+    return;
+  }
+  if (openTab) {
+    // Focus goes back to the rail button that opened the menu.
+    const opener = document.querySelector("#rings [data-tab].active");
+    closeSheet();
+    opener?.focus();
+    return;
+  }
+  if ($("front").hidden) openSheet("options");
 });
 
 async function renderScene({ keepBackdrop = false } = {}) {
@@ -2464,6 +2481,13 @@ async function personCardNode(
             2,
             controls.who.views,
             introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+            ...(c.viewAbout
+              ? [
+                  introText(
+                    controls.who.viewAbout.replace("{about}", c.viewAbout),
+                  ),
+                ]
+              : []),
           ),
         ]
       : []),
@@ -2662,6 +2686,61 @@ async function officeParts() {
               ),
               { rows: 3, columns: 1, rowHeight: 52, className: "office-paged" },
             ),
+          ),
+        ]
+      : []),
+    // Your staff: the aides who serve now, and the people the staff engine would weigh for the
+    // post with its reasons; Hire runs the engine's own hire, paid from the post's budget line.
+    ...(v.aides?.serving.length || v.aides?.candidates.length
+      ? [
+          stripSection(
+            2,
+            labels.aides,
+            ...v.aides.serving.map((a) => row(a.name, labels.aideRole ?? "")),
+            ...(v.aides.candidates.length
+              ? [
+                  paged(
+                    v.aides.candidates.map((c) => {
+                      const hire = makeButton({ textContent: labels.hire });
+                      hire.addEventListener("click", async () => {
+                        await post(
+                          `/api/office/hire-aide?${new URLSearchParams({ personId: c.id })}`,
+                        );
+                        openSheet("office");
+                      });
+                      const why = Object.entries(c.reasons)
+                        .filter(([, value]) => value > 0)
+                        .map(([key, value]) =>
+                          key === "family"
+                            ? labels.reasons?.family
+                            : `${labels.reasons?.[key] ?? ""} ${Math.round(value * 100)}%`,
+                        )
+                        .join(" · ");
+                      return deskBill(
+                        peopleSentence([
+                          {
+                            name: c.name,
+                            onOpen: () => {
+                              closeSheet();
+                              showPerson({ personId: c.id });
+                            },
+                          },
+                        ]),
+                        line(
+                          `${c.from === "known" ? labels.fromKnown : labels.fromApplicant} · ${why}`,
+                        ),
+                        buttonRow(hire),
+                      );
+                    }),
+                    {
+                      rows: 3,
+                      columns: 1,
+                      rowHeight: 116,
+                      className: "office-paged",
+                    },
+                  ),
+                ]
+              : []),
           ),
         ]
       : []),
@@ -3358,7 +3437,8 @@ const sheets = {
     for (const person of [
       ...(me.card.home?.members ?? []),
       ...(me.scene?.people ?? []),
-      ...me.card.ties,
+      // Everyone you know, not only the card's closest page.
+      ...(me.card.known ?? me.card.ties),
     ]) {
       if (person.personId === me.id) continue;
       const prior = records.get(person.personId) ?? {};
@@ -3371,8 +3451,16 @@ const sheets = {
         ],
       });
     }
+    // Closest first within each group (the roster keeps this order).
+    const level = new Map(
+      (me.card.known ?? me.card.ties).map((t) => [t.personId, t.level]),
+    );
     return peopleScreen({
-      people: [...records.values()],
+      people: [...records.values()].sort(
+        (a, b) =>
+          (level.get(b.personId) ?? -Infinity) -
+          (level.get(a.personId) ?? -Infinity),
+      ),
       household,
       labels,
       card: (person, stillWanted, openOther) =>
@@ -4426,10 +4514,64 @@ const sheets = {
     });
   },
   async campaigns() {
-    const [v, ballot] = await Promise.all([
+    const [v, ballot, asked] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
       api("/api/government/local-races"),
+      api("/api/campaign/asks").catch(() => ({ asks: [] })),
     ]);
+    // stopgapId: SG-PLAY-campaign-ask-on-screen
+    // A candidate who knows you asking for money (play-campaign-ask-reaches-player):
+    // what they asked, the sum you'd give by your own reasons, and your answer.
+    const askWords = controls.campaignAsks;
+    const askPage = (ask) => {
+      const status = statusLine();
+      const dollarsIn = numberBox({
+        value: Math.round(ask.suggestedMinor / 100),
+        min: 1,
+        step: 1,
+        label: askWords.amount,
+      });
+      const answer = (kind) =>
+        makeButton({
+          className: kind === "give" ? "action primary" : "action",
+          textContent: askWords[kind],
+          onclick: async () => {
+            const response = await post(
+              `/api/campaign/asks/answer?${new URLSearchParams({
+                askId: ask.id,
+                answer: kind,
+                ...(kind === "give"
+                  ? {
+                      amountMinor: String(
+                        Math.round(Number(dollarsIn.value) * 100),
+                      ),
+                    }
+                  : {}),
+              })}`,
+            ).catch(() => ({ answered: false }));
+            // A sum they can't give (more than they hold, past the limit, not whole dollars) is refused here.
+            if (!response.answered) {
+              status.textContent = askWords.notGiven;
+              return;
+            }
+            await refresh();
+            await openSheet("campaigns");
+          },
+        });
+      return [
+        rosterTitle(ask.candidate, ask.party ?? undefined),
+        stripSection(
+          1,
+          askWords.title,
+          row(askWords.race, ask.race),
+          row(askWords.asked, dateWords(ask.askedOn)),
+          row(askWords.suggested, roundedMoney(ask.suggestedMinor)),
+          row(askWords.cash, roundedMoney(asked.cashMinor)),
+        ),
+        buttonRow(dollarsIn, answer("give"), answer("decline")),
+        status,
+      ];
+    };
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
@@ -4574,6 +4716,20 @@ const sheets = {
       byDate.set(race.electionDate, day);
     }
     const groups = [
+      ...(asked.asks.length
+        ? [
+            {
+              title: askWords.title,
+              entries: asked.asks.map((ask) => ({
+                key: ask.id,
+                label: ask.candidate,
+                aside: roundedMoney(ask.suggestedMinor),
+                data: { ask: ask.id },
+                ask,
+              })),
+            },
+          ]
+        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
@@ -4595,7 +4751,8 @@ const sheets = {
       title: labels.title,
       groups,
       className: "elections-screen",
-      render: async (entry) => racePage(entry.race),
+      render: async (entry) =>
+        entry.ask ? askPage(entry.ask) : racePage(entry.race),
     });
   },
   /**
@@ -5209,8 +5366,67 @@ const sheets = {
         : law.value !== null && law.value !== undefined
           ? lawText(law, law.value, law.unit)
           : null);
+    // What a law passed in play did (play-what-this-law-did-page): each row it
+    // passed, newest first, with whom it reached by the reach records and the
+    // money for each, full people by name and counted people by count; a row a
+    // later one replaced says when, and each person when it stopped for them.
+    const didSection = async (law) => {
+      const did = await api(
+        `/api/law/did?${new URLSearchParams({ series: law.series })}`,
+      ).catch(() => []);
+      if (!did.length) return [];
+      const w = labels.lawDid;
+      const fill = (text, values) =>
+        Object.entries(values).reduce(
+          (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
+          text ?? "",
+        );
+      const nodes = did.flatMap((d) => {
+        const head = row(
+          setBy(d.level),
+          [
+            d.repeal ? w.repealed : lawText(law, d.value, d.unit),
+            fill(w.from, { date: dateWords(d.effectiveDate) }),
+            ...(d.replacedOn
+              ? [fill(w.until, { date: dateWords(d.replacedOn) })]
+              : []),
+          ].join(" · "),
+        );
+        if (!d.records) return [head, prose(w.noOneYet, "record-empty")];
+        const group = (key, part) =>
+          Math.round(part.people)
+            ? [
+                row(
+                  // Counted groups stand for whole people in words.
+                  fill(w[key], {
+                    n: Math.round(part.people).toLocaleString("en-US"),
+                  }),
+                  roundedMoney(part.amountMinor),
+                ),
+              ]
+            : [];
+        return [
+          head,
+          ...group("fullHere", d.fullInTown),
+          ...group("fullElsewhere", d.fullElsewhere),
+          ...group("counted", d.counted),
+          ...d.named.map((p) =>
+            row(
+              p.name,
+              [
+                roundedMoney(p.amountMinor),
+                ...(p.endedOn
+                  ? [fill(w.stopped, { date: dateWords(p.endedOn) })]
+                  : []),
+              ].join(" · "),
+            ),
+          ),
+        ];
+      });
+      return [stripSection(5, w.title, ...nodes)];
+    };
     // One law's page: what is in force at each level and since when, the statute, the
-    // measure that enacted it, what is coming, what changed and how members voted.
+    // measure that enacted it, what is coming, what changed, what it did and how members voted.
     const lawPage = async (law) => {
       const inForce = law.levels
         .filter((l) => l.row)
@@ -5260,6 +5476,7 @@ const sheets = {
             [change.measure, change.what].filter(Boolean).join(" · "),
           ),
         );
+      const did = await didSection(law);
       const votes = (law.votes ?? []).map((vote) =>
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
       );
@@ -5314,6 +5531,7 @@ const sheets = {
         ...(changed.length
           ? [stripSection(3, labels.changed, ...changed)]
           : []),
+        ...did,
         ...(votes.length ? [stripSection(4, labels.votes, ...votes)] : []),
       ];
     };
@@ -5432,15 +5650,20 @@ async function openSheet(tab) {
         politics.filings.length > 0 ||
         politics.ofVotingAge),
   );
+  // The sheet's tabs on the one tab bar (ui/tab.mjs).
   $("sheet-tabs").replaceChildren(
-    ...(tabNames.length > 1 ? tabNames : []).map((name) =>
-      makeTab({
-        key: name,
-        label: controls.titles[name],
-        active: name === tab,
-        onSelect: () => openSheet(name),
-      }),
-    ),
+    ...(tabNames.length > 1
+      ? [
+          tabBar({
+            tabs: tabNames.map((name) => ({
+              key: name,
+              label: controls.titles[name],
+              onSelect: () => openSheet(name),
+            })),
+            active: tab,
+          }),
+        ]
+      : []),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
