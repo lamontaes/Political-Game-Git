@@ -255,30 +255,45 @@ function composedMove(
   reasons: readonly Move[],
 ): Said | null {
   const facts = request.facts;
-  const line = composeGroundedLine(
-    conversationPacket({
-      surface: "dialogue",
-      momentKey: request.momentKey,
-      worldSeed: request.seed,
-      bankVersion: version,
-      stage,
-      holderId: request.speakerId,
-      facts,
-      fallbackSourceId: request.speakerId,
-      voice: { traits: request.traits, register: "conversation" },
-    }),
-    {
-      key: bankKey,
-      version,
-      surface: "dialogue",
-      act: "tell",
-      parts: {
-        core: { required: true, variants: usable.map(linePartVariant) },
-        reason: { variants: reasons.map(linePartVariant) },
+  const compose = (cores: readonly Move[], withReasons: readonly Move[]) =>
+    composeGroundedLine(
+      conversationPacket({
+        surface: "dialogue",
+        momentKey: request.momentKey,
+        worldSeed: request.seed,
+        bankVersion: version,
+        stage,
+        holderId: request.speakerId,
+        facts,
+        fallbackSourceId: request.speakerId,
+        voice: { traits: request.traits, register: "conversation" },
+      }),
+      {
+        key: bankKey,
+        version,
+        surface: "dialogue",
+        act: "tell",
+        parts: {
+          core: { required: true, variants: cores.map(linePartVariant) },
+          ...(withReasons.length
+            ? { reason: { variants: withReasons.map(linePartVariant) } }
+            : {}),
+        },
       },
-    },
-    { speakerTraits: request.traits },
-  );
+      { speakerTraits: request.traits },
+    );
+  let line = compose(usable, reasons);
+  // A reason never says again what its core said ("She got sick last week.
+  // It started last week."): then the core is said alone.
+  if (line.kind === "rendered" && line.parts.length > one) {
+    const [head, ...rest] = line.parts;
+    const said = new Set(head!.usedFactKeys);
+    if (rest.some((part) => part.usedFactKeys.some((key) => said.has(key))))
+      line = compose(
+        usable.filter((row) => moveVariantKey(row) === head!.variantKey),
+        [],
+      );
+  }
   if (line.kind !== "rendered") return null;
   const pieces = line.parts.map(
     (part) =>

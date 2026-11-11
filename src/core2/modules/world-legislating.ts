@@ -1734,6 +1734,20 @@ function sessionBillOf(
   };
 }
 
+/**
+ * Whether the chamber's leader refused the sponsor's request to put a bill on
+ * the floor and has not since granted it. The office day that keeps the
+ * leader's answers registers it (office-day-state `askLeaderForHearing`).
+ */
+let leaderRefused: ((api: CoreAPI, billId: string) => boolean) | undefined;
+export function registerLeaderRefusalReader(
+  reader: (api: CoreAPI, billId: string) => boolean,
+): void {
+  leaderRefused = reader;
+}
+const refusedByLeader = (api: CoreAPI, billId: string): boolean =>
+  leaderRefused?.(api, billId) ?? false;
+
 /** A bill waiting on a session's floor, with the filing that brought it if any. */
 interface Queued {
   /** Empty for a filing not yet introduced. */
@@ -1750,8 +1764,14 @@ interface Queued {
 function floorQueue(api: CoreAPI, row: LegislativeSession): readonly Queued[] {
   const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
   const decided = new Set(row.bills.map((b) => b.number));
+  // A bill whose sponsor asked the chamber's leader for the floor and was
+  // refused stays off the leader's order until the answer turns
+  // (office-day-state `askLeaderForHearing`).
   const waiting = (b: BillRow | undefined): b is BillRow =>
-    !!b && b.status === "drafted" && !decided.has(b.number);
+    !!b &&
+    b.status === "drafted" &&
+    !decided.has(b.number) &&
+    !refusedByLeader(api, b.id);
   const today = api.state.date;
   return [
     ...row.filings.flatMap((filing): Queued[] => {

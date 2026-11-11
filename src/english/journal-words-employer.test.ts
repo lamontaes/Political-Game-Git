@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { employerSaid, jobSaid, withArticle } from "./journal-words";
+import {
+  articleFor,
+  employerSaid,
+  jobSaid,
+  seatSaid,
+  withArticle,
+} from "./journal-words";
 
 // How a job and an employer are said inside a sentence, from the kind of the
 // employer's record (words-first-journal-note-says-the-same-sentence-twice).
@@ -54,5 +60,31 @@ describe("the job and employer reader", () => {
         governmentFacts: { "openingCustomers.qualification:1": "[]" },
       }),
     ).toBe("Riddle Building Services");
+  });
+});
+
+describe("the article and the body", () => {
+  it("chooses a or an by the first sound (lead, Nov 11: 'an union representative')", () => {
+    expect(withArticle("Union representative")).toBe("a union representative");
+    expect(withArticle("Electrician")).toBe("an electrician");
+    expect(articleFor("hour")).toBe("an");
+    expect(articleFor("honor")).toBe("an");
+    expect(articleFor("university")).toBe("a");
+    expect(articleFor("one-time")).toBe("a");
+    expect(articleFor("cashier")).toBe("a");
+  });
+  it("says a body's seat with 'the', once (the one seat reader, #8750)", () => {
+    const seat = (bodyName: string) => ({
+      title: "Council member",
+      seats: 5,
+      bodyName,
+    });
+    expect(seatSaid(seat("Nelson City Council"))).toBe(
+      "the Nelson City Council",
+    );
+    expect(seatSaid(seat("The Board of Trustees"))).toBe(
+      "the Board of Trustees",
+    );
+    expect(seatSaid({ title: "County Clerk" })).toBe("county clerk");
   });
 });

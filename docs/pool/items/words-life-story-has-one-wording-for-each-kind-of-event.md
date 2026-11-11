@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8783
 after: words-first-journal-note-says-the-same-sentence-twice
 blocked-on:
 lead: words
@@ -19,6 +19,7 @@ source: lead's walk of the screens train, Nov 11, 2026 (Summit Park, Utah and Am
 checked:
 claimed-at:
 branch:
+merged-at: 2026-11-11T16:22:42.930Z
 ---
 
 **What.** "My life" on the You screen and "Her story" on a person's card read as the same list in every world. In Summit Park, Utah: "I started school at Summit Park Public Schools. I went on to middle school. I went on to high school." In Americus, Georgia: "I was out of work in 2006. I worked at Reeves's Market, Sinclair Manufacturing, and Reynolds's Market before Horton Supply Company. I was out of work in 2017." Each kind of event has one sentence, and the school stages name no school and no year. Seen: the You screen's "My life" and the story on any person's card.

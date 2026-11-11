@@ -26,7 +26,7 @@ import {
   levelChoices,
 } from "./ui/issue-filter.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
-import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
+import { tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
@@ -2446,7 +2446,7 @@ async function personCardNode(
       ? [
           stripSection(
             2,
-            heading("howISee"),
+            heading("howISee", "howISeeThem"),
             perkList(
               c.traitLines.map((t) => ({ name: t.label, line: t.line })),
             ),
@@ -2461,6 +2461,13 @@ async function personCardNode(
             2,
             controls.who.views,
             introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+            ...(c.viewAbout
+              ? [
+                  introText(
+                    controls.who.viewAbout.replace("{about}", c.viewAbout),
+                  ),
+                ]
+              : []),
           ),
         ]
       : []),
@@ -3410,7 +3417,8 @@ const sheets = {
     for (const person of [
       ...(me.card.home?.members ?? []),
       ...(me.scene?.people ?? []),
-      ...me.card.ties,
+      // Everyone you know, not only the card's closest page.
+      ...(me.card.known ?? me.card.ties),
     ]) {
       if (person.personId === me.id) continue;
       const prior = records.get(person.personId) ?? {};
@@ -3423,8 +3431,16 @@ const sheets = {
         ],
       });
     }
+    // Closest first within each group (the roster keeps this order).
+    const level = new Map(
+      (me.card.known ?? me.card.ties).map((t) => [t.personId, t.level]),
+    );
     return peopleScreen({
-      people: [...records.values()],
+      people: [...records.values()].sort(
+        (a, b) =>
+          (level.get(b.personId) ?? -Infinity) -
+          (level.get(a.personId) ?? -Infinity),
+      ),
       household,
       labels,
       card: (person, stillWanted, openOther) =>
@@ -5330,8 +5346,67 @@ const sheets = {
         : law.value !== null && law.value !== undefined
           ? lawText(law, law.value, law.unit)
           : null);
+    // What a law passed in play did (play-what-this-law-did-page): each row it
+    // passed, newest first, with whom it reached by the reach records and the
+    // money for each, full people by name and counted people by count; a row a
+    // later one replaced says when, and each person when it stopped for them.
+    const didSection = async (law) => {
+      const did = await api(
+        `/api/law/did?${new URLSearchParams({ series: law.series })}`,
+      ).catch(() => []);
+      if (!did.length) return [];
+      const w = labels.lawDid;
+      const fill = (text, values) =>
+        Object.entries(values).reduce(
+          (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
+          text ?? "",
+        );
+      const nodes = did.flatMap((d) => {
+        const head = row(
+          setBy(d.level),
+          [
+            d.repeal ? w.repealed : lawText(law, d.value, d.unit),
+            fill(w.from, { date: dateWords(d.effectiveDate) }),
+            ...(d.replacedOn
+              ? [fill(w.until, { date: dateWords(d.replacedOn) })]
+              : []),
+          ].join(" · "),
+        );
+        if (!d.records) return [head, prose(w.noOneYet, "record-empty")];
+        const group = (key, part) =>
+          Math.round(part.people)
+            ? [
+                row(
+                  // Counted groups stand for whole people in words.
+                  fill(w[key], {
+                    n: Math.round(part.people).toLocaleString("en-US"),
+                  }),
+                  roundedMoney(part.amountMinor),
+                ),
+              ]
+            : [];
+        return [
+          head,
+          ...group("fullHere", d.fullInTown),
+          ...group("fullElsewhere", d.fullElsewhere),
+          ...group("counted", d.counted),
+          ...d.named.map((p) =>
+            row(
+              p.name,
+              [
+                roundedMoney(p.amountMinor),
+                ...(p.endedOn
+                  ? [fill(w.stopped, { date: dateWords(p.endedOn) })]
+                  : []),
+              ].join(" · "),
+            ),
+          ),
+        ];
+      });
+      return [stripSection(5, w.title, ...nodes)];
+    };
     // One law's page: what is in force at each level and since when, the statute, the
-    // measure that enacted it, what is coming, what changed and how members voted.
+    // measure that enacted it, what is coming, what changed, what it did and how members voted.
     const lawPage = async (law) => {
       const inForce = law.levels
         .filter((l) => l.row)
@@ -5381,6 +5456,7 @@ const sheets = {
             [change.measure, change.what].filter(Boolean).join(" · "),
           ),
         );
+      const did = await didSection(law);
       const votes = (law.votes ?? []).map((vote) =>
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
       );
@@ -5435,6 +5511,7 @@ const sheets = {
         ...(changed.length
           ? [stripSection(3, labels.changed, ...changed)]
           : []),
+        ...did,
         ...(votes.length ? [stripSection(4, labels.votes, ...votes)] : []),
       ];
     };
@@ -5553,15 +5630,20 @@ async function openSheet(tab) {
         politics.filings.length > 0 ||
         politics.ofVotingAge),
   );
+  // The sheet's tabs on the one tab bar (ui/tab.mjs).
   $("sheet-tabs").replaceChildren(
-    ...(tabNames.length > 1 ? tabNames : []).map((name) =>
-      makeTab({
-        key: name,
-        label: controls.titles[name],
-        active: name === tab,
-        onSelect: () => openSheet(name),
-      }),
-    ),
+    ...(tabNames.length > 1
+      ? [
+          tabBar({
+            tabs: tabNames.map((name) => ({
+              key: name,
+              label: controls.titles[name],
+              onSelect: () => openSheet(name),
+            })),
+            active: tab,
+          }),
+        ]
+      : []),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.

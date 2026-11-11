@@ -12,7 +12,7 @@
     "calendar": 1,
     "campaign-standing": 10,
     "choice-names": 0,
-    "conversation": 316,
+    "conversation": 228,
     "headlines": 2,
     "hearing": 1,
     "journal": 51,
@@ -22,9 +22,9 @@
     "newscast": 23,
     "notice": 0,
     "opening-speech": 265,
-    "person-history": 7,
+    "person-history": 4,
     "person-sketch": 63,
-    "scene-talk": 6003,
+    "scene-talk": 5907,
     "scene-words": 84,
     "speech-stages": 10
   }

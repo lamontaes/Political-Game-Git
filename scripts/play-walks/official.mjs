@@ -86,6 +86,10 @@ try {
       break;
     }
     await page.locator("#day").click();
+    // What was pressed at this day's stops, so a panel is worked through and
+    // left, never pressed in a circle.
+    const pressed = new Map();
+    let lastWords = "";
     for (let step = 0; step < 500; step += 1) {
       await page.waitForTimeout(600);
       if (await shown("talk")) {
@@ -96,22 +100,59 @@ try {
         await Promise.all(PANELS.map(async (id) => [id, await shown(id)]))
       ).find(([, on]) => on)?.[0];
       if (panel) {
-        walk.say(
-          `--- [${await clockOf(page)}] ${panel}: ${await words(`#${panel}`, 700)}`,
+        const now = await words(`#${panel}`, 700);
+        if (now !== lastWords) {
+          walk.say(`--- [${await clockOf(page)}] ${panel}: ${now}`);
+          await walk.snap(panel);
+          lastWords = now;
+        }
+        const buttons = page.locator(`#${panel} button:not([disabled])`);
+        const labels = (await buttons.allInnerTexts()).map((text) =>
+          text.replace(/\n+/g, " ").trim(),
         );
-        await walk.snap(panel);
-        const button = page.locator(`#${panel} button:not([disabled])`).first();
-        if (await button.count()) {
+        // A meeting: read the first bill once, vote each bill, then adjourn.
+        // Any other panel: the first control not yet pressed at this stop.
+        const wanted =
+          panel === "meeting"
+            ? [
+                "Back to the meeting",
+                ...(pressed.has("Read the bill") ? [] : ["Read the bill"]),
+                "Yes",
+                "Adjourn",
+              ]
+            : [];
+        let at = wanted
+          .map((label) => labels.indexOf(label))
+          .find((found) => found >= 0);
+        if (at === undefined) at = labels.findIndex((l) => !pressed.has(l));
+        if (at < 0) at = 0;
+        const label = labels[at];
+        const times = (pressed.get(label) ?? 0) + 1;
+        // The same control six times at one stop is a circle: say so and stop.
+        if (!labels.length || times > 6) {
           walk.say(
-            `    presses: ${(await button.innerText()).replace(/\n+/g, " ")}`,
+            labels.length
+              ? `    pressed "${label}" six times and the panel is still open: left it`
+              : "    the panel has nothing to press",
           );
-          await button.click().catch(() => {});
-        } else break;
+          break;
+        }
+        pressed.set(label, times);
+        walk.say(`    presses: ${label}`);
+        await buttons
+          .nth(at)
+          .click()
+          .catch(() => {});
         continue;
       }
       if (await shown("continue")) {
         walk.say(`    (a stop at [${await clockOf(page)}]: Continue)`);
-        await page.locator("#continue").click();
+        // The page may open a scene between the look and the press: wait a
+        // little for the button, then go round again, never the whole timeout.
+        await page
+          .locator("#continue")
+          .click({ timeout: 3000 })
+          .catch(() => {});
         continue;
       }
       if (!(await page.locator("#day").isDisabled())) break;
