@@ -1,0 +1,27 @@
+{
+  "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records), counted on Nov 11, 2026 when the owner ruled that every line goes through the engine. tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none.",
+  "total": 8218,
+  "banks": {
+    "address": 1,
+    "bill-paper": 0,
+    "bring-it-up": 18,
+    "calendar": 13,
+    "campaign-standing": 10,
+    "choice-names": 43,
+    "conversation": 591,
+    "headlines": 2,
+    "hearing": 3,
+    "journal": 81,
+    "legislation": 0,
+    "minutes": 0,
+    "news": 29,
+    "newscast": 51,
+    "notice": 0,
+    "opening-speech": 950,
+    "person-history": 9,
+    "person-sketch": 63,
+    "scene-talk": 6256,
+    "scene-words": 87,
+    "speech-stages": 11
+  }
+}
