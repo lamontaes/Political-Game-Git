@@ -43,6 +43,10 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
+import { personLean } from "../core2/campaign-views";
+import { viewOn } from "../core2/modules/views";
+import { townLean } from "../core2/modules/campaigns";
+import { ageOnDate } from "../core2/kernel/dates";
 import { backdropFor, homeOf, stagePeople } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
@@ -131,6 +135,8 @@ export function campaignView(core: CoreState, personId: string) {
         pollSample: POLL_SAMPLE,
         // Where the race stands, in the English engine's words, from the contest's records.
         standing: raceStanding(core, filing, polls.at(-1), causes),
+        // What the town thinks of the questions the race turns on.
+        issues: issueLeans(core, filing),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
           const outing = OUTINGS[choice.kind];
@@ -172,6 +178,51 @@ export function campaignView(core: CoreState, personId: string) {
       };
     }),
   };
+}
+
+/** The most questions the race's issue lines show. */
+const MOST_ISSUES = 3;
+
+/**
+ * What the town thinks of the questions the race turns on: the candidate's own
+ * platform questions (the filing's stands), each with the adults of the town
+ * leaning for it, against it and between, read from every full person's
+ * current view (`viewOn`, the stored opening stance plus what they have
+ * heard). A question the survey has no item for takes the lean alone and is
+ * marked an estimate. Counted residents are not read here: it is the full
+ * people of the town only.
+ */
+export function issueLeans(core: CoreState, filing: FilingRow) {
+  const api = coreAPI(core);
+  const lean = townLean(api);
+  const adults = [...core.people.values()].filter(
+    (p) => p.alive && ageOnDate(p.birthDate, core.date) >= 18,
+  );
+  const questions = [
+    ...new Set(filing.platform.map((entry) => entry.split("=")[0]!)),
+  ].slice(0, MOST_ISSUES);
+  return questions.map((question) => {
+    let toward = 0;
+    let against = 0;
+    for (const person of adults) {
+      const view = viewOn(
+        api,
+        person.id as PersonId,
+        question,
+        personLean(core.people, person, lean),
+      );
+      if (view > 0) toward += 1;
+      else if (view < 0) against += 1;
+    }
+    return {
+      recordId: `opening:*:${question}`,
+      question,
+      toward,
+      against,
+      between: adults.length - toward - against,
+      people: adults.length,
+    };
+  });
 }
 
 /**

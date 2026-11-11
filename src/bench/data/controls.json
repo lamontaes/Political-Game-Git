@@ -46,6 +46,13 @@
   "raceStanding": {
     "title": "Where the race stands"
   },
+  "raceIssues": {
+    "title": "What the town thinks",
+    "toward": "Leaning for",
+    "against": "Leaning against",
+    "between": "Undecided",
+    "none": "Nobody in town has a stand on record on what you are running on yet."
+  },
   "speech": {
     "begin": "Give a speech",
     "give": "Give the speech",
