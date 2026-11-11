@@ -1927,6 +1927,8 @@ export function layOff(
     facts: {
       decidedBy: decidedBy ?? organizationId,
       organizationId,
+      // The change record this layoff wrote, for the grievance it causes.
+      jobChangeId: `job-change:${api.state.date}:${job.id}:layoff`,
       ...(full ? {} : { "counted-subject": job.personId }),
     },
   };
@@ -5087,10 +5089,16 @@ export const JOBS_MODULE: CoreModule = {
       scheduleWeek(api);
     }
   },
-  onDay(api) {
-    if (!store(api).table("state").get("jobs:state")) open(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its weekly matching and monthly reviews are dated work and run.
+  onResultsMonth: openOnce,
 };
+
+/** The labor market opens on the first day the engine runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (!store(api).table("state").get("jobs:state")) open(api);
+}
 
 /** A newly founded business joins the labor market, staffing toward what its books call for. */
 /**

@@ -5,21 +5,37 @@ area: core
 kind: stopgap
 priority: 3
 status: open
+standard: 2
 claimed-by:
 pr: #5251
+after:
 blocked-on:
 milestone:
+model: sonnet
+effort: medium
+root: rc4-hand-written-words
+lead: words
 source: "src/core2/data/stopgaps.json, desktop/main.mjs, kind player-text-gap"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
-**What.** Replace or clear the 1 open player-text-gap stopgap row(s) in desktop/main.mjs: SG-PLAY-desktop-update-dialog-text. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** The desktop shell's update dialogs (Check for Updates, and the Mac note on what installing does) are written in the shell, not by the English engine (row SG-PLAY-desktop-update-dialog-text in src/core2/data/stopgaps/play.json). The text is one sentence in desktop/main.mjs (`installNote`, line 210: "When you quit, the new version replaces this one in the same folder and opens. Your saves stay where they are."), a dialog the owner ordered on Oct 14. PR #5251 moved 19 authored dialog lines into a bank and was held, because authored text ships only after grading and the shell cannot read graded parts. Either the English engine's graded parts feed the shell with one graded fallback per dialog, or the owner accepts the shell string.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Cause.** Found in code: desktop/main.mjs line 210 (`installNote`) holds the Mac update note written in the shell, not by the English engine (row SG-PLAY-desktop-update-dialog-text in src/core2/data/stopgaps/play.json); the shell cannot read graded bank parts, and PR #5251's 19 authored shell.json entries were held because authored text ships only after grading.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Fix.** Words (Story) writes the update dialog lines as bank pieces; the shell reads only graded or shippable parts and gets one graded fallback per dialog; if the owner prefers, register an owner-decision stopgap to accept the shell string, and build the simplest version meanwhile.
 
-**Files.** desktop/main.mjs
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** No hand-written player text in code: words come from the English engine's banks (scene-standard), and authored pieces ship only after the owner's grades (words-engine). Owner decisions are flagged, never waited on: build the simplest version, register the owner-decision stopgap and write the question under OWNER DECISIONS NEEDED. Replace, never layer: the shell string is deleted when the banked line replaces it.
+
+**Done when.** A second session, not the builder, runs the packaged desktop shell (or its update-dialog test) on a drawn place's game and sees the update dialogs read from graded bank parts, or, if the owner accepts the shell string, sees SG-PLAY-desktop-update-dialog-text resolved as accepted with the ruling cited. No authored line ships ungraded.
+
+**Waits on.** Nothing.
+
+**Files.** desktop/main.mjs, src/core2/data/stopgaps/play.json
 
 **Notes.** First row: The desktop shell's update dialogs (Check for Updates, and the Mac note on what installing does) are written in the shell, not by the English engine.
 

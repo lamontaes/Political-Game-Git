@@ -299,7 +299,7 @@ describe("the journal as a story from birth", () => {
       links[line.link!.by] += 1;
     });
     // Another's turn told as what it meant, from the tie on record: a
-    // friend's with gladness, a rival's with doubt.
+    // friend's as the friendship (never a mood word), a rival's with doubt.
     const meant = (field: string) =>
       (
         journalBank as {

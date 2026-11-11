@@ -191,6 +191,7 @@ function ownBillVote(
   core: Readonly<CoreState>,
   api: ReturnType<typeof coreAPI>,
   change: KnownChange,
+  listenerId: PersonId,
 ): { outcome: BillOutcome; form: string; recordId: string } | null {
   const storyId = storyOfReadEvent(change.eventId);
   const story = storyId ? printedStoryOf(api, storyId) : undefined;
@@ -214,6 +215,9 @@ function ownBillVote(
       ? billOf(api, billId)
       : undefined;
   const form = bill?.form?.kind;
+  // Theirs only when they sponsored it: a vote they merely cast on another's
+  // bill is not "your ordinance".
+  if (bill?.sponsorId !== listenerId) return null;
   return outcome && form ? { outcome, form, recordId: record.id } : null;
 }
 
@@ -278,10 +282,17 @@ export function bringItUp(
       learnedAt: fact.learnedAt,
       route: "seen",
     };
+    // The vote on a bill the listener sponsored comes before a vote they
+    // only cast on another's; then the newest.
+    const ownRank = (change: KnownChange) =>
+      ownBillVote(core, api, change, listenerId) ? P.one : P.zero;
     if (
       aboutListener(known) &&
       speakable(known) &&
-      (!readAbout || known.learnedAt > readAbout.learnedAt)
+      (!readAbout ||
+        ownRank(known) > ownRank(readAbout) ||
+        (ownRank(known) === ownRank(readAbout) &&
+          known.learnedAt > readAbout.learnedAt))
     )
       readAbout = known;
   }
@@ -321,7 +332,8 @@ export function bringItUp(
   // A story about the listener's own bill is told as theirs, with how the
   // vote came out ("I read in the Courier that your ordinance on transit
   // failed."), from the vote's own record.
-  const own = change === readAbout ? ownBillVote(core, api, change) : null;
+  const own =
+    change === readAbout ? ownBillVote(core, api, change, listenerId) : null;
   const first =
     (own &&
       say(

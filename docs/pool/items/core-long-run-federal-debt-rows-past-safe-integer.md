@@ -5,18 +5,34 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-long-run-federal-debt-rows-past-safe-integer
 pr:
+after:
 blocked-on:
 source: added with npm run pool -- add
+lead: speed
+standard: 2
+model: sonnet
+effort: low
+root: rc5-full-detail-every-day
+checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:00:12.014Z
 ---
 
 **What.** src/core2/budgets-treasury.ts, where the U.S. Treasury borrows, writes each federalDebt holder row as balanceMinor + paid and borrowedMinor + paid in plain numbers. The federal debt starts near 36 trillion dollars and the Treasury borrows about 2 trillion a year, so the largest holder's balance and its lifetime borrowedMinor pass 2^53 minor units (about 90 trillion dollars) within a long save. From then on each sum rounds silently, the holder's interest and the debt figures drift, and the borrowing ids built from borrowedMinor can repeat. Found by the reviewer of core-journal-lifetime-totals-overflow (Oct 30), which fixed the same limit in the cash journal. The owner, Oct 29: a save must still run hundreds of years.
 
+**Cause.** Found in code: src/core2/budgets-treasury.ts, where the U.S. Treasury borrows, writes each federalDebt holder row as `balanceMinor + paid` and `borrowedMinor + paid` in plain numbers (lines 1028 and 1029), losing precision past 2^53 minor units.
+
+**Fix.** Hold those sums exactly (a bigint or split representation, as the cash journal fix did) and make borrowing ids not repeat.
+
+**Time box.** 2 hours for a Sonnet session.
+
 **Rules.** A save runs as fast and as exactly in year 100 as in year 1 (owner, Oct 29 22:45). Every dollar balances exactly. Estimate, never UNKNOWN: a screen that shows the debt keeps showing it.
 
-**Done when.** A budgets-treasury test borrows past 2^53 minor units for one holder and reads the exact balance and lifetime borrowing; no borrowing id repeats; npm run speed:year -- --seed long-1 --years 30 reaches year 30 with the federal debt rows exact, shown in the PR body.
+**Done when.** A second session runs a budgets-treasury test that borrows past 2^53 minor units for one holder and reads the exact balance and lifetime borrowing, sees no borrowing id repeat, and runs `npm run speed:year -- --seed long-1 --years 30` in a drawn place to year 30 with the federal debt rows exact, shown in the PR body.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/budgets-treasury.ts
 

@@ -11,15 +11,30 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: researcher
+after:
+checked: fable 2026-11-10
 ---
 
-**What.** Split from research-residents-sourced-parameters (row 3). SG-CORE-district-placement in src/core2/modules/residents.ts: a town split between state legislative districts places its counted households into the districts by income order, filling each in proportion to its Census population, so each district holds a slice of the town's income ladder. Replace it with each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the district's real mix. Open PR 5698 (claude/district-placement) works on this.
+**What.** SG-CORE-district-placement in src/core2/modules/residents.ts: a town split between state legislative districts places its counted households into the districts by income order, filling each in proportion to its Census population, so each district holds a slice of the town's income ladder. Replace it with each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the district's real mix. An earlier attempt on branch claude/district-placement was closed as stale on Oct 29 and the branch is kept; claiming this item takes it over.
+
+**Cause.** Found in code: `DISTRICT_STOPGAP` (SG-CORE-district-placement, line 497) in src/core2/modules/residents.ts places a split town's counted households into districts by income order, and the source file it once read (src/core2/data/district-household-income.json) is gone.
+
+**Fix.** Source each district's own Census household-income, tenure and age tables, read them in src/core2/modules/residents.ts instead of the income-order split, and show each district's mix in a drawn split town; take over branch claude/district-placement.
+
+**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each row is SOURCED or ESTIMATED with a citation and a spread; SG-CORE-district-placement is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard, tripwire and calibration-guard tests pass; a one-year played world in a drawn split town (seed named) reports each district's mix and where the town landed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session plays a one-year world (buildBenchWorld) in a drawn split town (place and seed named in the PR) and sees each district's household mix of income, tenure and age follow that district's own Census table, by record id, with where the town landed reported beside the Census figure and not as a pass mark. Each row is SOURCED or ESTIMATED with a citation and a spread, SG-CORE-district-placement is resolved in its family file under src/core2/data/stopgaps/ with the source named, and the research-data-reader guard, tripwire and calibration-guard tests pass.
 
-**Files.** src/core2/modules/residents.ts,src/core2/data/parameters.json,src/core2/data/stopgaps.json,data/research/people/
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/residents.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/core.json, data/research/people
 
 **Notes.** TODO
 

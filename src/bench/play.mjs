@@ -19,10 +19,15 @@ import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
+import {
+  ALL,
+  filterLaws,
+  issueFilterScreen,
+  levelChoices,
+} from "./ui/issue-filter.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
-import { timeline } from "./ui/timeline.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
@@ -95,6 +100,7 @@ import {
   stripSection,
   perkList,
   introText,
+  lifeStory,
   peopleSentence,
   nameLink,
   dotRows,
@@ -313,7 +319,12 @@ function openNewsReader(news) {
   }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
-    ...readerBody({ lead, address: news.address, photo: storyPhoto(lead) }),
+    ...readerBody({
+      lead,
+      address: news.address,
+      photo: storyPhoto(lead),
+      none: controls.news.noStoryText,
+    }),
   );
   $("news-reader-more").replaceChildren(...readerMore(rest.map(storyHeadline)));
   show("news-reader", true);
@@ -362,8 +373,8 @@ let governmentLevel;
 let governmentState = "";
 // The branch the Government tab shows, Legislative or Executive.
 let governmentBranch;
-// The subject the Issues tab shows (Taxes and money, Schools...).
-let issueSubject;
+// What the Issues tab shows: the laws at a level, in force or not, on a subject.
+const issueFilter = { level: ALL, force: ALL, subject: ALL };
 // The party whose officeholders the Parties tab shows.
 let partyTab;
 let guideQuery = "";
@@ -2350,7 +2361,7 @@ async function personCardNode(
           stripSection(
             5,
             capital(heading("lifeStory", "lifeStoryThey")),
-            lifeTimeline(c.history, 3),
+            ...lifeParagraphs(c.history),
           ),
         ]
       : []),
@@ -3152,17 +3163,9 @@ async function ownHistory() {
   );
   return card.history ?? [];
 }
-/** History lines down a timeline `rows` tall, scrolling inside its box. */
-function lifeTimeline(lines, rows) {
-  return timeline({
-    entries: lines.map((h) => ({
-      year: h.date.slice(0, 4),
-      text: h.text,
-      kind: h.kind,
-      recordId: h.recordId,
-    })),
-    rows,
-  });
+/** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
+function lifeParagraphs(lines) {
+  return lifeStory(lines, controls.lifeGroups);
 }
 function portraitUrl() {
   // The created look when there is one; else the figure the scene draws you
@@ -3270,7 +3273,22 @@ const sheets = {
                 ]
               : []),
           ],
-          peopleLine ? [stripSection(3, labels.myPeople, peopleLine)] : [],
+          [
+            ...(peopleLine
+              ? [stripSection(3, labels.myPeople, peopleLine)]
+              : []),
+            // Your own life from the same lines the card tells of anyone (the mock
+            // draws no life section; it follows "My people").
+            ...(known.history?.length
+              ? [
+                  stripSection(
+                    5,
+                    labels.myLife,
+                    ...lifeParagraphs(known.history),
+                  ),
+                ]
+              : []),
+          ],
         ],
       }),
     ];
@@ -3399,7 +3417,7 @@ const sheets = {
   async jobs() {
     // On framed plates: your job with its workplace's
     // painting, its title in the name type, pay and hours; beside it the work
-    // and school of your life as a timeline, from the one history every
+    // and school of your life as sentences, from the one history every
     // card reads. Never a scroll.
     const labels = controls.jobs;
     const job = me.card.job;
@@ -3438,20 +3456,14 @@ const sheets = {
     return [
       work,
       ...(worked.length
-        ? [plate(labels.workAndSchool, lifeTimeline(worked, 4))]
+        ? [plate(labels.workAndSchool, ...lifeParagraphs(worked))]
         : []),
     ];
   },
-  // Your own life as a timeline (owner, Oct 29: a history is a "Vertical
-  // timeline"), the same lines a person's card tells of anyone you open.
+  // Your own life as sentences, the same lines a person's card tells of anyone you open.
   async history() {
     const life = await ownHistory();
-    return [
-      plate(
-        null,
-        lifeTimeline(life, Math.max(3, Math.floor((viewHeight() - 300) / 64))),
-      ),
-    ];
+    return [plate(null, ...lifeParagraphs(life))];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -5119,56 +5131,63 @@ const sheets = {
         ...(votes.length ? [stripSection(4, labels.votes, ...votes)] : []),
       ];
     };
-    // Subjects at the left with how many laws each holds; a subject's laws beside it with
-    // the law now in force; the chosen law's page at the right (the Nov 8 mock).
+    // Three filters over the one list of laws: level, in force and subject. The list is the
+    // long-list box beside the chosen law's page (the Nov 8 mock); the filters read the law rows.
+    const fw = labels.issueFilter;
     const order = Object.keys(labels.issueGroups ?? {});
     const byName = (a, b) =>
       policyLabel(a.series).localeCompare(policyLabel(b.series));
-    const subjects = new Map();
-    for (const law of v.law) {
-      const key = groupOf(law.series);
-      if (!subjects.has(key)) subjects.set(key, []);
-      subjects.get(key).push(law);
-    }
-    const keys = [...subjects.keys()].sort(
-      (a, b) => order.indexOf(a) - order.indexOf(b),
-    );
-    if (!keys.length) return [prose(labels.noIssues, "record-empty")];
-    return rosterScreen({
-      title: labels.subjects,
-      className: "issues-screen",
-      chosenKey: keys.includes(issueSubject) ? issueSubject : keys[0],
-      groups: [
-        {
-          entries: keys.map((key) => ({
-            key,
-            label: labels.issueGroups?.[key] ?? words(key),
-            aside: String(subjects.get(key).length),
-            subject: key,
-          })),
-        },
+    if (!v.law.length) return [prose(labels.noIssues, "record-empty")];
+    const subjectKeys = [
+      ...new Set(v.law.map((law) => groupOf(law.series))),
+    ].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    const levelWord = (level) =>
+      (fw.levels?.[level] ?? words(level)).replaceAll(
+        "{level}",
+        v.homeState?.levelWord ?? "",
+      );
+    const choices = {
+      level: levelChoices(v.law).map((key) => [key, levelWord(key)]),
+      force: [
+        ["in", fw.inForce],
+        ["not", fw.notInForce],
       ],
-      render: async (entry) => {
-        issueSubject = entry.subject;
-        const laws = [...subjects.get(entry.subject)].sort(byName);
-        return rosterScreen({
-          title: entry.label,
-          className: "issues-laws",
-          groups: [
-            {
-              entries: laws.map((law) => ({
-                key: law.series,
-                label: policyLabel(law.series),
-                aside: valueText(law) ?? "",
-                data: { series: law.series },
-                law,
-              })),
-            },
-          ],
-          render: (lawEntry) => lawPage(lawEntry.law),
-        });
-      },
-    });
+      subject: subjectKeys.map((key) => [
+        key,
+        labels.issueGroups?.[key] ?? words(key),
+      ]),
+    };
+    const draw = (list) => {
+      const laws = filterLaws(v.law, issueFilter, groupOf).sort(byName);
+      list.replaceChildren(
+        ...(laws.length
+          ? rosterScreen({
+              title: controls.titles.issues,
+              className: "issues-laws",
+              groups: [
+                {
+                  entries: laws.map((law) => ({
+                    key: law.series,
+                    label: policyLabel(law.series),
+                    aside: valueText(law) ?? "",
+                    data: { series: law.series },
+                    law,
+                  })),
+                },
+              ],
+              render: (lawEntry) => lawPage(lawEntry.law),
+            })
+          : [prose(fw.none, "record-empty")]),
+      );
+    };
+    return [
+      issueFilterScreen({
+        words: fw,
+        choices,
+        state: issueFilter,
+        draw,
+      }),
+    ];
   },
 };
 // Screens shown as tabs across the top of one menu screen.

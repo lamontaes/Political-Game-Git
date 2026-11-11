@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { nominateAndConfirm, senateSides } from "./appointments";
+import { nominateAndConfirm } from "./appointments";
+import { senateSides } from "./electorate-places";
 
 describe("appointments: nominate and confirm", () => {
   it("the Senate is this world's party makeup, and a majority confirms the appointer's best-suited nominee", () => {

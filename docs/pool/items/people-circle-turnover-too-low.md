@@ -5,12 +5,13 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: tiers/circle-workgroups
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-09T01:16:27.557Z
+claimed-at:
+branch: tiers/circle-workgroups
 ---
 
 **What.** M0-07's turnover check (src/core2/tooling/m0-07-turnover-check.ts) pools every adult full person's five closest ties on the first day and asks how many are still among their five closest after three played years of the bench world. Mollenhorst, Volker and Flap (2014) found 48 percent of a Dutch adult's discussion partners and helpers still in the network after seven years, about 73 percent after three at a constant rate. The core keeps 95.9 percent in Fair Bluff, North Carolina (3722240, seed 0d1db17e428dddcbdaef4c08a0a53ff62d3f26b034b1c86635fa8d8f29f9db77), 98.3 percent in place 0464650 (seed b15beed42b2bb3154e5e44b4fbcb12766c806013385d86a88518b4879d1787b0) and 97.2 percent in Jamesville, North Carolina (3734320). Ties only fade by half-life, close ties keep being renewed by household and family contact, and new ties start too low to displace them.
@@ -46,3 +47,5 @@ Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md):
   4. Same as 3, hours shared by existing closeness plus a base: 12.6%.
      Diagnostic on variant 2, by where a day-one circle member is after three years (kept of total): same workgroup 473 of 529; same employer but another group 177 of 1,139; elsewhere 122 of 274; dead 41 of 113. On main (no credit) the 2,055 members were 94% coworker ties from the opening workgroups (91% kept), 6% family, and no neighbor, friend or classmate ties exist in any adult's five closest.
      Reading: with equal hours every mate in a group climbs to the same closeness, so which five are closest is arbitrary, and the group grows as the staff is filled in; real leavers and deaths are only about 19% of day-one members. Any single hours value would steer to the range. Next, not tried: pair hours read from the jobs engine's overlapping attended shifts (no parameter), then neighbors through the moves records and friends from groups.
+
+Released by next (2026-11-10): no push to tiers/circle-workgroups since 2026-11-09 03:13 UTC, more than twice its 4-hour time box. Continue on branch tiers/circle-workgroups.

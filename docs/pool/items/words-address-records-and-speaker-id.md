@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,7 @@ claimed-at:
 **Files.** src/english/english-composition.ts, src/english/english-newscast.ts, src/director/conversation.ts
 
 **Notes.** Follow-up of words-speech-craft-earned (#5601). Authored variants with a device do not exist yet, so a device bank is needed too (a Words-line task).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into words-speech-craft-earned. Its premise is not on main: speakerAddressRecordIds and devicesEarned appear nowhere in src (the gate was PR #5601, which the open item words-speech-craft-earned still holds). It is the follow-up of that item, and both turn on one open owner question (what counts as an address, SG-WORDS-speech-craft-earned). The kept item should take: one address record per floor speech, briefing or town hall written in the director's producers (speaker, register, date, source scene id), the speaker's records passed to the composer, a speaker person id on the newscast for a recorded speaker such as a press secretary, and the played-world test with and without recorded addresses.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `words-speech-craft-earned`, which carries this item's remaining work.

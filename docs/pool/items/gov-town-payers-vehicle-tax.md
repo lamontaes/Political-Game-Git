@@ -4,23 +4,37 @@ title: "The town's vehicle tax is computed from the vehicles on household record
 area: gov
 kind: wiring
 priority: 3
-size: L
+size: S
 status: open
+standard: 2
 claimed-by:
 pr: #5103
 after:
-blocked-on:
+blocked-on: gov-town-payers-vehicle-tax-part-1-households-hold-vehicles, gov-town-payers-vehicle-tax-part-2-vehicle-tax-rate, gov-town-payers-vehicle-tax-part-3-pay-and-credit
+lead: governing
+model: sonnet
+effort: low
+root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** The town's residents owe vehicle and other taxes that only an outside group of payers pays today, though no household record holds a vehicle (checked Oct 16: nothing in the core's households, people or finance state names one). First give households their vehicles, from the Census vehicles-available counts by household size and tenure (an estimate with a spread). Then compute each household's vehicle tax from them and the law in force, and pay it to the treasuries on the due dates in the revenue payers data. Reduce the outside group's installment by the same amount, so nothing is paid twice. Combined by the Oct 25 audit, one change in one seam; the parts folded in: gov-vehicle-tax-household-vehicles (Households hold vehicles, from Census vehicles-available counts by household size and tenure); gov-vehicle-tax-rate (A vehicle tax rate per vehicle comes from the law in force or from each treasury's own budget line); gov-vehicle-tax-payment (A household pays its vehicle tax from its cash on the due date and the outside group's installment shrinks by the same amount). Each part's own done-when line is listed in Notes and is part of this item's acceptance.
+**What.** The town's residents owe vehicle and other taxes that only an outside group of payers pays today, though no household record holds a vehicle (checked Oct 16: nothing in the core's households, people or finance state names one). Give households their vehicles from the Census vehicles-available counts by household size and tenure, an estimate with a spread. Compute each household's vehicle tax from them and the law in force, pay it to the treasuries on the due dates in the revenue payers data, and reduce the outside group's installment by the same amount so nothing is paid twice. This item is the three parts below joined in one seam (the folded children gov-vehicle-tax-household-vehicles, gov-vehicle-tax-rate and gov-vehicle-tax-payment are closed into it), and its acceptance is the one-year chain at the end.
 
-**Rules.** An effect is a read, not a record: the treasury reads the vehicle records at the moment the tax is due. One model, two tiers: a counted household's vehicles are read by the same rule as a full household's, times its count. Replace, never layer: the outside group's share of this line is cut in the same change.
+**Cause.** Design: docs/coordination/OWNER-DECISIONS.md, "Vehicle tax with no law on record (#5103)" (owner, Oct 21): the rate is the treasury's budgeted vehicle line divided by the vehicles in the jurisdiction, tagged ESTIMATED with its source. Corporate tax already pays a treasury's `townPaidMinor` from the town's payers in src/core2/modules/employer-taxes.ts, and src/core2/town-payers-corporate-tax.test.ts is the balance test to copy.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a household's vehicle tax is paid on the due date from its cash to a named treasury by journal record id, the outside group's installment on that line is smaller by the same amount, and every dollar balances. A test in src/core2 proves it.
+**Fix.** Do it in the three parts, in order: part 1 gives households vehicles; part 2 computes the rate from the law row or from the treasury's own vehicle budget line divided by its vehicles; part 3 pays the tax household to treasury and cuts the outside installment by the same amount. This parent then proves the whole chain in one played year and closes the parts' Notes lines.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/data/revenue-payers/, src/core2/data/vehicles/, src/core2/population.ts, src/core2/state.ts, src/core2/data/laws/, src/core2/data/budgets/revenue-payers.json, src/core2/modules/employer-taxes.ts
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
+
+**Rules.** An effect is a read, not a record: the treasury reads the vehicle records at the moment the tax is due. One model, two tiers: a counted household's vehicles are read by the same rule as a full household's, times its count. Replace, never layer: the outside group's share of this line is cut in the same change. Estimate, never UNKNOWN: a place without a rate row starts from the treasury's budget-derived rate, marked ESTIMATED with its source.
+
+**Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`) in a drawn place and a seed the builder did not choose, both named. A household's vehicle tax is paid on the due date from its cash to a named treasury by journal record id, the outside group's installment on that line is smaller by the same amount, and every dollar balances. A test in src/core2 proves it and draws a random place from all 56.
+
+**Waits on.** The three parts: gov-town-payers-vehicle-tax-part-1-households-hold-vehicles, gov-town-payers-vehicle-tax-part-2-vehicle-tax-rate, gov-town-payers-vehicle-tax-part-3-pay-and-credit.
+
+**Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/data/budgets/revenue-payers.json, src/core2/population.ts, src/core2/state.ts, src/core2/data/laws/, src/core2/modules/employer-taxes.ts, src/core2/town-payers-corporate-tax.test.ts, src/core2/data/vehicles/ (new)
 
 **Notes.** Split from gov-town-payers-vehicle-and-owner-tax (the owner-profit half is built there).
 

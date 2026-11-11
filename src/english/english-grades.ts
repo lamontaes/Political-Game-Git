@@ -50,6 +50,15 @@ export interface PartGradeLedger {
   /** The graded batches folded in, oldest first. */
   readonly batches: readonly string[];
   readonly parts: Readonly<Record<string, PartGradeCounts>>;
+  /**
+   * The share of `parts` that comes from batches whose grade files are gone
+   * (written by `apply-grades.ts`; the engine reads `parts` only). The totals
+   * are always the grade files on disk folded fresh plus this share.
+   */
+  readonly kept?: {
+    readonly batches: readonly string[];
+    readonly parts: Readonly<Record<string, PartGradeCounts>>;
+  };
 }
 
 export const PART_GRADES = ledgerFile as PartGradeLedger;

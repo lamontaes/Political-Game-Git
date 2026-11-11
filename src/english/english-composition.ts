@@ -320,15 +320,13 @@ export function composeGroundedLine(
       conditioned,
     ];
     // The calibration table (weights only) re-weights the pick among the
-    // variants of each tier: a low-graded piece is chosen less, a line far
+    // variants of each tier: a line far
     // from the register's target length is chosen less, a move pair that
     // read badly is arranged less. An empty table returns the tiers as they are.
     const weighted = tiers.map((tier) =>
       calibratedVariants(
         tier,
         {
-          bankKey,
-          part,
           ...(context.register ? { register: context.register } : {}),
           ...(context.speakerTraits ? { traits: context.speakerTraits } : {}),
           ...(context.previousMove

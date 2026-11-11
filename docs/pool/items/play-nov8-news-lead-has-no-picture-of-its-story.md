@@ -10,17 +10,28 @@ claimed-by:
 pr:
 after:
 blocked-on:
+standard: 2
+model: sonnet
+effort: medium
+root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, points P14 and C10, partly fixed)
+checked: fable 2026-11-10
 ---
 
-**What.** The owner, Nov 8, about 2:10 p.m. Eastern (v0.94.0, Manchester, Connecticut; docs/coordination/playtest/2026-11-08-1-verbatim.md): "I'm going to click on news. Yeah, I mean, look at this news. Again, there's the one of 3 pages, but this isn't news. I mean, this is it. There's no story. There's no pictures. Again, it's just a black screen." The CTO's note on the same screenshots (point C10): "the panel is mostly empty black (dead space)". Part of this is fixed on main: the briefs no longer page with arrows and the date follows the world's date. What main does now, read in code on Nov 10, not measured: `newsBoard` in `src/bench/ui/news-board.mjs` (line 19) draws a picture only on the lead story (its `photo` helper, lines 73 to 78), and `storyPhoto` in `src/bench/play.mjs` (line 257) returns a picture only for a state or local government acting, chosen from three stock room photos (`STORY_PHOTOS`, lines 234 to 237); a federal story, a business story and every story about a person get none. When every story of a paper is a one-line brief there is no lead at all (`front` is empty, line 39), so the first column draws nothing. Fix the class for every paper in every place: each lead story carries a picture of what it is about, from the story's own record, and a paper with only briefs fills its panel with them, with no empty column.
+**What.** The owner, Nov 8, about 2:10 p.m. (v0.94.0, Manchester, Connecticut), on News: "There's no story. There's no pictures. Again, it's just a black screen." The CTO's note (point C10): the panel is mostly empty black. Part of this is fixed (the briefs no longer page with arrows and the date follows the world's). The lead story gets a picture only for a state or local government story, chosen from three stock room photos; a federal story, a business story and every story about a person get none, and a paper of only one-line briefs has no lead, so its first column draws nothing. Each lead story should carry a picture of what it is about, from the story's own record, and a briefs-only paper should fill its panel with the briefs.
+
+**Cause.** Found in code: `storyPhoto` in src/bench/play.mjs (line 263) picks from `STORY_PHOTOS` (line 240) for state and local government stories only, and `newsBoard` in src/bench/ui/news-board.mjs (line 19) draws a picture on the lead only; with every story a brief, `front` is empty (line 41) and the first column draws nothing. Read on Nov 10, not measured in the running game.
+
+**Fix.** Choose each lead story's picture from the record the story tells (the room of the body that acted, the place of the business), never a stock list keyed by level and never a face that does not match a card. Let a paper with only briefs fill its panel with them. Any new picture goes through `.agents/skills/asset-scene-admission/SKILL.md`.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Wire to the world: a story's picture is chosen from the record the story tells (the room of the body that acted, the place of the business, the person's bust), never a stock list keyed by level. Owner, Oct 14 (docs/play-first/LAW.md, line 79): "The game paints the photo of the actual story". Owner, Oct 29 (OWNER-DECISIONS, the second account's first sitting): "Nothing is actually on the paper." Owner, Oct 27 (quoted in the playtest check, point C10): "No dead space". The asset-scene-admission skill applies to any new picture.
+**Rules.** Wire to the world: a story's picture is chosen from the record the story tells, not from a list keyed by level. Owner, Oct 14 (docs/play-first/LAW.md): "The game paints the photo of the actual story". No hand-written player text: a picture carries no typed caption. Owner, Oct 27: "No dead space".
 
-**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof), plays four weeks with Week, and takes a screenshot at 1440×900 of News on day one and after each week, on every paper's tab. Every screenshot with a lead story must show a picture on it, and the proof names the record id the picture was chosen from; a federal lead and a business lead must each appear at least once with a picture. No screenshot may show an empty first column or a panel that is more than half bare. The picture must never be a named official's face that does not match their card. The same check is then run in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro, and each screenshot is set beside `docs/mocks/2026-11-08-play/renders/pl-news.jpg`. The owner plays it: he opens News and sees a front page with a picture of the story, not black panel.
+**Done when.** A second session (not the builder) starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named), plays four weeks with Week, and takes a screenshot at 1440x900 of News on day one and after each week on every paper's tab. Every screenshot with a lead story shows a picture, the proof names the record id the picture was chosen from, and a federal lead and a business lead each appear at least once with a picture. No screenshot shows an empty first column or a panel more than half bare, and no picture is a named official's face that does not match their card. The check is repeated in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro.
+
+**Waits on.** Nothing.
 
 **Files.** src/bench/ui/news-board.mjs, src/bench/play.mjs, src/bench/story.ts, src/bench/play.css
 

@@ -39,7 +39,7 @@ import {
 } from "./modules/elections";
 import { OFFICES_MODULE_ID, openOffices, vacateSeat } from "./modules/offices";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
@@ -563,6 +563,13 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     const table = (name: string) =>
       api.moduleState(ELECTIONS_MODULE_ID).table(name);
     const contests = table("contests").rows() as unknown as ContestRow[];
+    // Filing opens on each race's own day, so on the opening day most places
+    // have no race taking filings yet: the world runs to the first day one does.
+    const firstOpen = contests
+      .filter((c) => c.filingDeadline >= START)
+      .map((c) => c.filingOpens ?? START)
+      .sort()[0];
+    if (firstOpen && firstOpen > core.date) advanceCore(core, firstOpen);
     const emitted: { source: { tag: string }; kind: string }[] = [];
     const spy = Object.create(api, {
       emit: { value: (e: (typeof emitted)[number]) => emitted.push(e) },

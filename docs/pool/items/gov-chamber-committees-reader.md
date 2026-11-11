@@ -4,23 +4,37 @@ title: "Bills are routed and committees seated from each chamber's own committee
 area: gov
 kind: feature
 priority: 3
-size: L
+size: S
 status: open
 claimed-by:
 pr:
 after:
-blocked-on:
+blocked-on: gov-chamber-committees-reader-part-1-chamber-aware-reader, gov-chamber-committees-reader-part-2-congress-committees, gov-chamber-committees-reader-part-3-states-a-to-m, gov-chamber-committees-reader-part-4-states-n-to-z
 milestone:
 source: split from gov-stopgap-legislature-committees-assumed-data by pool feeder Oct 20
+lead: governing
+standard: 2
+model: sonnet
+effort: low
+root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
-**What.** Change src/core2/legislature-committees.ts so committeeForSection, COMMITTEES and committeeTopics take the chamber (its jurisdiction key and kind) and read that chamber's own committee list from a new src/core2/data/legislature/chamber-committees.json (committee id, display name key, the catalog topics, law series and budget lines it hears), and fall back to the national nine in committees.json for a chamber with no row. Pass the chamber through committeeFor in src/core2/modules/legislature.ts (line 2714) and the seating loop in src/core2/modules/leadership.ts (line 565), whose cap uses COMMITTEES.length. For Congress, build the list from data/office-day/federal-committees.json using each real committee's jurisdiction questions. Combined by the Oct 25 audit, one change in one seam; the parts folded in: gov-chamber-committees-data-a-m (Standing committee lists for every chamber of the states and territories from Alabama through Missouri and the Marianas); gov-chamber-committees-data-n-z (Standing committee lists for every chamber of the states and territories from Montana through Wyoming). Each part's own done-when line is listed in Notes and is part of this item's acceptance.
+**What.** Bills are routed and committees seated from one national list of nine committees for every chamber. Change the committee reader so `committeeForSection`, `COMMITTEES` and `committeeTopics` take the chamber (its jurisdiction key and kind) and read that chamber's own committee list from a new `chamber-committees.json` (committee id, display name key, the catalog topics, law series and budget lines it hears), falling back to the national nine in `committees.json` for a chamber with no row. Pass the chamber through `committeeFor` in the legislature module and the seating loop in the leadership module, whose cap uses `COMMITTEES.length`. For Congress, build the list from `src/core2/data/office-day/federal-committees.json` using each real committee's jurisdiction questions. The work is split into four parts, each its own item.
 
-**Rules.** Replace, never layer: one reader takes the chamber and the global COMMITTEES constant is deleted, with no parallel router beside it. One rule, all 56 places: the reader names no chamber, and the data decides. An effect is a read, not a record: the routed committee is the one the leadership engine seats and whose members vote, so a different list changes a roll call. No hand-written player text: committee names are data keys that the English engine words.
+**Cause.** Found in code: `src/core2/legislature-committees.ts` `COMMITTEES` (line 20, marker `SG-GOV-committee-names-national` at line 18) is one list for every chamber; federal committee data is at `src/core2/data/office-day/federal-committees.json`; the research file is `data/research/gov/chamber-committee-appointment-2026.json`.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose, with two seeded chamber rows in chamber-committees.json (one of 12 committees, one absent), bills in the first go to its own committees and bills in the second to the national nine, shown by bill, committee and member vote record ids; src/core2/legislature-committees.test.ts proves it and the stopgap marker stays until the data parts land.
+**Fix.** Land the parts in order: part 1 makes the reader take the chamber and fall back to the nine, part 2 builds Congress's list from the federal file, parts 3 and 4 add the sourced state and territory chamber rows. The global `COMMITTEES` constant is deleted in part 1 and the stopgap marker stays until part 4.
 
-**Files.** src/core2/legislature-committees.ts, src/core2/modules/legislature.ts, src/core2/modules/leadership.ts, src/core2/data/legislature/chamber-committees.json, src/core2/legislature-committees.test.ts, src/core2/data/stopgaps.json
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
+
+**Rules.** Replace, never layer: one reader takes the chamber and the global `COMMITTEES` constant is deleted, with no parallel router beside it. One rule, all 56 places: the reader names no chamber, and the data decides. An effect is a read, not a record: the routed committee is the one the leadership engine seats and whose members vote, so a different list changes a roll call. No hand-written player text: committee names are data keys that the English engine words. Speed: look the chamber's list up once per session, never scan per bill per day.
+
+**Done when.** A second session plays a one-year world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose, and sees the chamber's bills go to the chamber's own committees, shown by bill, committee and member vote record ids; all four parts are merged and seen, and `SG-GOV-committee-names-national` is resolved in `src/core2/data/stopgaps/gov.json`.
+
+**Waits on.** The four parts: gov-chamber-committees-reader-part-1-chamber-aware-reader, gov-chamber-committees-reader-part-2-congress-committees, gov-chamber-committees-reader-part-3-states-a-to-m, gov-chamber-committees-reader-part-4-states-n-to-z.
+
+**Files.** src/core2/legislature-committees.ts, src/core2/modules/legislature.ts, src/core2/modules/leadership.ts, src/core2/data/legislature/committees.json, src/core2/data/legislature/chamber-committees.json (new), src/core2/legislature-committees.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Oct 20 (pool feeder): part 1 of 3 of gov-stopgap-legislature-committees-assumed-data. Speed: look the chamber's list up once per session, never scan per bill per day.
 

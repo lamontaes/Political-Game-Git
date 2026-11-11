@@ -5,6 +5,7 @@
   "onsetEventKind": "health.serious-illness",
   "countedOnsetEventKind": "residents.member-fell-ill",
   "deathEventKind": "life.death",
+  "resultsDayWorkKind": "results-day",
   "countedDeathEventKind": "residents.member-died",
   "topicPrefix": "health",
   "desiredChangePrefix": "care-and-cure",
