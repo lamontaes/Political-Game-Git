@@ -20,7 +20,9 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { bookkeeping } from "../bookkeeping";
 import { isDemoted } from "../counted-groups";
+import { registerDerivedCache } from "../snapshot";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -629,15 +631,24 @@ export function openingRecord(
   question: string,
 ): OpeningRecord | undefined {
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  const kept = bookkeeping() ? undefined : openingsKept(api, personId);
+  if (kept?.has(question)) return kept.get(question) ?? undefined;
   const table = api.moduleState(VIEWS_MODULE_ID).table("openings");
   const id = `opening:${personId}:${question}`;
   const held = table.get(id) as unknown as OpeningRecord | undefined;
-  if (held) return held;
+  if (held) {
+    kept?.set(question, held);
+    return held;
+  }
   const loadings =
     STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
   const view = loadings ? viewOf(api, personId) : null;
-  if (!loadings || !view || view.faithFromAverage === undefined)
+  if (!loadings || !view || view.faithFromAverage === undefined) {
+    // None, for good: the loadings are fixed and a person's view row, once
+    // written, is never replaced. A person not yet on file may have one later.
+    if (!loadings || view) kept?.set(question, null);
     return undefined;
+  }
   const reasons = [
     {
       kind: "faith" as const,
@@ -660,7 +671,34 @@ export function openingRecord(
     reasons,
   };
   table.put(record as unknown as { id: string });
+  kept?.set(question, record);
   return record;
+}
+
+/**
+ * A person's opening records, by question, as `openingRecord` found them
+ * (null for a question that has none). Opening records are written once and
+ * never changed or removed, so in play each is read from the table once
+ * (Speed, Nov 11: every stance read looked its opening record up again by a
+ * newly built id, about 15 s of South Hooksett, New Hampshire's election
+ * year). Cleared on a restore (`registerDerivedCache`); with bookkeeping on
+ * the table is read every time.
+ */
+const openingsByPerson = new WeakMap<
+  object,
+  Map<PersonId, Map<string, OpeningRecord | null>>
+>();
+registerDerivedCache(openingsByPerson as WeakMap<CoreState, unknown>);
+
+function openingsKept(
+  api: CoreAPI,
+  personId: PersonId,
+): Map<string, OpeningRecord | null> {
+  let byPerson = openingsByPerson.get(api.state);
+  if (!byPerson) openingsByPerson.set(api.state, (byPerson = new Map()));
+  let byQuestion = byPerson.get(personId);
+  if (!byQuestion) byPerson.set(personId, (byQuestion = new Map()));
+  return byQuestion;
 }
 
 /**
