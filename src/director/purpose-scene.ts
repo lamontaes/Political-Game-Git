@@ -59,7 +59,12 @@ import {
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
-import { JOBS_MODULE_ID, JOB_OFFERED_EVENT } from "../core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  JOB_OFFERED_EVENT,
+  jobById,
+  staffCount,
+} from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { petitionAtDoor } from "./doors";
@@ -465,8 +470,8 @@ function composeBinding(
         sourceRecordIds: ids,
       };
     // What the work is beyond the title and pay, from the opening's own row
-    // (words-job-offer-answer-repeats-title-and-pay): the hours of the job it
-    // was modeled on, who held it before when it replaces someone, and how
+    // (words-job-offer-answer-repeats-title-and-pay): the weekly hours of the job
+    // it was modeled on, who held it before when it replaces someone, and how
     // many people work there now. Each is said only when the record holds it.
     const jobs = core.modules.has(JOBS_MODULE_ID)
       ? coreAPI(core as CoreState).moduleState(JOBS_MODULE_ID)
@@ -486,12 +491,18 @@ function composeBinding(
       : undefined;
     if (position) {
       const at = [moment.causeId, position.id];
+      const api = coreAPI(core as CoreState);
+      // Full people's jobs and counted workers' by one rule (two tiers).
       const template = position.templateJobId
-        ? core.jobs.get(position.templateJobId)
+        ? jobById(api, position.templateJobId)
         : undefined;
+      // A job's hours are kept as a calendar day's share of the week; people
+      // say the week ("40 hours a week").
       if (template && template.hoursDaily > P.zero)
         facts.hours = {
-          text: String(Math.round(template.hoursDaily)),
+          text: String(
+            Math.round(template.hoursDaily * api.parameter("daysPerWeek")),
+          ),
           sourceRecordIds: [...at, template.id],
         };
       const before = position.replacesPersonId
@@ -502,10 +513,7 @@ function composeBinding(
           text: `${before.givenName} ${before.familyName}`,
           sourceRecordIds: [...at, before.id],
         };
-      let crew = P.zero;
-      for (const job of core.jobs.values())
-        if (job.organizationId === said.organizationId && !job.endsAt)
-          crew += P.one;
+      const crew = Math.round(staffCount(api, said.organizationId));
       if (crew > P.one)
         facts.crew = {
           text: String(crew),
