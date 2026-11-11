@@ -56,12 +56,13 @@ A session can end at any moment. Nothing may live only in your conversation.
 - **Ready.** Ready means the pull request is no longer a draft: mark it ready with `gh pr ready <number>` or your tool's own button or API. If your tool cannot take it out of draft, post one comment that starts with `Ready for the desk:` followed by the head commit's hash; the desk treats that the same way.
 - **Send-backs.** The checker and the merge desk answer on the same pull request. A sent-back item is yours until you hand it off. A send-back goes on the item's own pull request, never on issue 7365.
 - **Handoff.** When you stop for any reason, add a comment that starts with "Handoff:" and says what is done, what is not, how to run the proof, and the next step. Leave the claim in place.
+- **An item you take, you start.** Never open a pull request that says "not started", and never leave a claim on an item you did not start: a claimed item is offered to nobody. If you will not build it, run `npm run pool -- release <id> --reason "<one sentence>"`, close its draft, and take the next. On Nov 11 one builder took eight items in a row, wrote "not started" on each and left every claim in place.
 - **Stale claims.** A claim older than twice its time box, whose branch has had no push for that long (or, with no branch, whose claim is that old), is released by the next agent's `next`, which then offers it as **continue**. Its pull request and branch stay as they are.
 
 ## When you stop
 
-- **The item's time box is used.** Push what passes, write the handoff, and take the next item only if your usage allows.
-- **Your usage is running out.** Write the handoff first.
+- **The item's time box is used.** Push what passes, write the handoff, and take the next item. An item bigger than its box is built as its first working part: finish that part with its test, say on the pull request what is left, and change line 1 to `Touches pool item:` so the item stays open.
+- **Your usage is running out.** You cannot see your usage, so do not guess at it. Never take an item and hand it off unstarted "for usage". Keep building; if the run truly ends, the stale-claim rule above covers the item you were on.
 - **The item needs words.** Every line under `data/english/parts/` is written by the session that holds words (Fable B since Nov 10, owner ruling) or the helper it names for that file. List each spot and what it must say in the pull request, and build everything else.
 
 ## The order

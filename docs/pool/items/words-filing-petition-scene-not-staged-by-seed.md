@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-filing-petition-scene-not-staged-by-seed
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:16:50.230Z
 branch: claude/pool-words-filing-petition-scene-not-staged-by-seed
 ---
 

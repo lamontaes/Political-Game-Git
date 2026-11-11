@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, opens the card of an adult who moved to town after finishing school: the card names a school in the place they came from and at least one employer there, and reads the same when opened a second time and after a reload.
 
-**Waits on.** Pull requests 8115 and 8123 on main.
+**Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123).
 
 **Files.** src/core2/past-school.ts, src/core2/past-work.ts, src/core2/past-moves.ts

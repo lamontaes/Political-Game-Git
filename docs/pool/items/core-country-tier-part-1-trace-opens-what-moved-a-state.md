@@ -17,7 +17,7 @@ effort: medium
 root: design-country-tier
 source: split from core-country-tier-first-slice by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
-merged-at: 2026-11-11T04:52:19.090Z
+merged-at: 2026-11-10T18:59:28.000Z
 ---
 
 **What.** Dev mode's Trace on a state shows its households, employers and ledger. It does not show why this month differs from last, so a second session that sees two worlds differ cannot open the cause from a screen. This part keeps, for each state and month, what each step of the month moved, and shows it in Trace.
@@ -35,3 +35,5 @@ merged-at: 2026-11-11T04:52:19.090Z
 **Waits on.** Nothing.
 
 **Files.** src/core2/country-model.ts, src/core2/modules/macro.ts, src/bench/dev-mode.ts
+
+**Notes (Fable B, Nov 10, marked merged by hand).** Pull request 8175 merged at 2026-11-10 18:59 UTC and built this item, but the item stayed in review: its `pr:` field held the number with no `#`, which the merge's flip does not match, and the pull request's first line named no item (pool item pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash). A second session's check in the game is still owed.

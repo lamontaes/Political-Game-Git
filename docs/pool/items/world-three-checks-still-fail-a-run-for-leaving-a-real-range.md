@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** Replace each failing band assertion with a cause check and print the range beside the result as a warning, in the same change (no switch); reword docs/roadmap/features.json M1-02 to a cause test with the range reported. Copy the pattern in src/core2/macro.test.ts (line 87).
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Guards: the population and turnout figures a player reads on the Metrics tab and the paper stay inside real ranges, by failing a run that leaves them.
 
 **Rules.** Sliding scales and causes: a played world's figures follow from its causes and may take wild turns, so a check tests the cause and reports the real range beside it. Research before building: real data calibrates the opening and the parameters and never decides an outcome, and a check that fails a run outside a band makes the band decide. Replace, never layer: each failing assertion is replaced by its cause check and its report in the same change, not kept behind a switch. Owner, November 8: "ranges aren't targets. And look, that's not just for economics. It goes for everything." And: "None of the simulation should be hard-coded like that or, you know, set against a baseline. The baselines are to calibrate... a cause formula... things can take drastic turns, wild turns, or just be, you know, calm and everything in between." As recorded in OWNER-DECISIONS.md, Nov 8 morning: "no check fails a run for leaving a real band."
 
