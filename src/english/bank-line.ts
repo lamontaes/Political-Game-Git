@@ -34,6 +34,51 @@ export interface RenderedLine {
   factKeys?: readonly string[];
 }
 
+/**
+ * The grounded packet for a line held by one person, from the facts the
+ * director passes (record ids as plain strings): the one place a held line's
+ * facts become the renderer's grounded facts, for a line picked whole
+ * (`renderLine`) or composed from parts (`composeGroundedLine`). The holder's
+ * own records establish every fact the line copies; the line stands on every
+ * fact's records, else on the fallback.
+ */
+export function conversationPacket(input: {
+  surface: EnglishSurface;
+  momentKey: string;
+  worldSeed: string;
+  bankVersion: string;
+  stage: string;
+  holderId: string;
+  facts: Readonly<Record<string, Fact>>;
+  fallbackSourceId: string;
+  voice?: GroundedEnglishPacket["voice"];
+}): GroundedEnglishPacket {
+  const ids = [
+    ...new Set(
+      Object.values(input.facts).flatMap((fact) => fact.sourceRecordIds),
+    ),
+  ];
+  const holder = { personId: input.holderId, traits: {} };
+  return {
+    surface: input.surface,
+    momentKey: input.momentKey,
+    worldSeed: input.worldSeed,
+    bankVersion: input.bankVersion,
+    stage: input.stage,
+    sourceRecordIds: ids.length ? ids : [input.fallbackSourceId],
+    facts: input.facts,
+    ...(input.surface === "dialogue"
+      ? { speaker: holder }
+      : { viewer: holder }),
+    ...(input.voice ? { voice: input.voice } : {}),
+    knowledge: Object.entries(input.facts).map(([factKey, fact]) => ({
+      personId: input.holderId,
+      factKey,
+      sourceRecordIds: fact.sourceRecordIds,
+    })),
+  } as unknown as GroundedEnglishPacket;
+}
+
 export function renderLine(input: {
   seed: string;
   surface: EnglishSurface;
@@ -53,32 +98,18 @@ export function renderLine(input: {
   };
 }): RenderedLine | null {
   if (!input.variants?.length) return null;
-  const ids = [
-    ...new Set(
-      Object.values(input.facts).flatMap((fact) => fact.sourceRecordIds),
-    ),
-  ];
-  const holder = { personId: input.holderId, traits: {} };
   const result = renderGroundedEnglish(
-    {
+    conversationPacket({
       surface: input.surface,
       momentKey: input.momentKey,
       worldSeed: input.seed,
       bankVersion: input.version,
       stage: input.stage ?? "default",
-      sourceRecordIds: ids.length ? ids : [input.fallbackSourceId],
+      holderId: input.holderId,
       facts: input.facts,
-      ...(input.surface === "dialogue"
-        ? { speaker: holder }
-        : { viewer: holder }),
+      fallbackSourceId: input.fallbackSourceId,
       ...(input.voice ? { voice: input.voice } : {}),
-      // The holder's own records establish every fact the line copies.
-      knowledge: Object.entries(input.facts).map(([factKey, fact]) => ({
-        personId: input.holderId,
-        factKey,
-        sourceRecordIds: fact.sourceRecordIds,
-      })),
-    } as unknown as GroundedEnglishPacket,
+    }),
     {
       key: input.bankKey,
       version: input.version,
