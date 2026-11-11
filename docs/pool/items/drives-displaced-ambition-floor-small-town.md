@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** The accepted spec M1-11 fails on main 90e3abef7 in Playita, Puerto Rico (place key 7263503, seed 8be0e68a6844fe807895aebee61028b0fc511fbe4baf92fc675e9d19d427046b). In src/core2/drives-economy.test.ts, the test 'forms ambitions at the displaced-worker rate, with most people carrying on' saw 0.0588 (1 of 17 displaced workers) against a floor of 0.06. The town is small, so one person moves the share by six points; the band check reads a share of too few people to hold either way.
+**What.** The accepted spec M1-11 fails on main 90e3abef7 in Playita, Puerto Rico (place key 7263503, seed 8be0e68a6844fe807895aebee61028b0fc511fbe4baf92fc675e9d19d427046b). In src/core2/drives-economy.test.ts, the test 'forms ambitions at the displaced-worker rate, with most people carrying on' saw 0.0588 (1 of 17 displaced workers) against a floor of 0.06. The town is small, so one person moves the share by six points; the band check reads a share of too few people to hold either way. Guards: a laid-off neighbor taking up a cause in talks and the Journal, which the M1-11 test keeps right.
 
 **Cause.** Needs cause. Looked at: `src/core2/drives-economy.test.ts`, 'forms ambitions at the displaced-worker rate, with most people carrying on', which saw 0.0588 (1 of 17 displaced workers) at Playita, Puerto Rico (place key 7263503, seed 8be0e68a6844fe807895aebee61028b0fc511fbe4baf92fc675e9d19d427046b) and 0.0559 (9 of 161) at Bellview, Florida (place key 1205462, seed 68c7747a284e52a1b25d6cb988de91bd09a04462452082d58f951267965e14de), against a 0.06 floor. The second sample is not small, so the rate itself sits just under the floor. The drive's formation rule has not been read.
 
