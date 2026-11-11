@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-talk-opens-with-no-line-after-a-year
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: rc4-hand-written-words
 source: second session's check of the words machine, Nov 10, 2026 (Notes on words-machine-rules-from-the-owners-notes); filed by Fable
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:34:23.118Z
+branch: claude/pool-play-talk-opens-with-no-line-after-a-year
 ---
 
 **What.** In a new game the player talked to a household member on the first day and got a line and four replies. A year later the player opened a talk with the same person and the box had no line, only the controls Continue and Mark gap. A talk with nothing to say should not open, and nobody knows yet why this one had nothing.
@@ -43,3 +45,5 @@ Probe (working copy only, undone): changing line 2231 to always call `bringItUp`
 Cause found Nov 10, 2026 (cause finder, branch claude/cause-talk-no-line). Ran a throwaway bench test (not committed): `/api/newlife` at seed dc376939-ac22-45ce-836f-5027c4f0799f, place key 1060290, then 56 weeks of `/api/advance?mode=week`, comparing `/api/scene` talkable, `/api/talk/open` with and without a moment id, and `/api/story` talkToId. Still unknown: the second session's exact click (it said Patrick McCarthy at home on Jan 23, 2026; this run drew a different household and dates, so the person and day differ, the symptom is the same); whether visiting a workplace (src/bench/places.ts `visitPlace`, which draws coworkers with no talkable flag, so everyone is clickable there) also opens empty boxes, which the fix's `talkTo` guard covers; and the separate "Player stop clock cannot cross an unresolved stop." that was not seen here.
 
 **Notes (Fable B's check, Nov 10).** Checked against main: `showStory` hands a scene to `talkTo(withId, momentId)` at src/bench/play.mjs line 2124 with no check; the room's rule in `sceneNow` (src/bench/handler.ts lines 205 to 222) passes no moment id; and `openConversation` returns an empty talk when its lines are empty, because `every` is true of no lines (src/director/conversation.ts near line 2297). The finder's second change, letting a scene's talk raise other news, is left out: it runs against the rule that a scene's talk keeps to its occasion and against director-no-borrowed-small-talk. Its probe is kept in the Cause as evidence only. Related: tests-conversation-farewell-no-talks found the same emptying in a test (a listener who remembers every topic opens an empty talk).
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:34 UTC) on branch claude/pool-play-talk-opens-with-no-line-after-a-year.
