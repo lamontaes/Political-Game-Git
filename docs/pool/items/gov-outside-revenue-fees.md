@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-gov-outside-revenue-fees
-pr: #5926
+pr: #8399
 blocked-on:
 standard: 2
 model: opus
