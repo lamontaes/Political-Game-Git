@@ -172,7 +172,10 @@
       "position-reply",
       "family",
       "asked-kin",
-      "kin"
+      "kin",
+      "mutual",
+      "asked-mutual",
+      "shared-school"
     ]
   },
   "tells": {

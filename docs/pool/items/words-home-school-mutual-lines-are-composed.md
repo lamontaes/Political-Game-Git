@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: claude/words-w4-school
 pr:
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
@@ -18,7 +18,7 @@ root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine"); planned for Fable B from a read of main at 5ef67361
 checked:
 claimed-at:
-branch:
+branch: claude/words-w4-school
 ---
 
 **What.** Meeting people around town, the talk turns to the school two people went to and to people both of them know. The questions name the school or the person ("Do you remember {school}?", "Have you seen {name}?"), but the answers are fixed: "That was a long time ago.", "Those were the days.", "I haven't seen him.", "Not in a while.", "Why do you ask?" 22 of the 71 lines under `shared-school`, `mutual` and `asked-mutual` have no insert, and nothing says why the person came up, though a mutual acquaintance is raised only because something happened to them. Seen: a talk away from home with a former classmate or someone who knows the same person, and the player's replies.
@@ -38,7 +38,7 @@ branch:
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. Ask why: a person is mentioned only for a recorded happening, and the line cites it. No dice. One rule, all 56 places: the tests draw their places.
+**Rules.** No hand-written player text in code. Ask why: a person is mentioned only for a recorded happening, and the line cites it. No dice. One rule, all 56 places: the tests draw their places. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds, and talks with people away from home until someone brings up a person both know and someone brings up a shared school. Each names the person and what happened to them, or the school and the years, as the records say; the replies are at most four different moves that stay on that person or school. tests/guards/english passes with the lowered count.
 
@@ -47,3 +47,5 @@ branch:
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 71 distinct lines, 22 with no insert and not excused (shared-school 29 and 10, mutual 29 and 6, asked-mutual 17 and 6). Three today: "That was a long time ago.", "I haven't seen him.", "Not for a long time." Between relatives neither subject is raised (`familyTalk.dropped`).
+
+- 2026-11-11, Words builder W4: built on claude/words-w4-school, stacked on claude/words-w4-family. Someone both know is raised only for a staged happening (job, move, illness, baby), so every mention says what happened. The "ask about the happening" reply is not built: the raise already tells it.

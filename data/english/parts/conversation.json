@@ -32,7 +32,8 @@
     "town_figure": "The town's own figure as a resident says it in passing (data/english/town-figures.json), from the economy engines' records against the country's.",
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
     "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
-    "their_first": "The given name of the person the player is talking to, from the person's record."
+    "their_first": "The given name of the person the player is talking to, from the person's record.",
+    "happened_when": "When the happening a person is talked about for came, as people say it, from the moment's date."
   },
   "maxWords": 10,
   "lineWords": {
@@ -5655,85 +5656,6 @@
       }
     },
     {
-      "key": "conversation.shared-school-reply-years.that-was-a-long-time-ago",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "That was a long time ago.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        },
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 27,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Senate Historical Office oral history": 1,
-        "crec": 1,
-        "dcpd": 7,
-        "hearings": 2,
-        "house": 1,
-        "nasa": 8,
-        "nih": 1,
-        "nps": 2,
-        "wpa": 2
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
-        "date": "2026-07-08",
-        "granule": "DCPD-202600450",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "conversation.shared-school-reply-years.that-was-years-ago",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "That was years ago.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        },
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 5,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Lod, Israel",
-        "date": "2025-10-12",
-        "granule": "DCPD-202501004",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501004/html/DCPD-202501004.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "conversation.shared-school-reply-years.its-been-years-years",
       "move": "shared-school-reply-years",
       "kind": "spoken",
@@ -5771,114 +5693,6 @@
         "date": "2026-03-03",
         "granule": "DCPD-202600145",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600145/html/DCPD-202600145.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "conversation.shared-school-reply-years.its-been-a-long-time",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "It's been a long time.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 42,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
-        "briefing": 4,
-        "dcpd": 25,
-        "nasa2": 3,
-        "nps": 3,
-        "wpa": 2
-      },
-      "source": {
-        "document": "Remarks Prior to a Working Lunch With President Volodymyr Zelenskky of Ukraine and an Exchange With Reporters",
-        "date": "2025-10-17",
-        "granule": "DCPD-202501023",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501023/html/DCPD-202501023.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.shared-school-reply-years.its-been-a-while",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "It's been a while.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 29,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 12,
-        "dcpd": 9,
-        "hearings": 1,
-        "house": 1,
-        "nasa": 2,
-        "nasa2": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and National Security Communications Adviser John Kirby",
-        "date": "2024-09-09",
-        "granule": "WH-2024-09-09-press-briefing-by-press-secretary-karine-jean-pierre-and-national-secu",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/09/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-communications-adviser-john-kirby/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "conversation.shared-school-reply-years.that-was-a-while-ago",
-      "move": "shared-school-reply-years",
-      "kind": "spoken",
-      "text": "That was a while ago.",
-      "uses": [
-        {
-          "move": "shared-school-reply-years",
-          "subject": "shared-school",
-          "role": "reply",
-          "choice": "years"
-        },
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "crec": 1,
-        "dcpd": 2,
-        "nasa": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "Remarks to the Department of War in Quantico, Virginia",
-        "date": "2025-09-30",
-        "granule": "DCPD-202500970",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500970/html/DCPD-202500970.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -6224,46 +6038,6 @@
         "move": "answer"
       },
       "bearing": "glad"
-    },
-    {
-      "key": "conversation.shared-school-answer-plain.ill-never-forget-it",
-      "move": "shared-school-answer-plain",
-      "kind": "spoken",
-      "text": "I'll never forget it.",
-      "uses": [
-        {
-          "move": "shared-school-answer-plain",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "transcriptsUsing": 44,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 5,
-        "U.S. Senate Historical Office oral history": 8,
-        "dcpd": 13,
-        "hearings": 1,
-        "house": 3,
-        "nasa": 2,
-        "nasa2": 1,
-        "nih": 1,
-        "nps": 5,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Remarks at the Inaugural Meeting of the Board of Peace",
-        "date": "2026-02-19",
-        "granule": "DCPD-202600120",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600120/html/DCPD-202600120.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
     },
     {
       "key": "conversation.shared-school-answer-turn.i-do",
@@ -6761,67 +6535,6 @@
         "date": "2026-03-07",
         "granule": "DCPD-202600155",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600155/html/DCPD-202600155.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-reply-not.i-havent-seen-him",
-      "move": "mutual-reply-not",
-      "kind": "spoken",
-      "text": "I haven't seen him.",
-      "uses": [
-        {
-          "move": "mutual-reply-not",
-          "subject": "mutual",
-          "role": "reply",
-          "choice": "not",
-          "stages": ["not"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1,
-        "nasa": 1,
-        "wpa": 1
-      },
-      "source": {
-        "document": "Daily Press Briefing by Press Secretary Sean Spicer",
-        "date": "2017-05-09",
-        "granule": "WH-2017-05-09-daily-press-briefing-press-secretary-sean-spicer-050917",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/daily-press-briefing-press-secretary-sean-spicer-050917/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-reply-not.i-havent-seen-them",
-      "move": "mutual-reply-not",
-      "kind": "spoken",
-      "text": "I haven't seen them.",
-      "uses": [
-        {
-          "move": "mutual-reply-not",
-          "subject": "mutual",
-          "role": "reply",
-          "choice": "not",
-          "stages": ["not"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks on Signing the Miracle on Ice Congressional Gold Medal Act and an Exchange With Reporters",
-        "date": "2025-12-12",
-        "granule": "DCPD-202501189",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501189/html/DCPD-202501189.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -11831,38 +11544,6 @@
       }
     },
     {
-      "key": "conversation.asked-mutual-answer-not.not-for-a-long-time",
-      "move": "asked-mutual-answer-not",
-      "kind": "spoken",
-      "text": "Not for a long time.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-not",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "not",
-          "requiresFacts": ["my_not"]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "dcpd": 2,
-        "hearings": 1,
-        "nih": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "ENERGY AND WATER DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
-        "date": "2024-03-20",
-        "granule": "CHRG-118hhrg57786",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57786/html/CHRG-118hhrg57786.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.asked-mutual-answer-not.not-since-year",
       "move": "asked-mutual-answer-not",
       "kind": "spoken",
@@ -12196,36 +11877,6 @@
         "date": "2021-02-23",
         "granule": "CHRG-117shrg44585",
         "url": "https://www.govinfo.gov/app/details/CHRG-117shrg44585",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-reply-not.i-havent-seen-her",
-      "move": "mutual-reply-not",
-      "kind": "spoken",
-      "text": "I haven't seen her.",
-      "uses": [
-        {
-          "move": "mutual-reply-not",
-          "subject": "mutual",
-          "role": "reply",
-          "choice": "not",
-          "stages": ["not"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Oversight Of The Voting Rights Act: A Continuing Record Of Discrimination",
-        "date": "2021-05-27",
-        "granule": "CHRG-117hhrg46229",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg46229",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -16851,111 +16502,6 @@
       }
     },
     {
-      "key": "conversation.asked-mutual-answer-not.not-in-a-while",
-      "move": "asked-mutual-answer-not",
-      "kind": "spoken",
-      "text": "Not in a while.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-not",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "not"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-not.i-can-t-remember-the-last-time",
-      "move": "asked-mutual-answer-not",
-      "kind": "spoken",
-      "text": "I can't remember the last time.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-not",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "not"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "nervous",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-brief.no-i-haven-t-why-do-you-ask",
-      "move": "asked-mutual-answer-brief",
-      "kind": "spoken",
-      "text": "No, I haven't. Why do you ask?",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-brief",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-brief.nope-not-in-a-while",
-      "move": "asked-mutual-answer-brief",
-      "kind": "spoken",
-      "text": "Nope. Not in a while.",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-brief",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "guarded",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.asked-mutual-answer-turn.why-do-you-ask",
-      "move": "asked-mutual-answer-turn",
-      "kind": "spoken",
-      "text": "Why do you ask?",
-      "uses": [
-        {
-          "move": "asked-mutual-answer-turn",
-          "subject": "asked-mutual",
-          "role": "answer",
-          "choice": "turn"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "curious",
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
       "key": "conversation.asked-kin-answer-brief.no-should-i",
       "move": "asked-kin-answer-brief",
       "kind": "spoken",
@@ -16998,48 +16544,6 @@
       }
     },
     {
-      "key": "conversation.shared-school-answer-brief.of-course-how-could-i-forget",
-      "move": "shared-school-answer-brief",
-      "kind": "spoken",
-      "text": "Of course. How could I forget?",
-      "uses": [
-        {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.shared-school-answer-brief.yeah-that-takes-me-back",
-      "move": "shared-school-answer-brief",
-      "kind": "spoken",
-      "text": "Yeah. That takes me back.",
-      "uses": [
-        {
-          "move": "shared-school-answer-brief",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.shared-school-answer-plain.how-could-i-forget-school",
       "move": "shared-school-answer-plain",
       "kind": "spoken",
@@ -17061,27 +16565,6 @@
       }
     },
     {
-      "key": "conversation.shared-school-answer-plain.those-were-the-days",
-      "move": "shared-school-answer-plain",
-      "kind": "spoken",
-      "text": "Those were the days.",
-      "uses": [
-        {
-          "move": "shared-school-answer-plain",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "plain"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.shared-school-answer-years.hard-to-believe-it-s-been-years-years",
       "move": "shared-school-answer-years",
       "kind": "spoken",
@@ -17098,27 +16581,6 @@
       "author": "Words session",
       "date": "2026-10-15",
       "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.shared-school-answer-years.feels-like-forever-ago",
-      "move": "shared-school-answer-years",
-      "kind": "spoken",
-      "text": "Feels like forever ago.",
-      "uses": [
-        {
-          "move": "shared-school-answer-years",
-          "subject": "shared-school",
-          "role": "answer",
-          "choice": "years"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
       "tag": {
         "move": "answer"
       }
@@ -28169,68 +27631,6 @@
       }
     },
     {
-      "key": "conversation.mutual-answer-deflect.that-s-a-story-for-another-time",
-      "move": "mutual-answer-deflect",
-      "kind": "spoken",
-      "text": "That's a story for another time.",
-      "uses": [
-        {
-          "move": "mutual-answer-deflect",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "deflect"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-answer-change.okay-where-do-you-work-these-days",
-      "move": "mutual-answer-change",
-      "kind": "spoken",
-      "text": "Okay. Where do you work these days?",
-      "uses": [
-        {
-          "move": "mutual-answer-change",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "change",
-          "raises": "their-work"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.mutual-answer-change.huh-what-are-you-doing-for-work-now",
-      "move": "mutual-answer-change",
-      "kind": "spoken",
-      "text": "Huh. What are you doing for work now?",
-      "uses": [
-        {
-          "move": "mutual-answer-change",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "change",
-          "raises": "their-work"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, own-work mutual answers)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.home-new-answer-detail.i-m-not-from-place-originally-i-moved-here",
       "move": "home-new-answer-detail",
       "kind": "spoken",
@@ -28893,6 +28293,12 @@
           "role": "reason",
           "choice": "own",
           "for": "answer"
+        },
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
         }
       ],
       "bearing": "calm",
@@ -30548,6 +29954,1270 @@
       "bearing": "tender",
       "origin": "authored",
       "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-raise-seen.have-you-run-into-name-lately",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Have you run into {name} lately?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-raise-seen.did-you-hear-about-first",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Did you hear about {first}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-raise-seen.have-you-heard-anything-from-first",
+      "move": "mutual-raise-seen",
+      "kind": "spoken",
+      "text": "Have you heard anything from {first}?",
+      "uses": [
+        {
+          "move": "mutual-raise-seen",
+          "subject": "mutual",
+          "role": "raise",
+          "choice": "seen"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.just-started-at-employer",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Just started at {employer}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["job"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.got-on-at-employer-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Got on at {employer} {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["job"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.started-at-employer-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Started at {employer} {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["job"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.working-at-employer-now",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Working at {employer} now.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["job"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.took-a-job-at-employer",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Took a job at {employer}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["job"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.new-job-at-employer-i-hear",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "New job at {employer}, I hear.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["job"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.moved-out-to-place-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Moved out to {place} {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.living-in-place-now",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Living in {place} now.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.moved-over-to-place",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Moved over to {place}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.packed-up-for-place-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Packed up for {place} {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.out-in-place-now-i-hear",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Out in {place} now, I hear.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.went-off-to-place-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Went off to {place} {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.moved-away-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Moved away {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.left-town-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Left town {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["moved"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.got-sick-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Got sick {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["ill"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.took-sick-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Took sick {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["ill"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.came-down-with-something-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Came down with something {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["ill"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.fell-ill-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Fell ill {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["ill"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.was-laid-up-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Was laid up {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["ill"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.had-a-baby-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Had a baby {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["baby"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.new-baby-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "New baby {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["baby"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.became-a-parent-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Became a parent {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["baby"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.had-a-little-one-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "Had a little one {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["baby"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reason.the-baby-came-happened-when",
+      "move": "mutual-reason",
+      "kind": "spoken",
+      "text": "The baby came {happened_when}.",
+      "uses": [
+        {
+          "move": "mutual-reason",
+          "subject": "mutual",
+          "role": "reason",
+          "stages": ["baby"],
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reply-saw.ran-into-name-when",
+      "move": "mutual-reply-saw",
+      "kind": "spoken",
+      "text": "Ran into {name} {when}.",
+      "uses": [
+        {
+          "move": "mutual-reply-saw",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "saw",
+          "stages": ["saw"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reply-saw.saw-name-when-actually",
+      "move": "mutual-reply-saw",
+      "kind": "spoken",
+      "text": "Saw {name} {when}, actually.",
+      "uses": [
+        {
+          "move": "mutual-reply-saw",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "saw",
+          "stages": ["saw"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reply-saw.i-caught-up-with-name-when",
+      "move": "mutual-reply-saw",
+      "kind": "spoken",
+      "text": "I caught up with {name} {when}.",
+      "uses": [
+        {
+          "move": "mutual-reply-saw",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "saw",
+          "stages": ["saw"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reply-not.i-havent-run-into-name",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "I haven't run into {name}.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        },
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not",
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reply-not.i-havent-talked-to-name",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "I haven't talked to {name}.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-reply-not.havent-seen-name-no",
+      "move": "mutual-reply-not",
+      "kind": "spoken",
+      "text": "Haven't seen {name}, no.",
+      "uses": [
+        {
+          "move": "mutual-reply-not",
+          "subject": "mutual",
+          "role": "reply",
+          "choice": "not",
+          "stages": ["not"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-not.i-havent-seen-name-lately",
+      "move": "asked-mutual-answer-not",
+      "kind": "spoken",
+      "text": "I haven't seen {name} lately.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not",
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-saw.ran-into-name-my-when",
+      "move": "asked-mutual-answer-saw",
+      "kind": "spoken",
+      "text": "Ran into {name} {my_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-saw",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "saw",
+          "requiresFacts": ["my_when"]
+        },
+        {
+          "move": "mutual-answer-mine-saw",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-saw",
+          "requiresFacts": ["my_when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.asked-mutual-answer-saw.i-caught-up-with-name-my-when",
+      "move": "asked-mutual-answer-saw",
+      "kind": "spoken",
+      "text": "I caught up with {name} {my_when}.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-saw",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "saw",
+          "requiresFacts": ["my_when"]
+        },
+        {
+          "move": "mutual-answer-mine-saw",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-saw",
+          "requiresFacts": ["my_when"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-answer-mine-not.i-havent-seen-first-either",
+      "move": "mutual-answer-mine-not",
+      "kind": "spoken",
+      "text": "I haven't seen {first} either.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-not",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-not",
+          "stages": ["not"],
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-answer-mine-not.me-neither-not-first",
+      "move": "mutual-answer-mine-not",
+      "kind": "spoken",
+      "text": "Me neither. Not {first}.",
+      "uses": [
+        {
+          "move": "mutual-answer-mine-not",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "mine-not",
+          "stages": ["not"],
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-answer-care.say-hello-to-first-for-me",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Say hello to {first} for me.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        },
+        {
+          "move": "asked-mutual-answer-care",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-answer-care.tell-first-i-said-hi",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Tell {first} I said hi.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        },
+        {
+          "move": "asked-mutual-answer-care",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.mutual-answer-care.give-first-my-best",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Give {first} my best.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        },
+        {
+          "move": "asked-mutual-answer-care",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-reply-years.years-years-since-school-and-it-doesnt-feel-like-it",
+      "move": "shared-school-reply-years",
+      "kind": "spoken",
+      "text": "{years} years since {school}, and it doesn't feel like it.",
+      "uses": [
+        {
+          "move": "shared-school-reply-years",
+          "subject": "shared-school",
+          "role": "reply",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-reply-years.school-was-years-years-ago-now",
+      "move": "shared-school-reply-years",
+      "kind": "spoken",
+      "text": "{school} was {years} years ago now.",
+      "uses": [
+        {
+          "move": "shared-school-reply-years",
+          "subject": "shared-school",
+          "role": "reply",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-reply-years.its-been-years-years-since-school",
+      "move": "shared-school-reply-years",
+      "kind": "spoken",
+      "text": "It's been {years} years since {school}.",
+      "uses": [
+        {
+          "move": "shared-school-reply-years",
+          "subject": "shared-school",
+          "role": "reply",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-reply-years.years-years-can-you-believe-it",
+      "move": "shared-school-reply-years",
+      "kind": "spoken",
+      "text": "{years} years. Can you believe it?",
+      "uses": [
+        {
+          "move": "shared-school-reply-years",
+          "subject": "shared-school",
+          "role": "reply",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-reply-years.going-on-years-years-since-school",
+      "move": "shared-school-reply-years",
+      "kind": "spoken",
+      "text": "Going on {years} years since {school}.",
+      "uses": [
+        {
+          "move": "shared-school-reply-years",
+          "subject": "shared-school",
+          "role": "reply",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-reply-years.that-was-years-years-back",
+      "move": "shared-school-reply-years",
+      "kind": "spoken",
+      "text": "That was {years} years back.",
+      "uses": [
+        {
+          "move": "shared-school-reply-years",
+          "subject": "shared-school",
+          "role": "reply",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.school-sure",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "{school}, sure.",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.of-course-i-remember-school",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "Of course I remember {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.i-remember-school",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "I remember {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.i-think-about-school-sometimes",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "I think about {school} sometimes.",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.i-still-remember-school",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "I still remember {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-plain.school-those-were-good-years",
+      "move": "shared-school-answer-plain",
+      "kind": "spoken",
+      "text": "{school}. Those were good years.",
+      "uses": [
+        {
+          "move": "shared-school-answer-plain",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "plain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.sure-school",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Sure, {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.yeah-school",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Yeah, {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.oh-school",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Oh, {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.school-right",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "{school}, right.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.good-old-school",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Good old {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.school-yep",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "{school}. Yep.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.sure-do-school",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Sure do. {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-brief.old-school",
+      "move": "shared-school-answer-brief",
+      "kind": "spoken",
+      "text": "Old {school}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-brief",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-years.years-years-already",
+      "move": "shared-school-answer-years",
+      "kind": "spoken",
+      "text": "{years} years already.",
+      "uses": [
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-years.its-been-years-years-hasnt-it",
+      "move": "shared-school-answer-years",
+      "kind": "spoken",
+      "text": "It's been {years} years, hasn't it?",
+      "uses": [
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-years.years-years-wow",
+      "move": "shared-school-answer-years",
+      "kind": "spoken",
+      "text": "{years} years. Wow.",
+      "uses": [
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-years.has-it-really-been-years-years",
+      "move": "shared-school-answer-years",
+      "kind": "spoken",
+      "text": "Has it really been {years} years?",
+      "uses": [
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.shared-school-answer-years.years-years-give-or-take",
+      "move": "shared-school-answer-years",
+      "kind": "spoken",
+      "text": "{years} years, give or take.",
+      "uses": [
+        {
+          "move": "shared-school-answer-years",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "years"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-school-mutual-lines-are-composed)",
       "date": "2026-11-11"
     }
   ]
