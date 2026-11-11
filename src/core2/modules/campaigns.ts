@@ -539,7 +539,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
       : event.kind === "candidate-filed"
         ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
-        : answerOffer(api, event),
+        : (answerOffer(api, event), answerAskForVote(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -2486,6 +2486,60 @@ function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     volunteerIds: campaign.volunteerIds.filter((id) => id !== helperId),
     staffIds: campaign.staffIds.filter((id) => id !== helperId),
   });
+}
+
+/**
+ * A listener's answer to the candidate who came over after a speech they
+ * heard in person (the `speech-afterward` scene): a yes (an accepting move)
+ * is their word to that candidate in the race the candidate is running in
+ * that is still ahead, kept as the same pledge a yes at the door is, which
+ * the ballot reads (`pledgesOf`, `pledgeDoubt`). It cites the scene's
+ * `scene.reply` record as its cause, and replaces an earlier word to a rival
+ * in the same contest, as a door's does. A no or a deflection leaves things
+ * as they were.
+ */
+function answerAskForVote(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "speech-afterward") return;
+  const move = String(facts.move);
+  if (!ACCEPTING_MOVES.has(move)) return;
+  const speech = api.state.durableLog.get(String(facts.causeId ?? ""));
+  const candidateId = String(speech?.facts?.["views:speaker"] ?? "");
+  const voterId = event.personIds.find((id) => id !== candidateId);
+  if (!candidateId || !voterId) return;
+  // The race the candidate is running in that has not been decided yet.
+  const contests = elections(api, "contests");
+  const campaign = (table(api, "campaigns").rows() as unknown as CampaignRow[])
+    .filter((row) => row.candidateId === candidateId)
+    .filter(
+      (row) =>
+        ((
+          contests.get(row.contestId) as unknown as
+            { electionDate?: string } | undefined
+        )?.electionDate ?? "") >= api.state.date,
+    )
+    .sort((a, b) => a.contestId.localeCompare(b.contestId))[0];
+  if (!campaign) return;
+  const pledges = table(api, "pledges");
+  for (const earlier of pledgesOf(api, voterId))
+    if (
+      earlier.contestId === campaign.contestId &&
+      earlier.candidateId !== campaign.candidateId
+    )
+      pledges.remove(earlier.id);
+  pledges.put({
+    id: `${voterId}|${campaign.contestId}|${campaign.candidateId}`,
+    voterId,
+    candidateId: campaign.candidateId,
+    contestId: campaign.contestId,
+    date: api.state.date,
+    canvasserId: campaign.candidateId,
+    causeId: event.id,
+    firmness: Math.max(
+      0,
+      Math.min(1, Number(facts.firmness ?? api.parameter("one"))),
+    ),
+  } as unknown as ModuleRow);
 }
 
 /**
