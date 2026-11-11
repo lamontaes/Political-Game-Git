@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-housing-apartment-gate-too-narrow
-pr:
+pr: #8562
 blocked-on:
 source: added with npm run pool -- add
 after:
