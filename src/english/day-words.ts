@@ -38,7 +38,7 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
 
 /**
  * A record's own day told as past from the day a scene plays: "yesterday",
- * "on Saturday", "on January 3rd". Null on the same day, or for a later one.
+ * "the other day", "on January 3rd". Null on the same day, or for a later one.
  */
 export function daySince(recordIso: string, playIso: string): string | null {
   const day = 24 * 60 * 60 * 1000;

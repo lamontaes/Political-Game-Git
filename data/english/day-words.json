@@ -54,14 +54,14 @@
     },
     {
       "upToDays": 6,
-      "said": "on {weekday}"
+      "said": "the other day"
     },
     {
       "upToDays": null,
       "said": "on {date}"
     }
   ],
-  "sinceAbout": "A record's own day told as past from the day a scene plays (pool item words-day-end-scene-opens-next-midnight): 'yesterday', 'on Saturday', 'on January 3rd'. Read by daySince in src/english/day-words.ts; the scene passes it to its lines as the fact since, which a sentence may use.",
+  "sinceAbout": "A record's own day told as past from the day a scene plays (pool item words-day-end-scene-opens-next-midnight): 'yesterday', 'the other day', 'on January 3rd'; never a weekday, since a scene's opening names no weekday (owner, Oct 26: \"it shouldn't say ... it's Tuesday in November\"; src/director/scene.test.ts). Read by daySince in src/english/day-words.ts; the scene passes it to its lines as the fact since, which a sentence may use.",
   "weekdays": [
     "Sunday",
     "Monday",
