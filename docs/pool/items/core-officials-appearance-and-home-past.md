@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-officials-appearance-and-home-past
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: none
 source: CTO opening root-cause report, Oct 27
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:28:47.732Z
 branch: claude/pool-core-officials-appearance-and-home-past
 ---
 
