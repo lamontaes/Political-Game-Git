@@ -19,7 +19,14 @@ describe("the job and employer reader", () => {
       employerSaid("Village of Athens treasury", {
         kind: "government-treasury",
       }),
-    ).toBe("the Village of Athens treasury");
+    ).toBe("the Village of Athens");
+    // A treasury is not an employer: the government is said (words-engine).
+    expect(
+      employerSaid("Maine treasury", { kind: "government-treasury" }),
+    ).toBe("the government of Maine");
+    expect(employerSaid("US", { kind: "government-outside" })).toBe(
+      "the federal government",
+    );
     expect(
       employerSaid("Island Falls Police Department", {
         kind: "employer",
