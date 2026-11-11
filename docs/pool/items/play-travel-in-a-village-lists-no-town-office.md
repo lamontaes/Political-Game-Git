@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-travel-in-a-village-lists-no-town-office
-pr:
+pr: #8485
 after:
 blocked-on:
 standard: 2

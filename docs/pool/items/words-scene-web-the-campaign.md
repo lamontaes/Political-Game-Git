@@ -12,7 +12,7 @@ blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-11-11T00:02:44.798Z
+claimed-at: 2026-11-11T04:27:15.810Z
 after:
 standard: 2
 model: sonnet
@@ -47,3 +47,11 @@ branch: claude/pool-words-scene-web-the-campaign
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-campaign`; last push Oct 27, 16:01 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:02 UTC) on branch claude/pool-words-scene-web-the-campaign.
+
+**Notes (builder sonnet-a266, pass 1, Nov 11).** Pull request 8369 wrote the episode packets and lists for door-ask and party-recruit (docs/design/scenes/from-life/the-first-door-of-the-day.md and the-party-asks-you-to-run.md) and regenerated the report. Left: three lines per speaker role, which are the words writer's, and the door-ask fired count (scene-web-door-ask-never-fires-in-the-report). Line 1 of that pull request is `Touches pool item:`.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:24 UTC) on branch claude/pool-words-scene-web-the-campaign.
+
+Released (2026-11-11): another session already pushed this item's packets on the branch (PR 8369); nothing left for a second builder. Continue on branch claude/pool-words-scene-web-the-campaign and pull request #8369.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:27 UTC) on branch claude/pool-words-scene-web-the-campaign.
