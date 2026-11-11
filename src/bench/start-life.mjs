@@ -252,7 +252,7 @@ export async function fileWhenFilingOpens(page, { maxWeeks = 104 } = {}) {
  * Throws when no one comes.
  */
 export async function someoneToTalkTo(page, { hours = 24 } = {}) {
-  const talkable = page.locator("#people .talkable");
+  const talkable = page.locator("#here .busts-person.talkable");
   for (let hour = 0; hour <= hours; hour += 1) {
     const found = await talkable
       .first()

@@ -58,8 +58,8 @@ try {
   assert.equal(await page.locator("#person .strip-name").innerText(), name);
   // A bust is drawn in layers (head, top, hair): one bust when the card has a face.
   assert.equal(
-    (await page.locator("#person .mxbust img").count()) > 0,
-    Boolean(card.face),
+    await page.locator("#person .mxbust .bust-stack").count(),
+    card.face ? 1 : 0,
     "the bust follows the card's face",
   );
   const text = await page.locator("#person").innerText();
@@ -107,7 +107,7 @@ try {
   console.log(
     "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
-  await page.locator("#people .talkable").first().press("Enter");
+  await page.locator("#here .busts-person.talkable").first().press("Enter");
   await page.locator("#talk:not([hidden])").waitFor();
   await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();
