@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-join-a-party-has-no-scene-and-no-headquarters
-pr:
+pr: #8453
 after:
 blocked-on:
 lead: screens
