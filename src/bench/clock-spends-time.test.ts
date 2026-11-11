@@ -97,7 +97,7 @@ it("a trip, two visits, a talk and a wait move the clock past noon", async () =>
   for (const other of ids.slice(1, 21)) {
     const opened = await ask("POST", `/api/talk/open?otherId=${other}`);
     expect(opened.status, where).toBe(200);
-    lines = (opened.json.lines ?? []).length;
+    lines = ((opened.json?.lines as unknown[] | undefined) ?? []).length;
     if (lines) break;
     await ask("POST", "/api/talk/leave");
   }
