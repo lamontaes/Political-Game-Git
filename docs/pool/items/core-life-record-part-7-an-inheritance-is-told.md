@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-life-record-part-7-an-inheritance-is-told
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: low
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:04:22.686Z
+branch: claude/pool-core-life-record-part-7-an-inheritance-is-told
 ---
 
 **What.** When someone dies and leaves money or a home, the record is kept and the heir's card says nothing, because the kind has no sentence. This part adds the row that tells it, with who left it, the year and the amount. Story writes the sentence. Seen: the heir's card, which says who left the money or home, the year and the amount.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing. Pull request #8139 is on main. The build does not wait for the sentence: its pull request names the bank spot, and Story writes it after.
 
 **Files.** src/core2/person-life.ts (new)
+
+**Notes.** Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:04 UTC) on branch claude/pool-core-life-record-part-7-an-inheritance-is-told.
