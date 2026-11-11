@@ -6,6 +6,7 @@ import {
   PLACE_PRICES_MODULE,
   adjustPrice,
   businessEnergyCostYear,
+  energyPriceRule,
   monthlyChange,
   worldGoods,
   setPlacePrice,
@@ -218,6 +219,41 @@ describe("prices a law sets", () => {
         api,
         "us-policy-positions:environment-energy.bottle-deposit",
         1_000_000,
+      ),
+    ).toBeNull();
+  });
+  it("a business's year energy cost is its energy share of the one price rule the monthly settlement charges", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [PLACE_PRICES_MODULE],
+      }),
+      api = coreAPI(core);
+    const costs = 1_234_567;
+    for (const [question, good, share] of [
+      [
+        "us-policy-positions:environment-energy.clean-electricity-standard",
+        "electricity",
+        "pricesBusinessElectricityShare",
+      ],
+      [
+        "us-policy-positions:environment-energy.price-carbon",
+        "fuel",
+        "pricesBusinessFuelShare",
+      ],
+    ] as const) {
+      const rule = energyPriceRule(api, question);
+      expect(rule, question).toMatchObject({ good, kind: "share" });
+      // The year cost is the settlement's arithmetic on that rule's value:
+      // other costs times the business share of the good times the change,
+      // and twelve months of the monthly charge add up to it.
+      const year = businessEnergyCostYear(api, question, costs)!;
+      const monthly = (costs * api.parameter(share) * rule!.value) / 12;
+      expect(year, question).toBe(Math.round(monthly * 12));
+    }
+    expect(
+      energyPriceRule(
+        api,
+        "us-policy-positions:environment-energy.bottle-deposit",
       ),
     ).toBeNull();
   });
