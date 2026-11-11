@@ -7,15 +7,15 @@ priority: 1
 size: M
 status: in-pr
 standard: 2
-claimed-by: speed-lead
-pr: #8738
+claimed-by: claude/cases-keep-counted-seekers-counted
+pr: #8861
 after:
 blocked-on:
 model: opus
 effort: medium
 root: rc5-full-detail-every-day
 lead: speed
-branch: speed/counted-cases-stay-counted
+branch: claude/cases-keep-counted-seekers-counted
 source: written by the speed lead from the Nov 11 counts (#7365)
 ---
 
@@ -33,4 +33,6 @@ source: written by the speed lead from the Nov 11 counts (#7365)
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/constituent-cases.ts, src/core2/modules/speech.ts, src/core2/constituent-cases-counted.test.ts
+**Files.** src/core2/modules/constituent-cases.ts, src/core2/modules/speech.ts, src/core2/modules/constituent-cases-counted.test.ts
+
+Taken over by opus-5251 (Nov 11, the lead's call): pull request 8861 replaces #8738, built on that day's main. #8738's test failed because its resident was full from the opening (`countedSinceOpening` counts people the opening filled in), not because anything filled them in.
