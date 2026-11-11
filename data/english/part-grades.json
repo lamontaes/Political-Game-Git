@@ -1864,23 +1864,7 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
-    "scene-talk.reply-request.i-need-you-with-me-on-this-can-you-take-the-school-nights-when-i-m-out": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
     "scene-talk.reply-request.more-people-knocking-on-doors-bring-a-friend-next-time": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "scene-talk.reply-request.will-you-help-with-the-campaign-i-ll-keep-the-money-out-of-it-if-you-do": {
       "good": 0,
       "bad": 1,
       "fix": 0,
@@ -2027,14 +2011,6 @@
     "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill": {
       "good": 1,
       "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "scene-talk.state-ask.our-savings-cover-cushion-of-what-the-paychecks-don-t-and-the-race-runs-remainin": {
-      "good": 0,
-      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,

@@ -281,7 +281,6 @@ describe("relative days in scene narration", () => {
 const EVENING_AHEAD = new Set([
   "scene-talk.reply-stall.let-me-read-it-tonight",
   "scene-talk.follow-answer.i-m-still-finding-out-i-ll-have-names-tonight",
-  "scene-talk.reply-deflect.i-was-going-to-tell-you-tonight",
   "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
   "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
   "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
@@ -320,10 +319,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.follow-thank.i-ll-write-it-tonight",
   "scene-talk.reply-offer.my-office-will-give-you-the-name-and-the-number-tonight",
   "scene-talk.follow-thank.tonight-thank-you",
-  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
-  "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
-  "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
-  "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
   "scene-talk.follow-thank.thank-you-i-ll-tell-the-floor-tonight",
   "scene-talk.follow-accept.all-right-i-ll-go-out-first-tonight-so-they-hear-it-from-me",
   "scene-talk.follow-refuse.then-you-ll-be-speaking-alone-tonight-i-ll-speak-when-the-count-is-fin",
