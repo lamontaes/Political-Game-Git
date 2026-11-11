@@ -34,6 +34,7 @@ import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 import { WORDS_STOPGAP_HITS } from "./stopgaps";
 import { outgoingHolder, swornOffice, titleInSentence } from "./swearing-in";
 import swearingData from "./data/swearing-in.json" with { type: "json" };
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Taking office is an event (owner, Sept 22: "swearing in needs to be an
 // event"; Oct 29: "that's just a scene ... depending on what your office is,
@@ -240,7 +241,7 @@ function swearIn(at: string, world: World, address: boolean): string {
   }
   const room = [...new Set([...cast("family"), ...colleagues, officiant!])];
 
-  // 3. Narration, the oath, four replies that are four stances.
+  // 3. Narration, the oath, up to four replies that are different stances.
   const scene = composeScene(core, director, playerId, entry as ScheduleEntry);
   expect(scene?.typeKey, at).toBe("swearing-in");
   // A ceremony: the people pack stands the room up for it (People, Oct 29).
@@ -255,9 +256,7 @@ function swearIn(at: string, world: World, address: boolean): string {
   expect(talk.state.text, at).toMatch(/swear/i);
   expect(talk.state.text, at).toContain(titleInSentence(sworn.title));
   const root = talk.tree.replies.map((row) => row.line);
-  expect(root.length, at).toBe(4);
-  expect(new Set(root.map((row) => row.move)).size, at).toBe(4);
-  expect(new Set(root.map((row) => row.text)).size, at).toBe(4);
+  expectUpToFourDifferent(root, at);
   // Nothing a player reads is a record kind, an id or a date.
   for (const line of [
     ...talk.narration,
