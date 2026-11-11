@@ -45,6 +45,7 @@ Stop at the first hit that answers; read it whole.
   `Read: OWNER-DECISIONS (through <date>), DECISION-REGISTER, prior-rulings/<area>.md, LAW; searched docs/ and pool for: <terms>; Drive: <searched | no connector>.`
   A question without the line is sent back (merger, CTO, the owner's local session).
 - **Two rulings conflict:** the newer wins unless the older makes more sense; flag it in OWNER-DECISIONS under the CTO's hand.
+- **Before a question goes to the owner's page, open the item, the code it names and `docs/coordination/OWNER-DECISIONS.md` (grep the subject).** A sweeper's or a helper's one-line reason is not a reading. On Nov 10 three questions were written from one-line reasons and sent to him. Two were already answered (the discrimination ban, ruled Oct 24 and Oct 26, "I said yes"; town events, asked for Nov 1) and one named laws that already worked. He answered a question he had settled twice. This is the CTO's rule for both of them from that night.
 
 ## The owner's standing answers (so they are never asked again)
 

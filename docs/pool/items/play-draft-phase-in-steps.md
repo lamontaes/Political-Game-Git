@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-draft-phase-in-steps
+pr: #8457
 blocked-on: gov-m3-01-phase-in-by-dated-steps
 source: "governing lead and the lane, Oct 30 (the screen half of gov-m3-01-phase-in-by-dated-steps)"
 lead: play-first
@@ -18,6 +18,8 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:54:05.682Z
+branch: claude/pool-play-draft-phase-in-steps
 ---
 
 **What.** A seated member can draft a raise in dated steps: the engine's `seatAct` takes steps of a value and an effective date for a law amount, and each step is a dated section of the one bill, whose law in force follows each date. The play screen cannot reach it yet, because the server route and the draft card pass a single amount. The route needs a steps parameter, `onDraft` in src/bench/play.mjs builds the act's parameters, and the draft card needs an amount and a date for each step.
@@ -41,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** The draft card with two steps filled in, and the bill paper with both dated sections.
 
 **Notes.** Filed by the governing lead at the lane's request (Oct 30). The engine half is branch governing/phase-in-dated-steps.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:54 UTC) on branch claude/pool-play-draft-phase-in-steps.

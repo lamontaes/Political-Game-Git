@@ -35,6 +35,7 @@ import {
   type Order,
   readOrder,
   timeBoxHours,
+  visibleRank,
 } from "./order";
 import {
   needsCause,
@@ -43,6 +44,7 @@ import {
   feedsId,
   section,
   standardProblems,
+  seenLine,
 } from "./standard";
 
 export { section };
@@ -464,6 +466,7 @@ export function run(
         ...(needsCause(fm, text) ? { "needs-cause": "1" } : {}),
         "waits-on": section(text, "Waits on"),
         "time-box": section(text, "Time box"),
+        shown: seenLine(section(text, "What"))?.kind ?? "",
       };
       items.push(row as Item);
     }
@@ -930,10 +933,54 @@ function prState(pr: string): string | null {
   }
 }
 
+/**
+ * How many game pull requests are open, asked of gh's search: the open pull
+ * requests that are not drafts, less those whose body says `Touches pool
+ * item` (pool notes, rules, skills and docs). Null when gh cannot say.
+ */
+function openGamePullRequests(): number | null {
+  try {
+    const url = execFileSync("git", ["remote", "get-url", "origin"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    const slug = /github\.com[:/]([^/\s]+\/[^/\s]+?)(?:\.git)?\s*$/.exec(
+      url,
+    )?.[1];
+    if (!slug) return null;
+    const count = (rest: string): number =>
+      Number(
+        execFileSync(
+          "gh",
+          [
+            "api",
+            "-X",
+            "GET",
+            "search/issues",
+            "-f",
+            `q=repo:${slug} is:pr is:open draft:false${rest}`,
+            "--jq",
+            ".total_count",
+          ],
+          { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+        ).trim(),
+      );
+    const open = count("");
+    const notes = count(' "Touches pool item" in:body');
+    return Number.isInteger(open) && Number.isInteger(notes)
+      ? open - notes
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Where `next` prints, and a hook tests use to run another caller between the claim and its push. */
 export interface NextIO {
   out: (line: string) => void;
   beforePush?: () => void;
+  /** How many game pull requests are open; asked of gh when unset. */
+  openGame?: () => number | null;
   /** Where the stage lines go; standard error when unset, so the result lines stay the same. */
   progress?: (line: string) => void;
 }
@@ -1040,6 +1087,8 @@ function next(
     const cmp = makeOrder(items, order);
     const ready = items
       .filter((i) => claimable(i, onMain, known) && (!kind || inKind(i, kind)))
+      // While the cap is on, only what still comes first is handed out.
+      .filter((i) => !capLine || visibleRank(i, order) === 0)
       .sort(cmp);
     for (const l of levels) {
       const hit = ready.find((i) => i.model === l);
@@ -1047,9 +1096,30 @@ function next(
     }
     return null;
   };
-  const none = kind
-    ? `No ${kindName} item is left for your tier (${tier}) or any tier below it.`
-    : `No item is ready for tier ${tier} or any tier below it.`;
+  const capped = (): string | null => {
+    // The cap on new work (order.json `cap`; skill pool-notes).
+    const most = order.cap?.openGamePullRequests;
+    if (!most) return null;
+    stage("Counting the open game pull requests.");
+    const open = (io.openGame ?? openGamePullRequests)();
+    if (open === null) {
+      // Said with the stage lines, so the result lines stay the same.
+      stage(
+        "Could not count the open pull requests, so the cap was not checked.",
+      );
+      return null;
+    }
+    return open > most
+      ? `The cap is on: ${open} game pull requests are open and the cap is ${most} (docs/pool/order.json). Only a red on main, a rule, a check or a skill is handed out. Otherwise take no new item: fix what a desk sent back on your own pull requests, bring your open pull requests up to main, then stop and say so (skill pool-notes).`
+      : null;
+  };
+  const capLine = capped();
+  if (capLine) io.out(capLine);
+  const none = capLine
+    ? "Nothing that comes before the cap is ready for your tier."
+    : kind
+      ? `No ${kindName} item is left for your tier (${tier}) or any tier below it.`
+      : `No item is ready for tier ${tier} or any tier below it.`;
   const staleLine = (s: Stale): string =>
     `no push to ${s.branch || "its branch"} since ${when(s.last)}, more than twice its ${s.hours}-hour time box`;
 
