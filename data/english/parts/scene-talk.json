@@ -127129,10 +127129,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.all-right-call-me-back-before-deadline",
+      "key": "scene-talk.close-accept.alright-call-me-back-before-deadline",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Call me back before {deadline}.",
+      "text": "Alright. Call me back before {deadline}.",
       "uses": [
         {
           "subject": "scene",

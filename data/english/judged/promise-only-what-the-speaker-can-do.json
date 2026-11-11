@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "promise-only-what-the-speaker-can-do",
   "rubric": "A line promises only what the speaker can do (\"I'll call you\" to a stranger in a grocery store fails).",
-  "judged": 141,
+  "judged": 149,
   "no": {},
-  "yesHash": "1kml15jpqlb"
+  "yesHash": "1ds0rtljdj3"
 }
