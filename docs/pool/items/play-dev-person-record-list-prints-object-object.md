@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-play-dev-person-record-list-prints-object-object
+claimed-by:
 pr: #8279
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:19:16.920Z
+claimed-at:
 merged-at:
 branch: claude/pool-play-dev-person-record-list-prints-object-object
 ---
@@ -43,3 +43,5 @@ branch: claude/pool-play-dev-person-record-list-prints-object-object
 Not seen in the game (2026-11-11, second-session-2): Montrose-Ghent, Ohio (drawn), seed 90a76187-ae98-4af3-a656-fce5dcce9b65, main fab03930: dev mode person card Records shows no object text but two slots read 'director null' and 'pending null' instead of a record id; ids otherwise listed and Trace opens
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:19 UTC) on branch claude/pool-play-dev-person-record-list-prints-object-object.
+
+Released (2026-11-11): Already built and merged by another session in #8279 (merged Nov 11 00:51Z); the item is waiting on its status flip and a second session's check, nothing for a builder. Continue on branch claude/pool-play-dev-person-record-list-prints-object-object and pull request #8279.
