@@ -70,3 +70,78 @@ Steps, each its own pull request with a records and results proof:
 Proof for step 1, in order: (a) the records proof on Dickey n8g7 shows only the views, drives and speech tables differ and every watched person's rows are identical; (b) for one race, the sum of the unwatched people's stance moves by person (the old path, kept in the test only) equals the group's shift within rounding; (c) election results (winners, margins, turnout) on three drawn places stay in real ranges and the winners match the old path's in all but a stated few; (d) year times in alternating pairs on Montpelier VT (mont1, 5046000) and Gunnison UT (n8f6, 4932660). Expected saving: most of the 19 s of fan-out in Montpelier's election year, and the emit share of Gunnison's town halls.
 
 Not started in code at the time of writing; the first session to pick this up begins at step 1 on a branch from main.
+
+## Stage 3: a world campaign's turn as one result by voter group (Speed lead, Nov 11)
+
+Status: proposed for Fable B's review on #7365; no code yet.
+
+### Why the whole turn, not events first
+
+Measured in South Hooksett, New Hampshire (3371220), seed s8333, on #8738's branch:
+
+- **The cost.** World campaigns are about 40% of an election year: 223 to 282 s of a 588 to 721 s year 4. In the year 4 profile:
+  - a candidate's day choice 94 s;
+  - door shifts 37 s;
+  - messages, mail and ads about 40 s;
+  - asks for support 14 s;
+  - groups weighing the race 26 s;
+  - stance reads 64 s across all of them.
+- **Events alone are not the lever.** With world candidates holding no events at all (an ablation), year 4's campaign work was still 223 s and the year no faster. The candidate spends the turn on doors, calls, mail and ads instead, and each act reaches people one at a time.
+- **The volume.** A funded world candidate holds an evening event on nearly every turn. That is `elections-world-candidate-event-every-turn`, for the elections lead. Fewer, real campaign days cut every act at once, and come first.
+
+### The unit and who stays a person
+
+- **The unit:** one world candidate's turn (`campaignTurn`, `src/core2/modules/campaigns.ts`) in a race the player is not in. The player is not a candidate, staffer or volunteer in it, and does not watch any of its candidates.
+- **Who is reached as a person, as today:** anyone `hearsAsPerson` (`src/core2/hearer-groups.ts`): the player, their household and circle, people in focus, state and federal officials. Also the campaign's own candidate, family, volunteers and staff.
+- **Everyone else who is a full person in town:** reached as a member of their hearer group (`groupKeyOf`: place, rounded lean, age band, how readily they yield). This is the group speeches already use (stage 1).
+- **Counted residents:** they keep the counted path they already take (`countedReached`, `countedAgreement`).
+
+### What a group result holds
+
+One row per hearer group and candidate, in a new `groupImpressions` table of the campaigns engine, keyed `${groupId}|${candidateId}`:
+
+| Field           | Meaning                                   |
+| --------------- | ----------------------------------------- |
+| `members`       | full people in the group in town          |
+| `heard`         | how many have heard of the candidate      |
+| `knowsPlatform` | how many know the platform                |
+| `warmth`        | the members' mean warmth                  |
+| `contacts`      | the campaign's contacts with them, summed |
+| `contestId`     | as on an impression row                   |
+
+Each act writes its reach into it by the same rule `reach` applies to a person, with the share of the group the act reached as its exposure:
+
+- doors: the walk's households in the group;
+- mail and ads: the share the money buys;
+- an evening event: the share who come, by `comes` read once for the group's mean reasons and mean trait term;
+- an interview: the outlet's followers in the group.
+
+Money stays per person in this stage: asks for donations and their journal postings do not change.
+
+### Every reader, and how it reads a group
+
+A full person with no impression row of their own reads their group's row, by the rule a counted voter's share is read:
+
+| Reader                                                                                                   | Today                                                        | With a group                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `appealFor` (`voting.ts`)                                                                                | heard yes or no; warmth; agreement if they know the platform | recognition × the group's `heard` share; mean warmth; agreement × the `knowsPlatform` share. This is the same shape as `countedAppeal`'s recognition. |
+| `contestView` / `townShareKnowing` (`voting.ts`)                                                         | counts named adults with `heardOf`                           | adds each group's `heard` count                                                                                                                       |
+| `contactsOf` / `townContacts` (`voting.ts`)                                                              | sums `causes`                                                | adds the group's `contacts` per member                                                                                                                |
+| `campaignRecognition` (`campaigns.ts`), `knownShare`, `newsworthiness` and `outletInterest` (`press.ts`) | count `heardOf` rows                                         | add groups' `heard` counts                                                                                                                            |
+| `reachablePeople` (`campaigns.ts`)                                                                       | everyone who heard of the candidate                          | individuals only, plus each group as one entry for the turn's acts                                                                                    |
+| `commissionPoll` (`campaigns.ts`)                                                                        | respondents' rows for this contest                           | a respondent with no row answers from their group's row (part 1 of `core-speed-world-campaign-days-as-group-results`)                                 |
+| `backingReasons`, `volunteerReason` and `donorMeetingInvitees` (`campaigns.ts`)                          | warmth                                                       | the group's mean warmth for a member with no row                                                                                                      |
+| `wordReading` (`campaigns.ts`)                                                                           | the candidate's own circle                                   | unchanged; the circle stays individual                                                                                                                |
+| director (`doors.ts`, `purpose-scene.ts`)                                                                | the player's door rows                                       | unchanged; the player's campaign is not a world campaign                                                                                              |
+
+When a member becomes watched (met, clicked, joins the circle), they take the group's row as their own impression at that moment, so nothing jumps.
+
+### Parts, each its own pull request
+
+1. The `groupImpressions` table, its write rule (the same one as `reach`), and the read in `impressionOf` for a member with no row. Readers stay unchanged, and nothing writes the table yet. Proof: the records digest equals main's.
+2. Voting reads groups by share (`appealFor`, `contestView`, `contactsOf`) and the press counts them. The table is still empty, so play is identical. Proof: digest equal.
+3. World campaigns write group results for mail, ads and messages. Proof: winners and shares against main, and year time.
+4. Doors and volunteer shifts, then evening events and statements, the same way.
+5. Polls and asks for support.
+
+Each part from 3 onward reports, against main on the same seed: every race's winner and vote shares, turnout, the town's recognition of each candidate, and years 1 to 4 in alternating pairs. Any winner that changes is a line to Fable B before the part goes ready.
