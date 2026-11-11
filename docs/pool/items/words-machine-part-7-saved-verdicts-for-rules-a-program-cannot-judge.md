@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
 pr: #8522
 after:
 blocked-on:
@@ -18,7 +18,7 @@ root: design-words-machine
 source: written by Fable, Nov 10, 2026, from the CTO's line of 18:50Z on issue 7365 (the saved-verdict store for the meaning-and-tone rules is part of the test parts) and docs/design/words-machine.md
 checked: fable 2026-11-10
 merged-at:
-claimed-at:
+claimed-at: 2026-11-11T06:30:48.188Z
 branch: claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
 ---
 
@@ -49,3 +49,5 @@ Nov 11 (cause finder for Fable B): the store from the earlier Fix is on main and
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:26 UTC) on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge.
 
 Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge and pull request #8522.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:30 UTC) on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge.
