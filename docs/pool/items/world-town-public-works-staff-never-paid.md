@@ -12,8 +12,8 @@ pr:
 after:
 blocked-on:
 lead: jobs
-model: sonnet
-effort: high
+model: haiku
+effort: low
 root: none
 source: added with npm run pool -- add
 claimed-at:
@@ -22,11 +22,11 @@ checked: fable 2026-11-10
 
 **What.** In a played year at Morrison, Oklahoma (place 4049450, seed 35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3) the only earner in the player's household is a maintenance worker at "Morrison Public Works Department" (organization_f65162fe1649d10c, sector local-government-office). The department opens with liquidMinor 0 and has no business book, and after 40 days it still holds 0, so work-payroll posts no payment to the household in 12 months; the household's cash falls from $1,964 to 0 by month 2 and stays there. src/core2/player-money-year.test.ts failed there on the payroll line. Other places pay their town staff, so the funding link from the town's budget to the department is missing in this place, or the department is never given a budget line. On Oct 20 it did not reproduce on main, but a later branch found the staff paid in some runs of this seed and not in others.
 
-**Cause.** Needs cause. Looked at the item's Notes and src/core2/player-money-year.test.ts: in Morrison, Oklahoma (place 4049450, seed 35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3) the staff were paid or not depending on the order of reads (runs that first read the town, county, department and treasury balances paid), the named test passed on main on Oct 20, and no cause is named in the code.
+**Cause.** Measured: does not reproduce on main d64255aa (Nov 11). `GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts` (Morrison, Oklahoma) passed twice in a row. A probe outside the repository built the same world with `buildBenchWorld`, played 75 days and read `core.work.totalsByJob` for every town job: each is paid on its paydays with no arrears. The public works post is now job:public:town:public-works:person_95aed3bcb20f9b47 under the town's treasury ("TOWN OF MORRISON treasury"), paid 4,266.40 dollars of 5,907.33 requested so far (the rest falls after the last payday). The police chief, fire chief, clerk, planner, attorney, finance director, health department and school staff are paid the same way. The department with no cash that the item describes no longer carries the job: town posts are held under the treasury now.
 
-**Fix.** None until the cause is found.
+**Fix.** Nothing to build. The CTO drops the item as done by main. If a town job again goes unpaid, file a new item with its place, seed and the job's `totalsByJob` row.
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the player's household pay in Morrison, Oklahoma, where the town never pays its maintenance worker.
+**Time box.** 0.5 hours for the CTO to read this and drop the item. Seen: the player's household pay in Morrison, Oklahoma, where the town never pays its maintenance worker.
 
 **Rules.** Wire to the world: a town job pays from the town's budget through the journal, one dollar followed from the budget line to the worker. One rule, all 56 places: no place named. No dice: the budget and the law in force decide whether the department is funded.
 
@@ -45,3 +45,5 @@ Sent back 2026-10-20 from PR #5554 (branch claude/political-game-pool-yucp92-xx)
 **What I found (Oct 20, claude/town-staff-paid).** The department's staff are paid in some runs of this seed and not in others, so the first thing to settle is why a seed does not reproduce. Runs of Morrison, Oklahoma (place 4049450, seed 35ae004f…) built with `buildBenchWorld` and advanced 45 days: some never paid (the worker's `totalsByJob` showed `paidMinor` 0, `requestedMinor` 479374, `workedDays` 33, and no `work-payroll` entry reached the worker's account); others posted `work-payroll:2025-02-13` and `2025-02-27` (130,738 and 145,265 minor) and showed `paidMinor` 276,003. The runs that paid were the ones whose script had first read account balances of the town, county, department, state office, post office and the U.S. treasury, or `accounts().main(worker)`. `accounts().main` only reads `cashJournal.residualAccountByOwner`, so the difference may be time or order (the public-pay link to the treasury `organization:treasury:place:4049450`), not that call. Next step: build the same world twice in one process and compare `publicPayTreasuries(core)` shortfalls and the department's cash at day 14. The player-home hold in PR #5473 is not the cause.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+Nov 11 (cause finder for Fable B): reran on main d64255aa. The named test passes twice, and every town job in Morrison is paid by day 75 with no arrears, the public works post included (now held under the town's treasury). I propose dropping the item as done by main.
