@@ -559,7 +559,19 @@
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
-    "officeHours": "Office hours"
+    "officeHours": "Office hours",
+    "aides": "Your staff",
+    "hire": "Hire",
+    "aideRole": "Aide",
+    "reasons": {
+      "work": "Work",
+      "reach": "Lives near",
+      "workingAge": "Age for the work",
+      "known": "Knows you",
+      "family": "Family"
+    },
+    "fromKnown": "Someone you know",
+    "fromApplicant": "Applied"
   },
   "officeStops": {
     "aYear": "a year",
