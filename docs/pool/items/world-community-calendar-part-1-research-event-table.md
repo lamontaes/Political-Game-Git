@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-community-calendar-part-1-research-event-table
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: design-life-record
 source: split from world-community-calendar in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:20:49.146Z
+branch: claude/pool-world-community-calendar-part-1-research-event-table
 ---
 
 **What.** A played town has no community events at all: no county fair, Fourth of July parade, harvest or heritage festival, homecoming game, school play, church supper or club meeting. Before any engine work, build the table the rest of the calendar reads: for each kind of place and size, which annual community events happen, in which season or on which date rule, and how large they are. Every row is tagged SOURCED with a citation or ESTIMATED with its source and spread, and the table must resolve every one of the 56 places to a place type so no town is named in logic.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/data/world/community-events.json (new), src/core2/community-events-table.ts (new), src/core2/community-events-table.test.ts (new)
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:20 UTC) on branch claude/pool-world-community-calendar-part-1-research-event-table.
