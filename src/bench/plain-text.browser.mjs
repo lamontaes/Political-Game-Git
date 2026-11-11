@@ -18,8 +18,11 @@ const shots = process.env.PLAIN_TEXT_SHOTS;
 const found = [];
 // What developer text looks like once a screen draws it.
 const tells = [
-  // "Act 2025-12" is a statute's number, not a date.
-  ["an ISO date", /(?<!\bActs? )\b\d{4}-\d{2}(?:-\d{2})?\b/],
+  // "Act 2025-12" and "Ordinance 2025-18" are a law's number, not a date.
+  [
+    "an ISO date",
+    /(?<!\b(?:Acts?|Ordinances?|Resolutions?|Measures?) )\b\d{4}-\d{2}(?:-\d{2})?\b/,
+  ],
   ["a field name", /\b[a-z]+[A-Z][A-Za-z]*\b/],
   ["a status code", /\b[a-z]+(?:-[a-z]+)+\b/],
   ["a status code", /\b[A-Z]+(?:-[A-Z]+)+\b/],
@@ -47,6 +50,14 @@ const words = new Set([
   "co-op",
   "e-mail",
   "x-ray",
+  "same-day",
+  "self-defense",
+  "assessor-collector",
+  "pre-k",
+  "well-being",
+  "cost-of-living",
+  "on-site",
+  "non-profit",
 ]);
 async function read(screen, selector) {
   // Each visible text node by itself, so neighboring buttons never run together.
