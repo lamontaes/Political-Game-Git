@@ -40,6 +40,7 @@ import {
   needsCause,
   readRoots,
   repoAt,
+  feedsId,
   section,
   standardProblems,
 } from "./standard";
@@ -471,6 +472,13 @@ export function run(
   for (const i of items)
     for (const a of ids(i.after))
       if (!known.has(a)) errors.push(`${i.id}.md: after "${a}" is not an item`);
+  for (const i of items) {
+    const feeds = feedsId(
+      section(readFileSync(join(dir, `${i.id}.md`), "utf8"), "What"),
+    );
+    if (feeds && !known.has(feeds))
+      errors.push(`${i.id}.md: Feeds: "${feeds}" is not an item`);
+  }
   const index = buildIndex(items, readOrder(poolDir));
   const path = join(poolDir, "INDEX.md");
   if (check) {
@@ -727,13 +735,14 @@ const ADD_FLAGS = [
   "effort",
   "root",
   "lead",
+  "seen",
 ] as const;
 
 const TEMPLATE = (f: Record<string, string>, id: string): string => {
   const box = /^\d+(?:\.\d+)?$/.test(f.timebox)
     ? `${f.timebox} hours`
     : f.timebox;
-  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
+  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what} ${f.seen}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
 };
 
 /** What `seen` must be told: who looked, where, on which seed and commit, and what was on screen. */
@@ -1406,7 +1415,7 @@ export function command(
       );
     } else if (cmd === "add") {
       if (!id)
-        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
+        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> --seen '<Seen: ..., Feeds: <item id> ... or Guards: ...>' [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
       f.size = f.size || "M";
       const edit = (): void => {
         if (existsSync(itemPath(id))) throw new Error(`${id} already exists`);
