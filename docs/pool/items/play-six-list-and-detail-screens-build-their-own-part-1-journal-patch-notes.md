@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-six-list-and-detail-screens-build-their-own-part-1-journal-patch-notes
-pr:
+pr: #8488
 after:
 blocked-on:
 lead: screens
