@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:25:55.523Z
+claimed-at:
 branch: claude/pool-tests-law-wiring-labor-one-subject-per-test
 ---
 
@@ -46,3 +46,5 @@ Released (2026-11-11): a builder claimed this and did not start it (its draft sa
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:21 UTC) on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
 
 Released (2026-11-11): Reproduced on main 2026-11-11 (one run, 249 s, seed 2804b6fc1159bf058ba3f9e9e104c698a67de9c2): 'no place with a subject' after ten tries, each missing a different subject (no claimant earns above the weekly maximum x3, no seated council member x5, no teacher in the town, no full or counted jobs). The Fix (one test per labor law, each building its own subject through the core's seams, under 60 s) is a six-hour split of src/core2/law-wiring-labor.test.ts I did not start; the seams per subject are the open work. Continue on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
+
+Released (2026-11-11): Read src/core2/law-wiring-labor.test.ts again: run(specId) (line 140 to about 690) is one 550-line flow that sets every labor law in the same world (repeals on day 0, grant on day 2, drafts and claims on day 5, a claim above the weekly maximum, teacher re-rate, council draft) and reads their effects together in one pass, so a per-law split is a rewrite of that function with each law's setup and read separated, not a search change. Not started; needs a six-hour session with the labor lead. Continue on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
