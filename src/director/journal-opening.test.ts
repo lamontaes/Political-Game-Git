@@ -9,8 +9,6 @@ import { gameStartDate } from "../core2/game-start";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
-import { PAST_WORK_SPELL, pastWorkOf } from "../core2/past";
-import type { CoreState } from "../core2/types";
 import { employerSaid, jobSaid } from "../english/journal-words";
 import { properName } from "./words";
 import { writeFileSync } from "node:fs";
@@ -168,27 +166,40 @@ it(`the first note says each thing once and names each parent's employer (seed $
       (said, at) => sentences.indexOf(said) !== at,
     );
     expect(twice, `${where}: said twice`).toEqual([]);
-    // Each parent's job change names the employer of that parent's spell.
-    for (const fact of player.pastFacts ?? []) {
-      if (!["family:parent", "family:other-parent"].includes(fact.kind))
-        continue;
-      const parentId = fact.facts!.otherPersonId! as PersonId;
-      for (const spell of pastWorkOf(core as CoreState, parentId)) {
-        if (spell.kind !== PAST_WORK_SPELL) continue;
-        // The job-change line is the spell's own moment (the line of what
-        // they do now cites the spell too, by the job held on day one).
-        const line = lines.find((row) => row.momentIds.includes(spell.id));
-        if (!line) continue;
-        const org = core.organizations.get(String(spell.facts.organizationId));
-        expect(
-          org,
-          `${where}: ${spell.id} told with no employer`,
-        ).toBeDefined();
-        const name = employerSaid(properName(org!.name), org!);
-        expect(line.sourceRecordIds, `${where}: ${spell.id}`).toContain(
-          org!.id,
+    // The note on the family's work is one sentence per person (lead, Nov
+    // 11): each opens on who they are with their name ("My father Tracy"),
+    // nobody is the subject of two, and none opens on a time that points
+    // back ("A year and a half on,").
+    for (const row of lines.filter((line) =>
+      line.momentIds.some((id) => id.startsWith("livelihood:")),
+    )) {
+      const said = row.text.split(/(?<=[.!?])\s+/);
+      const subjects = said.map(
+        (sentence) =>
+          /^My [a-z]+(?: [a-z]+)? ([A-Z][a-z]+)\b/.exec(sentence)?.[1],
+      );
+      expect(subjects, `${where}: "${row.text}"`).not.toContain(undefined);
+      expect(
+        subjects.filter((name, at) => subjects.indexOf(name) !== at),
+        `${where}: "${row.text}"`,
+      ).toEqual([]);
+      // Each relative's employer, as the reader says it, is in their sentence.
+      for (const id of core.households.get(player.householdId)?.memberIds ??
+        []) {
+        const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
+        const org = job
+          ? core.organizations.get(job.organizationId)
+          : undefined;
+        const name = core.people.get(id)?.givenName;
+        const sentence = said.find(
+          (text) => name && text.includes(` ${name} `),
         );
-        expect(line.text, `${where}: ${spell.id}`).toContain(name);
+        if (!org || !sentence || org.kind === "outside-market") continue;
+        // Someone who holds an office is told by the office alone.
+        if (!sentence.includes(jobSaid(job!.title))) continue;
+        expect(sentence, `${where}: ${id}`).toContain(
+          employerSaid(properName(org.name), org),
+        );
         parentJobs += 1;
       }
     }

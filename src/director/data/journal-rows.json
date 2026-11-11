@@ -522,11 +522,6 @@
       "follow": ["togetherFor"]
     },
     {
-      "kindPrefix": "household:moment:parent-new-job",
-      "turn": false,
-      "entry": "story"
-    },
-    {
       "kindPrefix": "household:parents-met:hometown",
       "turn": false,
       "entry": "story"
@@ -572,6 +567,16 @@
       "turn": false,
       "entry": "story",
       "framesAge": true
+    },
+    {
+      "kindPrefix": "household:livelihood:since",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:moved",
+      "turn": false,
+      "entry": "story"
     },
     {
       "kindPrefix": "household:livelihood",
