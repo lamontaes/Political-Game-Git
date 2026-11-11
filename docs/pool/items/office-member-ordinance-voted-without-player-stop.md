@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-office-member-ordinance-voted-without-player-stop
 pr: #8807
