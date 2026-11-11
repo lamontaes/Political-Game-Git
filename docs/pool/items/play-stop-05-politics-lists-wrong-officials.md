@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
+status: open
+claimed-by:
 pr: #8261
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T07:26:36.345Z
+claimed-at:
 branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 ---
 
@@ -69,3 +69,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released by next (2026-11-11): no push to claude/pool-play-stop-05-politics-lists-wrong-officials since 2026-11-10 23:00 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:26 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Replayed headlessly in three drawn places (no screens): senators and legislators now right except Tocsin, Indiana, which lists no U.S. representative or state legislator among its seats, and no drawn place had a mayor; evidence on #8261. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
