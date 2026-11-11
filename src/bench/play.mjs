@@ -3457,8 +3457,37 @@ const sheets = {
           ]),
     );
     work.classList.add("job-plate");
+    // The jobs open in town, from the position records; shown to a person with no job.
+    const { openings } = job
+      ? { openings: [] }
+      : await api(`/api/openings?id=${encodeURIComponent(me.id)}`);
     return [
       work,
+      ...(job
+        ? []
+        : [
+            plate(
+              labels.openings,
+              ...(openings.length
+                ? openings.flatMap((o) => [
+                    heading(o.title, "h3"),
+                    ...(o.employer ? [prose(o.employer, "job-employer")] : []),
+                    row(
+                      labels.pay,
+                      `${moneyWords(o.hourlyMinor)} ${labels.hourly}`,
+                    ),
+                    ...(o.hoursDaily !== null
+                      ? [
+                          row(
+                            labels.hours,
+                            `${Number(o.hoursDaily.toFixed(1))} ${labels.daily}`,
+                          ),
+                        ]
+                      : []),
+                  ])
+                : [prose(labels.noOpenings, "record-empty")]),
+            ),
+          ]),
       ...(worked.length
         ? [plate(labels.workAndSchool, ...lifeParagraphs(worked))]
         : []),
