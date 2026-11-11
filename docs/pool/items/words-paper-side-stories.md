@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-paper-side-stories
 pr: #8439
 blocked-on:
