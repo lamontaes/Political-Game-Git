@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-world-town-net-moving-negative
-pr: #4938
+pr: #8528
 after:
 blocked-on:
 lead: m0-m2
