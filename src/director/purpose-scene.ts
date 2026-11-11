@@ -27,10 +27,7 @@ import {
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
-import {
-  isExplicitlyControlledPersonV1,
-  playerClockFrontierV1,
-} from "../core2/life";
+import { dayParts, sceneMinute } from "./day-part";
 import {
   corePlaceByJurisdictionId,
   coreStateKeyOfJurisdictionId,
@@ -1676,29 +1673,6 @@ function walkThroughFacts(
       ? { outlet: { text: paper, sourceRecordIds: [outlet.id] } }
       : {}),
   };
-}
-
-const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;
-const EVENING_FROM = rulesFile.timeOfDay.eveningFromMinute.value;
-
-/** The marks a scene's hour gives its lines: the daytime and its half, or the evening. */
-function dayParts(minute: number | undefined): readonly string[] {
-  if (minute === undefined) return [];
-  if (minute >= EVENING_FROM) return ["evening"];
-  return ["daytime", minute >= AFTERNOON_FROM ? "afternoon" : "morning"];
-}
-
-/**
- * The minute of the day a scene plays at: the player's clock, where the
- * person is the one the player controls and the clock stands on today.
- */
-function sceneMinute(
-  core: Readonly<CoreState>,
-  personId: PersonId,
-): number | undefined {
-  if (!isExplicitlyControlledPersonV1(core, personId)) return undefined;
-  const now = playerClockFrontierV1(core as CoreState, personId);
-  return now?.date === core.date ? now.minuteOfDay : undefined;
 }
 
 /** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */

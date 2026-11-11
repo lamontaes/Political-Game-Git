@@ -27,7 +27,9 @@
     "about": "The policy question the reporter asks about, as a noun phrase that reads after 'on' or 'about', from the question's spoken name (data/english/question-names.json).",
     "to": "The same question as a verb phrase that reads after 'to', from the question's spoken name (data/english/question-names.json).",
     "rival": "A rival on the same ballot, by name, from their filing.",
-    "president": "The President's name, from the officials engine's record of who holds the office, as the opening story names them."
+    "president": "The President's name, from the officials engine's record of who holds the office, as the opening story names them.",
+    "about-said": "What the talk just had was about, from its first topic's record: an employer, a school, a town, a news story or a relative, as that topic said it.",
+    "daypart": "The part of the day as said in passing (\"this morning\", \"tonight\"), from the player's clock as the scene plays (data/english/day-words.json)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -130,6 +132,11 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello"
+        },
+        {
+          "move": "greet-opener",
+          "subject": "greet",
+          "role": "opener"
         }
       ],
       "transcriptsUsing": 304,
@@ -171,6 +178,11 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello"
+        },
+        {
+          "move": "greet-opener",
+          "subject": "greet",
+          "role": "opener"
         }
       ],
       "transcriptsUsing": 300,
@@ -211,6 +223,11 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello"
+        },
+        {
+          "move": "greet-opener",
+          "subject": "greet",
+          "role": "opener"
         }
       ],
       "transcriptsUsing": 107,
@@ -254,6 +271,11 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello"
+        },
+        {
+          "move": "greet-opener",
+          "subject": "greet",
+          "role": "opener"
         }
       ],
       "transcriptsUsing": 9,
@@ -286,6 +308,11 @@
           "subject": "greet",
           "role": "open",
           "choice": "hello"
+        },
+        {
+          "move": "greet-opener",
+          "subject": "greet",
+          "role": "opener"
         }
       ],
       "transcriptsUsing": 4,
@@ -453,178 +480,19 @@
       }
     },
     {
-      "key": "conversation.greet-open-hello.hello-name",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "Hello, {name}.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 231,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 7,
-        "crec": 1,
-        "dcpd": 207,
-        "hearings": 5,
-        "nasa": 1,
-        "nasa2": 1,
-        "nps": 2,
-        "nps.gov (PDF)": 3
-      },
-      "source": {
-        "document": "Remarks During a Telerally for Oklahoma Republican Gubernatorial Candidate Mike Mazzei",
-        "date": "2026-08-24",
-        "granule": "DCPD-202600556",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600556/html/DCPD-202600556.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.greet-open-hello.hi-name",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "Hi, {name}.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 299,
-      "bySource": {
-        "National Archives History Office oral history project": 2,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 4,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 72,
-        "dcpd": 207,
-        "doi": 1,
-        "hearings": 1,
-        "house": 1,
-        "nasa2": 4,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks at the Tunnel to Towers Foundation's Steel Across America Event",
-        "date": "2026-09-08",
-        "granule": "DCPD-202600579",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600579/html/DCPD-202600579.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.greet-open-hello.hey-name",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "Hey, {name}.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 105,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "National Archives History Office oral history project (veterans-oral-histories)": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "briefing": 37,
-        "dcpd": 44,
-        "hearings": 5,
-        "nasa": 5,
-        "nasa2": 1,
-        "nps": 7,
-        "nps.gov": 1
-      },
-      "source": {
-        "document": "Remarks During a Roundtable Discussion With the Memphis Safe Task Force in Memphis, Tennessee",
-        "date": "2026-03-23",
-        "granule": "DCPD-202600196",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600196/html/DCPD-202600196.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.greet-open-hello.good-morning-name",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "Good morning, {name}.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 42,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "U.S. Election Assistance Commission (eac.gov)": 3,
-        "briefing": 4,
-        "dcpd": 1,
-        "hearings": 25,
-        "house": 1,
-        "nasa": 2,
-        "nasa2": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "CONFIRMATION HEARING ON FEDERAL APPOINTMENTS",
-        "date": "2025-06-04",
-        "granule": "CHRG-119shrg61981",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61981/html/CHRG-119shrg61981.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
       "key": "conversation.greet-open-hello.good-to-see-you",
       "move": "greet-open-hello",
       "kind": "spoken",
       "text": "Good to see you.",
+      "piece": {
+        "of": "greet-open",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "greet-open-hello",
+          "move": "greet-opener",
           "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
+          "role": "opener"
         }
       ],
       "transcriptsUsing": 213,
@@ -641,140 +509,6 @@
         "date": "2026-05-15",
         "granule": "DCPD-202600343",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600343/html/DCPD-202600343.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.greet-open-hello.nice-to-see-you",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "Nice to see you.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        },
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 124,
-      "bySource": {
-        "briefing": 40,
-        "dcpd": 62,
-        "hearings": 21,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
-        "date": "2026-08-19",
-        "granule": "DCPD-202600547",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.greet-open-hello.good-to-see-you-name",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "Good to see you, {name}.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 18,
-      "bySource": {
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "briefing": 3,
-        "dcpd": 11,
-        "hearings": 3
-      },
-      "source": {
-        "document": "Remarks at a Rose Garden Club Dinner",
-        "date": "2026-05-11",
-        "granule": "DCPD-202600335",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600335/html/DCPD-202600335.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.greet-open-hello.its-good-to-see-you",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "It's good to see you.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 47,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 6,
-        "dcpd": 26,
-        "hearings": 13
-      },
-      "source": {
-        "document": "Remarks at a Rose Garden Club Dinner With Farmers",
-        "date": "2026-06-25",
-        "granule": "DCPD-202600429",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600429/html/DCPD-202600429.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.greet-open-hello.its-nice-to-see-you",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "It's nice to see you.",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 16,
-      "bySource": {
-        "briefing": 8,
-        "dcpd": 2,
-        "hearings": 6
-      },
-      "source": {
-        "document": "Remarks on the United States Strategic Critical Minerals Reserve and an Exchange With Reporters",
-        "date": "2026-02-02",
-        "granule": "DCPD-202600076",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600076/html/DCPD-202600076.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -816,45 +550,6 @@
         "date": "2026-08-19",
         "granule": "DCPD-202600547",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.greet-open-hello.how-are-you-doing",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "How are you doing?",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 83,
-      "bySource": {
-        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "National Archives History Office oral history project": 1,
-        "U.S. Senate Historical Office oral history": 5,
-        "briefing": 5,
-        "crec": 1,
-        "dcpd": 50,
-        "hearings": 7,
-        "house": 2,
-        "nasa": 5,
-        "nasa2": 1,
-        "nps": 4,
-        "va": 1
-      },
-      "source": {
-        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
-        "date": "2026-07-23",
-        "granule": "DCPD-202600487",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -984,40 +679,6 @@
         "date": "2019-03-02",
         "granule": "DCPD-201900114",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201900114/html/DCPD-201900114.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "greet"
-      }
-    },
-    {
-      "key": "conversation.greet-open-hello.how-are-things-going",
-      "move": "greet-open-hello",
-      "kind": "spoken",
-      "text": "How are things going?",
-      "uses": [
-        {
-          "move": "greet-open-hello",
-          "subject": "greet",
-          "role": "open",
-          "choice": "hello"
-        }
-      ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "crec": 1,
-        "dcpd": 3,
-        "hearings": 1,
-        "nasa": 1,
-        "nasa2": 1,
-        "nih": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks at a Democratic National Committee Grassroots Rally for Senatorial Candidate Valdez V. \"Val\" Demings and Gubernatorial Candidate Charles J. Crist, Jr., in Miami Gardens, Florida",
-        "date": "2022-11-01",
-        "granule": "DCPD-202200993",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200993/html/DCPD-202200993.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -10327,6 +9988,12 @@
           "subject": "farewell",
           "role": "answer",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-closer",
+          "subject": "farewell",
+          "role": "closer",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 45,
@@ -10368,6 +10035,12 @@
           "role": "leave",
           "choice": "bye",
           "stages": ["default"]
+        },
+        {
+          "move": "farewell-closer",
+          "subject": "farewell",
+          "role": "closer",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 2,
@@ -10404,6 +10077,12 @@
           "subject": "farewell",
           "role": "answer",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-closer",
+          "subject": "farewell",
+          "role": "closer",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 7,
@@ -10435,6 +10114,12 @@
           "subject": "farewell",
           "role": "leave",
           "choice": "bye",
+          "stages": ["default"]
+        },
+        {
+          "move": "farewell-closer",
+          "subject": "farewell",
+          "role": "closer",
           "stages": ["default"]
         }
       ],
@@ -10474,6 +10159,12 @@
           "subject": "farewell",
           "role": "answer",
           "choice": "bye"
+        },
+        {
+          "move": "farewell-closer",
+          "subject": "farewell",
+          "role": "closer",
+          "stages": ["default"]
         }
       ],
       "transcriptsUsing": 47,
@@ -10507,12 +10198,15 @@
       "move": "farewell-leave-bye",
       "kind": "spoken",
       "text": "Take care of yourself.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "closer"
+      },
       "uses": [
         {
-          "move": "farewell-leave-bye",
+          "move": "farewell-closer",
           "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
+          "role": "closer",
           "stages": ["default"]
         }
       ],
@@ -10526,75 +10220,6 @@
         "date": "2026-05-20",
         "granule": "DCPD-202600354",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.have-a-good-day",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Have a good day.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 40,
-      "bySource": {
-        "National Archives History Office oral history project": 2,
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "briefing": 32,
-        "dcpd": 3,
-        "hearings": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
-        "date": "2025-05-05",
-        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
-        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.have-a-nice-day",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Have a nice day.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "briefing": 1,
-        "house": 2,
-        "nih": 1,
-        "nps": 2
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Jen Psaki, March 16, 2022",
-        "date": "2022-03-16",
-        "granule": "WH-2022-03-16-press-briefing-by-press-secretary-jen-psaki-march-16-2022",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2022/03/16/press-briefing-by-press-secretary-jen-psaki-march-16-2022/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -10666,205 +10291,20 @@
       "bearing": "guarded"
     },
     {
-      "key": "conversation.farewell-leave-bye.ill-talk-to-you-later",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I'll talk to you later.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye"
-        }
-      ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 5
-      },
-      "source": {
-        "document": "Remarks on Border Security and an Exchange With Reporters",
-        "date": "2024-06-04",
-        "granule": "DCPD-202400487",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400487/html/DCPD-202400487.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "calm"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.ive-got-to-go",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I've got to go.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 2,
-        "briefing": 1,
-        "dcpd": 4,
-        "nasa": 2,
-        "nasa2": 1,
-        "nps": 1
-      },
-      "source": {
-        "document": "Remarks in an Exchange With Reporters Prior to Departure for Middleton, Florida",
-        "date": "2026-05-01",
-        "granule": "DCPD-202600299",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600299/html/DCPD-202600299.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.i-have-to-go",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I have to go.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 10,
-      "bySource": {
-        "briefing": 8,
-        "nasa": 2
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and Homeland Security Adviser Dr. Elizabeth Sherwood-Randall",
-        "date": "2024-09-30",
-        "granule": "WH-2024-09-30-press-briefing-by-press-secretary-karine-jean-pierre-and-homeland-secu",
-        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/30/press-briefing-by-press-secretary-karine-jean-pierre-and-homeland-security-adviser-dr-elizabeth-sherwood-randall/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.i-need-to-go",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I need to go.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 1,
-        "nasa": 2
-      },
-      "source": {
-        "document": "Remarks on Presenting Posthumously the Medal of Honor to Technical Sergeant John A. Chapman",
-        "date": "2018-08-22",
-        "granule": "DCPD-201800543",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-201800543/html/DCPD-201800543.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.ive-got-to-run",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I've got to run.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Sean Spicer",
-        "date": "2017-03-07",
-        "granule": "WH-2017-03-07-press-briefing-press-secretary-sean-spicer-030717",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/press-briefing-press-secretary-sean-spicer-030717/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "guarded"
-    },
-    {
-      "key": "conversation.farewell-leave-bye.i-have-to-run",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I have to run.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 2
-      },
-      "source": {
-        "document": "INTERIOR, ENVIRONMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2022",
-        "date": "2021-03-18",
-        "granule": "CHRG-117hhrg46542",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg46542/html/CHRG-117hhrg46542.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "farewell"
-      },
-      "bearing": "guarded"
-    },
-    {
       "key": "conversation.farewell-leave-bye.say-hello-to-name",
       "move": "farewell-leave-bye",
       "kind": "spoken",
       "text": "Say hello to {name}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
       "uses": [
         {
-          "move": "farewell-leave-bye",
+          "move": "farewell-core",
           "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
+          "role": "core",
           "stages": ["default"]
         }
       ],
@@ -10890,12 +10330,16 @@
       "move": "farewell-leave-bye",
       "kind": "spoken",
       "text": "Say hi to {name}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
       "uses": [
         {
-          "move": "farewell-leave-bye",
+          "move": "farewell-core",
           "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
+          "role": "core",
           "stages": ["default"]
         }
       ],
@@ -12801,36 +12245,6 @@
       "bearing": "guarded"
     },
     {
-      "key": "conversation.greet-answer-fine.very-well-thank-you",
-      "move": "greet-answer-fine",
-      "kind": "spoken",
-      "text": "Very well, thank you.",
-      "uses": [
-        {
-          "move": "greet-answer-fine",
-          "subject": "greet",
-          "role": "answer",
-          "choice": "fine"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 2
-      },
-      "source": {
-        "document": "Advancing Innovation (Ai): Harnessing Artificial Intelligence To Defend And Secure The Homeland",
-        "date": "2024-02-12",
-        "granule": "CHRG-118hhrg58784",
-        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg58784",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "bearing": "calm"
-    },
-    {
       "key": "conversation.mutual-reply-saw.i-talked-to-name-when",
       "move": "mutual-reply-saw",
       "kind": "spoken",
@@ -13095,12 +12509,16 @@
       "move": "farewell-leave-bye",
       "kind": "spoken",
       "text": "Tell {name} I said hello.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
       "uses": [
         {
-          "move": "farewell-leave-bye",
+          "move": "farewell-core",
           "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
+          "role": "core",
           "stages": ["default"]
         }
       ],
@@ -17185,72 +16603,6 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-home.we-ll-talk-more-later",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "We'll talk more later.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-home.i-m-here-if-you-need-me",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "I'm here if you need me.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-home.let-me-know-if-you-need-anything",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "Let me know if you need anything.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
       "key": "conversation.job-new-told-raise-raise.congratulations-on-the-job-at-employer",
       "move": "job-new-told-raise-raise",
       "kind": "spoken",
@@ -17531,50 +16883,6 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-home.we-can-pick-this-up-later",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "We can pick this up later.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-home.let-s-leave-it-there-for-now",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "Let's leave it there for now.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "guarded",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
       "key": "conversation.farewell-leave-home.thanks-for-listening",
       "move": "farewell-leave-home",
       "kind": "spoken",
@@ -17586,49 +16894,6 @@
           "role": "leave",
           "choice": "home",
           "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-home.okay-that-s-all-i-wanted-to-say",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "Okay. That's all I wanted to say.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-answer-bye.you-too-take-care",
-      "move": "farewell-answer-bye",
-      "kind": "spoken",
-      "text": "You too. Take care.",
-      "uses": [
-        {
-          "move": "farewell-answer-bye",
-          "subject": "farewell",
-          "role": "answer",
-          "choice": "bye"
         }
       ],
       "origin": "authored",
@@ -18262,116 +17527,6 @@
       "bearing": "tender",
       "tag": {
         "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.i-d-better-get-going",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I'd better get going.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.i-should-let-you-go",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I should let you go.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.it-was-good-running-into-you",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "It was good running into you.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "glad",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.don-t-be-a-stranger",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "Don't be a stranger.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
-      "key": "conversation.farewell-leave-bye.i-ll-catch-you-later",
-      "move": "farewell-leave-bye",
-      "kind": "spoken",
-      "text": "I'll catch you later.",
-      "uses": [
-        {
-          "move": "farewell-leave-bye",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "bye",
-          "stages": ["default"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "farewell"
       }
     },
     {
@@ -19057,29 +18212,6 @@
       "bearing": "calm"
     },
     {
-      "key": "conversation.farewell-leave-home.i-ll-be-in-the-kitchen",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "I'll be in the kitchen.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "farewell",
-        "key": "household"
-      },
-      "bearing": "calm"
-    },
-    {
       "key": "conversation.farewell-leave-home.glad-we-talked",
       "move": "farewell-leave-home",
       "kind": "spoken",
@@ -19101,29 +18233,6 @@
         "key": "household"
       },
       "bearing": "glad"
-    },
-    {
-      "key": "conversation.farewell-leave-home.let-s-talk-more-tomorrow-okay",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "Let's talk more tomorrow, okay?",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "farewell",
-        "key": "household"
-      },
-      "bearing": "nervous"
     },
     {
       "key": "conversation.ack-reply-right.fair-enough",
@@ -27901,6 +27010,1317 @@
       "tag": {
         "move": "answer"
       }
+    },
+    {
+      "key": "conversation.greet-core.name-i-was-hoping-i-d-run-into-you",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, I was hoping I'd run into you.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.there-you-are-name",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "There you are, {name}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-i-thought-that-was-you",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}! I thought that was you.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.look-who-it-is-name",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Look who it is, {name}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-you-re-looking-well",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, you're looking well.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.glad-i-caught-you-name",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Glad I caught you, {name}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.i-was-just-thinking-about-you-name",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "I was just thinking about you, {name}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-you-re-just-who-i-wanted-to-see",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, you're just who I wanted to see.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.funny-running-into-you-name",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Funny running into you, {name}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-i-ve-been-meaning-to-catch-up-with-you",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, I've been meaning to catch up with you.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.if-it-isn-t-name",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "If it isn't {name}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["no-when"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.the-last-time-i-saw-you-was-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "The last time I saw you was {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.last-i-saw-you-was-when-i-think",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Last I saw you was {when}, I think.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.i-think-i-last-ran-into-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "I think I last ran into you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.we-last-talked-when-if-i-remember-right",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "We last talked {when}, if I remember right.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.i-just-saw-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "I just saw you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-recent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.seeing-you-when-wasn-t-enough-i-guess",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "Seeing you {when} wasn't enough, I guess.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-recent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.i-haven-t-seen-you-since-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "I haven't seen you since {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.i-don-t-think-we-ve-talked-since-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "I don't think we've talked since {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.it-s-been-a-while-last-i-saw-you-was-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "It's been a while. Last I saw you was {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-while"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.it-s-been-ages-i-last-saw-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "It's been ages. I last saw you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-long"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.good-talking-about-about-said-with-you",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good talking about {about-said} with you.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-m-glad-we-got-to-talk-about-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'm glad we got to talk about {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.good-luck-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good luck at {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.don-t-let-them-work-you-too-hard-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Don't let them work you too hard at {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.hope-the-week-goes-easy-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Hope the week goes easy at {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-want-to-hear-how-it-goes-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll want to hear how it goes at {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-employer-yours"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.about-said-is-waiting-on-me-so-i-should-go",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "{about-said} is waiting on me, so I should go.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-employer-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-d-better-get-back-to-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'd better get back to {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-employer-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.they-ll-be-missing-me-at-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "They'll be missing me at {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-employer-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.you-got-me-remembering-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "You got me remembering {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.about-said-sure-brings-back-a-lot",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "{about-said} sure brings back a lot.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.let-me-know-if-you-hear-more-about-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Let me know if you hear more about {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-topic"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-keep-an-eye-out-for-more-on-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll keep an eye out for more on {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-topic"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.maybe-i-ll-see-you-around-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Maybe I'll see you around {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-place-yours"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.say-hi-to-the-neighbors-in-about-said",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Say hi to the neighbors in {about-said}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-place-yours"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.come-by-about-said-sometime",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Come by {about-said} sometime.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-place-mine"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.be-sure-to-say-hello-to-name-from-me",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Be sure to say hello to {name} from me.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.give-name-my-best",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Give {name} my best.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.don-t-forget-to-say-hi-to-name-for-me",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Don't forget to say hi to {name} for me.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.give-my-love-to-name",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Give my love to {name}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.tell-name-we-should-all-get-together-sometime",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Tell {name} we should all get together sometime.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.we-ll-talk-more-later-daypart",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "We'll talk more later {daypart}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-be-around-daypart-if-you-need-me",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll be around {daypart} if you need me.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-ve-got-a-few-things-to-get-done-daypart",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I've got a few things to get done {daypart}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.let-s-pick-this-up-again-daypart",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Let's pick this up again {daypart}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-be-in-the-kitchen-daypart-if-you-want-me",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll be in the kitchen {daypart} if you want me.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-check-on-you-again-daypart",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll check on you again {daypart}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.go-on-and-enjoy-what-s-left-of-daypart",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Go on and enjoy what's left of {daypart}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.find-me-daypart-if-you-want-to-talk-more",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Find me {daypart} if you want to talk more.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.don-t-stay-up-too-late-daypart",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Don't stay up too late {daypart}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"],
+          "requiresFacts": ["evening"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.try-to-get-some-rest-daypart",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Try to get some rest {daypart}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["home"],
+          "requiresFacts": ["evening"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-last-i-saw-you-was-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, last I saw you was {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-i-don-t-think-i-ve-seen-you-since-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}! I don't think I've seen you since {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-since"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.if-it-isn-t-name-i-last-ran-into-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "If it isn't {name}. I last ran into you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-i-only-just-saw-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, I only just saw you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-recent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-it-s-been-a-while-last-i-saw-you-was-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, it's been a while. Last I saw you was {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-while"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.greet-core.name-it-s-been-ages-i-last-saw-you-when",
+      "move": "greet-core",
+      "kind": "spoken",
+      "text": "{name}, it's been ages. I last saw you {when}.",
+      "piece": {
+        "of": "greet-open",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "greet-core",
+          "subject": "greet",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["when-long"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
     }
   ]
 }

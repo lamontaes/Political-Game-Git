@@ -254,6 +254,12 @@
     },
     "back": "address-point-back"
   },
+  "greetAndPart": {
+    "about": "Owner, Nov 11, 2026: every line through the English engine, with inserts from the world's records. A greeting away from home is composed under `greet` from a plain opener and a core that names the listener or when the two last met; a goodbye under `farewell` from a core that names what the talk was about or someone of the player's they know, and a short closer. `aboutFacts` lists, in order, the facts of the talk's first topic a goodbye may name as {about-said}; the first the topic carries is said, with the mark `about-<fact>` so its wordings fit it. Names only; no sentence.",
+    "greet": "greet",
+    "farewell": "farewell",
+    "aboutFacts": ["employer", "school", "place", "topic", "relation"]
+  },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",
     "dropped": [

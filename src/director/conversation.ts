@@ -128,7 +128,9 @@ import {
 } from "./sitting";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
-import { properName, spoken, spokenWhen } from "./words";
+import { properName, spoken, spokenWhen, spokenWhenRow } from "./words";
+import { dayParts, sceneMinute } from "./day-part";
+import { dayPartSaid } from "../english/day-words";
 import { learnView, viewKey, viewSubjectOf } from "./view-learned";
 
 const zero = P.zero;
@@ -302,6 +304,8 @@ export interface Conversation {
   last?: LastLine;
   /** The talk's topics in order: the main one, then the one it led to. */
   topics: string[];
+  /** The main topic's facts, which the goodbye may name (internal). */
+  topicFacts?: Facts;
   /** The director's ledger, read for what happened to whom (internal). */
   director?: Director;
   /** The moment the talk is the occasion of (a scene's), from the player's ledger. */
@@ -2104,6 +2108,7 @@ function askSubject(
     facts: subject.facts,
     stage: subject.stage ?? "default",
   };
+  if (!conversation.topics.length) conversation.topicFacts = subject.facts;
   conversation.topics.push(subject.id);
   offerChoices(core, conversation, data);
   // A question the player has no answer to is not asked (someone who never
@@ -2206,7 +2211,10 @@ function raiseSubject(
     facts: subject.facts,
     stage: then.stage,
   };
-  if (!remark) conversation.topics.push(raised.id);
+  if (!remark) {
+    if (!conversation.topics.length) conversation.topicFacts = subject.facts;
+    conversation.topics.push(raised.id);
+  }
   offerChoices(core, conversation, data);
   return true;
 }
@@ -2499,26 +2507,7 @@ export function openConversation(
     core.people.get(otherId)?.householdId === player.householdId;
   const greeting = housemate
     ? null
-    : words(
-        core,
-        data,
-        otherId,
-        "greet",
-        "open",
-        { statementsOnly: true },
-        knows
-          ? {
-              name: {
-                text: player.givenName,
-                sourceRecordIds: [
-                  core.people.get(otherId)?.knownIdSources?.[playerId]
-                    ?.sourceFactId ?? playerId,
-                ],
-              },
-            }
-          : {},
-        `${playerId}:${otherId}:${core.date}:greet`,
-      );
+    : greetingLine(core, data, playerId, otherId, !!knows);
   if (greeting)
     conversation.lines.push({
       speakerId: otherId,
@@ -3294,6 +3283,140 @@ const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];
 const farewellWordings = () =>
   DEFAULT_DIRECTOR_DATA.parameters.directorFarewellWordings!.value;
 
+const GREET_AND_PART = (
+  rulesFile as unknown as {
+    greetAndPart: {
+      greet: string;
+      farewell: string;
+      aboutFacts: readonly string[];
+    };
+  }
+).greetAndPart;
+
+/**
+ * The greeting away from home: composed from a plain opener and a core that
+ * names the listener (when the speaker knows their name) or when the two last
+ * met, from the tie's contact record. A stranger, with neither on record,
+ * gets a short hello alone.
+ */
+function greetingLine(
+  core: Readonly<CoreState>,
+  data: ConversationData,
+  playerId: PersonId,
+  otherId: PersonId,
+  knows: boolean,
+): ReturnType<typeof words> {
+  const player = core.people.get(playerId)!;
+  const momentKey = `${playerId}:${otherId}:${core.date}:greet`;
+  const name: Facts = knows
+    ? {
+        name: {
+          text: player.givenName,
+          sourceRecordIds: [
+            core.people.get(otherId)?.knownIdSources?.[playerId]
+              ?.sourceFactId ?? playerId,
+          ],
+        },
+      }
+    : {};
+  const facts: Facts = { ...name };
+  // When they last met, said in passing, from the tie's own contact date;
+  // never a meeting earlier today.
+  const seen = lastContact(core, otherId, playerId);
+  if (
+    seen &&
+    daysBetween(makeIsoDate(seen.date), makeIsoDate(core.date)) >= one
+  ) {
+    const row = spokenWhenRow(seen.date, core.date);
+    facts.when = { text: row.said, sourceRecordIds: [seen.tieId] };
+    facts[`when-${row.gap}`] = { text: "yes", sourceRecordIds: [seen.tieId] };
+    if (row.since)
+      facts["when-since"] = { text: "yes", sourceRecordIds: [seen.tieId] };
+  } else if (facts.name)
+    // Known, and no earlier meeting to name: the greeting names the person.
+    facts["no-when"] = {
+      text: "yes",
+      sourceRecordIds: facts.name.sourceRecordIds,
+    };
+  const composed = composedLine(
+    core,
+    otherId,
+    GREET_AND_PART.greet,
+    facts,
+    "default",
+    momentKey,
+  );
+  if (composed) return { ...composed, asks: false, afterPlain: false };
+  return words(
+    core,
+    data,
+    otherId,
+    "greet",
+    "open",
+    { statementsOnly: true },
+    name,
+    momentKey,
+  );
+}
+
+/**
+ * The goodbye, composed: a core that names what the talk was about (the
+ * first topic's employer, school, town, news or relative, whichever it
+ * carries, with a mark so the wording fits it), someone of the player's the
+ * speaker knows, or at home the part of the day; and a short closer. Null
+ * when none of those is on record.
+ */
+function partingLine(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  speakerId: PersonId,
+  housemate: boolean,
+  family: Fact | undefined,
+  momentKey: string,
+): ReturnType<typeof words> {
+  const facts: Facts = {};
+  const topic = conversation.topicFacts ?? {};
+  const key = GREET_AND_PART.aboutFacts.find((fact) => topic[fact]?.text);
+  if (key) {
+    const ids = topic[key]!.sourceRecordIds;
+    facts["about-said"] = topic[key]!;
+    facts[`about-${key}`] = { text: "yes", sourceRecordIds: ids };
+    // Whose it is: the player's own (they were asked about it) or the
+    // speaker's (they raised their own), by the topic's subject.
+    const subject = (conversation.topics[zero] ?? "").replace(/^[^>]*>/, "");
+    const whose = subject.endsWith(`:${conversation.playerId}`)
+      ? "yours"
+      : subject.endsWith(`:${speakerId}`)
+        ? "mine"
+        : undefined;
+    if (whose)
+      facts[`about-${key}-${whose}`] = { text: "yes", sourceRecordIds: ids };
+  }
+  // Someone of the player's they know, when the talk named nothing else.
+  if (family && !key) facts.name = family;
+  if (housemate)
+    for (const mark of dayParts(sceneMinute(core, conversation.playerId))) {
+      const said = dayPartSaid(mark);
+      facts[mark] = { text: "yes", sourceRecordIds: [conversation.playerId] };
+      if (said)
+        facts.daypart = {
+          text: said,
+          sourceRecordIds: [conversation.playerId],
+        };
+    }
+  if (!Object.keys(facts).length) return null;
+  const line = composedLine(
+    core,
+    speakerId,
+    GREET_AND_PART.farewell,
+    facts,
+    housemate ? "home" : "default",
+    momentKey,
+    saidParts(conversation, speakerId),
+  );
+  return line ? { ...line, asks: false, afterPlain: false } : null;
+}
+
 /** The conversation runs out: the other person says goodbye. */
 function endConversation(
   core: Readonly<CoreState>,
@@ -3332,17 +3455,29 @@ function endConversation(
   const said = new Set(conversation.lines.map((row) => row.text));
   let line: ReturnType<typeof words> = null;
   for (let attempt = zero; attempt < farewellWordings(); attempt += one) {
-    const next = words(
-      core,
-      data,
-      otherId,
-      "farewell",
-      "leave",
-      ALL,
-      family ? { name: family.facts.name! } : {},
-      `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`,
-      housemate ? "home" : "default",
-    );
+    const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`;
+    // Composed first: what the talk was about, someone of the player's they
+    // know, or the hour at home; a short goodbye only when none is on record.
+    const next =
+      partingLine(
+        core,
+        conversation,
+        otherId,
+        housemate,
+        family ? family.facts.name! : undefined,
+        momentKey,
+      ) ??
+      words(
+        core,
+        data,
+        otherId,
+        "farewell",
+        "leave",
+        ALL,
+        family ? { name: family.facts.name! } : {},
+        momentKey,
+        housemate ? "home" : "default",
+      );
     if (!next) break;
     line = next;
     if (!said.has(next.text)) break;
