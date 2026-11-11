@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** A couple's case for planning a child (src/core2/births-plan.ts) sits 3.6 to 18.3 below waiting in nine of ten reviews, while temperament spans about plus or minus 0.4, so at the general weight it turns no one. In Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) scripts/traits/trait-calibrate.ts fits a weight of 7.05 to reach odds of 1.74 between the thirds against Jokela et al.'s 1.93, but at that weight the share of reviews that plan a child rises from 1.8% to 2.6%, about 40% more births. Re-center the waiting side so the share stays where the births rate puts it, then set the weight.
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/births-plan.ts, src/core2/data/parameters.json, data/content/trait-decision-gaps.json, scripts/traits/trait-calibrate.ts
 
 **Notes.** Filed Oct 25 by the traits lead from traits-research-weights-21.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have set the child-planning temperament weight to a study's size; no player sees it, and births are kept on their own items.

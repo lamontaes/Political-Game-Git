@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The opening houses each place's group-quarters residents (college housing, prisons, juvenile facilities, nursing homes, military quarters, other) in room records counted from the 2020 Census, and nothing admits anyone afterward, so each type's count only falls and a college's students are a year older every year. Over a long save a college town's dormitories empty. Give each institution intake on its own calendar: a college each fall, a prison and a nursing home as residents leave.

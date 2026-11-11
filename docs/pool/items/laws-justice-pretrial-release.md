@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Extend the pretrial wait from charged officials to every named person the justice engine charges. The pretrial decision reads the end-cash-bail law and the defendant's cash against the bail estimate, holds a poor defendant in custody and releases them when bail is ended, but it is called only for bribery cases; counted defendants already wait by the same law in the public-safety engine. Once the incident producer and the charging step create cases for ordinary named defendants (stops, fights, weapons), route those cases through the same decision so a poor person arrested for a fight waits in custody where cash bail is law and goes home where it is ended, and make the flat estimated bail follow the charge's grade from the sentencing data in place of one number. This item also takes the umbrella laws-family-justice, whose other parts have their own items.

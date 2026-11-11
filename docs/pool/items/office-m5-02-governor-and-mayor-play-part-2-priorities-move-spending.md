@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: split from office-m5-02-governor-and-mayor-play in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** In a drawn state a played governor sets budget priorities with staff advice, and a changed priority moves a budget line and a later payment. Live with the results: the line change shows in the next payment a department or person receives. The gap list in part 1 says how much of this exists; build only what it lists as missing.

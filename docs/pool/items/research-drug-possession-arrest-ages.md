@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Drug possession was added as the sixth minor-offense category (owner ruling, October 25, 2026). Its cases share the age bands and case outcomes of the other five categories, because neither source the file uses gives drug possession its own: FBI Crime in the United States 2019, Table 38, has only a combined 'drug abuse violations' row (sale and possession), and BJS NCJ 305157 gives dispositions for all misdemeanors without an offense split. A rough check by the builder suggests the combined drug row skews older (less weight under 18, more at 25 to 34). Find an age distribution for drug possession arrests alone (FBI CDE arrest-by-age for the possession codes 156 to 160, or NIBRS), and a disposition share for possession misdemeanors if one is published, and record them as the category's own rows, SOURCED or ESTIMATED with the source.

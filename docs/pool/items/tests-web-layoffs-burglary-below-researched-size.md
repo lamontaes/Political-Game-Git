@@ -16,9 +16,10 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
-**What.** src/core2/outcome-web.test.ts fails on clean main with seed aadb30b90a2c6e19e2d43de3106378f7 in Little Creek, Delaware: the case 'layoffs raise unemployment and burglary follows by the researched 3% a point' expects burglary to rise more than 3.69 and gets 3.55. Whether the town's layoffs moved unemployment less than the test assumes, or the burglary link reads a different month, is not yet known. The fix finds which one by record in that town and corrects the engine or the test's expectation, never loosens the researched size to make it pass.
+**What.** src/core2/outcome-web.test.ts fails on clean main with seed aadb30b90a2c6e19e2d43de3106378f7 in Little Creek, Delaware: the case 'layoffs raise unemployment and burglary follows by the researched 3% a point' expects burglary to rise more than 3.69 and gets 3.55. Whether the town's layoffs moved unemployment less than the test assumes, or the burglary link reads a different month, is not yet known. The fix finds which one by record in that town and corrects the engine or the test's expectation, never loosens the researched size to make it pass. Guards: after layoffs the burglary rate on the Metrics tab follows the researched size in every town.
 
 **Cause.** Needs cause. Looked at: src/core2/outcome-web.test.ts line 98 (case 'layoffs raise unemployment and burglary follows by the researched 3% a point'), which expects burglary to rise more than 3.69 and gets 3.55 in Little Creek, Delaware (seed aadb30b90a2c6e19e2d43de3106378f7); src/core2/modules/crime.ts exists. Unknown whether the layoffs moved unemployment less than the test assumes or the burglary link reads a different month. To find it: print the unemployment change and the web month row ids used in Little Creek and compare them to the link's lag and size.
 
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/outcome-web.test.ts, src/core2/modules/crime.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/outcome-web.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=aadb30b90a2c6e19e2d43de3106378f7. Still red, 1 of 7, in Little Creek, Delaware, US-DE. First failing assertion as printed: `AssertionError: expected 9.230769230769232 to be greater than 9.30232558139535` at src/core2/outcome-web.test.ts:167 (the numbers differ from the item's 3.55 and 3.69).

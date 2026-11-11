@@ -17,13 +17,14 @@ lead: governing
 source: added with npm run pool -- add
 claimed-at:
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** An out-of-town U.S. House, Senate or legislature race stands the seat's holder for their party and a seeded challenger for the other (the stand-in path in src/core2/modules/voting.ts, stopgap SG-GOV-who-runs-stand-in), and neither has a campaign of their own. Replace that pair with a who-runs decision. The seat's pool is the state's counted adults old enough for the office; each weighs running through the existing counted-tier rule `countedCandidacyReasons` in src/core2/modules/candidacy.ts (traits, age, work hours, the people who know them, engagement) against the seat's open contest, and the sitting holder weighs running again with the full-person `candidacyReasons`. The strongest pull per party files, is filled in as a named candidate whose filing keeps its reasons by record id, and each candidate's campaign inputs (money, name recognition, ads versus doors) come from their own money, standing and traits, as the owner ruled Oct 20 for rivals.
 
 **Cause.** Found in code: src/core2/modules/voting.ts fields the seat's holder plus a "typical challenger" for out-of-town races (stopgap SG-GOV-who-runs-stand-in, `api.stopgap` at line 1893; role "state-executive-challenger" at lines 4028, 4488 and 4875). `countedCandidacyReasons` (src/core2/modules/candidacy.ts line 430) already weighs a counted resident for a contest and is unused for these races.
 
-**Fix.** Replace the holder-plus-seeded-challenger pair with a who-runs decision: the state's counted adults weigh running through `countedCandidacyReasons` and the holder through `candidacyReasons`; the strongest pull per party files, is filled in as a named candidate (identity by seeded generation of who exists, consistent with the counted record) whose filing keeps its reasons, and the campaign engine reads each candidate's own money and recognition. Delete the typical-campaign constants and narrow SG-GOV-world-race-lean to the legislative-district results data.
+**Fix.** Replace the holder-plus-seeded-challenger pair with a who-runs decision: would-be candidates weigh running through `countedCandidacyReasons` and the holder through `candidacyReasons`. Outside the town there are no counted voter rows, only counts by place (src/core2/electorate-places.ts) and the country tier's state cells, so draw a small fixed number of would-be candidates per party per race by seeded generation of who exists, each with traits and a record consistent with their place's counts, and weigh only those, on the filing day only, never every adult of a state; the strongest pull per party files, is filled in as a named candidate (identity by seeded generation of who exists, consistent with the counted record) whose filing keeps its reasons, and the campaign engine reads each candidate's own money and recognition. Delete the typical-campaign constants and narrow SG-GOV-world-race-lean to the legislative-district results data.
 
 **Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

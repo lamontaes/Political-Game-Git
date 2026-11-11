@@ -4,7 +4,7 @@ title: "M7-04 Updates and bug reports"
 area: release
 kind: feature
 priority: 3
-size: L
+size: S
 status: blocked
 claimed-by:
 pr:
@@ -13,11 +13,12 @@ milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-04"
 claimed-at:
 standard: 2
-model: opus
-effort: medium
+model: sonnet
+effort: low
 root: none
 lead: cto
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Roadmap M7-04: automatic updates, content updates without a reinstall, in-game bug reports with logs, and crash reports. Early access needs a test update that installs itself and a bug report that arrives with its log. It is too large for one session, so it is split into the parts named in Waits on; the bug-report button and the after-crash prompt are the separate item release-bug-report-control, and desktop/updater.mjs already exists, so each part starts by checking how much is built.
@@ -26,7 +27,7 @@ after:
 
 **Fix.** Automatic updates, content updates, in-game bug reports with logs, crash reports. Take the parts below one at a time once early-access preparation starts; this parent closes when each part and release-bug-report-control are done.
 
-**Time box.** 16 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Spec approved by the owner Oct 12. Replace, never layer: the updater, the bug report and the crash capture each build on what desktop/updater.mjs and src/core2/bug-report.ts already hold. Look before you ask: read docs/packages/M7-early-access.md first.
 

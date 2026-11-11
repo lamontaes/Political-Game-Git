@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: split from people-views-opening-place-type-and-values in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Check the formed values against a sourced answer key for the town's state and metro, as docs/packages/M1-views.md requires ("if the generated town's spread misses the key, fix the weights' sources, never assign views to fit"). The stopgap row says the 14 values have no answer key yet, so this part first finds a survey that measures them or close proxies, fetches and quotes it, and records it under data/research/. The counted groups must carry the same terms and values as full people, times their count, and the check must show it.
@@ -33,3 +34,7 @@ source: split from people-views-opening-place-type-and-values in the pool redo, 
 **Waits on.** people-views-opening-place-type-and-values-part-2-the-14-values.
 
 **Files.** src/core2/views.test.ts, src/core2/modules/views.ts, data/research/people/, docs/packages/M1-views.md
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have found and quoted a survey to check the 14 values; research precision that no player sees, and the values themselves are borderline on part 2.
+
+**Notes (Fable B, Nov 10, the owner's answer).** Dropped Nov 10, 2026 (depth sweep): the owner was asked about the 14 values and said "Not now." This part checks those values against a key, so it goes with part 2. If he asks for the values later, both come back.

@@ -17,6 +17,7 @@ effort: medium
 root: rc9-place-facts-one-default
 source: found by gov-ward-map-from-dwellings
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A dwelling in the core is a row keyed to its household with a tenure and a value, and nothing says where in the town it stands. Without that no council ward, precinct or school zone can follow where people live, and every such map is the households in recorded order. Give each dwelling a position inside its town, drawn from the town's real shape (its census tracts or block groups where the data has them, an estimate with a spread otherwise), so that neighbors are close and a map cut follows the town. Its only reader today is gov-ward-map-from-dwellings, which is blocked on this item and was deferred Oct 25, so this is low value until that moves.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** Give each dwelling a position from the place's tract or block-group population shares (an estimate with spread), stored with the dwelling in src/core2/modules/housing.ts and read by ward and precinct drawing in src/core2/modules/voting.ts.
 
-**Time box.** 6 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: gov-ward-map-from-dwellings (the council districts the player files in and runs for, drawn from where people live).
 
 **Rules.** Estimate, never UNKNOWN: a dwelling's position starts from the place's own tract or block-group population shares and is marked as an estimate with its source. One rule, all 56 places: no state, city or GEOID in logic; the shares live in data. Wire to the world: ward maps and polling places must read the position the same day it is used, so it is a read and not a record nobody opens.
 

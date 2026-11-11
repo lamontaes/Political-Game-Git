@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from world-standin-credit-business-books in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The business books keep an authored crosswalk from workplace classifications to corporate industry priors and excluded institutional funding routes, with no legal form, supplier relationship or budget established. Record industry and legal form (corporation, branch, nonprofit, public) and the funding route for actual employers and counterparties, including public, branch and nonprofit budgets, and let the credit engine read the classified book. This is the third of three parts of world-standin-credit-business-books.
@@ -33,3 +34,5 @@ source: split from world-standin-credit-business-books in the pool redo, Nov 10,
 **Waits on.** Nothing.
 
 **Files.** src/core2/data/business-books.json, src/core2/business-books.test.ts, src/core2/modules/credit.ts, src/core2/data/stopgaps/p8.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded each business's legal form and funding route; no player sees it.

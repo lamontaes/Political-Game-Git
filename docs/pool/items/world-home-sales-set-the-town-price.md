@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: split of world-home-turnover (Oct 18)
+checked: fable 2026-11-10
 ---
 
 **What.** The housing engine carries the stopgap SG-WORLD-housing-price-index: a home's value follows the state's price ratio and the household's income, and nothing a town's sales write is read back. Nothing in the town's own market moves what its homes are worth. Make the town's recent sale prices (the `sales` and `purchases` rows) the price a home is assessed at for property tax and the price the next sale starts from, so a run of high sales raises assessments and a quiet town's values follow the state's index as before.
@@ -24,7 +25,7 @@ source: split of world-home-turnover (Oct 18)
 
 **Fix.** Make the town's recent sale prices the assessment and the next sale's starting price, falling back to the state ratio (ESTIMATED, with its source) when the town has no sales yet.
 
-**Time box.** 6 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-home-turnover (a held item that waits on it; a town's sales set what its homes sell for and the next sale starts from).
 
 **Rules.** An effect is a read: the sales table is finished only when property tax assessment and the next sale read it, named by record id. Estimate, never UNKNOWN: a town with no sales yet starts from the state's price ratio, marked as an estimate with its source. Every number is a tagged parameter.
 

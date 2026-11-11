@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: low
 root: design-words-machine
+checked: fable 2026-11-10
 ---
 
 **What.** On main, node --import tsx scripts/english-corpus/tag-moves.ts --check reports 478 part tags that differ from the rules in scripts/english-corpus/moves.json, many of them moves with no rule at all (scene-talk state-tell-duty and the other filing-clerk moves among them). The reach table (src/english/grade-reach.ts) groups pieces by their tag's move, so a grade reaches the wrong family for those parts. The only check was the coverage-table test, which had not loaded on main for days and was deleted with the coverage report.

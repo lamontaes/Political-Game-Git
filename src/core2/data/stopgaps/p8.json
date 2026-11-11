@@ -981,5 +981,17 @@
     "addedAt": "2026-10-10",
     "replacement": "Qualified employer-owned dated compensation/payroll records and government/education policy calendars, actual legal-frequency/holiday/lag treatment, shared household payday source links and empirical startup cohort checks. Public-budget/national modules own actual government funding, not this timing prior.",
     "status": "open"
+  },
+  {
+    "id": "SG-P8-farm-sector",
+    "kind": "assumed-mapping",
+    "file": "src/core2/data/business-books.json",
+    "line": 11,
+    "whatItFakes": "The farm kind is filed under the mining-logging sector because the country tier's list has no agriculture sector.",
+    "why": "The tier's sector list follows the BLS payroll supersectors, which leave farms out; a farm seller still needs a sector to meet buyers.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "An agriculture sector added to the country tier's list (COUNTRY_SECTORS) with its own pay, basket and trade shares, then the farm kind moved to it.",
+    "status": "open"
   }
 ]

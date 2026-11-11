@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind law reach (group A, group B money, starting law). Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/laws/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Eight of the original rows are now resolved and are left out of the list below. The Oct 24 slice delivered the January 2025 starting law for the federal and state series, the flat income tax rate (4.25), the cannabis use share (0.2317) and the public-sector union band. Seventeen rows remain open. Five wait on other work: the series still carried back (research-start-law-remaining-2025-phases), the flat-tax sponsor rate, cannabis dispensaries and state prevalence, union membership, and public-sector bargaining. Five are being rewritten by another pull request: discrimination, abortion, age verification, facial recognition and data privacy. Eight have no number to source: leave claims, consumer credit, housing supply, affordable units, rent contracts, eviction cases, redistricting and police oversight.
@@ -53,7 +54,7 @@ after:
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/data/laws/starting-law.json, src/core2/law-reach/group-b-money.ts, src/core2/modules/laws.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/gov.json, docs/research/pool-feeder-oct20/research-law-reach-sourced-parameters.md
 
-**Notes.** Folded from: laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-law-reach-sourced-parameters.md (25 rows: 6 sourced, 5 estimated, 14 mechanic).
+**Notes.** Folded from: laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-law-reach-sourced-parameters.md (25 rows: 6 sourced, 5 estimated, 14 mechanic). Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it sources every stopgap number behind law reach; a number may stay an estimate, and the items that waited on it are dropped.
 
 Oct 24, 2026: split. PR 5863 (item research-law-reach-2025-law-and-two-rates) delivers the January 2025 starting law for the federal and state series, the flat income tax rate (4.25) and the cannabis use share (0.2317), and the public-sector union band. Still open here: 18 stopgap rows. Five wait on other work: the series still carried back (research-start-law-remaining-2025-phases), the flat-tax sponsor rate, cannabis dispensaries and state prevalence, union membership, and public-sector bargaining. Five are being rewritten by another open pull request: discrimination, abortion, age verification, facial recognition and data privacy. Eight have no number to source: leave claims, consumer credit, housing supply, affordable units, rent contracts, eviction cases, redistricting and police oversight.
 

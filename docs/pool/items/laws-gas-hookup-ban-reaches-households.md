@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** With the ban on new gas hookups in force, the housing engine records the law applied only to the landlord organization that builds (organization:landlord in both audit towns, Prescott, Michigan and Uehling, Nebraska, in the Oct 24 regrade). The households who move into the new all-electric homes, and the counted households they stand for, are never recorded as reached, and no household's utility bill reads the law. The matrix still grades reach wired because the law reached an organization. The prices helper found it on Oct 24.
@@ -34,4 +35,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/housing.ts, src/core2/modules/place-prices.ts, src/core2/law-wiring-prices.test.ts
 
-**Notes.** Found by the laws lead's prices helper on Oct 24 (branch claude/laws-nine-links-prices). The checker's reach link passes for an organization-only reach; the lead decides whether reach should demand households for this law.
+**Notes.** Found by the laws lead's prices helper on Oct 24 (branch claude/laws-nine-links-prices). The checker's reach link passes for an organization-only reach; the lead decides whether reach should demand households for this law. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it would add the households of new all-electric homes to one law's reach record; no household utility bill reads the ban and nobody sees the record.

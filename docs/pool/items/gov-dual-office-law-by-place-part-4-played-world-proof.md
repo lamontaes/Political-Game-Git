@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from gov-dual-office-law-by-place in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Prove the dual-office rows in a played world. In a one-year world in a drawn place, an officeholder who wins a second office either keeps or vacates the first according to the place's cited row, and another engine (the offices module's terms and the seat's vacancy) reads the result, shown by record ids.
@@ -33,3 +34,5 @@ source: split from gov-dual-office-law-by-place in the pool redo, Nov 10, 2026
 **Waits on.** gov-dual-office-law-by-place-part-1-states-a-to-f, gov-dual-office-law-by-place-part-2-states-g-to-n and gov-dual-office-law-by-place-part-3-states-o-to-z-and-territories (the rows the proof reads).
 
 **Files.** src/core2/office-incompatibility.ts, src/core2/modules/offices.ts, src/core2/office-incompatibility.test.ts (new)
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A proof of rows that are dropped.

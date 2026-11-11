@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** `usesCannabis` and `cannabisWeight` read one national share of adults who used cannabis in the past year (`pricesCannabisUsePrevalence`, 23.17 percent) for every place. The share varies from 15.94 percent in one state to 37.57 percent in another, and the table for all 56 places is sourced in data/research/laws/samhsa-2024-cannabis-past-year.json (NSDUH 2023 to 2024, adults 18 and over; territories at the median, marked estimate). The engine should read the town's state row from that table for named adults and for counted groups alike, keeping the national row only as the fallback, which closes the people half of SG-GOV-REACH-A-cannabis-market.
@@ -37,3 +38,5 @@ source: added with npm run pool -- add
 **On screen.** Nothing yet: it would show on Politics, then Issues and Government, and nothing there reads it.
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have swapped the one national 23 percent cannabis-use share for each state's own; nobody sees the difference, and the national average stays a labeled estimate.

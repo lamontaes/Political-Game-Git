@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Full people now partner, separate and (once built) leave home in play, so a played year's totals can be checked against real rates. Run a year of the played world in six drawn places and count, per thousand residents of the right age band, young adults leaving a parent's home, new partnerships and separations. Compare them with the ACS share of 25 to 34 year olds living with a parent, the CDC marriage and divorce rates per thousand, and the ACS marital events in the last year (B12503, B13010), and tune only the weights that lie outside them.
@@ -38,3 +39,5 @@ lead: lives
 **Notes.** Follows people-partnership-counted. The weights in the parameter file are TUNABLE with their baselines marked in the stopgap rows SG-PEOPLE-home-leaving-weights, SG-PEOPLE-partnership-weights and SG-PEOPLE-separation-weights; the rates are the data that retire them.
 
 Oct 20 (pool feeder): spec written; scripts/core2-year/moves-rate-check.ts exists on main as the model for the script; the partnership parameter file and rows come from the unmerged partnership stack, so this waits on people-partnership-counted (and through it the leaving, forming and ending items).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have checked a year's partnerships and separations against CDC and ACS rates; a check of a number no player sees.

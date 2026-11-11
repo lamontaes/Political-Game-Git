@@ -5,8 +5,10 @@
  * A rule holds his words, one plain sentence of what it forbids or requires,
  * and a test of one of three kinds: the line's own words (`phrases`,
  * `patterns`, `sentences`), the line's place in its scene (`place`) or its
- * meaning and tone (`judged`). This file reads the first kind and runs it;
- * `place` and `judged` rules wait for their own readers and flag nothing.
+ * meaning and tone (`judged`). This file reads the first kind and runs it. A
+ * `judged` rule reads its saved verdicts (`./judged.ts`): a line a reviewer
+ * judged "no" is flagged, a line nobody has judged passes and is counted as
+ * waiting for a verdict. A `place` rule's own reader runs outside the run.
  *
  * `runRules` is the whole machine in one pure function: pieces and the
  * ledger in, the pulled list out. A piece that breaks an enforced rule is
@@ -18,6 +20,7 @@
  * Pure: no files, no world. `scripts/words/run-rules.ts` reads the banks.
  */
 import { heldByGrades, type PartGradeLedger } from "./english-grades";
+import { verdictId, verdictOf, type JudgedStores } from "./judged";
 import type { ReplyFollowsReport } from "./reply-pairs";
 
 /**
@@ -58,12 +61,43 @@ export const RULE_JUDGES: readonly RuleJudges[] = [
   "piece-in-context",
 ];
 
+/**
+ * A condition on where a piece is said, read from one of its uses: the tags
+ * the composer chooses by (subject, role, purpose, step, the facts a use
+ * requires or excludes, and the part's own bearing, voice, address kind,
+ * topic and device, which `usesWithTags` copies onto every use). Each value
+ * is a regular expression source tested on the tag (on each entry of a list).
+ */
+export interface UseCondition {
+  /** Every named tag holds a value that matches. */
+  readonly has?: Readonly<Record<string, string>>;
+  /** No named tag holds a value that matches; a tag the use does not have matches nothing. */
+  readonly lacks?: Readonly<Record<string, string>>;
+}
+
 export interface RuleApplies {
   readonly banks?: readonly string[];
   readonly kinds?: readonly ("spoken" | "written")[];
   /** A regular expression source tested on the piece's move. */
   readonly moves?: string;
+  /** The piece is covered where one of its uses meets this condition. */
+  readonly uses?: UseCondition;
 }
+
+/**
+ * A line a rule must catch or spare. A bare string is the line wherever it is
+ * said (the rule's `applies` is ignored); a line with its spot is tested
+ * where it is said, for a rule that tells two lines apart by their place.
+ */
+export type RuleCase =
+  | string
+  | {
+      readonly text: string;
+      readonly bank?: string;
+      readonly kind?: string;
+      readonly move?: string;
+      readonly use?: PieceUse;
+    };
 
 export interface LineRule {
   readonly id: string;
@@ -94,9 +128,10 @@ export interface LineRule {
   /** A rule that failed the build before the machine existed keeps doing so. */
   readonly failsBuild?: boolean;
   readonly test: RuleTest;
-  readonly applies?: RuleApplies;
-  readonly catches?: readonly string[];
-  readonly spares?: readonly string[];
+  /** Where the rule applies; a list applies where any one of its entries does. */
+  readonly applies?: RuleApplies | readonly RuleApplies[];
+  readonly catches?: readonly RuleCase[];
+  readonly spares?: readonly RuleCase[];
   /**
    * Lines he faulted for where they were said, not for their words: what came
    * before, when they played, or a record they contradict. They stay in play;
@@ -121,7 +156,11 @@ export interface LineRulesFile {
 /** One use of a piece: where it is said. Bank files hold more fields; these identify the spot. */
 export type PieceUse = Readonly<Record<string, unknown>>;
 
-/** A bank piece as the bank files hold it. */
+/**
+ * A bank piece as the bank files hold it. Each use carries the part's own
+ * tags too (`usesWithTags`), so a rule's `applies.uses` reads one record of
+ * where and how the piece is said.
+ */
 export interface RulePiece {
   readonly bank: string;
   readonly key: string;
@@ -167,10 +206,53 @@ export function wholeLine(text: string): string {
   return squash(text).replace(/^[^\p{L}\p{N}{]+|[^\p{L}\p{N}}]+$/gu, "");
 }
 
-/** Whether a rule's `applies` covers this piece. */
-export function ruleApplies(rule: LineRule, piece: RulePiece): boolean {
-  const { applies } = rule;
-  if (!applies) return true;
+/**
+ * The part's own tags the composer chooses by, copied onto each use: how the
+ * line is said (`bearing`, `voice`), the address it belongs to
+ * (`addressKind`), what it is about (`topic`) and its turn of speech
+ * (`device`). None of them is a spot field, so `spotsOf` is unchanged.
+ */
+export const PART_TAGS = [
+  "bearing",
+  "voice",
+  "addressKind",
+  "topic",
+  "device",
+] as const;
+
+/** A part's uses with its own tags on each; a use's own value wins. */
+export function usesWithTags(
+  part: Readonly<Record<string, unknown>>,
+  uses: readonly PieceUse[],
+): PieceUse[] {
+  const tags: Record<string, unknown> = {};
+  for (const tag of PART_TAGS)
+    if (part[tag] !== undefined && part[tag] !== null) tags[tag] = part[tag];
+  return uses.map((use) => ({ ...tags, ...use }));
+}
+
+function tagMatches(use: PieceUse, tag: string, source: string): boolean {
+  const value = use[tag];
+  if (value === undefined || value === null) return false;
+  const expression = patternExpression(source);
+  return (Array.isArray(value) ? value : [value]).some((entry) =>
+    expression.test(typeof entry === "string" ? entry : JSON.stringify(entry)),
+  );
+}
+
+/** Whether one use meets a use condition. */
+export function useMeets(condition: UseCondition, use: PieceUse): boolean {
+  return (
+    Object.entries(condition.has ?? {}).every(([tag, source]) =>
+      tagMatches(use, tag, source),
+    ) &&
+    !Object.entries(condition.lacks ?? {}).some(([tag, source]) =>
+      tagMatches(use, tag, source),
+    )
+  );
+}
+
+function appliesTo(applies: RuleApplies, piece: RulePiece): boolean {
   if (applies.banks && !applies.banks.includes(piece.bank)) return false;
   if (
     applies.kinds &&
@@ -179,14 +261,67 @@ export function ruleApplies(rule: LineRule, piece: RulePiece): boolean {
     return false;
   if (applies.moves && !patternExpression(applies.moves).test(piece.move))
     return false;
+  if (applies.uses && !piece.uses.some((use) => useMeets(applies.uses!, use)))
+    return false;
   return true;
 }
 
-/** Whether the piece breaks this rule. `place` and `judged` rules flag nothing yet. */
-export function ruleFlags(rule: LineRule, piece: RulePiece): boolean {
+/** Whether a rule's `applies` covers this piece. */
+export function ruleApplies(rule: LineRule, piece: RulePiece): boolean {
+  const { applies } = rule;
+  if (!applies) return true;
+  const entries: readonly RuleApplies[] = Array.isArray(applies)
+    ? applies
+    : [applies as RuleApplies];
+  return entries.some((entry) => appliesTo(entry, piece));
+}
+
+/** Whether a `judged` rule judges one line at a time (alone or in its spot); a set or an exchange is keyed by words-machine part 3. */
+export const judgesLines = (rule: LineRule): boolean =>
+  rule.test.kind === "judged" &&
+  (rule.judges === "line" || rule.judges === "piece-in-context");
+
+/** The lines a `judged` rule judges now: those it applies to that the grades do not hold. */
+export function lineSubjects(
+  rule: LineRule,
+  pieces: readonly RulePiece[],
+  ledger: PartGradeLedger,
+): RulePiece[] {
+  if (!judgesLines(rule)) return [];
+  return pieces.filter(
+    (piece) => ruleApplies(rule, piece) && !heldByGrades(piece.key, ledger),
+  );
+}
+
+const pieceIds = new WeakMap<RulePiece, string>();
+/** A line's verdict id: its key and its exact words. */
+export function pieceVerdictId(piece: RulePiece): string {
+  let id = pieceIds.get(piece);
+  if (id === undefined) {
+    id = verdictId([piece.key], [piece.text]);
+    pieceIds.set(piece, id);
+  }
+  return id;
+}
+
+/**
+ * Whether the piece breaks this rule. A `judged` rule flags a line a reviewer
+ * judged "no" in these exact words (`stores`); a `place` rule flags nothing
+ * here, its reader works where the line is said.
+ */
+export function ruleFlags(
+  rule: LineRule,
+  piece: RulePiece,
+  stores?: JudgedStores,
+): boolean {
   const { test } = rule;
-  if (test.kind === "place" || test.kind === "judged") return false;
+  if (test.kind === "place") return false;
   if (!ruleApplies(rule, piece)) return false;
+  if (test.kind === "judged")
+    return (
+      judgesLines(rule) &&
+      verdictOf(stores?.get(rule.id), pieceVerdictId(piece)) === "no"
+    );
   if (test.kind === "phrases") {
     const text = squash(piece.text);
     return test.phrases.some((phrase) => phraseExpression(phrase).test(text));
@@ -217,6 +352,26 @@ export function textAsPiece(text: string): RulePiece {
  */
 export function textBreaksRule(rule: LineRule, text: string): boolean {
   return ruleFlags({ ...rule, applies: undefined }, textAsPiece(text));
+}
+
+/** The words of a case, for checks that read only the line. */
+export const caseText = (line: RuleCase): string =>
+  typeof line === "string" ? line : line.text;
+
+/**
+ * Whether the rule breaks on a case: a bare line wherever it is said
+ * (`textBreaksRule`), a line with its spot where it is said.
+ */
+export function caseBreaksRule(rule: LineRule, line: RuleCase): boolean {
+  if (typeof line === "string") return textBreaksRule(rule, line);
+  return ruleFlags(rule, {
+    bank: line.bank ?? "",
+    key: "",
+    text: line.text,
+    kind: line.kind ?? "",
+    move: line.move ?? "",
+    uses: line.use ? [line.use] : [],
+  });
 }
 
 /** The spot identity fields of a use: what the pickers treat as alternatives. */
@@ -263,6 +418,15 @@ export interface RuleCount {
   readonly examples: readonly string[];
   /** What a place rule reports about its judged verdicts (`reply-follows-the-line-before`). */
   readonly report?: ReplyFollowsReport;
+  /** A `judged` rule's verdicts on the lines it judges now. */
+  readonly verdicts?: VerdictCount;
+}
+
+/** For a `judged` rule: lines with a verdict in their current words, of them judged bad, and lines with none. */
+export interface VerdictCount {
+  readonly judged: number;
+  readonly bad: number;
+  readonly waiting: number;
 }
 
 export interface RunTotals {
@@ -298,6 +462,12 @@ export interface RunResult {
     readonly rule: string;
   }[];
   readonly perRule: Readonly<Record<string, RuleCount>>;
+  /**
+   * For each `judged` rule past `awaiting-test`: lines it judges that have no
+   * verdict in their current words. The English guard fails, by the rule's
+   * name, when one is higher than the committed count (the backlog only falls).
+   */
+  readonly awaitingVerdict: Readonly<Record<string, number>>;
   readonly totals: RunTotals;
 }
 
@@ -325,6 +495,7 @@ export function runRules(
   pieces: readonly RulePiece[],
   ledger: PartGradeLedger,
   places: PlaceReports = {},
+  stores: JudgedStores = new Map(),
 ): RunResult {
   const enforced = rules.filter((rule) => rule.status === "enforced");
   const samples = rules.filter((rule) => rule.status === "sample");
@@ -346,13 +517,29 @@ export function runRules(
     return row;
   };
   for (const rule of rules) count(rule.id);
+  const verdicts = new Map<string, VerdictCount>();
+  const awaitingVerdict: Record<string, number> = {};
+  for (const rule of rules.filter(judgesLines)) {
+    const store = stores.get(rule.id);
+    const judging = lineSubjects(rule, pieces, ledger);
+    let judged = 0;
+    let bad = 0;
+    for (const piece of judging) {
+      const verdict = verdictOf(store, pieceVerdictId(piece));
+      if (verdict) judged += 1;
+      if (verdict === "no") bad += 1;
+    }
+    const waiting = judging.length - judged;
+    verdicts.set(rule.id, { judged, bad, waiting });
+    if (rule.status !== "awaiting-test") awaitingVerdict[rule.id] = waiting;
+  }
   const held = new Set<string>();
   const good = new Set<string>();
   for (const piece of pieces) {
     if (heldByGrades(piece.key, ledger)) held.add(piece.key);
     if (gradedGood(piece.key, ledger)) good.add(piece.key);
     for (const rule of enforced)
-      if (ruleFlags(rule, piece)) {
+      if (ruleFlags(rule, piece, stores)) {
         const row = count(rule.id);
         row.flagged += 1;
         row.examples.push(piece.key);
@@ -365,7 +552,7 @@ export function runRules(
         }
       }
     for (const rule of samples)
-      if (ruleFlags(rule, piece)) {
+      if (ruleFlags(rule, piece, stores)) {
         const row = count(rule.id);
         row.flagged += 1;
         row.examples.push(piece.key);
@@ -374,7 +561,7 @@ export function runRules(
         sampled.set(piece.key, list);
       }
     for (const rule of rewrites)
-      if (ruleFlags(rule, piece)) {
+      if (ruleFlags(rule, piece, stores)) {
         const row = count(rule.id);
         row.flagged += 1;
         row.examples.push(piece.key);
@@ -448,6 +635,7 @@ export function runRules(
         {
           ...row,
           examples: row.examples.sort().slice(0, 5),
+          ...(verdicts.has(id) ? { verdicts: verdicts.get(id) } : {}),
           ...(places[id as keyof PlaceReports]
             ? { report: places[id as keyof PlaceReports] }
             : {}),
@@ -456,6 +644,9 @@ export function runRules(
     ),
     noReplyFollows:
       places["reply-follows-the-line-before"]?.noReplyFollows ?? {},
+    awaitingVerdict: Object.fromEntries(
+      Object.entries(awaitingVerdict).sort(([a], [b]) => (a < b ? -1 : 1)),
+    ),
     totals: {
       pieces: pieces.length,
       heldByGrades: held.size,
@@ -480,14 +671,45 @@ export interface PulledFile {
   readonly sample: Readonly<Record<string, readonly string[]>>;
   /** Lines after which no reply that fits follows: a new reply is needed (`spot` is `purpose/move`). */
   readonly noReplyFollows: Readonly<Record<string, readonly string[]>>;
+  /** Per `judged` rule past `awaiting-test`, lines waiting for a verdict: the count the guard holds new lines to. */
+  readonly awaitingVerdict: Readonly<Record<string, number>>;
 }
 
-export function pulledFileOf(result: RunResult): PulledFile {
+/**
+ * The counts of lines waiting for a verdict a run may write: a count may fall
+ * or hold, never rise above the committed one. A rule the committed file does
+ * not count yet (it just left `awaiting-test`) starts at its fresh count.
+ * `rose` names each rule whose fresh count is higher, for the run to refuse.
+ */
+export function awaitingAfter(
+  fresh: Readonly<Record<string, number>>,
+  committed: Readonly<Record<string, number>> | undefined,
+): {
+  readonly counts: Readonly<Record<string, number>>;
+  readonly rose: readonly { rule: string; fresh: number; committed: number }[];
+} {
+  const counts: Record<string, number> = {};
+  const rose: { rule: string; fresh: number; committed: number }[] = [];
+  for (const [rule, count] of Object.entries(fresh)) {
+    const before = committed?.[rule];
+    if (before !== undefined && count > before) {
+      rose.push({ rule, fresh: count, committed: before });
+      counts[rule] = before;
+    } else counts[rule] = count;
+  }
+  return { counts, rose };
+}
+
+export function pulledFileOf(
+  result: RunResult,
+  awaitingVerdict: Readonly<Record<string, number>> = result.awaitingVerdict,
+): PulledFile {
   return {
     schema: "english-pulled/1",
     pulled: result.pulled,
     waiting: result.waiting,
     sample: result.sample,
     noReplyFollows: result.noReplyFollows,
+    awaitingVerdict,
   };
 }

@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: #8526
 after:
 blocked-on:
 lead: screens
@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** Measured by the Nov 9 audit: "New game is two bare words in a box with no busts. The creator opens as one large Start a life box with no figure in it until a gender is picked." The audit's browser life was in Blodgett Landing, New Hampshire (no seed); these are the screens before a world exists. The owner said the same on Nov 8 (v0.94.0): "why aren't the busts in?" Fix the class: every front screen that shows a person shows a bust from the one face part, from the first moment the screen opens, and New game shows its two choices as the approved render draws them. If the bust art for men is still not in the pack, build with the round pack headshots the menus already crop, registered as a stopgap, never a full figure.
@@ -30,8 +31,10 @@ root: rc10-screens-keep-own-facts
 
 **Done when.** A second session starts the bench (`npm run bench`), opens the title, clicks New game and takes a screenshot at 1440×900; then clicks Start a life and takes a second screenshot before touching any control. The New game screenshot must match `docs/mocks/2026-11-08-front/renders/fr-new.jpg` in what it holds (the two choices with their busts, no empty box around two words). The creator screenshot must show a bust in the figure column from the first frame, and must not show a full-length figure or an empty figure column. The session then picks each gender in turn and confirms the bust changes and no second figure appears, and starts the life in a drawn place (place and seed named in the proof) to confirm the creator still begins a game. The same two screenshots are taken once more on the way into Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro. The owner plays it: he clicks New game and sees faces on both choices, and the creator shows his character's bust the moment it opens.
 
-**Waits on.** Nothing (men's bust art may force a registered stopgap).
+**Waits on.** The owner's decision on how busts are shown (docs/coordination/OWNER-DECISIONS.md, Nov 10, "Staging waits for busts": "I haven't decided how they're going to display yet"). The approved front mocks (docs/mocks/2026-11-08-front, fr-new and fr-creator) show where a bust goes; build once he has said how it is drawn. Men's bust art may force a registered stopgap.
 
 **Files.** src/bench/play.html, src/bench/play.mjs, src/bench/play.css, src/bench/ui/strips.mjs, src/bench/ui/headshot.mjs
 
 **Notes.** From the audit's Pillar 6, re-checked in the game. Playtest points P3, P4, P5 and C1 of docs/coordination/playtest/2026-11-08-1.md; the check file says the front ports (the Fixer's Nov 8 PRs) "left out the busts, the creator's arrows, Play as with busts, the world settings as figures and the loading story", and that "no session owns putting busts in the game" (women's busts accepted Nov 7; the men's three-quarter heads unfinished on Nov 8). So the art may be the blocker: if the bust art for men is still not in the pack, say so in a one-line note and build with the round pack headshots the menus already crop, registered as a stopgap, never a full figure. Related: play-one-person-shows-two-faces (one face part for every screen, filed Nov 10), play-your-life-draws-a-full-body-figure (filed Nov 10). The creator's color rows now step with arrows (`src/bench/ui/look-row.mjs`, line 48), which waits on the open question "Arrows on single-value steppers" (OWNER-DECISIONS, Open, Nov 9); leave them as they are. Not verified by the audit: whether Advanced, Play as shows busts.
+
+**Notes (Nov 11, 2026, built).** Built in #8526 on the bust bank (art/busts/v1), after the owner ruled on Nov 10 how people are shown (busts; full bodies after early access). The creator offers what the bank paints (skin, hair, facial hair), registered as SG-PLAY-creator-bust-choices; the color arrows this item said to leave are gone with the colors, because a bust shows none. The two screens come before a place is chosen, so the Blodgett Landing shots are the same screens; the second session takes them.

@@ -16,6 +16,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** A played-world measurement of bribes offered, taken, surfaced and reported was made in four played worlds, but the only real series it had (Justice Department Public Integrity Section officials charged with any public-corruption offense, data/research/corruption/doj-pin-2023-local-state-prosecutions.json) counts officials, not bribe incidents, and mixes bribery with extortion, fraud and other offenses, so it is only an exploratory proxy. Find a bribery-specific measure (for example federal sentencing counts for the bribery guideline, or state charges for bribery of public officials) per government or per state-year, with its source and spread.

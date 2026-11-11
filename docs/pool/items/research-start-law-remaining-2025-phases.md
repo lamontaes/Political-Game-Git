@@ -4,18 +4,19 @@ title: "Research: the January 2025 law for local taxes, local wages, corporate t
 area: laws
 kind: research
 priority: 2
-size: M
-status: open
+size: S
+status: dropped
 claimed-by:
 pr:
 blocked-on: research-start-law-remaining-2025-phases-part-1-local-taxes, research-start-law-remaining-2025-phases-part-2-minimum-wage-tiers, research-start-law-remaining-2025-phases-part-3-corporate-and-unemployment, research-start-law-remaining-2025-phases-part-4-territories
 source: added with npm run pool -- add
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc9-place-facts-one-default
 lead: laws
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The opening still carries the January 2026 phase back to January 20, 2025 for county and city income taxes (150 jurisdictions), city sales taxes (61), county, city and some state minimum-wage tiers, state corporate income tax (50 states), local income tax authority, unemployment program terms and the five territories' income and sales taxes. The national tables for the federal and state taxes, SNAP, the Medicaid match and unemployment maximums now carry their sourced 2025 phase (data/research/laws/_-2025-_.json, built by scripts/research/build-starting-law.py). Source the phase in force on January 20, 2025 for each remaining series and place the same way, so rowsCarriedToStart in src/core2/modules/laws.ts reaches nothing and SG-GOV-start-law-carried-back resolves. The work is split into the four parts named in Waits on.
@@ -34,4 +35,4 @@ after:
 
 **Files.** scripts/research/build-starting-law.py, scripts/research/check-start-law-2025.ts, src/core2/data/laws/starting-law.json, src/core2/modules/laws.ts, src/core2/data/stopgaps/gov.json, data/research/laws/local-starting-law/local-income-tax.json
 
-**Notes.** TODO
+**Notes.** TODO Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it sources January 2025 values for local taxes, wages, corporate tax and unemployment the opening carries back from 2026; no one reads the difference.

@@ -1,0 +1,255 @@
+{
+  "pack": 1,
+  "about": "The bust bank: a person on a menu is a head, a top, facial hair and hair stacked on one canvas (src/bench/bust.ts is the only reader). Rounds 1 and 2 were painted by the CTO with Codex, Nov 7 to 9, 2026; round 3 (accepted by the owner Nov 10) replaced them: six heads, six tops, six hairstyles in four colors and, for men, a beard and a mustache in three, for each sex. See README.md for his rulings and tags.json for one row per file. New pieces keep the canvas and the order and are added as rows here. `people` are the people a bust can be, each with a skin tone; their ids are the ones a saved look names. `hairColors` says which painted hair colors an adult of each tone may have (who exists, never what anyone does); `olderHair` is the color an older head wears. `names` are the creator's words for a tone, a style and a color.",
+  "canvas": 1254,
+  "order": ["head", "top", "face", "hair"],
+  "people": [
+    {
+      "id": "woman-medium",
+      "sex": "woman",
+      "tone": "dark"
+    },
+    {
+      "id": "woman-slim",
+      "sex": "woman",
+      "tone": "medium"
+    },
+    {
+      "id": "woman-heavy",
+      "sex": "woman",
+      "tone": "light"
+    },
+    {
+      "id": "man-medium",
+      "sex": "man",
+      "tone": "medium"
+    },
+    {
+      "id": "man-slim",
+      "sex": "man",
+      "tone": "light"
+    },
+    {
+      "id": "man-heavy",
+      "sex": "man",
+      "tone": "dark"
+    }
+  ],
+  "hairColors": {
+    "light": ["black", "darkbrown", "blond"],
+    "medium": ["black", "darkbrown"],
+    "dark": ["black", "darkbrown"]
+  },
+  "olderHair": "gray",
+  "names": {
+    "light": "Light",
+    "medium": "Medium",
+    "dark": "Deep",
+    "bob": "Bob",
+    "curls": "Curls",
+    "pixie": "Pixie",
+    "shoulder": "Shoulder length",
+    "updo": "Updo",
+    "waves": "Waves",
+    "crop": "Cropped",
+    "receding": "Receding",
+    "sidepart": "Side part",
+    "swept": "Swept back",
+    "textured": "Textured",
+    "black": "Black",
+    "darkbrown": "Dark brown",
+    "blond": "Blond",
+    "gray": "Gray",
+    "beard": "Beard",
+    "mustache": "Mustache"
+  },
+  "sets": {
+    "woman": {
+      "dir": "women/front",
+      "head": {
+        "top": 99,
+        "middle": 626,
+        "width": 436
+      },
+      "tones": ["light", "medium", "dark"],
+      "heads": {
+        "light": {
+          "adult": "head-light-adult.png",
+          "older": "head-light-older.png"
+        },
+        "medium": {
+          "adult": "head-medium-adult.png",
+          "older": "head-medium-older.png"
+        },
+        "dark": {
+          "adult": "head-dark-adult.png",
+          "older": "head-dark-older.png"
+        }
+      },
+      "tops": {
+        "everyday": ["top-denim.png", "top-henley.png"],
+        "work": ["top-cardigan.png", "top-oxford.png"],
+        "official": ["top-blazer.png", "top-pantsuit.png"]
+      },
+      "face": [],
+      "hair": [
+        {
+          "style": "bob",
+          "files": {
+            "black": "hair-bob-black.png",
+            "blond": "hair-bob-blond.png",
+            "darkbrown": "hair-bob-darkbrown.png",
+            "gray": "hair-bob-gray.png"
+          }
+        },
+        {
+          "style": "curls",
+          "files": {
+            "black": "hair-curls-black.png",
+            "blond": "hair-curls-blond.png",
+            "darkbrown": "hair-curls-darkbrown.png",
+            "gray": "hair-curls-gray.png"
+          }
+        },
+        {
+          "style": "pixie",
+          "files": {
+            "black": "hair-pixie-black.png",
+            "blond": "hair-pixie-blond.png",
+            "darkbrown": "hair-pixie-darkbrown.png",
+            "gray": "hair-pixie-gray.png"
+          }
+        },
+        {
+          "style": "shoulder",
+          "files": {
+            "black": "hair-shoulder-black.png",
+            "blond": "hair-shoulder-blond.png",
+            "darkbrown": "hair-shoulder-darkbrown.png",
+            "gray": "hair-shoulder-gray.png"
+          }
+        },
+        {
+          "style": "updo",
+          "files": {
+            "black": "hair-updo-black.png",
+            "blond": "hair-updo-blond.png",
+            "darkbrown": "hair-updo-darkbrown.png",
+            "gray": "hair-updo-gray.png"
+          }
+        },
+        {
+          "style": "waves",
+          "files": {
+            "black": "hair-waves-black.png",
+            "blond": "hair-waves-blond.png",
+            "darkbrown": "hair-waves-darkbrown.png",
+            "gray": "hair-waves-gray.png"
+          }
+        }
+      ]
+    },
+    "man": {
+      "dir": "men/front",
+      "head": {
+        "top": 83,
+        "middle": 614,
+        "width": 423
+      },
+      "tones": ["light", "medium", "dark"],
+      "heads": {
+        "light": {
+          "adult": "head-light-adult.png",
+          "older": "head-light-older.png"
+        },
+        "medium": {
+          "adult": "head-medium-adult.png",
+          "older": "head-medium-older.png"
+        },
+        "dark": {
+          "adult": "head-dark-adult.png",
+          "older": "head-dark-older.png"
+        }
+      },
+      "tops": {
+        "everyday": ["top-chambray.png", "top-sweater.png"],
+        "work": ["top-oxford.png", "top-shirt.png"],
+        "official": ["top-charcoal.png", "top-suit.png"]
+      },
+      "face": [
+        {
+          "style": "beard",
+          "files": {
+            "black": "face-beard-black.png",
+            "darkbrown": "face-beard-darkbrown.png",
+            "gray": "face-beard-gray.png"
+          }
+        },
+        {
+          "style": "mustache",
+          "files": {
+            "black": "face-mustache-black.png",
+            "darkbrown": "face-mustache-darkbrown.png",
+            "gray": "face-mustache-gray.png"
+          }
+        }
+      ],
+      "hair": [
+        {
+          "style": "crop",
+          "files": {
+            "black": "hair-crop-black.png",
+            "blond": "hair-crop-blond.png",
+            "darkbrown": "hair-crop-darkbrown.png",
+            "gray": "hair-crop-gray.png"
+          }
+        },
+        {
+          "style": "curls",
+          "files": {
+            "black": "hair-curls-black.png",
+            "blond": "hair-curls-blond.png",
+            "darkbrown": "hair-curls-darkbrown.png",
+            "gray": "hair-curls-gray.png"
+          }
+        },
+        {
+          "style": "receding",
+          "files": {
+            "black": "hair-receding-black.png",
+            "blond": "hair-receding-blond.png",
+            "darkbrown": "hair-receding-darkbrown.png",
+            "gray": "hair-receding-gray.png"
+          }
+        },
+        {
+          "style": "sidepart",
+          "files": {
+            "black": "hair-sidepart-black.png",
+            "blond": "hair-sidepart-blond.png",
+            "darkbrown": "hair-sidepart-darkbrown.png",
+            "gray": "hair-sidepart-gray.png"
+          }
+        },
+        {
+          "style": "swept",
+          "files": {
+            "black": "hair-swept-black.png",
+            "blond": "hair-swept-blond.png",
+            "darkbrown": "hair-swept-darkbrown.png",
+            "gray": "hair-swept-gray.png"
+          }
+        },
+        {
+          "style": "textured",
+          "files": {
+            "black": "hair-textured-black.png",
+            "blond": "hair-textured-blond.png",
+            "darkbrown": "hair-textured-darkbrown.png",
+            "gray": "hair-textured-gray.png"
+          }
+        }
+      ]
+    }
+  }
+}

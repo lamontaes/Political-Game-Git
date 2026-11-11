@@ -16,6 +16,7 @@ effort: medium
 root: design-story-director
 source: split from words-scene-ending-writes-its-record in the pool redo, Nov 10, 2026
 standard: 2
+checked: fable 2026-11-10
 ---
 
 **What.** Once the endings write their records, a guard keeps it so. A test walks every ending of every scene kind. It fails when an ending keeps nothing and its kind is not on the list of kinds that keep nothing for a stated reason.

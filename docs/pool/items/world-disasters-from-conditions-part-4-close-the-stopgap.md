@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc1-world-outside-town
 source: split from world-disasters-from-conditions in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** When damage, repairs and aid are built, the stopgap SG-CORE-disasters-from-records no longer describes the code. Mark it resolved with what replaced it, and make the disaster-weather test state the whole chain by record id: hazard record, disaster, damaged homes and businesses, repairs and insurance over months, aid on its dates.
@@ -24,7 +25,7 @@ source: split from world-disasters-from-conditions in the pool redo, Nov 10, 202
 
 **Fix.** Resolve the stopgap row with the resolving change named, and extend src/core2/disaster-weather.test.ts to follow the chain by record id.
 
-**Time box.** 2 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-disasters-from-conditions (which waits on it); the disaster chain the weather test states.
 
 **Rules.** Every cut corner is a registered stopgap and a closed one says what closed it. The chain is the acceptance: the record, the damage, the payment and the person it reached, by record id.
 

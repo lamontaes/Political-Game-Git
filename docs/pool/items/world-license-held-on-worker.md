@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** No person record carries an occupational license, so a repeal of a license has nothing to change in a match. Derive a held-license fact for each worker in a licensed occupation from their schooling record and job history, by the same rule for full and counted people, using the licensed shares by occupation and state. The jobs engine can then read the license when it matches a seeker, which world-licensing-reform-jobs needs.
@@ -24,7 +25,7 @@ source: added with npm run pool -- add
 
 **Fix.** Derive a held-license fact per worker in a licensed occupation from schooling and job history, the same rule for full and counted people, using the licensed shares table from research-occupational-licensing-table; keep it on the worker so a filled-in counted worker keeps the same license.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-licensing-reform-jobs (the repeal has nobody to reach until a worker holds a license or not).
 
 **Rules.** One model, two tiers: the same derivation for a counted worker times their count. No dice: a license follows from schooling, tenure and the occupation's requirement, never a share rolled per person. Replace, never layer: no second license record beside the one built.
 

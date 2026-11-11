@@ -17,9 +17,10 @@ standard: 2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
-**What.** In Cochituate, Massachusetts (key 2514570, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc) organization_2e7b1494489acb56 paid its owner 198,017,107 cents over three years on 179,939,980 cents of sales received; roadmap M1-08's check fails on it. Suspected cause, not confirmed: business.ts (around 1275) takes profit from the net cash change, which counts loans and owner equity coming in, so retained profit and the draw can include borrowed money. The check itself, src/core2/tooling/m1-08-check.ts, is now in the repository (the Oct 27 note below could not find it), and it compares each owner draw in the journal with the profit the business had kept, so the worker can run it on the place and seed above and name the failing clause before changing business.ts.
+**What.** In Cochituate, Massachusetts (key 2514570, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc) organization_2e7b1494489acb56 paid its owner 198,017,107 cents over three years on 179,939,980 cents of sales received; roadmap M1-08's check fails on it. Suspected cause, not confirmed: business.ts (around 1275) takes profit from the net cash change, which counts loans and owner equity coming in, so retained profit and the draw can include borrowed money. The check itself, src/core2/tooling/m1-08-check.ts, is now in the repository (the Oct 27 note below could not find it), and it compares each owner draw in the journal with the profit the business had kept, so the worker can run it on the place and seed above and name the failing clause before changing business.ts. Seen: an owner's pay and the business's books in the town's money numbers, where a draw larger than the sales is a wrong result.
 
 **Cause.** Needs cause. Looked at: the item's own Notes (a worker on Oct 27 ran Cochituate, Massachusetts, seed above, and found no business whose owner draws exceeded its sales; draws are capped by retained profit and by cash past the payroll cushion in src/core2/modules/business.ts) and the check, which now exists at src/core2/tooling/m1-08-check.ts. Not read: how that check counts a draw (it may count the owner's wages, rent or other payments to the owner as draws).
 

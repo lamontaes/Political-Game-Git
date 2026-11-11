@@ -5,18 +5,20 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #6166
+claimed-by: claude/pool-docs-oct26-rules-match-pool-and-law-status
+pr: #8382
 after:
 blocked-on:
 lead: cto
-model: haiku
+model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T00:29:19.170Z
+checked: fable 2026-11-10
+branch: claude/pool-docs-oct26-rules-match-pool-and-law-status
 ---
 
 **What.** PR #6166 introduced useful owner rulings and a SMART process rule, but two documentation claims are stale or broader than the implemented behavior. The rule says the pool check flags an open item without a time box, while the check enforces the Time box only for play-first items (and for items at the standard). The LAW-LINK package describes old handler counts and a single Codex builder in the present tense, which conflicts with the laws and effects lead. Correct those statements without weakening any runtime or release guard.
@@ -25,7 +27,7 @@ claimed-at:
 
 **Fix.** Reword line 15 to say what the check enforces now, and mark docs/packages/LAW-LINK.md as dated history routed to the laws lead. Preserve the new owner rulings. Mirror skill files only if one is touched.
 
-**Time box.** 1 hour for one Haiku session.
+**Time box.** 1 hour for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Replace, never layer: correct the existing documentation and preserve the owner rulings, distinguishing process requirements from actual CLI enforcement and marking historical plans as history. Look before you ask: read OWNER-DECISIONS.md for the laws lead before routing.
 
@@ -36,3 +38,5 @@ claimed-at:
 **Files.** .agents/rules/smart-and-look-first.md, docs/packages/LAW-LINK.md, scripts/pool/index.ts, scripts/pool/standard.ts
 
 **Notes.** Sent back 2026-10-26 from PR #6166 (branch claude/festive-gauss-ybtd28, checked dc46edc69a): inaccurate all-open-item Time box CLI claim and obsolete LAW-LINK present-tense counts/ownership; fix on this branch, merge main first. Other rule/ruling changes are preserved; no runtime failure or full gate green claimed.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:28 UTC) on branch claude/pool-docs-oct26-rules-match-pool-and-law-status.

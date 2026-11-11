@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from gov-dual-office-law-by-place in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Compile the constitutional and statutory dual-office prohibitions and exceptions for Alabama through Florida (for example a state legislator who may also sit on a local school board) into `src/core2/data/offices/incompatibility.json`, each row cited by section with its retrieval date, replacing the ESTIMATED conservative row. Where a place's law is not found, keep the conservative rule with a spread note. The reader `incompatibleOffices` already reads the file.
@@ -33,3 +34,5 @@ source: split from gov-dual-office-law-by-place in the pool redo, Nov 10, 2026
 **Waits on.** Network access to the state statute sites.
 
 **Files.** src/core2/data/offices/incompatibility.json, src/core2/office-incompatibility.ts, src/core2/office-incompatibility.test.ts (new)
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Research citations of dual-office law, seen nowhere.

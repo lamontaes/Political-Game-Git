@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from elections-county-race-sees-only-the-town in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The rest of the county is counted coarsely for statewide races but has no people who could run for the county's own seats. A few hundred town records cannot stand for the tail of a county of tens of thousands. This part generates the county's people like each counted record with their own seeded temperament, as generation of who exists.

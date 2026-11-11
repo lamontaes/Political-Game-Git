@@ -30,7 +30,11 @@ export function pager({
   const box = el("div", { className: `pager ${className}` }, grid);
   grid.replaceChildren(...items.map(render));
   const sizeBox = () => {
-    const shown = Math.min(rows, Math.ceil(items.length / columns));
+    // Rows that grow when their text wraps get the whole allowance, so a
+    // short list of long names shows whole before the box scrolls.
+    const shown = growRows
+      ? rows
+      : Math.min(rows, Math.ceil(items.length / columns));
     box.style.maxHeight = `${shown * rowHeight + Math.max(0, shown - 1) * gap}px`;
   };
   sizeBox();

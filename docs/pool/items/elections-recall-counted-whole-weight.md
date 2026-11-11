@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** A recall vote gives a counted voter record's whole turnout to remove or keep by the sign of its grievance. In the recall vote every voter's grievance g decides their side by its sign: a counted record standing for many residents adds its whole turnout to remove when g > 0 and to keep when g < 0. So a grievance of +0.01 moves every resident a record stands for, the same first-place effect the Q1 ruling replaced for candidate races (0.15 appeal units moved Lajas, Puerto Rico by 19.6 points). The grievance scale was never sized in appeal units, so the share cannot simply reuse the candidate slope. Named voters keep their own side.

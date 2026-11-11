@@ -7,6 +7,7 @@
  * runs during play.
  */
 import { bookkeeping } from "./bookkeeping";
+import { isOwnPastKind } from "./own-past-kinds";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import type {
@@ -29,7 +30,8 @@ export interface PreStartWindow {
   from: IsoDate;
   /** Last day before the start date. */
   through: IsoDate;
-  step: "month" | "quarter";
+  /** "year" is a person's own past before the world's window (src/core2/pre-start.ts `ownWindowOf`). */
+  step: "month" | "quarter" | "year";
 }
 
 /** One dated record of something that happened before the start. */
@@ -66,9 +68,10 @@ export interface PreStartModule extends CoreModule {
   preStart?: PreStartPass;
 }
 
-/** The first day of each month (or quarter) in the window. */
+/** The first day of each month (or quarter, or year) in the window. */
 export function coarseSteps(window: PreStartWindow): IsoDate[] {
-  const months = window.step === "quarter" ? 3 : 1;
+  const months =
+    window.step === "year" ? 12 : window.step === "quarter" ? 3 : 1;
   const first = new Date(`${window.from}T00:00:00.000Z`);
   first.setUTCDate(1);
   const steps: IsoDate[] = [];
@@ -290,19 +293,122 @@ function sameAsOldWrite(
     throw new Error("The pre-start history's ids differ from its rows.");
 }
 
+/** A person's birthday in the year of `date`: the day a year-grain record before the world's window is told on. */
+export function grainDate(
+  person: Readonly<PersonState>,
+  date: string,
+  worldFrom: IsoDate,
+): IsoDate {
+  const day = person.birthDate.slice(5);
+  const told = makeIsoDate(
+    `${date.slice(0, 4)}-${day === "02-29" ? "03-01" : day}`,
+  );
+  return told < worldFrom ? told : addDays(makeIsoDate(worldFrom), -1);
+}
+
+/**
+ * A person's own window (the owner's ruling, Nov 9, 2026: each person's past
+ * covers their whole life, coarse, written only when they are opened or
+ * met): from the day they were born through the day before the world's
+ * opening. The part before the world's window is told a year at a step; the
+ * part inside it keeps the world's step.
+ */
+export function ownWindowOf(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): PreStartWindow | undefined {
+  const world = windows.get(core);
+  if (!world) return undefined;
+  const born = makeIsoDate(person.birthDate);
+  return born < world.from
+    ? { from: born, through: world.through, step: "year" }
+    : world;
+}
+
+/** Whose whole past is written, by pass: a person's name is marked the first time a pass runs for them, and never again. */
+const wholePasts = new WeakMap<CoreState, Record<string, string[]>>();
+registerWorldMapPart("core2-whole-pasts", wholePasts);
+
+/** True the first time `pass` runs for a person in this world, false after (the pass is then already written). */
+export function wholePastOnce(
+  core: CoreState,
+  personId: PersonId,
+  pass: string,
+): boolean {
+  let marks = wholePasts.get(core);
+  if (!marks) wholePasts.set(core, (marks = {}));
+  const done = (marks[personId] ??= []);
+  if (done.includes(pass)) return false;
+  done.push(pass);
+  return true;
+}
+
+/** Whether a person's whole past has been written (every pass has run for them). */
+export function wholePastOpened(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  passes: readonly string[],
+): boolean {
+  const done = wholePasts.get(core as CoreState)?.[personId] ?? [];
+  return passes.every((pass) => done.includes(pass));
+}
+
+/** Rows taken out of the history (a person's own, restated by their whole past). */
+function removeRows(history: HistoryRecord[], gone: ReadonlySet<string>): void {
+  const index = indexes.get(history);
+  const taken = history.filter((row) => gone.has(row.id));
+  if (!taken.length) return;
+  const kept = history.filter((row) => !gone.has(row.id));
+  history.length = 0;
+  for (const row of kept) history.push(row);
+  if (!index) return;
+  for (const row of taken) {
+    index.ids.delete(row.id);
+    for (const id of namedIn(row)) {
+      const own = index.byPerson.get(id);
+      if (own)
+        index.byPerson.set(
+          id,
+          own.filter((held) => held !== row),
+        );
+    }
+  }
+}
+
 /**
  * The past of someone filled in from the counts after the run: their own
  * records, dated inside the same window, written by the module that would
- * have written them had they been full on day one.
+ * have written them had they been full on day one. With `person`, the rows
+ * are that person's own past and may reach back to their birth (only the
+ * kinds `ownPastKind` names), and `drop` takes out records of theirs these
+ * restate.
  */
 export function recordPreStartLater(
   core: CoreState,
   moduleId: string,
   rows: readonly Omit<HistoryRecord, "moduleId">[],
+  own?: { person: PersonId; drop?: readonly string[] },
 ): void {
-  const window = windows.get(core);
+  const world = windows.get(core);
   const history = histories.get(core);
-  if (!window || !history || !rows.length) return;
+  if (!world || !history) return;
+  let window = world;
+  if (own) {
+    const born = core.people.get(own.person)?.birthDate;
+    if (!born)
+      throw new Error(`An own past for an absent person: ${own.person}`);
+    for (const row of rows)
+      if (row.date < world.from && !isOwnPastKind(row.kind))
+        throw new Error(
+          `${row.id} is not a person's own past and cannot be dated before the window: ${row.date}`,
+        );
+    window = {
+      ...world,
+      from: makeIsoDate(born) < world.from ? makeIsoDate(born) : world.from,
+    };
+    if (own.drop?.length) removeRows(history, new Set(own.drop));
+  }
+  if (!rows.length) return;
   const index = indexes.get(history);
   if (!index) {
     const ids = appendAndSort(core, window, history, moduleId, rows);

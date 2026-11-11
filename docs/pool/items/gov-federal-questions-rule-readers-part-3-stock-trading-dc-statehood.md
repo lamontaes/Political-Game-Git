@@ -16,9 +16,10 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: split from gov-federal-questions-rule-readers in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
-**What.** Write the effect reader for the congressional stock trading ban and statehood for D.C.: the enacted law row changes what a business, a court, an official or a household may do, and a named engine reads it at its decision. Add a row to `src/core2/data/laws/reach-group-a.json` or a module hook, use the powers catalog for who is bound, and remove the question from `SG-LAWS-federal-position-no-reader` in `src/core2/data/stopgaps/laws.json` once it is read.
+**What.** Write the effect reader for the congressional stock trading ban and statehood for D.C.: the enacted law row changes what a business, a court, an official or a household may do, and a named engine reads it at its decision. Add a row to `src/core2/data/laws/reach-group-a.json` or a module hook, use the powers catalog for who is bound, and remove the question from `SG-LAWS-federal-position-no-reader` in `src/core2/data/stopgaps/laws.json` once it is read. Feeds: gov-federal-questions-rule-readers.
 
 **Cause.** Measured: Marion, Mississippi (seed 7df73e53cd67), the Nov 10 law sweep: federal rule bills passed, were signed and moved nothing of their own against a twin world; the question is listed in `SG-LAWS-federal-position-no-reader` (`src/core2/data/stopgaps/laws.json`).
 
@@ -33,3 +34,5 @@ source: split from gov-federal-questions-rule-readers in the pool redo, Nov 10, 
 **Waits on.** gov-congress-passes-policy-laws (or dev mode's enact-a-law route) so the law can be enacted.
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/modules/offices.ts, src/core2/data/stopgaps/laws.json
+
+**Notes (Fable's check, Nov 10).** This part also covers what laws-three-yes-no-laws-reach-nobody asked for on these two laws (proposed drop): a reader for the stock-trading ban in members' own money decisions, and a reader for D.C. statehood in who represents the District. When they are read, take them off the list at src/core2/modules/laws.ts (lines 307 to 313) and out of SG-LAWS-federal-position-no-reader.

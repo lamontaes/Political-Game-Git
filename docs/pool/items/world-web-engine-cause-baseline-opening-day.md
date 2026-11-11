@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The outcome web takes each engine-measure cause's baseline when it opens, so a cause a law changes on that same day gets the changed value as its baseline and the web never sees the change. The taxes helper fixed it for two law measures (a state corporate rate, a property tax rate) with baselineReader. The causes split three ways: law reads with a date already take the law in force the day before the web opened; the SNAP maximum and minimum-wage measures are defined against their own reference; and the budget-line causes (parks, highways, schools, health and hospitals, welfare, higher education) read the budget row in place, which `amendBudget` overwrites, so the day-before value is not kept. The fix belongs in one place for all causes, not per measure.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** Keep a dated log of budget line changes, make `ENGINE_READERS` take a date, and delete `BASELINE_READERS` and the JSON baselineReader field in src/core2/data/outcome-web/outcome-web.json.
 
-**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the effect numbers on the bill card and Metrics tab for a law that takes effect on the web's opening day, which show no change today.
 
 **Rules.** Replace, never layer: one baseline rule for every engine-measure cause, read from the value the day before the web opened, replacing the per-measure readers. An effect is a read, not a record: the web reads the dated value when it measures. Speed: the log is written on the day a line changes, never a scan.
 

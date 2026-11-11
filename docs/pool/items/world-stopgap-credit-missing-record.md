@@ -4,7 +4,7 @@ title: "Stopgaps in credit (missing-record): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -17,6 +17,8 @@ root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/credit.ts, kind missing-record"
 claimed-at:
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** The bank holds opening mortgages whose original funding is an unmatched opening liability instead of named customer deposits. The money to back them is in the town, but moving it into deposit records takes it out of people's cash with nothing to offset it on the bank's side, so the offset needs a choice before the code: the ledger's opening-balance entry, or a one-time cut to every household's opening cash in proportion to its savings using a deposit-to-loan ratio from FDIC data with a spread. The choice is a stopgap to register, not a wait. Fund the opening mortgages from deposit records of named and counted households and clear the row.
@@ -40,3 +42,5 @@ claimed-at:
 Measured Oct 19 (claude/mortgage-funding, not built): Ingram, Texas, seed bank-probe-7a1, 40 days in. Bank deposits $0.95M; opening mortgage funding (the unmatched liability) $12.30M; mortgages held $12.26M; bank cash $6.15M; the 1,856 people hold $31.7M in cash between them. So the money to back the mortgages is in the town (39 percent of its cash), but moving it into deposit records takes it out of people's cash with nothing to offset it on the bank's side: the bank's cash does not rise because the mortgages were paid out long ago. Doing it needs a decision on the opening offset (the ledger's opening-balance entry, or a one-time cut to every household's opening cash in proportion to its savings, a deposit-to-loan ratio from FDIC data with a spread) before the code, and every test that sums opening cash will move. Suggested first step: the ratio, sourced, as an ESTIMATED parameter; then deposit records at the opening taken from households in proportion to their savings.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have named customer deposits behind opening mortgages; a bank's books are not on any screen.

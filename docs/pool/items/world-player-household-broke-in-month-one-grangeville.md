@@ -17,6 +17,7 @@ effort: high
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The command GOLDEN_PATH_SEED=4dd8e78f80e4655594ad8dfe9f684320be1d6c47b100552fa8978a9512b3b07f GOLDEN_PATH_PLACE_KEY=1632950 npx vitest run src/core2/player-money-year.test.ts failed at the living-cost line (src/core2/player-money-year.test.ts line 107) on Oct 20: the household's cash went 52,068 to 0 in the first month and stayed near 0 for the year (about $10,800 of pay, $2,450 of contracts settled, $8,100 moved to the counted residents account, no accounts.transfer living entry). The Oct 25 audit set the item open because the pull request that named it merged as other work, so the failure has not been reproduced on main. Find why the household runs dry so fast: its pay against its living cost, a living cost larger than its income, or members' cash left in the wrong account. The sibling core-player-household-no-income is done; read it first.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the player's own household's cash, which runs to zero in the first month.
 
 **Rules.** Wire to the world: one dollar followed from the household to the payee by journal record id. No dice. One rule, all 56 places: no place named in the fix. Estimate, never UNKNOWN.
 

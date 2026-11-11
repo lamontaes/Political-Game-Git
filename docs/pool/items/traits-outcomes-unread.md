@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+checked: fable 2026-11-10
 ---
 
 **What.** Of 23 outcomes personality should shape, 16 were read by their owning engine after the Oct 20 families and 7 were not. Five read only in part: an ordinary worker's job performance, earnings, coping with hardship, how others learn a trait, and speech (job performance and coping with hardship have since merged). Two are stopgapped because no engine runs them in play: partnering and divorce (`SG-TRAITS-partnerships-no-engine`). Make each owning engine read the trait at its researched size.
@@ -35,3 +36,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** data/content/trait-outcomes.json, src/core2/modules/work.ts, src/core2/modules/jobs.ts, src/core2/emotion.ts, scripts/traits/trait-wiring-matrix.ts, src/core2/data/stopgaps/traits.json
 
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A wiring-audit roll-up; the live pieces are split into their own items, such as people-impressions-from-witnessed-acts.

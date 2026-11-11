@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** Pack v4 paints the standard Oval Office poses for some people and not others. The medium and slim men and the heavy woman have no stand figure, the heavy man has no couch figure, and the three women and the heavy man have no gesture figure. A person without the pose a spot needs is not drawn there, so a President drawn as the medium man sits at the desk but cannot stand behind it. This is stopgap SG-PLAY-people-pack-v4-pose-gaps. It is full-body work, and on Nov 10 the owner ruled that full-body staging waits while busts are decided.
@@ -32,7 +33,7 @@ root: rc10-screens-keep-own-facts
 
 **Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts").
 
-**Files.** art/people-engine/v4/manifest.json, src/core2/data/stopgaps/play.json, src/bench/people-pack.test.ts
+**Files.** art/people-engine/v4/manifest.json, src/core2/data/stopgaps/play.json
 
 **Notes.**
 

@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** In states where a board, council or senate holds or must concur in clemency, the governor's day has no clemency act and no one is released by clemency. Build a small clemency board: members appointed per the state's data, petitions from prisoners in the justice engine, and recommendations read by the governor's act where the law requires them. Governor-alone clemency already exists. This closes the stopgap `SG-GOV-clemency-boards`.
@@ -34,4 +35,4 @@ root: none
 
 **Files.** src/core2/office-day-state.ts, src/core2/modules/justice.ts, src/core2/data/stopgaps/gov.json, src/core2/office-day-clemency.test.ts
 
-**Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-clemency-boards.
+**Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-clemency-boards. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A clemency board in the few states that have one; governor-alone clemency exists and courts come after early access.

@@ -631,6 +631,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 1"
       ],
+      "note": "Stays judged: the same words are specific in one scene and vague in another, and no tag on a use says what the scene has already named.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -810,10 +811,17 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 4"
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["^(?:what do you think|what does that mean)\\?$"]
+      },
+      "catches": ["What does that mean?", "What do you think?"],
+      "spares": [
+        "What do you think about that?",
+        "What does that mean for us, though?",
+        "Why me?"
+      ]
     },
     {
       "id": "no-pointing-at-the-unnamed",
@@ -881,6 +889,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 1"
       ],
+      "note": "Awaits the place reader: it needs the lines said before it in the scene, and no tag on a use says what the scene has named.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -957,11 +966,22 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 16"
       ],
-      "note": "The word \"filler\" is cited as his Nov 8 ruling, but it is not in his recorded message of that time. The source is the research document only until a note of his backs it.",
-      "status": "awaiting-test",
+      "note": "The word \"filler\" is cited as his Nov 8 ruling, but it is not in his recorded message of that time. The source is the research document only until a note of his backs it. Sample, not enforced: his recorded words do not say it, only the research does, so the lines it flags go in his next sample and none is pulled. The test reads a comma after the opener (\"Well,\" \"Look,\" \"So,\"), \"you know,\" or \"I mean,\" set off by commas, and \"you know\" closing a line; \"So far\", \"Look at\" and \"You know how\" are not flagged.",
+      "status": "sample",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "(?:^|[.!?] )(?:well|look|so),",
+          "(?:^|[.,!?] )(?:you know|i mean),",
+          "[a-z], you know[.!?]?$"
+        ]
+      },
+      "catches": ["Well, it's a start.", "You can't win this, you know."],
+      "spares": [
+        "So far one voter has heard from you.",
+        "Look at what we have done together.",
+        "Thanks for coming. You know how this works."
+      ]
     },
     {
       "id": "no-stock-phrases",
@@ -977,10 +997,17 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 16"
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "phrases",
+        "phrases": ["moving forward", "at the end of the day", "I hear you"]
+      },
+      "catches": [
+        "I hear you. The answer is still no.",
+        "Moving forward, we will listen."
+      ],
+      "spares": ["I hear the radio from here.", "The day ended early."],
+      "note": "Sample, not enforced: the three phrases come from the rule's own sentence and the research, not from his recorded words (his one note here, \"You're right, I shouldn't have said that\", is already held by rejected-by-voice). \"I hear you\" opens some replies on purpose, so the lines go in his next sample and none is pulled."
     },
     {
       "id": "no-explaining",
@@ -1011,7 +1038,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Stays judged: whether a line explains its own subtext or tells the player what to feel is meaning, and the only phrases in the banks that come near it (\"what that means\") are also ordinary speech; its saved verdicts come with part 7."
     },
     {
       "id": "no-quick-resolution",
@@ -1162,7 +1190,8 @@
         "kind": "judged"
       },
       "catches": ["I really need this one."],
-      "spares": ["I wish I could, but I can't."]
+      "spares": ["I wish I could, but I can't."],
+      "note": "Stays judged: whether \"I really need this one\" names its reason depends on the move and the record the line commits to, which no pattern on the line's words can read."
     },
     {
       "id": "stake-is-named",
@@ -1268,7 +1297,8 @@
         "I couldn't have done it without you.",
         "I could lose my primary over this",
         "this is a two-way street"
-      ]
+      ],
+      "note": "Stays judged: a stake can be a figure, a favor or a name in any words, so no pattern separates \"We're close, but not there yet.\" from a line that names its stake."
     },
     {
       "id": "reply-follows-the-line-before",
@@ -1959,6 +1989,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 6"
       ],
+      "note": "Awaits the place reader: it needs who the scene has introduced before the line, and no tag on a use holds that.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -2014,10 +2045,17 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: whether the vote or act has happened is on only three press-comment openers (`vote-held`), so a line that speaks of a vote as done cannot be told from one said after it.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
+      "catches": [
+        "Then put this in the story: I'm proud of my vote.",
+        "I'll sign it again tomorrow.",
+        "Your son has been waiting for you to get home.",
+        "Things are better than they were a year ago, and I intend to keep it going."
+      ],
       "examples": [
         {
           "line": "Then put this in the story: I'm proud of my vote.",
@@ -2056,12 +2094,6 @@
           "words": "Then you know what it does? I'll sign it again tomorrow. What do you mean again?",
           "date": "undated"
         }
-      ],
-      "catches": [
-        "Then put this in the story: I'm proud of my vote.",
-        "I'll sign it again tomorrow.",
-        "Your son has been waiting for you to get home.",
-        "Things are better than they were a year ago, and I intend to keep it going."
       ]
     },
     {
@@ -2290,6 +2322,7 @@
         "docs/research/dialogue/ (how games write dialogue), rule 7",
         "docs/research/dialogue/ (how games write dialogue), rule 8"
       ],
+      "note": "Stays judged: its catches turn on the speaker's age, job and tie to the listener and on the occasion; a use carries the tie only in sittings (`stranger`, `acquainted`), and no tag holds the speaker's age or job.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -2382,15 +2415,16 @@
           "via": "grade-row note (CTO summary of the Oct 15 night ruling)"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
+        "kind": "phrases",
+        "phrases": [
+          "I'd think hard about that",
+          "I'll think hard about that",
+          "Remember this conversation"
+        ]
       },
-      "catches": [
-        "I'd think hard about that.",
-        "Remember this conversation.",
-        "Don't expect your party's help in the next race."
-      ],
+      "catches": ["I'd think hard about that.", "Remember this conversation."],
       "spares": [
         "I'm not doing this in a hallway.",
         "You'll need friends after this vote. I won't be one.",
@@ -2399,7 +2433,8 @@
         "Then I'll find a candidate who listens.",
         "The party has a long memory.",
         "You know how this works."
-      ]
+      ],
+      "note": "Narrow on purpose: only the two lines he called weird on Oct 15 (\"I'll think hard about that\" reads as a threat out of nowhere; \"remember this conversation\" is weird). \"Don't expect your party's help in the next race\" is off the catch list: he said \"threatening like that is fine\"."
     },
     {
       "id": "ending-lands",
@@ -2924,7 +2959,8 @@
         "I'm hopeful tonight, and I think you've got a reason to be too.",
         "Madam Speaker and everyone watching, thank you for having me.",
         "I'll keep this practical tonight. Here's what I want to get done."
-      ]
+      ],
+      "note": "Stays judged: whether a speech reads as speech, takes a stance and fits the speaker is meaning, and every figure-heavy catch he named uses ordinary words."
     },
     {
       "id": "concrete-image-over-generic",
@@ -3001,7 +3037,8 @@
         "I slept on worse. Fine. Yes.",
         "Before anything else, let's take a breath. A lot of families are living through the worst days of their lives.",
         "They taped it to the door on Thursday. I read it 9 times and I still don't know who I'm supposed to call."
-      ]
+      ],
+      "note": "Stays judged: a concrete image against a generic statement is taste, and his notes liked and rejected near-twins (\"Door by door\" kept, \"write that on your hand\" cut)."
     },
     {
       "id": "trade-not-bribe",
@@ -3018,10 +3055,50 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on his own phrase: \"can't afford a yes\" (or a no) is pulled wherever the talk is not a bribe offer (purpose `bribe-offer`). Whether some other trade reads as a bribe is a reading no tag holds.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["\\bafford an? (?:yes|no)\\b"]
+      },
+      "applies": {
+        "uses": {
+          "lacks": {
+            "purpose": "^bribe-offer"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "Because those three can't afford a yes, and you can.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "floor-switch"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "Because those three can't afford a yes, and you can.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "bribe-offer"
+          }
+        },
+        {
+          "text": "I can't afford to wait a year.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asked",
+            "purpose": "mentor-advice"
+          }
+        }
+      ]
     },
     {
       "id": "variants-differ-in-what-they-say",
@@ -3230,6 +3307,7 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
+      "note": "Awaits the place reader: whether the listener knows why a line matters depends on what the scene set up before it, which no tag holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -3329,6 +3407,7 @@
           "words": "There's no ballot for you here today. Number 2 shouldn't even, or 3.2 shouldn't even be in there. It just shouldn't let you do it if you can't vote."
         }
       ],
+      "note": "Awaits its own reader: it judges which choices a screen offers, read from the player's registration and filing records, not a bank line's words or tags.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -3405,7 +3484,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Stays judged: this is an instruction to the writer before a line exists, so no line carries a mark of it; a line's result is judged by the rules for how it sounds."
     },
     {
       "id": "no-offer-tags",
@@ -4004,6 +4084,7 @@
           "via": "people.md"
         }
       ],
+      "note": "Stays judged: a test would need a list of feeling words his notes do not name, and whether a line narrates a feeling or shows it is a reading.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4052,10 +4133,54 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested where the place's body is not on record: a use that excludes the `body` fact is said when no body record names it, so a line there that calls it \"the board\" or \"the council\" names something the place may not have. These lines are the only ones such a world has for the spot, so the rule is `rewrite`: they keep playing until a rewrite names no body. A line said where the body is known reads its name from the `body` slot.",
+      "status": "rewrite",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "\\bthe (?:board|council|selectboard|trustees|commission)\\b"
+        ]
+      },
+      "applies": {
+        "uses": {
+          "has": {
+            "excludesFacts": "^body$"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "filing-clerk",
+            "excludesFacts": ["body"]
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "The board shows every name. Yours will be on it.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "ask-vote.watched"
+          }
+        },
+        {
+          "text": "The {body} sets the budget and passes the local laws, and you'd get a vote on all of it.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "filing-clerk",
+            "requiresFacts": ["body"]
+          }
+        }
+      ]
     },
     {
       "id": "news-reads-as-a-story",
@@ -4088,6 +4213,7 @@
           "via": "words-news-inauguration-story-reads-as-news.md"
         }
       ],
+      "note": "Stays judged: it judges a whole news item (headline, lede and body together), which no single piece or tag holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4104,6 +4230,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: it judges a whole history as told under a name, assembled from several pieces, which one piece and its tags cannot show.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4120,6 +4247,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: it needs what the player was told before the narration (why they came, what they carry), which no tag on a use holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4141,10 +4269,24 @@
           "via": "words-traits-middle-reads-as-a-sentence.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "\\bneither,? much\\b",
+          "^[A-Za-z' -]{3,40}: (?:high|low|medium|moderate|middling|neither|none|yes|no|\\d)\\b"
+        ]
+      },
+      "applies": {
+        "banks": ["person-sketch", "person-history"]
+      },
+      "catches": ["Keeping commitments: neither, much.", "Neither, much"],
+      "spares": [
+        "You think things through before you act.",
+        "They keep to themselves.",
+        "You're even-tempered: hard to rattle and hard to rush."
+      ],
+      "note": "Tests a trait name followed by a value (\"Neither, much\", \"Dependable: high\") in the person bank files; plain sentences, even with a colon, pass."
     },
     {
       "id": "reply-second-move-follows-the-first",
@@ -4170,7 +4312,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Stays judged: whether a reply's second sentence follows its first is meaning across two sentences, and the picker's reply-follows verdicts judge a line against the one before it, not within one reply."
     },
     {
       "id": "many-variants-of-the-same-meaning",
@@ -4199,6 +4342,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: the card's words about a person the player has not met are built on the screen, and no bank line says \"you have never met\".",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4220,6 +4364,7 @@
           "via": "2026-10-27-1.md"
         }
       ],
+      "note": "Stays judged: it judges the journal as a whole memoir, the entries around a line, which no single piece holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4246,6 +4391,7 @@
           "via": "LAW.md"
         }
       ],
+      "note": "Awaits a tag: whether a line needs its subject named depends on whether the entry around it already names it, and no tag on a use says so; no tag marks a record as a turning point.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4272,6 +4418,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: it judges the whole bill as the body's real form reads (numbering, sections, enacting words), not one piece.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4280,7 +4427,7 @@
     {
       "id": "bill-called-by-what-people-call-it",
       "says": "A bill is called by a real name, the name people give it, or what it does; never by a description from the catalog or the catalog's policy name.",
-      "judges": "line",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-14",
@@ -4296,7 +4443,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Moved to judge a piece in context: the bank line holds only the slot {bill}, and whether it is filled with a real name or the catalog's name is known only from the record at play, so part 2 reads the filled line."
     },
     {
       "id": "business-names-sound-real",
@@ -4314,6 +4462,7 @@
           "via": "people.md"
         }
       ],
+      "note": "Stays judged: it judges the names the world generates for businesses, which are not bank pieces.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4372,10 +4521,51 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on the use: an opener that asks after the school is said only where the use requires `long-ago`, the fact the conversation sets when the record shows the years since school pass the threshold. No tag records something that happened to a school, so that half of his ruling is not read.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["^(?:do |did )?(?:you )?remember \\{school\\}"]
+      },
+      "applies": {
+        "uses": {
+          "has": {
+            "role": "^(?:ask|raise|open)$"
+          },
+          "lacks": {
+            "requiresFacts": "^long-ago$"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "Do you remember {school}?",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "raise"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "Do you remember {school}?",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "raise",
+            "requiresFacts": ["long-ago"]
+          }
+        },
+        {
+          "text": "I remember.",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "answer"
+          }
+        }
+      ]
     },
     {
       "id": "request-needs-its-ground",
@@ -4452,10 +4642,22 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "\\b[A-Za-z]+ (?:director|secretary|commissioner|chair|chairman|officer|administrator|manager) ?/ ?[A-Za-z]+"
+        ]
+      },
+      "catches": [
+        "Budget Director / Finance Secretary",
+        "Ask the Budget Director / Finance Secretary."
+      ],
+      "spares": [
+        "Ask the finance secretary.",
+        "The budget director and the finance secretary agree."
+      ],
+      "note": "Tests the chart form inside a bank line (a title, a slash, a second title). A title filled in from data at play is the filled line's, not the bank's, and waits for a reader of the filled line."
     },
     {
       "id": "promise-only-what-the-speaker-can-do",
@@ -4468,6 +4670,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: whether the speaker can keep a promise depends on who they are (a lobbyist can call a stranger's office, a shopper cannot), and no tag holds the speaker's means.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4484,6 +4687,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: no use carries the pronoun the person goes by, and the banks have no pronoun slot, so \"they\" for one named person cannot be told right from wrong.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4505,11 +4709,11 @@
           "via": "words.md"
         }
       ],
+      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited. Awaits a tag: the later ruling (Oct 19) limits threes and literary turns by the speaker's skill, which no tag holds; the `device` tag is only on opening-speech pieces, all public address.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      },
-      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited."
+      }
     },
     {
       "id": "regional-speech-is-word-choice-only",
@@ -4522,10 +4726,18 @@
           "via": "words.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["\\b[a-z]{2,}in['’](?![a-z])", "\\bya['’]ll\\b"]
+      },
+      "catches": ["I'm goin' to the store.", "Ya'll come back now."],
+      "spares": [
+        "Y'all come on in.",
+        "Would you like pop or soda?",
+        "You guys ready?"
+      ],
+      "note": "Tests the clear spelled-out accents: a dropped final g with an apostrophe (\"goin'\") and \"ya'll\". Word choice (pop, soda, y'all, you guys) passes."
     },
     {
       "id": "swearing-follows-personality",
@@ -4538,6 +4750,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs the speaker's crudeness and whether the room is private, and no use carries either; no bank line swears today.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4554,6 +4767,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs whether the speaker read the matter or took part in it, which the bring-it-up bank's roles name only for some uses and no other bank holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4570,10 +4784,66 @@
           "via": "words.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on the scene narration he ruled on: a narrator's line (scene-talk role `narrator`, and the scene-words bank) that speaks as \"I\" outside a quotation. The journal's first person is in the rule's sentence but not in his words here, so it is not tested.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "^(?:[^\"“”]|[\"“][^\"”]*[\"”])*?\\b(?:I|I['’](?:m|ve|ll|d)|me|my|myself)\\b"
+        ]
+      },
+      "applies": [
+        {
+          "banks": ["scene-words"]
+        },
+        {
+          "banks": ["scene-talk"],
+          "uses": {
+            "has": {
+              "role": "^narrator$"
+            }
+          }
+        }
+      ],
+      "catches": [
+        {
+          "text": "I walk into the clerk's office with my forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator",
+            "purpose": "filing-clerk"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "You walk into the clerk's office with your forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator",
+            "purpose": "filing-clerk"
+          }
+        },
+        {
+          "text": "I'll take the forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asked",
+            "purpose": "filing-clerk"
+          }
+        },
+        {
+          "text": "{name} says, \"I'll be there.\"",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator"
+          }
+        }
+      ]
     },
     {
       "id": "childhood-lines-claim-no-outcomes",
@@ -4586,6 +4856,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs what the record holds about the person's growing up, and no bank line reads \"Remembered as\" today.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4606,7 +4877,7 @@
       "test": {
         "kind": "judged"
       },
-      "note": "Sept 7 style authority; the later rule concrete-image-over-generic asks for a concrete image where the voice allows, which this does not forbid."
+      "note": "Sept 7 style authority; the later rule concrete-image-over-generic asks for a concrete image where the voice allows, which this does not forbid. Stays judged: a metaphor or an epigram has no word list his notes name, and \"as if\" and \"like a\" are ordinary speech that a pattern would pull by mistake."
     },
     {
       "id": "news-comes-from-a-record",
@@ -4624,6 +4895,7 @@
           "via": "press.md"
         }
       ],
+      "note": "Stays judged: it judges whether the paper's story came from a record, which the news producer decides, not a bank line's words or tags.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4640,10 +4912,21 @@
           "via": "people.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["^lie[.!]?$", "^lie to [a-z{}-]+[.!]?$"]
+      },
+      "applies": {
+        "banks": ["choice-names", "conversation", "scene-talk"]
+      },
+      "catches": ["Lie.", "Lie to {name}."],
+      "spares": [
+        "I'd rather lose the argument with you than lie to you. No.",
+        "Then who's lying?",
+        "I'm going to go lie down."
+      ],
+      "note": "Tests a choice or reply whose whole text is the word (\"Lie.\"). The lie scales are drawn by the conversation screen, not a bank line, so the screen label is the player-screen-text check's, and what a bank line cannot do is name it."
     },
     {
       "id": "address-is-national-not-about-the-player",
@@ -4671,10 +4954,37 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
+      "note": "Awaits a tag: {home-state} is now the President's own home state from the President's record, so a line naming it is grounded; it is wrong only when that state is the player's, and no tag says so.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
       }
+    },
+    {
+      "id": "line-fits-the-roles-in-its-situation",
+      "says": "What a line implies must fit who is in the situation: it never treats the listener as a candidate when they only heard the result secondhand, and never sends a speaker to someone else to decide a vote that is the speaker's own.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "An apology implies the listener was running; if you were running you wouldn't hear the result secondhand.",
+          "via": "data/english/grades/2026-11-09-batch-2-voice.json, note on scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "\"You'll have to ask the chair\" makes no sense for your own vote.",
+          "via": "docs/coordination/OWNER-DECISIONS.md, Oct 16 batch 15 review; also data/english/grades/voice-notes-batches-11-19.json, note on scene-talk.reply-deflect.you-ll-have-to-ask-the-chair"
+        }
+      ],
+      "note": "Stays judged: whether a line fits who is in the situation is a reading of the roles; a race-told use marks a listener who ran (`you-ran`), but no tag on a use says whether a vote the line sends elsewhere is the speaker's own.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "I'm sorry. {winner} won the {office} race.",
+        "You'll have to ask the chair."
+      ]
     }
   ]
 }

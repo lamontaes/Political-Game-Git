@@ -4,7 +4,7 @@ title: "Read each state's property-tax cap statute: size, scope, exemptions, res
 area: laws
 kind: research
 priority: 2
-size: L
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -15,8 +15,9 @@ claimed-at:
 after:
 lead: laws-effects
 model: sonnet
-effort: medium
+effort: low
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** A yes-or-no catalog law capping property-tax growth reads each state's cap statute from src/core2/data/laws/property-tax-caps.json, which holds ten states (AR, AZ, CA, FL, MI, NM, NY, OK, OR, TX); every other place takes one generic estimated cap (`propertyTaxGrowthCapShare`), so stopgap SG-GOV-REACH-B-property-tax-bills stays open. Read the remaining states' cap statutes (size, scope, exemptions, reset on sale, levy limits, CPI-lesser terms) as sourced rows, so a named owner's bill follows the place's own terms. This is the one cap-statutes item: laws-property-tax-cap-statutes-rest and the roll-up laws-stopgap-reach-group-b-faked-mechanic are proposed to merge into it. It is split by state group, one group per PR.
@@ -25,7 +26,7 @@ root: rc9-place-facts-one-default
 
 **Fix.** Do the two parts in order: part 1 reads the assessment limits of the remaining states, part 2 adds levy limits, exemptions, CPI-lesser terms and recorded nones, then closes the stopgap. Source tables failed to fetch on Oct 21; start from the Lincoln Institute database (see Notes).
 
-**Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the two parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Research before building: real law calibrates the terms and never decides one owner's bill. One rule, all 56 places: each place's terms are data with its citation, never logic naming a state. Estimate, never UNKNOWN: a place with no cap statute has none recorded, not a default.
 

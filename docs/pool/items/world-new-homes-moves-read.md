@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Have the housing move write a life-record home entry (with the stabilized capped rent and law id on a renewal), and let the journal and director read it; the Words line writes any new lines through the English engine.
 
-**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: a scene and a Journal line when a person the player watches moves into a new home.
 
 **Rules.** An effect is a read, not a record: the director or the news reads the move record by id. No hand-written player text: the lines come from the English engine. One rule, all 56 places. The chain is the acceptance: follow one move to the rent change, the person and the journal line.
 
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** The director and journal data and the words belong to the Words and director line; take the producer from there. Split from world-new-homes-moves-not-reached.
 
 Oct 29 (CTO, second account): PR #5098 closed as stale under the owner's standing approval; back to open. Branch `claude/housing-moved-read-s6` is kept; claiming this item takes it over.
+
+**Notes (Fable's check, Nov 10).** This item also covers words-housing-moved-lines (proposed drop): the lines for a household's move within town are worded from this same `housing.moved` record.

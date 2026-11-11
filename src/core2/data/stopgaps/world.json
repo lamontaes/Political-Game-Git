@@ -981,5 +981,29 @@
     "addedAt": "2026-11-04",
     "replacement": "Replace the sampled state and local proxies in treasury-opening-cash.json with available operating cash by government/type/place and a measured spread, preserving separate restricted funds. The existing budget and transfer engines must remain the readers. Complete world-government-opening-fund-balance with named payments, fixture removal, New Game and relative timing.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-grievance-ownerless-landlord",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/grievance.ts",
+    "line": 184,
+    "whatItFakes": "An eviction's grievance is held against the landlord business itself where the landlord has no recorded owner, which today is every town's one landlord, so the evicted household's head has a business, not a named person, on the other side.",
+    "why": "The town's rentals belong to one ownerless landlord business (SG-WORLD-housing-landlord); there is no person who decided the eviction to name.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "When rentals are owned by the town's own landlords (SG-WORLD-housing-landlord's replacement), the grievance names the owner who served notice, as a layoff's names the owner who decided it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-grievance-no-fold",
+    "kind": "partial-model",
+    "file": "src/core2/modules/grievance.ts",
+    "line": 246,
+    "whatItFakes": "Grievance rows (disputes with a full person on a side) stay open until their cause is undone and are never folded into summaries, so the open rows the monthly rehire check reads grow over a long save; a grievance does not fade with time or end when either person dies or leaves. The counted population's monthly counts are kept for every month.",
+    "why": "Part 3's readers have not yet said how long a grievance is read, so its window is not agreed (speed-work: fold once the readers' windows are agreed).",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Once part 3's readers set their window, old grievances fold into a per-place summary and a grievance ends when either person dies or leaves for good.",
+    "status": "open"
   }
 ]

@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: split from office-m5-02-governor-and-mayor-play in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A played governor appoints a cabinet member and signs or vetoes a bill that reaches their desk. The appointment is read by the department's engine and the bill's signing or veto changes the law in force. The gap list in part 1 says which of these a governor can already do; build only the missing ones.

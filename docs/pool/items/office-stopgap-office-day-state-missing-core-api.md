@@ -4,19 +4,21 @@ title: "Stopgaps in office-day-state (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr: #5247
+status: in-pr
+claimed-by: claude/pool-office-stopgap-office-day-state-missing-core-api
+pr: #8561
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-state.ts, kind missing-core-api"
-claimed-at:
+claimed-at: 2026-11-11T04:21:33.049Z
 after:
 standard: 2
 model: sonnet
 effort: low
 root: none
 lead: governing
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Dev mode's custom start as a sitting state officeholder writes the player's term into the offices engine's table directly, because the engine has no call to seat a chosen person (SG-STATE-dev-seat-player). It ends the seat's serving term and keeps the previous holder's party, and ordinary play never reaches it. Replace the direct table write with a seating function the offices engine exports. The row is kept, marked resolved, and never deleted.

@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -16,6 +16,7 @@ effort: medium
 root: none
 lead: traits
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Stress wears off at stressHalfLifeDays, now ESTIMATED at 1 day from a daily-diary study of everyday stressors (Bolger and others 1989) with a spread of half a day to a week. Coping choices (a claim, a loan, leaving town) read the stress a layoff, eviction or missed payment left (pool item traits-outcome-hardship-coping), but loan and move reviews run monthly and cash shortfalls come months after a layoff, so the read is near zero by then: in eight played years, 21 loans were weighed under hardship stress and one departure carried it. Find a sourced half-life for job-loss and eviction distress (for example panel studies of distress after displacement), which is a different thing from a daily hassle, and give hardship its own half-life if the source differs.
@@ -35,3 +36,5 @@ after:
 **Files.** src/core2/data/parameters.json, src/core2/emotion.ts
 
 **Notes.** Filed Oct 24 by the traits lead from the hardship-coping helper's played years.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced how long a layoff's distress lasts; the number may stay an estimate with its spread.

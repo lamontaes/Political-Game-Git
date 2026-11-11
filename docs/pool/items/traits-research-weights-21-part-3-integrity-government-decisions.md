@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: split from traits-research-weights-21 in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of traits-research-weights-21. The integrity and government decisions (bribes, tips, recalls, constituent cases, justice, filing a claim, bringing a case, lobbyist, endorsing, contract awards and accepting an appointment) weigh temperament at the general weight of 1 with no study behind the size. Add each decision's research row and fit its weight so the weight carries its study.
@@ -33,3 +34,5 @@ source: split from traits-research-weights-21 in the pool redo, Nov 10, 2026
 **Waits on.** Nothing.
 
 **Files.** data/research/trait-effect-sizes.json, src/core2/data/parameters.json, data/content/trait-decision-gaps.json, scripts/traits/trait-calibrate.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fitted temperament weights to fetched studies; precision no player sees.

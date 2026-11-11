@@ -4,7 +4,7 @@ title: "Counted adults partner, separate and leave home by the same rules as ful
 area: people
 kind: feature
 priority: 3
-size: L
+size: S
 status: open
 claimed-by:
 pr:
@@ -13,19 +13,20 @@ after: people-leave-parents-home, core-household-membership-change, people-partn
 source: added with npm run pool -- add
 claimed-at:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: design-one-model-two-tiers
 lead: lives
+checked: fable 2026-11-10
 ---
 
-**What.** This is the roll-up for giving the counted tier the three partnership rules that full people already have in src/core2/modules/partnerships.ts: leaving a parent's home, partnering and separating. Nothing is built under this id. It is done when its three parts are done, with the counted households of a town turning over by the same rules as full people, times their count. The folded-in done-when lines from the Oct 25 combination are kept in the Notes.
+**What.** This is the roll-up for giving the counted tier the three partnership rules that full people already have in src/core2/modules/partnerships.ts: leaving a parent's home, partnering and separating. Nothing is built under this id. It is done when its three parts are done, with the counted households of a town turning over by the same rules as full people, times their count. The folded-in done-when lines from the Oct 25 combination are kept in the Notes. Seen: the town's household count and its rents year over year, as counted households form and part.
 
 **Cause.** Found in code: src/core2/modules/partnerships.ts (header, line 33, and COUNTED_STOPGAP at line 88) leaves the counted population's partnerships as their own unit; the stopgap row SG-LIVES-partner-counted is in src/core2/data/stopgaps/lives.json (line 75): the counted population's household types never change by partnering or parting.
 
 **Fix.** Build the three parts: counted young adults leave home, counted adults partner, counted couples separate, each as counted-household records.
 
-**Time box.** 16 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** One model, two tiers: a counted group is read with the same rule as a full person times its count, and the rates only check totals. No dice: the weights, not a chance, decide how many go. Wire to the world: every move carries rent and cash by journal record. One rule, all 56 places: no place is named in code.
 

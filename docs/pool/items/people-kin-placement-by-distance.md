@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-country-tier
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Opening kin place every relative outside the household in the household's county or elsewhere in the state; nobody lives out of state and no relative is matched to another resident. Pew measured how near families live: 65 percent of adults with a living parent live within an hour's drive of that parent (2005), and 55 percent live within an hour of at least some extended family (2021), 62 percent in the Northeast and Midwest, 53 percent in the South and 46 percent in the West. The research files hold these with a table for all 56 places. Place relatives so the town's shares follow them.
@@ -37,3 +38,5 @@ lead: lives
 **Notes.** TODO
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have placed relatives at Pew distances; the item says nothing on screen reads it.

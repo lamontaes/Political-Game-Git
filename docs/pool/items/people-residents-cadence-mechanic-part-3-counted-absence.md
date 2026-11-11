@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Counted workers always work their full schedule, while full workers miss work for their own health, household and job (src/core2/work-attendance.ts). Counted absence needs inputs counted records do not hold today (needs, pay dates per member), and a counted record's strain is zero. Give counted workers the same reasons as full workers, times their count.
@@ -33,3 +34,5 @@ source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2
 **Waits on.** people-residents-cadence-mechanic-part-1-private-jobs-measure.
 
 **Files.** src/core2/work-attendance.ts, src/core2/residents.ts, src/core2/modules/residents.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made counted workers miss work for their own reasons; no player sees a counted worker's absence.

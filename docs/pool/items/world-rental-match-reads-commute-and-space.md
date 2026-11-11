@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The rental match in src/core2/housing-occupancy.ts matches completed rentals to rent-saving tenants, recovered homeless households and unassigned households by rent, income and cash only. Add the two missing reads: the commute from the dwelling to the household's recorded job locations, and whether the dwelling's capacity fits the household's size, with the same decision rule for both tiers. This closes SG-WORLD-new-rental-move-coverage once dwelling capacity is recorded.
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/housing-occupancy.ts, src/core2/housing-pipeline.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-WORLD-new-rental-move-coverage; waits on dwelling locations for the commute half.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have weighed commute and room in who takes a rental; commute is a slight estimate and no player sees the match.

@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: done
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/fable-b3-notes-to-rules
+pr: #8203
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,10 @@ effort: medium
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T19:03:10.260Z
+merged-at: 2026-11-10T20:23:47.857Z
+seen-by: second-session-2
+seen-at: 2026-11-11T03:10:30.892Z
 ---
 
 **What.** When every place the owner's rulings live was read, 63 of his notes about words attached to no rule. Each is either a rule nobody has written or something that is not a rule about lines. This part settles each one, so no note of his is left unread by the machine.
@@ -34,3 +38,5 @@ checked: fable 2026-11-10
 **Waits on.** Pull request 8154 on main.
 
 **Files.** data/english/notes-not-rules.json (new), data/english/line-rules.json, data/english/rulings-read.json (new)
+
+**Notes.** Seen in the game (2026-11-11, second-session-2): data/english notes-not-rules.json (no place), seed random sample 7, main 67947ae8: all 61 notes in notes-not-rules.json carry a reason, five random ones agree with where they went, words:rules ran clean twice and the English guards passed 64 tests

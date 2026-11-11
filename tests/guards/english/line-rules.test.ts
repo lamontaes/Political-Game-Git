@@ -2,17 +2,28 @@ import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import {
+  caseBreaksRule,
+  caseText,
   ruleFlags,
   textBreaksRule,
   type LineRule,
 } from "../../../src/english/line-rules";
-import { freshRun } from "../../../scripts/words/run-rules";
+import { freshRun, roseMessage } from "../../../scripts/words/run-rules";
 import {
   REPLY_FOLLOWS_RUBRIC,
-  type ReplyFollowsFile,
+  REPLY_RULE,
 } from "../../../src/english/reply-follows";
-import { idsHash, pairId } from "../../../src/english/reply-pairs";
-import { bankKeys } from "../../../scripts/words/reply-pairs";
+import {
+  idsHash,
+  verdictId,
+  type JudgedFile,
+} from "../../../src/english/judged";
+import {
+  JUDGED_DIR,
+  rubricOf,
+  storeName,
+  storeRule,
+} from "../../../scripts/words/verdicts";
 
 /**
  * The owner's notes as rules (`data/english/line-rules.json`, design in
@@ -34,11 +45,11 @@ describe("line rules: each rule does what it says", () => {
       .filter(tested)
       .flatMap((rule) => [
         ...(rule.catches ?? [])
-          .filter((line) => !textBreaksRule(rule, line))
-          .map((line) => `${rule.id} must catch: ${line}`),
+          .filter((line) => !caseBreaksRule(rule, line))
+          .map((line) => `${rule.id} must catch: ${JSON.stringify(line)}`),
         ...(rule.spares ?? [])
-          .filter((line) => textBreaksRule(rule, line))
-          .map((line) => `${rule.id} must spare: ${line}`),
+          .filter((line) => caseBreaksRule(rule, line))
+          .map((line) => `${rule.id} must spare: ${JSON.stringify(line)}`),
       ]);
     expect(wrong).toEqual([]);
   });
@@ -49,7 +60,9 @@ describe("line rules: each rule does what it says", () => {
     const enforced = run.rules.filter(
       (rule) => rule.status === "enforced" && !rule.applies,
     );
-    const liked = run.rules.flatMap((rule) => rule.spares ?? []);
+    const liked = run.rules.flatMap((rule) =>
+      (rule.spares ?? []).map(caseText),
+    );
     const wrong = enforced.flatMap((rule) =>
       liked
         .filter((line) => textBreaksRule(rule, line))
@@ -107,7 +120,18 @@ describe("line rules: each rule does what it says", () => {
     for (const rule of run.rules)
       if (rule.status === "awaiting-test")
         expect(["place", "judged"], rule.id).toContain(rule.test.kind);
-      else if (rule.test.kind === "place") {
+      else if (rule.test.kind === "judged") {
+        // A judged rule leaves awaiting-test with one line it must catch, one
+        // it must leave alone, and its first verdicts folded.
+        const store = path.join(ROOT, JUDGED_DIR, `${storeName(rule)}.json`);
+        expect((rule.catches ?? []).length, rule.id).toBeGreaterThan(0);
+        expect((rule.spares ?? []).length, rule.id).toBeGreaterThan(0);
+        expect(existsSync(store), `${rule.id} has no verdicts folded`).toBe(
+          true,
+        );
+        const file = JSON.parse(readFileSync(store, "utf8")) as JudgedFile;
+        expect(file.judged, rule.id).toBeGreaterThan(0);
+      } else if (rule.test.kind === "place") {
         // An enforced place rule is judged: it names the verdict file its reader folds.
         expect(rule.test.reads, rule.id).toBeTruthy();
         expect(existsSync(path.join(ROOT, rule.test.reads!)), rule.id).toBe(
@@ -141,6 +165,11 @@ describe("line rules: the run over every bank line", () => {
     expect(file).toEqual(run.pulledFile);
   });
 
+  it("no judged rule has more lines waiting for a verdict than committed", () => {
+    // A new or changed line comes with its verdicts: the count only falls.
+    expect(run.rose.map(roseMessage)).toEqual([]);
+  });
+
   it("no spot is left with no playable line", () => {
     expect(run.result.totals.spotsMadeSilent).toBe(0);
   });
@@ -157,37 +186,73 @@ describe("line rules: the run over every bank line", () => {
   });
 });
 
-describe("line rules: the reply verdicts", () => {
+describe("line rules: the saved verdicts", () => {
+  const stores = run.rules.filter(
+    (rule) =>
+      storeRule(rule) &&
+      existsSync(path.join(ROOT, JUDGED_DIR, `${storeName(rule)}.json`)),
+  );
   const read = (name: string) =>
-    readFileSync(path.join(ROOT, "data/english/judged", name), "utf8");
-  const file = JSON.parse(read("reply-follows.json")) as ReplyFollowsFile;
-  const yes = read("reply-follows.yes.txt").split("\n").filter(Boolean);
+    readFileSync(path.join(ROOT, JUDGED_DIR, name), "utf8");
+  const text = new Map(run.pieces.map((piece) => [piece.key, piece.text]));
 
-  it("every line a verdict names is a current bank piece (npm run words:verdicts drops the rest)", () => {
-    const keys = bankKeys();
-    const gone = Object.entries(file.no).flatMap(([reply, before]) =>
-      [reply, ...before].filter((key) => !keys.has(key)),
+  it("the reply rule's verdicts are in the store", () => {
+    expect(stores.map((rule) => rule.id)).toContain(REPLY_RULE);
+  });
+
+  it("every verdict is about lines the bank holds in those words (npm run words:verdicts drops the rest)", () => {
+    const stale = stores.flatMap((rule) =>
+      Object.entries(
+        (JSON.parse(read(`${storeName(rule)}.json`)) as JudgedFile).no,
+      )
+        .filter(
+          ([id, row]) =>
+            row.keys.some((key) => !text.has(key)) ||
+            verdictId(
+              row.keys,
+              row.keys.map((key) => text.get(key)!),
+            ) !== id,
+        )
+        .map(
+          ([, row]) =>
+            `${rule.id}: ${row.keys.join(" then ")} changed or is gone; run npm run words:verdicts`,
+        ),
     );
-    expect(gone).toEqual([]);
+    expect(stale).toEqual([]);
   });
 
-  it("the rubric in the verdict file is the rubric the judges were given", () => {
-    expect(file.rubric).toBe(REPLY_FOLLOWS_RUBRIC);
-    expect(file.rule).toBe("reply-follows-the-line-before");
-  });
-
-  it("the verdict files agree: the count judged, and the hash and order of the yes list", () => {
-    const no = Object.entries(file.no).flatMap(([reply, before]) =>
-      before.map((key) => pairId(key, reply)),
+  it("each store's rubric is its rule's question, word for word, and every no has a reason", () => {
+    for (const rule of stores) {
+      const file = JSON.parse(read(`${storeName(rule)}.json`)) as JudgedFile;
+      expect(file.rule).toBe(rule.id);
+      expect(file.rubric, rule.id).toBe(rubricOf(rule));
+      for (const row of Object.values(file.no))
+        expect(row.why.trim(), rule.id).not.toBe("");
+    }
+    expect(rubricOf(run.rules.find((r) => r.id === REPLY_RULE)!)).toBe(
+      REPLY_FOLLOWS_RUBRIC,
     );
-    expect(file.judged).toBe(yes.length + no.length);
-    expect(yes).toEqual([...yes].sort());
-    expect(new Set([...yes, ...no]).size).toBe(yes.length + no.length);
-    expect(file.yesHash).toBe(idsHash(yes));
   });
 
-  it("the run reports the rule and pulls nothing for it", () => {
-    const row = run.result.perRule["reply-follows-the-line-before"]!;
+  it("each store agrees with itself: the count judged, and the hash and order of the yes list", () => {
+    for (const rule of stores) {
+      const file = JSON.parse(read(`${storeName(rule)}.json`)) as JudgedFile;
+      const yes = read(`${storeName(rule)}.yes.txt`)
+        .split("\n")
+        .filter(Boolean);
+      const no = Object.keys(file.no);
+      expect(file.judged, rule.id).toBe(yes.length + no.length);
+      expect(yes, rule.id).toEqual([...yes].sort());
+      expect(new Set([...yes, ...no]).size, rule.id).toBe(
+        yes.length + no.length,
+      );
+      expect(file.yesHash, rule.id).toBe(idsHash(yes));
+    }
+  });
+
+  it("the run reports the reply rule and pulls nothing for it", () => {
+    const row = run.result.perRule[REPLY_RULE]!;
+    const file = JSON.parse(read("reply-follows.json")) as JudgedFile;
     expect(row.pulled + row.waiting + row.flagged).toBe(0);
     expect(row.report!.judged).toBe(file.judged);
   });

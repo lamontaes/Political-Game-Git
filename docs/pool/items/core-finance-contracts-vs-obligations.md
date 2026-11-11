@@ -4,7 +4,7 @@ title: "Standing payments live in two layers, finance contracts and accounts obl
 area: core
 kind: cleanup
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -14,18 +14,19 @@ source: found by the world-accounts-api proof (Oct 19)
 claimed-at:
 lead: money
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
-**What.** Housing leases, bills and tuition run as `finance.contracts` rows with `arrearsMinor` (src/core2/finance-state.ts), while retirement claims and group B law reach use `accounts.addObligation` (group A has already moved) (group A has already moved) with its own arrears (src/core2/accounts.ts). The two do the same job with two sets of rules for due dates, partial payment and arrears. Replace one with the other so a standing payment has one layer, one arrears record and one place the engines read; the old layer's code, rows and tests are deleted in the same change.
+**What.** Housing leases, bills and tuition run as `finance.contracts` rows with `arrearsMinor` (src/core2/finance-state.ts), while retirement claims and group B law reach use `accounts.addObligation` (group A has already moved) (group A has already moved) with its own arrears (src/core2/accounts.ts). The two do the same job with two sets of rules for due dates, partial payment and arrears. Replace one with the other so a standing payment has one layer, one arrears record and one place the engines read; the old layer's code, rows and tests are deleted in the same change. Guards: the dollars the player reads on a paycheck, a rent bill and a budget, which agree because one set of standing payments pays them.
 
 **Cause.** Found in code: housing leases, bills and tuition run as finance contracts with `arrearsMinor` (src/core2/finance-state.ts, `admitFinanceContract` at line 464), while src/core2/accounts.ts `addObligation` holds the same job with its own arrears; its callers are src/core2/modules/retirement-claims.ts (lines 236 and 401) and src/core2/law-reach/group-b-money.ts (line 420), with reads in src/core2/estates.ts and src/core2/budgets-treasury.ts.
 
 **Fix.** Move the obligation callers onto finance contracts in the order the Notes give (retirement claims need a recorded award plus descriptor; group B fund payees need a payee account) and delete the accounts obligation code. Four parts, each its own item.
 
-**Time box.** 2 hours for an Opus session, the closing check only; the build is in the four parts, each with its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check after the four parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Replace, never layer: the layer that loses is deleted, not kept beside the winner. Wire to the world: every household's rent and bill still posts the same dollars on the journal, shown in a played year. Speed: a year must stay within 20 percent of its base, measured on the same machine.
 

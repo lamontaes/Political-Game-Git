@@ -809,12 +809,12 @@
     "kind": "missing-hook",
     "file": "src/director/data/situation-types.json",
     "line": 1,
-    "whatItFakes": "The visit type still has no purpose for the causes it keeps: a visit to someone seriously ill, and the visit when the player is the one held (a relative comes to the player). Only the visit to someone the justice engine holds has one (prison-visit).",
-    "why": "A visit to the ill needs the health engine's diagnosis and care records worded as the ask, and a visit to the player inside leaves the player no choices to reply with while they serve a term.",
+    "whatItFakes": "The visit type had no purpose for a visit to the player when the player is held; it now has one (visited-held-ask). A visit to someone seriously ill has one (visit-ill-ask), a visit to the player when the player is ill has one (visited-ill-ask), and a visit to someone the justice engine holds has one (prison-visit).",
+    "why": "Resolved Nov 10: a relative who visits the player held now has a purpose (visited-held-ask). It was: A visit to the player inside leaves the player no choices to reply with while they serve a term: the player is the one visited, not the one asked.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A hospital-visit purpose that reads the health engine's care need, and, for the player held, a letter or a call scene the player answers after release.",
-    "status": "open"
+    "replacement": "For the player held, a letter or a call scene the player answers after release.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORDS-meeting-no-club-records",

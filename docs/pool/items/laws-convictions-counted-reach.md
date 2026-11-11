@@ -17,6 +17,7 @@ effort: high
 root: design-one-model-two-tiers
 source: "split from laws-stopgap-reach-group-a-missing-record, Oct 16"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Felony disenfranchisement takes each state's share of the voting-eligible population (The Sentencing Project, Locked Out 2024) and half of it back where a restoration law is in force, instead of people's own records (SG-GOV-REACH-A-convictions). Named people are now barred from their own conviction and sentence on the justice record. Give counted adults the same rule: read the justice engine's counted convictions by group, and let the counted electorate lose exactly the barred adults of each group, so the state share becomes a check on the total and no longer decides it. The Oct 19 note said the justice engine had no counted cases; it now has them (counted cases, sentences and custody are rows of the same tables), so the first step is reading them.

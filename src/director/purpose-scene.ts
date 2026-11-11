@@ -121,6 +121,7 @@ import {
   PRESS_STORY_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
 import { properName, spoken, spokenDate, stateInSentence } from "./words";
@@ -275,14 +276,16 @@ export function destinationSaid(
 /**
  * The type as its cause plays it: a cause may name its own `sceneKey`, which
  * tags the exchange's pieces in place of the type's key, so one purpose speaks
- * for each cause's own reason (the cause is matched by the moment's label).
+ * for each cause's own reason (the cause is matched by the moment's label),
+ * and may name the purpose it plays when the type's other causes have none.
+ * The caller's own fields (a type's `repeatsBy`) come back with it.
  */
-export function typeForCause(
-  type: PurposeType,
+export function typeForCause<T extends PurposeType>(
+  type: T,
   label: string,
   /** How many counterparts the moment names: two causes may share a label and differ in this. */
   counterparts?: number,
-): PurposeType {
+): T {
   const causes = (type as { causes?: SituationType["causes"] }).causes;
   const cause = causes?.find(
     (row) =>
@@ -1564,6 +1567,16 @@ function cutFacts(
         sourceRecordIds: [causeId, budget.id],
       };
   }
+  // What the line pays for, as the budget screen names it ("police
+  // protection"), from the line the record names.
+  const lineName = (
+    lineNames.lines as Record<string, { readonly name: string } | undefined>
+  )[said.line ?? ""]?.name;
+  if (lineName)
+    facts.line = {
+      text: lineName.charAt(P.zero).toLowerCase() + lineName.slice(P.one),
+      sourceRecordIds: [causeId, ...(budget ? [budget.id] : [])],
+    };
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
     (row) => row.holderId === headId,
   );

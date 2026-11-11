@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: split from world-standin-credit-business-books in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A compliance duty costs every bound business twice the manufacturing average pollution-abatement share of its operating costs, because no per-industry abatement cost data is loaded. Load the Census Pollution Abatement Costs and Expenditures (PACE) operating costs by industry (NAICS) as a sourced table, and scale the cost by the standard the county misses. The business books then carry a cost that differs by industry. This is the second of three parts of world-standin-credit-business-books.
@@ -33,3 +34,5 @@ source: split from world-standin-credit-business-books in the pool redo, Nov 10,
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, src/core2/data/business/pace-abatement.json (new), src/core2/data/stopgaps/world.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced compliance cost per industry from Census PACE; no player sees it.

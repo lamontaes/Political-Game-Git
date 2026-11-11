@@ -16,6 +16,7 @@ effort: medium
 root: none
 source: governing lead, Oct 30 (CTO ruling Oct 29 22:19: register the gap)
 lead: governing
+checked: fable 2026-11-10
 ---
 
 **What.** Interest groups form only inside a legislature's before-the-vote step for a pending bill, so in a town where no bill has come to a vote there are no resident groups to endorse a council candidate or send volunteers. Real towns have standing groups (neighborhood associations, unions, advocacy chapters) before any race. The campaign's group endorsements read interest groups, drives cause groups and party chapters through one view, and only the last two exist at the start. Seed the town's standing groups at the opening so the campaign can use them.

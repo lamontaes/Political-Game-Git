@@ -6,7 +6,7 @@ kind: feature
 lead: cto
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** When the player's meeting opens, every member is unplaced with reason no-plate, so the chamber is drawn empty behind the meeting panel. People are drawn only on a room's mannequin plate (owner, Oct 28 and 29; people-pack skill), and no meeting chamber has one: the plates on main are home, colonnade, depot and the two standard Oval rooms. The owner asked for the members drawn in the chamber. Until plates land, the lane shows members as faces on the panel, a registered stopgap. This is full-body staging, and on Nov 10 the owner ruled that staging waits while busts are decided.
@@ -32,4 +33,6 @@ root: rc10-screens-keep-own-facts
 
 **Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts"); full-body staging is not built while busts are coming.
 
-**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/mannequin-plates.ts, src/bench/data/whole-figures.json, src/bench/people-pack.test.ts
+**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/mannequin-plates.ts, src/bench/data/whole-figures.json
+
+**Notes (Nov 11, 2026, set aside).** Dropped: the owner ruled on Nov 10, 2026 (about 9:24 p.m.) "Remove all the people," and at about 9:27 p.m. "people will eventually be in the game, but right now for early access, it's just we have to do the busts." No plate is painted or measured while rooms draw nobody. The full-body system and what comes back after early access are in docs/art/full-body-people-after-early-access.md; this item is rewritten from that record when full bodies return.

@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 lead: m0-m2
+checked: fable 2026-11-10
 ---
 
 **What.** Roadmap M0-07's test text ends "over years, circle turnover matches a sourced study". Its command passes on main in Bridgeville, Pennsylvania, but its four tests cover 91 days only: new acquaintances, a tie growing closer, saved reasons and visits inside the GSS and ATUS ranges. No test plays years or compares how many of a person's ties are replaced with a study. Research the turnover rate, then add the multi-year check against it.

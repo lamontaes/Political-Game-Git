@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Wider races (county, state legislative, statewide) draw candidates only from named officials and the played town's residents, because ordinary residents elsewhere have no candidate records. Use the counted households across the jurisdiction, with district membership, and apply the same candidacy reasons to the counted group times its count. When a counted group yields a runner, fill that person in so the person matches the group. This closes the registered stopgap SG-GOV-wide-resident-pool.
@@ -30,7 +31,7 @@ source: added with npm run pool -- add
 
 **Done when.** A second session, not the builder, runs a one-year played world (`buildBenchWorld`) in a drawn place and seed (both named). A state legislative race there has a candidate filled in from a counted group outside the town, named by record id with the candidacy reasons, and the test in src/core2/candidacy-in-play.test.ts checks it. The stopgap row SG-GOV-wide-resident-pool is resolved.
 
-**Waits on.** Nothing.
+**Waits on.** Nothing to start. core-race-candidates-who-runs (candidates for out-of-town races) and elections-out-party-fields-district-seats (the out-party's candidate for a district seat) change the same pool of who runs beyond the town: read both first, and build one chooser, not a third.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/candidacy-in-play.test.ts, src/core2/data/stopgaps/gov.json
 

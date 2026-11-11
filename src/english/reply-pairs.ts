@@ -50,6 +50,7 @@ import {
   REPLY_FOLLOWS,
   type ReplyFollowsTable,
 } from "./reply-follows";
+import { hash53 } from "./judged";
 
 /** A scene: the purpose it plays, the purpose it is a variant of and the situation key. */
 export interface ReplyScene extends SceneSpot {
@@ -303,33 +304,9 @@ export function replyPairs(
   return pairs;
 }
 
-/** A short stable hash (53 bits) as eleven base-36 characters. */
-export function hash53(text: string): string {
-  let h1 = 0xdeadbeef;
-  let h2 = 0x41c6ce57;
-  for (let i = 0; i < text.length; i += 1) {
-    const ch = text.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
-  }
-  h1 =
-    Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^
-    Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-  h2 =
-    Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^
-    Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-  return (4294967296 * (2097151 & h2) + (h1 >>> 0))
-    .toString(36)
-    .padStart(11, "0");
-}
-
-/** The id a judge sees for a pair: the same whatever scene it comes up in. */
+/** One pair's identity by keys alone, the same whatever scene it comes up in (verdicts use `verdictId`, which adds the text). */
 export const pairId = (before: string, reply: string): string =>
   hash53(`${before}|${reply}`);
-
-/** A hash of a sorted list of ids, for the verdict file's `yesHash`. */
-export const idsHash = (ids: readonly string[]): string =>
-  hash53([...ids].sort().join("\n"));
 
 /** One row per (before, reply), the scene order of the first scene that offers it. */
 export function distinctPairs(pairs: readonly ReplyPair[]): ReplyPair[] {
@@ -366,6 +343,8 @@ export interface ReplyFollowsReport {
 export function replyFollowsReport(input: {
   readonly pairs: readonly ReplyPair[];
   readonly judgedIds: ReadonlySet<string>;
+  /** A pair's verdict id (`verdictId` over its keys and their text). */
+  readonly idOf: (pair: ReplyPair) => string;
   readonly no: ReplyFollowsTable;
   readonly silenced: readonly {
     before: string;
@@ -385,7 +364,7 @@ export function replyFollowsReport(input: {
     pairs: input.pairs.length,
     judged: input.judgedIds.size,
     unjudged: input.pairs.filter(
-      (pair) => !input.judgedIds.has(pairId(pair.before, pair.reply)),
+      (pair) => !input.judgedIds.has(input.idOf(pair)),
     ).length,
     no,
     repliesWithNo: input.no.size,

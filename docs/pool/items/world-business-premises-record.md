@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -14,9 +14,10 @@ blocked-on:
 milestone:
 lead: jobs
 model: opus
-effort: high
+effort: medium
 root: none
 source: Split from world-stopgap-employer-taxes-missing-engine and world-stopgap-finance-state-business-closure by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** A business's books record cash, sales, costs and wages but no building and no equipment, so the property-tax engine, which bills homes only, has nothing to bill a business for, and a closing business has nothing to sell. Add a premises record to each business in the business module: floor space from the EIA CBECS median floor space per worker for its kind of building activity, an assessed value from the place's commercial value per square foot (estimated from the state's taxable commercial property per the Census of Governments, with its spread), whether the business owns the premises or leases them from a landlord, and an equipment value from the IRS depreciable-assets share of receipts for its industry. Premises owned by the business are taxed at the property-tax rate in force; leased premises are taxed to the landlord and reach the business through rent. The cost shares in business-books already include rent and taxes, so the tax paid or the rent must come out of the same operating cost, not on top of it.
@@ -36,3 +37,5 @@ source: Split from world-stopgap-employer-taxes-missing-engine and world-stopgap
 **Files.** src/core2/modules/business.ts, src/core2/data/business/premises.json (new), src/core2/housing-property-tax.ts, src/core2/data/parameters.json, src/core2/business-premises.test.ts (new)
 
 **Notes.** Split from world-stopgap-employer-taxes-missing-engine and world-stopgap-finance-state-business-closure by pool feeder Oct 20.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded each business's building so the town could tax it and a closing business could sell its equipment; that is tracking buildings, which the owner ruled out with land parcels.

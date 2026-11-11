@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ after:
 model: sonnet
 effort: low
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/law-reach/group-a-wages.ts:108 sets ownWage = governing?.level === 'city' || governing?.level === 'county'. The law-in-force rule (laws-in-force.ts:272, governing lead's governing/phase-in-dated-steps) now counts a township board's minimum-wage law as governing, as levelMayDecide already says a township legislates as a town does. So where a township's own wage governs, a raise under the state's local-wage authority grant is recorded as the floor's, not the grant's: the grant's reach misses the workers it raised. Seen by the governing lead in Richmond, Maine's Select Board (seed 998f152c4fa7583a).
@@ -34,4 +35,4 @@ root: rc9-place-facts-one-default
 
 **Files.** src/core2/law-reach/group-a-wages.ts
 
-**Notes.** Filed Oct 30 by the laws lead at the governing lead's request (its unit 3 made laws-in-force count township wages). Read: the governing lead's message; group-a-wages.ts on main 09:30 UTC.
+**Notes.** Filed Oct 30 by the laws lead at the governing lead's request (its unit 3 made laws-in-force count township wages). Read: the governing lead's message; group-a-wages.ts on main 09:30 UTC. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it changes whether a raise is credited to the grant or the floor in a record; the pay is the same and nobody sees the credit.

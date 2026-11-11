@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -17,6 +17,7 @@ effort: low
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Check that cash a household brings back to the counts and a counted bank withdrawal land in the household's own group account, and fix any path that does not. The reading of the code on main is that both already do: `countedFundOf` in src/core2/modules/residents.ts returns the household's group fund, and src/core2/modules/counted-demotion.ts (reason `residents.returned-to-counts.cash`, both the demotion and the late-pay sweep) transfers into it, while src/core2/credit-deposits.ts sets a counted household's customer account to its group fund before `withdrawSavings` runs. The fund accounts are owned by the place's residents account owner, so the Oct 19 tally that counted direct credits "into that account" may have included group funds. First, tally unkeyed money by reason key in a played year; then fix whatever source still reaches `sweepResidual` (src/core2/counted-money.ts) unkeyed and pay it into the household's group fund through `countedPayment` with the household.
@@ -38,3 +39,5 @@ claimed-at:
 **Notes.** The largest direct source of unkeyed money after the law payouts. Measured Oct 19 in Glasgow, Delaware (seed from drawPlace("unkeyed-audit-1")): one played year had 501 unkeyed hits, 12 monthly sweeps of the residents account of about $80,000 each; direct credits into that account over the year: school-voucher $840,505, bank-withdrawal $842,511, assistance-benefit $562,379, returned-to-counts cash $927,326 (dollars), and 489 unemployment-benefit payments.
 
 Oct 20 (pool feeder): spec written; likely already built: counted-demotion.ts lines 266-285 and 379-392 pay into countedFundOf, and credit-deposits.ts builds a counted target with fundOf(rt, h.group). The spec is measure-first so the builder either locks it with a test or finds the path that still leaks. The lead may close it as already built if the tally by reason key comes back empty.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). The code on main already sends both paths to the household's own group account, so it only asks for a check that finds no change a player could see.

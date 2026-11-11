@@ -4,8 +4,8 @@ title: "Twenty-one personality decisions at the general weight get weights calib
 area: people
 kind: wiring
 priority: 2
-size: M
-status: open
+size: S
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -13,10 +13,11 @@ after:
 blocked-on: traits-research-weights-21-part-1-civic-decisions,traits-research-weights-21-part-2-money-housing-decisions,traits-research-weights-21-part-3-integrity-government-decisions,traits-research-weights-21-part-4-life-stage-decisions
 lead: traits
 model: sonnet
-effort: medium
+effort: low
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Of 89 personality decisions with every traits family in, 53 still weigh temperament at the general weight of 1. A research pass on Oct 24 fetched and quoted studies for 21 of them (party joining and attending, group membership, following the news, persuasion, trust, believing a claim, retelling, bringing a case, filing a claim, claiming retirement, borrowing, hiring staff, a lobbyist speaking up, endorsing, planning a child, wills and trusts, contract awards, raising pay for an opening, accepting an appointment). Add those rows to data/research/trait-effect-sizes.json and calibrate each decision's weight against them with scripts/traits/trait-calibrate.ts on a played year, so the weight carries its study instead of the general 1.
@@ -40,3 +41,5 @@ claimed-at:
 Sent back 2026-10-25 from PR #6009 (branch claude/traits-research-weights): main integration conflicts in production data/content/trait-decision-gaps.json; abort; reconcile bounded endorsement/estate delivery with still-unmerged all-family21-decision acceptance before completion; finish on that branch, merge main into it first.
 
 Oct 25 (traits lead): PR #6009's delivered subset (endorsing at its study's size; study and gap rows for planning a child, wills, trusts and contract awards) moved to `traits-research-weights-endorse-estates`. This item's 21-decision acceptance stays open until every traits family (#5587, #5657, #5715) is merged; the per-decision weights in flight are on #6017, #6039 and #6001.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fitted temperament weights to fetched studies; precision no player sees.

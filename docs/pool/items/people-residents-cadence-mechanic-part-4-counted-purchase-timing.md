@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The wider population's purchases merge per seller, kind and week of the month and are paid monthly, instead of following each group's own pay dates. Build counted purchases timed from each group's own pay dates, and resolve SG-CORE-residents-cadence.
@@ -33,3 +34,5 @@ source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2
 **Waits on.** people-residents-cadence-mechanic-part-3-counted-absence.
 
 **Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps/core.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have timed the wider population's purchases to its pay dates; no player sees the week a purchase is made.

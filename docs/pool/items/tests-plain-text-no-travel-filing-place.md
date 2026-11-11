@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** On a fresh bench on Nov 3, src/bench/plain-text.browser.mjs failed with "no place in Travel takes filings" in Junction City, Georgia (seed a3b686cb-ba71-4137-957b-a2e414912b99), after playing the President's address. Either Travel no longer marks the filing office of that place, or the check reads a label the Travel card changed on Nov 3. Three more fresh benches (Farmers Loop, Alaska, 44e7fea7-bb6a-4a5a-ac12-035acf9dd386; Burleson, Texas, ca2cfbd3-5a83-4b11-a04d-7992102b5f32) failed the same way, and Condon, Oregon (8899fc75-7fbd-4cfc-b121-6a6b90fc5747) got past Travel and timed out in a later talk. The cause is not yet found.
@@ -37,3 +38,5 @@ root: none
 **Notes.** TODO
 
 Lane 5, Nov 3: three more fresh benches with the shared opening helper (#7155): Farmers Loop, Alaska (44e7fea7-bb6a-4a5a-ac12-035acf9dd386) and Burleson, Texas (ca2cfbd3-5a83-4b11-a04d-7992102b5f32) failed the same way; Condon, Oregon (8899fc75-7fbd-4cfc-b121-6a6b90fc5747) got past Travel and timed out waiting for a choice in a later talk (`#talk-choices button`).
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** `node src/bench/plain-text.browser.mjs` (BENCH_BROWSER as above) on a fresh bench. The check draws its own place; BENCH_SEED is not read, so Junction City, Georgia was not replayed. Run in Sinapalo, Rota, Northern Mariana Islands, check seed 1a4fa9bd-8bbe-4e61-81e7-3e9ac2f3f1c7: red, at a different step from the item's. First failure as printed: `locator.click: Timeout 60000ms exceeded. Call log: waiting for locator('#talk-leave') ... locator resolved to <button type="button" class="action" id="talk-leave">Leave</button> ... attempting click action` at src/bench/plain-text.browser.mjs:173.
