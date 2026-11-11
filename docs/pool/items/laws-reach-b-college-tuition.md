@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-money.ts, src/core2/opening-private-tuition.ts, src/core2/data/stopgaps/gov.json, src/core2/law-reach-group-b.test.ts
 
-**Notes.** Part 2 of 2 of laws-reach-b-schools-preschool-tuition. The core has no college enrollment today; this item adds only the enrollment and tuition the law needs, not a campus simulation.
+**Notes.** Part 2 of 2 of laws-reach-b-schools-preschool-tuition. The core has no college enrollment today; this item adds only the enrollment and tuition the law needs, not a campus simulation. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it adds a college layer (enrollment, a tuition contract per household); the golden path has no college and no screen shows tuition.

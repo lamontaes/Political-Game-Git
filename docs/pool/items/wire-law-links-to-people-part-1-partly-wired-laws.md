@@ -19,7 +19,7 @@ source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Part of wire-law-links-to-people. The law matrix grades 31 laws as partly wired: the law is in force but not every engine that should read it does. Make each one reach a named person's money or view, proven in a drawn place, or carry a specific registered stopgap that names the engine still missing. Regenerate the matrix with each change.
+**What.** Part of wire-law-links-to-people. The law matrix grades 31 laws as partly wired: the law is in force but not every engine that should read it does. Make each one reach a named person's money or view, proven in a drawn place, or carry a specific registered stopgap that names the engine still missing. Regenerate the matrix with each change. Seen: a named person's money or view moving after one of 31 partly wired laws.
 
 **Cause.** Found in code: docs/reports/law-wiring-matrix.json summary (built by scripts/law-wiring/matrix.ts) lists 31 of 178 laws as partly wired; per-law reach lives in src/core2/law-reach/applied.ts (`applied.ts`).
 
