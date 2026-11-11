@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-issue-stances-on-screen
+pr: #8452
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from people-views-opening-stance-per-question)
 lead: play-first
@@ -18,6 +18,8 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:01:13.692Z
+branch: claude/pool-play-issue-stances-on-screen
 ---
 
 **What.** Views now store one opening stance per person per question for the questions the survey asks (the three children of people-views-opening-stance-per-question are done). The campaign screen shows a poll total but not what voters think about the issues. Under the race, show the two or three questions the race turns on with the share of the town leaning each way, in words, read from the stored stances, so the player can choose what to campaign on. Questions with no survey item keep the lean alone and are shown as estimates.
@@ -41,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Notes.** Filed by the Oct 25 pool audit: people-views-opening-stance-per-question's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with people-views-opening-stance-per-question (needs-from in the handoff line).
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:01 UTC) on branch claude/pool-play-issue-stances-on-screen.

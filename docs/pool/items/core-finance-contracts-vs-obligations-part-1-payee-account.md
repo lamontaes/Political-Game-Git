@@ -17,9 +17,10 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
+claimed-at:
 ---
 
-**What.** Finance contracts pay between a person or organization and another, resolved through core.people or core.organizations, while group B law reach pays benefits into a counted group's fund account, which is not an owner's main account. Before group B can move onto finance contracts, a contract needs a payee account (or the fund's owner id with the fund as its settlement account). This part adds that, with its own settlement and journal source kind, and tests it on a fund payee.
+**What.** Finance contracts pay between a person or organization and another, resolved through core.people or core.organizations, while group B law reach pays benefits into a counted group's fund account, which is not an owner's main account. Before group B can move onto finance contracts, a contract needs a payee account (or the fund's owner id with the fund as its settlement account). This part adds that, with its own settlement and journal source kind, and tests it on a fund payee. Feeds: core-finance-contracts-vs-obligations
 
 **Cause.** Found in code: src/core2/finance-types.ts `FinanceContractInput` (line 7) and src/core2/finance-state.ts `admitFinanceContract` (line 464) resolve payer and payee as owners' main accounts; src/core2/law-reach/group-b-money.ts (`FUND`, line 420 `addObligation`) pays into a fund account instead.
 
@@ -34,3 +35,7 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/finance-types.ts, src/core2/finance-state.ts, src/core2/finance-cash.test.ts
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:56 UTC) on branch claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account.
+
+Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.

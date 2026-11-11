@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, setTimeout */
 // The meeting panel (owner, Oct 29: "the UI is terrible"): a member of a body drafts a bill,
 // plays on to the meeting, and the panel shows the body's title, every member as a face,
 // and after a vote the result with its tally in words and each member's ring by how they voted.
@@ -76,17 +76,17 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Your office" })
     .click();
-  // Your office is one strip board; the draft card is on it, not on a tab of its own.
-  await page.locator("#sheet-body select").waitFor();
-  const picked = await page.evaluate(() => {
-    const select = document.querySelector("#sheet-body select");
-    const option = [...select.options].find(
+  // Writing a bill opens from the board: a list of subjects beside the chosen one's page.
+  await page.locator('.office-board [data-act="write-a-bill"]').first().click();
+  await page.locator(".draft-card .pick").first().waitFor();
+  const picked = await page.evaluate(async () => {
+    const option = [...document.querySelectorAll(".draft-card .pick")].find(
       (o) => !/Not a power|preempts|levy no|restricts/i.test(o.textContent),
     );
     if (!option) return null;
-    select.value = option.value;
-    select.dispatchEvent(new Event("change", { bubbles: true }));
-    return option.textContent;
+    option.click();
+    await new Promise((done) => setTimeout(done, 100));
+    return option.querySelector("b").textContent;
   });
   assert.ok(picked, "the body has no bill it may draft");
   await page
