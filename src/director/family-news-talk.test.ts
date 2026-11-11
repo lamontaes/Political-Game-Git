@@ -322,17 +322,31 @@ it(`a relative the listener has not met is raised by name with their town or wor
   for (let draw = 0; draw < 8; draw += 1) {
     const world = relativeAskedAfter(`${seed}:kin:${draw}`);
     const { core, director, me, where } = world;
-    // Someone the player knows who has a relative, living elsewhere or
-    // working, the player has not met.
-    const found = [...world.player.knownIds].sort().flatMap((otherId) => {
-      if (!core.people.get(otherId)?.alive) return [];
-      return subjectsBetween(core, otherId, me, director)
-        .filter(
-          (row) =>
-            row.kind === "kin" && (row.facts.place || row.facts.employer),
-        )
-        .map((row) => ({ otherId, row }));
-    })[0];
+    // Someone who has a relative, living elsewhere or working, the player
+    // has not met: first among the people the player knows, then among the
+    // townspeople they would meet (a new life's circle may be all family).
+    const town = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.tier !== "husk" &&
+          row.id !== me &&
+          row.placeId === world.player.placeId &&
+          !world.player.knownIds.has(row.id) &&
+          !world.player.familyIds.has(row.id),
+      )
+      .map((row) => row.id)
+      .sort();
+    const found = [...[...world.player.knownIds].sort(), ...town].flatMap(
+      (otherId) => {
+        if (!core.people.get(otherId)?.alive) return [];
+        return subjectsBetween(core, otherId, me, director)
+          .filter(
+            (row) =>
+              row.kind === "kin" && (row.facts.place || row.facts.employer),
+          )
+          .map((row) => ({ otherId, row }));
+      },
+    )[0];
     if (!found) {
       tried.push(`${where}: no one the player knows has such a relative`);
       continue;
