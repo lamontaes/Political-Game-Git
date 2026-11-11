@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-2-a-talk-brings-up-a-remembered-event
 pr: #8646

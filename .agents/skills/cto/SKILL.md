@@ -117,3 +117,5 @@ In plain words for a tool that is not Claude: "message a session" means the tool
 > Record every owner ruling in OWNER-DECISIONS.md the same hour; rule what a standing rule answers; simulate it, don't ask.
 > Report to the owner the way civic-reports says, the play-first lane first.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+
+- **Once an hour, merge the pool notes bundle** (owner, Nov 11: "it's only worth merging things in the game") on the head Desk B posted, and say in the count how many game pull requests are open and whether the cap of 150 is on. Skill `pool-notes`.

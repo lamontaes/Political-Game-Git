@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-bill-catalog-no-county-level
-pr:
+pr: #8683
 blocked-on:
 source: added with npm run pool -- add
 after:

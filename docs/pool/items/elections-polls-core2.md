@@ -5,14 +5,14 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-elections-polls-core2
 pr: #5815
 after:
 blocked-on:
 milestone:
 source: acting CTO ruling, Oct 19; replaces the old-core poll work in PRs #5091 and #5081
-claimed-at:
+claimed-at: 2026-11-11T06:19:22.360Z
 lead: elections
 standard: 2
 model: sonnet
@@ -50,3 +50,9 @@ Sent back 2026-10-21 from PR #5815 (branch claude/foreclosure-outside-lender): T
 Stale 2026-10-26: PR #5815 closed (no push for five days, sent back); the work is on branch claude/foreclosure-outside-lender; claim the item and merge main into that branch.
 
 Released (2026-11-11): Could not be proved on main 250e39494b: a played-world test (buildBenchWorld, 420 days) in six places drawn with GOLDEN_PATH_SEED=poll-a found no poll bought by any campaign: Goff, Kansas [2026775]; Hilger, Montana [3036325]; Charlotte Amalie East, U.S. Virgin Islands; Tekamah, Nebraska [3148515]; Guilford, Maine [2330060]; Pleasant Valley, Alaska [0261120] (draw poll-a:0 to :5, each 'no poll in 420 days'). This matches the item's own Oct 19 measurement: world campaigns raise too little from the town for commissionPoll (campaigns.ts:5322, called at 6481 once pollFundMinor reaches the minimum interviews) to fire. The test cannot pass until a world campaign actually buys a poll, so the item needs a cause for why none does (the poll fund threshold against what a world campaign raises) before a test is added; no test was committed. Continue on branch claude/pool-elections-polls-core2 and pull request #5815.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:18 UTC) on branch claude/pool-elections-polls-core2.
+
+Released (2026-11-11): Not built: the item's own Fix is a test that a non-player campaign buys a poll in a played world, and the earlier release (six drawn places, 420 days, GOLDEN_PATH_SEED=poll-a, main 250e39494b) and the Oct 19 measurement both found no such poll, so the test cannot pass; needs a decision on why world campaigns raise too little for commissionPoll's minimum (campaigns.ts line 5322/6481), not another replay. Continue on branch claude/pool-elections-polls-core2 and pull request #5815.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:19 UTC) on branch claude/pool-elections-polls-core2.
