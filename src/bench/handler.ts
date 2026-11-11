@@ -216,6 +216,7 @@ function sceneNow(current: CoreState, id: string) {
             person.personId === id ||
             openConversation(current, id, person.personId, {
               director: state.director,
+              look: true,
             }).lines.length > 0,
         })),
       }

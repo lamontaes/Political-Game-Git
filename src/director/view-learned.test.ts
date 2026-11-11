@@ -331,6 +331,10 @@ it(`where someone stands names their strongest question, from their own life, an
     .sort((a, b) => b.weight - a.weight);
   let checked = 0;
   for (const { id } of ranked) {
+    // The room's look at whether there is anything to say teaches nothing.
+    const knew = api.knows(me, viewKey(id));
+    openConversation(core, me, id, { director, look: true });
+    if (!knew) expect(api.knows(me, viewKey(id)), where).toBeUndefined();
     const talk = openConversation(core, me, id, { director });
     const line = talk.lines.find((row) => row.kind === "own-view");
     if (!line || !talk.choices.length) continue;

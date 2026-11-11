@@ -331,6 +331,8 @@ export interface Conversation {
   topicFacts?: Facts;
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
   minuteOfDay?: number;
+  /** A look only: whether there is anything to say, with nothing learned (internal). */
+  look?: boolean;
   /** The director's ledger, read for what happened to whom (internal). */
   director?: Director;
   /** The moment the talk is the occasion of (a scene's), from the player's ledger. */
@@ -2489,8 +2491,10 @@ function raiseSubject(
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
   // What they said they stand for, the player now knows (and so does anyone
-  // else in the room): the card reads this key.
-  if (subject.learned) {
+  // else in the room): the card reads this key. A look at whether there is
+  // anything to say (the room's check) teaches nothing: only a talk the
+  // player has does.
+  if (subject.learned && !conversation.look) {
     const api = coreAPI(core as CoreState);
     const sourceId = `conversation:${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.kind}`;
     for (const hearerId of [playerId, ...conversation.presentIds]) {
@@ -2787,6 +2791,8 @@ export function openConversation(
     occasionId?: string;
     /** The minute of the day the talk is had at, where the screen knows it better than the clock (the opening evening). */
     minuteOfDay?: number;
+    /** Only looking whether there is anything to say (the room's check): nothing is learned. */
+    look?: boolean;
   } = {},
 ): Conversation {
   const data = options.data ?? CONVERSATION_DATA;
@@ -2806,6 +2812,7 @@ export function openConversation(
     ...(options.minuteOfDay !== undefined
       ? { minuteOfDay: options.minuteOfDay }
       : {}),
+    ...(options.look ? { look: true } : {}),
   };
   const occasion = options.occasionId
     ? options.director?.ledger.people
