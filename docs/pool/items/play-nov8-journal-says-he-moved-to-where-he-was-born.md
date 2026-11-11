@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-play-nov8-journal-says-he-moved-to-where-he-was-born
+status: open
+claimed-by:
 pr: #8459
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: design-life-record
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point C30, not fixed)
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:09:23.353Z
+claimed-at:
 branch: claude/pool-play-nov8-journal-says-he-moved-to-where-he-was-born
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-play-nov8-journal-says-he-moved-to-where-he-was-born
 **Notes.** From the Nov 8 playtest, point C30 (docs/coordination/playtest/2026-11-08-1.md) and its row in `2026-11-08-1-check.md` (Check D): "past-moves.ts:37-55 counts anyone whose living parent lives outside the county today as having moved in, so a man born there 'moves in.' Every move is worded as a move to where he lives now... The first chapter is titled with that place, which comes out as 'Connecticut,' not Manchester"; root cause there: "Where he came from is read from a parent's home today, not his birthplace"; owner: Lives. Neither file has changed since that check (compared against the check's commit on Nov 10). The opener "More than a year on" in the same quote is fixed (the span words now reach years). This item sits in the past engine, not in a screen; the lead named on it is the one the audit's filing brief gave every Nov 8 leftover, and the lives lead should review it (`.agents/skills/lives/SKILL.md`). Related open: core-deep-past-school-place-from-birthplace (schooling follows the birthplace), core-deep-past-kin-past-on-fill-in. Related, filed Nov 10: play-journal-says-one-thing-three-times, play-nov8-journal-chapter-has-no-picture. The thin past itself (no partners, accidents or college before day one; points P32 and P36) is the audit's Pillar 4 life record and is not this item. Not verified: nothing here was measured in the running game on Nov 10.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:09 UTC) on branch claude/pool-play-nov8-journal-says-he-moved-to-where-he-was-born.
+
+Released by next (2026-11-11): no push to claude/pool-play-nov8-journal-says-he-moved-to-where-he-was-born since 2026-11-11 02:09 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-play-nov8-journal-says-he-moved-to-where-he-was-born and pull request #8459.

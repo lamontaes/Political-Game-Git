@@ -31,3 +31,11 @@ The standard is `docs/play-first/LAW.md` section 1: menu screens follow the look
 - **A page taller than its sheet scrolls inside its columns, never as a page (Nov 11, the bill page).** The pattern: `#sheet-body:has(<the screen>) { display: flex; flex-direction: column; overflow: hidden }`, the screen `flex: 1; min-height: 0`, its column grid `grid-template-rows: minmax(0, 1fr)`, and each column `min-height: 0; overflow-y: auto`. What a player must act on (a vote, a button) goes in the first column, never under the grid.
 - **A list beside a page that redraws itself uses `rosterScreen`'s `show`.** `render(entry, show)` may return the page's nodes, or call `show(...nodes)` now and again after each action (a bill after a vote), so the page stays beside its list. A row carries its entry's key as `data-key`; a check opens a row by that, never by its place in the list.
 - **A stack that is squash-merged is gone from your branch's history.** After the top of a stack merges, start the follow-up from main and cherry-pick your new commits; merging main into the old branch conflicts with your own work (Nov 11, #8511).
+
+## Lesson of Nov 11 (a list beside a page left dead buttons)
+
+The list-beside-page part (`rosterScreen`) hands a page a `show` to redraw itself with. Clicking the row of the entry already open started a second draw and stopped listening to the first, whose buttons were still on screen. A vote cast there reached the game and never the page.
+
+- **A list does not open the entry that is already open.**
+- **A page that redraws itself shows only its newest draw.** Two acts close together each redraw; the earlier one can finish its reads last.
+- **Check it:** in the page's browser check, click the open entry's own row, act on the page, and read the result on the page.
