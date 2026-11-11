@@ -25,6 +25,7 @@ import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./law-reach/host";
+import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import {
   stancesOf,
   viewOf,
@@ -682,6 +683,17 @@ export function runDesk(
   // follower where they hold no record for it, since a law in force binds the
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
+  // The jurisdictions whose law binds the town: the nation, its state, its
+  // county, its township and the town itself (the laws engine's chain).
+  const chainJurisdictions = api.state.modules.has(LAWS_MODULE_ID)
+    ? new Set(lawChain(api).levels.map((level) => level.jurisdiction))
+    : null;
+  const bindsTown = (lawId: string): boolean => {
+    if (!chainJurisdictions) return true;
+    const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+      { jurisdiction?: string } | undefined;
+    return !row?.jurisdiction || chainJurisdictions.has(row.jurisdiction);
+  };
   const involved = (item: WireItem): number => {
     // A charge against, or an exposure of, someone serving in a local office
     // is the town's business: it involves every follower, named or counted,
@@ -730,6 +742,11 @@ export function runDesk(
       : item.facts?.series;
     if ((item.kind !== "law-took-effect" && !lineChange) || !lawId || !key)
       return 0;
+    // Another state's or town's law binds no one here: it involves none of
+    // the outlet's followers (Hawaii's cannabis law outranked the
+    // President's inaugural address on every national desk in Arrowhead
+    // Springs, Wyoming, seed da5c1844fcee4270).
+    if (item.kind === "law-took-effect" && !bindsTown(String(lawId))) return 0;
     const reached = new Set(reachedBy(api, key, lawId).map((r) => r.personId));
     const named = reached.size
       ? followers.filter((id) => reached.has(id)).length
