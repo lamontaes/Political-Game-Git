@@ -18,6 +18,7 @@ import { branchPrefix, identify, readTiers, tierOf } from "./agent";
 import { command, flags, run, staleClaims, validate, type Item } from "./index";
 import {
   claimable,
+  inKind,
   makeOrder,
   readOrder,
   timeBoxHours,
@@ -27,6 +28,8 @@ import {
 const ROOT = process.cwd();
 
 interface Unit {
+  area?: string;
+  lead?: string;
   model?: string;
   priority?: string;
   status?: string;
@@ -48,7 +51,7 @@ const unit = (id: string, o: Unit = {}): string =>
     "---",
     `id: ${id}`,
     `title: "Title of ${id}"`,
-    "area: laws",
+    `area: ${o.area ?? "laws"}`,
     "kind: wiring",
     `priority: ${o.priority ?? "3"}`,
     `size: ${o.size ?? "M"}`,
@@ -58,7 +61,7 @@ const unit = (id: string, o: Unit = {}): string =>
     "pr:",
     `after: ${o.after ?? ""}`.trimEnd(),
     "blocked-on:",
-    "lead: laws",
+    `lead: ${o.lead ?? "laws"}`,
     `model: ${o.model ?? "sonnet"}`,
     `effort: ${o.effort ?? "medium"}`,
     `root: ${o.root ?? "none"}`,
@@ -183,7 +186,11 @@ function pool(
   const cwd = process.cwd();
   process.chdir(dir);
   try {
-    const err = command(argv, {}, { out: (l) => out.push(l), beforePush });
+    const err = command(
+      argv,
+      {},
+      { out: (l) => out.push(l), beforePush, progress: () => {} },
+    );
     return { err, out };
   } finally {
     process.chdir(cwd);
@@ -357,6 +364,63 @@ describe("next --dry-run by level", () => {
   });
 });
 
+describe("next --for <kind>", () => {
+  // laws-top is first in the order (priority 1) but is not play work.
+  const items = {
+    "laws-top": unit("laws-top", { priority: "1" }),
+    "play-area": unit("play-area", { area: "play", lead: "laws" }),
+    "play-lead": unit("play-lead", { area: "laws", lead: "screens" }),
+  };
+  const take = (dir: string, extra: string[]): string =>
+    line(pool(dir, ["next", "--dry-run", ...extra]).out, "Would take:");
+  it("plain next takes the first item; --for play takes the first play item, by area or by lead", () => {
+    const { clones } = world(items);
+    expect(take(clones[0], [])).toBe("Would take: laws-top (sonnet, p1)");
+    expect(take(clones[0], ["--for", "play"])).toBe(
+      "Would take: play-area (sonnet, p3)",
+    );
+    const lead = world({
+      "laws-top": items["laws-top"],
+      "play-lead": items["play-lead"],
+    });
+    expect(take(lead.clones[0], ["--for", "play"])).toBe(
+      "Would take: play-lead (sonnet, p3)",
+    );
+    expect(
+      inKind(
+        { id: "x", status: "open", priority: "3", lead: "screens" },
+        readOrder(join(ROOT, "docs/pool")).kinds.play,
+      ),
+    ).toBe(true);
+  });
+  it("claims the play item for real, and leaves the higher one for plain next", () => {
+    fakeGh(null);
+    const { clones, onOrigin } = world(items);
+    const r = pool(clones[0], ["next", "--for", "play"]);
+    expect(r.err).toBeNull();
+    expect(r.out[1]).toBe("Item: play-area");
+    expect(onOrigin("main", `${ITEM}/play-area.md`)).toContain(
+      "status: claimed",
+    );
+    expect(onOrigin("main", `${ITEM}/laws-top.md`)).toContain("status: open");
+  });
+  it("an unknown kind is an error that names the kinds order.json has", () => {
+    const { clones } = world(items);
+    const r = pool(clones[0], ["next", "--for", "nonsense", "--dry-run"]);
+    expect(r.err).toContain('No kind of work is called "nonsense"');
+    expect(r.err).toContain("The kinds are play");
+  });
+  it("takes nothing and says so when no item of the kind is left, never falling back", () => {
+    const { clones } = world({ "laws-top": items["laws-top"] });
+    const r = pool(clones[0], ["next", "--for", "play", "--dry-run"]);
+    expect(r.err).toBeNull();
+    expect(r.out.slice(1)).toEqual([
+      "No play item is left for your tier (mid) or any tier below it.",
+    ]);
+    expect(line(r.out, "Would take:")).toBe("");
+  });
+});
+
 describe("next for real", () => {
   it("claims on main, starts the branch with the placeholder note, writes the body, and release keeps the branch", () => {
     const gh = fakeGh(null);
@@ -484,6 +548,69 @@ describe("next for real", () => {
     git(a, "checkout", "-q", "main");
     expect(pool(a, ["status", "laws-h", "in-pr", "--pr", "77"]).err).toBeNull();
     expect(onOrigin("main", `${ITEM}/laws-h.md`)).toContain("status: in-pr");
+  });
+
+  it("starts the note under a free id: the item's own when free, -2 when main already used it", () => {
+    fakeGh(null);
+    const { clones, onOrigin } = world({
+      "laws-h": unit("laws-h", { model: "haiku" }),
+      "laws-k": unit("laws-k", { model: "haiku", priority: "2" }),
+    });
+    const [a] = clones;
+    // main has released laws-h before (a sent-back item): listed in consumed-changes.json.
+    mkdirSync(join(a, "docs/release"), { recursive: true });
+    writeFileSync(
+      join(a, "docs/release/consumed-changes.json"),
+      JSON.stringify({ entries: [{ changeIds: ["laws-h"] }] }),
+    );
+    git(a, "add", ".");
+    git(a, "commit", "-qm", "consumed");
+    git(a, "push", "-q", "origin", "main");
+    // laws-k has priority 2 so it is offered first: its id is free.
+    const first = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
+    expect(first.err).toBeNull();
+    expect(first.out).toContain("Release note: docs/release/changes/laws-k.md");
+    // laws-h's id is used: the note is laws-h-2, in both its path and its id line.
+    const second = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
+    expect(second.err).toBeNull();
+    expect(second.out).toContain(
+      "Release note: docs/release/changes/laws-h-2.md",
+    );
+    expect(onOrigin("pool/laws-h", "docs/release/changes/laws-h-2.md")).toBe(
+      `---\nid: laws-h-2\nimpact: none\n---\n\n${NOTE_PLACEHOLDER}`,
+    );
+    // The guard finds the note by scanning the branch, so it refuses while laws-h-2 holds the placeholder.
+    expect(pool(a, ["status", "laws-h", "in-pr", "--pr", "5"]).err).toMatch(
+      /changes\/laws-h-2\.md on pool\/laws-h still says "Not written yet/,
+    );
+  });
+
+  it("asks whether a recorded pull request is open and opens a new draft when it is closed", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-gh-"));
+    const script = join(dir, "gh");
+    writeFileSync(
+      script,
+      `#!/bin/sh\nif [ "$2" = view ]; then echo '{"state":"CLOSED"}'; else echo https://github.com/o/r/pull/90; fi\n`,
+    );
+    chmodSync(script, 0o755);
+    process.env.PATH = `${dir}:${savedPath}`;
+    const { clones, onOrigin } = world({
+      "laws-h": unit("laws-h", { model: "haiku" }),
+    });
+    const [a] = clones;
+    const item = readFileSync(join(a, `${ITEM}/laws-h.md`), "utf8").replace(
+      /^pr:$/m,
+      "pr: #55",
+    );
+    writeFileSync(join(a, `${ITEM}/laws-h.md`), item);
+    git(a, "add", ".");
+    git(a, "commit", "-qm", "pr");
+    git(a, "push", "-q", "origin", "main");
+    const r = pool(a, ["next", "--model", "haiku", "--agent", "x"]);
+    expect(r.err).toBeNull();
+    expect(r.out).toContain("Pull request #55 is closed; opening a new draft.");
+    expect(r.out).toContain("Pull request: #90 (draft)");
+    expect(onOrigin("main", `${ITEM}/laws-h.md`)).toContain("pr: #90");
   });
 
   it("two callers racing for one item end with two different items", () => {

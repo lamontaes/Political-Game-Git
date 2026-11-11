@@ -376,7 +376,7 @@ describe("add", () => {
       const rest = ["--kind", "wiring", "--priority", "2", "--no-push"];
       const refused = command([...head, ...rest]);
       expect(refused).toContain(
-        "missing --what, --cause, --fix, --timebox, --rules, --done, --waits, --files, --model, --effort, --root, --lead",
+        "missing --what, --cause, --fix, --timebox, --rules, --done, --waits, --files, --model, --effort, --root, --lead, --seen",
       );
       expect(() =>
         readFileSync(join(pool, "items", "laws-new.md"), "utf8"),
@@ -396,6 +396,7 @@ describe("add", () => {
         effort: "medium",
         root: "rc8-law",
         lead: "laws",
+        seen: "Seen: the shelf price on the retailer's card after the law passes.",
       };
       const flagsOf = (b: Record<string, string>): string[] =>
         Object.entries(b).flatMap(([k, v]) => [`--${k}`, v]);
@@ -407,6 +408,10 @@ describe("add", () => {
           `missing --${k}`,
         );
       }
+      // A seen line that starts with none of the three openings is refused.
+      expect(
+        command([...head, ...rest, ...flagsOf({ ...body, seen: "Nowhere." })]),
+      ).toMatch(/What must end with where the player sees it/);
       // A flag that is given but wrong is refused by the standard's own check.
       expect(
         command([...head, ...rest, ...flagsOf({ ...body, model: "gpt" })]),
@@ -414,6 +419,9 @@ describe("add", () => {
       expect(command([...head, ...rest, ...flagsOf(body)])).toBeNull();
       const written = readFileSync(join(pool, "items", "laws-new.md"), "utf8");
       expect(written).toContain("standard: 2");
+      expect(written).toContain(
+        "in any town they visit. Seen: the shelf price on the retailer's card after the law passes.",
+      );
       expect(written).toContain("**Time box.** 3 hours");
       expect(run(pool, true).errors).toEqual([]);
     } finally {

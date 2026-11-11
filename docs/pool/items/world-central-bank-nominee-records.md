@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/board-appointer.ts, src/core2/board-appointer.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap rows SG-WORLD-board-hawk-side and SG-WORLD-board-career-qualification.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given each central-bank nominee a recorded stance and career instead of two estimated numbers; no screen shows a nominee's career, and the estimates stay labeled.

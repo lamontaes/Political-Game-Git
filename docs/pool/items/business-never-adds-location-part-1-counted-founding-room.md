@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** In Cochituate, Massachusetts the wider-population branch of foundings (the counted founder, `strongestPulls(api, "found", rows)`) founds a business in the top market every month, in this world manufacturing, whatever its room, so foundings pile into one market. The full-person branch weighs market room; the counted branch carries a baseline and unemployed and prospect terms that ignore it. Make the counted founding weigh market room the way the full-person branch does so foundings spread across the markets that have room.
+**What.** In Cochituate, Massachusetts the wider-population branch of foundings (the counted founder, `strongestPulls(api, "found", rows)`) founds a business in the top market every month, in this world manufacturing, whatever its room, so foundings pile into one market. The full-person branch weighs market room; the counted branch carries a baseline and unemployed and prospect terms that ignore it. Make the counted founding weigh market room the way the full-person branch does so foundings spread across the markets that have room. Seen: the town's business list and its jobs and Metrics numbers, where every new business no longer lands in one market.
 
 **Cause.** Found in code: src/core2/modules/business.ts `foundings` (line 1721) takes the counted founder's pulls with `strongestPulls`; `businessCountedFoundBaseline` and the room weight sit in src/core2/data/business/parameters.json. Measured in Cochituate, Massachusetts (2514570, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc): manufacturing took one founding a month from April 2025 to March 2026 with room 0.0000 throughout.
 

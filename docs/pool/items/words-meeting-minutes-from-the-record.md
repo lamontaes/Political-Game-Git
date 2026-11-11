@@ -37,3 +37,7 @@ checked: fable 2026-11-10
 **Files.** data/english/parts/minutes.json, src/director/data/situation-types.json, src/english/screen-words.ts, src/english/bill-paper-words.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:37 UTC) on branch claude/pool-words-meeting-minutes-from-the-record.
+
+Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.

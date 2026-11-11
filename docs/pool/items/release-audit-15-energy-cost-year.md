@@ -20,7 +20,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** businessEnergyCostYear works out what a law that prices energy would cost a business over a year. It keeps its own small table of the clean-electricity and carbon-price rows, while the monthly settlement reads the same two laws from the PRICE_LAWS table, so the two can drift apart. Make the year cost read the one rule the settlement reads, and prove with a test that the year cost equals twelve months of the settlement. Also decide on purpose that employers without books never organize, and write that decision in the item notes.
+**What.** businessEnergyCostYear works out what a law that prices energy would cost a business over a year. It keeps its own small table of the clean-electricity and carbon-price rows, while the monthly settlement reads the same two laws from the PRICE_LAWS table, so the two can drift apart. Make the year cost read the one rule the settlement reads, and prove with a test that the year cost equals twelve months of the settlement. Also decide on purpose that employers without books never organize, and write that decision in the item notes. Seen: the yearly energy cost a clean-electricity or carbon-price law puts on a business, in the law's reach card, which must equal twelve months of what the business pays.
 
 **Cause.** Found in code: src/core2/modules/place-prices.ts, function `businessEnergyCostYear` (line 1123), rebuilds the clean-electricity and carbon-price rows in a local `rule` table beside the `PRICE_LAWS` table (line 925) that the monthly settlement uses.
 
