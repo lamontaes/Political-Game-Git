@@ -1501,6 +1501,9 @@ interface PointRules {
     readonly questions: readonly string[];
   };
   readonly back: string;
+  readonly claims: Readonly<
+    Record<string, { area: "work" | "money"; says: "worse" | "better" }>
+  >;
 }
 const POINT_RULES = (rulesFile as unknown as { addressPoint: PointRules })
   .addressPoint;
@@ -1508,8 +1511,11 @@ const POINT_RULES = (rulesFile as unknown as { addressPoint: PointRules })
 const POINT = "address-point";
 const POINT_BACK = POINT_RULES.back;
 
-/** Whether a question is about work and pay, or about prices, rent and housing, by the bill catalog's subject. */
-function pointArea(question: string): "work" | "money" | null {
+/** Whether a point is about work and pay, or about prices, rent and housing: a year point by its claim, a policy point by the bill catalog's subject. */
+function pointArea(point: AddressPoint): "work" | "money" | null {
+  if (point.kind === "year")
+    return POINT_RULES.claims[point.claim ?? ""]?.area ?? null;
+  const question = point.question;
   const subject = questionSubject(question);
   if (
     POINT_RULES.money.questions.includes(question) ||
@@ -1560,7 +1566,47 @@ export function addressPointFor(
   const api = coreAPI(core as CoreState);
   const lean = viewOf(api, speakerId)?.lean;
   const viewAt = (row: AddressPoint) =>
-    lean === undefined ? zero : viewOn(api, speakerId, row.question, lean);
+    lean === undefined || row.kind === "year"
+      ? zero
+      : viewOn(api, speakerId, row.question, lean);
+  // Their own life, as their records hold it: work lost or looked for, a job
+  // held, money hard (hardship stress or an eviction), and the town's figures.
+  const year = core.date.slice(zero, "YYYY".length);
+  const ended = lastEndedJob(core, speakerId);
+  const endedAt = ended
+    ? known?.get(`job:${ended.id}:status`)?.learnedAt
+    : undefined;
+  const lostThisYear = ended && endedAt?.startsWith(year) ? ended : undefined;
+  const seeking = seekingOf(core, speakerId);
+  // A job lost this year counts, even with another one found since.
+  const outOfWork = !!(lostThisYear || seeking);
+  const working = !!jobOf(core, speaker);
+  const hardship = hardshipStress(core, speaker) > zero;
+  const evicted = evictionSubjects(
+    core,
+    director,
+    speakerId,
+    listenerId ?? speakerId,
+  )[zero];
+  const town = townBacks(core, speaker.placeId);
+  /**
+   * Where they stand on a year point: with what the President said when
+   * their own life bears it out, against it when their life says otherwise,
+   * unsure when their records say neither.
+   */
+  const yearStand = (point: AddressPoint): PointPick["stand"] => {
+    const rule = POINT_RULES.claims[point.claim ?? ""];
+    if (!rule) return "unsure";
+    const hard =
+      rule.area === "work"
+        ? outOfWork || town.includes("why-town-jobs")
+        : hardship || !!evicted || town.includes("why-town-rent");
+    const easy =
+      rule.area === "work" ? working && !outOfWork : working && !hardship;
+    const bears = rule.says === "worse" ? hard : easy && !hard;
+    const belies = rule.says === "worse" ? easy && !hard : hard;
+    return bears ? "with" : belies ? "against" : "unsure";
+  };
   const pick = (
     point: AddressPoint,
     reason: PointReason,
@@ -1576,24 +1622,18 @@ export function addressPointFor(
       reasonIds,
       // A view of exactly nothing is no view (the views engine's own rule).
       stand:
-        view === zero
-          ? "unsure"
-          : Math.sign(view) === side
-            ? "with"
-            : "against",
+        point.kind === "year"
+          ? yearStand(point)
+          : view === zero
+            ? "unsure"
+            : Math.sign(view) === side
+              ? "with"
+              : "against",
       ...(employer ? { employer } : {}),
       ...(seeking ? { seeking } : {}),
     };
   };
-  // Work: a job they lost this year, or their search for one.
-  const year = core.date.slice(zero, "YYYY".length);
-  const ended = lastEndedJob(core, speakerId);
-  const endedAt = ended
-    ? known?.get(`job:${ended.id}:status`)?.learnedAt
-    : undefined;
-  const lostThisYear = ended && endedAt?.startsWith(year) ? ended : undefined;
-  const seeking = seekingOf(core, speakerId);
-  const work = open.find((row) => pointArea(row.question) === "work");
+  const work = open.find((row) => pointArea(row) === "work");
   if (work && (lostThisYear || seeking)) {
     const employer = employerFact(core, lostThisYear ?? ended);
     return pick(
@@ -1608,14 +1648,7 @@ export function addressPointFor(
     );
   }
   // Money: hardship on their record, or an eviction.
-  const money = open.find((row) => pointArea(row.question) === "money");
-  const hardship = hardshipStress(core, speaker) > zero;
-  const evicted = evictionSubjects(
-    core,
-    director,
-    speakerId,
-    listenerId ?? speakerId,
-  )[zero];
+  const money = open.find((row) => pointArea(row) === "money");
   if (money && (hardship || evicted))
     return pick(money, "money", [
       ...(hardship ? [speakerId] : []),
@@ -1623,6 +1656,7 @@ export function addressPointFor(
     ]);
   // The point they hold the strongest view on.
   const held = open
+    .filter((row) => row.kind === "policy")
     .map((row) => ({ row, size: Math.abs(viewAt(row)) }))
     .filter((row) => row.size > zero)
     .sort((a, b) => b.size - a.size)[zero];
@@ -1676,7 +1710,6 @@ function pointSubject(
   const said = [eventId, ...pick.point.sourceRecordIds];
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
-    to: { text: pick.point.to, sourceRecordIds: said },
     // Who gave it, by name, from the officials engine's record.
     president: {
       text: president.name,
@@ -1692,9 +1725,13 @@ function pointSubject(
   const mark = (key: string, ids: readonly string[]) => {
     if (ids.length) facts[key] = { text: "yes", sourceRecordIds: [...ids] };
   };
-  // The President's side and theirs, which the words of the stand follow.
-  mark(`president-${pick.point.stance}`, said);
-  mark(`stand-${pick.stand}`, [...said, speakerId]);
+  // What the President would do, and the President's side, for a policy
+  // point; a year point is something the address said happened. Their own
+  // stand, which the words follow.
+  if (pick.point.to) facts.to = { text: pick.point.to, sourceRecordIds: said };
+  mark(`${pick.point.kind}-point`, said);
+  if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
+  mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
   if (pick.reason === "work") {
     mark("why-work", pick.reasonIds);
     if (pick.seeking) mark("why-seeking", [pick.seeking]);
@@ -1704,7 +1741,7 @@ function pointSubject(
   if (pick.reason === "view") mark("why-view", [...pick.reasonIds, ...said]);
   // The town's own figures back a point on work or money that is not the
   // speaker's own trouble.
-  const area = pointArea(pick.point.question);
+  const area = pointArea(pick.point);
   if (place && (pick.reason === "first" || pick.reason === "view") && area)
     for (const key of townBacks(core, speaker.placeId))
       if (

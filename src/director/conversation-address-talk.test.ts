@@ -14,7 +14,8 @@
  * - two people with opposite views on the point take opposite stands;
  * - someone who lost a job this year or is looking for work raises a work
  *   point when the address has one;
- * - over 200 openings in one world, at least 40 different raise lines.
+ * - over 200 openings in one world, at least 40 different raise lines;
+ * - across five drawn worlds the points raised are not all the same point.
  */
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -49,8 +50,8 @@ import {
 import { expectUpToFourDifferent } from "./reply-set-check";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
-const OPENINGS = 3;
-const ATTEMPTS = 8;
+const OPENINGS = 5;
+const ATTEMPTS = 12;
 const RAISES = 200;
 const DIFFERENT = 40;
 const POINT = "address-point";
@@ -105,6 +106,7 @@ const housematesOf = (core: CoreState, me: PersonId) =>
 
 it(`the relative raises a point of this world's address, with a stand and a reason, and four replies about it (seed ${seed})`, () => {
   const raised: string[] = [];
+  const pointsRaised: string[] = [];
   const tried: string[] = [];
   for (let draw = 0; draw < ATTEMPTS && raised.length < OPENINGS; draw += 1) {
     const { core, director, me, where, points } = world(draw, "address-talk");
@@ -193,6 +195,7 @@ it(`the relative raises a point of this world's address, with a stand and a reas
         `${here}: "${talk.lines[0]!.text}" / you: "${talk.lines[1]!.text}" / "${line.text}" / you: "${choice.text}" / "${answer!.text}" (record ${kept!.sourceId})\n`,
       );
       raised.push(line.text);
+      pointsRaised.push(about!);
       found = true;
       break;
     }
@@ -202,18 +205,25 @@ it(`the relative raises a point of this world's address, with a stand and a reas
   expect(raised.length, tried.join("; ")).toBe(OPENINGS);
   // The openings do not share a raise line.
   expect(new Set(raised).size, raised.join(" | ")).toBe(OPENINGS);
+  // Across the worlds the points raised are not all the same point.
+  expect(new Set(pointsRaised).size, pointsRaised.join(" | ")).toBeGreaterThan(
+    1,
+  );
 }, 1_800_000);
 
 /** A point on work the bill catalog names, for an address that has none: a hand-made edge case beside the drawn ones. */
 function workPoint(points: readonly AddressPoint[]): AddressPoint {
-  const own = points.find((row) =>
-    rules.addressPoint.work.subjects.includes(
-      questionSubject(row.question) ?? "",
-    ),
+  const own = points.find(
+    (row) =>
+      row.kind === "policy" &&
+      rules.addressPoint.work.subjects.includes(
+        questionSubject(row.question) ?? "",
+      ),
   );
   if (own) return own;
   const question = "us-policy-positions:labor-workforce.raise-minimum-wage";
   return {
+    kind: "policy",
     question,
     about: questionAbout(question)!,
     to: questionTo(question)!,
@@ -242,7 +252,7 @@ it(`opposite views take opposite stands, a job lost raises a work point, and 200
     );
     // Two people with opposite views on the same point take opposite stands.
     if (!opposite)
-      for (const point of points) {
+      for (const point of points.filter((row) => row.kind === "policy")) {
         const stands = knows.map((row) => ({
           id: row.id as PersonId,
           view: viewOn(
@@ -319,9 +329,18 @@ it(`opposite views take opposite stands, a job lost raises a work point, and 200
             point,
           ]);
           expect(pick?.reason, `${where}: ${row.id}`).toBe("work");
-          expect(pick?.point.question, `${where}: ${row.id}`).toBe(
-            point.question,
-          );
+          // The work point it raises: the one added here, or a claim the
+          // address made about work this year, whichever the address has first.
+          const claim = pick?.point.claim ?? "";
+          const claims = rules.addressPoint.claims as unknown as Record<
+            string,
+            { area?: string }
+          >;
+          expect(
+            pick?.point.question === point.question ||
+              claims[claim]?.area === "work",
+            `${where}: ${row.id} raised ${pick?.point.about}`,
+          ).toBe(true);
           work = true;
         }
         if (work)

@@ -6,6 +6,7 @@
  * question with no name here is not offered as a stand.
  */
 import data from "../../data/english/question-names.json" with { type: "json" };
+import yearData from "../../data/english/year-claims.json" with { type: "json" };
 
 const NAMES = data.names as Readonly<
   Record<string, { readonly about: string; readonly to: string }>
@@ -23,3 +24,12 @@ export function questionTo(question: string): string | null {
 
 /** Every question that has a spoken name. */
 export const NAMED_QUESTIONS: readonly string[] = Object.keys(NAMES);
+
+const YEAR = yearData.claims as Readonly<
+  Record<string, { readonly about: string }>
+>;
+
+/** A claim the President's address made about the country's year, as a noun phrase ("prices still going up"); null for one with no name. */
+export function yearClaimAbout(claim: string): string | null {
+  return YEAR[claim]?.about ?? null;
+}

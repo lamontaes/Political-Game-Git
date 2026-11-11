@@ -252,7 +252,23 @@
         "us-federal-positions:trade.raise-tariffs"
       ]
     },
-    "back": "address-point-back"
+    "back": "address-point-back",
+    "claims": {
+      "about": "What each claim about the country's year is about and which way it says things went. A hearer stands on a year point by whether their own life bears it out: a claim that work got worse is borne out by a job lost or looked for, or the town's unemployment above the country's; a claim that money got worse by hardship, an eviction, or the town's rent above the burden line; a claim that things got better by the opposite. By claim fact; no sentence.",
+      "prices-high": { "area": "money", "says": "worse" },
+      "prices-up": { "area": "money", "says": "worse" },
+      "inflation-up": { "area": "money", "says": "worse" },
+      "inflation-down": { "area": "money", "says": "better" },
+      "wages-up": { "area": "money", "says": "better" },
+      "wages-ahead-of-prices": { "area": "money", "says": "better" },
+      "wages-behind-prices": { "area": "money", "says": "worse" },
+      "mortgage-up": { "area": "money", "says": "worse" },
+      "mortgage-down": { "area": "money", "says": "better" },
+      "unemployment-up": { "area": "work", "says": "worse" },
+      "unemployment-down": { "area": "work", "says": "better" },
+      "jobs-up": { "area": "work", "says": "better" },
+      "growth-up": { "area": "work", "says": "better" }
+    }
   },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",

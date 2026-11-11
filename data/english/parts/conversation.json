@@ -23249,6 +23249,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23266,6 +23270,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23283,6 +23291,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23300,6 +23312,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23317,6 +23333,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23334,6 +23354,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23351,6 +23375,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23368,6 +23396,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23385,6 +23417,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23402,6 +23438,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23419,6 +23459,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23436,6 +23480,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23453,6 +23501,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23470,6 +23522,10 @@
           "role": "opener"
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23484,9 +23540,14 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "requiresFacts": ["policy-point"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23501,9 +23562,14 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "requiresFacts": ["policy-point"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23518,9 +23584,14 @@
         {
           "move": "address-point-opener",
           "subject": "address-point",
-          "role": "opener"
+          "role": "opener",
+          "requiresFacts": ["policy-point"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "opener"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23540,6 +23611,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23559,6 +23635,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23578,6 +23659,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23597,6 +23683,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23616,6 +23707,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23635,6 +23731,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23654,6 +23755,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23673,6 +23779,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23692,6 +23803,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23711,6 +23827,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23730,6 +23851,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23749,6 +23875,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23768,6 +23899,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23787,6 +23923,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23806,6 +23947,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23825,6 +23971,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23844,6 +23995,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23863,6 +24019,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23882,6 +24043,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23901,6 +24067,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23920,6 +24091,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23939,6 +24115,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23958,6 +24139,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23977,6 +24163,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -23996,6 +24187,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24015,6 +24211,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24034,6 +24235,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24053,6 +24259,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24072,6 +24283,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24091,6 +24307,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24110,6 +24331,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24129,6 +24355,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24148,6 +24379,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24167,6 +24403,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24186,6 +24427,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24205,6 +24451,11 @@
           "requiresFacts": ["president-for"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24224,6 +24475,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24243,6 +24499,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24262,6 +24523,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24281,6 +24547,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24300,6 +24571,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24319,6 +24595,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24338,6 +24619,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24357,6 +24643,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24376,6 +24667,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24395,6 +24691,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24414,6 +24715,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24433,6 +24739,11 @@
           "requiresFacts": ["president-against"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24451,6 +24762,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24469,6 +24785,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24487,6 +24808,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24505,6 +24831,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24523,6 +24854,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24541,6 +24877,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24559,6 +24900,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24577,6 +24923,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24595,6 +24946,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24613,6 +24969,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24631,6 +24992,11 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24649,6 +25015,875 @@
           "stages": ["unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.president-got-that-part-right-for-us-anyway",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "{president} got that part right, for us anyway.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.that-s-how-it-s-been-in-this-house-president-or-not",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "That's how it's been in this house, {president} or not.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.ask-anybody-in-this-house-president-isn-t-wrong",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "Ask anybody in this house. {president} isn't wrong.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.we-feel-it-here-and-president-said-it-out-loud",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "We feel it here, and {president} said it out loud.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.on-that-president-is-telling-the-truth",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "On that, {president} is telling the truth.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.i-don-t-need-president-to-tell-me-i-live-it",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "I don't need {president} to tell me. I live it.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.that-s-our-life-right-now-and-president-said-so",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "That's our life right now, and {president} said so.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.president-could-have-been-talking-about-us",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "{president} could have been talking about us.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.whatever-else-president-said-that-part-s-true-here",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "Whatever else {president} said, that part's true here.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.that-one-matches-what-i-see-every-day-president-or-not",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "That one matches what I see every day, {president} or not.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.credit-to-president-that-part-s-real",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "Credit to {president}. That part's real.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-with.we-re-living-that-one-just-like-president-said",
+      "move": "address-point-core-year-with",
+      "kind": "spoken",
+      "text": "We're living that one, just like {president} said.",
+      "uses": [
+        {
+          "move": "address-point-core-year-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.that-s-not-what-i-see-whatever-president-says",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "That's not what I see, whatever {president} says.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.maybe-for-some-folks-not-for-us-whatever-president-says",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "Maybe for some folks. Not for us, whatever {president} says.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.president-can-say-it-it-isn-t-true-here",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "{president} can say it. It isn't true here.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.i-don-t-see-it-and-i-d-tell-president-so",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "I don't see it, and I'd tell {president} so.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.that-s-not-how-it-s-been-for-us-president-or-not",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "That's not how it's been for us, {president} or not.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.president-wasn-t-talking-about-people-like-us",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "{president} wasn't talking about people like us.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.nothing-around-here-looks-like-what-president-described",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "Nothing around here looks like what {president} described.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.if-president-is-right-nobody-told-this-house",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "If {president} is right, nobody told this house.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.sounds-nice-it-s-not-our-life-president-or-not",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "Sounds nice. It's not our life, {president} or not.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.from-where-i-sit-president-has-it-backward",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "From where I sit, {president} has it backward.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.president-and-i-aren-t-seeing-the-same-thing",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "{president} and I aren't seeing the same thing.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-against.president-should-come-see-it-for-real",
+      "move": "address-point-core-year-against",
+      "kind": "spoken",
+      "text": "{president} should come see it for real.",
+      "uses": [
+        {
+          "move": "address-point-core-year-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.i-can-t-tell-yet-if-president-has-it-right",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I can't tell yet if {president} has it right.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.maybe-president-is-right-i-haven-t-seen-it-either-way",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "Maybe {president} is right. I haven't seen it either way.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.hard-to-say-from-here-whether-president-is-right",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "Hard to say from here whether {president} is right.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.i-ll-know-if-president-is-right-in-a-few-months",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I'll know if {president} is right in a few months.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.i-m-not-sure-president-has-that-one-right",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I'm not sure {president} has that one right.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.i-d-want-to-see-it-before-i-believe-president",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I'd want to see it before I believe {president}.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.president-might-be-right-time-will-tell",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "{president} might be right. Time will tell.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.i-haven-t-seen-it-either-way-whatever-president-says",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I haven't seen it either way, whatever {president} says.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.i-don-t-know-enough-to-say-if-president-is-right",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I don't know enough to say if {president} is right.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.ask-me-once-i-ve-seen-it-not-just-heard-president",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "Ask me once I've seen it, not just heard {president}.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.we-ll-find-out-whether-president-had-it-right",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "We'll find out whether {president} had it right.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-year-unsure.i-m-still-waiting-to-see-what-president-means",
+      "move": "address-point-core-year-unsure",
+      "kind": "spoken",
+      "text": "I'm still waiting to see what {president} means.",
+      "uses": [
+        {
+          "move": "address-point-core-year-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "piece": {
+        "of": "address-point",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24667,6 +25902,10 @@
           "requiresFacts": ["why-work"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24685,6 +25924,10 @@
           "requiresFacts": ["why-work"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24703,6 +25946,10 @@
           "requiresFacts": ["why-work"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24721,6 +25968,10 @@
           "requiresFacts": ["why-work"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24739,6 +25990,10 @@
           "requiresFacts": ["why-work"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24757,6 +26012,10 @@
           "requiresFacts": ["why-work", "why-seeking"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24775,6 +26034,10 @@
           "requiresFacts": ["why-work", "why-seeking"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24793,6 +26056,10 @@
           "requiresFacts": ["why-work", "why-seeking"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24811,6 +26078,10 @@
           "requiresFacts": ["why-work", "why-seeking"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24829,6 +26100,10 @@
           "requiresFacts": ["why-work", "why-seeking"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24847,6 +26122,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24865,6 +26144,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24883,6 +26166,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24901,6 +26188,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24919,6 +26210,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24937,6 +26232,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24955,6 +26254,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24973,6 +26276,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -24991,6 +26298,10 @@
           "requiresFacts": ["why-money"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25009,6 +26320,10 @@
           "requiresFacts": ["why-town-jobs"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25027,6 +26342,10 @@
           "requiresFacts": ["why-town-jobs"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25045,6 +26364,10 @@
           "requiresFacts": ["why-town-jobs"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25063,6 +26386,10 @@
           "requiresFacts": ["why-town-jobs"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25081,6 +26408,10 @@
           "requiresFacts": ["why-town-jobs"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25099,6 +26430,10 @@
           "requiresFacts": ["why-town-rent"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25117,6 +26452,10 @@
           "requiresFacts": ["why-town-rent"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25135,6 +26474,10 @@
           "requiresFacts": ["why-town-rent"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25153,6 +26496,10 @@
           "requiresFacts": ["why-town-rent"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25171,6 +26518,10 @@
           "requiresFacts": ["why-town-rent"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25189,6 +26540,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25207,6 +26562,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25225,6 +26584,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25243,6 +26606,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25261,6 +26628,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25279,6 +26650,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25297,6 +26672,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25315,6 +26694,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25333,6 +26716,10 @@
           "requiresFacts": ["why-view"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "reason"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25351,6 +26738,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25369,6 +26760,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25387,6 +26782,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25405,6 +26804,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25423,6 +26826,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25441,6 +26848,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25459,6 +26870,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -25477,6 +26892,10 @@
           "requiresFacts": ["why-first"]
         }
       ],
+      "piece": {
+        "of": "address-point",
+        "part": "closer"
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26039,6 +27458,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26057,6 +27481,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26075,6 +27504,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26093,6 +27527,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26111,6 +27550,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26129,6 +27573,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26147,6 +27596,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26165,6 +27619,11 @@
           "stages": ["agree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26183,6 +27642,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26201,6 +27665,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26219,6 +27688,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26237,6 +27711,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26255,6 +27734,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26273,6 +27757,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26291,6 +27780,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26309,6 +27803,11 @@
           "stages": ["disagree"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26327,6 +27826,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26345,6 +27849,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26363,6 +27872,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26381,6 +27895,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26399,6 +27918,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26417,6 +27941,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26435,6 +27964,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26453,6 +27987,11 @@
           "stages": ["here"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26472,6 +28011,11 @@
           "requiresFacts": ["stand-with"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26491,6 +28035,11 @@
           "requiresFacts": ["stand-with"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26510,6 +28059,11 @@
           "requiresFacts": ["stand-with"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26529,6 +28083,11 @@
           "requiresFacts": ["stand-against"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26548,6 +28107,11 @@
           "requiresFacts": ["stand-against"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26567,6 +28131,11 @@
           "requiresFacts": ["stand-against"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26586,6 +28155,11 @@
           "requiresFacts": ["stand-unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26605,6 +28179,11 @@
           "requiresFacts": ["stand-unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
@@ -26624,6 +28203,11 @@
           "requiresFacts": ["stand-unsure"]
         }
       ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
