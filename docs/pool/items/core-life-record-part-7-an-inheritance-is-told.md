@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-7-an-inheritance-is-told
-pr:
+pr: #8604
 after:
 blocked-on:
 lead: lives
