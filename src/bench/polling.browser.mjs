@@ -569,7 +569,7 @@ try {
     { timeout: 30000 },
   );
   await page
-    .locator("#ballot-races .race button", {
+    .locator("#ballot .ballot-choice", {
       hasText: "Test Voter",
     })
     .first()
