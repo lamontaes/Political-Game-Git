@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-drive-reinforced-from-unlearned-event
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:18:31.691Z
 branch: claude/pool-core-drive-reinforced-from-unlearned-event
 ---
 
