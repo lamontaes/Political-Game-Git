@@ -195,14 +195,22 @@ try {
 
   // The speech: parts said are talk lines, the four on offer are numbered replies.
   // The speech is a trail tile too, and its card begins with a button of the same words.
-  await page
-    .locator("#sheet-body .travel-tile", { hasText: "Give a speech" })
-    .first()
-    .click();
+  // Each step redraws the trail on its first tile, so the speech tile is chosen again,
+  // as a player would.
+  const speechTile = async () => {
+    await page
+      .locator("#sheet-body .travel-tile", { hasText: "Give a speech" })
+      .first()
+      .click();
+    await page.locator("#sheet-body .travel-detail").waitFor();
+  };
+  await speechTile();
   await page
     .locator("#sheet-body .travel-detail")
     .getByRole("button", { name: "Give a speech", exact: true })
     .click();
+  await page.waitForTimeout(800);
+  await speechTile();
   await page.locator(".talk-sheet .replies .reply").first().waitFor();
   assert.equal(await page.locator(".talk-sheet .replies .reply").count(), 4);
   await settle();
@@ -210,6 +218,8 @@ try {
   for (let part = 0; part < 4; part += 1) {
     const said = await page.locator(".talk-sheet .talk-lines li").count();
     await page.locator(".talk-sheet .replies .reply").first().click();
+    await page.waitForTimeout(800);
+    await speechTile();
     await page.waitForFunction(
       (n) => document.querySelectorAll(".talk-sheet .talk-lines li").length > n,
       said,
