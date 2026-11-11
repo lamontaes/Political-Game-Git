@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine": "a ton of different speech versions ... this is a demonstration of the game")
 checked: fable 2026-11-11
-claimed-at: 2026-11-11T06:36:50.808Z
+claimed-at:
 branch: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
 ---
 
@@ -54,3 +54,5 @@ Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): opus-5251 released it unbuilt again: its steps 1 to 4 are pieces in data/english/parts/opening-speech.json, the Story session's to write (owner, Nov 10); a builder told never to write there cannot take it. Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:36 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Released (2026-11-11): The Fix is lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8717). Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
