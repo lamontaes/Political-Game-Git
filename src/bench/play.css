@@ -1605,6 +1605,10 @@ body:not(.dev) .dev-only {
 #journal-note:has(#journal-line:empty) {
   display: none;
 }
+/* With people in the room, the note sits above their strip, never on a face. */
+#game:has(#here .bust-strip) #journal-note {
+  bottom: calc(26px + 140px + 28px);
+}
 
 /* ---- Menus: the rail on the left, the open screen beside it ---- */
 .nav-item {
