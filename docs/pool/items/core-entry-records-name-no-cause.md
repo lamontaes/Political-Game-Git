@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-entry-records-name-no-cause
-pr:
+pr: #8503
 after:
 blocked-on:
 lead: m0-m2

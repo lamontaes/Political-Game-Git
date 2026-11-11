@@ -17,7 +17,7 @@ root: rc10-screens-keep-own-facts
 source: governing lead Oct 29
 after:
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:20:50.819Z
+claimed-at: 2026-11-11T06:24:05.544Z
 branch: claude/pool-gov-m3-04-person-card-law-effects
 ---
 
@@ -42,3 +42,11 @@ branch: claude/pool-gov-m3-04-person-card-law-effects
 Released (2026-11-11): Needs worded lines: personCard's lawEffects (card.ts line 194) returns raw reach fields (question key, kind, what) that no screen reads, and the item requires the entry worded by the English engine with no raw keys; that needs bank lines under data/english/parts, which only the Story session writes. Lines needed: one line per reach kind naming the law and how it touches this person, and an ended-after-repeal form. The knownCard field and its test are buildable once the lines exist. Continue on branch claude/pool-gov-m3-04-person-card-law-effects.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:20 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.
+
+Released (2026-11-11): Not built: the plumbing is small (add lawEffects from reachOn to knownCard in src/bench/card.ts ~1019, as personCard does at 194, with endedOn kept so a repeal ends it), but the item wants it worded and today personCard returns raw keys (question: row.key, what: row.what, e.g. raised-to-pay-floor). Words for each reach what key and each series (controls.politics.seriesNames covers series only) are the Words line's, so a builder would be inventing hand-written player text; needs the Words session to name the worded form first. The test (a town law reaching a named resident, then repealed) is buildable beside it. Continue on branch claude/pool-gov-m3-04-person-card-law-effects.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:23 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.
+
+Released (2026-11-11): Re-claimed by my own next loop, not worked; see my earlier release note on this item (world-deposit-reserve-reads-unweighted-costs: the weighting is already applied at credit-deposits.ts ~122; what remains is a per-business proof at Census scale, and the spread it must sit inside is a number nobody has stated, so it needs that number first). Continue on branch claude/pool-gov-m3-04-person-card-law-effects.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.

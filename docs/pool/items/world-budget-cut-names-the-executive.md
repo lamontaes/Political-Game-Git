@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-budget-cut-names-the-executive
-pr:
+pr: #8712
 blocked-on:
 after:
 model: sonnet
