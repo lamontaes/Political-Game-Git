@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-household-split-keeps-home
 pr:
 blocked-on:
 after:
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:23:45.214Z
 ---
 
 **What.** src/core2/modules/moves.ts never lets a mortgaged household split except for a grown child moving out; a household that leaves sells its home. Add a recorded decision of who keeps the home and its mortgage when some members leave (who holds the title and loan, who can afford the payment), so groups can leave with part of the household behind. This closes SG-P15-moves-owners-stay. The owner's Oct 20 ruling keeps the player's own family from leaving the player before 1.0.
