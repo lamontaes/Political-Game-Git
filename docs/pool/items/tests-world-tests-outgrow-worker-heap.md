@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/fable-b1-worker-heap
-pr:
+pr: #8375
 after:
 blocked-on:
 lead: speed

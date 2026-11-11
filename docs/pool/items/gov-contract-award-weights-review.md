@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -43,4 +43,4 @@ Oct 20 (pool feeder): spec written; the 'second read' the block asked for is the
 
 Reviewed Oct 20 (claude, claude/political-game-pool-yucp92-s), not fixed. Four drawn towns, 400 played days each, 106 awards (all with two or more bids): the cheapest bidder won 67, the largest won 72, and the members split between firms in only 11. In the other 95 every member ranked the same firm first. Why: price and workforce are the same for every member and rank the firms the same way whatever the weights' size; only the tie to the owner differs by member, and a member rarely knows a business owner (closeness is zero for strangers), so the officials' traits never change a ranking. The weights are therefore not the problem (a scale on a shared term cannot change who wins); the officials have too little to read. A fix needs a second read per member about each firm that most members hold, for example the member's closeness to the firm's workers, or whether the member or their household bought from it, and a record of which read decided each split. That is a design choice for the Government line (which reads count as the official's knowledge of a firm); build it as a new item once chosen. The cited weights keep their spreads.
 
-Deferred Oct 25: nothing on screen reads it yet.
+Deferred Oct 25: nothing on screen reads it yet. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A calibration review of who wins a contract bid; no screen or scene shows the weights.

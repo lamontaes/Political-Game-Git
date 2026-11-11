@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -43,3 +43,5 @@ Looked at Oct 16 (claude/withholding-nonres), not built. The done-when needs a n
 Checked Oct 19 (claude, nothing built). The law rows hold no nonresident rate to apply: `src/core2/data/laws/starting-law.json` has local income tax rows with a `typicalRate`, `rateMin` and `rateMax` per jurisdiction, and the only mention of nonresidents is free text on a New York row ("Yonkers resident surcharge and nonresident earnings tax"). So the item is first a research and data item: for each local jurisdiction that taxes earnings, whether a worker who lives elsewhere pays, at what rate (a nonresident rate, a reciprocity rule, or a credit against the home place's tax), with its source, for all 56 places. The withholding code is ready for it: `withholdPay` in `src/core2/modules/budgets.ts` reads the law at the worker's residence only (`residentLaw(api, person.placeId)`), and `postWithholding` already pays a line to the jurisdiction's treasury or its outside account. The build is then to read the workplace's chain beside the residence's. Add a data item for the nonresident rows (priority 2, research, laws area) and make this item `after:` it.
 
 Oct 20: Switched from blocked to the automatic after: gate on world-commuters-in-opening, so it opens by itself the moment those items are done.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have taxed commuters at a nonresident local rate; a precision on a paycheck the player does not compare and it needs the dropped commute split.

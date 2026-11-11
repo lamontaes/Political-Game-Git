@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Network access to the state statute sites. Also gov-failure-to-elect-by-place-part-1-holdover-rows-a-to-m (the stopgap resolves when both halves land).
 
 **Files.** src/core2/data/offices/holdover.json, src/core2/modules/voting.ts, src/core2/office-holdover.ts, src/core2/voting.test.ts, src/core2/data/stopgaps/gov.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Research citations of holdover law, seen nowhere.

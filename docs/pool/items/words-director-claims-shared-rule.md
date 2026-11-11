@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-words-director-claims-shared-rule
+pr: #8510
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:04:39.114Z
 ---
 
 **What.** Residents now believe a story or speech another resident passes on through believesClaim in src/core2/heard-claims.ts: a stranger's pull, plus how close the hearer is to the teller and how well the claim fits the hearer's view, against the trait lean at its researched weight. The player's own claim in a conversation is still judged by doubtsClaim in src/director/conversation.ts, the flat truthDefaultPull against the raw trait lean with no closeness, fit or weight. That is two rules for one decision, registered as SG-TRAITS-director-claims-reader. The director is the Words line's, so the Words session routes doubtsClaim through believesClaim, passing the player as the teller, and removes truthDefaultPull.
