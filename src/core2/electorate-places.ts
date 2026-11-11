@@ -279,7 +279,11 @@ const DELEGATES = (
   delegates as unknown as {
     places: Record<
       string,
-      { democraticPercent: number; republicanPercent: number }
+      {
+        democraticPercent: number;
+        republicanPercent: number;
+        votesCast?: { value: number; tag: string; source: string };
+      }
     >;
   }
 ).places;
@@ -335,7 +339,11 @@ export function statePlaces(
         ? {
             id: `state:${usps}`,
             name: usps,
-            eligible: territoryEligible,
+            // The race's votes cast, at the citizen turnout, size its voters;
+            // a territory with none on record keeps the caller's size.
+            eligible: delegate.votesCast
+              ? eligibleFor(usps, delegate.votesCast.value)
+              : territoryEligible,
             rightShare: Math.max(
               0,
               Math.min(
@@ -345,9 +353,12 @@ export function statePlaces(
                   worldSwing(seed, usps),
               ),
             ),
-            votes2024: 0,
-            source:
-              "2024 delegate race (data/research/elections/house-delegates-2024.json), sized from the place's own eligible voters",
+            votes2024: delegate.votesCast
+              ? delegate.votesCast.value * worldTurnoutFactor(seed, usps)
+              : 0,
+            source: delegate.votesCast
+              ? `2024 delegate race (data/research/elections/house-delegates-2024.json), ${delegate.votesCast.tag}: ${delegate.votesCast.value} votes cast, ${delegate.votesCast.source}`
+              : "2024 delegate race (data/research/elections/house-delegates-2024.json), sized from the place's own eligible voters",
           }
         : null;
     if (place) places.push(place);

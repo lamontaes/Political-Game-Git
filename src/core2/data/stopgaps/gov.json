@@ -799,8 +799,8 @@
     "why": "The Clerk's House tables the game reads hold no delegate districts outside D.C., and the territories' eligible voters are not in the data (CPS does not survey them).",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each territory's 2024 delegate race votes cast (its election office's certified results) sizing the place, so it is counted on the election engine like any district.",
-    "status": "open"
+    "replacement": "Resolved Nov 11, 2026: each territory's 2024 delegate race votes cast (data/research/elections/house-delegates-2024.json, votesCast, tagged SOURCED or ESTIMATED with its source) size the place through statePlaces, so the race is counted on the election engine like any district. American Samoa's nonpartisan race has no two-caucus place and stays unplaced. Shown in world-races.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-turnout-weather",

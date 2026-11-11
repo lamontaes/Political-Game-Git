@@ -96,6 +96,7 @@ describe("M2-10 state and federal races in the world", () => {
     const senateBefore = count(members(api, FEDERAL_SENATE));
     advanceCore(core, "2026-11-04");
     const races = racesOf(api);
+    const territories: string[] = [];
     // Every House seat outside the town's own district, and the Senate class up.
     const house = races.filter((r) => r.office === "us-house");
     const senate = races.filter((r) => r.office === "us-senate");
@@ -111,9 +112,22 @@ describe("M2-10 state and federal races in the world", () => {
       expect(result, r.seatId).not.toBeNull();
       expect(result.electorateReasons?.length).toBe(2);
       const votes = raceVotes(api, r);
-      // A territory's delegate seat is decided at its 2024 delegate lean,
-      // its size not yet read (SG-GOV-delegate-race-size).
+      // A territory's delegate race is sized by its 2024 votes cast
+      // (house-delegates-2024.json, votesCast) wherever one is on record;
+      // American Samoa's nonpartisan race has no two-caucus place.
+      if (
+        ["US-PR", "US-GU", "US-VI", "US-MP"].includes(
+          r.seatId.split(":")[1] ?? "",
+        )
+      )
+        territories.push(`${r.seatId}: ${votes.republican + votes.democratic}`);
       if (!votes.republican && !votes.democratic) {
+        expect(
+          ["US-PR", "US-GU", "US-VI", "US-MP"].includes(
+            r.seatId.split(":")[1] ?? "",
+          ),
+          `${r.seatId}: a territory delegate race with votes cast counted no votes`,
+        ).toBe(false);
         expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
         continue;
       }
@@ -127,6 +141,13 @@ describe("M2-10 state and federal races in the world", () => {
       if (share !== 0.5)
         expect(sideOf(r.winnerParty)).toBe(share > 0.5 ? 1 : -1);
     }
+    expect(
+      territories.length,
+      `${state} ${key}: no territory delegate race`,
+    ).toBeGreaterThan(0);
+    process.stdout.write(
+      `DELEGATE-RACES ${state} ${key} seed ${seed}: ${territories.join("; ")}\n`,
+    );
     // Congress is seated January 3.
     advanceCore(core, "2027-01-02");
     const houseEve = count(members(api, FEDERAL_HOUSE));
