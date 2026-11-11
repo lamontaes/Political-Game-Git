@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/campaign-calibration.test.ts, src/core2/modules/campaigns.ts
 
 **Notes.** Seen Nov 1 on clean main during the traits endorsement round (governing/traits-endorsements-heard); not caused by that branch, which changes only the traits test.
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/campaign-calibration.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b. Still red. First failing assertion as printed: `AssertionError: US-WV 5431732 1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b contact: expected 0.49382716049382713 to be less than 0.45` at src/core2/campaign-calibration.test.ts:161.
