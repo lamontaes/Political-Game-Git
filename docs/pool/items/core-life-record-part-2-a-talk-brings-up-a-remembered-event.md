@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-life-record-part-2-a-talk-brings-up-a-remembered-event
+pr: #8646
 after:
 blocked-on:
 lead: director
@@ -17,6 +17,8 @@ effort: high
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:47:05.671Z
+branch: claude/pool-core-life-record-part-2-a-talk-brings-up-a-remembered-event
 ---
 
 **What.** People now remember what happens to them, and no conversation ever uses it. A neighbor who lost a job last spring, or who was at your wedding, talks as if nothing had happened. This part lets a talk bring up a remembered event, with the event's record kept as the scene's source.
@@ -31,6 +33,8 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, plays a year and finds a talk in which someone brings up an event from their life or the player's. Dev mode's Trace on that line opens the remembered event, and the same event is a sentence on that person's card. It takes a screenshot of the talk and the card.
 
-**Waits on.** Pull requests 8115, 8123 and 8139 on main. Lines from Story for the spots the pull request names.
+**Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123). The build does not wait for lines: its pull request names each spot that needs them, and Story writes them after.
 
 **Files.** src/director/bring-it-up.ts, src/director/conversation.ts, src/core2/person-life.ts (new)
+
+**Notes.** Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 05:47 UTC) on branch claude/pool-core-life-record-part-2-a-talk-brings-up-a-remembered-event.
