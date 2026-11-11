@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 claimed-by: claude/pool-words-paper-side-stories
-pr:
+pr: #8439
 blocked-on:
 source: added with npm run pool -- add
 after:
