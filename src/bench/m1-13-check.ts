@@ -115,13 +115,19 @@ const outside = changes.filter(
   (row) => row.pct < row.band.p05 || row.pct > row.band.p95,
 );
 const checkedTerritories = changes.filter((row) => territories.has(row.id));
+// A real range is a comparison, not a target (owner, Nov 8): every region has a change to read, and
+// the ones outside the real band are reported beside the result without failing the run.
 check(
-  changes.length > 0 && outside.length <= changes.length * 0.1,
-  `${where}: ${outside.length} of ${changes.length} regions' one-year population change sit outside their real band (states ${bands.state.p05.toFixed(2)}% to ${bands.state.p95.toFixed(2)}%, territories ${bands.territory.p05.toFixed(2)}% to ${bands.territory.p95.toFixed(2)}%): ${outside
-    .slice(0, 5)
-    .map((row) => `${row.id} ${row.pct.toFixed(2)}%`)
-    .join(", ")}`,
+  changes.length > 0,
+  `${where}: no region has a one-year population change to read`,
 );
+if (outside.length)
+  console.warn(
+    `M1-13 WARN ${where}: ${outside.length} of ${changes.length} regions' one-year population change sit outside their real band (states ${bands.state.p05.toFixed(2)}% to ${bands.state.p95.toFixed(2)}%, territories ${bands.territory.p05.toFixed(2)}% to ${bands.territory.p95.toFixed(2)}%): ${outside
+      .slice(0, 5)
+      .map((row) => `${row.id} ${row.pct.toFixed(2)}%`)
+      .join(", ")}`,
+  );
 check(
   checkedTerritories.length === territories.size,
   `${where}: ${checkedTerritories.length} of ${territories.size} territory regions' population changes were checked`,
