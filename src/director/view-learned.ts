@@ -127,9 +127,9 @@ function questionArea(question: string): "work" | "money" | null {
 }
 
 /**
- * The question a person holds the strongest view on: every question their
- * stances name and every question with a spoken name, the one whose view is
- * farthest from zero (the views engine's `viewOn`), ties broken by the
+ * The question a person holds the strongest view on: of the questions their
+ * stances name (or, with none, every question with a spoken name), the one
+ * whose view is farthest from zero (the views engine's `viewOn`), ties broken by the
  * question's id. Null when no view is past zero, the views engine's own rule
  * for no view. With it: the question worded, the side, and the record.
  */
@@ -144,20 +144,23 @@ export function strongestQuestion(
 } | null {
   const lean = viewOf(api, personId)?.lean;
   if (lean === undefined) return null;
-  const questions = [
-    ...new Set([
-      ...stancesOf(api, personId).map((row) => row.topic),
-      ...NAMED_QUESTIONS,
-    ]),
-  ].sort();
-  let best: { question: string; about: string; view: number } | null = null;
-  for (const question of questions) {
-    const about = questionAbout(question);
-    if (!about) continue;
-    const view = viewOn(api, personId, question, lean);
-    if (view !== zero && (!best || Math.abs(view) > Math.abs(best.view)))
-      best = { question, about, view };
-  }
+  // Their own stances first: a question they hold a stance record on is one
+  // they have taken up. Only someone with none is read from their lean on
+  // the named questions, where every person of one lean would say the same.
+  const strongest = (questions: readonly string[]) => {
+    let found: { question: string; about: string; view: number } | null = null;
+    for (const question of [...new Set(questions)].sort()) {
+      const about = questionAbout(question);
+      if (!about) continue;
+      const view = viewOn(api, personId, question, lean);
+      if (view !== zero && (!found || Math.abs(view) > Math.abs(found.view)))
+        found = { question, about, view };
+    }
+    return found;
+  };
+  const best =
+    strongest(stancesOf(api, personId).map((row) => row.topic)) ??
+    strongest(NAMED_QUESTIONS);
   if (!best) return null;
   return {
     question: best.question,

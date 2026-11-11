@@ -31177,438 +31177,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-answer-agree.same-here-on-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "Same here on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.you-and-me-both-on-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "You and me both on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.i-m-with-you-on-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "I'm with you on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.i-feel-the-same-about-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "I feel the same about {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.we-re-on-the-same-side-of-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "We're on the same side of {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.i-d-vote-your-way-on-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "I'd vote your way on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.no-argument-from-me-on-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "No argument from me on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.count-me-with-you-on-about",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "Count me with you on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["my-same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-see-about-the-other-way",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I see {about} the other way.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.we-don-t-agree-on-about",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "We don't agree on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-of-about",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I come down the other side of {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-d-vote-the-other-way-on-about",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I'd vote the other way on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.you-won-t-get-me-there-on-about",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "You won't get me there on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-can-t-go-along-with-you-on-about",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I can't go along with you on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-on-about",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "We'll have to differ on {about}.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-ve-never-seen-about-your-way",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I've never seen {about} your way.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree",
-          "requiresFacts": ["my-other"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.what-got-you-there-first",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "What got you there, {first}?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.why-that-one-first",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "Why that one, {first}?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.how-d-you-come-to-that-first",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "How'd you come to that, {first}?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.what-makes-that-the-big-one-first",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "What makes that the big one, {first}?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.first-what-put-that-at-the-top",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "{first}, what put that at the top?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.since-when-first",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "Since when, {first}?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.what-happened-to-make-you-care-first",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "What happened to make you care, {first}?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.tell-me-why-first",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "Tell me why, {first}.",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": ["has-reason"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.own-view-answer-private.rather-not-say",
       "move": "own-view-answer-private",
       "kind": "spoken",
@@ -32471,6 +32039,446 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.same-here-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Same here, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.you-and-me-both-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "You and me both, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-m-with-you-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'm with you, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-feel-the-same-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I feel the same, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.we-re-on-the-same-side-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "We're on the same side, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-vote-your-way-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd vote your way, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.no-argument-from-me-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "No argument from me, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.count-me-with-you-first",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Count me with you, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": [
+            "my-same"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-see-it-the-other-way-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I see it the other way, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-don-t-agree-there-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We don't agree there, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I come down the other side, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-d-vote-the-other-way-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd vote the other way, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.you-won-t-get-me-there-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "You won't get me there, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-can-t-go-along-with-that-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I can't go along with that, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We'll have to differ, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-ve-never-seen-it-your-way-first",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I've never seen it your way, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": [
+            "my-other"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.why-that-one",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Why that one?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": [
+            "has-reason"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.how-come",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "How come?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": [
+            "has-reason"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.since-when",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Since when?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": [
+            "has-reason"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.why-s-that",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Why's that?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": [
+            "has-reason"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.what-changed-you",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "What changed you?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": [
+            "has-reason"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.why-so-strong",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Why so strong?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": [
+            "has-reason"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
       "date": "2026-11-11"
     }
   ]
