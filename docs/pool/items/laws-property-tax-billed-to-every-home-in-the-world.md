@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-property-tax-billed-to-every-home-in-the-world
-pr:
+pr: #8378
 after:
 blocked-on:
 lead: laws-effects
