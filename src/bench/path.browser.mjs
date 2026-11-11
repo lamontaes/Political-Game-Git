@@ -31,6 +31,11 @@ try {
   );
   // The calendar is the third button in the dock.
   await page.locator("#dock button").nth(2).click();
+  // Watch is the Calendar's second tab in dev mode.
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Watch" })
+    .click();
   const read = await (await progress).json();
   assert.ok(
     new URL((await progress).url()).searchParams.get("id"),

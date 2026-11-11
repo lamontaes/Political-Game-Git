@@ -22,6 +22,7 @@ import {
   type CandidateStanding,
   type CampaignDayKind,
 } from "../core2/campaign-day";
+import { petitionOf } from "../core2/modules/elections";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
@@ -43,7 +44,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
-import { backdropFor, homeOf, stagePeople } from "./scene";
+import { backdropFor, homeOf, peopleHere } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -52,6 +53,29 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 const POLL_SAMPLE = campaignParameter("pollSampleSize");
 
 const ELECTIONS = "core2-elections-v1";
+
+/**
+ * A filing's petition as the screens show it, read from the petition record
+ * (the signatures the clerk will count, the last day, the signatures held and,
+ * once the clerk has checked it, the verdict). Null for a filing with none.
+ */
+export function petitionView(api: CoreAPI, filingId: string) {
+  const petition = petitionOf(api, filingId);
+  if (!petition) return null;
+  return {
+    id: petition.id,
+    needed: petition.needed,
+    due: petition.due,
+    signed: petition.signed,
+    check: petition.check
+      ? {
+          on: petition.check.on,
+          valid: petition.check.valid,
+          struck: petition.check.struckIds.length,
+        }
+      : null,
+  };
+}
 const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The campaign day's acts that open as a scene, by the name the screen's control carries. */
@@ -125,6 +149,7 @@ export function campaignView(core: CoreState, personId: string) {
           ).length,
         },
         polls: polls.slice(-3),
+        petition: petitionView(api, filing.id),
         // What the contest turns on: each candidate's acts and how the people they reached came to feel.
         causes,
         // The sample a poll asks, so the screen's Poll button and the price below agree.
@@ -459,7 +484,7 @@ function askScene(core: CoreState, personId: string, place: string) {
   return {
     place,
     backdrop,
-    ...stagePeople(core, backdrop.file, [
+    ...peopleHere(core, backdrop.file, [
       {
         id: personId,
         name: row ? `${row.givenName} ${row.familyName}` : "",
@@ -486,7 +511,7 @@ function speechScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
@@ -569,7 +594,7 @@ function outingScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {

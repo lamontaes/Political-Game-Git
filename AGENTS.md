@@ -68,7 +68,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 - **Wire to the world.** Every feature moves money, people or places, proven in a generated world, and applies to its whole module, not just the named example. See `wire-to-the-world`.
 - **This is a game, not a spreadsheet (owner, Oct 14).** Research calibrates the simulation; it never adds a step to the player's life. A mechanic exists only when the golden path needs it, _The Political Process_ has it, or the owner asked for it by name. A real-world step the player would have to take is a question for the owner in the PR body, not a feature; a real-world mechanic the background simulation lacks is built from research, not asked (Oct 24). Depth comes from how people, money and places react, told through the director and the English engine.
 - **An effect is a read, not a record (owner, Oct 13).** A law, a measure, a health record, a drive or a view has an effect only when a different engine reads it at the moment it decides or pays: a dollar on the journal, a price, who is marked eligible and then served, a decision's recorded reasons, or a kept measure that views, budgets, news or a screen reads. A record nobody else reads is an unregistered placeholder. A module is finished when a one-year run of the played world (`buildBenchWorld`, every module installed, a seed the builder did not choose) shows another engine reading what it wrote, named by record id. A unit test that builds its own small world proves nothing about play.
-- **Replace, never layer (owner, Oct 14).** A new look, engine, screen or rule replaces the old one in the same change: the old code, styles, data and markers are deleted, not left beside the new. The PR body counts what was removed.
+- **Replace, never layer (owner, Oct 14).** A new look, engine, screen or rule replaces the old one in the same change: the old code, styles, data and markers are deleted, not left beside the new. The PR body counts what was removed. **One place says what is current (owner, Nov 11: "have somewhere as like a master updater... to where in the future old things aren't pointing at all different things at all different times"):** `docs/current.json`, read as `docs/CURRENT.md`. Whoever replaces or removes something adds the old path to its replaced list and fixes every pointer to it in the same pull request (`current-pointers`).
 - **One model, two tiers (owner, Oct 14).** The counted population is not a second simulation. A counted group is read by every engine with the same rule as a full person, times its count. A rule that applies only to full people is an unregistered placeholder.
 - **The chain is the acceptance (owner, Oct 14).** A bill, a budget line or an executive act is finished only when one dollar or one rule is followed to a named person and back out: the record, the law in force changing, the payment or price that changed, the person it reached, the choice or view that moved, and the director's scene or journal line, by record id.
 - **Look before you ask (owner, Oct 14; every session, every time, Oct 27: "I'm sick of seeing stuff fixed or asked that I've already done").** Before building, fixing, filing or asking, every session runs the `look-first` skill's search: `OWNER-DECISIONS.md`, the decision register, `prior-rulings/`, `LAW.md`, the sitting blocks, `docs/`, the pool and the owner's Drive. Most of what looks open was decided; quote the decision instead of asking, and end the question with the reading line (`.agents/rules/smart-and-look-first.md`); a question without it is sent back.
@@ -102,6 +102,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `civic-reports`: reports and PR bodies for the owner
 - `cto`: the CTO role
 - `crew-messages`: how sessions message each other, and processes as skills
+- `current-pointers`: the master file that says what is current, and keeping every pointer on a path that exists
 - `dev-tester`: proving laws, bodies and drifting worlds with scripts/dev-tests, and its traps
 - `drawn-place-tests`: a test that needs a case in the world finds one by drawing and waiting, and names what it passed over
 - `generated-file-merges`: merging main when the conflict is in a file a command writes, or a rules or bank file keyed by id
@@ -114,11 +115,13 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `lives`: lives outside the played town run through the town's engines
 - `look-first`: the search before building, fixing, filing or asking
 - `merge-audit`: auditing merged PRs
+- `merge-trains`: merging game pull requests in trains by area, with the heavy checks run once
 - `merger`: merging and validating PRs
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
 - `play-first`: one item of the play-first lane; the screenshot and browser check
 - `people-pack`: drawing people from the pack, on mannequin plates
+- `play-walks`: playing a new life with scripts that click what a player clicks and write down every line
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: pool-only changes go in one bundle an hour; the cap on new work
