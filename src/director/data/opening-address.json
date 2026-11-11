@@ -52,6 +52,12 @@
       "tag": "TUNABLE",
       "spread": "1 to 3",
       "note": "How many more asides a President says for each unit of talk (the talk facets' sum, which runs about -2 to 2), rounded to whole parts and kept between none and all four."
+    },
+    "namesSaid": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "How many times an address says one of the world's names or subjects (the Vice President, the Speaker, the home state, the year's hardest and best subject) before it turns to the wordings that do without it; a name is said again only where no other wording can say the move. Real addresses name a home state or a running mate once or twice."
     }
   },
   "leads": {
@@ -134,5 +140,22 @@
       "personality-v1:facet-guarded",
       "personality-v1:facet-shy"
     ]
+  },
+  "changeScale": {
+    "about": "How far each of the country's subjects moved over the year, in its own units, for the address to say it moved a little, steadily or sharply (owner, Nov 11: inserts from the world's records; Oct 27 and Nov 1: no figures, so the movement is said in words). A movement under a third of the scale is said as small, under two thirds as middling, and the rest as large. TUNABLE, checked against the macro engine's year-over-year changes since 2000 (FRED UNRATE, CPIAUCSL, AHETPI, GDPC1, PAYEMS, MORTGAGE30US), where a move of the scale is about the largest of an ordinary year.",
+    "tag": "TUNABLE",
+    "spread": "half to twice each value",
+    "unemployment": 1.0,
+    "inflation": 1.5,
+    "mortgage": 1.0,
+    "wages": 6,
+    "growth": 4,
+    "jobs": 3,
+    "rent": 10,
+    "crime": 10,
+    "schools": 10,
+    "health": 10,
+    "roads": 10,
+    "environment": 10
   }
 }

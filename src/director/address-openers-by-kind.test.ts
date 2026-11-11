@@ -161,10 +161,12 @@ const patterns = OPENING_SPEECH_BANK.parts
   .filter((part) => part.uses.some((use) => SHARED_ROLES.includes(use.role)))
   .map((part) => ({
     part,
+    // A sentence is an opener and a core, so a core ends the sentence.
     pattern: new RegExp(
-      `^${part.text
+      `(?:^|\\s)${part.text
         .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
         .replace(/\{[\w-]+\}/g, ".+")}$`,
+      "i",
     ),
   }));
 const sharedPiecesOf = (text: string) =>
