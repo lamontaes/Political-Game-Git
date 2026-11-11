@@ -5,8 +5,8 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-people-estate-wealth-top-tail
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ effort: medium
 root: design-one-model-two-tiers
 lead: laws
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:21:31.771Z
+branch: claude/pool-people-estate-wealth-top-tail
 ---
 
 **What.** The estate tax settles nothing in any place it ran. Every full person holds at most about $504,000, below every state estate tax exemption and the federal one. The only people above an exemption are state cabinet members ($11M to $60M each), who have no kin, so their estates escheat and are assessed at 0. The Survey of Consumer Finances puts about one household in ten at a net worth above $1 million (recalled, not checked), and a few states' estate taxes start near there, so some deaths in a larger town should owe it. Seen: the estate-tax line in the budget, which collects nothing today because no resident is rich enough.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/estates.ts, src/core2/modules/residents.ts, src/core2/data/parameters.json
 
 **Notes.** Filed by the laws lead, Oct 25, from the taxes helper's report. `core-opening-resident-cash` (done) gave residents opening cash; this is the top of the distribution.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:21 UTC) on branch claude/pool-people-estate-wealth-top-tail.
