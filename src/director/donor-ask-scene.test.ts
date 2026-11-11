@@ -27,6 +27,7 @@ import { lawChain } from "../core2/modules/laws";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A campaign's gift from someone else is a public record (campaign-gift,
 // naming the candidate and the donor, the amount, its share of what others
@@ -217,8 +218,43 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
         expect(bill?.recordIds, here).toContain(gift.id);
         expect(result.scene.talk.state.text, here).toContain(bill!.text);
       }
-      console.log(
-        `DONOR ASK ${here}: ${money!.text}${gift.facts!.number ? ` (${gift.facts!.number})` : ""}; "${result.scene.talk.state.text}"`,
+      // Every line is composed with an insert from this world (owner, Nov
+      // 11, 2026): the gift is named as given, each reply offered names a
+      // fact of the scene, and the replies are up to four different moves.
+      const { talk } = result.scene;
+      const said = [
+        ...talk.narration,
+        ...(talk.open ? [talk.open] : []),
+        talk.state,
+      ]
+        .map((line) => line.text)
+        .join(" ");
+      expect(said, here).toContain(money!.text);
+      const namesAFact = (text: string) =>
+        result.scene.facts.some(
+          (row) => row.text.length > 2 && text.includes(row.text),
+        );
+      const root = talk.tree.replies.map((reply) => reply.line);
+      expectUpToFourDifferent(root, here);
+      for (const row of root)
+        expect(
+          namesAFact(row.text),
+          `${here}: "${row.text}" names nothing`,
+        ).toBe(true);
+      // The donor's reason is their own: where they work and what the bill
+      // is about, cited to the job and the views record.
+      const employer = result.scene.facts.find((row) => row.key === "employer");
+      const about = result.scene.facts.find((row) => row.key === "about");
+      const side = result.scene.facts.find((row) =>
+        ["side-for", "side-against"].includes(row.key),
+      );
+      if (employer && about && side) {
+        expect(talk.state.text, here).toContain(employer.text);
+        expect(talk.state.text, here).toContain(about.text);
+        expect(side.recordIds, here).toContain(donorId);
+      }
+      process.stdout.write(
+        `DONOR ASK ${here}: ${money!.text}${gift.facts!.number ? ` (${gift.facts!.number})` : ""}; "${talk.state.text}" | ${root.map((row) => `${row.move}: ${row.text}`).join(" | ")}\n`,
       );
     }
     // Places are drawn on until a donor holds a view on a pending bill, so

@@ -84,6 +84,7 @@ import { meetingFacts } from "./meeting-facts";
 import { reunionFacts } from "./reunion-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
+import { DONOR_ASK_TYPE, donorAskFacts } from "./donor-ask-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
@@ -917,6 +918,20 @@ function composeBinding(
     // The bill the donor holds the strongest view on, when one is pending.
     if (said.billId && facts.bill) facts["donor-bill"] = facts.bill;
   }
+  // A donor's own reasons: where they work, what the bill they named is
+  // about and which side of it they are on.
+  if (type.key === DONOR_ASK_TYPE)
+    Object.assign(
+      facts,
+      donorAskFacts(
+        core,
+        askerId,
+        moment.causeId,
+        record?.kind === "campaign-gift" && facts["donor-bill"]
+          ? said.billId
+          : undefined,
+      ),
+    );
   // How the two stand, so a line can fit the tie: the asked person's known
   // people (`acquainted`, else `stranger`), and family (`kin`).
   if (asked.familyIds.has(askerId))

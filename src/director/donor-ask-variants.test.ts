@@ -25,6 +25,7 @@ import { closenessBetween } from "../core2/closeness";
 import { chooseVariant } from "./arc-variant";
 import variantFile from "./data/arc-variants.json" with { type: "json" };
 import { purposeScene } from "./purpose-scene";
+import { wordSceneMove } from "../english/scene-talk-words";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 32;
@@ -331,3 +332,89 @@ it(`a donor's ask plays the variant its records give (seed ${seed})`, () => {
     `no campaign took a gift in ${tried.join("; ")} (seed ${seed})`,
   );
 }, 3_600_000);
+
+// Two donors who gave to the same campaign and named the same bill give
+// their own reasons (owner, Nov 11, 2026: "a ton of different speech
+// versions ... This introduces people to their world."): one who works at a
+// clinic and wants the bill passed, one who works at a mill and wants it
+// stopped. The request is joined from the bank's pieces through the English
+// engine; each names the bill, the question and the donor's own workplace,
+// and a large and a small gift are each named as given in the opening.
+it(`two donors on opposite sides of one bill give their own reasons (seed ${seed})`, () => {
+  const fact = (text: string, id: string) => ({ text, sourceRecordIds: [id] });
+  const base = {
+    name: fact("Dana Ruiz", "person:donor"),
+    first: fact("Sam", "person:player"),
+    place: fact("the town", "place:town"),
+    bill: fact("Ordinance 2026-4", "bill:4"),
+    "donor-bill": fact("Ordinance 2026-4", "bill:4"),
+    about: fact("free fares on public transit", "bill:4"),
+  };
+  const word = (
+    step: "state" | "open",
+    move: string,
+    facts: Record<string, { text: string; sourceRecordIds: string[] }>,
+    momentKey: string,
+  ) => {
+    const worded = wordSceneMove({
+      move: {
+        step,
+        move,
+        role: "asker",
+        purpose: "donor-ask",
+        key: "favor-asked",
+      },
+      facts,
+      seed,
+      speakerId: "person:donor",
+      traits: {},
+      momentKey,
+      said: new Set(),
+    });
+    return worded && "text" in worded ? worded.text : "";
+  };
+  const forIt = word(
+    "state",
+    "request",
+    {
+      ...base,
+      money: fact("$1,000", "gift:a"),
+      gift: fact("$1,000", "gift:a"),
+      employer: fact("Riverside Clinic", "org:clinic"),
+      "side-for": fact("for", "view:a"),
+    },
+    "gift:a",
+  );
+  const againstIt = word(
+    "state",
+    "request",
+    {
+      ...base,
+      money: fact("$50", "gift:b"),
+      gift: fact("$50", "gift:b"),
+      employer: fact("Harlan Mill", "org:mill"),
+      "side-against": fact("against", "view:b"),
+    },
+    "gift:b",
+  );
+  process.stdout.write(`DONOR REASONS: "${forIt}" | "${againstIt}"\n`);
+  expect(forIt).not.toBe(againstIt);
+  for (const [text, employer] of [
+    [forIt, "Riverside Clinic"],
+    [againstIt, "Harlan Mill"],
+  ] as const) {
+    expect(text).toContain("Ordinance 2026-4");
+    expect(text).toContain(employer);
+    expect(text).toContain("free fares on public transit");
+  }
+  for (const amount of ["$1,000", "$50"]) {
+    const facts = {
+      ...base,
+      money: fact(amount, `gift:${amount}`),
+      gift: fact(amount, `gift:${amount}`),
+    };
+    const opening = word("open", "greet", facts, `gift:${amount}`);
+    process.stdout.write(`DONOR OPENS: "${opening}"\n`);
+    expect(opening).toContain(amount);
+  }
+});
