@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
-pr:
+pr: #8670
 after:
 blocked-on:
 lead: lives
