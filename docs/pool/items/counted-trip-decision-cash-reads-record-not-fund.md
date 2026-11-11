@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-counted-trip-decision-cash-reads-record-not-fund
-pr:
+pr: #8720
 after:
 blocked-on:
 lead: laws
