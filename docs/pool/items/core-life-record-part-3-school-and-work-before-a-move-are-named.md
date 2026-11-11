@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-life-record-part-3-school-and-work-before-a-move-are-named
-pr:
+pr: #0
 after:
 blocked-on:
 lead: lives
