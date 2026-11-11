@@ -3,4 +3,4 @@ id: world-home-turnover-part-1-measure-sales-now
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Measured one played year of home sales in two drawn towns and recorded the counts in the pool item.

@@ -38,3 +38,10 @@ branch: claude/pool-world-home-turnover-part-1-measure-sales-now
 **Files.** src/core2/modules/housing.ts, src/core2/housing-sale.ts, src/core2/housing.test.ts
 
 **Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:50 UTC) on branch claude/pool-world-home-turnover-part-1-measure-sales-now.
+
+**Measured (sonnet-fd29, Nov 11, 2026, main at the claim, `buildBenchWorld` with twoLevel, one year of 365 days from the game start, counts from the housing module's `sales` table and each initial owner household's members).**
+
+- Orleans, Massachusetts (US-MA, 2551405; world seed 1bd55ce532856c952f547c5c180dfd5bc83e2118cb079fa41658913944cc386f): 1,159 owner households; 14 sales, all reason `estate.counted-last-owner`; 5 owner households whose members are all dead and have no sale row.
+- Concrete, Washington (US-WA, 5314380; world seed c1d9970443ee91def50a609294044c19fa74cdce43f6495f23f7851fe854d31f): 805 owner households; 2 sales, both `estate.counted-last-owner`; 5 owner households whose members are all dead and have no sale row.
+- No sale of any other reason appeared in either year: none for `moves.departure` (moves.ts line 906), `estate.probate-closes` (estates.ts line 639) or the residents.ts call (line 2981). Purchases by who bought and the buyers were not counted.
+- Not known: whether the 10 unsold all-dead households were still in probate at the end of the year (an estate sale follows probate's close), or had their sale written under another household id. A leaver who moves out of town and keeps the home was not separated from one who sold. No code was changed: the item's Fix (a sale row for any leave, death or move that writes none) is not done because the cause of the gap is not established.
