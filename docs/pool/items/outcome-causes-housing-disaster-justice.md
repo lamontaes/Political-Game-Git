@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-outcome-causes-housing-disaster-justice
 pr:
 blocked-on:
 source: "split from core-outcome-causes-recorded, Oct 19"
-claimed-at:
+claimed-at: 2026-11-11T04:42:58.439Z
 after:
 standard: 2
 model: sonnet
