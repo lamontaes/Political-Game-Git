@@ -1134,6 +1134,12 @@ export function resolveCountryPart(
   const workers = counts.workers.map((n, band) =>
     Math.min(n, counts.people[band]!),
   );
+  // A band that counted more workers than it has people is capped; the part's jobs go down by the
+  // same share, so a part never carries more jobs than workers whatever its counts.
+  const counted = sum(counts.workers);
+  const kept = sum(workers);
+  if (counted > kept && counted > 0)
+    for (const sector of COUNTRY_SECTORS) jobs[sector] *= kept / counted;
   return {
     people: [...counts.people],
     workers,

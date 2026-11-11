@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/core-country-tier-jobs-over-workers
-pr:
+pr: #8852
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T17:14:29.664Z
+merged-at: 2026-11-11T17:42:42.822Z
 ---
 
 **What.** On main (Nov 11), src/core2/outcome-web.test.ts fails in drawn places with the tier's bookkeeping check: 'The country tier holds counts that cannot be: US-IN: 3318085.2067525927 jobs for 3317720.325176492 workers' (Earl Park, Indiana, GOLDEN_PATH_SEED=3110f870cf52c299, test 'low birth weight reads the sized link to drinking-water violations'), and US-CO 2805771.97 jobs for 2805763.44 workers on the same seed in Silver Plume, Colorado. The played town's part of its state puts in more jobs than workers each month, because a counted record can hold more jobs than the people it stands for, and the part caps the workers but not the jobs. Seen: dev mode's Run panel and Metrics tab, whose state rows show no more jobs than workers.
