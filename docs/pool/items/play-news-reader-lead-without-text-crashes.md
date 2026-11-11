@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-news-reader-lead-without-text-crashes
+pr: #8255
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,8 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T22:57:29.099Z
+branch: claude/pool-play-news-reader-lead-without-text-crashes
 ---
 
 **What.** On a fresh life, after the President's address, the paper on the table opens nothing when clicked. The page throws TypeError: Cannot read properties of undefined (reading 'map') in `readerBody`, called by `openNewsReader`. The lead story the opening keeps has neither printed paragraphs nor a broadcast, so the reader maps an undefined list. It was found by continue-news.browser.mjs on a fresh bench once the browser checks played the address, and the same empty lead story shows on a played life in Kearny, New Jersey (world seed m1-news-2, start 2025-01-20, started with POST /api/newlife on the bench), where the old news check found 'the lead story has under two sentences'. A newspaper whose lead story prints no text is what the owner's Oct 27 newspaper ruling rules out.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/ui/newspaper.mjs, src/bench/play.mjs, src/bench/continue-news.browser.mjs, src/bench/news-clicks.browser.mjs, src/bench/printed-news.browser.mjs
 
 **Notes.** TODO
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-play-news-reader-lead-without-text-crashes.

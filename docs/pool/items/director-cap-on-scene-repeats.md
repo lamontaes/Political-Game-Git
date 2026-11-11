@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-director-cap-on-scene-repeats
+pr: #8424
 after:
 blocked-on:
 model: opus
@@ -17,6 +17,8 @@ root: rc6-scenes-repeat
 lead: director
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4, root cause 6)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:19:15.865Z
+branch: claude/pool-director-cap-on-scene-repeats
 ---
 
 **What.** A scene plays again every time its cause recurs, and nothing asks what the last one settled. Measured by the audit's scene tool, a 17-year-old for one year in each of Ninnekah, Oklahoma (seed 3dac8ffb3f3c), Tesuque, New Mexico (seed 8a5d1fba28fc) and Odessa, Washington (seed fd7e212758b7): 45 of 64 scenes were the same job-offer call (15 of 16, 16 of 24, 14 of 24). In Ninnekah ten employers called, Woodward's Market three times, and he had no job at the end; in Tesuque one caller phoned four times and a relative's letter made the same ask three times in six months. In the audit's browser play (Blodgett Landing, New Hampshire, ten weeks) one stranger asked the same question three times. This item also takes the vote-ask cap: for a player seated in a legislature past the six-per-91-days cap, the ask is recorded with the season-cap reason and a bank journal line says the sponsor asked (Springfield, Oregon, 4169600, run seed chk2-b).
@@ -44,3 +46,5 @@ What the audit did not verify, and one thing to know about its tool: the scene t
 The jobs engine's half (an employer reads its own earlier offer to the same person before offering again) is in src/core2/modules/jobs.ts; ask the Jobs session per docs/coordination/CREW.md before editing it. Related: world-player-jobless-no-offers (open; the opposite case, a player who gets no offer), director-vote-ask-cap-and-the-player (open; the season cap and the player), director-casting-rule-on-every-scene-kind (filed with this one).
 
 **Notes (pool redo, Nov 10).** Takes director-vote-ask-cap-and-the-player: the vote-ask cap and the player's journal line are folded into Fix and Done when above. `seasonCap` is in `src/director/data/situation-types.json` (the same cap that item cites at lines 83 to 89).
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:19 UTC) on branch claude/pool-director-cap-on-scene-repeats.

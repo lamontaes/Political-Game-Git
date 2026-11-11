@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #8358
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
@@ -19,6 +19,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 checked: fable 2026-11-10
+branch: claude/pool-words-scene-web-meeting-people-and-places
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the meeting people and places domain, one row per cause that fires it. This domain covers the people and places a life runs into: a first meeting, a friendship, an argument, a reunion, a cause that asks you to join. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's meeting people and places requests with no type are listed under Missing in the report and become rows here.
@@ -42,3 +43,19 @@ checked: fable 2026-11-10
 **Screenshot.** The meeting people and places section of `docs/reports/scene-web.md` in the PR body.
 
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:53 UTC) on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:55 UTC) on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:57 UTC) on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Released (2026-11-10): Nothing a builder can build: replay already recorded on the PR, or its lines are under data/english/parts (Story only); released so the claim is not held. Continue on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:02 UTC) on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Released by next (2026-11-11): no push to claude/pool-words-scene-web-meeting-people-and-places since 2026-11-10 23:53 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-words-scene-web-meeting-people-and-places and pull request #8358.

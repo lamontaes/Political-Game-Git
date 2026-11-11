@@ -3835,7 +3835,43 @@ function keepCount(
     ...(wider ? { placesCast: wider.cast } : {}),
   };
   table(api, "results").put(result as unknown as ModuleRow);
+  if (!bookkeeping()) dropOlderTownReturns(api, input.id, input.date);
   return result;
+}
+
+/**
+ * Keep results, not their history (governing lead; speed, Oct 29): once a
+ * town contest's election night has a result, the returns and places of the
+ * town's older contests go. Every result stays, and the prior-election
+ * records the opening paper reads are a separate table, so they stay whole.
+ * A race the town does not vote in keeps its own. With bookkeeping on (tests
+ * and proofs) every row stays.
+ */
+export function dropOlderTownReturns(
+  api: CoreAPI,
+  contestId: string,
+  date: string,
+): void {
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  if (!contests.get(contestId)) return;
+  const returns = table(api, "returns");
+  const places = table(api, "places");
+  const results = table(api, "results");
+  for (const row of [
+    ...(returns.rows() as unknown as { id: string; contestId: string }[]),
+  ]) {
+    if (row.contestId === contestId || !contests.get(row.contestId)) continue;
+    const older = results.get(`result:${row.contestId}`) as unknown as
+      { date: string } | undefined;
+    if (!older || older.date >= date) continue;
+    for (const place of [
+      ...(places.query("byContest", [row.contestId]) as unknown as {
+        id: string;
+      }[]),
+    ])
+      places.remove(place.id);
+    returns.remove(row.id);
+  }
 }
 
 /** A count's Republican share of the two-party vote, by each candidate's side in its reasons; null where none voted. */
