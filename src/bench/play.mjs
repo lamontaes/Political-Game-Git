@@ -3837,14 +3837,6 @@ const sheets = {
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
       ...(devModeOn()
         ? [
-            await devWatchSections({
-              labels: controls.devWatch,
-              playerId: me.id,
-            }),
-          ]
-        : []),
-      ...(devModeOn()
-        ? [
             await devScenePanel({
               labels: controls.devScene,
               wordOf: keyWords,
@@ -4495,6 +4487,12 @@ const sheets = {
             : [stripSection(1, controls.titles.bills, prose(words.empty))],
         ],
       }),
+    ];
+  },
+  /** Dev mode's Watch: what moved since the first dev change, month by month, and the golden path's steps. */
+  async watch() {
+    return [
+      await devWatchSections({ labels: controls.devWatch, playerId: me.id }),
     ];
   },
   async government() {
@@ -5237,6 +5235,8 @@ const groups = {
     "metrics",
   ],
   who: ["who", "jobs", "history"],
+  // Dev mode's Watch has the Calendar's sheet to itself, as a second tab.
+  calendar: ["calendar", "watch"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -5263,27 +5263,29 @@ async function openSheet(tab) {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = controls.titles[group];
+  // The tabs of the sheet's group that are the player's business today; a
+  // group with one tab left (the Calendar outside dev mode) shows no tab row.
+  const tabNames = (groups[group] ?? []).filter(
+    (name) =>
+      (name !== "office" || holdsOffice) &&
+      (name !== "watch" || devModeOn()) &&
+      // Budgets wait until they are the player's business: an office, a
+      // filing, or the age to vote.
+      (name !== "campaign" || politics.filings.length > 0) &&
+      (name !== "budgets" ||
+        holdsOffice ||
+        politics.filings.length > 0 ||
+        politics.ofVotingAge),
+  );
   $("sheet-tabs").replaceChildren(
-    ...(groups[group] ?? [])
-      .filter(
-        (name) =>
-          (name !== "office" || holdsOffice) &&
-          // Budgets wait until they are the player's business: an office, a
-          // filing, or the age to vote.
-          (name !== "campaign" || politics.filings.length > 0) &&
-          (name !== "budgets" ||
-            holdsOffice ||
-            politics.filings.length > 0 ||
-            politics.ofVotingAge),
-      )
-      .map((name) =>
-        makeTab({
-          key: name,
-          label: controls.titles[name],
-          active: name === tab,
-          onSelect: () => openSheet(name),
-        }),
-      ),
+    ...(tabNames.length > 1 ? tabNames : []).map((name) =>
+      makeTab({
+        key: name,
+        label: controls.titles[name],
+        active: name === tab,
+        onSelect: () => openSheet(name),
+      }),
+    ),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
@@ -5306,6 +5308,7 @@ async function openSheet(tab) {
       tab === "money" ||
       tab === "campaign" ||
       tab === "calendar" ||
+      tab === "watch" ||
       tab === "news",
   );
   $("sheet-body").replaceChildren(...body);
@@ -5320,7 +5323,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "news"].includes(tab) &&
+    !["calendar", "people", "news", "watch"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
