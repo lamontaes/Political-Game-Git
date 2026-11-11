@@ -977,6 +977,7 @@
     "dates": "Dates",
     "electionDay": "Election day",
     "whoIsRunning": "Who's running",
+    "standsShown": 3,
     "lastTime": "Last time",
     "share": "Share of the vote",
     "percent": "percent"

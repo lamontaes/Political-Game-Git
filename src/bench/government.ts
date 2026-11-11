@@ -42,6 +42,7 @@ import {
 } from "../core2/modules/parties";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";
+import { budgetLineNames, choiceName } from "./words";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 
@@ -388,6 +389,26 @@ function nextFiling(core: CoreState) {
  * is still open says when it closes; the screen marks one with a single name
  * as unopposed and one with none as unfilled.
  */
+/**
+ * A stand on a spending line as people say it: more or less money for the
+ * line, in the choice bank's words with the line's name in the slot
+ * ("stance.spend-more", "stance.spend-less"); null for a policy question
+ * (the screen says those as For or Against the question's name) and where
+ * the bank has no wording yet.
+ */
+function stanceWords(question: string, position: number): string | null {
+  if (!question.startsWith("budget-line:") || !position) return null;
+  const name = budgetLineNames()[question];
+  if (!name) return null;
+  // stopgapId: SG-SCREENS-budget-stance-awaits-words
+  return (
+    choiceName(
+      position > 0 ? "stance.spend-more" : "stance.spend-less",
+      /^[A-Z][a-z]/.test(name) ? name[0]!.toLowerCase() + name.slice(1) : name,
+    )?.text ?? null
+  );
+}
+
 export function localRaces(core: CoreState) {
   const api = coreAPI(core);
   if (!core.modules.has(ELECTIONS)) return { date: null, races: [] };
@@ -440,6 +461,29 @@ export function localRaces(core: CoreState) {
           };
         })
         .sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
+      // The stands the race turns on first: the questions its field splits
+      // over most (as many for as against), then each candidate's firmest.
+      const split = new Map<string, { for: number; against: number }>();
+      for (const filer of filers)
+        for (const s of filer.stances) {
+          const row = split.get(s.question) ?? { for: 0, against: 0 };
+          if (s.position > 0) row.for += 1;
+          else if (s.position < 0) row.against += 1;
+          split.set(s.question, row);
+        }
+      const contested = (question: string) => {
+        const row = split.get(question);
+        return row ? Math.min(row.for, row.against) : 0;
+      };
+      for (const filer of filers)
+        filer.stances = filer.stances
+          .map((s) => ({ ...s, words: stanceWords(s.question, s.position) }))
+          .sort(
+            (a, b) =>
+              contested(b.question) - contested(a.question) ||
+              Math.abs(b.position) - Math.abs(a.position) ||
+              a.question.localeCompare(b.question),
+          );
       const office = filingOfficeFor(api, contest.id);
       return {
         contestId: contest.id,

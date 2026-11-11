@@ -58,5 +58,17 @@
     "addedAt": "2026-11-09",
     "replacement": "The world-metrics module keeping the town's monthly numbers from the opening, and the regional engine keeping the month a year before each month it shows, so every figure has last year beside it; the Metrics screen already reads this year and last as two columns.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-budget-stance-awaits-words",
+    "kind": "missing-data",
+    "file": "src/bench/government.ts",
+    "line": 403,
+    "whatItFakes": "A local candidate's stand on a spending line is shown only once the choice bank has the moves stance.spend-more and stance.spend-less (a sentence with the line's name in its slot); until then the race page leaves those stands out rather than print the line's name with For or Against.",
+    "why": "play-nov8-candidates-stands-are-budget-lines: the owner read 'Against police protection' as against the police; the words are the words writer's, and no bank piece says a stand on a spending line yet.",
+    "addedBy": "play-nov8-candidates-stands-are-budget-lines",
+    "addedAt": "2026-11-11",
+    "replacement": "Bank pieces for stance.spend-more and stance.spend-less in data/english/parts/choice-names.json, read by choiceName; then this stopgap is cleared.",
+    "status": "open"
   }
 ]
