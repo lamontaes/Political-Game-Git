@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:32:34.746Z
 branch: claude/pool-tests-law-wiring-labor-one-subject-per-test
 ---
 
@@ -52,3 +52,5 @@ Released (2026-11-11): Read src/core2/law-wiring-labor.test.ts again: run(specId
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:26 UTC) on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
 
 Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story-session lines under data/english/parts, a dedicated machine for speed runs, or a rewrite beyond one pass (see my earlier release notes on this item). Continue on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
+
+Claimed by next for sonnet-13d3 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:32 UTC) on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
