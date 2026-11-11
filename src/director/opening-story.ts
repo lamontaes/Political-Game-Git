@@ -460,6 +460,23 @@ const PERSON_NAMES: readonly string[] = [
 /** The times a lead-in may name, which its core then does not name again. */
 const TIME_WORDS: readonly string[] = ["year", "term", "today", "tonight"];
 
+/** How many words in a row make two sentences say the same thing (the words lead's third read, Nov 11). */
+const RUN_WORDS = 4;
+
+/** A sentence's runs of four words, without the words of a name it says. */
+function fourWordRuns(text: string, name?: string): Set<string> {
+  const skip = new Set((name ?? "").toLowerCase().split(/\s+/).filter(Boolean));
+  const words = text
+    .toLowerCase()
+    .replace(/[^a-z' ]/g, " ")
+    .split(/\s+/)
+    .filter((word) => word && !skip.has(word));
+  const runs = new Set<string>();
+  for (let at = P.zero; at + RUN_WORDS <= words.length; at += P.one)
+    runs.add(words.slice(at, at + RUN_WORDS).join(" "));
+  return runs;
+}
+
 /** What an address leads with after the greeting. */
 type Lead = "occasion" | "country" | "people" | "history" | "mission";
 
@@ -483,7 +500,8 @@ interface AddressData {
     | "asidesBase"
     | "asidesPerTalk"
     | "namesSaid"
-    | "subjectsSaid",
+    | "subjectsSaid"
+    | "redraws",
     { value: number }
   >;
 }
@@ -1263,6 +1281,8 @@ export function composeBlocks(
   const said: string[] = [];
   // How often each of the world's names has been said in the address.
   const named = new Map<string, number>();
+  // The runs of four words each sentence naming the Vice President said.
+  const viceSaid: Set<string>[] = [];
   // The lead-ins said so far, by their words.
   const ledIn = new Set<string>();
   // Whether the turn to the Vice President, which always names them, is still to come.
@@ -1276,10 +1296,10 @@ export function composeBlocks(
     // addresses that earned it. Each move is said on its own, so a name from
     // the world already said twice is left to the wordings that do without
     // it, unless none can say the move.
-    const sayMove = (move: OpeningMove, facts: Facts) =>
+    const sayMove = (move: OpeningMove, facts: Facts, retry = P.zero) =>
       composeAddress(
         packet(
-          `opening:${core.date}:${president.id}/${block.key}`,
+          `opening:${core.date}:${president.id}/${block.key}${retry ? `#${retry}` : ""}`,
           core.seed,
           president.id,
           stage,
@@ -1368,16 +1388,52 @@ export function composeBlocks(
         },
       };
       // A required move gives up a subject's limit before a name's.
+      const echoesVice = (row: ReturnType<typeof sayMove>) =>
+        row.kind === "rendered" &&
+        row.moves.some((done) => {
+          if (
+            !done.parts.some((part) =>
+              part.usedFactKeys.includes("vice-president"),
+            )
+          )
+            return false;
+          const runs = fourWordRuns(
+            done.text,
+            block.facts["vice-president"]?.text,
+          );
+          return viceSaid.some((earlier) =>
+            [...runs].some((run) => earlier.has(run)),
+          );
+        });
       const tries = [
         within(counted),
         ...(move.required || block.required || block.key === "to-vp"
           ? [within((key) => PERSON_NAMES.includes(key)), block.facts]
           : []),
       ].flatMap((facts) => {
-        const said = sayMove(move, facts);
+        // The Vice President is not praised twice in the same words: a
+        // sentence that would repeat four words of an earlier one naming them
+        // is drawn again, a few times, before it stands.
+        let said = sayMove(move, facts);
+        for (
+          let retry = P.one;
+          retry <= SHAPE.parameters.redraws.value && echoesVice(said);
+          retry += P.one
+        )
+          said = sayMove(move, facts, retry);
         return timeTwice(said) ? [sayMove(bare, facts)] : [said];
       });
       const result = tries.find((row) => row.kind === "rendered") ?? null;
+      if (result?.kind === "rendered")
+        for (const done of result.moves)
+          if (
+            done.parts.some((part) =>
+              part.usedFactKeys.includes("vice-president"),
+            )
+          )
+            viceSaid.push(
+              fourWordRuns(done.text, block.facts["vice-president"]?.text),
+            );
       if (result?.kind !== "rendered") {
         if (move.required || block.required) return null;
         continue;

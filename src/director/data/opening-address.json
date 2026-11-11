@@ -64,6 +64,12 @@
       "tag": "TUNABLE",
       "spread": "2 to 4",
       "note": "How many times an address says the same words for one of the year's subjects (\"take-home pay\") before it turns to wordings with a different insert (words lead's read, Nov 11: \"a subject's word at most three times\")."
+    },
+    "redraws": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "spread": "3 to 10",
+      "note": "How many times a sentence naming the Vice President is drawn again when it would repeat four words of an earlier one (the words lead's third read, Nov 11: the Vice President praised twice in nearly the same words)."
     }
   },
   "leads": {

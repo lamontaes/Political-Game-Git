@@ -10643,6 +10643,981 @@
       "date": "2026-11-11"
     },
     {
+      "key": "opening-speech.subject.polished-ina-sta-all-unemployment:hard-core-idleness",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "idleness",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-unemployment:hard-core-the-jobless-rate",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "the jobless rate",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-unemployment:hard-core-joblessness",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "joblessness",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-unemployment:say-core-finding-employment",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "finding employment",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-unemployment:say-core-a-good-job",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "a good job",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-unemployment:say-core-dependable-work",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "dependable work",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-unemployment:say-core-a-steady-job",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "a steady job",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-unemployment:say-core-landing-a-job",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "landing a job",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-unemployment:say-core-decent-work",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "decent work",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-unemployment:say-core-a-good-job",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "a good job",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "unemployment:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-unemployment:good-core-job-finding",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "job finding",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "unemployment:good",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-wages:hard-core-stagnant-pay",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "stagnant pay",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "wages:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-wages:hard-core-weak-wage-growth",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "weak wage growth",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "wages:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-wages:hard-core-flat-pay",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "flat pay",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "wages:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-wages:hard-core-a-thin-paycheck",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "a thin paycheck",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "wages:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-wages:say-core-fair-pay",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "fair pay",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "wages:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-wages:say-core-an-honest-wage",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "an honest wage",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "wages:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-wages:say-core-fair-pay",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "fair pay",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "wages:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-wages:say-core-a-decent-wage",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "a decent wage",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "wages:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-growth:good-core-new-prosperity",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "new prosperity",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "growth:good",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-growth:good-core-rising-output",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "rising output",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "growth:good",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-growth:good-core-a-busier-economy",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "a busier economy",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "growth:good",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-growth:good-core-good-business",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "good business",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "growth:good",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-inflation:hard-core-sticker-shock",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "sticker shock",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "inflation:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-inflation:hard-core-the-price-tag",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "the price tag",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "inflation:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-inflation:hard-core-a-pricier-cart",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "a pricier cart",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "inflation:hard",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.plain-ina-sta-all-inflation:say-core-the-weekly-shopping",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "the weekly shopping",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "plain",
+      "topic": "inflation:say",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.subject.polished-ina-sta-all-jobs:good-core-new-employment",
+      "move": "subject",
+      "kind": "spoken",
+      "text": "new employment",
+      "uses": [
+        {
+          "move": "subject",
+          "subject": "inaugural",
+          "role": "subject",
+          "choice": "subject"
+        },
+        {
+          "move": "subject",
+          "subject": "state-of-the-union",
+          "role": "subject",
+          "choice": "subject"
+        }
+      ],
+      "voice": "polished",
+      "topic": "jobs:good",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.polished-ina-sta-all-small-core-marginally",
+      "move": "change",
+      "kind": "spoken",
+      "text": "marginally",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "polished",
+      "topic": "small",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.polished-ina-sta-all-small-core-gently",
+      "move": "change",
+      "kind": "spoken",
+      "text": "gently",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "polished",
+      "topic": "small",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.plain-ina-sta-all-small-core-a-hair",
+      "move": "change",
+      "kind": "spoken",
+      "text": "a hair",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "plain",
+      "topic": "small",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.plain-ina-sta-all-small-core-a-tad",
+      "move": "change",
+      "kind": "spoken",
+      "text": "a tad",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "plain",
+      "topic": "small",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.polished-ina-sta-all-medium-core-appreciably",
+      "move": "change",
+      "kind": "spoken",
+      "text": "appreciably",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "polished",
+      "topic": "medium",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.polished-ina-sta-all-medium-core-clearly",
+      "move": "change",
+      "kind": "spoken",
+      "text": "clearly",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "polished",
+      "topic": "medium",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.plain-ina-sta-all-medium-core-a-decent-amount",
+      "move": "change",
+      "kind": "spoken",
+      "text": "a decent amount",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "plain",
+      "topic": "medium",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.plain-ina-sta-all-medium-core-solidly",
+      "move": "change",
+      "kind": "spoken",
+      "text": "solidly",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "plain",
+      "topic": "medium",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.polished-ina-sta-all-large-core-strongly",
+      "move": "change",
+      "kind": "spoken",
+      "text": "strongly",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "polished",
+      "topic": "large",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.polished-ina-sta-all-large-core-significantly",
+      "move": "change",
+      "kind": "spoken",
+      "text": "significantly",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "polished",
+      "topic": "large",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.change.plain-ina-sta-all-large-core-plenty",
+      "move": "change",
+      "kind": "spoken",
+      "text": "plenty",
+      "uses": [
+        {
+          "move": "change",
+          "subject": "inaugural",
+          "role": "change",
+          "choice": "change"
+        },
+        {
+          "move": "change",
+          "subject": "state-of-the-union",
+          "role": "change",
+          "choice": "change"
+        }
+      ],
+      "voice": "plain",
+      "topic": "large",
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
       "key": "opening-speech.salutation.polished-sta-all-chair-male-opener-mr-speaker",
       "move": "salutation",
       "kind": "spoken",
@@ -75384,6 +76359,246 @@
         "of": "opening-pledge",
         "part": "core",
         "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-opener-on-one-matter-i-will-hold-firm",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "On one matter I will hold firm,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-opener-and-where-i-draw-a-firm-line",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "And where I draw a firm line,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-opener-on-one-question-my-mind-is-settled",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "On one question my mind is settled,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-opener-and-on-one-point-i-will-not-yield",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "And on one point I will not yield,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-opener-and-on-one-thing-i-m-not-moving",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "And on one thing I'm not moving,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-opener-and-one-place-i-m-dug-in",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "And one place I'm dug in,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-opener-on-one-thing-my-mind-s-made-up",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "On one thing my mind's made up,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-opener-and-one-spot-where-i-won-t-give",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "And one spot where I won't give,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["rank-line"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
       },
       "origin": "authored",
       "author": "Claude (Words builder, opening address versions)",
