@@ -21,7 +21,8 @@
     "employers": "The earlier employers as a spoken list: A, B and C.",
     "span": "How long a stretch of work lasted, as people say it: nine years.",
     "here": "The town or county the person lives in now, from the place records.",
-    "age": "How old the person was then, from their birth record and the record's date."
+    "age": "How old the person was then, from their birth record and the record's date.",
+    "child": "A child's first name from their record."
   },
   "maxWords": 24,
   "parts": [
@@ -182,42 +183,6 @@
       "key": "person-history.story.partner.home-you.they",
       "move": "story",
       "text": "They made a home with you.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.third",
-      "move": "story",
-      "text": "{who} had a child, {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.they",
-      "move": "story",
-      "text": "They had a child, {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.third",
-      "move": "story",
-      "text": "You were born to {whom}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.they",
-      "move": "story",
-      "text": "You were born to them.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -1271,15 +1236,6 @@
       "key": "person-history.story.partner.home.i",
       "move": "story",
       "text": "I made a home with {name}.",
-      "origin": "authored",
-      "author": "Fable, the life record (core-life-record)",
-      "date": "2026-11-10",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.i",
-      "move": "story",
-      "text": "I had a child, {name}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
       "date": "2026-11-10",
@@ -3878,141 +3834,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.child.born.i.w2",
-      "move": "story",
-      "text": "I had a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.i.w3",
-      "move": "story",
-      "text": "I welcomed a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.i.w4",
-      "move": "story",
-      "text": "I became a parent when {name} was born.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.i.w5",
-      "move": "story",
-      "text": "I brought home a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.i.w6",
-      "move": "story",
-      "text": "I had a little one, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.third.w2",
-      "move": "story",
-      "text": "{who} had a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.third.w3",
-      "move": "story",
-      "text": "{who} welcomed a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.third.w4",
-      "move": "story",
-      "text": "{who} became a parent when {name} was born.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.third.w5",
-      "move": "story",
-      "text": "{who} brought home a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.third.w6",
-      "move": "story",
-      "text": "{who} had a little one, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.they.w2",
-      "move": "story",
-      "text": "They had a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.they.w3",
-      "move": "story",
-      "text": "They welcomed a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.they.w4",
-      "move": "story",
-      "text": "They became a parent when {name} was born.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.they.w5",
-      "move": "story",
-      "text": "They brought home a baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.they.w6",
-      "move": "story",
-      "text": "They had a little one, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.office.elected.i.w2",
       "move": "story",
       "text": "I won the race for {office}.",
@@ -4850,114 +4671,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.child.born-second.i",
-      "move": "story",
-      "text": "I had another child, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.i.w2",
-      "move": "story",
-      "text": "I welcomed another baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.i.w3",
-      "move": "story",
-      "text": "I had one more, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.i.w4",
-      "move": "story",
-      "text": "I added {name} to the family.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.third",
-      "move": "story",
-      "text": "{who} had another child, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.third.w2",
-      "move": "story",
-      "text": "{who} welcomed another baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.third.w3",
-      "move": "story",
-      "text": "{who} had one more, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.third.w4",
-      "move": "story",
-      "text": "{who} added {name} to the family.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.they",
-      "move": "story",
-      "text": "They had another child, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.they.w2",
-      "move": "story",
-      "text": "They welcomed another baby, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.they.w3",
-      "move": "story",
-      "text": "They had one more, {name}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born-second.they.w4",
-      "move": "story",
-      "text": "They added {name} to the family.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.work.spell-second.i",
       "move": "story",
       "text": "I moved on to {employer}.",
@@ -5105,78 +4818,6 @@
       "key": "person-history.when.age-years",
       "move": "story",
       "text": "At age {age},",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.third.w2",
-      "move": "story",
-      "text": "{who} had you.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.third.w3",
-      "move": "story",
-      "text": "{who} welcomed you into the world.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.third.w4",
-      "move": "story",
-      "text": "{who} brought you home.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.third.w5",
-      "move": "story",
-      "text": "You came into {their} life.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.they.w2",
-      "move": "story",
-      "text": "They had you in {year}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.they.w3",
-      "move": "story",
-      "text": "They welcomed you into the world in {year}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.they.w4",
-      "move": "story",
-      "text": "They brought you home in {year}.",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.you.they.w5",
-      "move": "story",
-      "text": "You came into their life in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
@@ -6059,6 +5700,105 @@
       "key": "person-history.when.later-year",
       "move": "story",
       "text": "Later, in {year},",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any",
+      "move": "story",
+      "text": "{child} was born in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any.w2",
+      "move": "story",
+      "text": "{child} came along in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any.w3",
+      "move": "story",
+      "text": "{child} arrived in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.any.w4",
+      "move": "story",
+      "text": "In {year}, {child} was born.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any",
+      "move": "story",
+      "text": "{child} followed in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any.w2",
+      "move": "story",
+      "text": "Then {child} was born in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any.w3",
+      "move": "story",
+      "text": "{child} came next, in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born-second.any.w4",
+      "move": "story",
+      "text": "{child} arrived after, in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.any",
+      "move": "story",
+      "text": "You were born in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.any.w2",
+      "move": "story",
+      "text": "You came along in {year}.",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.any.w3",
+      "move": "story",
+      "text": "You arrived in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",

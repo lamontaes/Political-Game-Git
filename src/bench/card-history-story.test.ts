@@ -129,13 +129,17 @@ it("tells an official, a resident and the player as stories, with the header's s
   const { person, card } = resident!;
   show("resident", card);
   expectSentences(`${where} resident`, card.history);
+  // A child is born by their first name ("Jeremiah was born in 1996."); the
+  // first sentence about the person themself names them, the rest say
+  // "she", "he" or "they".
+  const theirs = card.history.filter((line) => !line.piece.includes(".child."));
   expect(
-    afterTime(card.history[0]!.text).startsWith(
+    afterTime(theirs[0]!.text).startsWith(
       `${person.givenName} ${person.familyName}`,
     ),
     where,
   ).toBe(true);
-  for (const line of card.history.slice(1))
+  for (const line of theirs.slice(1))
     expect(afterTime(line.text), `${where}: after the first sentence`).toMatch(
       /^(She|He|They|You|she|he|they|you) /,
     );
