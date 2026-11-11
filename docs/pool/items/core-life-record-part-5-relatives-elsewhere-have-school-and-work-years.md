@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-life-record-part-5-relatives-elsewhere-have-school-and-work-years
-pr:
+pr: #8641
 after:
 blocked-on:
 lead: lives
