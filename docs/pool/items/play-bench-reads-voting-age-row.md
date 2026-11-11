@@ -5,10 +5,10 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-bench-reads-voting-age-row
-pr:
+pr: #8536
 blocked-on:
 source: added with npm run pool -- add
 after:
