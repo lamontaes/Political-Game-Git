@@ -4,8 +4,8 @@ title: "A reunion over a shared cause talks about the cause, not the old school"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-reunion-talks-the-shared-cause
 pr:
 blocked-on:
 milestone:
@@ -18,6 +18,7 @@ effort: medium
 root: rc6-scenes-repeat
 size: S
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:16:41.891Z
 ---
 
 **What.** In Brookside, Delaware (bench cache seed batch-12), ten reunions fire from `cause.shared` records (two former classmates both back the clean-electricity standard). Every talk opens "Do you remember Newark Charter School?". The record that fired the scene is the shared cause, so the talk should open on it: the cause, the stance they share, what either did about it. That gives the scene a political endpoint (owner, Oct 15: a scene has an endpoint).
