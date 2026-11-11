@@ -5,8 +5,8 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-business-never-adds-location-part-1-counted-founding-room
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ model: opus
 effort: medium
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:29:37.013Z
+branch: claude/pool-business-never-adds-location-part-1-counted-founding-room
 ---
 
 **What.** In Cochituate, Massachusetts the wider-population branch of foundings (the counted founder, `strongestPulls(api, "found", rows)`) founds a business in the top market every month, in this world manufacturing, whatever its room, so foundings pile into one market. The full-person branch weighs market room; the counted branch carries a baseline and unemployed and prospect terms that ignore it. Make the counted founding weigh market room the way the full-person branch does so foundings spread across the markets that have room. Seen: the town's business list and its jobs and Metrics numbers, where every new business no longer lands in one market.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, src/core2/tooling/m1-08-check.ts, src/core2/business.test.ts
+
+**Notes.** Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:28 UTC) on branch claude/pool-business-never-adds-location-part-1-counted-founding-room.
