@@ -84,6 +84,8 @@ Done when each message reached its session by `send_message`, carried the PR, he
 ## Lessons of Nov 11 (the night merging moved)
 
 - **A relayed order cannot give a session a power it does not have.** The CTO relayed the owner's word to start merge desks on a second account. That account's permission check refused to start them, and the lead's own standing order there was "You do not merge." The right move is the one taken: do not work around the refusal, start the part that is allowed (gate-only desks), say on the crew's issue exactly what the owner must do to allow the rest (type it in that session, or add the permission rule), and keep the old holder of the step in place until he does.
+- **A new power for a desk goes in a new desk's brief.** When the owner widens what the crew may do (Nov 11: "Fable B's desks may merge"), the lead does not message the running desks to take it up. It starts a session whose own brief holds the power and its limits, and says so on the crew's issue. The desks that refused the message were right.
+- **A session in a long turn reads a message when the turn ends.** An order that cannot wait (a build hold, a red) is sent to join the running turn (`priority: "next"`), and to stop the turn only when a wrong action is already under way (`priority: "now"`).
 - **A sha in a ready line is read from git, never typed.** A ready line went out with a sha typed from memory and had to be edited. Run `git rev-parse HEAD` and paste it.
 - **A number is named only after the thing exists.** Do not name a pull request, a comment or a session before the tool has returned it.
 

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-play-dev-person-record-list-prints-object-object
 pr: #8570
@@ -18,7 +18,7 @@ effort: low
 root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T04:30:03.916Z
-merged-at:
+merged-at: 2026-11-11T14:39:47.641Z
 branch: claude/pool-play-dev-person-record-list-prints-object-object
 ---
 
