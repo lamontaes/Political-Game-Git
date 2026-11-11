@@ -34,7 +34,10 @@ Do all of this in the same pull request as the change:
 
 1. **Add a `replaced` row:** `old` (the path that is gone), `now` (the path that stands in its place, or the commit to restore it from when nothing does), `when` and `why` in one plain sentence.
 2. **Change the `current` row** when the thing you replaced was the current one of its kind.
-3. **Fix every pointer to the old path.** Search for it: `git grep -n "<old path>"`. Change each to the new path. Leave the records alone.
+3. **Fix every pointer to the old path.**
+   - **Removed, with nothing in its place:** run `node --import tsx scripts/current/repoint.ts`. It marks every pointer to it with " (removed)" after the path, in documents and in code comments. The guard does not count a marked pointer when the replaced list covers the path, and still counts one the list does not cover.
+   - **Moved or replaced by something:** search for it with `git grep -n "<old path>"` and change each by hand. The tool leaves these alone on purpose: a sentence may be sending a reader to the file, or talking about the old one, and only a person can tell which.
+   - Leave the records alone.
 4. **Run the writer and the guard:**
    - `node --import tsx scripts/current/write.ts`
    - `npx vitest run tests/guards/current-pointers.test.ts`
@@ -47,7 +50,7 @@ Add a `topLevel` row that says what it is. Think first whether it belongs inside
 
 - **Every tracked Markdown file,** and the comments of TypeScript and JavaScript files under `src`, `scripts` and `tests`.
 - **A pointer is a path in backticks** that starts with one of the repository's own top folders. In a code comment a bare path with a file extension counts too.
-- **Not a pointer:** a path with a placeholder in it (`<id>`, `*`, `{name}`), and a path followed by " (new)", which is a file an item will create.
+- **Not a pointer:** a path with a placeholder in it (`<id>`, `*`, `{name}`), and a path followed by " (new)", which is a file an item will create. A path followed by " (removed)" is not one either, when the replaced list covers it.
 
 ## The count that only goes down
 
@@ -62,3 +65,4 @@ Add a `topLevel` row that says what it is. Think first whether it belongs inside
 - **An item that will create a file** writes the path as `` `path/to/file.ts` (new) ``.
 - **A file whose name has spaces or special characters** is listed by git in quotes unless you ask for `-z`; the scanner does.
 - **Deleting a folder of old reports lowers its own area's count and can leave pointers to it elsewhere.** Search the whole repository for the folder's name before you open the pull request.
+- **A pull request written before a rule can break it on main.** The strip's pull request deleted five files and merged an hour after this guard did; four old documents still named them, and main went red. Whoever deletes a file runs the guard on main merged in, the same hour.
