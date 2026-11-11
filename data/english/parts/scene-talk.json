@@ -204647,7 +204647,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "calm"
     },
     {
       "key": "scene-talk.open-greet.hail-got-a-second",
@@ -204667,7 +204668,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "curious"
     },
     {
       "key": "scene-talk.open-greet.excuse-me-hail",
@@ -204687,7 +204689,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "guarded"
     },
     {
       "key": "scene-talk.open-greet.hail-can-i-stop-you-a-moment",
@@ -204707,7 +204710,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "calm"
     },
     {
       "key": "scene-talk.open-greet.sorry-to-bother-you-hail",
@@ -204727,7 +204731,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "nervous"
     },
     {
       "key": "scene-talk.open-greet.hail-hold-on-a-second",
@@ -204747,7 +204752,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "eager"
     },
     {
       "key": "scene-talk.open-greet.pardon-me-hail-have-you-got-a-minute",
@@ -204767,7 +204773,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "calm"
     },
     {
       "key": "scene-talk.open-greet.hail-wait-up",
@@ -204787,7 +204794,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "eager"
     },
     {
       "key": "scene-talk.open-greet.hail-you-re-just-the-person-i-wanted-to-see",
@@ -204807,7 +204815,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "braced"
     },
     {
       "key": "scene-talk.open-greet.can-i-have-a-word-hail",
@@ -204827,7 +204836,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "calm"
     },
     {
       "key": "scene-talk.open-greet.you-re-first-aren-t-you-do-you-have-a-minute",
@@ -204846,7 +204856,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "curious"
     },
     {
       "key": "scene-talk.open-greet.excuse-me-aren-t-you-first",
@@ -204865,7 +204876,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "guarded"
     },
     {
       "key": "scene-talk.open-greet.first-can-i-stop-you-a-second",
@@ -204884,7 +204896,8 @@
       ],
       "origin": "authored",
       "author": "Claude (Words builder W2, street stop)",
-      "date": "2026-11-11"
+      "date": "2026-11-11",
+      "bearing": "anxious"
     },
     {
       "key": "scene-talk.state-tell.what-does-bill-mean-for-us",
