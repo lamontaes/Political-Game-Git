@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-campaign-calibration-door-contact-by-seed
-pr:
+pr: #8751
 blocked-on:
 source: governing lead, Nov 1 (seen by the traits test round's helper on clean main)
 lead: governing
