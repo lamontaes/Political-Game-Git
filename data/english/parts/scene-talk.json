@@ -200618,7 +200618,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -200647,7 +200648,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -200912,7 +200914,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "braced",
@@ -200941,7 +200944,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "braced",
