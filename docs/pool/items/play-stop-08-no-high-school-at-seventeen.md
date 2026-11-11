@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-08-no-high-school-at-seventeen
 pr: #8515
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T07:28:35.670Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-08-no-high-school-at-seventeen
 ---
@@ -75,3 +75,5 @@ Released by next (2026-11-11): no push to claude/pool-play-stop-08-no-high-schoo
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:24 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
 
 Released (2026-11-11): Replayed headlessly in three drawn places: a 17-year-old's school history holds only an elementary start, named by its district; evidence on #8515; needs a played check and a cause. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #8515.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:28 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
