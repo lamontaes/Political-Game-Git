@@ -50,8 +50,12 @@ try {
       await finishTalk(page);
     }
   }
-  // Two exchanges: pick the first reply twice.
+  // Up to two exchanges: the first reply, then a second where the talk offers
+  // one at once (a short talk has one exchange, and the history is read
+  // before Continue would close it).
   for (let turn = 0; turn < 2; turn++) {
+    if (turn > 0 && !(await page.locator("#talk-choices .reply").count()))
+      break;
     // A talk may open with lines and Continue before its replies.
     const offered = await toReplies(page);
     console.log(
