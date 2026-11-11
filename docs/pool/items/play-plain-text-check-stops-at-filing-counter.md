@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-plain-text-check-stops-at-filing-counter
 pr:
 after: 
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T03:25:32.989Z
 ---
 
 **What.** A second session replayed the plain-text check for play-stop-02 on main at 4fbc6a18a8 and it stopped in two drawn places. After the filing counter step in src/bench/plain-text.browser.mjs (the line that clicks #talk-leave), the talk box on screen was an unrelated talk with no Leave button. The check never reached the clerk's reply or Campaigns, so the item's finish line cannot be shown.
