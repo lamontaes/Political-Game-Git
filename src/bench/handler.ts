@@ -953,15 +953,16 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/goto/home",
     run: async ({ send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
-      // Whether the player is out at a place, and the picture of where the
-      // day has them otherwise, for Travel's way home.
+      // Whether the player is out at a place, and where the day has them
+      // otherwise (its picture and who is there), for Travel's way home.
+      const id = state.player.personId;
+      const there = benchScene(requireCore(), id, state.player.packet);
       send(200, {
         away: Boolean(state.visit),
-        picture: benchScene(
-          requireCore(),
-          state.player.personId,
-          state.player.packet,
-        ).backdrop.url,
+        picture: there.backdrop.url,
+        who: there.people
+          .filter((person) => person.personId !== id)
+          .map((person) => person.name),
       });
       return;
     },

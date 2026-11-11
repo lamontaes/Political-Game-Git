@@ -4298,8 +4298,14 @@ const sheets = {
               {
                 group: town,
                 title: labels.home,
+                home: true,
                 picture: home.picture,
-                load: async () => ({}),
+                // Who is there now, as every place says.
+                load: async () => ({
+                  who: home.who.length
+                    ? peopleSentence(home.who.map((name) => ({ name })))
+                    : null,
+                }),
                 go: { label: labels.goHome, onClick: goHome },
               },
             ]
