@@ -242,6 +242,38 @@ type ControlSnapshot = ReturnType<typeof snapshotExplicitControlV1>;
 const sessionControl = new WeakMap<FinancePlanningSession, ControlSnapshot>(),
   pendingControl = new WeakMap<WorkPayrollCashSourceState, ControlSnapshot>(),
   retainedControlledSources = new WeakSet<WorkPayrollCashSourceState>();
+/**
+ * The latest controlled payroll source of each person and commitment (a group
+ * receipt stands for the person's whole payday): when the next one posts, the
+ * one before it stops being required, so the cash journal keeps one required
+ * receipt per commitment, not one per payday.
+ */
+const latestControlledPayroll = new WeakMap<
+  CoreState,
+  Map<string, { kind: string; id: string }>
+>();
+function releaseSupersededControlled(
+  core: CoreState,
+  api: CoreAPI,
+  row: WorkPayrollCashSourceState,
+): void {
+  if (!retainedControlledSources.has(row)) return;
+  const person = (row.result as { personId?: string }).personId ?? "";
+  const key = row.group
+    ? `${person}|group`
+    : `${person}|${(row.result as { commitmentId?: string }).commitmentId}`;
+  let latest = latestControlledPayroll.get(core);
+  if (!latest) latestControlledPayroll.set(core, (latest = new Map()));
+  const prior = latest.get(key);
+  latest.set(key, { kind: row.kind, id: row.id });
+  if (!prior || prior.id === row.id) return;
+  const was = core.work.payrollCashSources.get(prior.id);
+  // The provider keeps a controlled source whole only while it is marked; the
+  // mark goes first, then the requirement.
+  if (was) retainedControlledSources.delete(was);
+  if (core.cashJournal.requiredBySource.get(prior.kind)?.has(prior.id))
+    api.releaseJournalSource(prior);
+}
 const nativeSet = Map.prototype.set,
   nativeDelete = Map.prototype.delete,
   controlGet = WeakMap.prototype.get,
@@ -1926,6 +1958,7 @@ function settleWorkPayrollGroupJournal(
     else complete.call(api, { kind: row.kind, id: row.id });
     pending.delete(row);
     finishCompositeFinanceCreditSources(core, api, row.credits);
+    releaseSupersededControlled(core, api, row);
     return caller;
   } catch (error) {
     pending.delete(row);
@@ -2393,6 +2426,7 @@ export function settleWorkPayrollJournal(
     else complete.call(api, { kind: row.kind, id: row.id });
     pending.delete(row);
     finishCompositeFinanceCreditSources(core, api, row.credits);
+    releaseSupersededControlled(core, api, row);
     return caller;
   } catch (error) {
     pending.delete(row);
