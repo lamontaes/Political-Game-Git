@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/death-cause.ts, src/core2/death-cause.test.ts, src/core2/death-cause-firearm-homicide.test.ts, src/core2/health-web.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `DEATH_CAUSE_SEED=9c7ce4dc6075f587 npx vitest run src/core2/death-cause.test.ts` (Kingston, Rhode Island): green. `FIREARM_HOMICIDE_SEED=0ca4bee1b70dbf0c npx vitest run src/core2/death-cause-firearm-homicide.test.ts` (Malaeloa/Ituau, American Samoa): still red: "expected 1 to be close to 1.1664, received difference is 0.1664000000000001". Fresh draw `DEATH_CAUSE_SEED=996b1ae59f50e0ea FIREARM_HOMICIDE_SEED=2afa0aac1a945a4e`: death-cause green; firearm homicide red (Dandan, Northern Mariana Islands): "age 5: expected 1.1199999999999999 to be greater than 1.1664". The death-cause half is green; the firearm-homicide half is still red.

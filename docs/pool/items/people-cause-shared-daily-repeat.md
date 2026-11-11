@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART or close (same OD:556 behavior defect).
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** Skipped: the item names no command, only a played year (Euharlee, Georgia, seed life-2) and no test or script to run. Nothing was run.

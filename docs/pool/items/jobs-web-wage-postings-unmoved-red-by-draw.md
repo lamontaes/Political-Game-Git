@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/jobs-web.test.ts, src/core2/jobs-web.ts, src/core2/modules/jobs.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `WEB_LABOR_SEED=c0cb88e1667c71e5 npx vitest run src/core2/jobs-web.test.ts` (Montrose, Arkansas): still red, 'a higher wage factor moves the pay of new postings': "expected 1.0333345645482257 to be greater than 1.0435520520640864". Fresh draw `WEB_LABOR_SEED=e52655e5c79530b9` (Westwego, Louisiana): red the same way: "expected 9.368058889422308 to be greater than 9.54476556249". Red on two of two draws.

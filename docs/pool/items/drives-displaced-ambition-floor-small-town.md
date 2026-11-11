@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/drives-economy.test.ts
 
 **Notes.** Oct 29, 05:00 UTC, words and director session: also red on main 886c21ab72 and on 7abade8252 (before #6736) in Bellview, Florida (place key 1205462, seed 68c7747a284e52a1b25d6cb988de91bd09a04462452082d58f951267965e14de), the golden-path-year draw for #6736: a share of 0.0559, which is 9 of 161 displaced workers. That sample is not small, so a spread sized to the sample alone may not clear it; the rate itself sits just under the floor.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `npx vitest run src/core2/drives-economy.test.ts` with `GOLDEN_PATH_PLACE_KEY=7263503 GOLDEN_PATH_SEED=8be0e68a...046b` (Playita, Puerto Rico): green. With `GOLDEN_PATH_PLACE_KEY=1205462 GOLDEN_PATH_SEED=68c7747a...14de` (Bellview, Florida): green. Fresh draw `GOLDEN_PATH_SEED=ff34b605c07f7a0b`: green. The test prints no place on a pass. Proposed for the CTO: drop as fixed on main.
