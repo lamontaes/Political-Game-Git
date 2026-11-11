@@ -204413,10 +204413,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.let-s-talk-about-seat-another-time",
+      "key": "scene-talk.reply-deflect.can-this-wait",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Let's talk about {seat} another time.",
+      "text": "Can this wait?",
       "uses": [
         {
           "subject": "scene",
@@ -204436,10 +204436,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.can-running-for-seat-wait-until-tomorrow",
+      "key": "scene-talk.reply-deflect.tomorrow-maybe",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Can running for {seat} wait until tomorrow?",
+      "text": "Tomorrow, maybe?",
       "uses": [
         {
           "subject": "scene",

@@ -237,7 +237,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
           scene.talk.tree.replies.filter((row) =>
             row.line.text.includes(officeText),
           ).length,
-          `${here}: the office named in more than one reply`,
+          `${here}: the office named in more than one reply: ${scene.talk.tree.replies.map((row) => row.line.text).join(" | ")}`,
         ).toBeLessThanOrEqual(1);
       for (const row of scene.talk.tree.replies)
         (stakeFact!.key === "stake-money" ? moneyReplies : timeReplies).add(
@@ -290,13 +290,15 @@ it("stages the filing talk only for a relative with a stake, and records what th
               scene.askerId,
             );
           else if (answered?.move === "promise") {
-            expect(before, here).not.toContain(scene.askerId);
             expect(after, `${here}: said yes, not counted`).toContain(
               scene.askerId,
             );
-            expect(core.durableLog.get(id!)?.facts?.enlisted, here).toBe(
-              filing.id,
-            );
+            // Enlisted by this reply, unless a path played earlier in the
+            // same scene went through the same request and promise.
+            if (!before.includes(scene.askerId))
+              expect(core.durableLog.get(id!)?.facts?.enlisted, here).toBe(
+                filing.id,
+              );
             sawEnlist = true;
             notes.push(
               `${here}: ${answered.speaker} answered "${answered.text}" and is counted a volunteer (${id})`,
