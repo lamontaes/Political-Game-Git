@@ -56,7 +56,9 @@ function spokeLines(remarks, words) {
       el(
         "p",
         { className: "meeting-remarks" },
-        el("small", { textContent: label ?? "" }),
+        el("small", {
+          textContent: `${label ?? ""} · ${spoke.length.toLocaleString("en-US")}`,
+        }),
         el("span", { textContent: spoke.map((r) => r.name).join(", ") }),
       ),
     );
