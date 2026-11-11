@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
-pr: #6111
+pr: #8357
 after:
 blocked-on:
 standard: 2
