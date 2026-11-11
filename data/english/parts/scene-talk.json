@@ -5020,10 +5020,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.even-if-story-costs-you-at-the-next-election",
+      "key": "scene-talk.follow-ask.even-if-it-costs-you-in-place-at-the-next-election",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Even if {story} costs you at the next election?",
+      "text": "Even if it costs you in {place} at the next election?",
       "uses": [
         {
           "subject": "scene",
@@ -5080,10 +5080,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-story",
+      "key": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-it",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What do you say to people in {place} who disagree with you on {story}?",
+      "text": "What do you say to people in {place} who disagree with you on it?",
       "uses": [
         {
           "subject": "scene",
@@ -5140,10 +5140,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.can-i-quote-you-on-story-in-outlet",
+      "key": "scene-talk.follow-ask.can-i-quote-you-on-that-in-outlet",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Can I quote you on {story} in {outlet}?",
+      "text": "Can I quote you on that in {outlet}?",
       "uses": [
         {
           "subject": "scene",
@@ -5382,10 +5382,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-happens-to-you-if-story-goes-wrong",
+      "key": "scene-talk.follow-ask.what-happens-to-you-in-place-if-it-goes-wrong",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What happens to you if {story} goes wrong?",
+      "text": "What happens to you in {place} if it goes wrong?",
       "uses": [
         {
           "subject": "scene",
@@ -5412,10 +5412,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-changed-on-story",
+      "key": "scene-talk.follow-ask.first-what-changed",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What changed on {story}?",
+      "text": "{first}, what changed?",
       "uses": [
         {
           "subject": "scene",
@@ -5442,10 +5442,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.so-what-changed-your-mind-about-bill",
+      "key": "scene-talk.follow-ask.first-so-what-changed-your-mind",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "So what changed your mind about {bill}?",
+      "text": "{first}, so what changed your mind?",
       "uses": [
         {
           "subject": "scene",
@@ -5493,7 +5493,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-story-costs-you-at-the-next-election"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-in-place-at-the-next-election"
         },
         {
           "subject": "scene",
@@ -5520,10 +5520,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.people-in-place-can-judge-me-on-story",
+      "key": "scene-talk.reply-answer.people-in-place-can-judge-me-on-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "People in {place} can judge me on {story}.",
+      "text": "People in {place} can judge me on it.",
       "uses": [
         {
           "subject": "scene",
@@ -5541,7 +5541,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-story-costs-you-at-the-next-election"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-in-place-at-the-next-election"
         },
         {
           "subject": "scene",
@@ -5568,10 +5568,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.one-election-isn-t-worth-getting-story-wrong",
+      "key": "scene-talk.reply-answer.one-election-in-place-isn-t-worth-getting-it-wrong",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "One election isn't worth getting {story} wrong.",
+      "text": "One election in {place} isn't worth getting it wrong.",
       "uses": [
         {
           "subject": "scene",
@@ -5589,7 +5589,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-story-costs-you-at-the-next-election"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-in-place-at-the-next-election"
         },
         {
           "subject": "scene",
@@ -5637,7 +5637,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-story-costs-you-at-the-next-election"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-in-place-at-the-next-election"
         },
         {
           "subject": "scene",
@@ -5676,7 +5676,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-story"
+          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-it"
         },
         {
           "subject": "scene",
@@ -5703,10 +5703,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.my-door-s-open-to-anyone-who-wants-to-talk-about-story",
+      "key": "scene-talk.reply-answer.my-door-s-open-to-anyone-in-place-who-wants-to-talk-about-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "My door's open to anyone who wants to talk about {story}.",
+      "text": "My door's open to anyone in {place} who wants to talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -5715,7 +5715,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-story"
+          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-it"
         },
         {
           "subject": "scene",
@@ -5754,7 +5754,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-story"
+          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-it"
         },
         {
           "subject": "scene",
@@ -5793,7 +5793,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.can-i-quote-you-on-story-in-outlet"
+          "after": "scene-talk.follow-ask.can-i-quote-you-on-that-in-outlet"
         },
         {
           "subject": "scene",
@@ -5829,10 +5829,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.quote-me-on-story-i-ll-say-it-again",
+      "key": "scene-talk.reply-answer.quote-me-in-outlet-i-ll-say-it-again",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Quote me on {story}. I'll say it again.",
+      "text": "Quote me in {outlet}. I'll say it again.",
       "uses": [
         {
           "subject": "scene",
@@ -5841,7 +5841,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.can-i-quote-you-on-story-in-outlet"
+          "after": "scene-talk.follow-ask.can-i-quote-you-on-that-in-outlet"
         },
         {
           "subject": "scene",
@@ -5889,7 +5889,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.can-i-quote-you-on-story-in-outlet"
+          "after": "scene-talk.follow-ask.can-i-quote-you-on-that-in-outlet"
         },
         {
           "subject": "scene",
@@ -5937,7 +5937,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.can-i-quote-you-on-story-in-outlet"
+          "after": "scene-talk.follow-ask.can-i-quote-you-on-that-in-outlet"
         },
         {
           "subject": "scene",
@@ -6228,7 +6228,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-happens-to-you-if-story-goes-wrong"
+          "after": "scene-talk.follow-ask.what-happens-to-you-in-place-if-it-goes-wrong"
         }
       ],
       "bearing": "firm",
@@ -6246,10 +6246,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.then-i-ll-answer-for-story-at-the-next-election",
+      "key": "scene-talk.reply-answer.then-i-ll-answer-for-it-to-place-at-the-next-election",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Then I'll answer for {story} at the next election.",
+      "text": "Then I'll answer for it to {place} at the next election.",
       "uses": [
         {
           "subject": "scene",
@@ -6267,7 +6267,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-happens-to-you-if-story-goes-wrong"
+          "after": "scene-talk.follow-ask.what-happens-to-you-in-place-if-it-goes-wrong"
         }
       ],
       "bearing": "firm",
@@ -6306,7 +6306,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-happens-to-you-if-story-goes-wrong"
+          "after": "scene-talk.follow-ask.what-happens-to-you-in-place-if-it-goes-wrong"
         }
       ],
       "bearing": "firm",
@@ -6324,10 +6324,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-stand-by-what-i-did-on-bill",
+      "key": "scene-talk.reply-answer.i-stand-by-what-i-did-and-people-in-place-know-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I stand by what I did on {bill}.",
+      "text": "I stand by what I did, and people in {place} know it.",
       "uses": [
         {
           "subject": "scene",
@@ -6336,7 +6336,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-what-the-record-on-bill-shows"
+          "after": "scene-talk.follow-answer.it-s-what-the-record-in-place-shows"
         },
         {
           "subject": "scene",
@@ -6345,7 +6345,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-m-reading-the-record-on-story-not-guessing"
+          "after": "scene-talk.follow-answer.first-i-m-reading-the-record-not-guessing"
         },
         {
           "subject": "scene",
@@ -6354,7 +6354,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-in-the-minutes-on-bill-and-i-d-rather-have-your-answer-beside-it"
+          "after": "scene-talk.follow-answer.it-s-in-the-minutes-in-place-and-i-d-rather-have-your-answer-beside-it"
         },
         {
           "subject": "scene",
@@ -6381,10 +6381,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.what-i-did-on-story-was-right-and-i-ll-say-so-to-anyone",
+      "key": "scene-talk.reply-answer.what-i-did-was-right-and-i-ll-say-so-to-anyone-in-place",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "What I did on {story} was right, and I'll say so to anyone.",
+      "text": "What I did was right, and I'll say so to anyone in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -6393,7 +6393,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-what-the-record-on-bill-shows"
+          "after": "scene-talk.follow-answer.it-s-what-the-record-in-place-shows"
         },
         {
           "subject": "scene",
@@ -6402,7 +6402,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-m-reading-the-record-on-story-not-guessing"
+          "after": "scene-talk.follow-answer.first-i-m-reading-the-record-not-guessing"
         },
         {
           "subject": "scene",
@@ -6411,7 +6411,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-in-the-minutes-on-bill-and-i-d-rather-have-your-answer-beside-it"
+          "after": "scene-talk.follow-answer.it-s-in-the-minutes-in-place-and-i-d-rather-have-your-answer-beside-it"
         },
         {
           "subject": "scene",
@@ -6438,10 +6438,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.you-can-print-that-i-stand-behind-every-page-of-bill",
+      "key": "scene-talk.reply-answer.you-can-print-in-outlet-that-i-stand-behind-every-page-of-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "You can print that I stand behind every page of {bill}.",
+      "text": "You can print in {outlet} that I stand behind every page of it.",
       "uses": [
         {
           "subject": "scene",
@@ -6450,7 +6450,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-what-the-record-on-bill-shows"
+          "after": "scene-talk.follow-answer.it-s-what-the-record-in-place-shows"
         },
         {
           "subject": "scene",
@@ -6459,7 +6459,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-m-reading-the-record-on-story-not-guessing"
+          "after": "scene-talk.follow-answer.first-i-m-reading-the-record-not-guessing"
         },
         {
           "subject": "scene",
@@ -6468,7 +6468,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-in-the-minutes-on-bill-and-i-d-rather-have-your-answer-beside-it"
+          "after": "scene-talk.follow-answer.it-s-in-the-minutes-in-place-and-i-d-rather-have-your-answer-beside-it"
         },
         {
           "subject": "scene",
@@ -6843,10 +6843,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confess.i-knew-better-about-story-i-shouldn-t-have-said-it",
+      "key": "scene-talk.reply-confess.i-knew-better-about-story-and-i-ll-say-so-in-outlet",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "I knew better about {story}. I shouldn't have said it.",
+      "text": "I knew better about {story}, and I'll say so in {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -8905,10 +8905,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-write-that-you-wouldn-t-comment-on-story",
+      "key": "scene-talk.follow-accept.i-ll-write-in-outlet-that-you-wouldn-t-comment",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll write that you wouldn't comment on {story}.",
+      "text": "I'll write in {outlet} that you wouldn't comment.",
       "uses": [
         {
           "subject": "scene",
@@ -8944,10 +8944,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-the-article-on-story-runs-either-way",
+      "key": "scene-talk.follow-accept.okay-the-article-runs-in-outlet-either-way",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. The article on {story} runs either way.",
+      "text": "Okay. The article runs in {outlet} either way.",
       "uses": [
         {
           "subject": "scene",
@@ -8983,10 +8983,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-say-you-had-nothing-on-story",
+      "key": "scene-talk.follow-accept.fair-enough-outlet-will-say-you-had-nothing",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. I'll say you had nothing on {story}.",
+      "text": "Fair enough. {outlet} will say you had nothing.",
       "uses": [
         {
           "subject": "scene",
@@ -9022,10 +9022,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-say-you-re-still-deciding-on-bill",
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-say-you-re-still-hearing-from-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough. I'll say you're still deciding on {bill}.",
+      "text": "Fair enough. I'll say you're still hearing from {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -9052,10 +9052,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-put-down-that-you-re-still-weighing-bill",
+      "key": "scene-talk.follow-accept.i-ll-put-down-that-you-re-still-weighing-it-with-people-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll put down that you're still weighing {bill}.",
+      "text": "I'll put down that you're still weighing it with people in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -9082,10 +9082,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-i-ll-write-that-you-haven-t-decided-on-story",
+      "key": "scene-talk.follow-accept.then-outlet-says-you-haven-t-decided",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll write that you haven't decided on {story}.",
+      "text": "Then {outlet} says you haven't decided.",
       "uses": [
         {
           "subject": "scene",
@@ -9112,10 +9112,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-put-that-in-about-story-and-people-can-check-it",
+      "key": "scene-talk.follow-accept.i-ll-put-that-in-and-people-in-place-can-check-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll put that in about {story}, and people can check it.",
+      "text": "I'll put that in, and people in {place} can check it.",
       "uses": [
         {
           "subject": "scene",
@@ -9142,10 +9142,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-that-s-your-record-on-story-as-you-tell-it",
+      "key": "scene-talk.follow-accept.okay-that-s-your-record-in-place-as-you-tell-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. That's your record on {story}, as you tell it.",
+      "text": "Okay. That's your record in {place}, as you tell it.",
       "uses": [
         {
           "subject": "scene",
@@ -9230,10 +9230,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-print-the-correction-on-story-in-your-words",
+      "key": "scene-talk.follow-accept.i-ll-print-the-correction-in-outlet-in-your-words",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll print the correction on {story} in your words.",
+      "text": "I'll print the correction in {outlet}, in your words.",
       "uses": [
         {
           "subject": "scene",
@@ -9260,10 +9260,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.thank-you-for-owning-it-that-goes-in-about-bill",
+      "key": "scene-talk.follow-accept.thank-you-for-owning-it-that-goes-in-outlet",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Thank you for owning it. That goes in about {bill}.",
+      "text": "Thank you for owning it. That goes in {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -9290,10 +9290,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.tell-me-why-you-went-the-way-you-did-on-bill",
+      "key": "scene-talk.follow-press.first-tell-me-why-you-went-the-way-you-did",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Tell me why you went the way you did on {bill}.",
+      "text": "{first}, tell me why you went the way you did.",
       "uses": [
         {
           "subject": "scene",
@@ -9321,10 +9321,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.people-in-place-can-see-the-roll-on-bill-give-them-the-why",
+      "key": "scene-talk.follow-press.people-in-place-can-see-the-roll-give-them-the-why",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "People in {place} can see the roll on {bill}. Give them the why.",
+      "text": "People in {place} can see the roll. Give them the why.",
       "uses": [
         {
           "subject": "scene",
@@ -9352,10 +9352,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.people-in-place-want-to-know-where-you-are-on-bill",
+      "key": "scene-talk.follow-press.people-in-place-want-to-know-where-you-are-on-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "People in {place} want to know where you are on {bill}.",
+      "text": "People in {place} want to know where you are on it.",
       "uses": [
         {
           "subject": "scene",
@@ -9400,10 +9400,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.the-article-on-story-runs-with-or-without-you",
+      "key": "scene-talk.follow-press.the-article-runs-in-outlet-with-or-without-you",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "The article on {story} runs with or without you.",
+      "text": "The article runs in {outlet} with or without you.",
       "uses": [
         {
           "subject": "scene",
@@ -9448,10 +9448,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.readers-will-ask-why-you-wouldn-t-talk-about-story",
+      "key": "scene-talk.follow-press.readers-in-place-will-ask-why-you-wouldn-t-talk-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Readers will ask why you wouldn't talk about {story}.",
+      "text": "Readers in {place} will ask why you wouldn't talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -9496,10 +9496,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.one-sentence-on-bill-that-s-all-i-need",
+      "key": "scene-talk.follow-press.first-one-sentence-that-s-all-i-need",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "One sentence on {bill}. That's all I need.",
+      "text": "{first}, one sentence. That's all I need.",
       "uses": [
         {
           "subject": "scene",
@@ -9544,10 +9544,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.everyone-else-on-bill-has-talked-to-me",
+      "key": "scene-talk.follow-press.everyone-else-in-place-has-talked-to-me-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Everyone else on {bill} has talked to me.",
+      "text": "Everyone else in {place} has talked to me about it.",
       "uses": [
         {
           "subject": "scene",
@@ -9592,10 +9592,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.saying-nothing-about-story-looks-worse-than-an-answer",
+      "key": "scene-talk.follow-press.in-place-saying-nothing-looks-worse-than-an-answer",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Saying nothing about {story} looks worse than an answer.",
+      "text": "In {place}, saying nothing looks worse than an answer.",
       "uses": [
         {
           "subject": "scene",
@@ -9640,10 +9640,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-s-what-the-record-on-bill-shows",
+      "key": "scene-talk.follow-answer.it-s-what-the-record-in-place-shows",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's what the record on {bill} shows.",
+      "text": "It's what the record in {place} shows.",
       "uses": [
         {
           "subject": "scene",
@@ -9670,10 +9670,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-m-reading-the-record-on-story-not-guessing",
+      "key": "scene-talk.follow-answer.first-i-m-reading-the-record-not-guessing",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'm reading the record on {story}, not guessing.",
+      "text": "{first}, I'm reading the record, not guessing.",
       "uses": [
         {
           "subject": "scene",
@@ -9700,10 +9700,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-s-in-the-minutes-on-bill-and-i-d-rather-have-your-answer-beside-it",
+      "key": "scene-talk.follow-answer.it-s-in-the-minutes-in-place-and-i-d-rather-have-your-answer-beside-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It's in the minutes on {bill}, and I'd rather have your answer beside it.",
+      "text": "It's in the minutes in {place}, and I'd rather have your answer beside it.",
       "uses": [
         {
           "subject": "scene",
@@ -9760,10 +9760,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-m-not-guessing-about-story-i-m-quoting-the-record",
+      "key": "scene-talk.follow-answer.i-m-not-guessing-about-it-i-m-quoting-the-record-for-outlet",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'm not guessing about {story}. I'm quoting the record.",
+      "text": "I'm not guessing about it. I'm quoting the record for {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -9790,10 +9790,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.everything-i-have-on-bill-is-on-the-record",
+      "key": "scene-talk.follow-answer.everything-i-have-for-outlet-is-on-the-record",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Everything I have on {bill} is on the record.",
+      "text": "Everything I have for {outlet} is on the record.",
       "uses": [
         {
           "subject": "scene",
@@ -9820,10 +9820,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.tell-me-where-i-m-off-on-story-and-i-ll-check-it",
+      "key": "scene-talk.follow-answer.tell-me-where-i-m-off-first-and-i-ll-check-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Tell me where I'm off on {story}, and I'll check it.",
+      "text": "Tell me where I'm off, {first}, and I'll check it.",
       "uses": [
         {
           "subject": "scene",
@@ -9850,10 +9850,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-d-rather-print-your-answer-on-story-than-guess-at-it",
+      "key": "scene-talk.follow-answer.i-d-rather-print-your-answer-in-outlet-than-guess-at-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'd rather print your answer on {story} than guess at it.",
+      "text": "I'd rather print your answer in {outlet} than guess at it.",
       "uses": [
         {
           "subject": "scene",
@@ -9880,10 +9880,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.show-me-what-i-ve-got-wrong-about-bill",
+      "key": "scene-talk.follow-answer.first-show-me-what-i-ve-got-wrong",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Show me what I've got wrong about {bill}.",
+      "text": "{first}, show me what I've got wrong.",
       "uses": [
         {
           "subject": "scene",
@@ -9910,10 +9910,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.then-give-me-your-version-of-story",
+      "key": "scene-talk.follow-answer.then-give-me-your-version-for-outlet",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Then give me your version of {story}.",
+      "text": "Then give me your version for {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -13673,7 +13673,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-story-costs-you-at-the-next-election"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-in-place-at-the-next-election"
         },
         {
           "subject": "scene",
@@ -13712,7 +13712,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-story"
+          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-it"
         },
         {
           "subject": "scene",
@@ -13751,7 +13751,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-story"
+          "after": "scene-talk.follow-ask.what-do-you-say-to-people-in-place-who-disagree-with-you-on-it"
         },
         {
           "subject": "scene",
@@ -13789,7 +13789,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-what-the-record-on-bill-shows"
+          "after": "scene-talk.follow-answer.it-s-what-the-record-in-place-shows"
         },
         {
           "subject": "scene",
@@ -13798,7 +13798,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.i-m-reading-the-record-on-story-not-guessing"
+          "after": "scene-talk.follow-answer.first-i-m-reading-the-record-not-guessing"
         },
         {
           "subject": "scene",
@@ -13807,7 +13807,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-answer.it-s-in-the-minutes-on-bill-and-i-d-rather-have-your-answer-beside-it"
+          "after": "scene-talk.follow-answer.it-s-in-the-minutes-in-place-and-i-d-rather-have-your-answer-beside-it"
         },
         {
           "subject": "scene",
