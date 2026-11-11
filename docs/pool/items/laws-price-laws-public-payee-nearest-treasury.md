@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-price-laws-public-payee-nearest-treasury
-pr:
+pr: #8454
 blocked-on:
 lead: laws
 source: review of speed/fold-cash-receipts, Nov 2 (fails the same way on main 15059c66cc)

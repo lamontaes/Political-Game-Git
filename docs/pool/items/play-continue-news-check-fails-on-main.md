@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/continue-news.browser.mjs, src/bench/ui/newspaper.mjs
 
 **Notes.** Merger 4, Oct 27: still failing on clean origin/main at the time of the #6284 merge, twice on fresh draws ("kept in the opening record: Waynesboro unemployment at 4.1" and "Warwick unemployment at 2.5"); it passed twice on #6234 earlier the same day, so something merged since broke it.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** Bench started with `npm run bench`; `BENCH_BROWSER=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome node src/bench/continue-news.browser.mjs`, two fresh draws. Run 1 (Belcher, Louisiana, seed f3d5d7e8-760d-4533-b912-6df78df71481): still red, line 112: "kept in the opening record: State unemployment tax rate took effect on January 1, 2025." (the fresh and continued readers show the same two sentences). Run 2 (place and seed not printed): the page threw "Cannot read properties of undefined (reading 'map')" and the news reader never opened (`waitFor` timeout at line 21). Still red.
