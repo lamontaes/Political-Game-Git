@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-person-card-heading-shows-object-slot
-pr:
+pr: #8865
 after:
 blocked-on:
 source: P1, Nov 11, 2026, seen while building play-one-person-shows-two-faces (#8330)
