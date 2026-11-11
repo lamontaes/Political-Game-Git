@@ -620,6 +620,18 @@
     "federal": "Federal"
   },
   "travel": {
+    "why": "Why here",
+    "reasons": {
+      "work": "You work here",
+      "family": "Your family works here",
+      "study": "Your household's school",
+      "known": "People you know work here",
+      "action": "Something to do now",
+      "serve": "You serve in office",
+      "seat": "You hold a seat on its board",
+      "meeting": "Its board meets this week",
+      "public": "Open to the public"
+    },
     "filing": "Filing office",
     "go": "Go to",
     "open": "Open now",
