@@ -1272,7 +1272,8 @@
     "to": "to",
     "notVoting": "Didn't vote",
     "noParty": "No party",
-    "yours": "Your member"
+    "yours": "Your member",
+    "yourMembers": "Your members"
   },
   "devBill": {
     "title": "Dev mode",

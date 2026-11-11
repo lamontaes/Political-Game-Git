@@ -2727,6 +2727,92 @@ async function openBillPaper(billId, show, back, backLabel) {
     textContent: backLabel ?? words.back ?? "",
   });
   backButton.addEventListener("click", back);
+  // Where the bill is: the committee's record, what members told you, the floor and
+  // the override, each member by name (ui/bill-stage.mjs). They stand in the
+  // bill's own board, under Where it is.
+  const stageNodes = billStageSections(
+    stage,
+    controls.billStage ?? {},
+    (person) => showPerson({ personId: person.personId }),
+    async (how) => {
+      await api(
+        `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+        "POST",
+      );
+      await openBillPaper(billId, show, back, backLabel);
+    },
+    {
+      onMove: async (index, direction) => {
+        await api(
+          `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      onCall: async (item) => {
+        await api(
+          `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      estimate: (item) =>
+        [
+          item.estimateAfter.workersRaised > 0
+            ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+            : null,
+          item.estimateAfter.annualPayMinor > 0
+            ? moneyWords(item.estimateAfter.annualPayMinor)
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+    },
+    {
+      onDecide: async (how) => {
+        await api(`/api/desk?${new URLSearchParams({ billId, how })}`, "POST");
+        await openBillPaper(billId, show, back, backLabel);
+      },
+    },
+    {
+      onAsk: (index) =>
+        api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
+      onKeep: async (index) => {
+        await api(
+          `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      estimate: (redraft) =>
+        [
+          redraft.estimateAfter.workersRaised > 0
+            ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
+            : null,
+          redraft.estimateAfter.annualPayMinor > 0
+            ? moneyWords(redraft.estimateAfter.annualPayMinor)
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+    },
+    {
+      onVote: async (how) => {
+        await api(
+          `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      onCall: async () => {
+        await api(
+          `/api/bill/override-call?${new URLSearchParams({ billId })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+    },
+  );
   show(
     backButton,
     billPaper({
@@ -2738,6 +2824,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       billLabel: words.bill ?? "",
       voteLabel: words.vote ?? "",
       band,
+      stage: stageNodes,
       estimateLabel: words.estimate ?? "",
       // The budget lines the bill sets, this year beside last year's.
       extra: billFigures({
@@ -2790,14 +2877,21 @@ async function openBillPaper(billId, show, back, backLabel) {
             ...(tally?.notVoting
               ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
               : []),
-            // The player's own member in this chamber and the vote they cast (the page view's yourMembers).
-            ...(view.yourMembers ?? [])
-              .filter((m) => m.chamber === entry.chamber && m.vote)
-              .map((m) => ({
-                label: pageWords.yours,
-                value: `${m.name}, ${controls.billStage?.[m.vote] ?? ""}`,
-              })),
           ],
+          // The player's own members in this chamber and the vote each cast
+          // (the page view's yourMembers): a name, then the vote.
+          members: (() => {
+            const mine = (view.yourMembers ?? []).filter(
+              (m) => m.chamber === entry.chamber && m.vote,
+            );
+            return {
+              label: mine.length > 1 ? pageWords.yourMembers : pageWords.yours,
+              rows: mine.map((m) => ({
+                label: m.name,
+                value: controls.billStage?.[m.vote] ?? "",
+              })),
+            };
+          })(),
         };
       }),
       blank: billEstimate(paper, { estimate: {} }),
@@ -2819,94 +2913,6 @@ async function openBillPaper(billId, show, back, backLabel) {
           : null,
       ],
     }),
-    // Where the bill is: the committee's record, what members told you, the floor and
-    // the override, each member by name (ui/bill-stage.mjs).
-    ...billStageSections(
-      stage,
-      controls.billStage ?? {},
-      (person) => showPerson({ personId: person.personId }),
-      async (how) => {
-        await api(
-          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-      {
-        onMove: async (index, direction) => {
-          await api(
-            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        onCall: async (item) => {
-          await api(
-            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        estimate: (item) =>
-          [
-            item.estimateAfter.workersRaised > 0
-              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
-              : null,
-            item.estimateAfter.annualPayMinor > 0
-              ? moneyWords(item.estimateAfter.annualPayMinor)
-              : null,
-          ]
-            .filter(Boolean)
-            .join(" · "),
-      },
-      {
-        onDecide: async (how) => {
-          await api(
-            `/api/desk?${new URLSearchParams({ billId, how })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-      },
-      {
-        onAsk: (index) =>
-          api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
-        onKeep: async (index) => {
-          await api(
-            `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        estimate: (redraft) =>
-          [
-            redraft.estimateAfter.workersRaised > 0
-              ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
-              : null,
-            redraft.estimateAfter.annualPayMinor > 0
-              ? moneyWords(redraft.estimateAfter.annualPayMinor)
-              : null,
-          ]
-            .filter(Boolean)
-            .join(" · "),
-      },
-      {
-        onVote: async (how) => {
-          await api(
-            `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        onCall: async () => {
-          await api(
-            `/api/bill/override-call?${new URLSearchParams({ billId })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-      },
-    ),
     // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
     ...(devModeOn()
       ? [
