@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-one-sponsor-evening-no-three-seat-body-by-draw
-pr:
+pr: #8586
 blocked-on:
 source: added with npm run pool -- add
 after:

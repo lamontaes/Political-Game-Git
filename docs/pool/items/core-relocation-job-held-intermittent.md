@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-relocation-job-held-intermittent
-pr: #5404
+pr: #8584
 after:
 blocked-on:
 model: sonnet
