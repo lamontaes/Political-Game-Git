@@ -86,6 +86,9 @@ try {
   await solid("Person card", "#person");
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
+  // The talk is left before a menu is opened: the rail is not shown beside a talk.
+  await page.locator("#talk-leave").click();
+  await page.locator("#talk").waitFor({ state: "hidden" });
   await page.locator('#rings [data-tab="calendar"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
   // One left menu: the rail stays beside an open screen and no Menu panel
