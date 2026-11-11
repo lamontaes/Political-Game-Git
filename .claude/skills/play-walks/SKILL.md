@@ -59,5 +59,7 @@ The review rules in the skill `words-engine` (its lessons of Nov 11), and these,
 
 - **A walk that continues a saved life reads someone else's day.** The walks always start a new life. A browser check run on the same bench afterward may continue the walk's life, wherever the walk left it.
 - **Some browser checks write pictures into tracked folders.** After running one in your own tree, look at `git status` and put back what it changed.
+- **Do not change the checkout a walk is running from.** A walk started from a checkout loads its scripts as it goes; switching that checkout's branch under it makes the next walk in the queue fail with "Cannot find module". Run walks from a checkout you will not touch until they finish, or from a copy of `scripts/play-walks/` beside the bench.
+- **The bench serves its working tree.** A patch applied there for a look is in every picture taken after it. Put the tree back (`git status`) before taking a "before".
 - **A walk is not a pass.** "The walk ran with no page errors" says nothing about what was said. Quote lines.
 - **Do not turn a walk into a test by adding asserts.** When a walk finds a rule worth holding, the rule goes into a test or a guard in the area that owns it, and the walk stays a walk.
