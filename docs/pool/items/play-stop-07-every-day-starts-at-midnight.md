@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-07-every-day-starts-at-midnight
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T08:41:36.888Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-07-every-day-starts-at-midnight
 ---
@@ -75,3 +75,5 @@ Released (2026-11-11): Not replayed a fifth time: the replays on PR 8324 agree, 
 Claimed by next for opus-1fd7 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:33 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
 
 Released (2026-11-11): Replayed four times on PR 8324; its one failing step is play-filing-visit-moves-the-clock (on pool/notes, not yet on main), so a fifth replay finds nothing new. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:41 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
