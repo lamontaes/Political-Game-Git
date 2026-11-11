@@ -8,6 +8,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Nov 11: every line goes through the English engine; work-list notes bundled; the repo slimmed (owner)
 
+- **Mergers may use the admin flag (owner, about 5:10 p.m.):** asked whether the Codex and Muse mergers may merge past GitHub's queued checks with the admin flag, as the CTO has: "let them - you just check on muse's merges specifically sportatically". A merger merges with `--admin` only after the full gate in `docs/pool/START-A-MERGER.md`, pinned to the sha it checked. The CTO spot-checks Muse's merges from time to time.
+
 - **Clothes as layers in colors, approved; formal and regular, tagged; officeholders in the suit (owner, about 8:28 a.m., decisions page call 13):** "I approve those clothes. Be sure there are formal clothes and regular clothes, and that they're tagged, etc. And make sure that, like, you know, we talked about it before, that like the president is wearing the suit in their, like, when you click their profile, and you know, in their bust. But yes, I approve."
   - Round 4 goes into the game (#8740): 28 layered pieces, front view. Men get a dress shirt, tie, suit jacket, sweater and chambray; women get a dress shirt, blazer, henley and cardigan. Each color is painted separately.
   - Every piece is tagged formal (dress shirt, tie, jacket, blazer) or regular (the whole tops).
