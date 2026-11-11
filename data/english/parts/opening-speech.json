@@ -15583,7 +15583,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.polished-ina-policy-core-the-oath-i-just-took-is-a-job-description",
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-the-oath-i-just-took-is-a-job-description-and",
       "move": "oath",
       "kind": "spoken",
       "text": "the oath I just took is a job description, and the first item on it is {hardest}.",
@@ -15609,7 +15609,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.polished-ina-policy-core-vice-president-vice-president-and-i-swore-to-faithfully",
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-vice-president-vice-president-and-i-swore-to-faithfully-execute",
       "move": "oath",
       "kind": "spoken",
       "text": "Vice President {vice-president} and I swore to faithfully execute the office, and that means plans, budgets and results, not slogans.",
@@ -15635,7 +15635,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.polished-ina-policy-core-this-oath-binds-me-to-the-work-and-i",
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-this-oath-binds-me-to-the-work-and-i-will",
       "move": "oath",
       "kind": "spoken",
       "text": "this oath binds me to the work, and I will measure myself by whether it gets done for people in {home-state} and everywhere else.",
@@ -15661,10 +15661,114 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.polished-ina-policy-core-i-take-this-oath-as-a-promise-to-build",
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-this-oath-is-to-every-state-home-state-first-among",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "this oath is to every state, {home-state} first among my teachers.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-i-took-this-oath-as-home-state-taught-me-meaning",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I took this oath as {home-state} taught me, meaning to keep it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-i-take-this-oath-as-a-promise-to-build-on",
       "move": "oath",
       "kind": "spoken",
       "text": "I take this oath as a promise to build on {best} and to fix what still falls short, one task at a time.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-this-oath-holds-me-to-best-and-the-work-ahead",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "this oath holds me to {best} and the work ahead.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-i-swore-this-oath-to-keep-best-going",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore this oath to keep {best} going.",
       "uses": [
         {
           "move": "oath",
@@ -16207,7 +16311,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.plain-ina-policy-core-that-oath-is-a-job-and-the-first-thing",
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-that-oath-is-a-job-and-the-first-thing-on",
       "move": "oath",
       "kind": "spoken",
       "text": "that oath is a job, and the first thing on the list is fixing {hardest}.",
@@ -16233,7 +16337,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.plain-ina-policy-core-vice-president-vice-president-and-i-swore-to-do",
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-vice-president-vice-president-and-i-swore-to-do-this",
       "move": "oath",
       "kind": "spoken",
       "text": "Vice President {vice-president} and I swore to do this job right, which means plans and results, not slogans.",
@@ -16259,7 +16363,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.plain-ina-policy-core-i-m-going-to-judge-myself-by-whether-the",
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-i-m-going-to-judge-myself-by-whether-the-work",
       "move": "oath",
       "kind": "spoken",
       "text": "I'm going to judge myself by whether the work gets done for folks in {home-state} and everywhere else.",
@@ -16285,10 +16389,114 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.plain-ina-policy-core-i-ll-build-on-best-and-fix-what-s",
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-i-swore-that-oath-the-way-we-do-things-in",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore that oath the way we do things in {home-state}: plain and meant.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-folks-in-home-state-keep-their-word-and-i-ll",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "folks in {home-state} keep their word, and I'll keep this one.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["home-state"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-i-ll-build-on-best-and-fix-what-s-still",
       "move": "oath",
       "kind": "spoken",
       "text": "I'll build on {best} and fix what's still broken, one job at a time.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-that-oath-means-i-don-t-let-best-slip-on",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "that oath means I don't let {best} slip on my watch.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath",
+          "requiresFacts": ["best"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-oath",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-i-swore-to-keep-best-going-and-i-mean-it",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I swore to keep {best} going, and I mean it.",
       "uses": [
         {
           "move": "oath",
@@ -44069,7 +44277,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.polished-ina-policy-core-this-oath-obliges-me-to-deliver-results-on-hardest",
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-this-oath-obliges-me-to-deliver-results-on-hardest-not",
       "move": "oath",
       "kind": "spoken",
       "text": "this oath obliges me to deliver results on {hardest}, not words.",
@@ -44094,7 +44302,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.polished-ina-policy-core-vice-president-vice-president-will-work-with-me-to",
+      "key": "opening-speech.oath.polished-ina-sta-policy-core-vice-president-vice-president-will-work-with-me-to-carry",
       "move": "oath",
       "kind": "spoken",
       "text": "Vice President {vice-president} will work with me to carry out this oath.",
@@ -44369,7 +44577,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.plain-ina-policy-core-that-oath-means-i-owe-you-results-on-hardest",
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-that-oath-means-i-owe-you-results-on-hardest-not",
       "move": "oath",
       "kind": "spoken",
       "text": "that oath means I owe you results on {hardest}, not talk.",
@@ -44394,7 +44602,7 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.oath.plain-ina-policy-core-vice-president-vice-president-will-work-with-me-to",
+      "key": "opening-speech.oath.plain-ina-sta-policy-core-vice-president-vice-president-will-work-with-me-to-get",
       "move": "oath",
       "kind": "spoken",
       "text": "Vice President {vice-president} will work with me to get the work done.",
