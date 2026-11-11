@@ -24,6 +24,7 @@ import { closenessBetween } from "../closeness";
 import { impressionOf } from "./campaigns";
 import { allCases, ownCaseDecision } from "./constituent-cases";
 import { keepsWhy } from "../why-kept";
+import { residentFacts } from "./residents";
 
 setBookkeeping(false);
 const base = process.env.COUNTED_CASES_SEED ?? randomBytes(8).toString("hex");
@@ -91,8 +92,12 @@ it(`counted residents' cases stay counted and are decided by one rule, ${PLACES}
       expect(row.standing, `${where}: ${row.id} standing`).toBe(0);
     }
     // The same case for a filled-in copy of the resident: the same decision
-    // and the same reason, and the fill-in carries what the case kept.
-    for (const row of decided.slice(0, 5)) {
+    // and the same reason, and the fill-in carries what the case kept. Only
+    // a resident still in the town's counts can be filled in; one who has
+    // since moved away or died is no longer there to meet.
+    for (const row of decided
+      .filter((c) => residentFacts(core, c.personId as never))
+      .slice(0, 5)) {
       const before = ownCaseDecision(api, row.officialId, row);
       const person = fillInPerson(core, row.personId as never);
       const after = ownCaseDecision(api, row.officialId, row);
