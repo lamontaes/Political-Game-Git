@@ -3,4 +3,4 @@ id: core-entry-records-name-no-cause
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A business's entry record names the founding that put it in the world, so dev mode's Trace opens to it; no player-facing change.

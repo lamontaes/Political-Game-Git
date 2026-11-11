@@ -8,6 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { BUSINESS_MODULE_ID } from "../business-module-id";
+import { noteEntryCause } from "../state";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
@@ -2102,6 +2103,12 @@ function found(
   if (scale <= 0 || (fullStaff > 0 && scale < Math.min(1, 1 / fullStaff)))
     return false;
   const share = equal * scale;
+  // The entry record names the founding it is the entry of.
+  noteEntryCause(
+    api.state as CoreState,
+    id,
+    `event:organization.founded:${id}`,
+  );
   api.addOrganization({
     id,
     placeId: market.placeId,
