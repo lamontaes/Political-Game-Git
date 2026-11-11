@@ -5500,6 +5500,59 @@
       }
     },
     {
+      "key": "town-hall-attendee",
+      "note": "A local official held a town hall and the player was in the room (the meetings engine's town-hall record lists the host first, then the attendees): someone the player knows who was there too asks them something. Whether to stand up and ask about the question the room took, whether the host's answer meant anything, whether the player will speak, whether to go to the next one. The issue, the bill the hall was called for, whether the host answered it and whether the neighbor or the player stood up are said only when the record gives them. What the player agrees to or promises is kept on the reply record (a promise); a no that is pressed strains the tie.",
+      "purpose": "town-hall-neighbor",
+      "asker": "neighbor",
+      "asked": "you",
+      "stakes": ["issue", "answer", "town"],
+      "roles": [
+        {
+          "key": "neighbor",
+          "fill": "town-hall-neighbors",
+          "count": "one",
+          "moves": ["request", "answer", "accept", "thank", "press"],
+          "wants": ["engage", "change"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:town-hall",
+            "causeFacts": [
+              {
+                "key": "hostId",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "town-hall",
+          "bind": {
+            "neighbor": "town-hall-neighbors",
+            "you": "subject"
+          },
+          "opener": "neighbor"
+        }
+      ],
+      "tag": {
+        "key": "routine",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "rally-word",
       "note": "A rally in the town forms because the term reads well in an area, and the town's own officials are at its edge: someone in it asks the official to say a few words (the public-action engine's civic record names the area and the people in it). It has no demand, so nothing is pressed; the official can speak, thank them, promise to keep it up or let the crowd have the day.",
       "purpose": "rally-word",

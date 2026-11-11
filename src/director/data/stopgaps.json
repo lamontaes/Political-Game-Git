@@ -1007,5 +1007,29 @@
     "addedAt": "2026-11-10",
     "replacement": "The constituent-cases engine (src/core2/modules/constituent-cases.ts, problemOf) opens a case from a served rent notice (problem behind-on-rent) and from a care need in the household (problem caring-for-someone-ill); the two variants then play from those cases with no change here.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-town-hall-attendee-unrecorded",
+    "kind": "missing-data",
+    "file": "data/english/parts/scene-talk.json",
+    "line": 1,
+    "whatItFakes": "A neighbor beside the player at another official's town hall asks whether to stand up, whether the answer meant anything, whether the player will speak or go to the next one; the offer to back the player up and the plan to go again are worded for every such hall. That the hall took a question, its host, the bill it was called for, whether the host answered it and whether the neighbor stood up are from the town-hall record and the meetings engine's row.",
+    "why": "The meetings engine keeps who asked what and what the host answered, but no plan to attend a next hall and no tie between neighbors who sat together.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-10",
+    "replacement": "A people-engine plan to attend a coming town hall, and the room's seating or the ties among those present, so the neighbor is one who came with the player.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-town-hall-attendee-promise-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "What the player agrees to or promises in the crowd (to ask about the issue, to speak, to come to the next hall) is written on the reply record as a promise; no engine brings them to the next town hall or has them speak at it, beyond the contact hours every reply writes.",
+    "why": "No hook reads a scene.reply of typeKey town-hall-attendee for the player's attendance or speech.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-10",
+    "replacement": "A people-engine plan that reads a kept promise on this type and sends the player to the next hall the host holds.",
+    "status": "open"
   }
 ]

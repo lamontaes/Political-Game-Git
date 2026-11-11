@@ -109,7 +109,8 @@
     "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
     "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
     "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
-    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record."
+    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
+    "host": "The official who held the town hall, by name, from the town-hall record."
   },
   "maxWords": 70,
   "parts": [
@@ -4645,6 +4646,14 @@
           "step": "reply",
           "move": "agree",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
         }
       ],
       "bearing": "glad",
@@ -5101,6 +5110,14 @@
           "role": "asked",
           "purpose": "*",
           "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
         }
       ],
       "bearing": "guarded",
@@ -195975,6 +195992,974 @@
       "tag": {
         "move": "accept",
         "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.host-held-a-town-hall-and-name-was-there-too",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{host} held a town hall, and {name} was there too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.host-held-a-town-hall-that-took-questions-on-issue-name-was-there-too",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{host} held a town hall that took questions on {issue}. {name} was there too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.host-held-a-town-hall-on-bill-and-name-was-there-too",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{host} held a town hall on {bill}, and {name} was there too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stood-up-with-a-question-at-host-s-town-hall",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stood up with a question at {host}'s town hall.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "neighbor-asked"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.host-gave-no-answer-on-issue-and-name-was-there-to-hear-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{host} gave no answer on {issue}, and {name} was there to hear it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "issue", "host-declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-you-came-too",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, you came too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-you-re-here-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad you're here, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.funny-to-see-you-at-one-of-these-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Funny to see you at one of these, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-wasn-t-sure-anyone-i-knew-in-place-would-come",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I wasn't sure anyone I knew in {place} would come.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": []
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.are-you-going-to-stand-up-and-ask-about-issue",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Are you going to stand up and ask about {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-ask-about-issue-first-i-ll-back-you-up",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you ask about {issue}, {first}? I'll back you up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.are-you-going-to-speak-about-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Are you going to speak about {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.are-you-going-to-say-something-first-or-just-listen",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Are you going to say something, {first}, or just listen?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-speak-first-i-can-t-decide-whether-i-should",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you speak, {first}? I can't decide whether I should.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.did-that-answer-on-issue-mean-anything-or-was-it-only-words",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Did that answer on {issue} mean anything, or was it only words?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["issue", "host-answered"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.host-gave-no-answer-on-issue-should-we-press",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{host} gave no answer on {issue}. Should we press?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "issue", "host-declined"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-asked-my-question-first-do-you-think-it-landed",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I asked my question, {first}. Do you think it landed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["neighbor-asked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-come-to-the-next-one-first-i-ll-go-if-you-do",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you come to the next one, {first}? I'll go if you do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-ask",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'll ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-let-s",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, let's.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-speak-if-nobody-else-from-place-does",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll speak if nobody else from {place} does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-be-at-the-next-one-in-place",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll be at the next one in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": []
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-your-question",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's your question?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-you-make-of-host-s-answer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did you make of {host}'s answer?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host-answered", "host"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-just-listen",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll just listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "decline",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-then-place-hears-from-both-of-us",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Then {place} hears from both of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-settles-it-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That settles it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-first-listening-counts-too",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair, {first}. Listening counts too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-do-the-talking-first",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll do the talking, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.think-it-over-before-the-night-s-out-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think it over before the night's out, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.even-one-question-would-help-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Even one question would help, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.host-said-plenty-and-promised-nothing-i-d-ask-for-a-date",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{host} said plenty and promised nothing. I'd ask for a date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "host-answered"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.host-wouldn-t-answer-it-i-d-ask-again-louder",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{host} wouldn't answer it. I'd ask again, louder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "host-declined"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-ask-host-straight-out-what-they-ll-do-about-it-and-when",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd ask {host} straight out what they'll do about it, and when.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host", "issue"],
+          "excludesFacts": ["host-answered", "host-declined"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-ask-host-what-they-mean-to-do-before-the-next-one",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd ask {host} what they mean to do before the next one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine",
+          "requiresFacts": ["host"],
+          "excludesFacts": ["issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-we-talked-it-through-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad we talked it through, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-save-you-a-seat-at-the-next-one-in-place",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll save you a seat at the next one in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-see-you-around-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll see you around, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-again-before-the-next-one-first-if-that-s-okay",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask again before the next one, {first}, if that's okay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, town hall attendee purpose)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "routine"
       }
     },
     {
