@@ -45,6 +45,8 @@ const { core } = world;
 const api = coreAPI(core);
 advanceCore(core, addDays(makeIsoDate(core.date), 365));
 const where = `${place.name} (${place.key}), seed ${seed}`;
+/** Weeks the world goes on, at most, until a race is open for filing. */
+const MOST_WEEKS = 78;
 
 const momentFor = (personId: string, causeId: string): Moment =>
   ({
@@ -159,8 +161,19 @@ describe(`civic role fills in ${where}`, () => {
   });
 
   it("fills the clerk with the person the filing office's records name", () => {
+    // A race is open for filing only in its window: the world goes on a week at a time,
+    // bounded, until one is open (the drawn place may have none on the day this test starts).
+    for (
+      let week = 0;
+      week < MOST_WEEKS && !openContests(api).length;
+      week += 1
+    )
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
     const contests = openContests(api);
-    expect(contests.length, where).toBeGreaterThan(0);
+    expect(
+      contests.length,
+      `${where}: no race opened for filing in ${MOST_WEEKS} weeks, to ${core.date}`,
+    ).toBeGreaterThan(0);
     // The person the moment is about is never their own clerk, so take one who holds no clerk's desk.
     const subject = [...core.people.keys()].find(
       (id) => !contests.some((c) => filingClerkFor(api, c.id)?.personId === id),
