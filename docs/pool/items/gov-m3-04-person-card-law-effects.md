@@ -6,8 +6,8 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-m3-04-person-card-law-effects
 pr:
 blocked-on:
 standard: 2
@@ -17,7 +17,7 @@ root: rc10-screens-keep-own-facts
 source: governing lead Oct 29
 after:
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:23:04.536Z
 branch: claude/pool-gov-m3-04-person-card-law-effects
 ---
 
@@ -44,3 +44,5 @@ Released (2026-11-11): Needs worded lines: personCard's lawEffects (card.ts line
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:20 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.
 
 Released (2026-11-11): Not built: the plumbing is small (add lawEffects from reachOn to knownCard in src/bench/card.ts ~1019, as personCard does at 194, with endedOn kept so a repeal ends it), but the item wants it worded and today personCard returns raw keys (question: row.key, what: row.what, e.g. raised-to-pay-floor). Words for each reach what key and each series (controls.politics.seriesNames covers series only) are the Words line's, so a builder would be inventing hand-written player text; needs the Words session to name the worded form first. The test (a town law reaching a named resident, then repealed) is buildable beside it. Continue on branch claude/pool-gov-m3-04-person-card-law-effects.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:23 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.
