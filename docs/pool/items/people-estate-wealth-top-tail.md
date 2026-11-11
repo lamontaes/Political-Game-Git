@@ -5,8 +5,8 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-people-estate-wealth-top-tail
+status: open
+claimed-by:
 pr: #8698
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 lead: laws
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:21:31.771Z
+claimed-at:
 branch: claude/pool-people-estate-wealth-top-tail
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-people-estate-wealth-top-tail
 **Notes.** Filed by the laws lead, Oct 25, from the taxes helper's report. `core-opening-resident-cash` (done) gave residents opening cash; this is the top of the distribution.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:21 UTC) on branch claude/pool-people-estate-wealth-top-tail.
+
+Released (2026-11-11): The Fix has no place in the code to hold non-cash wealth; findings and SCF research on PR 8698. Continue on branch claude/pool-people-estate-wealth-top-tail and pull request #8698.
