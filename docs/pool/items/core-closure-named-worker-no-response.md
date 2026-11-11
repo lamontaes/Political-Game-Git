@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-closure-named-worker-no-response
-pr:
+pr: #8518
 after:
 blocked-on:
 source: CTO, from the golden-path-year failure on PR 7909, Nov 9, 2026

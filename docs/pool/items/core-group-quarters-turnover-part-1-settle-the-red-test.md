@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-group-quarters-turnover-part-1-settle-the-red-test
-pr:
+pr: #8547
 after:
 blocked-on:
 lead: speed
