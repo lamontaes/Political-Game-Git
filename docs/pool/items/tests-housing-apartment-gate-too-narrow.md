@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-housing-apartment-gate-too-narrow
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:06:13.366Z
 branch: claude/pool-tests-housing-apartment-gate-too-narrow
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-tests-housing-apartment-gate-too-narrow
 **Notes.** From the laws lead's housing and credit helper, Oct 24.
 
 Released (2026-11-11): Measured, not changed: of 174 draws of 1,500 people or more (drawPlace 'gate:0..399', DAYS 700), the two-building gate passes 33 distinct places and a one-building gate 51, so the gate is not what limits it to Washington, D.C.; lowering it to one building was tried but law-wiring-housing.test.ts did not finish in 50 minutes at 7 GB (timeout 3000 s), so the lowered gate is unproven and nothing was pushed. Needs a machine that can play the 700-day cases, or the test split per case. Continue on branch claude/pool-tests-housing-apartment-gate-too-narrow.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-tests-housing-apartment-gate-too-narrow.
