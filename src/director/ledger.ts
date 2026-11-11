@@ -223,6 +223,17 @@ export function createDirector(
     watch: readonly PersonId[];
     data?: DirectorData;
     storyWords?: StoryWords;
+    /**
+     * Whether a purpose scene's talk can be worded from the records given
+     * (the bench passes the purpose scene's own composer; the ledger cannot
+     * import it without a load-order cycle). A stop opens only when it can.
+     */
+    wordsPurpose?: (
+      core: Readonly<CoreState>,
+      director: Director,
+      personId: PersonId,
+      entry: ScheduleEntry,
+    ) => boolean;
   } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
@@ -1708,7 +1719,11 @@ export function createDirector(
         return (
           !!askerId &&
           core.people.has(askerId) &&
-          core.people.has(cast(row, type.asked) ?? personId)
+          core.people.has(cast(row, type.asked) ?? personId) &&
+          // and the talk can be worded from the records given: a purpose
+          // scene the bank cannot word opens on an empty talk (a constituent
+          // stop on a state law, Campanilla, Puerto Rico, Feb 4).
+          (options.wordsPurpose?.(core, self, personId, entry) ?? true)
         );
       }
       return (
@@ -2128,7 +2143,7 @@ export function createDirector(
     },
   };
 
-  return {
+  const self: Director = {
     module,
     ledger,
     ...(options.storyWords ? { storyWords: options.storyWords } : {}),
@@ -2259,6 +2274,7 @@ export function createDirector(
       return book && thread ? fadingOf(thread, book, date) : one;
     },
   };
+  return self;
 }
 
 /** Whether the person has a moment of this kind within the last `days` days. */
