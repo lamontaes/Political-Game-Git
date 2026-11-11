@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-scene-web-meeting-people-and-places
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T00:02:03.632Z
 after:
 standard: 2
 model: sonnet
@@ -55,3 +55,5 @@ Released (2026-11-10): words item: needs lines under data/english/parts, which o
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:57 UTC) on branch claude/pool-words-scene-web-meeting-people-and-places.
 
 Released (2026-11-10): Nothing a builder can build: replay already recorded on the PR, or its lines are under data/english/parts (Story only); released so the claim is not held. Continue on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:02 UTC) on branch claude/pool-words-scene-web-meeting-people-and-places.
