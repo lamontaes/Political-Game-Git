@@ -1,6 +1,8 @@
 ---
 id: laws-federal-repeal-cannot-remove-a-value-that-was-not-there
-impact: none
+impact: patch
+section: Fixed
+title: Repealing a law returns the body to exactly the law it had before, including none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Repealing an amount law (a tax rate, a wage floor, a limit) now ends the law the body passed instead of writing a zero in its place, so a level that had no law of its own before is silent again and the next level's law governs as it did, and a level that had one is back to that same law.
