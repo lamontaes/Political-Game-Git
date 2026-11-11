@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, setTimeout */
 // The bill screens (owner, Oct 29: "the layout of all those bill screens needs to be adjusted"):
 // a member of a body drafts a law amount on the draft card, which shows what is in force today
 // beside the new amount, and reads the bill, whose estimate shows today's amount beside the new one.
@@ -88,23 +88,25 @@ try {
     .click();
   // Your office is one board: the draft card is on it, with no tab to open first.
   await page.locator(".office-board").waitFor();
-  await page.locator(".draft-card select").waitFor();
+  // Writing a bill opens from the board: a list of subjects beside the chosen one's page.
+  await page.locator('.office-board [data-act="write-a-bill"]').first().click();
+  await page.locator(".draft-card .pick").first().waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card.png` });
-  const chosen = await page.evaluate(() => {
-    const select = document.querySelector(".draft-card select");
-    const allowed = [...select.options].filter(
+  const chosen = await page.evaluate(async () => {
+    const rows = [...document.querySelectorAll(".draft-card .pick")];
+    const allowed = rows.filter(
       (o) =>
-        o.value.startsWith("series:") &&
+        o.dataset.value.startsWith("series:") &&
         !/Not a power|preempts|levy no|restricts/i.test(o.textContent),
     );
     // The sales tax where the body may draft it (the case the merger found), else the first.
     const option =
       allowed.find((o) => /Sales tax rate/i.test(o.textContent)) ?? allowed[0];
     if (!option) return null;
-    select.value = option.value;
-    select.dispatchEvent(new Event("change", { bubbles: true }));
+    option.click();
+    await new Promise((done) => setTimeout(done, 100));
     return {
-      issue: option.textContent,
+      issue: option.querySelector("b").textContent,
       today: document.querySelector(".draft-today").textContent,
       unit: document.querySelector(".draft-unit").textContent,
     };
