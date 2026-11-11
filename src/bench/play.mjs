@@ -2695,9 +2695,10 @@ function billEstimate(paper, section) {
 /**
  * Another state's change opened (play-states-screen-opens-any-state): who voted
  * yes and no in each chamber and its sponsor, from the roll call kept the day
- * it passed; `back` returns to the screen it was opened from.
+ * it passed. It closes like every menu, by its tabs and close control (owner,
+ * Oct 29: no Back in any menu).
  */
-async function showRollCall(lawId, back, backLabel) {
+async function showRollCall(lawId) {
   const call = await api(
     `/api/state/roll-call?${new URLSearchParams({ lawId })}`,
   );
@@ -2709,13 +2710,7 @@ async function showRollCall(lawId, back, backLabel) {
       (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
       text ?? "",
     );
-  const backButton = makeButton({
-    className: "action",
-    textContent: backLabel ?? labels.backToGovernment ?? "",
-    onclick: back,
-  });
   $("sheet-body").replaceChildren(
-    backButton,
     rosterTitle(
       policyLabel(call.series),
       [call.repealed ? labels.repealed : labels.passed, dateWords(call.date)]
@@ -3920,12 +3915,7 @@ const sheets = {
             ? makeButton({
                 className: "action",
                 textContent: controls.politics.rollCallOpen ?? "",
-                onclick: () =>
-                  showRollCall(
-                    story.id,
-                    () => openSheet("news"),
-                    controls.politics.backToNews,
-                  ),
+                onclick: () => showRollCall(story.id),
               })
             : null,
       }),
@@ -4636,8 +4626,7 @@ const sheets = {
                 // Another state's change: its roll call (play-states-screen-opens-any-state).
                 ...(v.rollCall
                   ? {
-                      onOpen: () =>
-                        showRollCall(v.lawId, () => openSheet("government")),
+                      onOpen: () => showRollCall(v.lawId),
                     }
                   : {}),
                 ...(v.openable

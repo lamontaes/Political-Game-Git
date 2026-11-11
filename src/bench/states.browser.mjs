@@ -94,10 +94,12 @@ try {
     assert.deepEqual(got, want, `${name}: the roll call adds up to its row`);
     const first = await page.locator("#sheet-body").innerText();
     if (opened === 0) await shot("roll-call");
-    // Back to the government (the same state), and opened again: the same names.
+    // The Government tab (it keeps the same state; no menu has a Back), and
+    // opened again: the same names.
     const backToGovernment = async () => {
       await page
-        .getByRole("button", { name: "Back to the government" })
+        .locator("#sheet-tabs")
+        .getByRole("button", { name: "Government", exact: true })
         .click();
       await page.locator(".vote-rows .pick").first().waitFor();
       await page.waitForTimeout(800);
