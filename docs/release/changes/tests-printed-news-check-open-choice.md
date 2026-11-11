@@ -3,4 +3,4 @@ id: tests-printed-news-check-open-choice
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A browser check settles every stop its calendar jump returns and reads the current news screen; no player-facing change.
