@@ -199165,10 +199165,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.first-i-m-the-one-who-sent-the-money-check",
+      "key": "scene-talk.open-greet.first-i-m-one-of-the-people-who-gave-to-your-campaign",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "{first}, I'm the one who sent the {money} check.",
+      "text": "{first}, I'm one of the people who gave to your campaign.",
       "uses": [
         {
           "subject": "scene",
@@ -199195,10 +199195,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-gave-money-to-your-campaign-so-i-figured-i-d-say-hello",
+      "key": "scene-talk.open-greet.it-s-name-i-gave-to-your-race",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I gave {money} to your campaign, so I figured I'd say hello.",
+      "text": "It's {name}. I gave to your race.",
       "uses": [
         {
           "subject": "scene",
@@ -199225,10 +199225,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.you-probably-saw-my-name-next-to-a-money-donation",
+      "key": "scene-talk.open-greet.i-wrote-your-campaign-a-check-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "You probably saw my name next to a {money} donation.",
+      "text": "I wrote your campaign a check, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -199255,10 +199255,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-m-one-of-your-donors-money-if-you-re-keeping-track",
+      "key": "scene-talk.open-greet.first-i-m-one-of-your-donors-can-i-walk-with-you",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'm one of your donors. {money}, if you're keeping track.",
+      "text": "{first}, I'm one of your donors. Can I walk with you?",
       "uses": [
         {
           "subject": "scene",
@@ -199285,10 +199285,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.it-s-name-i-put-money-into-your-race",
+      "key": "scene-talk.open-greet.you-probably-saw-name-on-your-list-of-donors-that-s-me",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "It's {name}. I put {money} into your race.",
+      "text": "You probably saw {name} on your list of donors. That's me.",
       "uses": [
         {
           "subject": "scene",
@@ -199315,70 +199315,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-wrote-your-campaign-a-check-for-money",
+      "key": "scene-talk.open-greet.first-i-sent-your-campaign-a-check-and-i-d-like-five-minutes-for-it",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I wrote your campaign a check for {money}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["gift"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-open-gift",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-sent-your-campaign-money-and-i-d-like-five-minutes-for-it",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I sent your campaign {money}, and I'd like five minutes for it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["gift"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-open-gift",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.first-i-gave-money-to-your-race-can-i-walk-with-you",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "{first}, I gave {money} to your race. Can I walk with you?",
+      "text": "{first}, I sent your campaign a check, and I'd like five minutes for it.",
       "uses": [
         {
           "subject": "scene",

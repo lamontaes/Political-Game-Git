@@ -339,7 +339,7 @@ it(`a donor's ask plays the variant its records give (seed ${seed})`, () => {
 // clinic and wants the bill passed, one who works at a mill and wants it
 // stopped. The request is joined from the bank's pieces through the English
 // engine; each names the bill, the question and the donor's own workplace,
-// and a large and a small gift are each named as given in the opening.
+// and a large and a small gift are each named as given when the narrator sets the scene.
 it(`two donors on opposite sides of one bill give their own reasons (seed ${seed})`, () => {
   const fact = (text: string, id: string) => ({ text, sourceRecordIds: [id] });
   const base = {
@@ -413,8 +413,23 @@ it(`two donors on opposite sides of one bill give their own reasons (seed ${seed
       money: fact(amount, `gift:${amount}`),
       gift: fact(amount, `gift:${amount}`),
     };
-    const opening = word("open", "greet", facts, `gift:${amount}`);
-    process.stdout.write(`DONOR OPENS: "${opening}"\n`);
-    expect(opening).toContain(amount);
+    const setup = wordSceneMove({
+      move: {
+        step: "narrate",
+        move: "narrate",
+        role: "narrator",
+        purpose: "donor-ask",
+        key: "favor-asked",
+      },
+      facts,
+      seed,
+      speakerId: "narrator",
+      traits: {},
+      momentKey: `gift:${amount}`,
+      said: new Set(),
+    });
+    const told = setup && "text" in setup ? setup.text : "";
+    process.stdout.write(`DONOR GIFT TOLD: "${told}"\n`);
+    expect(told).toContain(amount);
   }
 });
