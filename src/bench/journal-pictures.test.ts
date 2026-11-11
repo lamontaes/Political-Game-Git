@@ -7,10 +7,10 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { composeJournal } from "../director/journal";
 import { chapterPicture } from "./journal-pictures";
-import { buildBenchWorld } from "./world";
 
 it("a chapter's picture comes from a record that is an organization, never from nothing", () => {
   const run = randomBytes(16).toString("hex");
