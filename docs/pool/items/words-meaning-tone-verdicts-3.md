@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/words-meaning-tone-verdicts-3
-pr:
+pr: 8437
 after: words-meaning-tone-verdicts-2
 blocked-on:
 lead: words
