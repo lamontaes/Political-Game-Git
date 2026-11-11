@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-timeline-still-drawn-on-your-life-and-the-person-card
-pr: #8115
+pr: #8486
 after:
 blocked-on:
 lead: screens
