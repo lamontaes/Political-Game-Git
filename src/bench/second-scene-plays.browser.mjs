@@ -20,13 +20,20 @@ page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const typesAsked = [];
+/** The asker's name for each staged scene type, read off the server's own story. */
+const askerOf = new Map();
 const typesOpened = [];
+let momentId = "";
 page.on("response", async (r) => {
   const url = new URL(r.url());
   if (url.pathname !== "/api/story" || r.request().method() !== "GET") return;
+  momentId ||= url.searchParams.get("momentId") ?? "";
   try {
     const story = await r.json();
-    if (story.talk?.typeKey) typesAsked.push(story.talk.typeKey);
+    if (story.talk?.typeKey) {
+      typesAsked.push(story.talk.typeKey);
+      askerOf.set(story.talk.typeKey, story.names?.[story.talk.askerId] ?? "");
+    }
   } catch {
     // Not a story body.
   }
@@ -151,6 +158,19 @@ try {
     await page.waitForTimeout(500);
   }
   await shot("after-filing");
+  // The moment still holds a scene the page never asked for: it was dropped, not played.
+  if (momentId) {
+    const left = await (
+      await page.request.get(
+        `${base}/api/story?momentId=${encodeURIComponent(momentId)}`,
+      )
+    ).json();
+    const leftAsker = left.talk ? (left.names?.[left.talk.askerId] ?? "") : "";
+    assert.ok(
+      !left.talk || (leftAsker && typesOpened.includes(leftAsker)),
+      `the moment still holds the scene ${left.talk?.typeKey} with ${leftAsker}, never opened by the page (talks seen: ${typesOpened.join(", ")})`,
+    );
+  }
   const staged = [...new Set(typesAsked)];
   console.log("scene types the server staged:", staged.join(", ") || "none");
   if (staged.length < 2) {
@@ -158,14 +178,14 @@ try {
       "NOTE the moment staged one scene type after this filing; there is no second scene to drop in this draw",
     );
   } else {
-    // Every staged type was opened: asking the server for the type only counts once the page shows it.
-    assert.ok(
-      (await page
-        .locator("#talk")
-        .isVisible()
-        .catch(() => false)) === false || staged.length >= 2,
-      "the second scene is shown",
-    );
+    // Every staged scene opened: its asker was in the talk at some point.
+    for (const type of staged) {
+      const asker = askerOf.get(type);
+      assert.ok(
+        asker && typesOpened.includes(asker),
+        `the scene ${type} (with ${asker}) never opened; talks seen: ${typesOpened.join(", ")}`,
+      );
+    }
   }
   assert.deepEqual(errors, [], "page errors");
   console.log("PASS the page ended every scene it played");
