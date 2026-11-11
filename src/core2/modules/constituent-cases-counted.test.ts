@@ -43,25 +43,31 @@ it(`counted residents' cases stay counted and are decided by one rule, ${PLACES}
       placeKey: place.key,
     });
     const api = coreAPI(core);
-    // Who fills people in, read from the call that did it.
-    const fromCases: string[] = [];
+    // Who fills people in, read from the call that did it: each fill-in
+    // brings a whole household, on its day.
+    const fromCases: { date: string; ids: readonly string[] }[] = [];
     registerModule(core, {
       id: "test-fill-in-callers",
       onFillIn: (_api: unknown, filled: { memberIds: readonly string[] }) => {
         if (/\bbringCases?\b/.test(new Error().stack ?? ""))
-          fromCases.push(...filled.memberIds);
+          fromCases.push({ date: core.date, ids: filled.memberIds });
       },
     } as never);
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    // A case fills in only a resident whose official the player deals with.
-    const filledByCase = allCases(api).filter((row) =>
-      fromCases.includes(row.personId),
-    );
-    for (const row of filledByCase)
+    // A case fills in only a household one of whose members brought that
+    // day's case to an official the player deals with. (Another member may
+    // have brought their own case elsewhere earlier; the household comes in
+    // whole, so that member is filled in by this case, not theirs.)
+    const filledByCase = fromCases.map((fill) => {
+      const brought = allCases(api).filter(
+        (row) => row.opened === fill.date && fill.ids.includes(row.personId),
+      );
       expect(
-        keepsWhy(core, row.officialId),
-        `${where}: ${row.personId} filled in by ${row.id}`,
+        brought.some((row) => keepsWhy(core, row.officialId)),
+        `${where}: household ${fill.ids.join(", ")} filled in on ${fill.date} by ${brought.map((row) => `${row.id} to ${row.officialId}`).join(", ") || "no case of theirs"}`,
       ).toBe(true);
+      return fill;
+    });
     const counted = allCases(api).filter(
       (row) => !core.people.has(row.personId),
     );
