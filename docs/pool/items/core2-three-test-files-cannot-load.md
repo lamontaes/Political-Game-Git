@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core2-three-test-files-cannot-load
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T03:16:25.583Z
 ---
 
 **What.** The new tests:load sweep (tests-every-test-file-loads) found three test files on main that throw while loading, so every check inside them has stopped running. Each throws a 'before initialization' error caused by two engines importing each other and the test entering them by the wrong door. They were found by the sweep, not by any gate, and must be fixed at the root, never skipped.
