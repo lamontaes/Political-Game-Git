@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr: #5588
+status: in-pr
+claimed-by: claude/pool-gov-city-budget-unvoted-where-council-is-state-body
+pr: #8733
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:37:21.629Z
 after:
 lead: governing
 standard: 2
@@ -18,6 +18,7 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
+branch: claude/pool-gov-city-budget-unvoted-where-council-is-state-body
 ---
 
 **What.** Where a place's city and state government are one body, the city budget now goes to a vote, but nobody proposes a change to it. Re-run Nov 11 on main 3902fe68c5 at place 1150000 (world seed f73674b020840528c35ee69e493ace9ce2b5ece15f39c2162b48622e3256ae64) for 400 days: `budget:place:1150000:2025` was adopted by the Council of the District of Columbia, 13 to 0, on bill HB 22, with no line changed; its administration line stayed at 175517604864. The state-level budget `budget:US-DC:2025` passed the same way. In the town's own budget, the executive's proposal is what moves lines. Make the executive over the body that votes a budget propose its changes wherever that body sits. Seen: Politics, Budgets, where the adopted budget shows the mayor's proposed changes and the council's vote on them.
@@ -47,3 +48,5 @@ Merger 0, Oct 26: Sent back again from PR #5588 (branch claude/budget-line-reach
 Sent back 2026-10-26 13:07 UTC from PR #5588, corrective ee124896abf09900b23550eb5f8c280d58206940 (branch claude/budget-line-reaches-pay): merging current main f5e368528a conflicts in src/core2/budget-line-schools-staffing.test.ts, src/core2/law-reach/group-a-staffing.ts and src/core2/modules/legislature.ts. The normal merge was aborted without code resolution or push. Complete Cornlea input is acknowledged but conditional raise acceptance is not yet locally reviewed; preserve original Cornlea, Breda and D.C. inputs, main shared-tier staffing/strengthened tests and current legislature paths. No completed gate claimed. Finish on that branch, merge main into it first.
 
 Nov 11 (cause finder for Fable B): re-ran place 1150000 at the world seed above on main 3902fe68c5 for 400 days. The city budget is now voted (13 to 0, HB 22), so the old symptom is gone. But the bill changes no line, because `executivePriorities` matches the executive by level and D.C.'s mayor is seated at the state level, so neither D.C. government finds one. The fix reads the executive from the voting body, as the session engine does.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:37 UTC) on branch claude/pool-gov-city-budget-unvoted-where-council-is-state-body.

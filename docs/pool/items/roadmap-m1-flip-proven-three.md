@@ -5,19 +5,20 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-roadmap-m1-flip-proven-three
 pr: #5875
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:31:57.349Z
 after:
 lead: m0-m2
 model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+branch: claude/pool-roadmap-m1-flip-proven-three
 ---
 
 **What.** M1-01 (laws in force) already reads passes true in docs/roadmap/features.json, so only M1-02 (the national economy and central bank) is left. Its check now draws past a town with no bank, and it passed on Nov 10 in one place. Run it in two more drawn places on main and flip M1-02 to passes true with the runs named. Seen: a rate decision changes what a loan costs in the town, read on the bank's business line in dev mode.
@@ -53,3 +54,5 @@ Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md):
 **Notes (Fable, Nov 10, rerun).** The reason for the empty result is already written in the check's own header: Swanton, Nebraska has no bank, and the check now draws further places until a town has a bank line open at a rate change. Run on Nov 10 with `GOLDEN_PATH_SEED=m102fable1 GOLDEN_PATH_PLACE_KEY=3148060 node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts` on the branch of pull request 8246 (main itself could not load the command that hour): it passed, with 9 rate changes, 1 bank line in the town and 8 repricings on the day of a decision. What is left is this item's own finish line: a second session runs it in two more drawn places and the flag is flipped with the runs named. No cause is left to find.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): confirmed Fable's Nov 10 note against the check's code on main. The empty Swanton result is the check's own documented case, and the check already draws further places. Only the finish line is left, so the item is rewritten for a Sonnet run of three places and the flag flip.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:31 UTC) on branch claude/pool-roadmap-m1-flip-proven-three.

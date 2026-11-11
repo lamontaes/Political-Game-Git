@@ -1,27 +1,31 @@
 {
-  "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records), counted on Nov 11, 2026 when the owner ruled that every line goes through the engine. tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none.",
-  "total": 7887,
+  "about": "For each bank under data/english/parts, how many of its lines carry no insert (a slot in braces the English engine fills from the world's records) and are not excused by the owner's ruling of Nov 11, 2026 (call 12: \"Replies of one to three words and action names stay; everything else is rewritten.\"; a piece the engine joins counts as composed when the sentence it makes carries an insert). tests/guards/english/line-inserts.test.ts holds each count: it may only go down, and a bank not named here may hold none.",
+  "total": 6933,
+  "excusedOnNov11": {
+    "short": 562,
+    "action-name": 43
+  },
   "banks": {
-    "address": 1,
+    "address": 0,
     "bill-paper": 0,
-    "bring-it-up": 18,
-    "calendar": 13,
+    "bring-it-up": 9,
+    "calendar": 1,
     "campaign-standing": 10,
-    "choice-names": 43,
-    "conversation": 591,
+    "choice-names": 0,
+    "conversation": 363,
     "headlines": 2,
-    "hearing": 3,
-    "journal": 81,
+    "hearing": 1,
+    "journal": 51,
     "legislation": 0,
     "minutes": 0,
     "news": 29,
-    "newscast": 51,
+    "newscast": 23,
     "notice": 0,
-    "opening-speech": 619,
-    "person-history": 9,
+    "opening-speech": 265,
+    "person-history": 7,
     "person-sketch": 63,
-    "scene-talk": 6256,
-    "scene-words": 87,
-    "speech-stages": 11
+    "scene-talk": 6015,
+    "scene-words": 84,
+    "speech-stages": 10
   }
 }
