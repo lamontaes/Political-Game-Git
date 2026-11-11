@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-speed-journal-unposted-fund-changes
-pr:
+pr: #8433
 after:
 blocked-on:
 model: sonnet
