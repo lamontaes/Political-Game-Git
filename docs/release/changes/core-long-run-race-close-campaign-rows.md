@@ -3,4 +3,4 @@ id: core-long-run-race-close-campaign-rows
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A decided race's gifts, endorsements, polls and stepped-up rows are dropped when it closes (unless the player filed in it), so a long save holds fewer campaign rows.
