@@ -22,3 +22,9 @@ it("no policy name in the bill catalog holds a lower-case letter followed direct
   expect(all.length, "the catalog holds names").toBeGreaterThan(50);
   expect(all.filter((name) => /[a-z][A-Z]/.test(name))).toEqual([]);
 });
+
+it("a program's name keeps its capital inside a policy name", () => {
+  expect(
+    names(catalog).filter((name) => /\b(medicaid|medicare)\b/.test(name)),
+  ).toEqual([]);
+});

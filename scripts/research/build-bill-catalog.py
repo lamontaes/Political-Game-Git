@@ -29,9 +29,18 @@ QUESTION_POWERS = json.loads((ROOT / "data/research/powers-catalog/question-powe
 
 
 
+# Names of programs keep their capital inside a name read as words.
+PROPER_WORDS = {"medicaid": "Medicaid", "medicare": "Medicare"}
+
+
+def proper(words):
+    """Words with each program's name capitalized: medicaid reads Medicaid."""
+    return " ".join(PROPER_WORDS.get(word, word) for word in words.split(" "))
+
+
 def words_of(code):
     """A code word as a person says it: healthAndHospitals reads health and hospitals."""
-    return re.sub(r"(?<=[a-z])([A-Z])", lambda m: " " + m.group(1).lower(), code)
+    return proper(re.sub(r"(?<=[a-z])([A-Z])", lambda m: " " + m.group(1).lower(), code))
 
 def catalog_levels(levels):
     """The authority table calls county and city powers 'local'."""
@@ -212,7 +221,7 @@ def main():
         topic = topic or next(iter(subjects[subject]["topics"]))
         federal = key.startswith("us-federal-positions")
         subjects[subject]["topics"][topic]["policies"].append({
-            "id": f"question:{key}", "name": slug.replace("-", " "), "kind": "policy-question", "question": key,
+            "id": f"question:{key}", "name": proper(slug.replace("-", " ")), "kind": "policy-question", "question": key,
             "operations": ["enact", "repeal"], "levels": QUESTION_POWERS[key]["levels"],
         })
         if not federal:
@@ -220,7 +229,7 @@ def main():
             # dated state law like the grant of local income-tax power: raised
             # to 1 it grants, lowered to 0 it bars (laws.ts localPowerBarred).
             subjects[subject]["topics"][topic]["policies"].append({
-                "id": f"law:local-power:{slug}", "name": f"Local power: {slug.replace('-', ' ')}", "kind": "law-amount",
+                "id": f"law:local-power:{slug}", "name": f"Local power: {proper(slug.replace('-', ' '))}", "kind": "law-amount",
                 "series": f"local-power:{key}", "operations": ["raise", "lower"], "levels": ["state"],
             })
     out = []
