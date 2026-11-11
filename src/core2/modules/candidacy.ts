@@ -1052,6 +1052,49 @@ export function weighContest(
       asked.push(voter.id);
       running.push(voter.id);
     }
+    // Filing opens: a counted adult who decided to run but whose pull no
+    // longer clears the bar today (the field grew) is not drawn, so they
+    // decide again by the same rule as the first time, on today's date, as a
+    // full person does. Still over the bar, they run and file; under it, the
+    // decision reads run false with its reasons.
+    if (reconsider) {
+      const drawnIds = new Set(screen.drawn.map((voter) => voter.id));
+      const stranded = new Set(
+        candidatesFor(api, field.contestId)
+          .map((decision) => decision.personId)
+          .filter(
+            (id) =>
+              !drawnIds.has(id) &&
+              !asked.includes(id) &&
+              !committed.has(id) &&
+              !api.state.people.has(id),
+          ),
+      );
+      const voters = stranded.size
+        ? countedResidents(api.state as CoreState).filter(
+            (voter) =>
+              stranded.has(voter.id) &&
+              (contest.family === "countyOffice"
+                ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
+                : [town.townPlaceId]
+              ).includes(voter.placeId),
+          )
+        : [];
+      for (const voter of voters.sort((a, b) => a.id.localeCompare(b.id))) {
+        const id = `${field.contestId}:${voter.id}`;
+        const held = decisions.get(id) as unknown as CandidacyDecision;
+        const seat = { ...field, runners: running.length + raceRunners };
+        const reasons = countedCandidacyReasons(api, voter, seat);
+        let pull = api.parameter("zero");
+        for (const value of Object.values(reasons)) pull += value;
+        const run = pull > bar;
+        decisions.put({ ...held, date, run, reasons } as unknown as {
+          id: string;
+        });
+        asked.push(voter.id);
+        if (run) running.push(voter.id);
+      }
+    }
   }
   const people = [...api.state.people.values()]
     .filter((p) => !asked.includes(p.id) && weighs(p))
