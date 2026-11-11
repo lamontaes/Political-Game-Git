@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: pool/director-opening-as-a-scene-part-1-find-what-is-left
-pr:
+pr: #8361
 after:
 blocked-on:
 lead: director
