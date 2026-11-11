@@ -291,10 +291,10 @@
       }
     },
     {
-      "key": "hearing.witness-reply.yes-section-would-help-the-people-we-serve",
+      "key": "hearing.witness-reply.yes-we-expect-section-to-help-the-people-we-serve",
       "move": "witness-reply",
       "kind": "spoken",
-      "text": "Yes. {section} would help the people we serve.",
+      "text": "Yes. We expect {section} to help the people we serve.",
       "uses": [
         {
           "subject": "hearing",
