@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, data/research/people/pew-partisanship-community-type-2023.json, src/core2/views.test.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A roll-up of three parts; the place-type lean is kept on part 1, the 14 values are borderline on part 2 and the answer-key research is dropped.

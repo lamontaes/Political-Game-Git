@@ -3,6 +3,7 @@
 // person's card beside it. The roster reads the records the screen hands it; the card is
 // the one person card the game builds everywhere (the screen passes its builder in).
 import { el } from "./dom.mjs";
+import { pickGroup, pickHead, pickRow } from "./list-row.mjs";
 
 const ORDER = ["household", "family", "friends", "work", "politics", "other"];
 
@@ -19,7 +20,7 @@ function groupOf(person, household) {
  * stillWanted, openOther)`: builds a person's card ({ node } or null).
  */
 export function peopleScreen({ people, household, labels, card }) {
-  const roster = el("nav", { className: "people-roster" });
+  const roster = el("nav", { className: "pick-list people-roster" });
   roster.setAttribute("aria-label", labels.title);
   const pane = el("div", { className: "people-pane" });
   let selected;
@@ -37,20 +38,18 @@ export function peopleScreen({ people, household, labels, card }) {
     );
     if (built && mine === request) pane.replaceChildren(built.node);
   };
-  roster.append(el("h3", { className: "sechead", textContent: labels.title }));
+  roster.append(pickHead(labels.title));
   for (const key of ORDER) {
     const members = people.filter((p) => groupOf(p, household) === key);
     if (!members.length) continue;
-    roster.append(el("div", { className: "group", textContent: labels[key] }));
+    roster.append(pickGroup(labels[key], "group"));
     for (const person of members) {
-      const row = el(
-        "button",
-        { type: "button", className: "person" },
-        el("b", { textContent: person.name }),
-        el("span", { textContent: person.relation ?? "" }),
-      );
+      const row = pickRow({
+        label: person.name,
+        aside: person.relation ?? "",
+        className: "person",
+      });
       row.dataset.id = person.personId;
-      row.setAttribute("aria-pressed", "false");
       row.addEventListener("click", () => open(person));
       roster.append(row);
     }

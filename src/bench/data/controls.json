@@ -363,6 +363,19 @@
     "jump": "Jump to hour",
     "held": "A stop or choice holds the clock; answer it first",
     "run": "Run",
+    "skip": {
+      "title": "Skip years",
+      "explanation": "Moves the played world and the game's date ahead. This changes the game and is not undone. A skipped year does not do everything a played year does:",
+      "one": "Skip 1 year",
+      "five": "Skip 5 years",
+      "twenty": "Skip 20 years",
+      "yearDone": "Year {n} of {total} done: {date}",
+      "took": "Took {n} seconds",
+      "possible": "Every count stayed possible.",
+      "impossible": "Some counts could not be: {n} problems.",
+      "notYet": "The economy opens on the first day. Run one day first.",
+      "held": "A stop or choice holds the clock; answer it first"
+    },
     "outlook": {
       "title": "The country in 20 years",
       "explanation": "Runs every state and the nation twenty years ahead under the laws already passed. Your town and the date do not move.",
@@ -660,13 +673,14 @@
     "notSure": "Not sure yet"
   },
   "lifeGroups": [
-    ["partner", "child", "loss"],
+    ["partner", "child"],
     ["school"],
     ["work", "business"],
     ["moved", "home"],
     ["health"],
     ["law"],
-    ["office"]
+    ["office"],
+    ["loss"]
   ],
   "who": {
     "age": "Age",
@@ -700,7 +714,8 @@
   "news": {
     "title": "News",
     "nation": "Nation",
-    "briefs": "Briefs"
+    "briefs": "Briefs",
+    "noStoryText": "The paper ran this story as a headline only; the full account has not come in."
   },
   "jobs": {
     "work": "Work",

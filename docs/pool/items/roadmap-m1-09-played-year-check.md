@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** M1-09 reads "A year's births and moves in a random place stay within that place's real rates; the town's population changes the way real towns do instead of winding down." Its command, src/core2/moves.test.ts, passes 10 of 10 on main ca0db23749 in the runner's drawn place, Naukati Bay, Alaska (0252845, seed 052879284d40f970a292f8a5eae6a23dcd9a28861d722c0b4843f100d2b0250e). But it plays half a year in a 700-person world holding only the moves and renewal engines, not a year of the world the player gets, and nothing checks the town's population change. The flag stays false until the whole spec is checked.
+**What.** M1-09 reads "A year's births and moves in a random place stay within that place's real rates; the town's population changes the way real towns do instead of winding down." Its command, src/core2/moves.test.ts, passes 10 of 10 on main ca0db23749 in the runner's drawn place, Naukati Bay, Alaska (0252845, seed 052879284d40f970a292f8a5eae6a23dcd9a28861d722c0b4843f100d2b0250e). But it plays half a year in a 700-person world holding only the moves and renewal engines, not a year of the world the player gets, and nothing checks the town's population change. The flag stays false until the whole spec is checked. Seen: the town's population on the Metrics tab year to year, which should not wind down.
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, the Nov 8 entries "Ranges are not targets, for everything; baselines only calibrate" and "Per-world spread in the checks"; the spec text is docs/roadmap/features.json M1-09. The helper that builds a full played year already exists as buildPlayedWorld and playYear in src/core2/tooling/m1-played-year.ts, and no M1-09 script uses it.
 

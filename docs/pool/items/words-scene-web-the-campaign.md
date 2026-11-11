@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #8369
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
@@ -19,6 +19,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 checked: fable 2026-11-10
+branch: claude/pool-words-scene-web-the-campaign
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the the campaign domain, one row per cause that fires it. This domain covers a campaign's season: filing, a rally, the party's ask, an opponent's event, the speech and the people after it. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's the campaign requests with no type are listed under Missing in the report and become rows here.
@@ -44,3 +45,7 @@ checked: fable 2026-11-10
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
 
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-campaign`; last push Oct 27, 16:01 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:02 UTC) on branch claude/pool-words-scene-web-the-campaign.
+
+**Notes (builder sonnet-a266, pass 1, Nov 11).** Pull request 8369 wrote the episode packets and lists for door-ask and party-recruit (docs/design/scenes/from-life/the-first-door-of-the-day.md and the-party-asks-you-to-run.md) and regenerated the report. Left: three lines per speaker role, which are the words writer's, and the door-ask fired count (scene-web-door-ask-never-fires-in-the-report). Line 1 of that pull request is `Touches pool item:`.
