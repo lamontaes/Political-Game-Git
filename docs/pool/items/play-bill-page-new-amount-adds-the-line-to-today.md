@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #8866
 after:
 blocked-on:
 source: P1, Nov 11, 2026, seen while building play-bill-numbers-and-dates-said-in-words (#8856); filed at Fable B's word
