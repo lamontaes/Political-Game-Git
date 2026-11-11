@@ -4646,6 +4646,14 @@
           "step": "reply",
           "move": "agree",
           "role": "asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
         }
       ],
       "bearing": "glad",
@@ -5102,6 +5110,14 @@
           "role": "asked",
           "purpose": "*",
           "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "town-hall-neighbor",
+          "key": "routine"
         }
       ],
       "bearing": "guarded",
@@ -196123,10 +196139,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-m-glad-you-re-here",
+      "key": "scene-talk.open-greet.i-m-glad-you-re-here-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I'm glad you're here.",
+      "text": "I'm glad you're here, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -196147,10 +196163,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.funny-to-see-you-at-one-of-these",
+      "key": "scene-talk.open-greet.funny-to-see-you-at-one-of-these-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Funny to see you at one of these.",
+      "text": "Funny to see you at one of these, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -196171,10 +196187,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-wasn-t-sure-anyone-i-knew-would-come",
+      "key": "scene-talk.open-greet.i-wasn-t-sure-anyone-i-knew-in-place-would-come",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I wasn't sure anyone I knew would come.",
+      "text": "I wasn't sure anyone I knew in {place} would come.",
       "uses": [
         {
           "subject": "scene",
@@ -196182,7 +196198,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "town-hall-neighbor",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": []
         }
       ],
       "bearing": "calm",
@@ -196294,10 +196311,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.will-you-speak-i-can-t-decide-whether-i-should",
+      "key": "scene-talk.state-request.will-you-speak-first-i-can-t-decide-whether-i-should",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you speak? I can't decide whether I should.",
+      "text": "Will you speak, {first}? I can't decide whether I should.",
       "uses": [
         {
           "subject": "scene",
@@ -196368,10 +196385,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-asked-my-question-do-you-think-it-landed",
+      "key": "scene-talk.state-request.i-asked-my-question-first-do-you-think-it-landed",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I asked my question. Do you think it landed?",
+      "text": "I asked my question, {first}. Do you think it landed?",
       "uses": [
         {
           "subject": "scene",
@@ -196417,10 +196434,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-ll-ask-stand-with-me",
+      "key": "scene-talk.reply-agree.yes-i-ll-ask",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, I'll ask. Stand with me.",
+      "text": "Yes, I'll ask.",
       "uses": [
         {
           "subject": "scene",
@@ -196440,10 +196457,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-i-ll-go-if-you-do",
+      "key": "scene-talk.reply-agree.yes-let-s",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. I'll go if you do.",
+      "text": "Yes, let's.",
       "uses": [
         {
           "subject": "scene",
@@ -196463,33 +196480,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-let-s-first",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "Yes, let's, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "town-hall-neighbor",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, town hall attendee purpose)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "agree",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-speak-if-nobody-else-does",
+      "key": "scene-talk.reply-promise.i-ll-speak-if-nobody-else-from-place-does",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll speak if nobody else does.",
+      "text": "I'll speak if nobody else from {place} does.",
       "uses": [
         {
           "subject": "scene",
@@ -196497,7 +196491,8 @@
           "move": "promise",
           "role": "asked",
           "purpose": "town-hall-neighbor",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": []
         }
       ],
       "origin": "authored",
@@ -196509,10 +196504,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-be-at-the-next-one",
+      "key": "scene-talk.reply-promise.i-ll-be-at-the-next-one-in-place",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll be at the next one.",
+      "text": "I'll be at the next one in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -196520,7 +196515,8 @@
           "move": "promise",
           "role": "asked",
           "purpose": "town-hall-neighbor",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": []
         }
       ],
       "origin": "authored",
@@ -196532,10 +196528,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-you-ask",
+      "key": "scene-talk.reply-ask.what-s-your-question",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would you ask?",
+      "text": "What's your question?",
       "uses": [
         {
           "subject": "scene",
@@ -196555,10 +196551,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-did-you-make-of-the-answer",
+      "key": "scene-talk.reply-ask.what-did-you-make-of-host-s-answer",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What did you make of the answer?",
+      "text": "What did you make of {host}'s answer?",
       "uses": [
         {
           "subject": "scene",
@@ -196567,7 +196563,7 @@
           "role": "asked",
           "purpose": "town-hall-neighbor",
           "key": "routine",
-          "requiresFacts": ["host-answered"]
+          "requiresFacts": ["host-answered", "host"]
         }
       ],
       "origin": "authored",
@@ -196579,10 +196575,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-today-first-i-d-rather-listen",
+      "key": "scene-talk.reply-decline.i-ll-just-listen",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not today, {first}. I'd rather listen.",
+      "text": "I'll just listen.",
       "uses": [
         {
           "subject": "scene",
@@ -196602,33 +196598,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-ll-leave-the-speaking-to-you",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'll leave the speaking to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "town-hall-neighbor",
-          "key": "routine"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, town hall attendee purpose)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "decline",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-have-to-get-going-we-ll-talk-later",
+      "key": "scene-talk.reply-leave.i-should-go",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to get going. We'll talk later.",
+      "text": "I should go.",
       "uses": [
         {
           "subject": "scene",
@@ -196648,10 +196621,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.good-i-ll-go-first-then-you",
+      "key": "scene-talk.follow-thank.good-then-place-hears-from-both-of-us",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Good. I'll go first, then you.",
+      "text": "Good. Then {place} hears from both of us.",
       "uses": [
         {
           "subject": "scene",
@@ -196696,10 +196669,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-s-fair-listening-counts-too",
+      "key": "scene-talk.follow-accept.that-s-fair-first-listening-counts-too",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's fair. Listening counts too.",
+      "text": "That's fair, {first}. Listening counts too.",
       "uses": [
         {
           "subject": "scene",
@@ -196720,10 +196693,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-i-ll-do-the-talking",
+      "key": "scene-talk.follow-accept.then-i-ll-do-the-talking-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll do the talking.",
+      "text": "Then I'll do the talking, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -196744,10 +196717,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.think-it-over-before-the-end-of-the-night",
+      "key": "scene-talk.follow-press.think-it-over-before-the-night-s-out-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Think it over before the end of the night.",
+      "text": "Think it over before the night's out, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -196894,10 +196867,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-m-glad-we-talked-it-through",
+      "key": "scene-talk.close-thank.i-m-glad-we-talked-it-through-first",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'm glad we talked it through.",
+      "text": "I'm glad we talked it through, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -196918,10 +196891,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-save-you-a-seat-at-the-next-one",
+      "key": "scene-talk.close-promise.i-ll-save-you-a-seat-at-the-next-one-in-place",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll save you a seat at the next one.",
+      "text": "I'll save you a seat at the next one in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -196966,10 +196939,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-ll-ask-again-before-the-next-one-if-that-s-all-right",
+      "key": "scene-talk.close-press.i-ll-ask-again-before-the-next-one-first-if-that-s-okay",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll ask again before the next one, if that's okay.",
+      "text": "I'll ask again before the next one, {first}, if that's okay.",
       "uses": [
         {
           "subject": "scene",
