@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-roadmap-m1-09-played-year-check
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:25:42.682Z
+branch: claude/pool-roadmap-m1-09-played-year-check
 ---
 
 **What.** M1-09 reads "A year's births and moves in a random place stay within that place's real rates; the town's population changes the way real towns do instead of winding down." Its command, src/core2/moves.test.ts, passes 10 of 10 on main ca0db23749 in the runner's drawn place, Naukati Bay, Alaska (0252845, seed 052879284d40f970a292f8a5eae6a23dcd9a28861d722c0b4843f100d2b0250e). But it plays half a year in a 700-person world holding only the moves and renewal engines, not a year of the world the player gets, and nothing checks the town's population change. The flag stays false until the whole spec is checked. Seen: the town's population on the Metrics tab year to year, which should not wind down.
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: M1-09 'stay within that place's real rates' conflicts with OD:558 / OD:12 (calibration ranges only); re-word the check.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-roadmap-m1-09-played-year-check.
