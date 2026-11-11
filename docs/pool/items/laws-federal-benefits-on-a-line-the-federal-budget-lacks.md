@@ -6,10 +6,10 @@ lead: laws-effects
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-federal-benefits-on-a-line-the-federal-budget-lacks
-pr:
+pr: #8467
 after:
 blocked-on:
 model: sonnet
