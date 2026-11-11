@@ -219,6 +219,10 @@ it("stages the filing talk only for a relative with a stake, and records what th
       // What the player says is written where another engine reads it. The
       // filer plays as themselves, so the household sees the record.
       core.playerId = filer;
+      // A reply path is said once per scene: saying it again keeps the first
+      // record and writes nothing (replyInScene). Each check below plays a
+      // path not yet said, so what it measures is its own reply's write.
+      const said = new Set<string>();
       for (const path of paths(scene.talk.tree)) {
         if (path.length !== 1) continue;
         const root = scene.talk.tree.replies[path[0]!]!;
@@ -230,6 +234,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
           const id = replyInScene(core, director, filer, entry!, path, {
             typeKey: "family-filing",
           });
+          said.add(path.join("."));
           expect(id, here).toBeTruthy();
           const after = [...campaignFor(coreAPI(core), filing.id).volunteerIds];
           // A relative running in the same race is a rival filer, whom the
@@ -275,6 +280,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
             const id = replyInScene(core, director, filer, entry!, ended, {
               typeKey: "family-filing",
             });
+            said.add(ended.join("."));
             const facts = core.durableLog.get(id!)?.facts;
             expect(facts?.keeps, here).toBe("relationship-strained");
             expect(
@@ -303,15 +309,25 @@ it("stages the filing talk only for a relative with a stake, and records what th
         }
         if (root.line.move === "deflect" && !sawPutOff) {
           // Played to its end: the put-off ending when the talk has one.
+          const fresh = (full: readonly number[]) => !said.has(full.join("."));
           const toEnd =
             paths(scene.talk.tree).find((full) => {
-              if (full[0] !== path[0]) return false;
+              if (full[0] !== path[0] || !fresh(full)) return false;
               let node: TreeNode | null = scene.talk.tree;
               for (const i of full) node = node?.replies[i]?.next ?? null;
               return talkRules.owedTalk.endings.includes(
                 node?.end?.ending?.id ?? "",
               );
-            }) ?? path;
+            }) ?? (fresh(path) ? path : null);
+          if (!toEnd) {
+            // Every put-off path here was already said by a check above, so
+            // this scene cannot show a put-off's own write: passed over, named.
+            notes.push(
+              `${here}: passed over for put-off, its paths already said`,
+            );
+            continue;
+          }
+          said.add(toEnd.join("."));
           const before = closenessBetween(core, scene.askedId, scene.askerId);
           const id = replyInScene(core, director, filer, entry!, toEnd, {
             typeKey: "family-filing",
