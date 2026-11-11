@@ -35,3 +35,13 @@ claimed-at: 2026-11-11T04:45:09.955Z
 **Waits on.** Nothing.
 
 **Files.** src/core2/births-full-web.test.ts, src/core2/births-plan.ts, data/research/renewal/natality-2024.json
+
+Measured Nov 11, 2026 on main (sonnet-cc77, `node --import tsx scripts/dev-tests/births-measure.ts <placeKey> <seed>`, one year of buildBenchWorld from the game start, full people only, births = `person-birth` records by the mother's age at the birth against the CDC 2024 age rates, data/research/renewal/natality-2024.json, a report not a target):
+
+| Place, seed                                                                        | Full women 15-49 at the start | Full births in the year | At CDC rates | Record ids                                                   |
+| ---------------------------------------------------------------------------------- | ----------------------------- | ----------------------- | ------------ | ------------------------------------------------------------ |
+| Roche Harbor, Washington (5359075), 2cff0374...                                    | 134                           | 0                       | 4.3          | none                                                         |
+| Concord, Illinois (1716054), 99f462cf...                                           | 160                           | 2 (both ages 35-39)     | 5.8          | person_55a132c2f901101f:birth, person_1fe7eeb4dbaf64de:birth |
+| Palo Verde, California (0655422), drawn with seed births-c, world seed 2d9ead25... | 177                           | 1 (age 35-39)           | 5.1          | person_d0102954ad0a2543:birth                                |
+
+So on current main the full women make fewer births than the CDC rates give, about a third to a fifth of the expectation (the full women skew to ages 35 and over, and the counted women's births are separate and not measured here); neither "1.3 times" (Roche Harbor, 28 against 21.7) nor "ten times too few" holds as such. The share of active couples that plan a child was not measured here.
