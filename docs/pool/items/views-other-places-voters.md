@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-views-other-places-voters
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: design-country-tier
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:19:45.774Z
+claimed-at:
 branch: claude/pool-views-other-places-voters
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-views-other-places-voters
 **Notes.** Found by the M0-M2 lead writing M1-13's command, Oct 24. Blocks roadmap M1-13.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:19 UTC) on branch claude/pool-views-other-places-voters.
+
+Released (2026-11-11): The Fix's view rule does not exist in the code; the Cause is set to Needs cause with findings on PR 8695. Continue on branch claude/pool-views-other-places-voters.
