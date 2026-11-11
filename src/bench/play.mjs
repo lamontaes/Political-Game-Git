@@ -2733,10 +2733,7 @@ function billEstimate(paper, section) {
   const words = controls.bill ?? {};
   const est = section.estimate;
   const lines = [];
-  const webCite =
-    typeof est.statute === "string" && /^https?:\/\//.test(est.statute);
-  if (est.statute && !webCite)
-    lines.push(`${words.amends ?? ""} ${est.statute}`);
+  if (est.statute) lines.push(`${words.amends ?? ""} ${est.statute}`);
   // A question answered yes or no has no numeric scale: its clause says
   // what it does, so bare 0/1 values stay off the screen.
   const scaled = est.beforeUnit != null || est.afterUnit != null;
