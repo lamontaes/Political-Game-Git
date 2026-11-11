@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: none
 source: split from world-local-sales-below-opening-forecast in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:55:59.202Z
+branch: claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories
 ---
 
 **What.** Retail's missing buyers are the household categories the counted purchase flows do not cover: apparel, furniture, electronics, household supplies and the rest of the Consumer Expenditure (CE) table, against a Census retail payroll that also sells everything else. Add one household purchase row per missing CE category, each with its national, four regional and five size parameters and the CE cell citation, as the existing rows do. On Oct 19 the BLS table cu-all-detail-2024.xlsx returned 403 from a cloud container, so if the session cannot load it, write the failing host in Notes and stop rather than invent values. This is the first of three parts of world-local-sales-below-opening-forecast.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing. It needs a session whose network reaches bls.gov for the CE table.
 
 **Files.** src/core2/data/opening-customers.json, src/core2/opening-customers.ts, data/research/prices/household-prices-2026.json
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:55 UTC) on branch claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories.
