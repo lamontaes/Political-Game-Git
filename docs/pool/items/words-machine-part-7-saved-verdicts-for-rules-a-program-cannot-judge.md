@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: merged
+status: open
 standard: 2
 claimed-by:
 pr: #8206
@@ -17,7 +17,8 @@ effort: medium
 root: design-words-machine
 source: written by Fable, Nov 10, 2026, from the CTO's line of 18:50Z on issue 7365 (the saved-verdict store for the meaning-and-tone rules is part of the test parts) and docs/design/words-machine.md
 checked: fable 2026-11-10
-merged-at: 2026-11-10T20:23:10.401Z
+merged-at:
+claimed-at:
 ---
 
 **What.** Most of the owner's rules about words are about meaning and tone: whether a line names something specific, explains itself, or sounds like the person saying it. A program cannot judge those. The design has a reviewer judge each line once and save the verdict, and the run then reads the saved verdicts. One rule already works this way, the rule that a reply follows the line before it. This part makes that one store serve every such rule, so each of them can start pulling lines.
@@ -45,3 +46,5 @@ Write no verdicts beyond the examples the tests need, and change no bank line: S
 **Waits on.** Nothing. words-machine-part-1-tests-for-rules-that-judge-one-line and words-machine-part-2-tests-for-rules-that-judge-a-piece-in-its-spot edit the same two files (data/english/line-rules.json and src/english/line-rules.ts): merge main in before pushing.
 
 **Files.** src/english/line-rules.ts, src/english/line-rules.test.ts, src/english/reply-follows.ts, scripts/words/reply-pairs.ts, scripts/words/verdicts.ts, scripts/words/fold-verdicts.ts, scripts/words/run-rules.ts, data/english/judged/, tests/guards/english/line-rules.test.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
+
+**Notes.** Not seen in the game (2026-11-11, second-session-2): no place (words machine, no-explaining rule), seed none, main 170bd92c: marked one no-explaining line bad, folded it, ran words:rules: pulled.json stayed empty because every judged rule is awaiting-test; only the reply rule is enforced
