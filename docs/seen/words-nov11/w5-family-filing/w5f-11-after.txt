@@ -1,5 +1,5 @@
 Seed w5f-11; place: Clawson, Utah
-File: Where do I sign for Council member?
+File: Where do I sign for the council?
 Petition answered: 200
-Relative: Adrian Candidate / There you are. / I want this for you. I need to know who has Ethan when you're not home. / Somebody has to run for council member. Why not me? / Would you take Ethan on the nights I'm at the meetings? I'll take the weekends. / I'll talk to Cross's Kitchen about my schedule. Nights stay ours. / Adrian, let me sleep on it first.
-After the request: Adrian Candidate / PAT CANDIDATE / Would you take Ethan on the nights I'm at the meetings? I'll take the weekends. / I've got Ethan. Go win it. / You're the best, Adrian. / Deal. I'll give council member my spare hours, not yours. / I'll put Ethan to bed, and we'll talk after.
+Relative: Adrian Candidate / Adrian Candidate / There you are. / I want this for you. I need to know who has Ethan when you're not home. / Whoever runs for the council has to show up. I think that's me. / Would you take Ethan on the nights I'm at the meetings? I'll take the weekends. / I'll talk to Cross's Kitchen about my schedule. Nights stay ours. / Adrian, let me sleep on it first.
+After the request: Adrian Candidate / Adrian Candidate / PAT CANDIDATE / Would you take Ethan on the nights I'm at the meetings? I'll take the weekends. / I've got Ethan. Go win it. / You're the best, Adrian. / Deal. I'll give the race for the council my spare hours, not yours. / I'll put Ethan to bed, and we'll talk after.
