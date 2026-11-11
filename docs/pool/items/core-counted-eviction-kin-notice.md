@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-counted-eviction-kin-notice
-pr:
+pr: #8478
 blocked-on:
 after: core-evicted-counted-stays-counted
 source: added with npm run pool -- add

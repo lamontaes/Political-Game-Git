@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-constituent-case-family-in-custody
-pr:
+pr: #8475
 blocked-on:
 lead: effects
 source: added with npm run pool -- add

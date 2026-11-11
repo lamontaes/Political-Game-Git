@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-results-sheet-opens-on-every-load
-pr:
+pr: #8495
 after:
 blocked-on:
 standard: 2
