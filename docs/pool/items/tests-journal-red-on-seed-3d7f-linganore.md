@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-journal-red-on-seed-3d7f-linganore
-pr:
+pr: #8798
 blocked-on:
 source: added with npm run pool -- add
 after:
