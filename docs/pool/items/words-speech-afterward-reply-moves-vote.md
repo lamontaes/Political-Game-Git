@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-speech-afterward-reply-moves-vote
-pr:
+pr: #8596
 blocked-on:
 source: "filed by the words-and-scenes lead, Oct 26, while answering the send-back on #6136"
 lead: effects
