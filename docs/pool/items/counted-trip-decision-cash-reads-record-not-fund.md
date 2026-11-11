@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-counted-trip-decision-cash-reads-record-not-fund
-pr:
+pr: #8720
 after:
 blocked-on:
 lead: laws
