@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-appointments-weigh-counted-adults
 pr: #8830
 blocked-on:
