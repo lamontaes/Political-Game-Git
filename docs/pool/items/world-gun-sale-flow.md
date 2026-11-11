@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/public-safety.ts, src/core2/modules/place-prices.ts, src/core2/residents-economy.ts, src/core2/data/laws/reach-group-a.json, src/core2/data/stopgaps/gov.json, src/core2/restricted-sales.test.ts (new)
 
 **Notes.** Split from world-sale-eligibility-reads (checked Oct 19: no sale flow for these goods exists to read the law). The hiring half is the owner question owner-employer-bias-source.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made a handgun sale a purchase from a seller's books; the age law already refuses the sale for the counted groups, and no player opens a gun shop's sales.

@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** When a department head dies or moves out of town, the executive's regular review fills the post silently for any executive but the player, and for the player the vacancy is only an offer on the office screen. No record names the executive and the departed head, so no scene can bring the deputy, or the person who wanted the job, to the executive who must choose. Record a vacancy when the review finds a head gone, naming the appointer and the departed head, and fill it only after the record is written. The director then holds a moment from it for the appointer.
+**What.** When a department head dies or moves out of town, the executive's regular review fills the post silently for any executive but the player, and for the player the vacancy is only an offer on the office screen. No record names the executive and the departed head, so no scene can bring the deputy, or the person who wanted the job, to the executive who must choose. Record a vacancy when the review finds a head gone, naming the appointer and the departed head, and fill it only after the record is written. The director then holds a moment from it for the appointer. Seen: the scene where the executive meets the deputy or the person who wanted a department head's post, and the office screen's offer.
 
 **Cause.** Found in code: the executive's review in src/core2/modules/executive.ts (the desk-review handler near line 1644, with the `vacant` set built at lines 1687-1705) fills a vacated head post with no vacancy record. Evidence is in docs/design/scenes/from-life/executive-record-gaps.md.
 
