@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-money-tax-brackets-and-benefits-not-indexed-to-prices
-pr:
+pr: #8694
 blocked-on:
 lead: money
 source: Fable, Nov 10, 2026, while building the country tier (design: docs/design/country-tier.md; umbrella item core-country-tier-first-slice)
