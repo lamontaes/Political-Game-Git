@@ -6,8 +6,8 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-gov-m3-04-person-card-law-effects
+status: open
+claimed-by:
 pr:
 blocked-on:
 standard: 2
@@ -17,7 +17,8 @@ root: rc10-screens-keep-own-facts
 source: governing lead Oct 29
 after:
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:39:31.936Z
+claimed-at:
+branch: claude/pool-gov-m3-04-person-card-law-effects
 ---
 
 **What.** M3-04's test sentence says an enacted ordinance reaches specific named people who are clickable, with the law on their records. Clicking a person opens `knownCard` (src/bench/card.ts, about line 657, served as `/api/known` at handler.ts about line 1238 and fetched by play.mjs about lines 974 and 1690), which has no law field at all; the only reader of the law-reach rows is `lawEffects` in `personCard` (about line 158, from `reachOn`), and `personCard` is fetched only for the player and read only for the name. So no screen shows a reached person's law. Add the law effect to the card a click actually opens (`knownCard`), worded, and test that a person the law reached shows it there and that a repeal ends it. Seen: the card of any clicked person, which shows the law that reached them.
@@ -37,3 +38,5 @@ claimed-at: 2026-11-11T05:39:31.936Z
 **Files.** src/bench/card.ts, src/bench/card.test.ts, src/core2/law-reach/host.ts
 
 **Notes.** Filed by the governing lead, Oct 29, from the M3-04 command (branch governing/m3-spec-commands). Related, not a twin: play-law-on-your-record-unreachable is the lane's item for the player's own record on Issues, which also reads only `lawEffects`; this is any reached person's clicked card. Review on the first pass found the item had pointed at `personCard`, which no click opens. src/bench is the lane's; ask before editing.
+
+Released (2026-11-11): Needs worded lines: personCard's lawEffects (card.ts line 194) returns raw reach fields (question key, kind, what) that no screen reads, and the item requires the entry worded by the English engine with no raw keys; that needs bank lines under data/english/parts, which only the Story session writes. Lines needed: one line per reach kind naming the law and how it touches this person, and an ended-after-repeal form. The knownCard field and its test are buildable once the lines exist. Continue on branch claude/pool-gov-m3-04-person-card-law-effects.
