@@ -164,6 +164,23 @@ export interface Director {
   save(): DirectorSave;
   /** Takes back a save from `save()`: the director continues as it was. */
   restore(data: DirectorSave): void;
+  /**
+   * A watched person's scenes that wait for them, highest rank first, as
+   * dev mode lists them: type, rank against the life's pace, the day it was
+   * staged, the last day it may open and whether it is due on this date.
+   */
+  waitingScenes(
+    personId: PersonId,
+    date: IsoDate,
+  ): readonly {
+    momentId: string;
+    typeKey: string;
+    rank: number;
+    pace: number;
+    date: IsoDate;
+    openUntil: IsoDate;
+    due: boolean;
+  }[];
 }
 
 /** What `Director.save` holds: the ledger and the memory kept between days. */
@@ -237,6 +254,15 @@ export function createDirector(
   const pending = new Map<PersonId, Pending>();
   /** Today's interrupting moments, registered as player stops once the day's measuring ends. */
   const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
+  /**
+   * Each watched person's scenes that wait for them (outcome
+   * `scene-waiting`), by moment id in the order they were staged: the one
+   * list `registerWaiting` and `waitingScenes` read, so nothing scans a
+   * schedule. Rebuilt from the schedules on `restore`.
+   */
+  const waiting = new Map<PersonId, string[]>();
+  /** The people whose interrupt took this day's stop: a waiting scene waits a morning more. */
+  const interruptedToday = new Set<PersonId>();
   const initial = [...options.watch];
   let started = false;
   let mode: "live" | "skipping" = "live";
@@ -1373,6 +1399,11 @@ export function createDirector(
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
+    else if (entry.outcome === "scene-waiting")
+      waiting.set(moment.personId, [
+        ...(waiting.get(moment.personId) ?? []),
+        moment.id,
+      ]);
   }
 
   /**
@@ -1663,7 +1694,124 @@ export function createDirector(
         hold: false,
       });
       entry.stop = { recordId: moment.id, at };
+      interruptedToday.add(moment.personId);
     }
+  }
+
+  /**
+   * A watched person's waiting scenes as they stand on a date, highest rank
+   * first: each with its type, rank, the life's pace, the last day it may
+   * open and whether it is due now. A scene whose timing is the cause or an
+   * effective date is due from its own day; one that waits for the two
+   * people to be in one place (`next-together`) is not due on the clock.
+   * Reads only that person's list.
+   */
+  function waitingFor(personId: PersonId, date: IsoDate) {
+    const book = ledger.people.get(personId);
+    const rows: {
+      momentId: string;
+      typeKey: string;
+      rank: number;
+      pace: number;
+      date: IsoDate;
+      openUntil: IsoDate;
+      due: boolean;
+      entry: ScheduleEntry;
+    }[] = [];
+    for (const momentId of waiting.get(personId) ?? []) {
+      let entry: ScheduleEntry | undefined;
+      for (let at = (book?.schedule.length ?? zero) - one; at >= zero; at--)
+        if (book!.schedule[at]!.momentId === momentId) {
+          entry = book!.schedule[at];
+          break;
+        }
+      const first = entry?.bindings[zero];
+      if (!entry || !first || entry.outcome !== "scene-waiting" || entry.stop)
+        continue;
+      const openUntil = entry.bindings
+        .map((row) => row.openUntil)
+        .reduce((a, b) => (a > b ? a : b));
+      rows.push({
+        momentId,
+        typeKey: first.typeKey,
+        rank: entry.rank,
+        pace: entry.pace,
+        date: entry.date,
+        openUntil,
+        due:
+          entry.date <= date &&
+          entry.bindings.some((row) => row.timing !== "next-together"),
+        entry,
+      });
+    }
+    return rows.sort(
+      (a, b) =>
+        a.rank - b.rank ||
+        a.date.localeCompare(b.date) ||
+        a.momentId.localeCompare(b.momentId),
+    );
+  }
+
+  /**
+   * The clock stops for one waiting scene a morning (director-a-waiting-
+   * scene-is-never-played; docs/design/story-director.md, part 4, When): for
+   * the controlled person, once the day's interrupts are registered and none
+   * took the next morning, the highest-ranked waiting scene that is due opens
+   * when its setting next opens. A scene past its open days closes as a
+   * journal line with its reason. Reads only the controlled person's list.
+   */
+  function registerWaiting(core: CoreState): void {
+    const date = makeIsoDate(core.date);
+    for (const personId of waiting.keys()) {
+      if (
+        !isExplicitlyControlledPersonV1(core, personId) ||
+        !core.people.get(personId)?.alive
+      )
+        continue;
+      const rows = waitingFor(personId, date);
+      for (const row of rows)
+        if (row.openUntil < date) {
+          row.entry.outcome = "journal-line";
+          row.entry.closed = data.waitingStop.notMet;
+        }
+      const open = rows.filter((row) => row.entry.outcome === "scene-waiting");
+      waiting.set(
+        personId,
+        open.map((row) => row.momentId),
+      );
+      if (interruptedToday.has(personId)) continue;
+      const next = open.find((row) => row.due);
+      if (!next) continue;
+      const at = openedAt(
+        core,
+        playerClockFrontierV1(core, personId) ?? {
+          date: addDays(date, one),
+          minuteOfDay: zero,
+        },
+        next.entry.bindings[zero]?.setting.kind,
+      );
+      registerModuleStopV1(core, {
+        moduleId: module.id,
+        recordId: next.momentId,
+        controlledPersonId: personId,
+        at,
+        kind: "interrupt",
+        reasonKey: data.waitingStop.reasonKey,
+        source: {
+          tag: "ESTIMATED",
+          citation: data.waitingStop.citation,
+          asOf: core.date,
+          estimatedFrom: `Director moment ${next.momentId}: a ${next.typeKey} scene ranked ${next.rank} of the life's pace ${next.pace}, waiting since ${next.date}.`,
+        },
+        hold: false,
+      });
+      next.entry.stop = { recordId: next.momentId, at };
+      waiting.set(
+        personId,
+        open.filter((row) => row !== next).map((row) => row.momentId),
+      );
+    }
+    interruptedToday.clear();
   }
 
   /**
@@ -1895,6 +2043,7 @@ export function createDirector(
       // stages the polls for each watched voter the count will count.
       stagePollingVisits(api.state, ledger);
       registerInterrupts(api.state);
+      registerWaiting(api.state);
       // Once a month, each watched person forgets what no longer matters.
       if (api.state.date.endsWith("-01"))
         for (const book of ledger.people.values()) forget(api.state, book);
@@ -2002,6 +2151,17 @@ export function createDirector(
       );
       started = data.started;
       mode = data.mode;
+      // The waiting lists are read from the schedules the save carries.
+      waiting.clear();
+      for (const [personId, book] of ledger.people) {
+        const ids = book.schedule
+          .filter((row) => row.outcome === "scene-waiting" && !row.stop)
+          .map((row) => row.momentId);
+        if (ids.length) waiting.set(personId, ids);
+      }
+    },
+    waitingScenes(personId, date) {
+      return waitingFor(personId, date).map(({ entry: _entry, ...row }) => row);
     },
     fading(personId, otherId, date) {
       const book = ledger.people.get(personId);
