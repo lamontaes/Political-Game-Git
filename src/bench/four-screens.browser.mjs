@@ -5,7 +5,7 @@
 // records allow. Screenshots go to FOUR_SHOTS (default docs/reports/four-screens-2026-10-27).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
+import { finishTalk, playOpening } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const shots = process.env.FOUR_SHOTS ?? "docs/reports/four-screens-2026-10-27";
@@ -94,7 +94,7 @@ try {
   await page.locator("#person-close").click();
 
   // Campaigns: a grown resident (born 1980) in a drawn world files for the first office the
-  // records allow.
+  // records allow, once that office's filing opens.
   const person = JSON.stringify({
     givenName: "Pat",
     familyName: "Candidate",
@@ -103,40 +103,105 @@ try {
     birthMonth: 6,
     birthDay: 15,
   });
-  const campaignSeed = (
-    await (await page.request.get(`${base}/api/seed`)).json()
-  ).seed;
-  const made = await page.request.post(
-    `${base}/api/newlife?${new URLSearchParams({ seed: campaignSeed, date: "2026-10-12", person })}`,
-    { timeout: 300000 },
-  );
-  assert.equal(made.status(), 200);
-  console.log("Campaign seed:", campaignSeed);
-  await page.reload();
-  await page.locator("#front-continue").waitFor();
-  await page.locator("#front-continue").click();
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
-  console.log("Campaign place:", await page.locator("#card-place").innerText());
-
-  const filed = await page.evaluate(async () => {
-    const gov = await (await fetch("/api/government")).json();
-    for (const { contest } of gov.contests ?? []) {
-      const r = await fetch(
-        `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
-        { method: "POST" },
+  // Every game opens on the one start date (src/bench/handler.ts), so a town
+  // whose filing window is not open that day has nothing to file for yet: the
+  // world runs to the day its next filing opens (dev mode's run-until route,
+  // which serves the world whether or not dev mode's panels are on), as a
+  // player would wait for it. A draw with no filing in its first two years is
+  // passed over by name, three draws at most (skill drawn-place-tests).
+  const passedOver = [];
+  let filed = null;
+  for (let draw = 0; draw < 3 && !filed; draw += 1) {
+    const campaignSeed = (
+      await (await page.request.get(`${base}/api/seed`)).json()
+    ).seed;
+    const made = await page.request.post(
+      `${base}/api/newlife?${new URLSearchParams({ seed: campaignSeed, person })}`,
+      { timeout: 300000 },
+    );
+    assert.equal(made.status(), 200);
+    await page.reload();
+    await page.locator("#front-continue").waitFor();
+    await page.locator("#front-continue").click();
+    await page.waitForFunction(() =>
+      document.getElementById("card-name").textContent.trim(),
+    );
+    const place = await page.locator("#card-place").innerText();
+    console.log("Campaign seed:", campaignSeed, "place:", place);
+    const life = (await (await page.request.get(`${base}/api/title`)).json())
+      .life;
+    const government = async () =>
+      (
+        await page.request.get(
+          `${base}/api/government?${new URLSearchParams({ id: life.personId })}`,
+        )
+      ).json();
+    const next = (await government()).nextFiling;
+    const days = next
+      ? Math.round(
+          (Date.parse(next.filingOpens) - Date.parse(life.date)) / 86400000,
+        )
+      : Infinity;
+    if (days > 730) {
+      passedOver.push(
+        `${place} (seed ${campaignSeed}): no filing in two years`,
       );
-      const body = await r.json().catch(() => ({}));
-      if (
-        r.ok &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-      )
-        return contest.id;
+      console.log("Passed over:", passedOver.at(-1));
+      continue;
     }
-    return null;
-  });
-  assert.ok(filed, "the player could file for nothing in this town");
+    if (days > 0) {
+      const ran = await page.request.post(`${base}/api/dev/run-until`, {
+        data: { days },
+        timeout: 1800000,
+      });
+      assert.equal(ran.status(), 200, await ran.text());
+      await page.reload();
+      await page
+        .locator("#front-continue")
+        .click()
+        .catch(() => {});
+      await page.waitForFunction(() =>
+        document.getElementById("card-name").textContent.trim(),
+      );
+    }
+    await finishTalk(page);
+    const view = await government();
+    console.log(
+      "Filing opens:",
+      next.filingOpens,
+      next.title,
+      "| clock:",
+      (await page.locator("#card-clock").innerText()).replace(/\s+/g, " "),
+      "| of voting age:",
+      view.ofVotingAge,
+    );
+    filed = await page.evaluate(async (contests) => {
+      for (const { contest } of contests) {
+        const r = await fetch(
+          `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
+          { method: "POST" },
+        );
+        const body = await r.json().catch(() => ({}));
+        if (
+          r.ok &&
+          ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
+        )
+          return contest.id;
+      }
+      return null;
+    }, view.contests ?? []);
+    if (!filed) {
+      passedOver.push(
+        `${place} (seed ${campaignSeed}): ${view.contests?.length ?? 0} races open on ${next.filingOpens}, none would take the filing`,
+      );
+      console.log("Passed over:", passedOver.at(-1));
+    }
+  }
+  assert.ok(
+    filed,
+    `the player could file for nothing in three draws: ${passedOver.join("; ")}`,
+  );
+  console.log("Filed:", filed);
   await openCampaignTrail(page);
 
   // The debate: a tab for each position on each question, one chosen at a time.
