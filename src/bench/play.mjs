@@ -1485,7 +1485,9 @@ $("talk-next").addEventListener("click", async () => {
     $("talk-leave").click();
     return;
   }
-  if (talk) await post("/api/talk/leave");
+  const left = talk ? await post("/api/talk/leave") : undefined;
+  // The talk's minutes moved the clock: the card shows the new time.
+  if (left?.packet) renderPacket(left.packet);
   renderTalk(undefined);
   show("talk", false);
   // A story's end hands the room back to the one scene renderer, so the people in it can be
@@ -1513,7 +1515,9 @@ $("talk-leave").addEventListener("click", async () => {
     return;
   }
   onContinue = undefined;
-  await post("/api/talk/leave");
+  const left = await post("/api/talk/leave");
+  // The talk's minutes moved the clock: the card shows the new time.
+  if (left?.packet) renderPacket(left.packet);
   renderTalk(undefined);
   await renderScene();
 });
@@ -2500,9 +2504,21 @@ async function visit(organizationId) {
   me.names = { ...me.names, ...v.names };
   $("backdrop").src = v.backdrop.url;
   drawHere(v, (p) => talkTo(p.personId));
+  me.scene = v;
   $("card-place").textContent = v.name;
   // The visit's hour moved the clock: the card shows the new time.
   if (v.packet) renderPacket(v.packet);
+}
+
+// ---- Go home from a place: the trip back, then the room the day has you in ----
+async function goHome() {
+  closeSheet();
+  renderTalk(undefined);
+  const v = await post("/api/goto/home");
+  me.names = { ...me.names, ...(v.names ?? {}) };
+  $("card-place").textContent = me.placeName;
+  if (v.packet) renderPacket(v.packet);
+  await renderScene();
 }
 
 // ---- Play someone else: the one you leave finishes their day ----
@@ -4266,24 +4282,47 @@ const sheets = {
         does: doHere(p),
       };
     };
+    // Out at a place, the way home comes first.
+    const home = await api("/api/goto/home");
     return travelScreen({
       labels,
-      entries: destinations.map((p) => ({
-        group: groupOf(p),
-        title: p.name,
-        filing: Boolean(p.filing),
-        picture: p.presentation?.imageUrl,
-        ...(p.trail
-          ? { onOpen: () => trailView(p.trail) }
-          : {
-              load: detailOf(p),
-              go: {
-                label: `${labels.go} ${p.name}`,
-                onClick: () =>
-                  p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+      entries: [
+        ...(home.away
+          ? [
+              {
+                group: town,
+                title: labels.home,
+                home: true,
+                picture: home.picture,
+                // Who is there now, as every place says.
+                load: async () => ({
+                  who: home.who.length
+                    ? peopleSentence(home.who.map((name) => ({ name })))
+                    : null,
+                }),
+                go: { label: labels.goHome, onClick: goHome },
               },
-            }),
-      })),
+            ]
+          : []),
+        ...destinations.map((p) => ({
+          group: groupOf(p),
+          title: p.name,
+          filing: Boolean(p.filing),
+          picture: p.presentation?.imageUrl,
+          ...(p.trail
+            ? { onOpen: () => trailView(p.trail) }
+            : {
+                load: detailOf(p),
+                go: {
+                  label: `${labels.go} ${p.name}`,
+                  onClick: () =>
+                    p.filing
+                      ? openFiling(p.filedWith)
+                      : visit(p.organizationId),
+                },
+              }),
+        })),
+      ],
     });
   },
   async politics() {
