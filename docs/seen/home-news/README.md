@@ -25,7 +25,7 @@ The same replies whatever the story is, one of them about something else:
 Each reply names a different thing, from the player's own records: the question the story is about (on the side the player's own view is on), the outlet, the player's town. The answer back is composed from the other person's own side and says when they heard it:
 
 - El Paraiso: "Really?" / "I didn't hear." / "I'm on the side of right-to-work rules." / "Did they say why? Folks in El Paraiso will ask." Picking the stand: "Maybe. I only heard about it yesterday."
-- Ashley: "You're kidding." / "Tell me." / "I don't think working with federal immigration enforcement makes sense." / "Did they say why? Folks in Ashley will ask." Picking the stand: "Could be. I only heard about it yesterday."
+- Ashley, retaken at 0e1757ce: the story is now said by what the bill does, "I heard it on WSBQ-TV: Six speak at the hearing on local police working with federal immigration enforcement." (before: "on Ordinance 2025-1"). The replies are "You're kidding." / "I saw that on WSBQ-TV." / "I don't think working with federal immigration enforcement makes sense." / "Did they say why? Folks in Ashley will ask." Picking the stand: "Me neither. I heard it yesterday and thought the same."
 - Bedford: "Did they say why? What's it mean for Bedford?" / "Oh, my." / "I missed that on Meridian News Network." / "Count me in favor of automatic voter registration." Picking the stand: "Not me. I heard it yesterday, and I didn't like it."
 
 In both sets the goodbye at home after the answer is the composed one from #8758, which the before branch already holds, naming the part of the day: "We'll talk more later this morning.", "I'll check on you again this morning.", "I've got a few things to get done this morning."

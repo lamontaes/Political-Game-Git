@@ -2144,6 +2144,7 @@ function playerFacts(
   core: Readonly<CoreState>,
   playerId: PersonId,
   last: LastLine,
+  otherId?: PersonId,
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
@@ -2182,6 +2183,23 @@ function playerFacts(
     // No stake in it: the player may say they have no view yet.
     if (stake.reason === "none")
       facts["my-none"] = { text: "yes", sourceRecordIds: [playerId] };
+    // One screen names a thing once: where the headline already says the
+    // question, a stand names the person told instead.
+    const about = last.facts.about?.text;
+    const headline = last.facts.headline?.text;
+    const other = otherId ? core.people.get(otherId) : undefined;
+    if (
+      about &&
+      headline?.toLowerCase().includes(about.toLowerCase()) &&
+      other?.givenName
+    ) {
+      facts["about-said"] = { text: "yes", sourceRecordIds: [last.subject.id] };
+      facts.first = { text: other.givenName, sourceRecordIds: [other.id] };
+    } else
+      facts["about-unsaid"] = {
+        text: "yes",
+        sourceRecordIds: [last.subject.id],
+      };
   }
   // Asked whether they saw the President's address, the player says yes only
   // when their own record holds it; else they missed it.
@@ -3139,7 +3157,7 @@ function offerChoices(
   const last = conversation.last!;
   conversation.choices = [];
   conversation.lies = [];
-  const own = playerFacts(core, playerId, last);
+  const own = playerFacts(core, playerId, last, otherId);
   const facts = { ...own.facts, ...last.facts };
   const stage = own.stage ?? last.stage;
   const turn = conversation.lines.length;
