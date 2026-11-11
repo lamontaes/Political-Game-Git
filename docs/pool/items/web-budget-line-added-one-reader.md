@@ -6,9 +6,9 @@ lead: laws-effects
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-web-budget-line-added-one-reader
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:21:39.207Z
 branch: claude/pool-web-budget-line-added-one-reader
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-web-budget-line-added-one-reader
 **Notes.** Filed by the laws lead, Oct 25. Take it after both families merge. Laws-and-effects lead, Oct 27: health is on main and #5669 now carries both readers side by side (merge b632d51a7a); main's schools reader `schools-line-above-base` is a third path to fold in.
 
 Released (2026-11-11): Read and scoped, not built: the two readers are not the same computation. townLineAddedPct (gov-measures.ts line 111) uses townShareOf (budgets-treasury.ts: town residents over gov.residents) while budgetLineAddedPct (line 299) uses townShare (group-b-money.ts: town population over residentsOf), so merging them moves values the parks and highways links and five tests (gov-measures, web-gov-measures, law-reach-group-a, law-wiring-rights-env) assert. The share function must be chosen first (a one-line ruling or a numeric equivalence check in three drawn places) before the keys, links.json rows and outcome-web.json rows are folded. Continue on branch claude/pool-web-budget-line-added-one-reader.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:21 UTC) on branch claude/pool-web-budget-line-added-one-reader.
