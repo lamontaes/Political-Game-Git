@@ -1,7 +1,7 @@
 /* global process, console, document, URL */
 // The title's Continue shows the face the creator saved: after making a
-// character and starting the life, the title's Continue holds that life's
-// bust, the same head and hair the game draws for it, as a round headshot.
+// character and starting the life, the title's Continue and the life's card
+// both hold the bust the creator showed (its head, hair and facial hair).
 // Run against the bench:
 //   BENCH_PORT=3000 node src/bench/continue-face.browser.mjs [shot.png]
 import assert from "node:assert/strict";
@@ -41,18 +41,28 @@ try {
     }
     return false;
   };
-  if (await choose("skin", "ebony")) await choose("shirt-color", "red");
-  await page.waitForTimeout(500);
+  await choose("skin", "deep");
+  await page.locator("#cr-bust .bust-stack:not(.loading)").waitFor();
+  // The bust the creator shows, without its top (the top follows where the person is).
+  const worn = (layers) => layers.filter((url) => !/\/top-/.test(url));
+  const made = worn(
+    await page.evaluate(() =>
+      [...document.querySelectorAll("#cr-bust .bust-stack img")].map(
+        (img) => new URL(img.src).pathname,
+      ),
+    ),
+  );
+  assert.ok(made.length >= 2, "the creator shows no bust");
   const born = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/newlife",
     { timeout: 300000 },
   );
   await page.locator("#cr-begin").click();
-  const made = await born;
-  const { placeName, sceneMomentId } = await made.json();
+  const reply = await born;
+  const { placeName, sceneMomentId } = await reply.json();
   console.log(
     "Seed:",
-    new URL(made.url()).searchParams.get("seed"),
+    new URL(reply.url()).searchParams.get("seed"),
     "Place:",
     placeName,
   );
@@ -82,11 +92,15 @@ try {
   const card = await (
     await page.request.get(`${base}/api/card?id=${life.personId}`)
   ).json();
-  const worn = (layers) => layers.filter((url) => !/\/top-/.test(url));
   assert.deepEqual(
     worn(face),
+    made,
+    "the Continue face is not the bust the creator showed",
+  );
+  assert.deepEqual(
     worn(card.face.bust.layers),
-    "the Continue face is not the bust the game draws for this life",
+    made,
+    "the game draws this life with a different bust than the creator showed",
   );
   console.log("PASS Continue shows the face the creator saved");
 } finally {
