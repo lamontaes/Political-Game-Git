@@ -46,6 +46,17 @@
   "raceStanding": {
     "title": "Where the race stands"
   },
+  "campaignAsks": {
+    "title": "Asking you for money",
+    "race": "Running for",
+    "asked": "Asked",
+    "suggested": "You would give",
+    "cash": "You have",
+    "amount": "Amount in dollars",
+    "give": "Give",
+    "decline": "Decline",
+    "notGiven": "You can't give that sum."
+  },
   "speech": {
     "begin": "Give a speech",
     "give": "Give the speech",
@@ -548,7 +559,19 @@
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
-    "officeHours": "Office hours"
+    "officeHours": "Office hours",
+    "aides": "Your staff",
+    "hire": "Hire",
+    "aideRole": "Aide",
+    "reasons": {
+      "work": "Work",
+      "reach": "Lives near",
+      "workingAge": "Age for the work",
+      "known": "Knows you",
+      "family": "Family"
+    },
+    "fromKnown": "Someone you know",
+    "fromApplicant": "Applied"
   },
   "officeStops": {
     "aYear": "a year",
