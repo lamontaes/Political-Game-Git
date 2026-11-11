@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-law-name-state-contribution-limit-shows-field-names
-pr:
+pr: #8664
 after: 
 blocked-on:
 lead: play-first
