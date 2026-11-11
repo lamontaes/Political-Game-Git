@@ -5,19 +5,20 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-meeting-minutes-from-the-record
 pr:
 blocked-on:
 lead: words
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at:
+claimed-at: 2026-11-11T02:37:28.706Z
 after:
 standard: 2
 model: sonnet
 effort: medium
 root: rc4-hand-written-words
 checked: fable 2026-11-10
+branch: claude/pool-words-meeting-minutes-from-the-record
 ---
 
 **What.** Four lines of minutes the owner graded good sit in data/english/parts/minutes.json under stopgap SG-WORDS-minutes-no-reader: "Participants discussed {topic}.", "The staff provided an update on {topic}.", "The manager turned next to {topic}." and "Voting against this action: {members}.". No engine words the minutes of a meeting. Word the minutes of a recorded council or board meeting from its agenda and roll call records, using these pieces, and show them where the meeting's record is read.
@@ -37,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** data/english/parts/minutes.json, src/director/data/situation-types.json, src/english/screen-words.ts, src/english/bill-paper-words.test.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:37 UTC) on branch claude/pool-words-meeting-minutes-from-the-record.
