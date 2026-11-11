@@ -532,13 +532,14 @@
       "key": "opening-speech.occasion.polished-twn-crisis-i-come-before-you-to-give-an-honest-account",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to give an honest account of where we stand, and it is not a comfortable one.",
+      "text": "I come before you to give an honest account of where {place} stands, and it is not a comfortable one.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -552,13 +553,14 @@
       "key": "opening-speech.occasion.polished-twn-crisis-i-am-here-to-report-on-this-town-and",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am here to report on where we stand, and I have decided to start with what has gone wrong.",
+      "text": "I am here to report on {place}, and I have decided to start with what has gone wrong.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -1485,13 +1487,14 @@
       "key": "opening-speech.occasion.plain-twn-crisis-i-m-here-to-tell-you-straight-where-this",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to tell you straight where we stand, and it's not great.",
+      "text": "I'm here to tell you straight where {place} stands, and it's not great.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -2430,13 +2433,14 @@
       "key": "opening-speech.occasion.polished-twn-combative-i-come-before-you-to-say-where-this-town",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to say where we stand, and to name the people responsible for how we got here.",
+      "text": "I come before you to say where {place} stands, and to name the people responsible for how it got there.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2450,13 +2454,14 @@
       "key": "opening-speech.occasion.polished-twn-combative-i-have-not-come-here-to-flatter-anyone-this",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I have not come here to flatter anyone. Our neighbors have been let down, and I intend to say by whom.",
+      "text": "I have not come here to flatter anyone. {place} has been let down, and I intend to say by whom.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2470,13 +2475,14 @@
       "key": "opening-speech.occasion.polished-twn-combative-i-will-report-on-this-town-tonight-without-apology",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I will report tonight on how we are doing, without apology, and I expect some of you will not like the report.",
+      "text": "I will report on {place} tonight without apology, and I expect some of you will not like the report.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -3385,13 +3391,14 @@
       "key": "opening-speech.occasion.plain-twn-combative-i-m-here-to-tell-you-where-this-town",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to tell you where we stand and who let it slide.",
+      "text": "I'm here to tell you where {place} stands and who let it slide.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -3405,13 +3412,14 @@
       "key": "opening-speech.occasion.plain-twn-combative-i-didn-t-come-to-flatter-anybody-people-let",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I didn't come to flatter anybody. People let you down, and I'm going to say who.",
+      "text": "I didn't come to flatter anybody. People let {place} down, and I'm going to say who.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -4331,13 +4339,14 @@
       "key": "opening-speech.occasion.polished-twn-hopeful-i-come-before-you-glad-to-report-that-this",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you glad to report that we are better placed than we have been in some time, and ready for more.",
+      "text": "I come before you glad to report that {place} is better placed than it has been in some time, and ready for more.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4351,13 +4360,14 @@
       "key": "opening-speech.occasion.polished-twn-hopeful-i-am-here-to-say-how-this-town-is",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am here to say how we are doing, and the short version is that there is reason to be hopeful.",
+      "text": "I am here to say how {place} is doing, and the short version is that there is reason to be hopeful.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4371,13 +4381,14 @@
       "key": "opening-speech.occasion.polished-twn-hopeful-let-me-begin-with-something-we-do-not-say",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Let me begin with something we do not say often enough: there is good work being done all over our community, and good people doing it.",
+      "text": "Let me begin with something we do not say often enough: there is good work being done across {place}, and good people doing it.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -5286,13 +5297,14 @@
       "key": "opening-speech.occasion.plain-twn-hopeful-i-m-glad-to-tell-you-this-town-is",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm glad to tell you we're in better shape than we've been in a while.",
+      "text": "I'm glad to tell you {place} is in better shape than it's been in a while.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -5306,13 +5318,14 @@
       "key": "opening-speech.occasion.plain-twn-hopeful-let-me-start-with-something-we-don-t-say",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Let me start with something we don't say enough. There's good work getting done all over our community, by good people.",
+      "text": "Let me start with something we don't say enough. There's good work getting done across {place}, by good people.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -6229,13 +6242,14 @@
       "key": "opening-speech.occasion.polished-twn-victory-i-come-before-you-to-report-that-this-town",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to report that we have had a strong year, and I intend to take a moment to say so.",
+      "text": "I come before you to report that {place} has had a strong year, and I intend to take a moment to say so.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -6249,13 +6263,14 @@
       "key": "opening-speech.occasion.polished-twn-victory-i-am-proud-to-report-that-this-town-is",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am proud to report that we are further along than when we began, and that was no accident.",
+      "text": "I am proud to report that {place} is further along than when we began, and that was no accident.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -7183,13 +7198,14 @@
       "key": "opening-speech.occasion.plain-twn-victory-i-m-here-to-report-that-this-town-had",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to report that we had a strong year, and I'm going to enjoy saying that.",
+      "text": "I'm here to report that {place} had a strong year, and I'm going to enjoy saying that.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -7203,13 +7219,14 @@
       "key": "opening-speech.occasion.plain-twn-victory-this-town-is-further-along-than-when-we-started",
       "move": "occasion",
       "kind": "spoken",
-      "text": "We're further along than when we started, and I don't think that's an accident.",
+      "text": "{place} is further along than when we started, and I don't think that's an accident.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -8119,13 +8136,14 @@
       "key": "opening-speech.occasion.polished-twn-mourning-there-is-a-report-to-give-on-this-town",
       "move": "occasion",
       "kind": "spoken",
-      "text": "There is a report to give, and it will keep a moment while we remember the ones we have lost.",
+      "text": "There is a report to give on {place}, and it will keep a moment while we remember the ones we have lost.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -8139,13 +8157,14 @@
       "key": "opening-speech.occasion.polished-twn-mourning-across-this-town-there-are-families-sitting-in-silence",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Across our community, there are families sitting in silence right now, and I want them to know they are not alone.",
+      "text": "Across {place}, there are families sitting in silence right now, and I want them to know they are not alone.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -9044,13 +9063,14 @@
       "key": "opening-speech.occasion.plain-twn-mourning-across-this-town-there-are-families-sitting-in-silence",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Across our community, there are families sitting in silence right now. I want them to know they're not alone.",
+      "text": "Across {place}, there are families sitting in silence right now. I want them to know they're not alone.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -9958,13 +9978,14 @@
       "key": "opening-speech.occasion.polished-twn-policy-i-am-here-to-report-on-the-work-of",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I am here to report on the work of our town government and to put specific proposals before the council.",
+      "text": "I am here to report on how {place} is run, and to put specific proposals before the council.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -23272,13 +23293,14 @@
       "key": "opening-speech.occasion.polished-twn-i-come-before-you-to-say-how-this-town-is-doing-and",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you to say how we are doing, and what I will ask of you.",
+      "text": "I come before you to say how {place} is doing, and what I will ask of you.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -23291,13 +23313,14 @@
       "key": "opening-speech.occasion.plain-twn-im-here-to-tell-you-how-this-town-is-doing-and-what",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to tell you how we're doing and what I'm going to ask of you.",
+      "text": "I'm here to tell you how {place} is doing and what I'm going to ask of you.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
