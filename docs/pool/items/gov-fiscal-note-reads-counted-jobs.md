@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-fiscal-note-reads-counted-jobs
 pr:
 blocked-on:
 source: governing lead, Oct 30 (review of gov-m3-01-fiscal-note-at-drafting)
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:24:39.568Z
+branch: claude/pool-gov-fiscal-note-reads-counted-jobs
 ---
 
 **What.** A wage bill's fiscal note counts only full people's open work commitments paid under the new floor. It never reads the counted jobs of the modeled wider population, so in a two-level town the note undercounts the workers and the yearly pay a raise reaches. It also walks every commitment in the world rather than the jobs in the drafting body's own place, and the note's words (town jobs paid under the new floor, no pay effect) are typed in code rather than worded by the English engine. Seen: the wage bill card's fiscal note, which counts the town's workers a raise reaches.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/jobs.ts, src/bench/bill-paper.test.ts, data/english/parts/bill-paper.json
 
 **Notes.** TODO
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-gov-fiscal-note-reads-counted-jobs.
