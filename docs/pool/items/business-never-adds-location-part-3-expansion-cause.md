@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: business-never-adds-location-part-1-counted-founding-room, business-never-adds-location-part-2-all-markets
@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** No business in Cochituate, Massachusetts opened a second location in three years, because market room is exactly 0 in a steady town and the expansion score can never beat keeping the business. An owner needs a reason to expand that exists in a steady town: demand for what the business sells growing past what it can supply. Give expansion that cause, read from the business's own books and the market, and let a parent open a location when it holds.
@@ -33,3 +34,5 @@ root: none
 **Waits on.** business-never-adds-location-part-1-counted-founding-room and business-never-adds-location-part-2-all-markets.
 
 **Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, src/core2/tooling/m1-08-check.ts, src/core2/business.test.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a business open a second location from demand outgrowing capacity; no screen or scene shows a business's locations, and the town's founding count is already fixed by parts 1 and 2.

@@ -17,6 +17,7 @@ root: none
 source: words-and-scenes helper D, Oct 27, from scenes-from-life episode budget-cut-department-head
 lead: laws-effects
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A town's department heads are matched to a budget line by the post-line table (police chief to police, fire chief to fire, public works to highways), so a cut to that line has a person to argue it. A state cabinet post has no such entry: every post that is not a town post falls to the general administration line, so a cut to a state agency's line has no head, and the governor's version of the department-head scene cannot be cast. Give each state cabinet post the state spending line its agency's pay draws on, sourced from the Census function codes already cited in the table, and the county executive's posts the same.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** Add a state spending line for each cabinet post (and county department heads) from the Census function codes, with the administration fallback marked ESTIMATED and a test that lists the posts that still fall to it with their reason.
 
-**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the governor's department-head scene over a cut to a state agency's budget line, which cannot be cast without a head.
 
 **Rules.** Estimate, never UNKNOWN: a post with no named line keeps the administration fallback and says so. Wire to the world: the line is read by the payroll that caps the post's pay and by the director's department-head cast. Every number lives in a parameter table with its source, so the mapping carries its Census citation.
 

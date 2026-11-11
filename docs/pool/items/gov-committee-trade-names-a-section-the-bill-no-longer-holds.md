@@ -16,13 +16,14 @@ standard: 2
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
-**What.** A committee trade's deal names a section the bill no longer holds. On main at 758ba9c3bd the test "makes a trade in committee, with both sides reasons and the section on the bill" in `src/core2/legislature-committees.test.ts` fails in Achugao, Northern Mariana Islands (GOLDEN_PATH_SEED=0fa0de4be8c33033, attempt 0, place seed 3b0d7e363ddb0a8720b67bc3818f33d4fb365bd077f48d8f88932d8986675f3b). After two played years the bill bill:office:US-MP:legislature-lower:2025-09-01:official:term:seat:US-MP:governor:2025-01-20:58 carries an accepted committee trade with member official:term:seat:US-MP:lower:At-large:10:2025-01-20, but no section of the bill answers the question the deal's terms name. Either a later step replaced or struck the traded section and left the deal on the record as kept, or the deal was recorded for a section that never went in.
+**What.** A committee trade's deal names a section the bill no longer holds. On main at 758ba9c3bd the test "makes a trade in committee, with both sides reasons and the section on the bill" in `src/core2/legislature-committees.test.ts` fails in Achugao, Northern Mariana Islands (GOLDEN_PATH_SEED=0fa0de4be8c33033, attempt 0, place seed 3b0d7e363ddb0a8720b67bc3818f33d4fb365bd077f48d8f88932d8986675f3b). After two played years the bill bill:office:US-MP:legislature-lower:2025-09-01:official:term:seat:US-MP:governor:2025-01-20:58 carries an accepted committee trade with member official:term:seat:US-MP:lower:At-large:10:2025-01-20, but no section of the bill answers the question the deal's terms name. Either a later step replaced or struck the traded section and left the deal on the record as kept, or the deal was recorded for a section that never went in. Seen: the committee trade's line on the bill card, which names a section the bill still holds (a red golden-path test).
 
-**Cause.** Measured: `GOLDEN_PATH_SEED=0fa0de4be8c33033` in Achugao, Northern Mariana Islands (place seed 3b0d7e363ddb0a8720b67bc3818f33d4fb365bd077f48d8f88932d8986675f3b), the test above in `src/core2/legislature-committees.test.ts`; it fails the same way on clean main and on the rider-fix branch. The bill's sponsor is the governor (a bill proposed by the executive).
+**Cause.** Needs cause. Looked at: `GOLDEN_PATH_SEED=0fa0de4be8c33033` in Achugao, Northern Mariana Islands (place seed 3b0d7e363ddb0a8720b67bc3818f33d4fb365bd077f48d8f88932d8986675f3b), the test above in `src/core2/legislature-committees.test.ts`; it fails the same way on clean main and on the rider-fix branch. The bill's sponsor is the governor (a bill proposed by the executive).
 
-**Fix.** Find whether a later step struck the traded section while leaving the deal kept, or the deal was recorded for a section never added, in the committee trade code of `src/core2/modules/legislature.ts`, and make the record and the bill agree: a traded section that is later struck ends the deal on the record, with the step that struck it.
+**Fix.** None until the cause is found.
 
 **Time box.** 4 hours for one opus session.
 
@@ -35,3 +36,5 @@ root: rc8-law-judged-by-paperwork
 **Files.** src/core2/modules/legislature.ts, src/core2/legislature-committees.test.ts, src/bench/bill-stage.ts
 
 **Notes.** Found by Fable on Nov 10 while checking the rider fix: the test fails the same way on clean main and on the branch, so it is not from that change. The bill's sponsor is the governor (a bill proposed by the executive).
+
+**Notes (Fable's check, Nov 10).** How to find the cause: in the Achugao replay, follow the traded section's id through the committee trade code of src/core2/modules/legislature.ts. Either a later step struck the section and left the deal standing, or the deal was recorded for a section never added. The fix then makes the record and the bill agree (a traded section stays, or the deal ends with it), in the engine and not in the test.

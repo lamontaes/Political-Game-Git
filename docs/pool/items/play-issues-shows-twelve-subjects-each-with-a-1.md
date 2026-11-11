@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-issues-shows-twelve-subjects-each-with-a-1
+pr: #8524
 after:
 blocked-on:
 lead: screens
@@ -16,11 +16,13 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:26:18.275Z
 ---
 
 **What.** Measured by the Nov 9 audit: "Issues still shows 12 subjects with a '1' beside each." The audit's browser life was in Blodgett Landing, New Hampshire (a random world, no seed). The owner met it on Nov 8 (v0.94.0, Manchester, Connecticut): "Why is there only why do a bunch of things have one? I don't understand. I don't like this law menu or issues menu." The federal questions carry their own domain words such as health, trade and immigration, which the screen's subject table does not hold, so each becomes its own subject with one law and the count '1' beside it. Fix the cause, not this list: every law in every family lands in one of the subjects the player already has, from the law's own data, and no subject is made from a key the screen has no word for.
 
-**Cause.** Found in code: `issues()` in src/bench/play.mjs (line 5020) groups laws with `groupOf` (line 5038, the word between the colon and the first dot of the series), labels a group from `labels.issueGroups` (src/bench/data/controls.json, line 722, 14 subjects) or prints `words(key)` (about line 5145) for a key the table lacks, and sorts a missing key first, so the federal questions in src/core2/data/legislature/federal-answers.json each become a one-law subject. The 12 count was not re-measured.
+**Cause.** Found in code: `issues()` in src/bench/play.mjs (line 5020) groups laws with `groupOf` (line 5044, the word between the colon and the first dot of the series), labels a group from `labels.issueGroups` (src/bench/data/controls.json, line 722, 14 subjects) or prints `words(key)` (the subject choices near line 5150, built since pull request 8181 added the filters) for a key the table lacks, and sorts a missing key first, so the federal questions in src/core2/data/legislature/federal-answers.json each become a one-law subject. The 12 count was not re-measured.
 
 **Fix.** Place every law in one of the subjects the table names, read from the law's own data, and never make a subject from a key the screen has no word for.
 

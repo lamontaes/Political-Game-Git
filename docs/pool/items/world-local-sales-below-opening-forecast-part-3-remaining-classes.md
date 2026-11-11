@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from world-local-sales-below-opening-forecast in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** After retail and the firm-bought services have buyers, the rest of the gap is realty (75 percent of demand covered), recreation (51), private schools (15) and insurance. For each, give it a sourced customer or size its book to the buyers the opening can name, and say which in the data. Then SG-P8-outside-product-demand-crosswalk can close. This is the third of three parts of world-local-sales-below-opening-forecast.
@@ -24,7 +25,7 @@ source: split from world-local-sales-below-opening-forecast in the pool redo, No
 
 **Fix.** For each remaining class, add a sourced customer row (household CE categories for recreation and schools, tuition or fees, firm or household buyers for insurance and realty) or size the book to the buyers the opening can name, with the choice recorded in the data. Then resolve the stopgap row.
 
-**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-local-sales-below-opening-forecast (the first-year shrink of a played town).
 
 **Rules.** Research before building: every added customer cites its source and spread. One model, two tiers: counted and full buyers use the same rule, times their count. Replace, never layer: the class's old unsupported entry is removed in the same change.
 

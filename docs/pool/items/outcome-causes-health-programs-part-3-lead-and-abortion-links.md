@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Two links wait on causes no engine records as a measure: lead-to-reading (children's blood lead, outcome school.far-below-proficient) and abortion-denied-to-financial-distress (a person whose abortion was denied, outcome finance.past-due-debt). Record each cause in the engine that owns it and keep each outcome with its base and source. Each cause is a count or level over the place's people, read from rows the engines already write.
@@ -33,3 +34,5 @@ source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/outcome-web.test.ts
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added two researched links to the outcome web; the web's estimates stand and no screen shows the difference.

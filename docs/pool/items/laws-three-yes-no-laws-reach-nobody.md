@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** Three yes-or-no laws can be introduced, passed and signed in Congress, and nothing in the game acts on them: forgiving student loans, banning congressional stock trading and statehood for the District of Columbia. Read in code: the audit found no part of the game that names them, and main agrees, since all three sit in the registered stopgap SG-LAWS-federal-position-no-reader ("no engine reads the law, so enacting one moves no money, person or place"). Measured in the law sweep in Marion, Mississippi (seed 7df73e53cd67), 180 days after each passed, against a twin world with no bill: the stock trading and statehood bills showed only their rider's change, and the student loan bill carried a different rider and its result matched, to the dollar, another bill carrying that rider, so the audit infers it added nothing of its own. Give each law a reader in the engine that already owns the thing it changes, for full people and counted households alike: a student loan balance on household books that forgiveness clears and whose payments stop, a rule on what members of Congress may hold or trade that their own money decisions read, and for statehood the change in who represents the District. A law the simulation cannot yet act on is taken off the list of bills a member can draft until it can, with its reason registered, so no player passes a law that does nothing.
@@ -35,3 +36,7 @@ root: rc8-law-judged-by-paperwork
 **Files.** src/core2/modules/laws.ts (the comment and stopgap marker at lines 307 to 313), src/core2/data/stopgaps/laws.json (SG-LAWS-federal-position-no-reader, line 51), src/core2/modules/credit.ts, src/core2/data/legislature/bill-catalog.json, src/core2/data/laws/reach-group-a.json, data/research/credit/student-loan-debt-2026.json
 
 **Notes.** From the Fable audit, Pillar 2. "Reach nobody" is read, not measured; the sweep's agreement is measured, and the student loan result is the audit's inference from a to-the-dollar match with another bill carrying the same rider. The audit also lists these among seven yes-or-no questions in Congress that did nothing of their own in 180 days; it names raising tariffs as another and does not name the rest. Marked done, still shows: `laws-federal-student-loan-debt-kind` (done) asked for a student loan debt kind in credit.ts and for the stopgap to lose this question. On main, Nov 10, the seed figures exist (`data/research/credit/student-loan-debt-2026.json`, `src/core2/student-loan-seed.test.ts`), but credit.ts holds no student loan, no engine reads the law and the stopgap still lists it. Overlap, not a twin: `gov-federal-questions-rule-readers` (open, priority 3, waits on `gov-federal-questions-answers-stances`) lists the stock trading ban and D.C. statehood among ten federal rule questions to give readers; the audit's evidence was added to its Notes on Nov 10. Whoever claims this item takes those two questions out of that one and says so in its Notes. The stopgap also names federal mandatory minimums, which the audit did not report on. Statehood changes representation and may be larger than this item's size; if so, split it into its own item before building, as the pool's size rule says. The bills in the sweep left with riders (see `gov-riders-added-when-every-vote-is-forced`), so until that lands the checker reads each bill's sections before trusting a pair.
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of two parts: gov-federal-questions-rule-readers-part-3-stock-trading-dc-statehood (the stock-trading ban and D.C. statehood) and gov-federal-questions-money-readers-part-2-retirement-loans-vouchers (student-loan forgiveness). Each of those now says what this item asked for.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Its three laws are each another item's part: the stock-trading ban and D.C.

@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** holdersToday in src/core2/modules/coverage.ts ranks every working adult by the staff of their employer, then pay. A commuter's employer is the town's outside-market organization, whose staff count is the town's commuters, not the size of the firm they work for. So a spouse's new commuter job at a small count can take the household's policy from a worker at a larger employer. The ranking should use an estimate of the outside employer's size.
@@ -37,3 +38,5 @@ lead: lives
 **Notes.** TODO
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have ranked a commuter's outside employer by its real size for the household's policy; the item says nothing on screen reads it.

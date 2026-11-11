@@ -17,6 +17,7 @@ after:
 model: sonnet
 effort: medium
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** On the day a real FEMA incident begins in the player's town, the head of the department that handles it comes to the executive's office with the first count and asks what they may spend. The governor calls the mayor on the same day when the governor is a full person. The executive answers one of four ways: authorize the spending, ask what is needed first, escalate to the governor, or hold to the budget. The facts the lines say come from the disaster record, the damaged-home count where FEMA counted homes, and the town's seated department heads. No disaster situation type exists; the packet and cast rule are on main.

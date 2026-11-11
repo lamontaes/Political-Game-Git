@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The link eitc-to-low-birthweight waits on program.eitc-dollars, and no engine pays an earned income credit yet. Build the credit as a payment made from a household's earnings, then record its dollars as the link's cause and keep low birthweight as the outcome. Estimates and sources go in the parameter table.
@@ -33,3 +34,5 @@ source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
 **Waits on.** Nothing.
 
 **Files.** src/core2/jobs-benefits.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/outcome-web.test.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have built a credit payment and a birthweight link; no player sees birthweight, and the credit would add a payment path beside the money system that exists.

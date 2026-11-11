@@ -4,12 +4,12 @@ title: "Stopgaps in housing-property-tax (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5249
 after:
-blocked-on: sourced county due dates for all 56 places (research data)
+blocked-on:
 lead: money
 model: sonnet
 effort: medium
@@ -17,6 +17,8 @@ root: rc9-place-facts-one-default
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner, so an owner without escrow never faces the bill dates their place's law sets. The due-date data it waited for has landed: `propertyTaxDueDates` in src/core2/housing-property-tax.ts returns each state's installments and dates. Bill non-escrow owners on those dates and keep the monthly twelfth only for escrow, with the tax reaching the town's treasury. The row stays open until the real mechanic replaces the fake.
@@ -42,3 +44,5 @@ Claude, Oct 19: the replacement needs each county's real due dates and installme
 Sent back 2026-10-20 from PR #5249 (branch claude/property-tax-billing-g08lgv): Merging current origin/main conflicts in src/core2/housing-property-tax.ts. Resolve that code conflict on this branch and rerun changed-file checks. Preserve the audited Connecticut July 1 / January 1 due dates from main: the body still describes the superseded November/May estimate, so its old played-year trace does not verify the merged data. Update the named non-escrow bill/payment and treasury-receipt proof on the resolved result.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-21 from PR #5249 (branch claude/property-tax-billing-g08lgv): The conflict and Connecticut-date feedback is addressed, and the body now correctly describes July 1 and January 1. The remaining named proof is still absent: docs/pool/items/world-stopgap-housing-property-tax-faked-mechanic.md:20 requires a non-escrow owner's bill/payment record IDs and the receiving treasury record ID in the one-year drawn-world trace. The body supplies aggregate monthly counts and a seed but no household, bill, payment or treasury receipt IDs. housing-property-tax-played.test.ts:24-46 advances only two days and checks escrow flags, not an actual due-date bill and treasury receipt. Add the explicitly required record chain on the merged result; aggregate counts do not establish that money reached the government. No local gate green is claimed for this missing-proof send-back.; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have paid property tax on county due dates instead of monthly; the player sees a yearly tax, not a due date, and it waits on research data for 56 places.

@@ -4,7 +4,7 @@ title: "Each place's gating state laws are recorded so local questions can be in
 area: gov
 kind: stopgap
 priority: 3
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -14,17 +14,18 @@ after:
 lead: governing
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
-**What.** A local question whose gating state law is not on record is refused with a disputed missing grant. All 59 policy questions are mapped; what remains is the gating state laws themselves (preemption of local minimum wage, rent control, firearms and similar). Record each place's gating law for each local question in the opening law table with a citation, read before introduction and executive orders, so the player's proposed ordinance is allowed or refused by the real law. Closes the stopgap `SG-GOV-policy-power-unresolved`. The work is three parts.
+**What.** A local question whose gating state law is not on record is refused with a disputed missing grant. All 59 policy questions are mapped; what remains is the gating state laws themselves (preemption of local minimum wage, rent control, firearms and similar). Record each place's gating law for each local question in the opening law table with a citation, read before introduction and executive orders, so the player's proposed ordinance is allowed or refused by the real law. Closes the stopgap `SG-GOV-policy-power-unresolved`. The work is three parts. Seen: the introduce screen, where the player's proposed ordinance is allowed or refused by the state law that gates it, not by a missing record.
 
 **Cause.** Found in code: `src/core2/policy-authority.ts` (line 96) refuses a local question whose gating state law is not on record and writes a disputed missing grant under stopgap `SG-GOV-policy-power-unresolved` (row in `src/core2/data/stopgaps/gov.json`).
 
 **Fix.** Do the three parts, each recording gating law rows with citations in the opening law table and having introduction record the gating law's id as the reason a question was allowed or refused.
 
-**Time box.** 2 hours for one sonnet session to hand out the parts and check them in; each part carries its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check after the three parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** One rule, all 56 places: gating laws are per place in data, never named in logic. Research before building: each row cites the statute. The chain is the acceptance: a refused or allowed ordinance cites the law record by id.
 

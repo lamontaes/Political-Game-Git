@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/fable-b1-worker-heap
+pr: #8375
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,7 @@ effort: medium
 root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:23:50.459Z
 ---
 
 **What.** On a four-core cloud container with 16 GB, Node's default heap limit is 2,096 MB, and vitest's workers inherit it. Run there one file at a time on main 01f5cd4715, school-outcomes.test.ts and school-pay.test.ts fail every run with 'Worker exited unexpectedly' (V8: 'Ineffective mark-compacts near heap limit'), and press-turnover.test.ts's second case does the same. counted-weight-money.test.ts and press-money.test.ts did it once each on a large draw. With NODE_OPTIONS=--max-old-space-size=4096 all of them pass on the same main. Give the tests that build a played world the heap they need where vitest starts its workers, once, so a merger or CI on a 2 GB default sees the same result as a developer. Combined by the Oct 25 audit, one change in one seam; the parts folded in: tests-budgets-worker-heap-limit (budgets.test.ts runs out of its worker's 2 GB heap in some runs of the budgets files at two workers); tests-term-start-history-worker-oom (term-start-history.test.ts runs its worker out of memory on some drawn places (Millington, Tennessee, seed tsh22)). Each part's own done-when line is listed in Notes and is part of this item's acceptance.
@@ -45,4 +46,4 @@ Merger 1, Oct 26 03:16 UTC, independently reproduced while gating #6041: `src/be
 
 Oct 26 (speed lead): drives-filled-in-job-loss.test.ts does the same on main 4b6763bdd5, run alone with the default heap: 'Reached heap limit', then 'Worker exited unexpectedly'.
 
-**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10).** A build of this is on branch `claude/fable-b1-worker-heap` (not yet a pull request). Claiming this item takes that branch over; read its last commits first.
+**Notes (Fable's check, Nov 10).** A build of this is on branch `claude/fable-b1-worker-heap` (not yet a pull request). Claiming this item takes that branch over; read its last commits first.

@@ -4,7 +4,7 @@ title: "Counted households get only what the counts need at the opening"
 area: core
 kind: feature
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr: #5079
@@ -14,9 +14,10 @@ source: "core-needs-core-172 triage, Oct 15"
 claimed-at:
 lead: m0-m2
 standard: 2
-model: opus
-effort: medium
+model: sonnet
+effort: low
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** `buildOpeningKin` and personality still run for every household at the opening (about half of the 12 s open). Take a `countedHouseholdIds`-style option decided before generation so counted households get only ages, household, job, cash and living cost, and build kin and past on demand at fill-in. The saving is meant to take a few seconds off the opening and keep a clicked counted person consistent with the records.
@@ -25,13 +26,13 @@ root: design-one-model-two-tiers
 
 **Fix.** Do it through its three parts, in order: kin as an optional step, kin only for kept households, kin on demand at fill-in. Do not change aggregate population or inherited traits (an owner decision if needed).
 
-**Time box.** 2 hours for an Opus session, the closing check only; the build is in the three parts, each with its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** One model, two tiers: counted households are read by the engines with the same rules as full people. Speed: a town's game year runs in under two minutes.
 
 **Done when.** A second session, in a drawn-place opening in buildBenchWorld (Vonore, seed hours-a, or another named), sees kin and personality records only for the player's circle, the opening time before and after on one machine in the PR, and a clicked counted person filled in with kin by record id.
 
-**Waits on.** core-opening-counts-from-census and the three parts: core-light-opening-kin-households, core-light-opening-kin-only-kept and core-light-opening-kin-at-fill-in.
+**Waits on.** The three parts: core-light-opening-kin-households, core-light-opening-kin-only-kept and core-light-opening-kin-at-fill-in. (core-opening-counts-from-census, which it once waited on, is done.)
 
 **Files.** src/core2/population.ts, src/core2/opening-kin.ts, src/core2/state.ts
 

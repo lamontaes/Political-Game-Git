@@ -17,13 +17,15 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 lead: governing
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** When a president visits another town, the person they meet is a recorded identity with no household, job or records beyond the meeting (SG-OFFICE-FED-trip-residents). Fill in that person from the other place's coarser counts, as the player's own town does, so they have a job, pay and family that match what the place's records say. The situation-room row of this item is already resolved. The player notices meeting a real resident of another town with a job and a family.
 
 **Cause.** Found in code: src/core2/office-day-federal-president.ts line 849 calls api.stopgap("SG-OFFICE-FED-trip-residents"); the row is at src/core2/data/stopgaps/office.json line 123. The other row, SG-OFFICE-FED-situation-room, was resolved when the situation room began opening on FEMA disaster records.
 
-**Fix.** Fill in a person met on a presidential trip from that place's counted population by the standard fill-in rule, matching job and pay in the place's records, and mark the row resolved (never delete it).
+**Fix.** Fill in a person met on a presidential trip from that state's cell in the country tier, by the standard fill-in rule, with a job and pay that agree with the cell (docs/design/country-tier.md, section 7, "Results first": a person met in another state is filled in from their cell). Seed them from the world so the same person comes back, and mark the row resolved.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -31,7 +33,7 @@ lead: governing
 
 **Done when.** A second session plays a President on a trip in a one-year run of the played world (buildBenchWorld, a place drawn from all 56 and a seed the builder did not choose, both named in the PR body), meets a resident, and sees a household, job and pay consistent with that other town's counts, by person and place record ids. SG-OFFICE-FED-trip-residents is resolved in src/core2/data/stopgaps/office.json. Tests sit beside src/core2/office-day-federal.test.ts.
 
-**Waits on.** world-other-places-coarse-population (other places must keep counted populations to fill in from).
+**Waits on.** Nothing. (world-other-places-coarse-population, which it once waited on, was replaced by the country tier.) The state cells are on main (`stepCountry` in src/core2/country-model.ts, read through `countryStateNow` in src/core2/modules/macro.ts).
 
 **Files.** src/core2/office-day-federal-president.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps/office.json, src/core2/office-day-federal.test.ts
 

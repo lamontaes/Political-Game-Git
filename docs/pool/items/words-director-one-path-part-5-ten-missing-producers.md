@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of words-director-one-path. Ten situation types have a cause that no producer reads and four scenes the owner asked for have no type, so they never play. Each producer is a read of an event an existing engine already keeps, proven in a drawn place, and any type with no cause is deleted or given one.

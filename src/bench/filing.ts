@@ -26,7 +26,7 @@ import {
   pickContest,
   type FilingVisit,
 } from "../director/filing-visit";
-import { backdropFor, stagePeople, type StageReason } from "./scene";
+import { backdropFor, peopleHere, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -48,7 +48,7 @@ export interface BenchFilingVisit {
   filedWith: string;
   place: string;
   backdrop: ReturnType<typeof backdropFor>;
-  people: ReturnType<typeof stagePeople>["people"];
+  people: ReturnType<typeof peopleHere>["people"];
   names: Record<string, string>;
   /**
    * Each offered race told apart before the player picks, from its records:
@@ -229,7 +229,7 @@ export function openBenchFilingVisit(
         )
       : [],
     backdrop,
-    people: stagePeople(core, backdrop.file, cast).people,
+    people: peopleHere(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
   };

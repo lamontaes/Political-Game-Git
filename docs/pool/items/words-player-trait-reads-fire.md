@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** Three personality decisions belong to the director and never fire in the trait audit's played year, because only the player's own conversations start them: bring-it-up.blame (src/director/bring-it-up.ts, reached from the bench handler), conversation.reply-reach (src/director/conversation.ts, the ranking of replies offered to the player) and scene-talk.move (src/director/scene-talk.ts). Measured Oct 28 on main in place 2474560, seed 092b17e0e593, election window December 3, 2025 to December 3, 2026: 0 calls each, while 78 of 91 decisions ran. The audit plays the world with no player acting, so it cannot see them; a played year in which the player talks to people should.

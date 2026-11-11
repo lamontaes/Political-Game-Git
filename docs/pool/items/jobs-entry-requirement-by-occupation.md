@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** When an opening has several applicants the jobs engine picks the one with the best fit: the years of experience in that occupation times a weight, plus the person's reliability times a weight, plus an official's word for them. Every occupation is judged by the same weights, so an entry-level opening with a 22-year-old and a 40-year-old with ten years in the trade ranks the experienced one first and the 22-year-old can never get a first job. Collect, for each occupation the game uses, what the BLS Employment Projections table lists as the work experience usually asked in a related occupation (none, under five years, five years or more) and the typical entry education, cite it, and write it to a data table keyed by occupation classification. A later item makes the fit read the table; this one is data only.
@@ -37,3 +38,5 @@ source: added with npm run pool -- add
 **Notes.** Written Oct 20 (claude/entry-spec) from the code. `experienceYears` (jobs.ts about line 2271) sums a person's commitments in the occupation; the counted tier keeps its own `countedExperience`. The follow-up is `jobs-occupation-entry-experience`. Waits on `jobs-no-openings-in-small-towns` per its `after:`.
 
 Oct 25 audit: unblocked; the spec was written Oct 20, so the empty-shell block no longer holds.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a BLS table of the experience each occupation asks, so entry-level applicants rank differently; no player sees the table, and a single weight stays an estimate.

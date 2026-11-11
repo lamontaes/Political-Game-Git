@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/board-appointer.ts places a central bank candidate on the left-right scale by how much inflation they lived through, and scores qualification from a small table by career label. Give each seeded candidate a recorded stance and a short career history (filled in like any named person), read the stance for the president's alignment and the history for qualification, with the table's values calibrated to past governors' careers. This closes the stopgaps SG-WORLD-board-hawk-side and SG-WORLD-board-career-qualification.
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/board-appointer.ts, src/core2/board-appointer.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap rows SG-WORLD-board-hawk-side and SG-WORLD-board-career-qualification.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given each central-bank nominee a recorded stance and career instead of two estimated numbers; no screen shows a nominee's career, and the estimates stay labeled.

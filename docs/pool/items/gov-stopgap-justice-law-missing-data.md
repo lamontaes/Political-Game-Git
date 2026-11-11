@@ -4,9 +4,9 @@ title: "Stopgaps in justice-law (missing-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr: #5317
+status: in-pr
+claimed-by: claude/pool-gov-stopgap-justice-law-missing-data
+pr: #8560
 blocked-on:
 milestone:
 standard: 2
@@ -15,8 +15,10 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind missing-data"
-claimed-at:
+claimed-at: 2026-11-11T04:08:19.581Z
 after:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Replace or clear the one open missing-data stopgap row in src/core2/justice-law.ts: SG-GOV-justice-prosecutor-stand-in. The fake is replaced by the mechanic, or the feature that needs it is deleted. The row is never closed by deleting it alone.

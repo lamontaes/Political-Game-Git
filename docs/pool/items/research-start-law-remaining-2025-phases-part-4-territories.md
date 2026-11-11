@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from research-start-law-remaining-2025-phases in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Source the phase in force on January 20, 2025 for the income and sales taxes of Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands, which the opening still carries back from January 2026. Read each territory's rate from its tax code or revenue office page, quote it, and write the 2025 phase. When the other three parts are also done, SG-GOV-start-law-carried-back can be resolved.
@@ -33,3 +34,5 @@ source: split from research-start-law-remaining-2025-phases in the pool redo, No
 **Waits on.** Nothing.
 
 **Files.** scripts/research/build-starting-law.py, scripts/research/check-start-law-2025.ts, src/core2/data/laws/starting-law.json, src/core2/modules/laws.ts, src/core2/data/stopgaps/gov.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): one part of the January 2025 start-law sourcing; the numbers may stay estimates.

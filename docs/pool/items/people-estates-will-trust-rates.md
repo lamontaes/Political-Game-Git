@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 lead: laws-effects
+checked: fable 2026-11-10
 ---
 
 **What.** Weighed for every adult 55 or older in Haledon, New Jersey, the will's age term puts all 858 over the line with temperament off, against 37.4 percent with a will among Swiss adults 55+ (Ryser et al. 2026) and about half of older Americans. The trust's wealth term keeps 98 percent of the 832 with savings far below it. With the rates this far from life, the trait weights cannot reach the studies' odds (1.42 and 1.34 between the thirds). Research is gathered in the Notes; the build needs net worth on record first.
@@ -49,3 +50,5 @@ Oct 25 (traits lead): researched and measured, then set back to open; build on P
 - **What the second circumstance needs:** income or wealth (Gallup's 30% to 61% by income). A person's own savings at the opening are no basis yet: 78% to 83% of adults 55+ hold zero `liquidMinor`, and the rest a median of $794 to $1,302, so the household's money is not on the members who would die with it. Education and marital status are not on the person record. settleEstate weighs a will or trust only for a death with a positive balance, so the population that matters is the dead with an estate.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have set the share of older adults with a will or trust to survey rates; no player sees who has one.

@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** assigner() in src/core2/modules/leadership.ts takes who seats a chamber's committees from the chamber's template in data/research/legislature/chamber-leadership.json, so every state senate's presiding officer and every house's speaker seats its committees. The research of Oct 23, 2026 (data/research/gov/chamber-committee-appointment-2026.json, one row per chamber for all 108 state, territorial and council chambers) read 27 chambers' own adopted rules, and 16 of them seat committees through another hand: a committee on committees, the majority leader, seniority choice, a vote of the chamber, each party caucus seating its own members, or each committee's chair. Have assigner() read the chamber's row by jurisdictionKey and chamberKey before its template (the template stays the fallback for ESTIMATED rows), seat minority members through the minority leader where the row says so, and retire the seniority fallback in committeeStage of src/core2/modules/legislature.ts once every played chamber is seated by leadership, resolving SG-GOV-committee-structure.
@@ -36,4 +37,4 @@ after:
 
 **Notes.** TODO
 
-Deferred Oct 25: nothing on screen reads it yet.
+Deferred Oct 25: nothing on screen reads it yet. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Who seats committees in each of 108 chambers; committees are already seated and the player sees no difference.

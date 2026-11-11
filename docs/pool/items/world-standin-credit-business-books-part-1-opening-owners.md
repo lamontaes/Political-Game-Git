@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from world-standin-credit-business-books in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The generated opening records no owners: the largest businesses by staff, up to the state's estimated share of jobs in multi-establishment firms, belong to firms based outside the town, and every other is owned by its highest-paid current worker as owner-operator. Replace that with an owner record per opening business, from who founded or bought it (a resident's job and money history) and, for absentee and corporate owners, from business ownership records, and have the credit engine read the owner when it decides on a credit line. This is the first of three parts of world-standin-credit-business-books.
@@ -33,3 +34,5 @@ source: split from world-standin-credit-business-books in the pool redo, Nov 10,
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/business.ts, src/core2/modules/credit.ts, src/core2/data/stopgaps/world.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given every opening business an owner record for the credit engine; no player sees it.

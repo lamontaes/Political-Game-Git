@@ -5,25 +5,26 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #5037
+claimed-by: claude/pool-tests-early-returns-residents-retirees
+pr: #8540
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T03:48:33.776Z
 after:
 lead: laws-effects
 model: sonnet
 effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Generated-world tests can pass without checking their claim when their opening lacks a required record. PR #5037 replaces such early returns with bounded searches for an eligible opening or assertions proving the negative case, and its residents test conflicts with current main, so integrate the existing branch with a normal merge and preserve both sets of assertions. On main the bare early returns that remain are in src/core2/campaign-day.test.ts and src/core2/leadership.test.ts; the returns in src/core2/residents.test.ts follow an assertion or a success. Finish this repair on the existing branch rather than starting a duplicate.
 
 **Cause.** Found in code: src/core2/campaign-day.test.ts line 597 (`if (!filing) return;` in the interview case) and src/core2/leadership.test.ts line 223 (`if (!chamber) return;`) end a test before any assertion, so it passes when the drawn place lacks the case. The returns at src/core2/residents.test.ts lines 207 and 712 come after an assertion or a success and are not skips; the release-change file the item once named is gone.
 
-**Fix.** Replace each bare early return with a bounded draw across the 56 places that fails by name on exhaustion (or an assertion proving the negative case), naming place and seed. Drop the old branch and the release-change file from the item. Merge the existing branch with a normal merge and keep every assertion.
+**Fix.** Replace each bare early return with a bounded draw across the 56 places that fails by name on exhaustion (or an assertion proving the negative case), naming place and seed. Build it fresh from main in the two test files named and keep every assertion. Do not merge the old branch claude/residents-test-draws (pull request #5037, sent back three times in October): it is far behind main and also edited a director test that Words owns.
 
 **Time box.** 3 hours.
 

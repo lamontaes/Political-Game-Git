@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/bench/opening-address.browser.mjs failed on a fresh bench on Nov 3 in Santa Isabel, Puerto Rico (seed fecc3ab9-7f3c-4efb-9845-569e4c79325d) with "Skip scene ended the address": after Skip scene the talk box still contains "Thank you all". The file is unchanged since 36503ddd20, so either Skip scene no longer clears the address or the talk that follows now quotes the closing line. The browser check ends the opening address with Skip scene and then reads the talk box (lines 58 to 70), so the failure is in what Skip clears or in what the next talk quotes. Nobody has decided which.
@@ -35,3 +36,5 @@ root: none
 **Files.** src/bench/opening-address.browser.mjs
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** `node src/bench/opening-address.browser.mjs` (BENCH_BROWSER as above) on a fresh bench. The check draws its own place; BENCH_SEED is not read, so Santa Isabel was not replayed. Run in Medora, North Dakota, check seed 6b0e7a72-83db-4781-81ff-f01adba62e25: red, earlier than the item's assertion. As printed: `AssertionError [ERR_ASSERTION]: the talk box says the address` (actual false, expected true) at src/bench/opening-address.browser.mjs:53.

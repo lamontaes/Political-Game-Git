@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/free-block.ts fills a person's free hours from one scoring pass per activation: at most one act per need each day, needs other than company held at their activation value between planned days, and the plan kept in memory, not in the world's saved state. The ATUS reserve for activities the game does not model is already read, so what is left is the plan itself. Let needs move on each planned day from their own causes, allow a second act for a need when it still scores, keep plans with the world, and print the town's share of adult-days with a visit beside ATUS 2025 (28.2% to 32.5%, data/research/core/atus-2025-socializing.json) as a figure to report. Closes SG-P15-free-block-plan.

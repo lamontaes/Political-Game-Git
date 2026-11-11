@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone:
 source: Split from world-stopgap-retirement-claims-program-stand-in by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** A person's Social Security award is sized from modeled covered months (an estimate from their age and a reliability trait in `retirement-claims.ts`), because nothing records what they earned. Record it: the payroll withholding path (`onWorkPayroll` in src/core2/modules/employer-taxes.ts, where the Social Security tax is withheld) adds each covered wage to a per-person, per-year covered-earnings row for a full person, and to a per-member column for a counted resident whose group wage flow is paid. The opening seeds each adult's earlier record from their age, sex and the place's earnings (as an ESTIMATED past, consistent with their job history, marked with its source), and play adds to it. The record caps each year at the law's taxable maximum. Fill-in reads the counted member's column, so the same earnings come back.
@@ -36,3 +37,5 @@ source: Split from world-stopgap-retirement-claims-program-stand-in by pool feed
 **Files.** src/core2/modules/employer-taxes.ts, src/core2/modules/retirement-claims.ts, src/core2/residents-economy.ts, src/core2/earnings-record.ts (new), src/core2/earnings-record.test.ts (new)
 
 **Notes.** Split from world-stopgap-retirement-claims-program-stand-in by pool feeder Oct 20.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded every worker's covered earnings by year; only the dropped benefit formula reads it.

@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-business-never-adds-location-part-2-all-markets
+pr: #8667
 after:
 blocked-on:
 lead: jobs
@@ -16,9 +16,11 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:37:01.387Z
 ---
 
-**What.** The monthly founding pass sorts the markets by score and returns out of the function on the first founding, so a market that wins every month keeps every other market from being evaluated. In Cochituate, Massachusetts that left no market but manufacturing ever tried from April on. Evaluate every market each month, so a founding in one does not stop a founding in another.
+**What.** The monthly founding pass sorts the markets by score and returns out of the function on the first founding, so a market that wins every month keeps every other market from being evaluated. In Cochituate, Massachusetts that left no market but manufacturing ever tried from April on. Evaluate every market each month, so a founding in one does not stop a founding in another. Seen: the town's business list, where one founding in a month no longer blocks every other market from getting a new business.
 
 **Cause.** Found in code: src/core2/modules/business.ts `foundings` (line 1721) returns on the first founding ("a founding returns out of this function" in its own comment), so later markets in the sorted list are never evaluated that month.
 
@@ -33,3 +35,5 @@ root: none
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/business.ts, src/core2/business.test.ts
+
+**Notes (Fable, Nov 10).** A second place shows the same pattern. In St. Johnsbury, Vermont (5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4, one played year on main cb25bfa5c8) exactly one business was founded on the first of each month from 2025-03-01 to 2026-01-01, and all eleven are manufacturing (organization:founded:manufacturing:person_3af1a494d4504b3b:2025-03-01 is the first).

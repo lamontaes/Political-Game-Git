@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 milestone:
 source: Split from world-stopgap-retirement-claims-program-stand-in by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** Awards in `claim` (src/core2/modules/retirement-claims.ts) are a participant average scaled by modeled covered months. Replace the size with the law's formula: put the benefit formula in the law rows (the bend points and the 90, 32 and 15 percent rates of the primary insurance amount, the annual indexing, the reduction for claiming before full retirement age and the credit for delay, the cost-of-living adjustment) so that a Social Security bill changes them, compute the average indexed monthly earnings from the person's covered-earnings record (world-social-security-earnings-record), and make the monthly payment follow the person's claim age from `social-security-law.ts`. Ongoing awards re-rate when the law's cost-of-living row changes. Delete the participant-average benefit parameters and the SG-CORE-retirement-claims-in-play marker. Spouse, survivor and earnings-test benefits are not built: the owner's baseline lists no such step, so the PR body asks whether to add them.
@@ -36,3 +37,5 @@ source: Split from world-stopgap-retirement-claims-program-stand-in by pool feed
 **Files.** src/core2/modules/retirement-claims.ts, src/core2/social-security-law.ts, src/core2/data/laws/social-security-ages.json, src/core2/data/laws/starting-law.json, src/core2/data/opening-income.json, src/core2/retirement-benefit-formula.test.ts (new), src/core2/data/stopgaps/core.json
 
 **Notes.** Split from world-stopgap-retirement-claims-program-stand-in by pool feeder Oct 20.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sized a pension from the Social Security formula; no player sees a retiree's formula, and the stand-in item it closed is dropped.

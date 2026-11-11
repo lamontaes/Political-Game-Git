@@ -16,6 +16,7 @@ effort: medium
 root: design-story-director
 source: split from words-scene-ending-writes-its-record in the pool redo, Nov 10, 2026
 standard: 2
+checked: fable 2026-11-10
 ---
 
 **What.** Nine scene kinds have endings that all keep nothing: race-told, diploma-home, no-diploma-home, filing, door-signature, family-win, family-loss, desk-bill and new-baby. Each either keeps a record an engine reads or is listed with the reason it keeps none.

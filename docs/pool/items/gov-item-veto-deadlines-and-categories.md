@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** The item veto strikes or reduces appropriation increases with exact override fractions and the played year proves the chain, but special deadlines, external assent and some protected or mixed appropriation categories are incomplete, and territorial reductions are unavailable. Read the remaining legal details from data per place and finish those cases. Closes the stopgap `SG-STATE-line-item-veto-engine`.
@@ -34,4 +35,4 @@ root: rc9-place-facts-one-default
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/data/office-day/state-line-item-veto.json, src/core2/data/stopgaps/state.json, src/core2/legislature.test.ts
 
-**Notes.** Oct 20 (pool feeder): the row SG-STATE-line-item-veto-engine stays open while its pool item is done.
+**Notes.** Oct 20 (pool feeder): the row SG-STATE-line-item-veto-engine stays open while its pool item is done. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Special deadlines, external assent and territorial cases of the item veto; the veto chain already plays.

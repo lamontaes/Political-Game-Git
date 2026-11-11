@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-core-long-run-election-and-term-rows-part-2-outside-races
+pr: #8272
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: rc5-full-detail-every-day
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:16:35.244Z
 ---
 
 **What.** Every state's legislature and officers are raced on their own calendars, and each race keeps a result, returns and a row per voting place forever, 12,492 voting places growing to 40,971 in four years in Kirkman, Iowa. Outside contests' details are read by nothing once the next general election has been counted. Fold them as the Notes agree with the laws lead.

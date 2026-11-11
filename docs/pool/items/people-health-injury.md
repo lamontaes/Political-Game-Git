@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after: people-health-conditions-begin
@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: design-life-record
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Add injuries to the health module. A worker's exposure builds from the hours they work in their occupation (the occupation's injury intensity from the BLS Survey of Occupational Injuries and Illnesses), made worse when their employer is short-staffed and by their own fatigue, and the worker is injured when exposure crosses their own keyed injury line. An injury is a typed event with a severity and a recovery spell during which the worker's hours are lowered and the household pays the medical cost. Counted workers accrue the same exposure times their count.
@@ -36,3 +37,5 @@ lead: lives
 **Files.** src/core2/modules/health.ts, src/core2/modules/jobs.ts, src/core2/data/health.json, src/core2/health-injury.test.ts (new)
 
 **Notes.** Split from people-stopgap-health-missing-mechanic Oct 20. Needs a sourced occupation injury table (BLS SOII), which the builder adds to the parameter table with its spread.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given workers job injuries from an injury-rate table, with a recovery spell and a smaller paycheck; nothing on the golden path shows it. The owner can ask for it back.

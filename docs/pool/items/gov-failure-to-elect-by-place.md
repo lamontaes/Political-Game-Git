@@ -4,8 +4,8 @@ title: "When an election fails to fill an office, the holdover and repeat electi
 area: gov
 kind: research
 priority: 3
-size: M
-status: open
+size: S
+status: dropped
 claimed-by:
 pr:
 blocked-on: gov-failure-to-elect-by-place-part-1-holdover-rows-a-to-m, gov-failure-to-elect-by-place-part-2-holdover-rows-n-to-z-and-territories
@@ -14,8 +14,9 @@ after:
 lead: governing
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** When an election fails to fill an office, the holdover and repeat election follow a family estimate, not each place's own law. The voting module uses `holdover.json`'s family defaults for what happens when no one is elected, because no place has a researched failure-to-elect row. Research each of the 56 places' rule per office family (holdover, appointment or repeat election and its timing), cite it, and read it in the same function. The national contingent election (House by state delegation, Senate for vice president) is already built in `src/core2/contingent-election.ts` and handled in the voting module, so it is no longer part of this item. The work is two parts. Closes the stopgap `SG-GOV-empty-race-law`.
@@ -36,4 +37,4 @@ root: rc9-place-facts-one-default
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-empty-race-law.
 
-**Notes (pool redo, Nov 10).** The draft sorting counted a third part, the national contingent election. Checked on main: `src/core2/contingent-election.ts` and `src/core2/data/elections/contingent-election.json` exist, the voting module handles a `contingent-election` work item, and `src/core2/world-races.test.ts` covers it, so that part was not created.
+**Notes (pool redo, Nov 10).** The draft sorting counted a third part, the national contingent election. Checked on main: `src/core2/contingent-election.ts` and `src/core2/data/elections/contingent-election.json` exist, the voting module handles a `contingent-election` work item, and `src/core2/world-races.test.ts` covers it, so that part was not created. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Each place's holdover rule for an unfilled office; the family default already seats someone and no player reads the section.

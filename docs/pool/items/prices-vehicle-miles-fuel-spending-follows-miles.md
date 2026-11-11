@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The price engine scales the miles a household drives by the outcome web's factor on `traffic.vehicle-miles` where it charges a mileage fee, so the fee and the fuel tax refund follow the miles. The household's own spending on fuel is meant to read the same factor, so a law that moves driving changes both the fee and what the household spends at the pump. The item says to check first which engine charges fuel today, and that check has not been completed, so the cause is not yet known.
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/place-prices.ts, src/core2/cost-of-living.ts
 
 **Notes.** Found by the laws lead's helper on `claude/web-vehicle-miles-traveled-per-resident`, Oct 25. Check first which engine charges fuel today.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made a household's pump spending follow the miles a mileage-fee law moves; its cause is not found, only that one law reads it, and no screen shows it.

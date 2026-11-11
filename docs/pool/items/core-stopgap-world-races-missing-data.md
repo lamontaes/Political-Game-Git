@@ -4,10 +4,10 @@ title: "Stopgaps in world-races (missing-data): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #5304
+claimed-by: claude/pool-core-stopgap-world-races-missing-data
+pr: #8626
 after:
 blocked-on:
 milestone:
@@ -16,7 +16,9 @@ effort: medium
 root: rc9-place-facts-one-default
 lead: governing
 source: "src/core2/data/stopgaps.json, src/core2/modules/world-races.ts, kind missing-data"
-claimed-at:
+claimed-at: 2026-11-11T05:24:27.722Z
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Two missing-data stopgap rows remain on the out-of-town races: SG-GOV-world-race-lean and SG-GOV-delegate-race-size (src/core2/data/stopgaps/gov.json). This item narrows to the delegate-race size row; the lean row stays open for the district-results data and is reduced by core-race-candidates-who-runs. A territory delegate race is sized by a default rather than its votes cast. Oct 20 research found the 2024 votes cast: Puerto Rico about 1,220,000 (derived from 530,540 at 43.48 percent; the State Commission of Elections certifies the exact count), Guam about 29,300 (derived), U.S. Virgin Islands 14,167 (certified, vivote.gov), American Samoa about 9,900 (derived), Northern Mariana Islands 12,225 (unofficial).

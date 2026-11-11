@@ -17,6 +17,7 @@ effort: high
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The merge audit asked for a played-world test that enacts a public pay floor, lets a public employer (town, county, school) open a position through the jobs engine, hires into it and checks by record id that the hire's pay meets the floor. On Oct 20 six drawn towns (Arbon Valley ID, Port Wing WI, Fairplay GA, Telford PA, Casco ME, Ravenswood WV) opened no position at any public employer in a year after the floor was enacted, so the path the floor hooks (publicPayFloorHourly, read in src/core2/modules/jobs.ts) is not reached in ordinary play at public employers. Find why public staff do not turn over through the jobs engine (budget-set staff, retired templates?) and make a leaver at a public employer open a replacement there, or move the floor to where public pay is really set.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** None until the cause is found.
 
-**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the bill card's line for who a public pay floor reached, in dollars; today no public employer opens a position so it reaches no one.
 
 **Rules.** No dice. Wire to the world: proven in buildBenchWorld with a drawn place. Replace, never layer: one route for public hires, not a second beside the staff-hire route.
 

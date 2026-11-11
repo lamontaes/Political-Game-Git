@@ -1463,6 +1463,15 @@ function scheduleMonth(api: CoreAPI): void {
   });
 }
 
+/** The engine opens on the first day it runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (store(api).table("state").get("place-prices:state")) return;
+  store(api)
+    .table("state")
+    .put({ id: "place-prices:state", openedAt: api.state.date });
+  scheduleMonth(api);
+}
+
 export const PLACE_PRICES_MODULE: CoreModule = {
   id: PLACE_PRICES_MODULE_ID,
   state: {
@@ -1475,13 +1484,10 @@ export const PLACE_PRICES_MODULE: CoreModule = {
       heardLaws: {},
     },
   },
-  onDay(api) {
-    if (store(api).table("state").get("place-prices:state")) return;
-    store(api)
-      .table("state")
-      .put({ id: "place-prices:state", openedAt: api.state.date });
-    scheduleMonth(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its month is dated work and runs.
+  onResultsMonth: openOnce,
   onCalendarWork(api, work) {
     if (work.kind !== "place-prices-month") return;
     month(api);

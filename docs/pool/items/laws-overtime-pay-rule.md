@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -17,6 +17,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Pay in the work engine is the job's hourly rate times attended minutes (`work-state.ts`), with no overtime and no salaried jobs, because the pay terms are a projected proxy (stopgap SG-P8-work-pay-terms). Add overtime as law data: a series in src/core2/data/laws/starting-law.json for the federal Fair Labor Standards Act (time and a half after 40 hours in a work week) with state rows where a state's law is stricter (a daily threshold, a double-time tier), the exempt salary threshold below which a salaried worker is still owed overtime, and the territories' own rows. Make the work module's pay accrual for a pay period read the law in force at the job's place: hours past the threshold in the week are paid at the multiple, and a job recorded as salaried and above the exempt threshold is paid its period amount whatever the hours. Employer cost follows, so business books and the budget line for a public employer see the higher wage.
@@ -36,3 +37,5 @@ root: none
 **Files.** src/core2/data/laws/starting-law.json, src/core2/work-state.ts, src/core2/work-pay-period.ts, src/core2/modules/work.ts, src/core2/overtime-pay.test.ts (new)
 
 **Notes.** Split from core-stopgap-work-prototype-pay-projection by pool feeder Oct 20; the stand-in research (docs/research/stand-in-figures-2026-10-12.md) notes the DOL state payday and overtime pages as the source.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added overtime and salaried pay to the work engine with a new law series; no overtime law is on the bill menu today and no ruling asks for one.

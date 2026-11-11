@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from gov-failure-to-elect-by-place in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Research and record, for Alabama through Missouri, what happens when an election fails to fill an office, per office family: holdover, appointment or repeat election and its timing, each cited by statute or constitution section with its retrieval date, in `src/core2/data/offices/holdover.json`. The voting module's empty-race function already reads the file's family defaults.
@@ -33,3 +34,5 @@ source: split from gov-failure-to-elect-by-place in the pool redo, Nov 10, 2026
 **Waits on.** Network access to the state statute sites.
 
 **Files.** src/core2/data/offices/holdover.json, src/core2/modules/voting.ts, src/core2/office-holdover.ts, src/core2/voting.test.ts
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Research citations of holdover law, seen nowhere.

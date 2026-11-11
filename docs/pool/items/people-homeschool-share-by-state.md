@@ -5,18 +5,19 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
-pr: #5493
+status: in-pr
+claimed-by: claude/pool-people-homeschool-share-by-state
+pr: #8553
 blocked-on: a researcher: choose the homeschool definition (Household Pulse is broader than NHES), then build the state table from the Pulse public-use files; see the Notes
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:03:10.243Z
 after:
 standard: 2
 model: sonnet
 effort: low
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The private share of students by state is sourced, but the homeschool share by state is not read anywhere. A researcher already built the 51-state table from the Census Household Pulse public-use files, scaled to the national NHES figure (1.8 to 4.4 percent, median 2.6), with the definition, limits and script written up in docs/reports/homeschool-share-2026-10-20.md. The table never shipped because the school engine reads one national private share. Move the table into data/research/people with a reader in the tuition opening.

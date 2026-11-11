@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-one-person-shows-two-faces
+pr: #8330
 after:
 blocked-on:
 standard: 2
@@ -16,6 +16,8 @@ effort: high
 root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4 "What a player sees", Pillar 6, and "Duplicate systems worth merging", item 4)
+checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:33:20.543Z
 ---
 
 **What.** The audit measured on Nov 9 in Blodgett Landing, New Hampshire (a random world, no seed given) a 17-year-old player: "One person, two faces. The You screen's bust has light brown hair and pale skin. The Your life tab shows a full figure with black hair and tan skin. Her mother's bust resembles neither of them." The owner said the same on Nov 8, 2:10 p.m.: "I'm Mexican and my son is white. I don't know how that happened." The audit names the cause as duplicate drawing code: three ways to draw a face and six person cards. Fix the class: one face part and one picture source per person, read from that person's one looks record and used by every card, list, bust and menu; the other face parts and the duplicate cards are deleted.
@@ -30,7 +32,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 
 **Done when.** A second session (not the builder) starts the bench (`npm run bench`), starts a new game through the creator in a drawn place (place and seed named) and takes screenshots at 1440x900 of every place the player's own face appears: the player card, You and its two other tabs, the talk box in one scene, People, the title's Continue and Saved games. Hair color, skin tone and the pack person are the same in all of them, and the proof names the one looks record id they were read from. It then opens each household member's card from People and from a scene and checks that a parent and child share the family's origin on their looks records. A search of src/bench finds one function that draws a face and one that draws a person card, and a test fails when a second is added. The same screenshots are taken in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro.
 
-**Waits on.** Nothing.
+**Waits on.** Nothing for the one picture source per person. Do not redesign how a face is drawn or cropped: busts are coming and how they are shown is the owner's call (docs/coordination/OWNER-DECISIONS.md, Nov 10, "Staging waits for busts"). Keep the face part that stays easy to point at a bust.
 
 **Files.** src/bench/ui/headshot.mjs, src/bench/ui/strips.mjs, src/bench/ui/picture.mjs, src/bench/ui/member-card.mjs, src/bench/play.mjs, src/bench/scene.ts, src/bench/whole-figures.ts, src/bench/ui/play-as.mjs
 

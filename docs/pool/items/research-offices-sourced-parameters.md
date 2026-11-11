@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind office term starts. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/offices/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The statewide-parties row is resolved (the live-page check of 60 statewide parties was delivered) and is left out of the list below. Governors' and legislators' term-start rows for all 56 places were delivered; eight governor rows and ten legislature rows stay ESTIMATED because the start day is not read from the text. What remains is SG-GOV-term-end-estimate for town offices and county offices with no county calendar row, which start on the table's default of January 1 because their start day is each charter's or the state's municipal law's. Bug gov-officeholder-parties-opening-date records that the rosters hold October 2026 holders, not those of January 20, 2025. `termEnd` in src/core2/modules/offices.ts reads the office's own election calendar first, so first count which offices still reach the January 1 fallback in a played world across drawn places.

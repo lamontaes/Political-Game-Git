@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** For the welfare, health, schools and higher education lines, src/core2/law-wiring-health-schools.test.ts prints an applied record, a person and a journal entry that are not one chain: the person's record and the payment come from different people or different dates (found by the health-schools helper, Oct 25). In Montgomery, Michigan (seed 5bc87ba8c575d498bfcfbac8353c3cae24df7a433ca9e816da727ccfaff83c9e) the welfare line's record for person_bcdb90b24cb328c1 is dated September 1, 2025 while the journal entry it cites, journal:2025-03-07:16293, is March 7, 2025. In Greenwood, Indiana (world seed 38164ec10219eff4fb4fe05999ad9366675fd67a414691444009f6a1695797cf) the entry cited is a February 2, 2026 payment of a different obligation.
@@ -34,4 +35,4 @@ root: rc8-law-judged-by-paperwork
 
 **Files.** src/core2/law-wiring-health-schools.test.ts
 
-**Notes.** From the laws lead, Oct 25, on the health-schools helper's report.
+**Notes.** From the laws lead, Oct 25, on the health-schools helper's report. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it makes a test print one chain instead of two; the test passes and no player sees it.

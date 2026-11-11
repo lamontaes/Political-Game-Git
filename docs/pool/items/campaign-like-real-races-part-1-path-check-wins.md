@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** No life started from New Game has won a race. Once the played-year proof, the incumbent who reacts and the money from named donors are on main, the path check must show that the player's life, taking the actions a real underdog takes, wins a council seat in most places. This part runs the path check across ten drawn places, reads the losses by record, and fixes what the campaign engine still does not give an underdog.

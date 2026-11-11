@@ -18,6 +18,7 @@ model: sonnet
 effort: medium
 root: none
 lead: governing
+checked: fable 2026-11-10
 ---
 
 **What.** Set budget priorities with staff advice, appoint a cabinet, sign or veto, and live with the results, for a played governor or mayor. The umbrella was written Oct 12. Its children office-governor and the three office-budget-season items are done, so what remains (governor priorities moving spending, cabinet, veto) has to be listed before anything is built. Line-by-line budgets are optional depth.

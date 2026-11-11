@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** `src/director/electoral-scenes.test.ts` (the filing and campaign stop) runs past 20 minutes in some drawn places: GOLDEN_PATH_SEED=fs1 exceeds 1,200 seconds on clean main. What the test spends the time on has not been measured.
@@ -38,3 +39,5 @@ claimed-at:
 **Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_SEED=fs1 npx vitest run src/director/electoral-scenes.test.ts`: green, 2 tests, 69.8 seconds, not over 1,200. Fresh draw `GOLDEN_PATH_SEED=439cfcba6d4f9279` (filing at White City, Kansas): green, about 7 minutes of wall time including a build. Not slow on these runs. Proposed for the CTO: drop as fixed on main.

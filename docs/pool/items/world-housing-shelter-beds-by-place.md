@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** `shelterBeds` in src/core2/housing-homeless.ts gives every place its state's year-round beds per 10,000 (HUD 2025 HIC) times its people, so a small town has a fraction of a shelter and a big city has too few. The eviction path reads that count when it decides whether a removed household is sheltered or on the street. The 2025 HIC project rows are now summed by state and city, with HUD geocodes and count-night occupancy, in data/research/world/hud-hic-2025-beds-by-city.json. Read them: a place's beds are the beds HUD lists in its city, else the beds of its county's geocode or its Continuum of Care shared by population, so the beds a household can reach are the ones that exist near it. This clears SG-WORLD-housing-shelter-beds-state-rate.
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/housing-homeless.ts, src/core2/data/housing/shelter-beds.json, data/research/world/hud-hic-2025-beds-by-city.json, src/core2/data/stopgaps/world.json
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have counted shelter beds by city from HUD; the player reads a homeless count, not a bed census.

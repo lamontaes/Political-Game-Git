@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** The `us-policy-positions:education.universal-preschool` policy in src/core2/data/laws/reach-group-b.json has mechanic "records": it marks 3- and 4-year-olds eligible and nothing reads it (stopgap SG-GOV-REACH-B-preschool-enrollment). Add the missing child-care cost: a monthly child-care flow for households with a child under school age, sized from the Consumer Expenditure child-care average by income with a per-world spread, paid to a child-care provider organization. When the preschool law is in force, an eligible child is enrolled with a pre-k record at a school or provider, and the family's child-care flow falls by the public share. Counted households follow the same rule times their weight; repeal ends the enrollment.
@@ -35,3 +36,5 @@ root: rc8-law-judged-by-paperwork
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-people.ts, src/core2/reference/living-costs-data.ts, src/core2/modules/school.ts, src/core2/data/stopgaps/gov.json, src/core2/law-reach-group-b.test.ts
 
 **Notes.** Part 1 of 2 of laws-reach-b-schools-preschool-tuition. There is no child-care spending in the core today (living-costs-data.ts has no child-care line); the Consumer Expenditure child-care row may need the BLS workbook, which the cloud proxy blocked for the sibling medical-spending item, so use a published average registered ESTIMATED with its citation if it cannot be fetched.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a child-care bill and enrollment at a provider; the preschool law already pays each eligible child's household (`payPreschool`), so this only adds precision.

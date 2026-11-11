@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from core-played-game-saves-and-continues in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** After part 1 writes a save, the title screen must offer it. Continue returns the most recent life and Saved games lists the saves by player name and date, with no file names shown. Loading restores the same date, player and household. This is part 2 of core-played-game-saves-and-continues.

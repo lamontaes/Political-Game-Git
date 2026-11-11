@@ -4,18 +4,19 @@ title: "Every couple ready for a child conceives at its next review, so births r
 area: people
 kind: bug
 priority: 3
-size: L
-status: open
+size: S
+status: dropped
 claimed-by:
 pr:
 blocked-on: people-births-ready-couples-conceive-at-once-part-1-re-measure, people-births-ready-couples-conceive-at-once-part-2-conception-timing, people-births-ready-couples-conceive-at-once-part-3-women-without-partner, people-births-ready-couples-conceive-at-once-part-4-age-shape-by-place
 after: people-births-over-state-rate-small-town, people-full-couples-plan-share-fell, web-calibrate-choice-terms
 source: added with npm run pool -- add
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** After the births calibration, M1-09's births test passes in Roche Harbor, Washington and five more drawn places, but births still total about 1.3 times the test's expectation (28 against 21.7), and Concord, Illinois sits near its upper limit with 9 against 3.39. The plan decision flips to 'plan' once a couple's score is above zero, and the renewal module reconstructs every ready couple's pregnancy at the opening, so about 25 ready couples in Roche Harbor all conceive at once. Other days measured births about ten times too few and the plan share down to 1.6 percent, so a fresh measurement on main comes first. The fix is split into four parts.
@@ -24,7 +25,7 @@ lead: lives
 
 **Fix.** Re-measure full births by age band on current main (part 1); make a couple's conception time follow their circumstances and the mother's age on a sliding scale (part 2); let a full woman with no recorded partner plan from her own record (part 3); and weigh a mother's age against her own place's schedule (part 4). The folded-in done-when lines in the Notes are part of the acceptance.
 
-**Time box.** 14 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** No dice and sliding scales: how soon a couple has a child follows their own circumstances and age on a sliding scale, never a yearly chance; the state's real birth rate only checks the town's total. One model, two tiers: counted women follow the same rule. Owner's Oct 24 ruling: time to conception is a sourced average by mother's age with the couple's circumstances on a sliding scale.
 
@@ -43,3 +44,5 @@ Folded in Oct 25 from people-renewal-renewalReviewDays-as-cause. Its done when: 
 Folded in Oct 25 from people-births-age-shape-by-place. Its done when: In a one-year run of the played world (buildBenchWorld, two drawn places from all 56 with different schedules, seeds named), each full couple's renewal plan record carries the age center and spread of its own place, src/core2/births-plan.test.ts shows the same couple's age term differs between the two places, and the town's mean age of mothers at birth is reported against its place's NCHS schedule.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A roll-up of four parts; the parts a player can see (re-measure, women without a partner) stand on their own items.

@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** A town's council is not elected in the years its state's municipal law sets, so a New Game never reaches the town's own council race. Confirmer replay of Lane 1 path 1 on main c3a29bb02d, New Game in Haleyville, Alabama (0132704, replay ab5f58e9be125c95), player born 1985, played week by week in the browser: the town's five at-large council seats and its mayor show as elected 2024-07-21 with terms to 2028-09-19, so no council race is on any screen through February 2026. The state's town elections were held in August 2025, so a player starting January 20, 2025 should be offered the council race that summer. Instead the first filing that opens (November 24, 2025) is five state and federal races at one office named "State party chair; Secretary of State", and the Campaigns ballot for November 3, 2026 lists only the 13 county offices.

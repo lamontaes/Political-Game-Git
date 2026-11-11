@@ -17,6 +17,8 @@ root: design-one-model-two-tiers
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-construction.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T23:08:37.700Z
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** New houses sell only to full renter households, and counted renters and households moving in never buy one, so unsold houses pile up. A counted renter's rent is part of a merged group flow and a counted mortgage is the same shape, so a counted buy needs the group's down payment drawn from its fund, the rent part ended, a mortgage part added and a dwelling record for the group. That counted-tier step is the item world-counted-renters-buy. Let counted renters and arriving households buy new houses under the full-household affordability rule, using that mechanic, and clear the row.
@@ -25,7 +27,7 @@ claimed-at: 2026-10-19T23:08:37.700Z
 
 **Fix.** Let counted renters and arriving households buy new houses under the full-household affordability rule, using the counted-renters-buy mechanic, and resolve SG-WORLD-housing-new-home-buyers.
 
-**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the town's housing numbers, where new houses sit unsold because only full renter households ever buy one.
 
 **Rules.** One model, two tiers: counted renters and arriving households buy under the same affordability rule as full ones. Sliding scales and causes: buying follows income, savings and price. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 

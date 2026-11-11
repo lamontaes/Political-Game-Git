@@ -5,7 +5,7 @@ area: elections
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind elections, campaigns and voting. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/elections/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Seven rows remain, each narrowed earlier: two sourced filing deadlines (Guam, Puerto Rico), New York's party date (ESTIMATED), the House registration rule, Vermont's legislature age and four ballot-order rows were delivered. The three seller rows wait on elections-campaign-sellers-beyond-town (no public hall fee schedule was sourced), and SG-GOV-polling-place-kind waits on elections-polling-places-by-building-kind (EAVS does not ask building kinds). Four charter-place deadlines, 39 ESTIMATED deadline rows, 35 registration rules and three territory ballot orders remain with research-elections-filing-rules-statutes.
@@ -50,3 +51,5 @@ Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-
 Oct 24, 2026: split. PR 5851 (item research-elections-filing-ballot-counts) delivers two sourced filing deadlines (Guam, Puerto Rico) and New York's party date (row ESTIMATED), the House registration rule and Vermont's legislature age, four ballot-order rows, and two county-count research files. Still open here: all seven stopgaps, each narrowed. The three seller stopgaps wait on builder item elections-campaign-sellers-beyond-town (no public hall fee schedule was sourced), and SG-GOV-polling-place-kind waits on elections-polling-places-by-building-kind (EAVS does not ask building kinds). Four charter-place deadlines, 39 ESTIMATED deadline rows, 35 registration rules and three territory ballot orders remain with research-elections-filing-rules-statutes, because the cloud could not read those codes.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced research rows for elections stand-ins; every item that waited on it is done or dropped.

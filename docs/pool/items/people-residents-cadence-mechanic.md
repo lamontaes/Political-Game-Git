@@ -4,8 +4,8 @@ title: "The wider population's pay timing, absence and turnover read the counts'
 area: people
 kind: feature
 priority: 3
-size: L
-status: open
+size: S
+status: dropped
 claimed-by:
 pr:
 blocked-on: people-residents-cadence-mechanic-part-1-private-jobs-measure, people-residents-cadence-mechanic-part-2-counted-layoffs, people-residents-cadence-mechanic-part-3-counted-absence, people-residents-cadence-mechanic-part-4-counted-purchase-timing
@@ -13,10 +13,11 @@ source: added with npm run pool -- add
 claimed-at:
 after:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: design-one-model-two-tiers
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** SG-CORE-residents-cadence still merges the wider population's purchases per seller, kind and week of the month and pays them monthly, and counted workers always work their full schedule. The turnover rows are sourced (JOLTS and CPS 2025). Measured Oct 21 in Salem, Utah: hires 2.18 a month against JOLTS 3.3, quits 2.11 against 2.0, layoffs 0.27 against 1.1, separations 2.68 against 3.3. Build counted purchases timed from each group's pay dates, and counted absence and layoffs that follow the same reasons as full workers, times their count. The measure itself is fixed first, and the work is four parts.
@@ -25,7 +26,7 @@ lead: lives
 
 **Fix.** First fix the measure to count private jobs only (part 1), then make counted layoffs follow full workers' tenure order (part 2), counted absence follow full workers' reasons times the count (part 3), and time counted purchases from pay dates (part 4); resolve SG-CORE-residents-cadence.
 
-**Time box.** 16 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** One model, two tiers: a counted group follows the same rule as a full person, times its count. No dice: absence and layoffs follow a worker's own record and the employer's books; real rates check totals only. Every dollar balances. Speed: the speed guard holds, with no scan of the whole world each day.
 
@@ -44,3 +45,7 @@ Oct 21 (claude, scoped, not built): three separate mechanics, best taken as sepa
 Claim released.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (Fable's check, Nov 10).** research-residents-cadence-sourced sources the pay dates and the absence comparison behind the same stopgap, SG-CORE-residents-cadence. Parts 3 and 4 read its rows where they have landed; the stopgap is resolved once, by whichever of the two finishes last.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A roll-up of four parts; the layoff-order part is kept on its own, and the counted pay-date, absence and purchase-timing detail is dropped.

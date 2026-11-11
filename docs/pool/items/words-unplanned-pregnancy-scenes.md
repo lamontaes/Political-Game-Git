@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-life-record
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Per the owner's Oct 20 ruling nothing new is shown to the player about their own household, so this is only for people the player meets or hears of. When a background person's unplanned pregnancy and decision reach the player through a conversation or the news, the English engine words it from the plan record. The words come from the engine's banks and the director only stages them when the record reaches the player. Nothing is shown for the player's own household.

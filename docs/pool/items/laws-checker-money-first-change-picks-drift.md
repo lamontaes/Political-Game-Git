@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: laws lead, Oct 26
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The law checker's money cell names drift when a law pays or stops a payment months after it reaches someone. Among the payments that changed for those a law's records name, `ownPayments` picks the change nearest the day the law reached them, so a law that acts after a delay loses to drift. In the health and schools family's year runs the assistance work requirement stops SNAP only after a person's three months of benefit, so the cell named a move between a person's cash and their bank deposit instead: person_f1e981e7794173ed in Prescott, Michigan (seed a91c03e7d2b84f10), $9.26 apart on April 1, 2025 (`journal:2025-04-01:16450`), while the law's own stop was person_8ff861de2f15d13f on April 21, 2025 (`journal:2025-04-21:23538`). The grade is right; the evidence it names is not. The same drift picks a law that held no money: rent stabilization reaches leases in three drawn towns, every applied row records 0 saved, and the checker names rent transfers 4 to 13 minor units apart.
@@ -35,7 +36,7 @@ claimed-at:
 
 **Files.** scripts/law-wiring/own-payments.ts, scripts/law-wiring/matrix.ts, src/core2/law-reach/group-b-money.ts, docs/reports/law-wiring-matrix.json
 
-**Notes.** Laws lead, Oct 26, from PR #6026's run files.
+**Notes.** Laws lead, Oct 26, from PR #6026's run files. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it makes the checker's money cell pick the right payment, a number only the matrix shows.
 
 Analysis (Claude worker, Oct 27; released unbuilt). Reran `node --import tsx scripts/law-wiring/check.ts --seed a91c03e7d2b84f10 --days 140 --only us-policy-positions:health-human-services.work-requirement-for-assistance` on main (Prescott, Michigan): `money.own` pairs are keyed by the posting's call site (`accounts.transfer @ src/core2/life.ts:563`, `cost-of-living.ts:327`, ...), not a payment kind a law's engine names, and the targets' rows carry no amount (`among: "reached"`), so there is nothing in the pair to tell the law's SNAP stop from drift. In that run the SNAP stop for person_8ff861de2f15d13f is in the first pair (`life.ts:563`, 2025-04-21, 7,425 against 36,625, journal:2025-04-21:25005), the same site as the earlier February pairs for two other people, so the ranking would need a per-law list of the posting sites its engine owns, or the reach rows would have to record the amount they stopped or paid (`assistance-stopped` rows carry none). Either is a change to the records (lawApplied amounts for stopped benefits in src/core2/law-reach/group-b.ts) or to a new site registry, more than this item's two files; the item should be rewritten as the former, with the checker then matching a pair to the row's amount.
 

@@ -16,6 +16,7 @@ model: sonnet
 effort: high
 root: rc9-place-facts-one-default
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, root cause 9, "Place facts are one default stretched over 56 places")
+checked: fable 2026-11-10
 ---
 
 **What.** A town or township with no record of its own takes one board for its whole state. Read in the data on main, not measured in play: every Connecticut town without its own record gets a three-seat Board of Selectmen, though the row's own citation says "a town of ten thousand or more may elect more". The same file gives one flat size to 14 of its 16 states (Connecticut, Illinois, Indiana, Kansas, Massachusetts, Maine, Minnesota, New Hampshire, New Jersey, Ohio, Pennsylvania, Rhode Island, Vermont and Wisconsin); only two rows (Michigan and New York) vary the size with the town's population. A state the file has not read takes a three-seat Township Board, the most common size, and town charters are on file for 31 towns, all in one state. The player meets this on the Government screen, in who they run against and in how many votes pass an ordinance.
