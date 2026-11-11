@@ -205359,10 +205359,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.first-one-in-for-office-are-you",
+      "key": "scene-talk.state-tell-running.office-you-re-the-first-one-in",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "first one in for {office}, are you?",
+      "text": "{office}. You're the first one in.",
       "uses": [
         {
           "subject": "scene",
