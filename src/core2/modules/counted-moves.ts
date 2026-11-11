@@ -90,26 +90,13 @@ const COARSE = [
   ["65-plus", "countedPeopleShare65plus", ["65-69", "70-74", "75+"]],
 ] as const;
 
-type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
-  ageBands: readonly string[];
   national: {
-    departurePerYearByAge: Rates;
-    arrivalsPerResidentPerYear: number;
     abroadPerResidentPerYear: number;
     abroadAgeShare: Readonly<Record<string, number>>;
     admitMoreImmigrantsLaw: { shareOfArrivalsFromAbroad: number };
   };
-  places: Readonly<
-    Record<
-      string,
-      {
-        departurePerYearByAge: Rates;
-        arrivalsPerResidentPerYear?: number;
-        abroadPerResidentPerYear?: number;
-      }
-    >
-  >;
+  places: Readonly<Record<string, { abroadPerResidentPerYear?: number }>>;
 };
 const STATES = (
   regions as unknown as {
