@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-dev-person-record-list-prints-object-object
 pr: #8279
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T04:30:03.916Z
 merged-at:
 branch: claude/pool-play-dev-person-record-list-prints-object-object
 ---
@@ -45,3 +45,5 @@ Not seen in the game (2026-11-11, second-session-2): Montrose-Ghent, Ohio (drawn
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:19 UTC) on branch claude/pool-play-dev-person-record-list-prints-object-object.
 
 Released (2026-11-11): Already built and merged by another session in #8279 (merged Nov 11 00:51Z); the item is waiting on its status flip and a second session's check, nothing for a builder. Continue on branch claude/pool-play-dev-person-record-list-prints-object-object and pull request #8279.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:30 UTC) on branch claude/pool-play-dev-person-record-list-prints-object-object.
