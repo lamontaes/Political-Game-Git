@@ -5,9 +5,9 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-six-list-and-detail-screens-build-their-own-part-1-journal-patch-notes
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:42:06.673Z
 ---
 
 **What.** Patch notes and the Journal each build their own list-beside-detail layout. Move both onto `rosterScreen`, the part Campaign, Elections, Parties and Issues already call, so a player sees the same list at the left and the chosen entry at the right on all of them. Nothing a player can do or read changes.
