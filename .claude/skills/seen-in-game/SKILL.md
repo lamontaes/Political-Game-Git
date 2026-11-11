@@ -113,6 +113,10 @@ Either way, comment once on the pull request, starting "Seen:" or "Not seen:", w
 - Open the screen yourself before you write its steps. On Nov 10 two checks named a "Laws panel" that does not exist and asked for a state row where the table has state columns; the second session had to say what it used instead.
 - Do the whole check yourself once before you hand it over, in a played world, and write the steps from what you did. On Nov 10 a check asked a second session to meet a neighbor and watch them go back to the counts after 240 days. It could not happen: a person the player talks to joins the player's circle, and the circle is kept as full people on purpose. The check came back "not seen" for a fix that worked.
 
+## When `seen` says "claimed, not merged"
+
+`npm run pool -- seen` takes only an item whose status is `merged`. An item whose fix merged long ago can still read `claimed` or `open` when its PR line 1 was not `Pool item: <id>` or its claim never flipped (a replay item that `next` hands you is one). Before you replay it, read the pull request the item names (`pr:`) and confirm it merged. If it did, set the item to merged with `npm run pool -- status <id> merged --pr <n>`, then run `seen`. If it did not merge, do not set it: release the item with the reason. Do the replay before you record it, and name the places and seeds in `--place` and `--seed` (Nov 11: `elections-past-race-votes-from-electorate`, replayed in three drawn places).
+
 ## Stop condition
 
 The check is finished when the pool item is `done` with its "Seen in the game" line, or reopened with its "Not seen in the game" line, and the pull request carries the comment.
