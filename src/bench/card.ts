@@ -225,6 +225,9 @@ const OFFICES = "core2-offices-v1";
 
 /** An office's title, from the offices engine's table. */
 function officeTitle(core: CoreState, officeId: string): string | null {
+  // A took-office event that names no office record (its office is told by its words) has no title
+  // to look up, and the offices table takes no empty key.
+  if (!officeId.trim()) return null;
   const office = coreAPI(core)
     .moduleState(OFFICES)
     .table("offices")
