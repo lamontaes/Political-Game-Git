@@ -121,3 +121,8 @@ These keep what was said or shipped. A path they name may be long gone, and the 
 | Old path | Now | When | Why |
 | --- | --- | --- | --- |
 | `src/simulation` | `src/core2` | 2026-10-28 | The old core was deleted (pull request 6659); the new core is the engine. |
+| `src/bench/scene-check.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): the room's people are a strip of busts; the check of painted people in a room has nothing to check. |
+| `src/bench/art-check.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): the painted full-body people left the rooms; their art check went with them. |
+| `src/bench/people-pack.test.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): the people pack's room figures are not drawn any more; the bust tests cover faces. |
+| `src/director/scene-occasions.test.ts` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): it tested where painted people stood in a room. |
+| `src/bench/framing.browser.mjs` | nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d | 2026-11-11 | Removed with the painted people (owner's call 11, PR 8643): it checked how painted people were framed in a room. |
