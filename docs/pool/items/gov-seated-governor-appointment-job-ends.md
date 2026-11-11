@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 claimed-by: claude/pool-gov-seated-governor-appointment-job-ends
-pr:
+pr: #8668
 blocked-on:
 standard: 2
 model: sonnet
