@@ -79,6 +79,7 @@ page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 let filedContest = "";
+let filedStatus = "";
 // The counter's latest visit, as the filing routes answer it.
 let lastVisit = null;
 page.on("response", async (r) => {
@@ -93,8 +94,10 @@ page.on("response", async (r) => {
         "CHOOSE RESULT:",
         JSON.stringify(j.result ?? null).slice(0, 300),
       );
-      if (["petitioning", "on-ballot"].includes(j.result?.status ?? ""))
+      if (["petitioning", "on-ballot"].includes(j.result?.status ?? "")) {
         filedContest = j.result.filing.contestId;
+        filedStatus = j.result.status;
+      }
     } catch {
       // Non-JSON filing response; the UI state below is the evidence.
     }
@@ -249,9 +252,16 @@ try {
     await choices.nth(fileAt).click();
     await chosen;
     await page.waitForTimeout(800);
-    if (filedContest) filed = `on-ballot ${filedContest}`;
+    if (filedContest) filed = `${filedStatus} ${filedContest}`;
   }
   assert.ok(filed, "could not file for a seat through the UI");
+  // A race filed by petition reaches the ballot only with its signatures, which
+  // this check does not gather: the draw is named and the run stops honestly.
+  assert.equal(
+    filedStatus,
+    "on-ballot",
+    `the open race files by petition (${filedContest}); this check gathers no signatures, so draw again`,
+  );
   console.log("PASS filed:", filed);
   // The target election comes from the filed contest, not a fixed date.
   const targetDate = filedContest.split(":").pop();
