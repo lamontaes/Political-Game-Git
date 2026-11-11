@@ -14,6 +14,10 @@ let lastBillId = null;
 let lastSeries = null;
 export const lastIntroducedSeries = () => lastSeries;
 
+/** The row Government's main column gives Dev mode's Bills and Bribe panels, so neither is drawn over the Members. */
+export const devPanelsRow = (...sections) =>
+  el("div", { className: "dev-only dev-panels" }, ...sections);
+
 /** The last result line, kept across the sheet's redraws. */
 let lastResult = "";
 
