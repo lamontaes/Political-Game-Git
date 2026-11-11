@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-campaigns-shows-your-record
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:52:46.666Z
+branch: claude/pool-play-campaigns-shows-your-record
 ---
 
 **What.** Path 11 of Lane 1 starts with the player seeing their own record on Campaigns when they run for re-election. The records exist (legislature roll calls, bills the player sponsored, promises and their status), and voters already weigh them, but the screen the player plans a campaign from does not show them, so the player cannot see what a rival will attack or what to run on. The section reads the same records voters read, worded through the English engine. The old src/bench/campaigns.ts no longer exists; the screen is `campaigns()` in src/bench/play.mjs fed by src/bench/campaign.ts.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/play.mjs, src/bench/campaign.ts, src/core2/campaign-views.ts
 
 **Notes.** TODO
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:52 UTC) on branch claude/pool-play-campaigns-shows-your-record.
