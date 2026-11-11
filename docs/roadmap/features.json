@@ -452,7 +452,7 @@
       "golden_path": "7",
       "package": "M3-world-of-governing",
       "test": "In a random place, the player hires staff (someone they know or an applicant) whose results come from skill, potential, personality and passion, with no visible potential score; a staffer drafts a bill, prepares an amendment package and briefs the player; delegating carries no hidden penalty.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/staff.test.ts",
       "passes": false
     },
     {
@@ -462,7 +462,7 @@
       "golden_path": "7",
       "package": "M3-world-of-governing",
       "test": "In a random place, a group forms against a bill from the people its fiscal note costs, and another forms from a person's drive; their lobbyist is a person who meets the official, donates within the limits and remembers the vote; the groups that exist at the start grew by the same rules over the prior years.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/interest-groups.test.ts",
       "passes": false
     },
     {
@@ -472,8 +472,8 @@
       "golden_path": "9",
       "package": "M3-world-of-governing",
       "test": "In a random place, residents bring cases drawn from their own records; the office's handling choice (in person or through staff) applies; most cases resolve in the background; helping or not changes those residents' views of the official.",
-      "command": null,
-      "passes": false
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/constituent-cases.test.ts src/core2/staff.test.ts",
+      "passes": true
     },
     {
       "id": "M3-09",
