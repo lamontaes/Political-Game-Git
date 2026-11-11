@@ -1,32 +1,32 @@
 {
-  "generated": "2026-10-29",
-  "place": "Huntington Center, Vermont (5034675)",
-  "seed": "0d5692f0d73cf0c56240825b71aa5b04dd663a9a",
+  "generated": "2026-11-11",
+  "place": "Bay, Arkansas (0504180)",
+  "seed": "8fe21c34d136a80cb4b0c0276d8cee1d6b1b4e36",
   "year": "2025-01-20 to 2026-01-20",
-  "watched": 33,
+  "watched": 39,
   "counts": {
-    "types": 85,
-    "rows": 138,
-    "typesFired": 24,
-    "rowsWaitingOnProducer": 9,
-    "rowsWithoutEpisode": 63,
+    "types": 103,
+    "rows": 168,
+    "typesFired": 27,
+    "rowsWaitingOnProducer": 3,
+    "rowsWithoutEpisode": 84,
     "ownerExamples": 112,
     "ownerScenesMissing": 8
   },
   "rows": [
     {
-      "domain": "home-and-family",
-      "type": "departure",
+      "domain": "none",
+      "type": "concession-taken",
       "variant": 0,
-      "trigger": "feeling:event:justice.imprisoned",
+      "trigger": "concession",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3,
-        "hearer": 9,
-        "bearer": 4
+        "narrator": 2,
+        "asker": 29,
+        "asked": 14
       },
-      "lines": 16,
+      "lines": 45,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -35,8 +35,8 @@
     {
       "domain": "home-and-family",
       "type": "departure",
-      "variant": 1,
-      "trigger": "person.moved-away",
+      "variant": 0,
+      "trigger": "feeling:event:justice.imprisoned",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
@@ -54,11 +54,33 @@
       "domain": "home-and-family",
       "type": "return",
       "variant": 0,
-      "trigger": "none",
+      "trigger": "justice.released",
       "waiting": false,
-      "outcome": "personal conversation",
-      "speakers": {},
-      "lines": 0,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asker": 28,
+        "narrator": 16,
+        "asked": 21
+      },
+      "lines": 65,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "home-and-family",
+      "type": "return",
+      "variant": 1,
+      "trigger": "justice.released",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asker": 28,
+        "narrator": 16,
+        "asked": 21
+      },
+      "lines": 65,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -72,19 +94,19 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
@@ -94,19 +116,19 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
@@ -116,19 +138,19 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
@@ -138,63 +160,63 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 4,
-      "trigger": "money:job-ended",
+      "trigger": "feeling:event:family.partnered",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 5,
-      "trigger": "feeling:event:justice.imprisoned",
+      "trigger": "feeling:event:family.separated",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
@@ -204,107 +226,107 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 7,
-      "trigger": "feeling:event:health.serious-illness",
+      "trigger": "feeling:event:justice.imprisoned",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 8,
-      "trigger": "law.effect-learned",
+      "trigger": "money:job-ended",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 9,
-      "trigger": "news.read",
+      "trigger": "feeling:event:health.serious-illness",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
       "type": "news-arrives",
       "variant": 10,
-      "trigger": "news.read",
+      "trigger": "law.effect-learned",
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
@@ -314,19 +336,19 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
@@ -336,19 +358,19 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "home-and-family",
@@ -358,19 +380,19 @@
       "waiting": false,
       "outcome": "personal conversation",
       "speakers": {
-        "narrator": 30,
+        "narrator": 26,
         "hearer": 69,
         "bearer": 26
       },
-      "lines": 125,
+      "lines": 121,
       "episodes": [
         "news-at-the-table"
       ],
       "ownerAsked": [
         "Mother asks you to sit down"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 10,
+      "firedExample": "person_b8112234a0156477:2025-02-21:event:housing.eviction:eviction:lease:household_8e6f40d08cd9bdb8:2025-02-06"
     },
     {
       "domain": "election-day-and-night",
@@ -381,10 +403,28 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 6,
-        "asker": 57,
-        "asked": 29
+        "asker": 63,
+        "asked": 32
       },
-      "lines": 92,
+      "lines": 101,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "election-day-and-night",
+      "type": "race-told",
+      "variant": 1,
+      "trigger": "election-result",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 6,
+        "asker": 63,
+        "asked": 32
+      },
+      "lines": 101,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -394,15 +434,19 @@
       "domain": "home-and-family",
       "type": "letter",
       "variant": 0,
-      "trigger": "none",
+      "trigger": "family.contact",
       "waiting": false,
-      "outcome": "personal conversation",
-      "speakers": {},
-      "lines": 0,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 16,
+        "asker": 46,
+        "asked": 26
+      },
+      "lines": 88,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 45,
+      "firedExample": "person_b8112434a01567dd:2025-03-01:family.contact:person_b8112434a01567dd:person_26ff0ad0b19e56bb:2025-03-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -428,21 +472,21 @@
       "domain": "meeting-people-and-places",
       "type": "apology",
       "variant": 0,
-      "trigger": "none",
+      "trigger": "family.quarrel",
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asked": 35,
+        "asked": 38,
         "narrator": 2,
         "asker": 38
       },
-      "lines": 75,
+      "lines": 78,
       "episodes": [
         "making-up-after-the-fight"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 2,
+      "firedExample": "person_b8112334a015662a:2025-10-01:family.quarrel:person_b8112334a015662a:person_771d6a15584cd287:2025-10-01"
     },
     {
       "domain": "meeting-people-and-places",
@@ -468,32 +512,33 @@
       "variant": 0,
       "trigger": "a tie grew",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 4,
-        "talk": 201
+        "narrator": 9,
+        "asker": 26,
+        "asked": 14
       },
-      "lines": 205,
+      "lines": 49,
       "episodes": [
         "introduced-at-a-civic-event"
       ],
       "ownerAsked": [],
-      "firedInYear": 14,
-      "firedExample": "person_84307b3a5077cc47:2025-12-06:person_84307b3a5077cc47:person_eb202fd788d6b140"
+      "firedInYear": 4,
+      "firedExample": "person_32461e69d9b33a81:2025-12-13:person_32461e69d9b33a81:person_fbc042ae53694a03"
     },
     {
       "domain": "home-and-family",
       "type": "celebration",
       "variant": 0,
-      "trigger": "awaiting: married",
-      "waiting": true,
-      "outcome": "personal conversation",
+      "trigger": "family.married",
+      "waiting": false,
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 8,
-        "hearer": 12,
-        "bearer": 7
+        "asked": 14,
+        "narrator": 14,
+        "asker": 25
       },
-      "lines": 27,
+      "lines": 53,
       "episodes": [
         "win-night-at-home"
       ],
@@ -501,8 +546,8 @@
         "Wedding",
         "The world happens around you"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 3,
+      "firedExample": "person_32461d69d9b338ce:2025-02-19:job:public:staff:person_fbc042ae53694a03:person_32461e69d9b33a81"
     },
     {
       "domain": "home-and-family",
@@ -510,13 +555,13 @@
       "variant": 1,
       "trigger": "money:job-started",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 8,
-        "hearer": 12,
-        "bearer": 7
+        "asked": 14,
+        "narrator": 14,
+        "asker": 25
       },
-      "lines": 27,
+      "lines": 53,
       "episodes": [
         "win-night-at-home"
       ],
@@ -524,8 +569,8 @@
         "Wedding",
         "The world happens around you"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 3,
+      "firedExample": "person_32461d69d9b338ce:2025-02-19:job:public:staff:person_fbc042ae53694a03:person_32461e69d9b33a81"
     },
     {
       "domain": "home-and-family",
@@ -533,13 +578,13 @@
       "variant": 2,
       "trigger": "money:job-started",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 8,
-        "hearer": 12,
-        "bearer": 7
+        "asked": 14,
+        "narrator": 14,
+        "asker": 25
       },
-      "lines": 27,
+      "lines": 53,
       "episodes": [
         "win-night-at-home"
       ],
@@ -547,8 +592,8 @@
         "Wedding",
         "The world happens around you"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 3,
+      "firedExample": "person_32461d69d9b338ce:2025-02-19:job:public:staff:person_fbc042ae53694a03:person_32461e69d9b33a81"
     },
     {
       "domain": "home-and-family",
@@ -558,11 +603,29 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3,
-        "asker": 22,
-        "asked": 16
+        "narrator": 5,
+        "asker": 28,
+        "asked": 20
       },
-      "lines": 41,
+      "lines": 53,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "home-and-family",
+      "type": "no-diploma-home",
+      "variant": 0,
+      "trigger": "school.finished",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 25,
+        "asked": 17
+      },
+      "lines": 47,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -572,17 +635,21 @@
       "domain": "home-and-family",
       "type": "gathering-missing",
       "variant": 0,
-      "trigger": "none",
+      "trigger": "family.gathering-missed",
       "waiting": false,
-      "outcome": "personal conversation",
-      "speakers": {},
-      "lines": 0,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 17,
+        "asker": 42,
+        "asked": 26
+      },
+      "lines": 85,
       "episodes": [],
       "ownerAsked": [
         "Family absence"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 19,
+      "firedExample": "person_b8112434a01567dd:2025-05-12:family.gathering-missed:person_b8112434a01567dd:person_b72e248f12ef2057:2025-05-12"
     },
     {
       "domain": "home-and-family",
@@ -593,17 +660,17 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 13,
-        "narrator": 6,
+        "narrator": 8,
         "asked": 7
       },
-      "lines": 26,
+      "lines": 28,
       "episodes": [
         "funeral-of-someone-known",
         "news-at-the-table"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_3c18a5e0cde13ed3:2025-12-08:life.death:person_8dc0cf4add5b213d:2025-12-08"
     },
     {
       "domain": "meeting-people-and-places",
@@ -611,12 +678,13 @@
       "variant": 0,
       "trigger": "job",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 6,
-        "talk": 201
+        "narrator": 12,
+        "asker": 26,
+        "asked": 13
       },
-      "lines": 207,
+      "lines": 51,
       "episodes": [
         "introduced-at-a-civic-event"
       ],
@@ -643,8 +711,8 @@
         "first-day-at-the-new-job"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_3c18a5e0cde13ed3:2025-02-01:job:commuter:person_3c18a5e0cde13ed3:2025-02-02"
     },
     {
       "domain": "home-and-family",
@@ -663,8 +731,8 @@
         "first-day-at-the-new-job"
       ],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_3c18a5e0cde13ed3:2025-02-01:job:commuter:person_3c18a5e0cde13ed3:2025-02-02"
     },
     {
       "domain": "home-and-family",
@@ -674,15 +742,15 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 53,
-        "asked": 38,
+        "asker": 63,
+        "asked": 58,
         "narrator": 8
       },
-      "lines": 99,
+      "lines": 129,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 2,
-      "firedExample": "person_84307b3a5077cc47:2025-12-01:work-relationship_690708926604311f"
+      "firedInYear": 3,
+      "firedExample": "person_a9294e260de0f2bb:2025-04-01:work-relationship_56af1824b2d538cc"
     },
     {
       "domain": "home-and-family",
@@ -692,25 +760,29 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 53,
-        "asked": 38,
+        "asker": 63,
+        "asked": 58,
         "narrator": 8
       },
-      "lines": 99,
+      "lines": 129,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 2,
-      "firedExample": "person_84307b3a5077cc47:2025-12-01:work-relationship_690708926604311f"
+      "firedInYear": 3,
+      "firedExample": "person_a9294e260de0f2bb:2025-04-01:work-relationship_56af1824b2d538cc"
     },
     {
       "domain": "meeting-people-and-places",
       "type": "date",
       "variant": 0,
-      "trigger": "awaiting: started-dating",
-      "waiting": true,
-      "outcome": "personal conversation",
-      "speakers": {},
-      "lines": 0,
+      "trigger": "family.partnered",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 4,
+        "asker": 32,
+        "asked": 13
+      },
+      "lines": 49,
       "episodes": [],
       "ownerAsked": [
         "Romance without a prompt"
@@ -722,11 +794,15 @@
       "domain": "home-and-family",
       "type": "proposal",
       "variant": 0,
-      "trigger": "none",
+      "trigger": "family.engaged",
       "waiting": false,
-      "outcome": "personal conversation",
-      "speakers": {},
-      "lines": 0,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 4,
+        "asker": 35,
+        "asked": 13
+      },
+      "lines": 52,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -736,29 +812,15 @@
       "domain": "home-and-family",
       "type": "breakup",
       "variant": 0,
-      "trigger": "awaiting: broke-up",
-      "waiting": true,
-      "outcome": "personal conversation",
+      "trigger": "family.separated",
+      "waiting": false,
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 2
+        "narrator": 6,
+        "asker": 34,
+        "asked": 14
       },
-      "lines": 2,
-      "episodes": [],
-      "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
-    },
-    {
-      "domain": "home-and-family",
-      "type": "breakup",
-      "variant": 1,
-      "trigger": "awaiting: separated",
-      "waiting": true,
-      "outcome": "personal conversation",
-      "speakers": {
-        "narrator": 2
-      },
-      "lines": 2,
+      "lines": 54,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -770,12 +832,13 @@
       "variant": 0,
       "trigger": "a tie's re-entry",
       "waiting": false,
-      "outcome": "personal conversation",
+      "outcome": "scene.reply",
       "speakers": {
-        "narrator": 4,
-        "talk": 201
+        "narrator": 10,
+        "asker": 25,
+        "asked": 14
       },
-      "lines": 205,
+      "lines": 49,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -803,11 +866,87 @@
       "domain": "meeting-people-and-places",
       "type": "rescue",
       "variant": 0,
-      "trigger": "none",
+      "trigger": "health.rescued",
       "waiting": false,
-      "outcome": "personal conversation",
-      "speakers": {},
-      "lines": 0,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 14,
+        "asker": 24,
+        "asked": 14
+      },
+      "lines": 52,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "meeting-people-and-places",
+      "type": "prison-visit",
+      "variant": 0,
+      "trigger": "justice.held-before-trial",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 29,
+        "asked": 15
+      },
+      "lines": 49,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "meeting-people-and-places",
+      "type": "prison-visit",
+      "variant": 1,
+      "trigger": "justice.imprisoned",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 29,
+        "asked": 15
+      },
+      "lines": 49,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "meeting-people-and-places",
+      "type": "prison-visit",
+      "variant": 0,
+      "trigger": "justice.held-before-trial",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 29,
+        "asked": 15
+      },
+      "lines": 49,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "meeting-people-and-places",
+      "type": "prison-visit",
+      "variant": 1,
+      "trigger": "justice.imprisoned",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 5,
+        "asker": 29,
+        "asked": 15
+      },
+      "lines": 49,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -894,26 +1033,6 @@
       "firedExample": null
     },
     {
-      "domain": "meeting-people-and-places",
-      "type": "visit",
-      "variant": 4,
-      "trigger": "justice.held-before-trial",
-      "waiting": false,
-      "outcome": "personal conversation",
-      "speakers": {
-        "narrator": 7,
-        "hearer": 17,
-        "bearer": 8
-      },
-      "lines": 32,
-      "episodes": [],
-      "ownerAsked": [
-        "Door knocking as a montage"
-      ],
-      "firedInYear": 0,
-      "firedExample": null
-    },
-    {
       "domain": "home-and-family",
       "type": "arrival",
       "variant": 0,
@@ -958,10 +1077,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "asked": 51,
-        "asker": 52,
+        "asker": 55,
         "narrator": 2
       },
-      "lines": 105,
+      "lines": 108,
       "episodes": [],
       "ownerAsked": [
         "Mentor scene"
@@ -973,15 +1092,35 @@
       "domain": "home-and-family",
       "type": "advice",
       "variant": 1,
-      "trigger": "awaiting: relationship:mentorship:*:formed",
-      "waiting": true,
+      "trigger": "work.mentorship-formed",
+      "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
         "asked": 51,
-        "asker": 52,
+        "asker": 55,
         "narrator": 2
       },
-      "lines": 105,
+      "lines": 108,
+      "episodes": [],
+      "ownerAsked": [
+        "Mentor scene"
+      ],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "home-and-family",
+      "type": "advice",
+      "variant": 2,
+      "trigger": "party-asked",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asked": 51,
+        "asker": 55,
+        "narrator": 2
+      },
+      "lines": 108,
       "episodes": [],
       "ownerAsked": [
         "Mentor scene"
@@ -993,19 +1132,37 @@
       "domain": "meeting-people-and-places",
       "type": "accusation",
       "variant": 0,
-      "trigger": "none",
+      "trigger": "justice.accused",
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 1,
-        "asker": 9,
-        "asked": 9
+        "narrator": 3,
+        "asker": 18,
+        "asked": 18
       },
-      "lines": 19,
+      "lines": 39,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 4,
+      "firedExample": "official:term:seat:US-AR:upper:019:0:2025-01-20:2025-02-02:justice.accused:complaint:bribe:2025-02-01:person_e906251011b6d7c2:official:term:seat:US-AR:upper:019:0:2025-01-20:contract:US-AR:highways:2025-02-01:official:term:seat:US-AR:upper:019:0:2025-01-20:person_e906251011b6d7c2"
+    },
+    {
+      "domain": "meeting-people-and-places",
+      "type": "accusation",
+      "variant": 1,
+      "trigger": "scandal.reported",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 3,
+        "asker": 18,
+        "asked": 18
+      },
+      "lines": 39,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 4,
+      "firedExample": "official:term:seat:US-AR:upper:019:0:2025-01-20:2025-02-02:justice.accused:complaint:bribe:2025-02-01:person_e906251011b6d7c2:official:term:seat:US-AR:upper:019:0:2025-01-20:contract:US-AR:highways:2025-02-01:official:term:seat:US-AR:upper:019:0:2025-01-20:person_e906251011b6d7c2"
     },
     {
       "domain": "meeting-people-and-places",
@@ -1199,11 +1356,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 39,
-        "asked": 32,
+        "asker": 43,
+        "asked": 36,
         "narrator": 3
       },
-      "lines": 74,
+      "lines": 82,
       "episodes": [
         "concession-call-received",
         "the-morning-after-the-race"
@@ -1213,8 +1370,8 @@
         "Concede or celebrate",
         "Election night with your real people"
       ],
-      "firedInYear": 12,
-      "firedExample": "person_dd23e9dfcfb62366:2025-11-04:election-result:contest:seat:gus2025:135927:board:2:2025-11-04"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "election-day-and-night",
@@ -1239,8 +1396,8 @@
         "Election night with your real people",
         "Loser's podium"
       ],
-      "firedInYear": 114,
-      "firedExample": "person_dd23e9dfcfb62366:2025-11-04:election-result:contest:seat:gus2025:135927:board:0:2025-11-04"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "election-day-and-night",
@@ -1265,8 +1422,8 @@
         "Election night with your real people",
         "Loser's podium"
       ],
-      "firedInYear": 114,
-      "firedExample": "person_dd23e9dfcfb62366:2025-11-04:election-result:contest:seat:gus2025:135927:board:0:2025-11-04"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "legislating",
@@ -1278,9 +1435,9 @@
       "speakers": {
         "asked": 62,
         "asker": 49,
-        "narrator": 3
+        "narrator": 11
       },
-      "lines": 114,
+      "lines": 122,
       "episodes": [
         "the-vote-that-switched"
       ],
@@ -1290,8 +1447,8 @@
         "Floor switch",
         "Legislature in the background"
       ],
-      "firedInYear": 82,
-      "firedExample": "person_dd23e9dfcfb62366:2025-07-01:bill-vote:bill:office:gus2025:212130:board:2025-06-01:person_84307b3a5077cc47:55:office:gus2025:212130:board"
+      "firedInYear": 134,
+      "firedExample": "person_b8112434a01567dd:2025-01-21:bill-vote:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:9:office:gus2025:207541:board"
     },
     {
       "domain": "the-executive",
@@ -1312,8 +1469,8 @@
       "ownerAsked": [
         "Bill scenes at every stage"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 26,
+      "firedExample": "person_b8112434a01567dd:2026-01-01:executive-action:bill:office:gus2025:207553:council:2025-12-02:person_31abdccb95cf7d48:57"
     },
     {
       "domain": "the-executive",
@@ -1369,15 +1526,15 @@
       "speakers": {
         "narrator": 4,
         "asker": 30,
-        "asked": 33
+        "asked": 34
       },
-      "lines": 67,
+      "lines": 68,
       "episodes": [],
       "ownerAsked": [
         "Appointment"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_771d6a15584cd287:2025-01-20:appointed:appointment:town:public-works:2025-01-20"
     },
     {
       "domain": "the-executive",
@@ -1389,15 +1546,15 @@
       "speakers": {
         "narrator": 4,
         "asker": 30,
-        "asked": 33
+        "asked": 34
       },
-      "lines": 67,
+      "lines": 68,
       "episodes": [],
       "ownerAsked": [
         "Appointment"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 1,
+      "firedExample": "person_771d6a15584cd287:2025-01-20:appointed:appointment:town:public-works:2025-01-20"
     },
     {
       "domain": "the-executive",
@@ -1452,10 +1609,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 3,
-        "asker": 50,
-        "asked": 53
+        "asker": 52,
+        "asked": 63
       },
-      "lines": 106,
+      "lines": 118,
       "episodes": [
         "three-minutes-at-the-microphone"
       ],
@@ -1463,8 +1620,26 @@
         "Bill scenes at every stage",
         "Public meeting agenda"
       ],
-      "firedInYear": 0,
-      "firedExample": null
+      "firedInYear": 5,
+      "firedExample": "person_192916bb207642b2:2025-12-02:public-comment:bill:office:gus2025:207541:board:2025-12-02:person_fbc042ae53694a03:56"
+    },
+    {
+      "domain": "none",
+      "type": "testimony-heard",
+      "variant": 0,
+      "trigger": "speech.heard",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asker": 30,
+        "asked": 20,
+        "narrator": 2
+      },
+      "lines": 52,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 145,
+      "firedExample": "person_b8112334a015662a:2025-01-21:speech:remark:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:10:person_00ef7738f25f1d49"
     },
     {
       "domain": "the-press",
@@ -1474,11 +1649,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 202,
-        "asked": 196,
-        "narrator": 20
+        "asker": 227,
+        "asked": 232,
+        "narrator": 28
       },
-      "lines": 418,
+      "lines": 487,
       "episodes": [
         "quiet-weeks-listener-offers",
         "the-reporter-calls-for-comment"
@@ -1489,8 +1664,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 55,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-05:interview-published:interview:outlet:television:1:jurisdiction_14183d611cac162d:filing:contest:seat:gus2025:135927:board:2:2025-11-04:person_dd23e9dfcfb62366:2025-10-05:0"
+      "firedInYear": 136,
+      "firedExample": "person_b8112334a015662a:2025-01-21:bill-vote:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:9:office:gus2025:207541:board"
     },
     {
       "domain": "the-press",
@@ -1500,11 +1675,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 202,
-        "asked": 196,
-        "narrator": 20
+        "asker": 227,
+        "asked": 232,
+        "narrator": 28
       },
-      "lines": 418,
+      "lines": 487,
       "episodes": [
         "quiet-weeks-listener-offers",
         "the-reporter-calls-for-comment"
@@ -1515,8 +1690,8 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 55,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-05:interview-published:interview:outlet:television:1:jurisdiction_14183d611cac162d:filing:contest:seat:gus2025:135927:board:2:2025-11-04:person_dd23e9dfcfb62366:2025-10-05:0"
+      "firedInYear": 136,
+      "firedExample": "person_b8112334a015662a:2025-01-21:bill-vote:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:9:office:gus2025:207541:board"
     },
     {
       "domain": "the-press",
@@ -1526,11 +1701,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 202,
-        "asked": 196,
-        "narrator": 20
+        "asker": 227,
+        "asked": 232,
+        "narrator": 28
       },
-      "lines": 418,
+      "lines": 487,
       "episodes": [
         "quiet-weeks-listener-offers",
         "the-reporter-calls-for-comment"
@@ -1541,22 +1716,22 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 55,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-05:interview-published:interview:outlet:television:1:jurisdiction_14183d611cac162d:filing:contest:seat:gus2025:135927:board:2:2025-11-04:person_dd23e9dfcfb62366:2025-10-05:0"
+      "firedInYear": 136,
+      "firedExample": "person_b8112334a015662a:2025-01-21:bill-vote:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:9:office:gus2025:207541:board"
     },
     {
       "domain": "the-press",
       "type": "press-interview",
       "variant": 3,
-      "trigger": "interview-published",
+      "trigger": "legislative-vote",
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 202,
-        "asked": 196,
-        "narrator": 20
+        "asker": 227,
+        "asked": 232,
+        "narrator": 28
       },
-      "lines": 418,
+      "lines": 487,
       "episodes": [
         "quiet-weeks-listener-offers",
         "the-reporter-calls-for-comment"
@@ -1567,22 +1742,22 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 55,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-05:interview-published:interview:outlet:television:1:jurisdiction_14183d611cac162d:filing:contest:seat:gus2025:135927:board:2:2025-11-04:person_dd23e9dfcfb62366:2025-10-05:0"
+      "firedInYear": 136,
+      "firedExample": "person_b8112334a015662a:2025-01-21:bill-vote:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:9:office:gus2025:207541:board"
     },
     {
       "domain": "the-press",
       "type": "press-interview",
       "variant": 4,
-      "trigger": "bill-held-in-committee",
+      "trigger": "interview-published",
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 202,
-        "asked": 196,
-        "narrator": 20
+        "asker": 227,
+        "asked": 232,
+        "narrator": 28
       },
-      "lines": 418,
+      "lines": 487,
       "episodes": [
         "quiet-weeks-listener-offers",
         "the-reporter-calls-for-comment"
@@ -1593,8 +1768,34 @@
         "A season full of scenes",
         "Campaign acts are scenes"
       ],
-      "firedInYear": 55,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-05:interview-published:interview:outlet:television:1:jurisdiction_14183d611cac162d:filing:contest:seat:gus2025:135927:board:2:2025-11-04:person_dd23e9dfcfb62366:2025-10-05:0"
+      "firedInYear": 136,
+      "firedExample": "person_b8112334a015662a:2025-01-21:bill-vote:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:9:office:gus2025:207541:board"
+    },
+    {
+      "domain": "the-press",
+      "type": "press-interview",
+      "variant": 5,
+      "trigger": "bill-held-in-committee",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asker": 227,
+        "asked": 232,
+        "narrator": 28
+      },
+      "lines": 487,
+      "episodes": [
+        "quiet-weeks-listener-offers",
+        "the-reporter-calls-for-comment"
+      ],
+      "ownerAsked": [
+        "Reporter at your door",
+        "Interview",
+        "A season full of scenes",
+        "Campaign acts are scenes"
+      ],
+      "firedInYear": 136,
+      "firedExample": "person_b8112334a015662a:2025-01-21:bill-vote:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:9:office:gus2025:207541:board"
     },
     {
       "domain": "the-press",
@@ -1605,10 +1806,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 3,
-        "asker": 17,
-        "asked": 14
+        "asker": 29,
+        "asked": 26
       },
-      "lines": 34,
+      "lines": 58,
       "episodes": [
         "the-story-breaks"
       ],
@@ -1629,15 +1830,15 @@
       "speakers": {
         "asked": 10,
         "asker": 16,
-        "narrator": 3
+        "narrator": 11
       },
-      "lines": 29,
+      "lines": 37,
       "episodes": [],
       "ownerAsked": [
         "Heard it from the news"
       ],
-      "firedInYear": 3,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-03:event:law.effect-learned:2025-10-03:person_dd23e9dfcfb62366:law:US-VT:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting"
+      "firedInYear": 2,
+      "firedExample": "person_771d6a15584cd287:2025-10-01:event:law.effect-learned:2025-10-01:withholding:work-payroll:2025-08-28:work-commitment:job:public:town:public-works:person_771d6a15584cd287:15"
     },
     {
       "domain": "none",
@@ -1723,11 +1924,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 13,
-        "asker": 116,
-        "asked": 54
+        "narrator": 16,
+        "asker": 182,
+        "asked": 86
       },
-      "lines": 183,
+      "lines": 284,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -1741,11 +1942,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 13,
-        "asker": 116,
-        "asked": 54
+        "narrator": 16,
+        "asker": 182,
+        "asked": 86
       },
-      "lines": 183,
+      "lines": 284,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -1759,11 +1960,29 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 13,
-        "asker": 116,
-        "asked": 54
+        "narrator": 16,
+        "asker": 182,
+        "asked": 86
       },
-      "lines": 183,
+      "lines": 284,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "hallway",
+      "variant": 3,
+      "trigger": "governor.response",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 16,
+        "asker": 182,
+        "asked": 86
+      },
+      "lines": 284,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -1788,8 +2007,8 @@
         "Speech per world",
         "Real figures in speeches"
       ],
-      "firedInYear": 6,
-      "firedExample": "person_dd23e9dfcfb62366:2025-01-20:president.address:2025-01-20"
+      "firedInYear": 22,
+      "firedExample": "person_b8112434a01567dd:2025-01-20:president.address:2025-01-20"
     },
     {
       "domain": "the-executive",
@@ -1810,8 +2029,52 @@
         "Speech per world",
         "Real figures in speeches"
       ],
-      "firedInYear": 6,
-      "firedExample": "person_dd23e9dfcfb62366:2025-01-20:president.address:2025-01-20"
+      "firedInYear": 22,
+      "firedExample": "person_b8112434a01567dd:2025-01-20:president.address:2025-01-20"
+    },
+    {
+      "domain": "the-executive",
+      "type": "address",
+      "variant": 2,
+      "trigger": "governor.address",
+      "waiting": false,
+      "outcome": "political conversation",
+      "speakers": {
+        "narrator": 4
+      },
+      "lines": 4,
+      "episodes": [
+        "executive-record-gaps"
+      ],
+      "ownerAsked": [
+        "President's address as a speech",
+        "Speech per world",
+        "Real figures in speeches"
+      ],
+      "firedInYear": 22,
+      "firedExample": "person_b8112434a01567dd:2025-01-20:president.address:2025-01-20"
+    },
+    {
+      "domain": "the-executive",
+      "type": "address",
+      "variant": 3,
+      "trigger": "mayor.address",
+      "waiting": false,
+      "outcome": "political conversation",
+      "speakers": {
+        "narrator": 4
+      },
+      "lines": 4,
+      "episodes": [
+        "executive-record-gaps"
+      ],
+      "ownerAsked": [
+        "President's address as a speech",
+        "Speech per world",
+        "Real figures in speeches"
+      ],
+      "firedInYear": 22,
+      "firedExample": "person_b8112434a01567dd:2025-01-20:president.address:2025-01-20"
     },
     {
       "domain": "the-campaign",
@@ -1822,10 +2085,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 3,
-        "asker": 19,
-        "asked": 14
+        "asker": 31,
+        "asked": 18
       },
-      "lines": 36,
+      "lines": 52,
       "episodes": [
         "quiet-weeks-listener-offers",
         "the-local-candidate-debate"
@@ -1837,8 +2100,8 @@
         "Rally as a public scene",
         "Campaign volunteer or opponent at a rally"
       ],
-      "firedInYear": 16,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-27:speech:person_dd23e9dfcfb62366:2025-10-27:town-hall:town-hall:person_dd23e9dfcfb62366:2025-10-27"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "the-campaign",
@@ -1849,18 +2112,18 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 6,
-        "asker": 24,
+        "asker": 40,
         "asked": 10
       },
-      "lines": 40,
+      "lines": 56,
       "episodes": [
         "the-local-candidate-debate"
       ],
       "ownerAsked": [
         "Volunteer after a rally"
       ],
-      "firedInYear": 16,
-      "firedExample": "person_dd23e9dfcfb62366:2025-01-27:speech:person_84307b3a5077cc47:2025-01-27:town-hall:town-hall:person_84307b3a5077cc47:2025-01-27:1"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "the-campaign",
@@ -1870,11 +2133,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 89,
-        "asked": 47,
-        "narrator": 11
+        "asker": 34,
+        "narrator": 3,
+        "asked": 20
       },
-      "lines": 147,
+      "lines": 57,
       "episodes": [
         "a-primary-challenge-from-your-own-side"
       ],
@@ -1882,8 +2145,8 @@
         "Filing deliberately marked",
         "Filing is a conversation at the clerk"
       ],
-      "firedInYear": 3,
-      "firedExample": "person_a2379df1c7e776c0:2025-03-30:candidate-filed:filing:contest:seat:gus2025:135927:board:6:2025-11-04:person_a2379df1c7e776c0"
+      "firedInYear": 8,
+      "firedExample": "official:term:seat:US-AR:us-house:01:2025-01-20:2025-09-13:candidate-filed:filing:contest:seat:US-AR:us-house:01:2026-11-03:official:term:seat:US-AR:us-house:01:2025-01-20"
     },
     {
       "domain": "home-and-family",
@@ -1913,11 +2176,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 8,
-        "asker": 79,
-        "asked": 42
+        "narrator": 10,
+        "asker": 82,
+        "asked": 45
       },
-      "lines": 129,
+      "lines": 137,
       "episodes": [
         "the-vote-that-switched"
       ],
@@ -1928,7 +2191,7 @@
         "Bill scenes at every stage"
       ],
       "firedInYear": 1,
-      "firedExample": "person_142a7a5adef67ef2:2025-12-02:bill-amendment:bill:office:gus2025:212130:board:2025-12-02:person_6fac13d1592d7951:65:office:gus2025:212130:board:floor:1"
+      "firedExample": "person_a9294d260de0f108:2025-01-21:bill-amendment:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:10:office:gus2025:207541:board:floor:1"
     },
     {
       "domain": "legislating",
@@ -1938,11 +2201,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 8,
-        "asker": 79,
-        "asked": 42
+        "narrator": 10,
+        "asker": 82,
+        "asked": 45
       },
-      "lines": 129,
+      "lines": 137,
       "episodes": [
         "the-vote-that-switched"
       ],
@@ -1953,7 +2216,7 @@
         "Bill scenes at every stage"
       ],
       "firedInYear": 1,
-      "firedExample": "person_142a7a5adef67ef2:2025-12-02:bill-amendment:bill:office:gus2025:212130:board:2025-12-02:person_6fac13d1592d7951:65:office:gus2025:212130:board:floor:1"
+      "firedExample": "person_a9294d260de0f108:2025-01-21:bill-amendment:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:10:office:gus2025:207541:board:floor:1"
     },
     {
       "domain": "legislating",
@@ -1963,11 +2226,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 8,
-        "asker": 79,
-        "asked": 42
+        "narrator": 10,
+        "asker": 82,
+        "asked": 45
       },
-      "lines": 129,
+      "lines": 137,
       "episodes": [
         "the-vote-that-switched"
       ],
@@ -1978,7 +2241,7 @@
         "Bill scenes at every stage"
       ],
       "firedInYear": 1,
-      "firedExample": "person_142a7a5adef67ef2:2025-12-02:bill-amendment:bill:office:gus2025:212130:board:2025-12-02:person_6fac13d1592d7951:65:office:gus2025:212130:board:floor:1"
+      "firedExample": "person_a9294d260de0f108:2025-01-21:bill-amendment:bill:office:gus2025:207541:board:2025-01-21:person_5ce1252f7c5ae4e4:10:office:gus2025:207541:board:floor:1"
     },
     {
       "domain": "the-campaign",
@@ -1989,11 +2252,13 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 4,
-        "asker": 24,
+        "asker": 40,
         "asked": 10
       },
-      "lines": 38,
-      "episodes": [],
+      "lines": 54,
+      "episodes": [
+        "the-first-door-of-the-day"
+      ],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
@@ -2007,11 +2272,13 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 4,
-        "asker": 24,
+        "asker": 40,
         "asked": 10
       },
-      "lines": 38,
-      "episodes": [],
+      "lines": 54,
+      "episodes": [
+        "the-first-door-of-the-day"
+      ],
       "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
@@ -2042,11 +2309,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 6,
-        "asker": 79,
-        "asked": 42
+        "narrator": 8,
+        "asker": 82,
+        "asked": 45
       },
-      "lines": 127,
+      "lines": 135,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -2062,9 +2329,9 @@
       "speakers": {
         "narrator": 3,
         "asker": 84,
-        "asked": 47
+        "asked": 48
       },
-      "lines": 134,
+      "lines": 135,
       "episodes": [],
       "ownerAsked": [
         "Colleague asks for your vote",
@@ -2083,9 +2350,9 @@
       "speakers": {
         "narrator": 3,
         "asker": 84,
-        "asked": 47
+        "asked": 48
       },
-      "lines": 134,
+      "lines": 135,
       "episodes": [],
       "ownerAsked": [
         "Colleague asks for your vote",
@@ -2146,11 +2413,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 5,
-        "asker": 70,
-        "asked": 36
+        "narrator": 7,
+        "asker": 106,
+        "asked": 62
       },
-      "lines": 111,
+      "lines": 175,
       "episodes": [
         "the-donor-who-wants-something"
       ],
@@ -2158,8 +2425,8 @@
         "Donor or party chair asks",
         "Interest groups approach you"
       ],
-      "firedInYear": 5,
-      "firedExample": "person_84307b3a5077cc47:2025-11-28:campaign-gift:filing:contest:seat:gus2025:212130:board:0:2026-03-03:person_84307b3a5077cc47:person:press:outlet:cable:1:national:reporter:0:2025-11-28:900"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "donors-and-corruption",
@@ -2169,11 +2436,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 5,
-        "asker": 70,
-        "asked": 36
+        "narrator": 7,
+        "asker": 106,
+        "asked": 62
       },
-      "lines": 111,
+      "lines": 175,
       "episodes": [
         "the-donor-who-wants-something"
       ],
@@ -2181,22 +2448,22 @@
         "Donor or party chair asks",
         "Interest groups approach you"
       ],
-      "firedInYear": 5,
-      "firedExample": "person_84307b3a5077cc47:2025-11-28:campaign-gift:filing:contest:seat:gus2025:212130:board:0:2026-03-03:person_84307b3a5077cc47:person:press:outlet:cable:1:national:reporter:0:2025-11-28:900"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "none",
       "type": "bribe-offer",
       "variant": 0,
       "trigger": "corruption.bribe-offered",
-      "waiting": true,
+      "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 44,
-        "narrator": 5,
-        "asked": 34
+        "asker": 60,
+        "narrator": 9,
+        "asked": 65
       },
-      "lines": 83,
+      "lines": 134,
       "episodes": [
         "envelope-refused-developer"
       ],
@@ -2220,7 +2487,9 @@
         "asked": 10
       },
       "lines": 34,
-      "episodes": [],
+      "episodes": [
+        "the-party-asks-you-to-run"
+      ],
       "ownerAsked": [
         "Party asks you to run",
         "Working with other candidates and officials"
@@ -2237,18 +2506,18 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 10,
-        "asker": 146,
+        "asker": 149,
         "asked": 114
       },
-      "lines": 270,
+      "lines": 273,
       "episodes": [
         "a-constituents-case"
       ],
       "ownerAsked": [
         "Office hours"
       ],
-      "firedInYear": 1,
-      "firedExample": "official:term:seat:US-VT:upper:ADD:1:2025-01-20:2025-10-17:office-approached:case:person_dd23e7dfcfb62000:2025-10-17"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -2259,10 +2528,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 6,
-        "asker": 52,
-        "asked": 32
+        "asker": 72,
+        "asked": 56
       },
-      "lines": 90,
+      "lines": 134,
       "episodes": [
         "spouse-stake-after-filing",
         "win-night-at-home"
@@ -2271,8 +2540,8 @@
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
       ],
-      "firedInYear": 10,
-      "firedExample": "person_dd23e9dfcfb62366:2025-11-27:candidate-filed:filing:contest:seat:gus2025:212130:board:0:2026-03-03:person_84307b3a5077cc47"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -2283,10 +2552,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 3,
-        "asker": 22,
-        "asked": 11
+        "asker": 46,
+        "asked": 17
       },
-      "lines": 36,
+      "lines": 66,
       "episodes": [
         "concession-call-received",
         "win-night-at-home"
@@ -2295,8 +2564,8 @@
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
       ],
-      "firedInYear": 10,
-      "firedExample": "person_dd23e9dfcfb62366:2025-11-04:election-result:contest:seat:gus2025:135927:board:2:2025-11-04"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -2306,11 +2575,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3,
-        "asker": 15,
-        "asked": 10
+        "asker": 34,
+        "asked": 29,
+        "narrator": 3
       },
-      "lines": 28,
+      "lines": 66,
       "episodes": [
         "household-after-the-loss"
       ],
@@ -2318,8 +2587,8 @@
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
       ],
-      "firedInYear": 95,
-      "firedExample": "person_dd23e9dfcfb62366:2025-11-04:election-result:contest:seat:gus2025:135927:board:0:2025-11-04"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -2329,11 +2598,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 3,
-        "asker": 15,
-        "asked": 10
+        "asker": 34,
+        "asked": 29,
+        "narrator": 3
       },
-      "lines": 28,
+      "lines": 66,
       "episodes": [
         "household-after-the-loss"
       ],
@@ -2341,8 +2610,8 @@
         "Family reaction with a purpose",
         "Family reacts to filing, win, loss, absence"
       ],
-      "firedInYear": 95,
-      "firedExample": "person_dd23e9dfcfb62366:2025-11-04:election-result:contest:seat:gus2025:135927:board:0:2025-11-04"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "home-and-family",
@@ -2352,11 +2621,11 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 2,
-        "asked": 18,
-        "asker": 27
+        "narrator": 6,
+        "asked": 25,
+        "asker": 49
       },
-      "lines": 47,
+      "lines": 80,
       "episodes": [
         "owed-talk-comes-due"
       ],
@@ -2510,10 +2779,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 5,
-        "asker": 45,
-        "asked": 29
+        "asker": 47,
+        "asked": 32
       },
-      "lines": 79,
+      "lines": 84,
       "episodes": [
         "the-story-breaks"
       ],
@@ -2522,7 +2791,7 @@
         "Staff bring bad news"
       ],
       "firedInYear": 1,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-23:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:64:federal:us-senate"
+      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-22:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:54:federal:us-senate"
     },
     {
       "domain": "the-executive",
@@ -2533,10 +2802,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 5,
-        "asker": 45,
-        "asked": 29
+        "asker": 47,
+        "asked": 32
       },
-      "lines": 79,
+      "lines": 84,
       "episodes": [
         "the-story-breaks"
       ],
@@ -2545,7 +2814,7 @@
         "Staff bring bad news"
       ],
       "firedInYear": 1,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-23:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:64:federal:us-senate"
+      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-22:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:54:federal:us-senate"
     },
     {
       "domain": "the-executive",
@@ -2556,10 +2825,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 5,
-        "asker": 45,
-        "asked": 29
+        "asker": 47,
+        "asked": 32
       },
-      "lines": 79,
+      "lines": 84,
       "episodes": [
         "the-story-breaks"
       ],
@@ -2568,7 +2837,7 @@
         "Staff bring bad news"
       ],
       "firedInYear": 1,
-      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-23:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:64:federal:us-senate"
+      "firedExample": "official:term:seat:US:president:2025-01-20:2025-09-22:bill-failed:bill:federal:us-house:2025-09-01:official:term:seat:US:president:2025-01-20:54:federal:us-senate"
     },
     {
       "domain": "legislating",
@@ -2591,8 +2860,8 @@
         "Bill scenes at every stage",
         "Legislature in the background"
       ],
-      "firedInYear": 1,
-      "firedExample": "person_6fac13d1592d7951:2025-12-02:bill-amendment:bill:office:gus2025:212130:board:2025-12-02:person_6fac13d1592d7951:65:office:gus2025:212130:board:floor:1"
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "none",
@@ -2603,10 +2872,10 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 36,
-        "asked": 19,
+        "asked": 23,
         "narrator": 3
       },
-      "lines": 58,
+      "lines": 62,
       "episodes": [
         "bill-held-in-committee"
       ],
@@ -2623,16 +2892,16 @@
       "outcome": "scene.reply",
       "speakers": {
         "asker": 35,
-        "asked": 20,
+        "asked": 21,
         "narrator": 3
       },
-      "lines": 58,
+      "lines": 59,
       "episodes": [
         "bill-held-in-committee"
       ],
       "ownerAsked": [],
-      "firedInYear": 8,
-      "firedExample": "official:term:seat:US-VT:upper:ADD:0:2025-01-20:2025-02-04:committee:bill:office:US-VT:legislature-upper:2025-01-24:official:term:seat:US-VT:upper:CHS:0:2025-01-20:6:office:US-VT:legislature-upper"
+      "firedInYear": 2,
+      "firedExample": "official:term:seat:US-AR:lower:036:0:2025-01-20:2025-02-23:committee:bill:office:US-AR:legislature-lower:2025-01-30:official:term:seat:US-AR:lower:020:0:2025-01-20:21:office:US-AR:legislature-lower"
     },
     {
       "domain": "home-and-family",
@@ -2642,11 +2911,29 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 6,
-        "asker": 24,
-        "asked": 20
+        "narrator": 8,
+        "asker": 32,
+        "asked": 24
       },
-      "lines": 50,
+      "lines": 64,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "home-and-family",
+      "type": "new-baby",
+      "variant": 1,
+      "trigger": "feeling:event:person-birth",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 8,
+        "asker": 32,
+        "asked": 24
+      },
+      "lines": 64,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -2660,19 +2947,19 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 7,
-        "asker": 75,
-        "asked": 91
+        "narrator": 9,
+        "asker": 107,
+        "asked": 113
       },
-      "lines": 173,
+      "lines": 229,
       "episodes": [
         "neighbor-asks-you-to-join"
       ],
       "ownerAsked": [
         "Shared-cause invitation"
       ],
-      "firedInYear": 90,
-      "firedExample": "person_142a7a5adef67ef2:2025-07-23:cause.shared:2025-07-23:person_eb2030d788d6b2f3:person_142a7a5adef67ef2:cause:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work"
+      "firedInYear": 34,
+      "firedExample": "person_11703919b3805ff1:2025-05-02:cause.shared:2025-05-02:person_a9294e260de0f2bb:person_11703919b3805ff1:cause:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement"
     },
     {
       "domain": "none",
@@ -2683,12 +2970,52 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 3,
-        "asker": 49,
+        "asker": 57,
         "asked": 28
       },
-      "lines": 80,
+      "lines": 88,
       "episodes": [
         "concession-call-received"
+      ],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "action-confront",
+      "variant": 0,
+      "trigger": "civic.protest",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asker": 58,
+        "asked": 28,
+        "narrator": 17
+      },
+      "lines": 103,
+      "episodes": [
+        "town-hall-goes-wrong"
+      ],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "action-confront",
+      "variant": 1,
+      "trigger": "civic.strike",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asker": 58,
+        "asked": 28,
+        "narrator": 17
+      },
+      "lines": 103,
+      "episodes": [
+        "town-hall-goes-wrong"
       ],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -2702,17 +3029,197 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 35,
-        "asked": 20,
-        "narrator": 6
+        "asker": 58,
+        "asked": 28,
+        "narrator": 17
       },
-      "lines": 61,
+      "lines": 103,
       "episodes": [
         "town-hall-goes-wrong"
       ],
       "ownerAsked": [],
-      "firedInYear": 31,
-      "firedExample": "person_dd23e9dfcfb62366:2025-07-07:town-hall:town-hall:person_dd23e9dfcfb62366:2025-07-07"
+      "firedInYear": 34,
+      "firedExample": "person_b8112334a015662a:2025-01-27:town-hall:town-hall:person_b8112334a015662a:2025-01-27"
+    },
+    {
+      "domain": "none",
+      "type": "rally-word",
+      "variant": 0,
+      "trigger": "civic.rally",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 4,
+        "asker": 20,
+        "asked": 11
+      },
+      "lines": 35,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "lobby-remembers",
+      "variant": 0,
+      "trigger": "office.voted",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 3,
+        "asker": 18,
+        "asked": 9
+      },
+      "lines": 30,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "bribe-pressed",
+      "variant": 0,
+      "trigger": "corruption.bribe-pressed",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 2,
+        "asker": 29,
+        "asked": 9
+      },
+      "lines": 40,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 2,
+      "firedExample": "official:term:seat:US-AR:upper:019:0:2025-01-20:2025-07-01:corruption.bribe-pressed:bribe:2025-07-01:person_e906251011b6d7c2:official:term:seat:US-AR:upper:019:0:2025-01-20:contract:US-AR:highways:2025-07-01"
+    },
+    {
+      "domain": "none",
+      "type": "office-doubt",
+      "variant": 0,
+      "trigger": "civic.protest",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 4,
+        "asker": 15,
+        "asked": 10
+      },
+      "lines": 29,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "floor-debate",
+      "variant": 0,
+      "trigger": "floor-debate",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 3,
+        "asker": 15,
+        "asked": 8
+      },
+      "lines": 26,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "floor-debate",
+      "variant": 1,
+      "trigger": "floor-debate",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 3,
+        "asker": 15,
+        "asked": 8
+      },
+      "lines": 26,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "run-doubt",
+      "variant": 0,
+      "trigger": "election-result",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 2,
+        "asker": 11,
+        "asked": 8
+      },
+      "lines": 21,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "story-read",
+      "variant": 0,
+      "trigger": "news.read",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 15,
+        "asker": 70,
+        "asked": 29
+      },
+      "lines": 114,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "story-read",
+      "variant": 1,
+      "trigger": "news.read",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 15,
+        "asker": 70,
+        "asked": 29
+      },
+      "lines": 114,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "moving-goodbye",
+      "variant": 0,
+      "trigger": "person.moved-away",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 7,
+        "asker": 80,
+        "asked": 25
+      },
+      "lines": 112,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "none",
@@ -2737,6 +3244,22 @@
       "type": "interview-sitting",
       "variant": 0,
       "trigger": "interview-accepted",
+      "waiting": false,
+      "outcome": "political conversation",
+      "speakers": {
+        "narrator": 4
+      },
+      "lines": 4,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "the-press",
+      "type": "debate-sitting",
+      "variant": 0,
+      "trigger": "debate-accepted",
       "waiting": false,
       "outcome": "political conversation",
       "speakers": {
@@ -2783,8 +3306,28 @@
       "ownerAsked": [
         "Election team"
       ],
-      "firedInYear": 4,
-      "firedExample": "person_dd23e9dfcfb62366:2025-10-05:volunteer-offered:filing:contest:seat:gus2025:135927:board:2:2025-11-04:person_dd23e9dfcfb62366:person_79764f3c5039abba"
+      "firedInYear": 6,
+      "firedExample": "person_b8112334a015662a:2025-09-20:volunteer-offered:filing:contest:seat:gus2025:207541:board:6:2026-11-03:person_b8112334a015662a:person_b72e248f12ef2057"
+    },
+    {
+      "domain": "none",
+      "type": "manager-offer",
+      "variant": 0,
+      "trigger": "volunteer-offered",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 4,
+        "asker": 18,
+        "asked": 10
+      },
+      "lines": 32,
+      "episodes": [],
+      "ownerAsked": [
+        "Election team"
+      ],
+      "firedInYear": 0,
+      "firedExample": null
     },
     {
       "domain": "none",
@@ -2794,15 +3337,15 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "narrator": 2,
-        "asker": 21,
+        "narrator": 6,
+        "asker": 31,
         "asked": 10
       },
-      "lines": 33,
+      "lines": 47,
       "episodes": [],
       "ownerAsked": [],
-      "firedInYear": 2,
-      "firedExample": "person_dd23e7dfcfb62000:2025-10-13:job-offered:job-offer:position:organization_15ac07201345420f:2025-09-01:2:person_dd23e7dfcfb62000"
+      "firedInYear": 18,
+      "firedExample": "person_b8112034a0156111:2025-03-31:job-offered:job-offer:position:organization_2527139c8cb92bd9:2025-03-01:2:person_b8112034a0156111"
     },
     {
       "domain": "none",
@@ -2830,11 +3373,29 @@
       "waiting": false,
       "outcome": "scene.reply",
       "speakers": {
-        "asker": 23,
+        "asker": 28,
         "asked": 11,
-        "narrator": 6
+        "narrator": 7
       },
-      "lines": 40,
+      "lines": 46,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "none",
+      "type": "rival-filed",
+      "variant": 1,
+      "trigger": "candidate-filed",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "asker": 28,
+        "asked": 11,
+        "narrator": 7
+      },
+      "lines": 46,
       "episodes": [],
       "ownerAsked": [],
       "firedInYear": 0,
@@ -2869,14 +3430,52 @@
       "outcome": "scene.reply",
       "speakers": {
         "narrator": 2,
-        "asker": 25,
-        "asked": 16
+        "asker": 46,
+        "asked": 23
       },
-      "lines": 43,
+      "lines": 71,
       "episodes": [],
       "ownerAsked": [
         "Money breaks the wallet"
       ],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "home-and-family",
+      "type": "home-damaged",
+      "variant": 0,
+      "trigger": "disaster.home-damaged",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 6,
+        "asker": 67,
+        "asked": 32
+      },
+      "lines": 105,
+      "episodes": [],
+      "ownerAsked": [],
+      "firedInYear": 0,
+      "firedExample": null
+    },
+    {
+      "domain": "the-executive",
+      "type": "swearing-in",
+      "variant": 0,
+      "trigger": "took-office",
+      "waiting": false,
+      "outcome": "scene.reply",
+      "speakers": {
+        "narrator": 18,
+        "asker": 46,
+        "asked": 20
+      },
+      "lines": 84,
+      "episodes": [
+        "sworn-in"
+      ],
+      "ownerAsked": [],
       "firedInYear": 0,
       "firedExample": null
     }
@@ -2944,6 +3543,7 @@
     "constituent-family-in-custody",
     "disaster-first-hours",
     "endorsement-refused",
-    "executive-order-voting-rights"
+    "executive-order-voting-rights",
+    "inaugural-address-shape"
   ]
 }
