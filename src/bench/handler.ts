@@ -113,10 +113,9 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  newGameFaces,
   portraitFace,
-  portraitPng,
   readRecipe,
-  setColor,
 } from "./appearance";
 import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
@@ -723,48 +722,22 @@ const ROUTES: readonly Route[] = [
       else if (route === "appearance") {
         const recipe = q.get("recipe")
           ? request.method === "POST"
-            ? q.get("value")
-              ? setColor(
-                  readRecipe(q.get("recipe")!),
-                  q.get("row") ?? "",
-                  q.get("value")!,
-                )
-              : moveAppearance(
-                  readRecipe(q.get("recipe")!),
-                  gender,
-                  q.get("row") ?? "",
-                  Number(q.get("by") ?? 1),
-                )
+            ? moveAppearance(
+                readRecipe(q.get("recipe")!),
+                gender,
+                q.get("row") ?? "",
+                Number(q.get("by") ?? 1),
+              )
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);
-        send(200, { recipe: fitted, rows: appearanceRows(fitted, gender) });
+        // The look, its rows and the bust every screen will draw for it.
+        send(200, {
+          recipe: fitted,
+          rows: appearanceRows(fitted, gender),
+          face: portraitFace(fitted),
+        });
       } else send(404, { error: "Unknown bench route." });
-      return;
-    },
-  },
-  {
-    match: ({ request, url }) =>
-      request.method === "GET" && url.pathname === "/api/portrait",
-    run: async ({ url, response }) => {
-      // The engine's portrait: a recipe from the creator, or a person's own.
-      const id = url.searchParams.get("id");
-      const kept = id
-        ? requireCore().people.get(id)?.looks?.recipe
-        : url.searchParams.get("recipe");
-      if (!kept) throw new Error("No portrait.");
-      response.writeHead(200, {
-        "Content-Type": "image/png",
-        "Cache-Control": "max-age=3600",
-      });
-      // Everyday clothes, or with dress=work the work clothes (the creator
-      // shows the two side by side).
-      response.end(
-        portraitPng(
-          readRecipe(kept),
-          url.searchParams.get("dress") === "work" ? "work" : "everyday",
-        ),
-      );
       return;
     },
   },
@@ -783,6 +756,8 @@ const ROUTES: readonly Route[] = [
         ...scenes[0]!,
         scenes,
         rotateSeconds: TITLE_ROTATE_SECONDS,
+        // New game's busts, before any world exists.
+        newGame: newGameFaces(),
         life: personId
           ? {
               personId,
@@ -793,9 +768,6 @@ const ROUTES: readonly Route[] = [
                     state.core!.date,
                 ),
                 makeIsoDate(state.core!.date),
-              ),
-              portrait: Boolean(
-                state.core!.people.get(personId)?.looks?.recipe,
               ),
               // The face the creator saved, for Continue's headshot.
               face: state.core!.people.get(personId)?.looks?.recipe

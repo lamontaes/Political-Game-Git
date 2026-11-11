@@ -1,13 +1,14 @@
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  bustChoices,
   bustFor,
+  bustOfLook,
   bustPath,
   bustPeople,
   bustPerson,
   bustPick,
   bustPieces,
-  lookText,
 } from "./bust";
 import { packPeople } from "./people-pack";
 
@@ -89,18 +90,21 @@ describe("the bust bank", () => {
         ).toBe(false);
   });
 
-  it("sets a chosen look's bust from the look, whatever order its colors come in", () => {
-    const a = lookText({
-      person: "woman-slim",
-      outfit: "kit",
-      colors: { top: "red", hair: "black" },
-    });
-    const b = lookText({
-      person: "woman-slim",
-      outfit: "kit",
-      colors: { hair: "black", top: "red" },
-    });
-    expect(a).toBe(b);
-    expect(bustPick(a)).toBe(bustPick(b));
+  it("draws a chosen look from its own pieces, and nothing for a piece the bank lacks", () => {
+    const man = bustPeople().find((p) => p.sex === "man")!;
+    const { hair, face } = bustChoices("man");
+    const look = { person: man.id, hair: hair[1]!.file, face: face[0]!.file };
+    const drawn = bustOfLook(look, "work")!;
+    expect(drawn.layers.at(-1)!.endsWith(look.hair)).toBe(true);
+    expect(drawn.layers.some((url) => url.endsWith(look.face))).toBe(true);
+    // No facial hair where the look names none.
+    const bare = bustOfLook({ person: man.id, hair: look.hair }, "work")!;
+    expect(bare.layers.some((url) => /\/face-/.test(url))).toBe(false);
+    expect(bustOfLook({ ...look, hair: "hair-none.png" }, "work")).toBeNull();
+    expect(bustOfLook({ ...look, person: "nobody" }, "work")).toBeNull();
+    // Every piece the creator offers has a word for it.
+    for (const sex of ["woman", "man"])
+      for (const piece of [...bustChoices(sex).hair, ...bustChoices(sex).face])
+        expect(piece.label, piece.file).not.toBe("");
   });
 });
