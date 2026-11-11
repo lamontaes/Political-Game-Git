@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: merged
+status: done
 standard: 2
 claimed-by: claude/pool-play-six-list-and-detail-screens-build-their-own-part-1-journal-patch-notes
 pr: #8488
@@ -19,6 +19,8 @@ source: split from play-six-list-and-detail-screens-build-their-own in the pool 
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T02:42:06.673Z
 merged-at: 2026-11-11T13:25:38.128Z
+seen-by: "Fable B (lead; not the builder)"
+seen-at: 2026-11-11T15:12:19.644Z
 ---
 
 **What.** Patch notes and the Journal each build their own list-beside-detail layout. Move both onto `rosterScreen`, the part Campaign, Elections, Parties and Issues already call, so a player sees the same list at the left and the chosen entry at the right on all of them. Nothing a player can do or read changes.
@@ -36,3 +38,5 @@ merged-at: 2026-11-11T13:25:38.128Z
 **Waits on.** Nothing.
 
 **Files.** src/bench/ui/strips.mjs, src/bench/ui/roster-screen.mjs, src/bench/play.mjs, src/bench/play.css
+
+**Notes.** Seen in the game (2026-11-11, Fable B (lead; not the builder)): Shonto, Arizona, seed fb-seen-8488, main c9cfd369eb: Patch notes from the title and the Journal with its chapter chosen, at 1440x900, each beside the same life on the commit before the change (36cd414682). Both are a list beside its detail; the rows and the detail sit where they did; seven of seven other builds opened their notes on a click; the Journal's one chapter shows its text. Words differ only where later words changes rewrote them. Both screens are built by the one roster part and hold no list builder of their own.

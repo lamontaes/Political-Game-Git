@@ -27,6 +27,7 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
@@ -377,6 +378,16 @@ export interface SessionBill {
  * parts their vote weighs (`legislature.ts`), plus how their traits lean
  * between filing and holding back. Read once per sitting.
  */
+/** Whether a filer is the person the player controls: they back a filing, never sponsor one they did not file. */
+function isControlled(api: CoreAPI, filer: Filer): boolean {
+  const controlled = snapshotExplicitControlV1(api.state).personId;
+  return (
+    controlled !== undefined &&
+    controlled !== null &&
+    (filer.term.personId === controlled || filer.key === controlled)
+  );
+}
+
 export interface Filer {
   readonly term: TermRow;
   readonly key: string;
@@ -577,6 +588,9 @@ function fileChanges(
         const reason = filingReason(api, member, question, direction, law);
         if (reason <= 0) continue;
         cosponsors += 1;
+        // Nothing is filed in the player's name without them: they back it,
+        // and file their own bills through the bill menu.
+        if (isControlled(api, member)) continue;
         if (
           reason > best ||
           (reason === best && sponsor && member.key < sponsor.key)
@@ -763,6 +777,8 @@ function fileLines(
       let sponsor: Filer | null = null;
       for (const { at, gap } of backers) {
         const member = filers[at]!;
+        // The player backs it but never sponsors it without filing it.
+        if (isControlled(api, member)) continue;
         const reason = gap / row.base;
         if (
           reason > best ||
@@ -1957,8 +1973,22 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
   const meetingDate = work.sourceRecordIds[1] ?? api.state.date;
+  // On the eve, a body nobody the player plays sits on files on the day.
+  if (meetingDate > api.state.date && !meetingHold?.(api, officeId)) {
+    api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
+      key: `${work.key}:day`,
+      date: makeIsoDate(meetingDate),
+      kind: "local-meeting",
+      source: work.source,
+      sourceRecordIds: [officeId, meetingDate],
+    });
+    return;
+  }
   scheduleMeeting(api, officeId, meetingDate);
-  const hold = meetingDate > api.state.date && !!meetingHold?.(api, officeId);
+  // Held for the player from the moment they take the seat, the meeting day
+  // itself included: a meeting still on the books takes its filings onto the
+  // agenda (and may stop the player) instead of voting them at once.
+  const hold = meetingDate >= api.state.date && !!meetingHold?.(api, officeId);
   const body: Body = { id: officeId, members: members(api, officeId) };
   // The presiding member the body elected, else the most senior.
   const presiding = presidingOfficer(api, officeId);
@@ -2087,10 +2117,12 @@ function scheduleMeeting(
     date: next.date,
     source: next.rule.source,
   } as unknown as ModuleRow);
-  // Members file the day before a meeting the player will sit in, so the
-  // bills are on its agenda when the player's stop comes; otherwise on the day.
+  // The filing is decided on the eve, whoever holds the seat by then: a body
+  // the player sits on files that day, so the bills are on the meeting's
+  // agenda while its stop can still come; any other body's filing moves on
+  // to the meeting day itself (`localMeeting`).
   const eve = addDays(makeIsoDate(next.date), -1);
-  const early = !!meetingHold?.(api, officeId) && eve > api.state.date;
+  const early = eve > api.state.date;
   api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
     key: `local-meeting:${officeId}:${next.date}`,
     date: early ? eve : next.date,
