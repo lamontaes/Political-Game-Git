@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-10T22:55:41.723Z
+claimed-at: 2026-11-11T04:00:37.571Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-07-every-day-starts-at-midnight
 ---
@@ -45,3 +45,15 @@ branch: claude/pool-play-stop-07-every-day-starts-at-midnight
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:00, 16:01, 16:02, 16:05; screenshots 36, 37, 43, 49. Lead: m0-m2 (core clock and screen half) (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Split Oct 24 into play-stop-07-every-day-starts-at-midnight-a and play-stop-07-every-day-starts-at-midnight-b, each four hours or less; the CTO sets this item done when the last part is done.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released (2026-11-10): Replayed on main 4da1628283: Day and closed-office travel pass, but the 3-hour filing visit leaves the clock at 8:00 AM in Newbury VT and Benson PA; see PR 8324 and docs/reports/seen-2026-11-10-play-stop-07-clock.md. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:41 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-07-every-day-starts-at-midnight since 2026-11-10 23:40 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:57 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released (2026-11-11): Replay done (PR 8324): Day and closed-office travel pass; the 3-hour filing visit leaves the clock unmoved. Searched OWNER-DECISIONS and parameters: filingVisitHours is 3 and cites the CTO's Oct 28 note that filing spends the afternoon, so the unmoved clock is a defect. Likely cause (unconfirmed): BenchPlayer.spend returns nothing while the clerk's stop holds the clock (player.ts ~236, handler.ts /api/filing/choose ~1855). Needs a fix item with a Fable-checked cause, proved with filing.browser.mjs in two drawn places; filing.browser.mjs line ~247 accepts a held clock and should be tightened. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:00 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.

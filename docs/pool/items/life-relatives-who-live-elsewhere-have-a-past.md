@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-life-relatives-who-live-elsewhere-have-a-past
+pr: #8275
 after:
 blocked-on:
 lead: fable
@@ -17,6 +17,7 @@ effort: medium
 root: design-life-record
 source: the life record's second session, Nov 10 (not seen; its note is on core-life-record); cause found by Fable
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:19:06.835Z
 ---
 
 **What.** A person's past (where they lived, their schools, their working life) is written when they are first opened or met. That holds for people in the town. A relative who lives elsewhere gets none: their card tells only what the family facts give, such as "had a child". The owner's ruling of Nov 9 is that each person's past covers their whole life, written when they are opened, and a relative the player opens is a person.

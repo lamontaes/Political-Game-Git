@@ -6,7 +6,7 @@ lead: words
 kind: bug
 priority: 2
 size: S
-status: merged
+status: done
 standard: 2
 claimed-by:
 pr: #8176
@@ -17,6 +17,8 @@ effort: medium
 root: none
 source: Red main, relaying Merger 0's draws fn-1 and fn-2, Nov 1
 merged-at: 2026-11-10T18:39:46.779Z
+seen-by: second-session-2
+seen-at: 2026-11-11T02:40:32.349Z
 ---
 
 **What.** On draws fn-1 and fn-2 (Lavalette, West Virginia) src/director/conversation.test.ts fails 'offers four distinct replies' (8 turns, needs more than 8) and 'never parts with a word the talk already said' (no talk ended in a goodbye), on main before and after #7012. The engine is right by its rulings: a relative with nothing on record says nothing, and nobody says goodbye right after their own question was answered. The player the test picks knows 23 people, 5 of them full; the opening records list only 1 to 4 of them as known, since the rest are added when the world starts, so a pick from the opening records can't see the shortfall.
@@ -36,3 +38,5 @@ merged-at: 2026-11-10T18:39:46.779Z
 **Files.** src/director/conversation.test.ts, src/director/conversation.ts
 
 **Notes.** Diagnosed by Words, Nov 1 20:10 (red main relayed Merger 0). Tried and reverted: counting full peers or known full people in the opening records (too few known there), picking the fitting player who knows the most full people (fn-2's best knows 4), redrawing on the opening records' count (six redraws found none), and talking to the reserve or extra strangers (breaks the lie tests). Next idea: count the people known once the world starts (the core's knownIds) before the tests run, which is a record, not a talk's output.
+
+Seen in the game (2026-11-11, second-session-2): Lavalette, West Virginia in the game; tests on fn-1, fn-2, default and a fresh draw, seed second2-lav-1794364812741; fn-1; fn-2; e4396ee404; e1e4e434a7f2; 0cb6ae68a2cd, main a9e4152e: conversation.test.ts passed 21 of 21 on fn-1, fn-2, the default and three fresh seeds; in Lavalette a talk with the person in the room offered four distinct replies
