@@ -83188,10 +83188,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.listening-i-d-do-but-not-on-a-saturday",
+      "key": "scene-talk.reply-decline.i-d-come-and-listen-just-not-on-a-saturday",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Listening I'd do, but not on a Saturday.",
+      "text": "I'd come and listen, just not on a Saturday.",
       "uses": [
         {
           "subject": "scene",
@@ -83205,8 +83205,8 @@
       ],
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "decline",
         "key": "favor-asked"
@@ -107672,10 +107672,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.doesn-t-change-anything-for-me",
+      "key": "scene-talk.reply-deflect.opponent-filing-doesn-t-change-my-plans-for-office",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Doesn't change anything for me.",
+      "text": "{opponent} filing doesn't change my plans for {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -107687,8 +107687,8 @@
         }
       ],
       "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "deflect",
         "key": "news-received"
@@ -107883,10 +107883,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.don-t-take-it-lightly",
+      "key": "scene-talk.follow-press.don-t-take-opponent-lightly-they-could-win-office",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Don't take it lightly.",
+      "text": "Don't take {opponent} lightly. They could win {office}.",
       "uses": [
         {
           "subject": "scene",
@@ -107899,8 +107899,8 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "words-and-scenes lead (pool item words-campaign-season-scenes-fill-the-months)",
-      "date": "2026-10-26",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "press",
         "key": "news-received"
@@ -135473,10 +135473,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.ill-get-it-done-this-year",
+      "key": "scene-talk.reply-promise.i-ll-get-my-diploma-this-year-so-i-can-look-for-real-work",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll get it done this year.",
+      "text": "I'll get my diploma this year, so I can look for real work.",
       "uses": [
         {
           "subject": "scene",
@@ -135489,18 +135489,18 @@
       ],
       "bearing": "steady",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "promise",
         "key": "no-diploma"
       }
     },
     {
-      "key": "scene-talk.reply-promise.im-going-to-fix-it",
+      "key": "scene-talk.reply-promise.i-m-going-to-finish-school-i-don-t-want-this-following-me",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'm going to fix it.",
+      "text": "I'm going to finish school. I don't want this following me.",
       "uses": [
         {
           "subject": "scene",
@@ -135513,8 +135513,8 @@
       ],
       "bearing": "hopeful",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "promise",
         "key": "no-diploma"
@@ -135785,10 +135785,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.we-do-have-to-talk-about-it-sometime",
+      "key": "scene-talk.follow-press.we-have-to-talk-about-your-diploma-without-it-most-jobs-won-t-look-at-you",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "We do have to talk about it sometime.",
+      "text": "We have to talk about your diploma. Without it, most jobs won't look at you.",
       "uses": [
         {
           "subject": "scene",
@@ -135801,18 +135801,18 @@
       ],
       "bearing": "steady",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "press",
         "key": "no-diploma"
       }
     },
     {
-      "key": "scene-talk.follow-press.you-cant-just-leave-it-though",
+      "key": "scene-talk.follow-press.you-can-t-just-leave-it-every-year-you-wait-makes-it-harder-to-go-back",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You can't just leave it, though.",
+      "text": "You can't just leave it. Every year you wait makes it harder to go back.",
       "uses": [
         {
           "subject": "scene",
@@ -135825,8 +135825,8 @@
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-30",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "press",
         "key": "no-diploma"
@@ -151488,10 +151488,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.mine-is-the-other-half-of-the-story-the-half-the-speech",
+      "key": "scene-talk.follow-answer.the-governor-talked-about-cause-i-want-to-tell-you-what-the-speech-left-out",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Mine is the other half of the story, the half the speech left out.",
+      "text": "The governor talked about {cause}. I want to tell you what the speech left out.",
       "uses": [
         {
           "subject": "scene",
@@ -151504,8 +151504,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "answer",
         "key": "governor-answer-word"
@@ -173204,10 +173204,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-cant-let-go-of-story-and-the-story-in-outlet-is",
+      "key": "scene-talk.narrate-narrate.name-has-read-the-outlet-story-on-story-and-wants-to-go-over-it-with-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} can't let go of {story}, and the story in {outlet} is the reason.",
+      "text": "{name} has read the {outlet} story on {story} and wants to go over it with you.",
       "uses": [
         {
           "subject": "scene",
@@ -173220,8 +173220,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
+      "author": "Words writer for Fable B (meaning-and-tone verdicts 3)",
+      "date": "2026-11-11",
       "tag": {
         "move": "narrate",
         "key": "story-read"
