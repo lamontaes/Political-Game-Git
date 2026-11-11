@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-nov8-town-savings-shown-with-no-mark-that-it-is-an-estimate
-pr:
+pr: #8598
 after:
 blocked-on:
 standard: 2

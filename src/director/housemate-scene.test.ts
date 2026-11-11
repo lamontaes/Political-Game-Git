@@ -12,6 +12,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { SITUATION_LIBRARY } from "./scheduling";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Someone joins the player's household (circumstance row `new-housemate`,
 // situation type `arrival`, purpose `housemate-arrives`). In a drawn place
@@ -164,11 +165,11 @@ it(`someone joining the household is a scene with a purpose, seed ${seed}`, () =
         /monday|tuesday|wednesday|thursday|friday|saturday|sunday|rain|snow|because/i,
       );
 
-    // Four replies, four stances, four different texts.
+    // Up to four replies, all different stances and texts (owner, Nov 10).
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["offer", "bargain", "ask", "decline"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["offer", "bargain", "ask", "decline"], where).toContain(row.move);
     expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
 
     // The same traits say the same words; opposite traits say different ones.
