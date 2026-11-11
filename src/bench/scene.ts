@@ -8,6 +8,7 @@ import {
   workplacePlaceFor,
 } from "./backdrop-places";
 import { backdropStaging } from "./staging";
+import { isOnShift } from "./shift";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -577,6 +578,12 @@ export function presentIds(
   place: string,
   why: string,
   targetId?: string,
+  /**
+   * The minute the scene is drawn at: a household member on a shift then is at
+   * work, not at home. Left out on the opening evening, which keeps the whole
+   * household (the address is watched at home, owner, Oct 14).
+   */
+  atMinute?: number,
 ): string[] {
   const person = core.people.get(personId)!;
   const alive = (id: string) => core.people.get(id)?.alive === true;
@@ -602,11 +609,12 @@ export function presentIds(
     alive(targetId)
   )
     return [targetId];
-  // At home the household is there.
+  // At home the household is there, except whoever is on a shift just now.
   if (homeRooms(core, personId).has(place))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
-      .filter(alive);
+      .filter(alive)
+      .filter((id) => atMinute === undefined || !isOnShift(core, id, atMinute));
   return [];
 }
 
@@ -780,7 +788,17 @@ export function benchScene(
   );
   const working =
     why === "work-shift" || why === "attend-scheduled-work-date-segment";
-  const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
+  const ids = [
+    personId,
+    ...presentIds(
+      core,
+      personId,
+      place,
+      why,
+      targetId,
+      openingEvening === undefined ? minute : undefined,
+    ),
+  ];
   const backdrop = backdropFor(core, place, minute, personId);
   const { people, more } = peopleHere(
     core,
