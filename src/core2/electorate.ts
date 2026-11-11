@@ -28,12 +28,8 @@ import {
   type CountedStore,
   isDemoted,
 } from "./counted-groups";
-import {
-  countedLean,
-  VIEWS_KEYS,
-  VIEWS_MODULE_ID,
-  viewOf,
-} from "./modules/views";
+import { countedLean, VIEWS_MODULE_ID, viewOf } from "./modules/views";
+import { VIEWS_KEYS } from "./views-keys";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";

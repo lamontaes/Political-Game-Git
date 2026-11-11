@@ -111,7 +111,11 @@ try {
   console.log(`LOAN CAP BROWSER: ${ran}`);
   assert.match(ran, /Days passed/, ran);
 
-  // Watch: the lender's loans, some of them reading the cap.
+  // Watch (the Calendar's second tab in dev mode): the lender's loans, some of them reading the cap.
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Watch" })
+    .click();
   await page.locator(".dev-loans table").waitFor();
   const rows = await page
     .locator(".dev-loans table tr")

@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-news-reader-lead-without-text-crashes
-pr:
+pr: #8255
 blocked-on:
 source: added with npm run pool -- add
 after:

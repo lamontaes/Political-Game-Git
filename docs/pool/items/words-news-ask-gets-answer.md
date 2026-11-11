@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #8431
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,8 @@ effort: medium
 root: rc3-thin-life-record
 lead: words
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-words-news-ask-gets-answer
 ---
 
 **What.** After a relative's hard news, the player can reply with a question: "For how long?" after a prison sentence, "What did the doctors say?" or "How long has {name} been sick?" after an illness. No tell follows those replies in conversation-rules.json, so the one who brought the news answers with an acknowledgment instead of an answer. The records hold the answers: the sentence's term on the justice record, the diagnosis and its date on the health record. #6130 adds the same kind of question after a move away ("Where did they go?"), whose answer is the departure record's destination.
@@ -36,3 +38,7 @@ checked: fable 2026-11-10
 **Files.** src/director/data/conversation-rules.json, src/director/conversation.ts, data/english/parts/conversation.json
 
 **Notes.** TODO
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:22 UTC) on branch claude/pool-words-news-ask-gets-answer.
+
+Released by next (2026-11-11): no push to claude/pool-words-news-ask-gets-answer since 2026-11-11 01:22 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-words-news-ask-gets-answer and pull request #8431.

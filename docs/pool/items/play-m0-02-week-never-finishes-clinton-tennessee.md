@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-m0-02-week-never-finishes-clinton-tennessee
-pr:
+pr: #8256
 blocked-on:
 lead: play-first
 source: Fable, Nov 10, 2026, from the golden-path check on pull request 8117 (head 63eb7cf306), replayed on clean main

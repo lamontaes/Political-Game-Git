@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-played-characters-decision-scores-kept-seven-days
+pr: #8409
 after:
 blocked-on:
 lead: m0-m2
@@ -17,6 +17,8 @@ effort: medium
 root: rc2-done-from-records
 source: the builder of play-m0-04-why-scores-all-sampled, Nov 10, 2026 (pull request 8177); filed by Fable
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:56:16.337Z
+branch: claude/pool-core-played-characters-decision-scores-kept-seven-days
 ---
 
 **What.** Opening "why" on a decision shows the scores of every option the person weighed. For the character the player plays, those scores are gone a week later. The golden path's check had to open each decision on the day it was made to find twenty with scores. A player who looks back at last month's choices sees a why with no scores.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/decision-detail.ts, src/bench/m0-check.ts
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:56 UTC) on branch claude/pool-core-played-characters-decision-scores-kept-seven-days.

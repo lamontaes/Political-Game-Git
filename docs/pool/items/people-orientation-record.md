@@ -20,7 +20,7 @@ lead: lives
 checked: fable 2026-11-10
 ---
 
-**What.** Give each full adult a recorded orientation (who they can partner with), and have the partnership rules read it. Today no record in src/core2 holds one, and the partnership engine pairs only a woman and a man, which the owner ruled a defect on Oct 19 ("who pairs with whom reads each person's own record, including orientation"). The opening assigns it when it generates the household, consistent with the household's makeup: the partners of every same-sex couple the ACS household tables place in the household get a matching record, and everyone else draws it from the place's sourced adult shares by age. A counted adult uses the place's same-sex couple share as the group's weight.
+**What.** Give each full adult a recorded orientation (who they can partner with), and have the partnership rules read it. Today no record in src/core2 holds one, and the partnership engine pairs only a woman and a man, which the owner ruled a defect on Oct 19 ("who pairs with whom reads each person's own record, including orientation"). The opening assigns it when it generates the household, consistent with the household's makeup: the partners of every same-sex couple the ACS household tables place in the household get a matching record, and everyone else draws it from the place's sourced adult shares by age. A counted adult uses the place's same-sex couple share as the group's weight. Seen: who partners with whom in town and on people's cards (owner's ruling, Oct 19).
 
 **Cause.** Found in code: src/core2/modules/partnerships.ts pairs a partner of the other sex only (stopgap SG-LIVES-partner-same-sex, src/core2/data/stopgaps/lives.json line 39); no orientation record exists in src/core2.
 
