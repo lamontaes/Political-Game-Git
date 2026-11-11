@@ -207810,10 +207810,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-are-seriously-ill-with-child-in-your-household-and-name-has-come-to-see-you",
+      "key": "scene-talk.narrate-narrate.name-has-come-to-see-you-you-re-seriously-ill-with-a-child-to-look-after-at-home",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has come to see you. You're seriously ill, with {child} to look after at home.",
+      "text": "{name} has come to see you. You're seriously ill, with a child to look after at home.",
       "uses": [
         {
           "subject": "scene",
@@ -207882,10 +207882,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.how-are-you-feeling-today",
+      "key": "scene-talk.open-greet.you-don-t-have-to-tell-me-how-you-re-feeling-first-i-just-wanted-to-see-you",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "You don't have to tell me how you're feeling. I just wanted to see you.",
+      "text": "You don't have to tell me how you're feeling, {first}. I just wanted to see you.",
       "uses": [
         {
           "subject": "scene",
@@ -207906,10 +207906,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.you-don-t-have-to-get-up-stay-right-where-you-are",
+      "key": "scene-talk.open-greet.you-don-t-have-to-get-up-first-stay-right-where-you-are",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "You don't have to get up. Stay right where you are.",
+      "text": "You don't have to get up, {first}. Stay right where you are.",
       "uses": [
         {
           "subject": "scene",
@@ -207930,10 +207930,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.i-won-t-stay-long-unless-you-want-me-to",
+      "key": "scene-talk.open-greet.i-won-t-stay-long-unless-you-want-me-to-first",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "I won't stay long unless you want me to.",
+      "text": "I won't stay long unless you want me to, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -207954,10 +207954,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.can-i-bring-dinner-over-tomorrow-i-d-like-to-do-it",
+      "key": "scene-talk.state-request.can-i-bring-dinner-over-tomorrow-first-i-d-like-to-do-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Can I bring dinner over tomorrow? I'd like to do it.",
+      "text": "Can I bring dinner over tomorrow, {first}? I'd like to do it.",
       "uses": [
         {
           "subject": "scene",
@@ -208028,10 +208028,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.can-i-drive-you-to-your-next-appointment",
+      "key": "scene-talk.state-request.can-i-drive-you-to-your-next-appointment-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Can I drive you to your next appointment?",
+      "text": "Can I drive you to your next appointment, {first}?",
       "uses": [
         {
           "subject": "scene",
@@ -208077,10 +208077,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-can-stay-the-night-if-you-d-like",
+      "key": "scene-talk.state-request.i-can-stay-the-night-if-you-d-like-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I can stay the night if you'd like.",
+      "text": "I can stay the night if you'd like, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -208101,10 +208101,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.let-me-sleep-on-the-couch-for-a-few-nights-so-you-re-not-alone",
+      "key": "scene-talk.state-request.let-me-sleep-on-the-couch-for-a-few-nights-first-so-you-re-not-alone",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Let me sleep on the couch for a few nights, so you're not alone.",
+      "text": "Let me sleep on the couch for a few nights, {first}, so you're not alone.",
       "uses": [
         {
           "subject": "scene",
@@ -208126,10 +208126,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.you-ve-been-ill-for-sick-for-can-i-come-by-every-few-days",
+      "key": "scene-talk.state-request.can-i-come-by-every-few-days-from-now-on-first",
       "move": "state-request",
       "kind": "spoken",
-      "text": "You've been ill for {sick-for}. Can I come by every few days?",
+      "text": "Can I come by every few days from now on, {first}?",
       "uses": [
         {
           "subject": "scene",
@@ -208151,10 +208151,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-please-i-d-be-glad-of-that",
+      "key": "scene-talk.reply-agree.yes-please",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, please. I'd be glad of that.",
+      "text": "Yes, please.",
       "uses": [
         {
           "subject": "scene",
@@ -208174,10 +208174,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.that-would-help-more-than-you-know",
+      "key": "scene-talk.reply-agree.that-would-help",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That would take a weight off, {first}.",
+      "text": "That would help.",
       "uses": [
         {
           "subject": "scene",
@@ -208197,10 +208197,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.yes-thank-you-for-thinking-of-it",
+      "key": "scene-talk.reply-agree.thank-you-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. Thank you for thinking of it.",
+      "text": "Thank you. Yes.",
       "uses": [
         {
           "subject": "scene",
@@ -208220,10 +208220,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-tell-you-the-moment-i-need-more",
+      "key": "scene-talk.reply-promise.i-ll-tell-you",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll tell you the moment I need more.",
+      "text": "I'll tell you.",
       "uses": [
         {
           "subject": "scene",
@@ -208243,10 +208243,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-say-so-if-it-gets-to-be-too-much",
+      "key": "scene-talk.reply-promise.i-ll-say-when",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll say so if it gets to be too much.",
+      "text": "I'll say when.",
       "uses": [
         {
           "subject": "scene",
@@ -208266,10 +208266,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-be-easiest-for-you",
+      "key": "scene-talk.reply-ask.what-suits-you",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would be easiest for you?",
+      "text": "What suits you?",
       "uses": [
         {
           "subject": "scene",
@@ -208289,10 +208289,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.are-you-sure-it-isn-t-too-much-for-you",
+      "key": "scene-talk.reply-ask.when-suits-you",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Are you sure it isn't too much for you?",
+      "text": "When suits you?",
       "uses": [
         {
           "subject": "scene",
@@ -208312,10 +208312,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.that-s-kind-of-you-but-i-d-rather-manage-that-myself",
+      "key": "scene-talk.reply-decline.i-ll-manage-thanks",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "That's kind of you, but I'd rather manage that myself.",
+      "text": "I'll manage, thanks.",
       "uses": [
         {
           "subject": "scene",
@@ -208335,10 +208335,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.not-just-now-but-thank-you-for-offering",
+      "key": "scene-talk.reply-decline.not-just-now",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "Not just now, but thank you for offering.",
+      "text": "Not just now.",
       "uses": [
         {
           "subject": "scene",
@@ -208358,10 +208358,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-m-worn-out-let-me-think-it-over-and-i-ll-tell-you-tomorrow",
+      "key": "scene-talk.reply-leave.i-m-worn-out",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm worn out. Let me think it over, and I'll tell you tomorrow.",
+      "text": "I'm worn out.",
       "uses": [
         {
           "subject": "scene",
@@ -208382,10 +208382,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-m-glad-it-s-what-i-wanted-to-do",
+      "key": "scene-talk.follow-thank.i-m-glad-first-it-s-what-i-wanted-to-do",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'm glad. It's what I wanted to do.",
+      "text": "I'm glad, {first}. It's what I wanted to do.",
       "uses": [
         {
           "subject": "scene",
@@ -208432,10 +208432,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-i-ll-set-it-up",
+      "key": "scene-talk.follow-accept.then-i-ll-set-it-up-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then I'll set it up this afternoon.",
+      "text": "Then I'll set it up, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -208457,10 +208457,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.good-that-s-one-less-thing-for-you-to-carry",
+      "key": "scene-talk.follow-accept.that-s-one-less-thing-for-you-to-carry-first",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's one less thing for you to carry.",
+      "text": "That's one less thing for you to carry, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -208482,10 +208482,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.alright-i-won-t-push",
+      "key": "scene-talk.follow-accept.alright-first-i-won-t-push",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I won't push.",
+      "text": "Alright, {first}. I won't push.",
       "uses": [
         {
           "subject": "scene",
@@ -208506,10 +208506,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-understand-the-offer-is-still-open",
+      "key": "scene-talk.follow-accept.i-understand-first-the-offer-is-still-open",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I understand. The offer is still open.",
+      "text": "I understand, {first}. The offer is still open.",
       "uses": [
         {
           "subject": "scene",
@@ -208530,10 +208530,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.i-ll-hold-you-to-that-don-t-wait-until-it-s-bad",
+      "key": "scene-talk.follow-press.i-ll-hold-you-to-that-first-don-t-wait-until-it-s-bad",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I'll hold you to that. Don't wait until it's bad.",
+      "text": "I'll hold you to that, {first}. Don't wait until it's bad.",
       "uses": [
         {
           "subject": "scene",
@@ -208555,10 +208555,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-say-that-but-you-d-never-ask-will-you-really",
+      "key": "scene-talk.follow-press.you-say-that-first-but-you-d-never-ask-will-you-really",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You say that, but you'd never ask. Will you really?",
+      "text": "You say that, {first}, but you'd never ask. Will you really?",
       "uses": [
         {
           "subject": "scene",
@@ -208580,10 +208580,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.is-there-anything-small-you-d-let-me-do-instead",
+      "key": "scene-talk.follow-press.is-there-anything-small-you-d-let-me-do-instead-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Is there anything small you'd let me do instead?",
+      "text": "Is there anything small you'd let me do instead, {first}?",
       "uses": [
         {
           "subject": "scene",
@@ -208605,10 +208605,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.then-at-least-let-me-check-in-on-you-in-a-few-days",
+      "key": "scene-talk.follow-press.then-at-least-let-me-check-in-on-you-in-a-few-days-first",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Then at least let me check in on you in a few days.",
+      "text": "Then at least let me check in on you in a few days, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -208630,10 +208630,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.whatever-s-easiest-for-you-i-want-to-be-useful",
+      "key": "scene-talk.follow-answer.whatever-s-easiest-on-you-first-i-d-like-to-be-of-use",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever's easiest on you. I'd like to be of use.",
+      "text": "Whatever's easiest on you, {first}. I'd like to be of use.",
       "uses": [
         {
           "subject": "scene",
@@ -208655,10 +208655,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.anything-at-all-you-only-have-to-say",
+      "key": "scene-talk.follow-answer.whatever-suits-you-first-just-call-and-i-ll-come",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever it is, a call is enough.",
+      "text": "Whatever suits you, {first}. Just call and I'll come.",
       "uses": [
         {
           "subject": "scene",
@@ -208680,10 +208680,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-m-glad-i-came-get-some-rest",
+      "key": "scene-talk.close-thank.i-m-glad-i-came-first-get-some-rest",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "I'm glad I came. Get some rest.",
+      "text": "I'm glad I came, {first}. Get some rest.",
       "uses": [
         {
           "subject": "scene",
@@ -208704,10 +208704,10 @@
       }
     },
     {
-      "key": "scene-talk.close-promise.i-ll-be-back-soon-i-mean-it",
+      "key": "scene-talk.close-promise.i-ll-be-back-soon-first-i-mean-it",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll be back soon. I mean it.",
+      "text": "I'll be back soon, {first}. I mean it.",
       "uses": [
         {
           "subject": "scene",
@@ -208728,10 +208728,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.then-i-ll-leave-you-to-rest",
+      "key": "scene-talk.close-accept.then-i-ll-leave-you-to-rest-first",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Then I'll leave you to rest.",
+      "text": "Then I'll leave you to rest, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -208752,10 +208752,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.i-ll-ask-again-when-i-come-back-if-that-s-alright",
+      "key": "scene-talk.close-press.i-ll-ask-again-when-i-come-back-first",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll ask again when I come back, if that's alright.",
+      "text": "I'll ask again when I come back, {first}.",
       "uses": [
         {
           "subject": "scene",
