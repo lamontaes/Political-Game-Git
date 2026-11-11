@@ -31,7 +31,7 @@ import { plate } from "./ui/plate.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
-import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devBillsPanel, devPanelsRow } from "./ui/dev-bills.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
 import { traceBox } from "./ui/dev-trace-box.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
@@ -57,7 +57,7 @@ import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
-import { el, fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
+import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
@@ -4836,12 +4836,7 @@ const sheets = {
         })
       : null;
     const devPanels = devBills
-      ? el(
-          "div",
-          { className: "dev-only dev-panels" },
-          devBills.section,
-          ...(devBribe ? [devBribe] : []),
-        )
+      ? devPanelsRow(devBills.section, ...(devBribe ? [devBribe] : []))
       : null;
     const screen = async () => {
       const level = governmentLevel ?? gov.ownRace?.tier ?? "local";
