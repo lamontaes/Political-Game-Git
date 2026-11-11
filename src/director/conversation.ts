@@ -106,6 +106,7 @@ import { lawInForce } from "../core2/modules/laws";
 import {
   asksQuestion,
   composeConversationLine,
+  composedConversationBank,
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
