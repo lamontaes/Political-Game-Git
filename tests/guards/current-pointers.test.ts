@@ -106,6 +106,14 @@ describe("nothing points at anything old", () => {
     expect(
       pathsNamed("See `src/bench/gone.ts` and `src/new.ts` (new).", false),
     ).toEqual(["src/bench/gone.ts"]);
+    // A path marked as removed is not a pointer when the replaced list covers
+    // it, and still is one when nothing on the list does.
+    expect(
+      pathsNamed(
+        "It lived in `src/simulation/old.ts` (removed) and `src/bench/never-listed.ts` (removed).",
+        false,
+      ),
+    ).toEqual(["src/bench/never-listed.ts"]);
     // In code only comments are read, and a bare path with an extension counts.
     expect(
       pathsNamed(
