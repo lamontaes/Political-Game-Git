@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-after:
+after: play-filing-visit-moves-the-clock
 blocked-on:
 standard: 2
 model: sonnet
@@ -67,3 +67,5 @@ Released (2026-11-11): Replay done on PR 8324; the failing filing-clock step is 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 08:04 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
 
 Released (2026-11-11): Already replayed by this builder earlier (report docs/reports/seen-2026-11-11 on PR #8324); the filing-clock question there is still unanswered; not redone. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+**Notes (opus-5234, Nov 11).** Re-offered after two releases with the replay done (PR 8324): Day and closed-office travel pass, the filing visit leaves the clock unmoved. That failing step is now its own item, play-filing-visit-moves-the-clock, with its cause found in code (`BenchPlayer.spend` returns nothing while the filing's own story stop is the open packet, src/bench/player.ts line 242; src/bench/filing.browser.mjs line 244 accepts the held clock). This item waits on it (`after:`), then a second session replays the whole finish line again.
