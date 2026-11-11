@@ -32,7 +32,7 @@ import { townSeats, type TermRow } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
-import { backdropFor, faceOf, stagePeople } from "./scene";
+import { backdropFor, faceOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -572,7 +572,7 @@ export function bodyScene(
     title: body.title,
     place,
     backdrop,
-    ...stagePeople(core, backdrop.file, cast),
+    ...peopleHere(core, backdrop.file, cast),
   };
 }
 

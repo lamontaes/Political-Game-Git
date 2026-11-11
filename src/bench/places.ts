@@ -6,7 +6,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
-import { backdropFor, orgPlace, staffOf, stagePeople } from "./scene";
+import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";
@@ -275,6 +275,6 @@ export function visitPlace(
     place,
     backdrop,
     names: Object.fromEntries(ids.map((row) => [row.id, row.name])),
-    ...stagePeople(core, backdrop.file, ids),
+    ...peopleHere(core, backdrop.file, ids),
   };
 }

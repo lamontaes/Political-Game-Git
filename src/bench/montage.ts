@@ -2,7 +2,7 @@ import { keyPeopleOf } from "../core2/modules/people";
 import type { CoreState, PersonId } from "../core2/types";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import montage from "./data/opening-montage.json" with { type: "json" };
-import { backdropFor, homeOf, stagePeople } from "./scene";
+import { backdropFor, homeOf, peopleHere } from "./scene";
 
 /** A place painted in any light (the Oval Office address is painted at night only, the colonnade in the morning only). */
 const hasBackdrop = (place: string) =>
@@ -27,7 +27,7 @@ export interface MontageBeat {
   readonly kind: BeatKind;
   readonly place: string;
   readonly backdrop: ReturnType<typeof backdropFor>;
-  readonly people: ReturnType<typeof stagePeople>["people"];
+  readonly people: ReturnType<typeof peopleHere>["people"];
   /** Officials named by office as the camera passes; null where the beat names no one. */
   readonly caption: string | null;
   /** The records the beat stands on. */
@@ -208,12 +208,11 @@ export function addressMontage(
       kind,
       place: place ?? "",
       backdrop,
-      people: stagePeople(
+      people: peopleHere(
         core,
         backdrop.file,
         cast,
         kind === "oval-desk" ? speakerId : undefined,
-        kind === "oval-desk" ? "address" : undefined,
       ).people,
       caption,
       sourceRecordIds: records,
