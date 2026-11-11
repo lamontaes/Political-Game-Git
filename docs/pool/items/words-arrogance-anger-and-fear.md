@@ -4,9 +4,9 @@ title: "Arrogance, anger and fear:"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-arrogance-anger-and-fear
+claimed-by:
 pr: #5219
 after:
 blocked-on:
@@ -16,7 +16,7 @@ effort: medium
 root: design-words-machine
 milestone:
 source: "docs/coordination/words.md line 50 (unchecked checklist line)"
-claimed-at: 2026-11-11T02:33:54.734Z
+claimed-at:
 size: M
 checked: fable 2026-11-10
 branch: claude/pool-words-arrogance-anger-and-fear
@@ -44,3 +44,5 @@ Sent back 2026-10-20 from PR #5219 (branch claude/political-game-pool-a4tcd1): P
 Sent back 2026-10-23 from PR #5219 (branch claude/political-game-pool-a4tcd1): The body claims live boasts/threats while the stance parts are held; Words ownership and the dated notes remain unaddressed. Rechecked unchanged head 1238a06b0a; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5219#issuecomment-6308136856; finish on that branch, merge main into it first.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:33 UTC) on branch claude/pool-words-arrogance-anger-and-fear.
+
+Released (2026-11-11): Is the Story session's job: every line is new bank parts under data/english/parts (boasts, threats, alarms, plain and rude), which a builder may not write; the director's trait-based choice has nothing to choose among until those lines exist. Continue on branch claude/pool-words-arrogance-anger-and-fear and pull request #5219.
