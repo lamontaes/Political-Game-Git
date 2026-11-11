@@ -5,8 +5,8 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-seated-governor-appointment-job-ends
 pr:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ source: governing lead, Oct 30 (found in phase A runs)
 lead: governing
 after:
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:46:25.128Z
 ---
 
 **What.** After the player is seated as governor through seatWinner, appointGovernor can throw that a job ends before its day's work, apparently because the seated player's job record ends on the day they are appointed. The words session's swearing-in test steps around it and names it (New Pekin IN). A governor the player wins must be seated without stopping the day.
