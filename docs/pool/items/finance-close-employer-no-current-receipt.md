@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-finance-close-employer-no-current-receipt
-pr:
+pr: #8661
 blocked-on:
 source: added with npm run pool -- add
 after:
