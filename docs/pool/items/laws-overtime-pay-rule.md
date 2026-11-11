@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/data/laws/starting-law.json, src/core2/work-state.ts, src/core2/work-pay-period.ts, src/core2/modules/work.ts, src/core2/overtime-pay.test.ts (new)
 
 **Notes.** Split from core-stopgap-work-prototype-pay-projection by pool feeder Oct 20; the stand-in research (docs/research/stand-in-figures-2026-10-12.md) notes the DOL state payday and overtime pages as the source.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added overtime and salaried pay to the work engine with a new law series; no overtime law is on the bill menu today and no ruling asks for one.

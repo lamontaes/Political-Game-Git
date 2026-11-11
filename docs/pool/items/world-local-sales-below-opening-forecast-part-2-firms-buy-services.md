@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** For each of the three classes add a firm-buyer set (which industries buy it, by share, from the BEA Use table in data/research/core/bea-2023-use-summary-buyer-shares.json, and county construction awards from Census), each with source and spread, and have the opening bind them as purchase flows. If world-io-supplier-shares has landed, read its `supplierShares` instead of a second table.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-local-sales-below-opening-forecast (the first-year shrink of a played town).
 
 **Rules.** Research before building: every buyer share cites its source and spread, and the table never decides one firm's purchase. One model, two tiers: a counted firm buys by the same rule as a full one, times its count. Wire to the world: each added flow is paid from a buyer's books and read by the seller.
 

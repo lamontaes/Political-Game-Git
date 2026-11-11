@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 lead: laws
 model: sonnet
@@ -18,7 +18,7 @@ root: none
 source: added with npm run pool -- add
 ---
 
-**What.** A town member weighs a bill by their own views and their district's lean, both read as a person's lean times the question's axis (personStance in src/core2/campaign-views.ts:269). Fare-free transit and retail electric choice have no row in data/research/campaigns/issue-axes-2026.json, so questionAxis returns 0 and every member's views and constituents read 0.00 on those bills. A bill on either question passes or fails on deals and traits alone, never on what the members or their districts think of it.
+**What.** A town member weighs a bill by their own views and their district's lean, both read as a person's lean times the question's axis (personStance in src/core2/campaign-views.ts:269). Fare-free transit and retail electric choice have no row in data/research/campaigns/issue-axes-2026.json, so questionAxis returns 0 and every member's views and constituents read 0.00 on those bills. A bill on either question passes or fails on deals and traits alone, never on what the members or their districts think of it. Seen: how each member and district reads on a fare-free transit or electric choice bill (shows 0.00 today).
 
 **Cause.** Measured: in Wilmore, Kentucky (2183550), seed e9350ff3852b41efa1addf6048c381681375180a2b31417e580711934b7883dc, the county board enacted fare-free transit 4 to 3 with every member's views and constituents 0.00 (LAWS_E2E_SEED=a1 npx vitest run src/core2/laws-end-to-end.test.ts, PR #8260). The axes are the correlation across states between a question's recorded yes and the 2024 Republican share (the file's about line; minimumStates 20). Fare-free transit's starting law (data/research/laws/starting-law-2026/transportation-infrastructure.json) answers no in every place, so there is no variance to measure. Retail electric choice's answers were recorded Nov 8, 2026 (environment-energy.json), after the axes were last exported; the export script the file names, scripts/research/export-issue-axes.py, is not in the repository.
 

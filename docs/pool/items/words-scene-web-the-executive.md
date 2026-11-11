@@ -5,20 +5,21 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-words-scene-web-the-executive
+pr: #8362
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T00:03:00.078Z
 after:
 standard: 2
 model: sonnet
 effort: medium
 root: design-story-director
 checked: fable 2026-11-10
+branch: claude/pool-words-scene-web-the-executive
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the the executive domain, one row per cause that fires it. This domain covers the executive as mayor, county executive, governor and president: signing, veto, appointment, the address, the desk, staff news, a recall. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's the executive requests with no type are listed under Missing in the report and become rows here.
@@ -42,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** The the executive section of `docs/reports/scene-web.md` in the PR body.
 
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:02 UTC) on branch claude/pool-words-scene-web-the-executive.

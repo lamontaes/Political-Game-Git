@@ -8,6 +8,7 @@ import { el } from "./dom.mjs";
 import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
+import { bustPlace, bustStack } from "./bust.mjs";
 
 /** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
 const JOURNAL_TWO_COLUMNS = 700;
@@ -26,29 +27,33 @@ export function stripSection(depth, title, ...nodes) {
   );
 }
 
-/** The bust's size: the head fills this share of the column, and the crop ends this far below the head's top. */
-const HEAD_PX = 190;
-const BUST_BELOW_HEAD = 1.65;
+/** The column a bust is sized for. */
 const COLUMN_PX = 320;
+/** The share of the column a bust's head takes: the shoulders reach the column's edges. */
+const BUST_HEAD_SHARE = 0.36;
 
 /**
- * A bust from a pack figure: head to upper chest, ending in a soft fade. `face`
- * is the card's face record (the figure's url and size, and its head
- * [top, middle, width] in the figure's pixels).
+ * A person's bust for a screen's left column (ui/bust.mjs): the whole of it
+ * across the column, ending in a soft fade on the chest. `face` is the card's
+ * face record; someone with none (a child) gets the warm light alone.
  */
 export function bust(face, alt, column = COLUMN_PX) {
   if (!face) return el("div", { className: "mxglow" });
-  const [top, middle, width] = face.head;
+  const record = face.bust;
   const scale = column / COLUMN_PX;
-  const k = (HEAD_PX * scale) / width;
-  const image = el("img", { src: face.url, alt });
-  Object.assign(image.style, {
-    height: `${Math.round(face.height * k)}px`,
-    left: `${Math.round(column / 2 - middle * k)}px`,
-    top: `${Math.round(12 * scale - top * k)}px`,
+  const at = bustPlace(record, {
+    share: BUST_HEAD_SHARE,
+    top: (12 * scale) / column,
   });
-  const frame = el("div", { className: "mxbust" }, image);
-  frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
+  const stack = bustStack(record, alt);
+  Object.assign(stack.style, {
+    width: `${Math.round(at.side * column)}px`,
+    left: `${Math.round(at.left * column)}px`,
+    top: `${Math.round(at.top * column)}px`,
+  });
+  const frame = el("div", { className: "mxbust" }, stack);
+  // The frame ends where the canvas does, so the fade falls on the chest.
+  frame.style.height = `${Math.round((at.top + at.side) * column)}px`;
   frame.style.width = `${column}px`;
   const glow = el("div", { className: "mxglow" }, frame);
   glow.style.width = `${column}px`;
@@ -122,7 +127,7 @@ export function introText(...parts) {
  * (`groups`: the kinds that belong together, in the order they are read), one
  * paragraph in the story face for each group, each sentence on its record.
  */
-export function lifeStory(lines, groups) {
+export function lifeStory(lines, groups, onOpen) {
   const at = new Map(
     groups.flatMap((kinds, i) => kinds.map((kind) => [kind, i])),
   );
@@ -136,6 +141,20 @@ export function lifeStory(lines, groups) {
         ...rows.flatMap((row, i) => {
           const sentence = el("span", { textContent: row.text });
           sentence.dataset.record = row.recordId;
+          // Dev mode only: the sentence opens its record in the one Trace box.
+          if (onOpen && row.recordId) {
+            const open = () => onOpen(row.recordId);
+            sentence.classList.add("pick");
+            sentence.tabIndex = 0;
+            sentence.setAttribute("role", "button");
+            sentence.addEventListener("click", open);
+            sentence.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                open();
+              }
+            });
+          }
           return i ? [" ", sentence] : [sentence];
         }),
       ),

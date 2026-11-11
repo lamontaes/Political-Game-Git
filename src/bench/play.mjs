@@ -33,6 +33,7 @@ import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
+import { traceBox } from "./ui/dev-trace-box.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
@@ -53,7 +54,7 @@ import {
   setColorBlind,
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
-import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
@@ -96,6 +97,7 @@ import {
 } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
+  bust,
   stripScreen,
   stripSection,
   perkList,
@@ -319,7 +321,12 @@ function openNewsReader(news) {
   }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
-    ...readerBody({ lead, address: news.address, photo: storyPhoto(lead) }),
+    ...readerBody({
+      lead,
+      address: news.address,
+      photo: storyPhoto(lead),
+      none: controls.news.noStoryText,
+    }),
   );
   $("news-reader-more").replaceChildren(...readerMore(rest.map(storyHeadline)));
   show("news-reader", true);
@@ -1703,6 +1710,7 @@ async function campaignParts() {
     outings,
     standing,
     debates,
+    pictures,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -1834,6 +1842,7 @@ async function campaignParts() {
         return {
           group: T.groupOut,
           title: controls.campaignOutings[choice.outing],
+          picture: choice.picture,
           load: async () => ({
             facts: [
               {
@@ -1856,6 +1865,7 @@ async function campaignParts() {
       ].map(([kind, extra]) => ({
         group: T.groupAsk,
         title: controls.campaignActs[kind],
+        picture: pictures?.[kind],
         load: async () => ({}),
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
@@ -1863,6 +1873,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignActs.mail,
+        picture: pictures?.mail,
         load: async () => {
           const dollarsOut = numberBox({
             value: 50,
@@ -1880,6 +1891,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
+        picture: pictures?.contribute,
         load: async () => {
           const dollarsIn = numberBox({
             value: 0,
@@ -1901,6 +1913,7 @@ async function campaignParts() {
       {
         group: T.groupSpeak,
         title: T.speech,
+        picture: pictures?.speech,
         load: async () => ({
           nodes: [
             speechCard({
@@ -1936,6 +1949,7 @@ async function campaignParts() {
       ...(debates ?? []).map((debate) => ({
         group: T.groupSpeak,
         title: controls.debate.title ?? T.debate,
+        picture: pictures?.debate,
         load: async () => ({
           nodes: [
             debateCard({
@@ -1959,7 +1973,8 @@ async function campaignParts() {
     const trail = [
       ...travelScreen({
         entries,
-        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        // The only list under a trail tile is why the act is out of reach today.
+        labels: { whoIsThere: "", whatICanDo: T.notToday },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
@@ -3023,12 +3038,24 @@ async function seatRows() {
         });
       },
     });
+    // The body's line on the board: who sits on it, and the way in to writing
+    // a bill, which takes the whole screen (a list of subjects beside the
+    // chosen one's page). A menu has no Back (owner, Oct 28 and 29): the Your
+    // office tab above it returns to the seat.
+    const write = makeButton({
+      className: "action",
+      textContent: seat.title ?? "",
+    });
+    write.dataset.act = "write-a-bill";
+    write.addEventListener("click", () =>
+      $("sheet-body").replaceChildren(draftBlock),
+    );
     draftNodes.push(
       stripSection(
         2,
         body.title,
         line(body.members.map((m) => m.name).join(" · ")),
-        draftBlock,
+        buttonRow(write),
       ),
     );
   }
@@ -3159,17 +3186,28 @@ async function ownHistory() {
   return card.history ?? [];
 }
 /** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
-function lifeParagraphs(lines) {
-  return lifeStory(lines, controls.lifeGroups);
+/**
+ * A tab of the You group as the approved strip screen: the player's name and
+ * the one bust every tab of the group shows (the card's own face record), with
+ * the tab's sections beside it. No whole figure stands beside a menu (owner,
+ * Nov 7).
+ */
+function ownStrip(columns) {
+  const c = me.card;
+  return stripScreen({
+    name: c.name,
+    role: c.job
+      ? [c.job.title, c.job.employer].filter(Boolean).join(", ")
+      : `${controls.who.age} ${c.age}`,
+    face: c.face ?? null,
+    columns,
+  });
 }
-function portraitUrl() {
-  // The created look when there is one; else the figure the scene draws you
-  // with, or the one your card's face is cut from (a life started anywhere
-  // but the creator, who is not standing in their own scene).
-  return me.portrait
-    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
-        me.card?.face?.url);
+function lifeParagraphs(lines) {
+  // Dev mode: each sentence opens its record in the one Trace box, drawn under the story.
+  if (!devModeOn()) return lifeStory(lines, controls.lifeGroups);
+  const { node, open } = traceBox(controls.devTrace.trace);
+  return [...lifeStory(lines, controls.lifeGroups, open), node];
 }
 /** A record image has no substitute when its producer has not supplied one. */
 
@@ -3418,7 +3456,8 @@ const sheets = {
     const job = me.card.job;
     const life = await ownHistory();
     const worked = life.filter((h) => h.kind === "work" || h.kind === "school");
-    const work = plate(
+    const work = stripSection(
+      1,
       labels.work,
       ...(job
         ? [
@@ -3449,16 +3488,22 @@ const sheets = {
     );
     work.classList.add("job-plate");
     return [
-      work,
-      ...(worked.length
-        ? [plate(labels.workAndSchool, ...lifeParagraphs(worked))]
-        : []),
+      ownStrip([
+        [work],
+        worked.length
+          ? [stripSection(2, labels.workAndSchool, ...lifeParagraphs(worked))]
+          : [],
+      ]),
     ];
   },
   // Your own life as sentences, the same lines a person's card tells of anyone you open.
   async history() {
     const life = await ownHistory();
-    return [plate(null, ...lifeParagraphs(life))];
+    return [
+      ownStrip([
+        [stripSection(1, controls.titles.history, ...lifeParagraphs(life))],
+      ]),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3756,10 +3801,7 @@ const sheets = {
                       party: gov.executive.party,
                       post: gov.executive.title,
                       onOpen: () =>
-                        showPerson({
-                          personId: gov.executive.cardId,
-                          figureUrl: gov.executive.face?.url,
-                        }),
+                        showPerson({ personId: gov.executive.cardId }),
                     }),
                   ),
                 ]
@@ -4248,7 +4290,7 @@ const sheets = {
                 face: f.face,
                 onOpen: () => {
                   closeSheet();
-                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+                  showPerson({ personId: f.cardId });
                 },
               }),
               ...f.stances.map((st) =>
@@ -4475,9 +4517,9 @@ const sheets = {
         text ?? "",
       );
     const short = (iso) => dateWords(iso, { month: "short", year: today() });
-    const open = (cardId, face) => () => {
+    const open = (cardId) => () => {
       closeSheet();
-      showPerson({ personId: cardId, figureUrl: face?.url });
+      showPerson({ personId: cardId });
     };
     const stateName = (key) =>
       key === gov.homeState?.key
@@ -4501,7 +4543,7 @@ const sheets = {
           line,
           party: m.party,
           face: m.face,
-          onOpen: open(m.cardId, m.face),
+          onOpen: open(m.cardId),
         },
         { large },
       );
@@ -4695,10 +4737,7 @@ const sheets = {
                         party: chief.members[0].party,
                         post: chief.title,
                         line: sinceLine(chief.members[0]),
-                        onOpen: open(
-                          chief.members[0].cardId,
-                          chief.members[0].face,
-                        ),
+                        onOpen: open(chief.members[0].cardId),
                       }),
                     ),
                   ]
@@ -4719,7 +4758,7 @@ const sheets = {
           o.members.map((m) => ({
             name: m.name,
             relation: o.title,
-            onOpen: open(m.cardId, m.face),
+            onOpen: open(m.cardId),
           })),
         ),
       );
@@ -4745,7 +4784,7 @@ const sheets = {
                         party: head.party,
                         post: chief.title,
                         line: sinceLine(head),
-                        onOpen: open(head.cardId, head.face),
+                        onOpen: open(head.cardId),
                       }),
                     ),
                   ]
@@ -4944,7 +4983,17 @@ const sheets = {
     const labels = controls.politics;
     const party = v.party;
     const mine = party?.member?.name;
-    const keys = v.parties.map((p) => p.party);
+    // Every party the player can read about: the ones that hold office here,
+    // the ones open to join, and the player's own, each once. A party with no
+    // one in office still has its page, so its member sees the membership and
+    // a newcomer can join it.
+    const keys = [
+      ...new Set([
+        ...v.parties.map((p) => p.party),
+        ...(party?.parties ?? []).map((p) => p.name),
+        ...(mine ? [mine] : []),
+      ]),
+    ];
     // One party's page: who holds office for it (cards, paged), and where the player stands
     // with it (registered, or Join).
     const partyPage = (name) => {
@@ -4975,10 +5024,7 @@ const sheets = {
                     face: s.face,
                     onOpen: () => {
                       closeSheet();
-                      showPerson({
-                        personId: s.cardId,
-                        figureUrl: s.face?.url,
-                      });
+                      showPerson({ personId: s.cardId });
                     },
                   }),
                 rows: Math.max(
@@ -5265,10 +5311,12 @@ async function openSheet(tab) {
     tab === "options" || !$("front").hidden,
   );
   const character = groupOf(tab) === "who";
-  // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
+  // You carries its own bust (the approved strip screen). Jobs and study and
+  // Your life are strip screens too: no full-body figure stands beside a menu
+  // (owner, Nov 7: "let's just do the busts"; Nov 10: "start removing the people").
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" ||
+    character ||
       tab === "budgets" ||
       tab === "metrics" ||
       tab === "journal" ||
@@ -5276,21 +5324,6 @@ async function openSheet(tab) {
       tab === "campaign" ||
       tab === "calendar" ||
       tab === "news",
-  );
-  $("sheet").classList.toggle("character-sheet", character && tab !== "who");
-  $("sheet-media").hidden = !character || tab === "who";
-  fillArtwork(
-    $("sheet-media"),
-    character
-      ? {
-          portraitUrl:
-            me.card.presentation?.portraitUrl !== undefined
-              ? me.card.presentation.portraitUrl
-              : portraitUrl(),
-          backgroundUrl: me.card.presentation?.backgroundUrl,
-          name: me.card.name,
-        }
-      : {},
   );
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.remove("place-view", "compact", "tight");
@@ -5305,7 +5338,6 @@ async function openSheet(tab) {
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "news"].includes(tab) &&
-      (!character || tab === "who") &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
@@ -5450,6 +5482,14 @@ api("/api/title").then((title) => {
   });
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
+  // New game's two choices, each under its busts (the mock's fr-new): someone
+  // starting out, and three who hold office.
+  $("new-start-busts").replaceChildren(
+    ...(title.newGame?.start ? [bust(title.newGame.start, "", 210)] : []),
+  );
+  $("new-advanced-busts").replaceChildren(
+    ...(title.newGame?.advanced ?? []).map((face) => bust(face, "", 132)),
+  );
 });
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
@@ -5460,7 +5500,6 @@ $("front-continue").addEventListener("click", async () => {
     date: life.date,
     minuteOfDay: life.minuteOfDay,
     names: {},
-    portrait: life.portrait,
   };
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
@@ -5747,7 +5786,8 @@ async function openCreator() {
   await controlsReady;
   frontPanel("cr-screen");
   void showStates();
-  if (setup.gender) void openLook();
+  // A bust stands in the creator from its first frame, before a gender is chosen.
+  void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => {
@@ -5861,49 +5901,21 @@ $("cr-place-random").addEventListener("click", async () => {
   await showStates();
 });
 
-// A row of color swatches: each a button named for its color, the chosen one marked.
-async function pickColor(row, value) {
-  const view = await post(
-    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, value })}`,
-  );
-  setup.previous = [...setup.previous, setup.recipe].slice(-20);
-  showLook(view);
-}
-
-// Character appearance: the people engine's portrait and arrows.
+// Character appearance: the look's bust (the one every screen will draw) and
+// a row with arrows for each thing a bust shows.
 function showLook(view) {
   setup.recipe = view.recipe;
-  // Everyday clothes and, beside them, work clothes (owner, Oct 29).
-  const recipe = encodeURIComponent(JSON.stringify(view.recipe));
-  $("cr-portrait").src = `/api/portrait?recipe=${recipe}`;
-  $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
+  $("cr-bust").replaceChildren(bust(view.face, "", 250));
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
-      lookRow(
-        // A color steps with arrows like every other look (the Nov 8 creator mock: "arrows
-        // like The Political Process"); its swatch dot stays beside the name.
-        row.swatches
-          ? {
-              ...row,
-              swatches: undefined,
-              swatch: row.swatches.find((x) => x.chosen)?.color,
-            }
-          : row,
-        {
-          onMove: (id, by) => {
-            const colors = row.swatches;
-            if (!colors) return void moveLook(id, by);
-            const here = colors.findIndex((x) => x.chosen);
-            const next = colors[(here + by + colors.length) % colors.length];
-            void pickColor(id, next.id);
-          },
-          arrowLabel: (by, r) =>
-            controls.creator[by < 0 ? "previous" : "next"].replace(
-              "{row}",
-              r.label.toLowerCase(),
-            ),
-        },
-      ),
+      lookRow(row, {
+        onMove: (id, by) => void moveLook(id, by),
+        arrowLabel: (by, r) =>
+          controls.creator[by < 0 ? "previous" : "next"].replace(
+            "{row}",
+            r.label.toLowerCase(),
+          ),
+      }),
     ),
   );
   $("cr-reset").disabled =
@@ -6046,7 +6058,6 @@ async function enterAs(life, personId) {
     placeName: life.placeName,
     date: life.date,
     names: life.names,
-    portrait: false,
   };
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
@@ -6193,7 +6204,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       placeName: life.placeName,
       date: life.date,
       names: life.names,
-      portrait: Boolean(person?.recipe),
     };
     show("front", false);
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;
