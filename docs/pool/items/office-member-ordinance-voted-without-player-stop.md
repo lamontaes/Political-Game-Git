@@ -5,10 +5,10 @@ area: office
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-office-member-ordinance-voted-without-player-stop
+pr: #8807
 after:
 blocked-on:
 lead: governing
@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc7-player-cannot-drive
 source: Fable B's play of the bench, Nov 11, 2026 (Advanced start as a county commissioner); cause found by a Fable B helper the same day
+claimed-at: 2026-11-11T13:46:45.820Z
 ---
 
 **What.** A player seated on a three-member county board presses Day through the board's regular meeting and is never stopped. Afterward the board shows a "Budget Ordinance" passed 2 to 0 on the meeting day, the journal says the player introduced it, and the player's own roll-call row says yes, all without a single act by the player. The meeting must hold the player when their seat votes, a bill must not name the player as its sponsor unless the player filed it, and the player's row must come from the player. Seen: the meeting screen opens at the board's meeting hour, and the journal's "I introduced" line appears only after the player files a bill.
