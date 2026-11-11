@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-your-life-draws-a-full-body-figure
+pr: #8608
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Against your newest rulings (measured)")
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:10:40.298Z
 ---
 
 **What.** The audit measured on Nov 9 in Blodgett Landing, New Hampshire (a random world, no seed given): "Your life shows a full-body figure." The You tab uses the approved strip screen with a bust, while the other two tabs of the group keep a side figure of a seated woman drawn head to shoes in a tall frame. The owner ruled on Nov 7 that menus show busts only. No menu should draw a full figure: Jobs and study and Your life show the same bust the You tab shows, from the same face record, and the full-figure slot, its picture source and its styles are deleted.
