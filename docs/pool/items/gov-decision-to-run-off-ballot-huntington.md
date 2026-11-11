@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-decision-to-run-off-ballot-huntington
 pr: #8552
 blocked-on:

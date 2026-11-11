@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** people-views-opening-place-type-and-values-part-1-place-type-term, because both change the opening lean in the same file.
 
 **Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, src/core2/campaign-views.ts, docs/packages/M1-views.md, src/core2/views.test.ts
+
+**Notes (Fable B, Nov 10, the owner's answer).** Dropped Nov 10, 2026 (depth sweep): the owner was asked and said "Not now." People keep the stances they form from their records. If he asks for the values later, this item comes back.
