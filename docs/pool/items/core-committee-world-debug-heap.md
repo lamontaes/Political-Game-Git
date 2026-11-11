@@ -5,13 +5,13 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/pool-core-committee-world-debug-heap
+status: open
+claimed-by:
 pr: #8402
 after:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T00:53:29.175Z
+claimed-at:
 lead: memory
 standard: 2
 model: opus
@@ -44,3 +44,5 @@ Split Oct 25: the three retention leaks found while measuring this world are `co
 **Notes (Fable's check, Nov 10).** The measurement in Cause was taken on main at e269fd0acf. Whoever builds this reruns it on current main first and stops if the test now finishes.
 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:53 UTC) on branch claude/pool-core-committee-world-debug-heap.
+
+Released (2026-11-11): Does not reproduce on main e9d07eaf39: the unchanged test passes 3/3 in 1,071 s with a 5 GiB heap (PR #8402). Continue on branch claude/pool-core-committee-world-debug-heap and pull request #8402.
