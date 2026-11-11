@@ -159,6 +159,11 @@ interface ServerState {
   titleVisits: number;
   conversation: Conversation | undefined;
   filingVisit: BenchFilingVisit | undefined;
+  /**
+   * The place the player went to and the day they went: they are there until
+   * they go somewhere else, go home, or the day ends.
+   */
+  visit: { organizationId: string; date: string } | undefined;
   /** The election nights each player has watched, and the mornings they canvassed. */
   nightsWatched: Set<string>;
   canvassedOn: Set<string>;
@@ -183,6 +188,7 @@ const state: ServerState = {
   titleVisits: 0,
   conversation: undefined,
   filingVisit: undefined,
+  visit: undefined,
   nightsWatched: new Set<string>(),
   canvassedOn: new Set<string>(),
   speechBuild: undefined,
@@ -198,12 +204,22 @@ function sceneNow(current: CoreState, id: string) {
     playing &&
     !state.player!.packet &&
     state.director?.ledger.opening?.date === current.date;
-  const scene = benchScene(
-    current,
-    id,
-    playing ? state.player!.packet : undefined,
-    openingDay ? OPENING_EVENING_MINUTE : undefined,
-  );
+  // A place the player went to is where they are for the rest of that day:
+  // a talk there, or an hour's wait, leaves them in the same room. The visit
+  // ends with the day (the next morning is at home), with another trip, or
+  // with going home.
+  const at = playing ? state.player!.packet?.at : undefined;
+  if (playing && state.visit && at?.date !== state.visit.date)
+    state.visit = undefined;
+  const scene =
+    playing && state.visit && at
+      ? visitPlace(current, id, state.visit.organizationId, at.minuteOfDay)
+      : benchScene(
+          current,
+          id,
+          playing ? state.player!.packet : undefined,
+          openingDay ? OPENING_EVENING_MINUTE : undefined,
+        );
   // Who has something to say: the director's own answer (a talk that opens with
   // no lines is no talk), read without writing anything. The room leaves the
   // rest unclickable (owner, Nov 1).
@@ -389,6 +405,7 @@ const ROUTES: readonly Route[] = [
         state.director = world.director;
         state.player = new BenchPlayer(world.core, world.director);
         state.conversation = undefined;
+        state.visit = undefined;
         state.placeId = world.placeId;
         state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
@@ -574,6 +591,14 @@ const ROUTES: readonly Route[] = [
           ? { director: state.director, ...(occasionId ? { occasionId } : {}) }
           : {},
       );
+      // A talk with no line is no talk (owner, Nov 1), on every road: a scene,
+      // the room, a workplace visit. Nothing opens, and the screen hands the
+      // room back.
+      if (!state.conversation.lines.length) {
+        state.conversation = undefined;
+        send(200, null);
+        return;
+      }
       send(200, talkView(state.conversation));
       return;
     },
@@ -639,8 +664,12 @@ const ROUTES: readonly Route[] = [
         : 0;
       state.conversation = undefined;
       const parameters = requireCore().data.parameters;
+      // The opening evening comes before the player's first morning, and the
+      // clock has not started: a talk then is part of that evening and holds
+      // it. Spent, its minutes would run from tomorrow morning, and the next
+      // Day would land a day late.
       const spent =
-        lines > 0 && state.player?.personId
+        lines > 0 && state.player?.personId && state.player.packet
           ? state.player.spend(
               (lines * parameter("talkMinutesPerLine", parameters)) /
                 parameter("minutesPerHour", parameters),
@@ -929,6 +958,50 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/goto/home",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      // Whether the player is out at a place, and where the day has them
+      // otherwise (its picture and who is there), for Travel's way home.
+      const id = state.player.personId;
+      const there = benchScene(requireCore(), id, state.player.packet);
+      send(200, {
+        away: Boolean(state.visit),
+        picture: there.backdrop.url,
+        who: there.people
+          .filter((person) => person.personId !== id)
+          .map((person) => person.name),
+      });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/goto/home",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      // Going home from a place is a trip like the one that took them there;
+      // from home it is nothing.
+      // stopgapId: SG-PLAY-trip-time-average
+      const parameters = requireCore().data.parameters;
+      const spent = state.visit
+        ? state.player.spend(
+            parameter("tripMinutes", parameters) /
+              parameter("minutesPerHour", parameters),
+          )
+        : undefined;
+      state.visit = undefined;
+      send(200, {
+        scene: sceneNow(requireCore(), state.player.personId),
+        ...(spent
+          ? { packet: spent.packet, names: namesFor(spent.packet) }
+          : {}),
+      });
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/goto/visit",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -949,6 +1022,10 @@ const ROUTES: readonly Route[] = [
       );
       const spent =
         state.player.spend(parameter("visitHours", parameters)) ?? trip;
+      const arrived = state.player.packet?.at;
+      state.visit = arrived
+        ? { organizationId: visit.organizationId, date: arrived.date }
+        : undefined;
       send(200, {
         ...visit,
         ...(spent
@@ -2269,6 +2346,7 @@ const ROUTES: readonly Route[] = [
       const id = url.searchParams.get("id") ?? "";
       personOrFillIn(requireCore(), id);
       state.player.select(id);
+      state.visit = undefined;
       if (state.conversation?.playerId !== state.player.personId)
         state.conversation = undefined;
       send(200, {
@@ -2306,6 +2384,7 @@ const ROUTES: readonly Route[] = [
         state.director = nextDirector;
         state.player = new BenchPlayer(next, nextDirector);
         state.conversation = undefined;
+        state.visit = undefined;
         state.placeId = place.context.jurisdiction.id;
         state.placeName = place.displayName;
         send(200, {
