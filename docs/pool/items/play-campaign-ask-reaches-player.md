@@ -4,7 +4,7 @@ title: "A candidate's ask for money reaches the player as a request they answer"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-campaign-ask-reaches-player
 pr: #8387
