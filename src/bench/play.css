@@ -2962,6 +2962,13 @@ details.entry[open] {
   text-align: right;
   overflow-wrap: anywhere;
 }
+.bill-clause[role="button"] {
+  cursor: pointer;
+}
+.bill-clause[role="button"]:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
 .bill-clause s {
   color: var(--muted);
 }

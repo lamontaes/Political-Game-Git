@@ -2743,7 +2743,14 @@ function billEstimate(paper, section) {
       .filter(Boolean)
       .join(" · "),
   );
-  return { prose: section.text ?? paper.title, lines, compare };
+  // The estimate says what the records give, never the section's own words
+  // again; a section that changes a rule and no amount says so.
+  const shown = lines.filter(Boolean);
+  return {
+    prose: shown.length || compare ? "" : (words.noFigure ?? ""),
+    lines: shown,
+    compare,
+  };
 }
 /**
  * Open a bill as one paper document: designation, title, sponsor, each
