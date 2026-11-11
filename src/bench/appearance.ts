@@ -12,8 +12,8 @@ import rules from "./data/whole-figures.json" with { type: "json" };
 
 /**
  * The creator's appearance step (owner, Nov 7, 2026: "busts, never full
- * figures"): a look is one of the bust bank's people (their skin), a hair
- * piece and, where the bank paints any, facial hair. The clothes are not
+ * figures"): a look is one of the bust bank's people (their skin), a
+ * hairstyle in a color and, where the bank paints any, facial hair. The clothes are not
  * chosen: a bust wears the top its person would wear where they are seen
  * (everyday, work or in office). Every choice is read from the bank's
  * manifest (bust.ts), so a new person or piece there is offered here with no
@@ -49,10 +49,10 @@ function step<T>(items: readonly T[], current: T, by: number): T {
 
 /** The body row shows only where the gender does not settle the body. */
 const showsBody = (gender: string) => !PACK_SEX[gender];
-/** The facial hair a person may wear: none first, then each piece the bank paints for their sex. */
+/** The facial hair a person may wear: none first, then each style the bank paints for their sex. */
 const facesOf = (person: BustPerson): readonly (string | undefined)[] => [
   undefined,
-  ...bustChoices(person.sex).face.map((piece) => piece.file),
+  ...bustChoices(person).face.map((choice) => choice.key),
 ];
 
 export function appearanceRows(
@@ -60,9 +60,9 @@ export function appearanceRows(
   gender: string,
 ): AppearanceRow[] {
   const person = bustPerson(recipe.person)!;
-  const choices = bustChoices(person.sex);
-  const named = (pieces: typeof choices.hair, file: string | undefined) =>
-    pieces.find((piece) => piece.file === file)?.label ?? LABELS.none;
+  const choices = bustChoices(person);
+  const named = (list: typeof choices.hair, key: string | undefined) =>
+    list.find((choice) => choice.key === key)?.label ?? LABELS.none;
   return [
     ...(showsBody(gender)
       ? [{ id: "body", label: LABELS.rows.body, value: sexLabel(person.sex) }]
@@ -72,6 +72,11 @@ export function appearanceRows(
       id: "hair",
       label: LABELS.rows.hair,
       value: named(choices.hair, recipe.hair),
+    },
+    {
+      id: "hair-color",
+      label: LABELS.rows.hairColor,
+      value: named(choices.hairColor, recipe.hairColor),
     },
     ...(choices.face.length
       ? [
@@ -93,21 +98,27 @@ export function moveAppearance(
 ): LookRecipe {
   const turn = by < 0 ? -1 : 1;
   const person = bustPerson(recipe.person)!;
+  const choices = bustChoices(person);
+  const keys = (list: typeof choices.hair) => list.map((choice) => choice.key);
   if (rowId === "body" && showsBody(gender))
     return onPerson(recipe, step(sexes(), person.sex, turn), person.tone);
   if (rowId === "skin") {
     const tones = peopleOf(person.sex).map((row) => row.tone);
     return onPerson(recipe, person.sex, step(tones, person.tone, turn));
   }
-  if (rowId === "hair") {
-    const hair = bustChoices(person.sex).hair.map((piece) => piece.file);
-    return { ...recipe, hair: step(hair, recipe.hair, turn) };
-  }
-  if (rowId === "face" && bustChoices(person.sex).face.length) {
+  if (rowId === "hair")
+    return { ...recipe, hair: step(keys(choices.hair), recipe.hair, turn) };
+  if (rowId === "hair-color")
+    return {
+      ...recipe,
+      hairColor: step(keys(choices.hairColor), recipe.hairColor, turn),
+    };
+  if (rowId === "face" && choices.face.length) {
     const next = step(facesOf(person), recipe.face, turn);
     return {
       person: recipe.person,
       hair: recipe.hair,
+      hairColor: recipe.hairColor,
       ...(next ? { face: next } : {}),
     };
   }
@@ -135,18 +146,19 @@ export function lookForGender(recipe: LookRecipe, gender: string): LookRecipe {
   return onPerson(recipe, sex, person.tone);
 }
 
-/** A look the bank paints: hair or facial hair the person's set lacks falls back to its first hair and to none. */
+/** A look the bank paints: a hairstyle, a hair color or facial hair the person's set lacks falls back to its first and to none. */
 function settled(recipe: Partial<LookRecipe> & { person: string }): LookRecipe {
   const person = bustPerson(recipe.person)!;
-  const choices = bustChoices(person.sex);
-  const hair =
-    choices.hair.find((piece) => piece.file === recipe.hair) ??
-    choices.hair[0]!;
-  const face = choices.face.find((piece) => piece.file === recipe.face);
+  const choices = bustChoices(person);
+  const has = (list: typeof choices.hair, key: string | undefined) =>
+    list.find((choice) => choice.key === key)?.key;
+  const face = has(choices.face, recipe.face);
   return {
     person: person.id,
-    hair: hair.file,
-    ...(face ? { face: face.file } : {}),
+    hair: has(choices.hair, recipe.hair) ?? choices.hair[0]!.key,
+    hairColor:
+      has(choices.hairColor, recipe.hairColor) ?? choices.hairColor[0]!.key,
+    ...(face ? { face } : {}),
   };
 }
 
@@ -170,10 +182,12 @@ export function drawnAppearance(
     items[hash(`${seed}:${draw}:${key}`) % items.length]!;
   const sex = PACK_SEX[gender] ?? pick(sexes(), "body");
   const person = pick(peopleOf(sex), "skin");
+  const choices = bustChoices(person);
   const face = pick(facesOf(person), "face");
   return {
     person: person.id,
-    hair: pick(bustChoices(sex).hair, "hair").file,
+    hair: pick(choices.hair, "hair").key,
+    hairColor: pick(choices.hairColor, "hair-color").key,
     ...(face ? { face } : {}),
   };
 }
@@ -185,6 +199,7 @@ export function readRecipe(text: string): LookRecipe {
   return settled({
     person: String(input.person),
     ...(input.hair ? { hair: String(input.hair) } : {}),
+    ...(input.hairColor ? { hairColor: String(input.hairColor) } : {}),
     ...(input.face ? { face: String(input.face) } : {}),
   });
 }
@@ -210,12 +225,13 @@ export function newGameFaces(): {
   const pictured = (n: number, dress: "everyday" | "official") => {
     const people = peopleOf(kinds[n % kinds.length]!);
     const person = people[n % people.length]!;
-    const { hair } = bustChoices(person.sex);
+    const choices = bustChoices(person);
     const face = facesOf(person)[n % facesOf(person).length];
     const bust = bustOfLook(
       {
         person: person.id,
-        hair: hair[n % hair.length]!.file,
+        hair: choices.hair[n % choices.hair.length]!.key,
+        hairColor: choices.hairColor[n % choices.hairColor.length]!.key,
         ...(face ? { face } : {}),
       },
       dress,
