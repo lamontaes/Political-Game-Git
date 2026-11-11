@@ -35,7 +35,7 @@ branch: claude/pool-people-home-plates
 
 **Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts").
 
-**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/people-pack.test.ts, src/core2/data/stopgaps/play.json
+**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/core2/data/stopgaps/play.json
 
 **Notes.**
 
