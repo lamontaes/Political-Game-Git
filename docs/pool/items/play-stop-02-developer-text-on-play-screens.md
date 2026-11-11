@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
+status: open
+claimed-by:
 pr: #8266
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-11T04:00:52.414Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-02-developer-text-on-play-screens
 ---
@@ -65,3 +65,5 @@ Released (2026-11-11): Replayed again with the bench on main (BENCH_BROWSER=/opt
 Released (2026-11-11): Correction to my release just above: I did not check the screens for developer text in Niles, Round Valley or Burlingame (the check failed before reading them there); the clean News, Politics and talk-box reads are the earlier builders' replays (sonnet-a266, Basking Ridge NJ). My finding is only that plain-text.browser.mjs fails for the three check-side reasons named. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens and pull request #8266.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:00 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Released (2026-11-11): Replay not finished. src/bench/plain-text.browser.mjs was itself stale on main and failed before reading the screens: (1) it left dev mode on while reading the talk box, where Mark gap is correctly shown; (2) the clerk's reply to a 17-year-old ends on an 'I see.' choice, no Leave button; (3) the grown resident's filing choice reads 'Alright. I'll take the papers and get started.', not 'File'. I fixed (1)-(3) on branch claude/pool-play-stop-02-developer-text-on-play-screens (devModeOff helper in dev-setup.mjs, leaveTalk, papers match); the 17-year-old counter now reads clean in Aulander NC (seed 8bb1c821-fd46-4e2d-8f9e-25e7ac824bd1) and Overbrook KS (seed 064d5d1b-a0be-4f0c-9f1b-1f2c734d3261). Next: at the grown resident's filing click the run dies waiting for /api/filing/choose (browser closed), so the After-filing talk, Campaigns and News two weeks on are still unread. Continue on that branch. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens and pull request #8266.
