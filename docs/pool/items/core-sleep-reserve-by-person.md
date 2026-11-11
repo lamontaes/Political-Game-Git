@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-sleep-reserve-by-person
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: none
 lead: jobs
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:23:38.130Z
 ---
 
 **What.** Every person reserves the same 8.7 hours of sleep a day (workSleepReserveHours, the midpoint of employed adults in ATUS 2025 Table 8B, SG-P8-work-time-reserve), whether they work, are retired or have a child at home, and that reserve sets how many free hours src/core2/modules/work.ts and src/core2/free-block.ts give them. ATUS 2025 gives sleep by employment and a child at home (Tables 8B and 8C, 8.56 to 9.37 hours, data/research/core/atus-2025-sleep.json), and the age cohorts are in src/core2/data/time-use-reference.json. Read each person's reserve from their own group at the moment their free hours are computed, so a retiree's day and a working parent's day differ for a recorded reason.
