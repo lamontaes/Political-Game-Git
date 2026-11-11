@@ -45,7 +45,7 @@ try {
       if (!(await page.locator("#talk:visible").count())) break;
       const state = await page.evaluate(() => ({
         backdrop: document.getElementById("backdrop").src.split("/").at(-1),
-        people: document.querySelectorAll("#talk-strip .strip-person").length,
+        people: document.querySelectorAll("#talk-strip .busts-person").length,
         text: document.getElementById("talk-lines").innerText,
         who: document.getElementById("talk-name").textContent,
       }));

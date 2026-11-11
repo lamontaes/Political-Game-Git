@@ -64,6 +64,38 @@ describe("people in a room", () => {
         new Set(
           core.households.get(core.people.get(me)!.householdId)?.memberIds,
         );
+      // A crowd: the strip names a few and counts the rest, the people the
+      // player knows ahead of strangers, and never the player.
+      const adults = [...core.people.values()]
+        .filter((person) => person.alive && person.id !== me)
+        .map((person) => person.id);
+      const crowd = peopleHere(
+        core,
+        benchScene(core, me).backdrop.file,
+        [me, ...adults.slice(0, 40)].map((id) => ({
+          id,
+          name: id,
+          reason: id === me ? ("you" as const) : ("reached" as const),
+        })),
+      );
+      const listed = crowd.people.map((person) => person.personId);
+      expect(listed, where).not.toContain(me);
+      expect(crowd.people.length, where).toBeLessThanOrEqual(6);
+      if (crowd.more > 0) {
+        expect(crowd.people.length, where).toBe(6);
+        const known = core.people.get(me)!.knownIds;
+        const knownThere = adults
+          .slice(0, 40)
+          .filter((id) => known.has(id as never)).length;
+        // Everyone the player knows is named before any stranger is.
+        expect(
+          listed.filter((id) => known.has(id as never)).length,
+          where,
+        ).toBeGreaterThanOrEqual(Math.min(knownThere, 6) - 0);
+      }
+      console.log(
+        `a crowd of 40: ${crowd.people.length} named, ${crowd.more} more: ${where}`,
+      );
       const seen = { scenes: 0, people: 0, moments: 0 };
       const check = (
         people: readonly BenchScenePerson[],

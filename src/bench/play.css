@@ -247,7 +247,7 @@ ol {
   position: relative;
   pointer-events: none;
 }
-.bust-strip .strip-glass {
+.bust-strip .busts-glass {
   position: absolute;
   left: 0;
   right: 0;
@@ -258,20 +258,20 @@ ol {
   mask-image: linear-gradient(
     90deg,
     transparent,
-    #000 9%,
-    #000 91%,
+    black 9%,
+    black 91%,
     transparent
   );
   -webkit-mask-image: linear-gradient(
     90deg,
     transparent,
-    #000 9%,
-    #000 91%,
+    black 9%,
+    black 91%,
     transparent
   );
 }
 /* The light along the top, gone before the ends. */
-.bust-strip .strip-glass::before {
+.bust-strip .busts-glass::before {
   content: "";
   position: absolute;
   left: 0;
@@ -286,7 +286,7 @@ ol {
     transparent 88%
   );
 }
-.bust-strip .strip-label {
+.bust-strip .busts-label {
   position: absolute;
   left: 11%;
   bottom: 9px;
@@ -295,7 +295,7 @@ ol {
   text-transform: uppercase;
   color: var(--gold);
 }
-.bust-strip .strip-row {
+.bust-strip .busts-row {
   position: relative;
   display: flex;
   justify-content: center;
@@ -303,7 +303,7 @@ ol {
   gap: calc(var(--bust) * 0.16);
   padding: 0 var(--gutter);
 }
-.bust-strip .strip-person {
+.bust-strip .busts-person {
   --mine: var(--bust);
   display: flex;
   flex-direction: column;
@@ -312,20 +312,20 @@ ol {
   pointer-events: auto;
 }
 /* The bust, cut soft at the shoulders where it meets the glass. */
-.bust-strip .strip-bust {
+.bust-strip .busts-face {
   position: relative;
   width: calc(var(--mine) * 0.72);
   height: calc(var(--mine) * 0.74);
-  mask-image: linear-gradient(#000 72%, transparent);
-  -webkit-mask-image: linear-gradient(#000 72%, transparent);
+  mask-image: linear-gradient(black 72%, transparent);
+  -webkit-mask-image: linear-gradient(black 72%, transparent);
   transition: filter 0.2s ease;
 }
-.bust-strip .strip-bust .bust-stack {
+.bust-strip .busts-face .bust-stack {
   width: var(--mine);
   top: 0;
   left: calc(var(--mine) * (0.36 - var(--head-middle, 0.5)));
 }
-.bust-strip .strip-name {
+.bust-strip .busts-name {
   font: 600 var(--t-label) var(--ui);
   color: var(--brass-hi);
   padding-bottom: 8px;
@@ -333,41 +333,41 @@ ol {
   white-space: nowrap;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
-.bust-strip .strip-more {
+.bust-strip .busts-more {
   font: 400 var(--t-ui) var(--ui);
   color: var(--muted);
   padding: 0 0 9px 8px;
   white-space: nowrap;
 }
 /* Someone with something to say glows softly when pointed at. */
-.bust-strip .strip-person.talkable {
+.bust-strip .busts-person.talkable {
   cursor: pointer;
 }
-.bust-strip .strip-person.talkable:hover .strip-bust,
-.bust-strip .strip-person.talkable:focus-visible .strip-bust {
+.bust-strip .busts-person.talkable:hover .busts-face,
+.bust-strip .busts-person.talkable:focus-visible .busts-face {
   filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.55));
 }
-.bust-strip .strip-person.talkable:focus-visible {
+.bust-strip .busts-person.talkable:focus-visible {
   outline: none;
 }
-.bust-strip .strip-person.talkable:hover .strip-name,
-.bust-strip .strip-person.talkable:focus-visible .strip-name {
+.bust-strip .busts-person.talkable:hover .busts-name,
+.bust-strip .busts-person.talkable:focus-visible .busts-name {
   color: var(--text-strong);
 }
 /* In a talk, whoever speaks is lit and a little larger; the rest stand back. */
-.bust-strip .strip-person.speaking {
+.bust-strip .busts-person.speaking {
   --mine: calc(var(--bust) * 1.16);
 }
-.bust-strip .strip-person.speaking .strip-bust {
+.bust-strip .busts-person.speaking .busts-face {
   filter: drop-shadow(0 0 10px rgba(236, 200, 128, 0.4));
 }
-.bust-strip .strip-person.speaking .strip-name {
+.bust-strip .busts-person.speaking .busts-name {
   font-size: var(--t-ui);
 }
-.bust-strip .strip-person.quiet .strip-bust {
+.bust-strip .busts-person.quiet .busts-face {
   filter: brightness(0.72) saturate(0.85);
 }
-.bust-strip .strip-person.quiet .strip-name {
+.bust-strip .busts-person.quiet .busts-name {
   color: var(--muted);
 }
 /* Who is here: along the foot of the room, clear of the player card. */

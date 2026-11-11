@@ -15,9 +15,9 @@ function stripPerson(person, { speakingId, onClick }) {
   stack.style.setProperty("--head-middle", String(bust.head[1] / bust.size));
   const cell = el(
     "div",
-    { className: "strip-person" },
-    el("div", { className: "strip-bust" }, stack),
-    el("span", { className: "strip-name", textContent: person.name }),
+    { className: "busts-person" },
+    el("div", { className: "busts-face" }, stack),
+    el("span", { className: "busts-name", textContent: person.name }),
   );
   cell.dataset.person = person.personId ?? "";
   if (speakingId !== undefined)
@@ -57,18 +57,18 @@ export function bustStrip({
   // The busts' size follows how many stand on the strip (play.css).
   strip.dataset.count = String(Math.min(people.length, 4));
   strip.append(
-    el("div", { className: "strip-glass" }),
+    el("div", { className: "busts-glass" }),
     ...(words.label
-      ? [el("span", { className: "strip-label", textContent: words.label })]
+      ? [el("span", { className: "busts-label", textContent: words.label })]
       : []),
     el(
       "div",
-      { className: "strip-row" },
+      { className: "busts-row" },
       ...people.map((person) => stripPerson(person, { speakingId, onClick })),
       ...(more > 0 && words.more
         ? [
             el("span", {
-              className: "strip-more",
+              className: "busts-more",
               textContent: words.more.replace(
                 "{count}",
                 more.toLocaleString("en-US"),
