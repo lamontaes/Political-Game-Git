@@ -23,6 +23,7 @@ import { coreAPI } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { spoken } from "../director/words";
 import { expectUpToFourDifferent } from "../director/reply-set-check";
+import { seatSaid } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
 import controls from "./data/controls.json" with { type: "json" };
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
@@ -152,8 +153,20 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     // names a thing once).
     for (const row of state.visit.choices)
       if (row.control === "file")
-        expect(row.text, where).toContain(contest.title);
-      else expect(row.text, where).not.toContain(contest.title);
+        expect(row.text, where).toContain(
+          seatSaid(contest.seat!, { first: false }),
+        );
+      else
+        expect(row.text, where).not.toContain(
+          seatSaid(contest.seat!, { first: false }),
+        );
+    // An office is said the way people say it, never a form's title with
+    // its parenthesis or a member word after "run for", "file for", "sign
+    // for" or "give" (Fable B, Nov 11).
+    for (const line of [...state.visit.lines, ...state.visit.choices])
+      expect(line.text, where).not.toMatch(
+        /\((?:District|[^)]*election)[^)]*\)|(?:run|file|sign) for (?:the )?[A-Za-z ]*\bmember\b|give [a-z ]*member/i,
+      );
     // Who else has filed, from the filings: named when there is someone.
     state = chooseAtCounter(core, state, "ask-filed");
     for (const row of state.visit.choices) offered.add(shown(row));

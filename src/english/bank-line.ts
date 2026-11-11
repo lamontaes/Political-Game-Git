@@ -35,24 +35,23 @@ export interface RenderedLine {
 }
 
 /**
- * The packet a bank line is rendered from: the facts the holder knows, said
- * in their voice. `renderLine` renders one whole piece from it; a scene line
- * joined from pieces (`composeJoinedLine`) renders each part from the same.
+ * The grounded packet for a line held by one person, from the facts the
+ * director passes (record ids as plain strings): the one place a held line's
+ * facts become the renderer's grounded facts, for a line picked whole
+ * (`renderLine`) or composed from parts (`composeGroundedLine`). The holder's
+ * own records establish every fact the line copies; the line stands on every
+ * fact's records, else on the fallback.
  */
-export function groundedPacket(input: {
-  seed: string;
+export function conversationPacket(input: {
   surface: EnglishSurface;
-  holderId: string;
-  version: string;
-  facts: Readonly<Record<string, Fact>>;
   momentKey: string;
-  stage?: string;
+  worldSeed: string;
+  bankVersion: string;
+  stage: string;
+  holderId: string;
+  facts: Readonly<Record<string, Fact>>;
   fallbackSourceId: string;
-  voice?: {
-    traits: Readonly<Record<string, number>>;
-    register?: string;
-    calibration?: CalibrationTable;
-  };
+  voice?: GroundedEnglishPacket["voice"];
 }): GroundedEnglishPacket {
   const ids = [
     ...new Set(
@@ -63,16 +62,15 @@ export function groundedPacket(input: {
   return {
     surface: input.surface,
     momentKey: input.momentKey,
-    worldSeed: input.seed,
-    bankVersion: input.version,
-    stage: input.stage ?? "default",
+    worldSeed: input.worldSeed,
+    bankVersion: input.bankVersion,
+    stage: input.stage,
     sourceRecordIds: ids.length ? ids : [input.fallbackSourceId],
     facts: input.facts,
     ...(input.surface === "dialogue"
       ? { speaker: holder }
       : { viewer: holder }),
     ...(input.voice ? { voice: input.voice } : {}),
-    // The holder's own records establish every fact the line copies.
     knowledge: Object.entries(input.facts).map(([factKey, fact]) => ({
       personId: input.holderId,
       factKey,
@@ -100,19 +98,32 @@ export function renderLine(input: {
   };
 }): RenderedLine | null {
   if (!input.variants?.length) return null;
-  const result = renderGroundedEnglish(groundedPacket(input), {
-    key: input.bankKey,
-    version: input.version,
-    surface: input.surface,
-    variants: input.variants.map((row) => ({
-      key: row.key,
-      kind: "template" as const,
-      text: row.text,
-      ...(row.stages ? { stages: row.stages } : {}),
-      ...(row.bearing ? { bearing: row.bearing } : {}),
-      ...(row.pieceKey ? { pieceKey: row.pieceKey } : {}),
-    })),
-  });
+  const result = renderGroundedEnglish(
+    conversationPacket({
+      surface: input.surface,
+      momentKey: input.momentKey,
+      worldSeed: input.seed,
+      bankVersion: input.version,
+      stage: input.stage ?? "default",
+      holderId: input.holderId,
+      facts: input.facts,
+      fallbackSourceId: input.fallbackSourceId,
+      ...(input.voice ? { voice: input.voice } : {}),
+    }),
+    {
+      key: input.bankKey,
+      version: input.version,
+      surface: input.surface,
+      variants: input.variants.map((row) => ({
+        key: row.key,
+        kind: "template" as const,
+        text: row.text,
+        ...(row.stages ? { stages: row.stages } : {}),
+        ...(row.bearing ? { bearing: row.bearing } : {}),
+        ...(row.pieceKey ? { pieceKey: row.pieceKey } : {}),
+      })),
+    },
+  );
   if (result.kind !== "rendered") return null;
   return {
     text: result.text.charAt(P.zero).toUpperCase() + result.text.slice(P.one),

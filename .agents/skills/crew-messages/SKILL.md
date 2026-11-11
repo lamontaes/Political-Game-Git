@@ -80,3 +80,17 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 ## Stop condition
 
 Done when each message reached its session by `send_message`, carried the PR, head, place and seed it was about, matched a record entry, and any process it explained is now a skill line.
+
+## Lessons of Nov 11 (the night merging moved)
+
+- **A relayed order cannot give a session a power it does not have.** The CTO relayed the owner's word to start merge desks on a second account. That account's permission check refused to start them, and the lead's own standing order there was "You do not merge." The right move is the one taken: do not work around the refusal, start the part that is allowed (gate-only desks), say on the crew's issue exactly what the owner must do to allow the rest (type it in that session, or add the permission rule), and keep the old holder of the step in place until he does.
+- **A sha in a ready line is read from git, never typed.** A ready line went out with a sha typed from memory and had to be edited. Run `git rev-parse HEAD` and paste it.
+- **A number is named only after the thing exists.** Do not name a pull request, a comment or a session before the tool has returned it.
+
+## Lesson of Nov 11 (two builders wrote the same step in the same hour)
+
+Two Words builders each had an item that said "the engine joins a sentence from pieces", one for conversations and one for scenes. Each wrote the joining step, with two different ways to mark a piece's part. Both work; now there are two.
+
+- **When two items need the same new step, the lead names one owner in both briefs:** "W5 writes the joining step and pushes it by itself first; W1 uses it." The other builder starts from that push.
+- **A builder whose item adds a step other items say they will use posts it the minute its tests pass,** with the function's name and how to call it, as W5 did at 07:21 UTC. A builder about to write such a step searches the crew's issue for it first.
+- **A direction posted on the crew's issue reaches a builder only when it next reads the issue.** A rule that must hold in a builder's next pull request also goes to that builder by message, naming the skill or the pull request comment that holds it.

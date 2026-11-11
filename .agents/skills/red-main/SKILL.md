@@ -74,3 +74,12 @@ A red is not named until you have the failing test, the drawn place, the seed an
 ## 6. Keep the record
 
 Every two hours write a block at the top of `## Red main` in `docs/coordination/LEADS-2026-10-24.md` (commit to main: `leads: red main status <time>`): each red, its cause, its PR, main's newest verdicts. A probe that fails is checked for a timing artifact before it becomes a bug (Oct 29: a check read the clerk's status before the clerk's morning run).
+
+## Lessons of Nov 11 (a red traced wrongly twice before it was traced right)
+
+A check failed 3 runs in 9 on a pull request that had just merged. The lead named two wrong causes before the right one. Each mistake has a rule.
+
+- **Name the commit you ran, and check it does not hold the change you are clearing.** "Clean main" was fetched four minutes after the change had merged into it, so the run proved nothing. Before a run that is meant to clear a change, print `git log --oneline -1` and run `git merge-base --is-ancestor <the change's head> HEAD`; if that succeeds, you are not on clean main. Use the first parent of the change's merge commit.
+- **A failure that happens every run on a seed is not a race.** The first theory was two redraws racing. A race fails sometimes on one seed; this failed every time on three seeds and never on others. Ask what the failing seeds share before you write a fix (here: the bill the check clicked was already open).
+- **Log before you theorize.** What found it was ten lines of logging: each draw's start and end, and the page's sections after the click. The log showed the redraws ran and the page ignored them. Add the log to a scratch copy of the check, never to the game.
+- **Say on the crew's issue when you were wrong, in the same hour,** with what you ran and what it showed. A wrong cause left standing sends the next session down it.

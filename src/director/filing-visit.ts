@@ -24,6 +24,7 @@ import {
 } from "../english/scene-talk-words";
 import { dayOpening } from "../english/day-words";
 import { filedSaid } from "../english/count-words";
+import { seatSaid, type SeatRecord } from "../english/journal-words";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 
 const zero = P.zero;
@@ -46,6 +47,8 @@ export interface FilingContest {
    * executive's work answers to.
    */
   body?: { name: string; recordId: string } | null;
+  /** The seat as its records hold it, for how a sentence says it (`seatSaid`). */
+  seat?: SeatRecord;
   /**
    * Who else has filed for this office so far, from the elections engine's
    * filings (`ballot`), the player left out: how many, the first by name,
@@ -149,7 +152,12 @@ export function openFilingVisit(
       visit,
       "player",
       "pick-office",
-      { office: { text: contest.title, sourceRecordIds: [contest.id] } },
+      {
+        office: {
+          text: seatSaid(contest.seat ?? { title: contest.title }),
+          sourceRecordIds: [contest.id],
+        },
+      },
       `${visit.playerId}:${core.date}:${contest.id}:pick-office`,
     );
     if (line)
@@ -531,7 +539,14 @@ function raceFacts(
   ids: readonly string[],
 ): Record<string, Fact> {
   const fact = (text: string) => ({ text, sourceRecordIds: ids });
-  const facts: Record<string, Fact> = { office: fact(contest.title) };
+  // The seat as people say it: in full the first time a screen says it
+  // (`office`: "the Mutual Village Council", "mayor"), short after (`seat`:
+  // "the council"); never the form's title with its parenthesis.
+  const record = contest.seat ?? { title: contest.title };
+  const facts: Record<string, Fact> = {
+    office: fact(seatSaid(record)),
+    seat: fact(seatSaid(record, { first: false })),
+  };
   if (contest.electionDate)
     facts.general = fact(spokenDate(contest.electionDate, core.date));
   if (contest.primaryDate)
@@ -642,7 +657,9 @@ export function counterNarration(
   };
   if (visit.contests.length === one)
     facts.office = {
-      text: visit.contests[zero]!.title,
+      text: seatSaid(
+        visit.contests[zero]!.seat ?? { title: visit.contests[zero]!.title },
+      ),
       sourceRecordIds: [visit.contests[zero]!.id],
     };
   const line = visitLine(
