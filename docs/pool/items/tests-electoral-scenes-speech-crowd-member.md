@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-electoral-scenes-speech-crowd-member
-pr:
+pr: #8770
 blocked-on:
 source: added with npm run pool -- add
 after:
