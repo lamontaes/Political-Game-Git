@@ -128,6 +128,18 @@
       "state": "US-RI"
     },
     {
+      "seed": "3faf142c52fc752de7c3d8c51bcc990976433087809a74824b3ebeabfc90a878",
+      "key": "territory:GU:hagatna",
+      "name": "Hagåtña, Guam",
+      "state": "US-GU"
+    },
+    {
+      "seed": "6bc8f3f997ddef99ba315283733dbf39681edb13b7021a1f275331785da8fce6",
+      "key": "4213168",
+      "name": "Cherryville, Pennsylvania",
+      "state": "US-PA"
+    },
+    {
       "seed": "393f73ee1c08140503117d6af7eea026ada4377080860846258968a73c13b710",
       "key": "0834960",
       "name": "Haxtun, Colorado",
@@ -153,9 +165,9 @@
     }
   ],
   "summary": {
-    "laws": 178,
-    "wired": 147,
-    "partly": 31,
+    "laws": 187,
+    "wired": 148,
+    "partly": 39,
     "stopgapped": 0,
     "researchLinks": {
       "links": 246,
@@ -181,65 +193,65 @@
     ],
     "byLink": {
       "exists": {
-        "wired": 113,
-        "partial": 4,
-        "missing": 3,
+        "wired": 119,
+        "partial": 5,
+        "missing": 5,
         "stopgap": 0,
         "n/a": 58
       },
       "change": {
-        "wired": 178,
+        "wired": 187,
         "partial": 0,
         "missing": 0,
         "stopgap": 0,
         "n/a": 0
       },
       "reach": {
-        "wired": 99,
+        "wired": 100,
         "partial": 0,
-        "missing": 19,
-        "stopgap": 0,
+        "missing": 23,
+        "stopgap": 4,
         "n/a": 60
       },
       "systems": {
         "wired": 113,
         "partial": 0,
-        "missing": 15,
-        "stopgap": 0,
+        "missing": 20,
+        "stopgap": 4,
         "n/a": 50
       },
       "money": {
         "wired": 94,
         "partial": 10,
-        "missing": 8,
-        "stopgap": 0,
+        "missing": 13,
+        "stopgap": 4,
         "n/a": 66
       },
       "web": {
         "wired": 75,
         "partial": 0,
-        "missing": 28,
-        "stopgap": 0,
+        "missing": 33,
+        "stopgap": 4,
         "n/a": 75
       },
       "knowing": {
         "wired": 128,
         "partial": 0,
-        "missing": 0,
+        "missing": 9,
         "stopgap": 0,
         "n/a": 50
       },
       "repeal": {
-        "wired": 100,
+        "wired": 101,
         "partial": 0,
-        "missing": 19,
+        "missing": 27,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 101,
+        "wired": 102,
         "partial": 0,
-        "missing": 19,
+        "missing": 27,
         "stopgap": 0,
         "n/a": 58
       }
@@ -1605,7 +1617,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: health and hospitals",
+      "name": "Spending: healthAndHospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1758,7 +1770,7 @@
       "family": "healthcare",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -1771,18 +1783,18 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): repealed at federal effective 2025-01-21; then enacted again at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 377 open (full 12, counted groups 365/21525 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_c9d28072671c5502; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 861 open (full 17, counted groups 844/844 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_f9b946554f847221; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): 1501 open (full 18, counted groups 1483/51757 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:health.medicare-drug-price-negotiation|person_af0d82958bb9e8bf",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/medical-bills.ts:486",
+          "evidence": "src/core2/medical-bills.ts:490",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:599 20143606 -> 20438923 (journal:2025-02-01:6067)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:620 1205061 -> 1218787 (journal:2025-02-01:6297); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): accounts.transfer @ src/core2/medical-bills.ts:620 881072 -> 894791 (journal:2025-02-01:4120); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): accounts.transfer @ src/core2/medical-bills.ts:620 1164174 -> 1174470 (journal:2025-02-01:7241)",
           "why": ""
         },
         "web": {
@@ -1792,25 +1804,35 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): 70 people heard (person_bf387883fab7c6d9:printed:outlet:newspaper:2:jurisdiction_e310a6aecc2b3e79:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): opening 377 -> after repeal 0 -> re-enacted 389; Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75): opening 861 -> after repeal 0 -> re-enacted 860; Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc): opening 1501 -> after repeal 0 -> re-enacted 1550",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805); Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75); Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
-          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2026-01-22",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Hagåtña, Guam, US-GU (seed a4c2bd5bd896ac75)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Cherryville, Pennsylvania, US-PA (seed 86d67d515d0584dc)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
           "inForceAtOpening": true
         }
       ],
@@ -2336,7 +2358,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higher education",
+      "name": "Spending: higherEducation",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -4312,7 +4334,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfare and Medicaid",
+      "name": "Spending: welfareAndMedicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4456,6 +4478,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "child-care-income-limit",
+      "name": "Child care income limit (family of three)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "child-care-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:child-care-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "ssi-federal-benefit-rate",
+      "name": "SSI federal benefit rate (individual)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "ssi-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:ssi-federal-benefit-rate: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -5113,6 +5253,65 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "energy-assistance-income-limit",
+      "name": "Home energy assistance income limit (percent of the poverty line)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "energy-assistance-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:energy-assistance-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -6085,6 +6284,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "ban the box public hiring",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "hiring-record",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.ban-the-box-public-hiring: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "Local power: ban the box public hiring",
+      "kind": "amount",
+      "family": "labor",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:ban-the-box-public-hiring: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -7374,6 +7691,124 @@
       "errors": []
     },
     {
+      "key": "us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "allow retail electric choice",
+      "kind": "question",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:environment-energy.allow-retail-electric-choice: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "Local power: allow retail electric choice",
+      "kind": "amount",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:allow-retail-electric-choice: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-federal-positions:energy-environment.limit-power-plant-carbon",
       "name": "limit power plant carbon",
       "kind": "question",
@@ -7591,7 +8026,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: natural resources",
+      "name": "Spending: naturalResources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -9635,6 +10070,65 @@
       "errors": []
     },
     {
+      "key": "executive-term-limit",
+      "name": "Governor term limit (terms; 0 for none)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "partial",
+          "evidence": "55/56 places (state 55); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-DC"
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:executive-term-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-policy-positions:government-operations.all-mail-voting",
       "name": "all mail voting",
       "kind": "question",
@@ -10346,7 +10840,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit for governor",
+      "name": "State campaign contribution limit: governor",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10411,7 +10905,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit for state senate",
+      "name": "State campaign contribution limit: stateSenate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10476,7 +10970,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit for state house",
+      "name": "State campaign contribution limit: stateHouse",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10541,7 +11035,7 @@
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit for local office",
+      "name": "State campaign contribution limit: local",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10877,6 +11371,65 @@
           "status": "n/a",
           "evidence": "",
           "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "meeting-notice-hours",
+      "name": "Public notice before a regular meeting (hours)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:meeting-notice-hours: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
         }
       },
       "screens": [],

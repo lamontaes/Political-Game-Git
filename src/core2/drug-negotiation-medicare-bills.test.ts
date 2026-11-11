@@ -93,14 +93,22 @@ it(
           passed.push(`${where}: no Medicare member billed in both`);
           continue;
         }
-        // The law reached those members: a law-reach row names each named
-        // Medicare member and what their bill fell by.
+        // The law reached those members: a law-reach row names each Medicare
+        // member and what their bill fell by.
         const reached = appliedOn(api, QUESTION);
         expect(
           reached.length,
           `${where}: Medicare members reached`,
         ).toBeGreaterThan(0);
-        expect(reached.every((r) => r.target === "person")).toBe(true);
+        // Full members by person, counted members as counted targets that
+        // stand for their household's weight (one model, two tiers).
+        expect(
+          reached.every(
+            (r) =>
+              (r.target === "person" && api.state.people.has(r.targetId)) ||
+              (r.target === "group" && r.count >= 1),
+          ),
+        ).toBe(true);
         process.stdout.write(
           `DRUGS ${where}: ${compared} Medicare members billed ${(-100 * size).toFixed(0)}% less with the law; ${example}. Passed over: ${passed.join("; ") || "none"}\n`,
         );

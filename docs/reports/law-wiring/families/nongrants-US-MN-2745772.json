@@ -625,23 +625,28 @@
       "kind": "question",
       "family": "healthcare",
       "inForceAtOpening": true,
-      "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2026-01-22",
+      "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2025-02-26",
       "lawIds": [
         "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
         "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
-        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2026-01-22:law-wiring-786e7fef-b"
+        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-02-26:law-wiring-786e7fef-b"
       ],
       "openingReach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 12,
+        "countedGroups": 365,
+        "countedPeople": 21525,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 377,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_c9d28072671c5502",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_3c18cec7c6256358",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_11bba9550873ec59",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_b2c15426e39d7a25"
+        ]
       },
       "reach": {
         "fullPeople": 0,
@@ -674,154 +679,104 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/outcome-web.ts:207": 82,
-        "src/core2/medical-bills.ts:486": 24,
-        "src/core2/modules/legislature.ts:4224": 9,
-        "src/core2/life.ts:573": 5
+        "src/core2/modules/outcome-web.ts:208": 10,
+        "src/core2/life.ts:552": 5,
+        "src/core2/medical-bills.ts:490": 2,
+        "src/core2/modules/legislature.ts:4505": 2
       },
       "openingRow": "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
       "money": {
         "direct": [
           {
-            "kind": "accounts.transfer @ src/core2/medical-bills.ts:599",
-            "treatment": 20438923,
-            "control": 20143606,
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+            "treatment": 1218787,
+            "control": 1205061,
             "ids": [
-              "journal:2025-02-01:6067",
-              "journal:2025-02-01:6068",
-              "journal:2025-02-01:6069"
+              "journal:2025-02-01:6297",
+              "journal:2025-02-01:6298",
+              "journal:2025-02-01:6299"
             ]
           }
         ],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
-            "treatment": 564469563,
-            "control": 562471162,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:808",
+            "treatment": 1318889902,
+            "control": 1308618235,
             "ids": [
-              "journal:2025-02-01:3545",
-              "journal:2025-02-01:3546",
-              "journal:2025-02-01:3547"
+              "journal:2025-02-01:3554",
+              "journal:2025-02-01:3555",
+              "journal:2025-02-01:3556"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/medical-bills.ts:599",
-            "treatment": 20438923,
-            "control": 20143606,
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+            "treatment": 1218787,
+            "control": 1205061,
             "ids": [
-              "journal:2025-02-01:6067",
-              "journal:2025-02-01:6068",
-              "journal:2025-02-01:6069"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
-            "treatment": 841945185,
-            "control": 842069125,
-            "ids": [
-              "journal:2025-01-21:851",
-              "journal:2025-01-21:852",
-              "journal:2025-01-21:853"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2952",
-            "treatment": 82427232,
-            "control": 82447609,
-            "ids": [
-              "journal:2025-03-01:11818",
-              "journal:2025-03-01:11819",
-              "journal:2025-03-01:11820"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
-            "treatment": 98310432,
-            "control": 98322569,
-            "ids": [
-              "journal:2025-02-01:1866",
-              "journal:2025-02-01:1869",
-              "journal:2025-02-01:1872"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
-            "treatment": 1732412312,
-            "control": 1732423193,
-            "ids": [
-              "journal:2025-02-01:3568",
-              "journal:2025-02-01:3569",
-              "journal:2025-02-01:3570"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1916",
-            "treatment": 7837299,
-            "control": 7846407,
-            "ids": [
-              "journal:2025-02-04:7011",
-              "journal:2025-02-04:7012",
-              "journal:2025-02-04:7013"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
-            "treatment": 4455034,
-            "control": 4461274,
-            "ids": [
-              "journal:2025-10-01:69196",
-              "journal:2025-10-01:69197",
-              "journal:2025-10-01:69198"
-            ]
-          },
-          {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-            "treatment": 826824021,
-            "control": 826829407,
-            "ids": [
-              "journal:2025-02-01:1526",
-              "journal:2025-02-01:1527",
-              "journal:2025-02-01:1528"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
-            "treatment": 3079458935,
-            "control": 3079461367,
-            "ids": [
-              "journal:2025-01-21:823",
-              "journal:2025-01-21:824",
-              "journal:2025-01-21:825"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
-            "treatment": 37761760,
-            "control": 37763032,
-            "ids": [
-              "journal:2025-02-01:1867",
-              "journal:2025-02-01:1868",
-              "journal:2025-02-01:1870"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1052",
-            "treatment": 82319115086735,
-            "control": 82319115085998,
-            "ids": [
-              "journal:2025-02-01:1073",
-              "journal:2025-02-01:1074",
-              "journal:2025-02-01:1075"
+              "journal:2025-02-01:6297",
+              "journal:2025-02-01:6298",
+              "journal:2025-02-01:6299"
             ]
           }
         ],
-        "diffKinds": 25,
+        "diffKinds": 2,
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 0,
-          "among": "reached",
-          "pairs": [],
+          "targets": 377,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+              "way": "in",
+              "targets": 7,
+              "moved": 13726,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "person_042cb0cc49072846",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_042cb0cc49072846",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -28323,
+                  "control": -26536,
+                  "journal": "journal:2025-02-01:6336"
+                },
+                {
+                  "target": "person_11f8a33a381d6571",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_11f8a33a381d6571",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -36237,
+                  "control": -33338,
+                  "journal": "journal:2025-02-01:6326"
+                },
+                {
+                  "target": "person_41a90a700b366288",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_41a90a700b366288",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -11243,
+                  "control": -10822,
+                  "journal": "journal:2025-02-01:6310"
+                },
+                {
+                  "target": "person_808c435e11b7070d",
+                  "row": "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_808c435e11b7070d",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/medical-bills.ts:620",
+                  "way": "in",
+                  "treatment": -26843,
+                  "control": -24303,
+                  "journal": "journal:2025-02-01:6317"
+                }
+              ]
+            }
+          ],
           "paid": 0,
           "pick": null,
           "sample": [],
@@ -838,12 +793,12 @@
         ],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 122,
+        "people": 93,
         "sample": [
           "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
           "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
@@ -851,16 +806,21 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 12,
+        "countedGroups": 377,
+        "countedPeople": 21537,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 389,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_cf3fc8799748b887",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_c9d28072671c5502",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_6adcb6e495a361b3",
+          "applied|us-federal-positions:health.medicare-drug-price-negotiation|person_3c18cec7c6256358"
+        ]
       },
       "afterUndoChanged": {
         "fullPeople": 0,
@@ -874,7 +834,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 74
+      "seconds": 17
     },
     {
       "key": "budget-line:education",
