@@ -4953,7 +4953,17 @@ const sheets = {
     const labels = controls.politics;
     const party = v.party;
     const mine = party?.member?.name;
-    const keys = v.parties.map((p) => p.party);
+    // Every party the player can read about: the ones that hold office here,
+    // the ones open to join, and the player's own, each once. A party with no
+    // one in office still has its page, so its member sees the membership and
+    // a newcomer can join it.
+    const keys = [
+      ...new Set([
+        ...v.parties.map((p) => p.party),
+        ...(party?.parties ?? []).map((p) => p.name),
+        ...(mine ? [mine] : []),
+      ]),
+    ];
     // One party's page: who holds office for it (cards, paged), and where the player stands
     // with it (registered, or Join).
     const partyPage = (name) => {
