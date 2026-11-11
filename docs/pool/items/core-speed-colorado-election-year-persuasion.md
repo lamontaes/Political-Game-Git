@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-core-speed-colorado-election-year-persuasion
+claimed-by:
 pr: #8418
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:13:27.894Z
+claimed-at:
 branch: claude/pool-core-speed-colorado-election-year-persuasion
 ---
 
@@ -50,3 +50,5 @@ Nov 8 (State Sessions): where the year stands and what did not help. Clean runs 
 Nov 8 (State Sessions), rally listeners as a group (CTO order 1): measured, and there is nothing to group. A CPU profile of Upper Witter Gulch year 4 on main (profile run 192 s, which is the profiler's overhead) puts a speech's audience at 9.1% of the year (`makeStatements`), of which 6.7% is the speech step and 0.9% the campaign engine's own retelling. Inside the speech step 5.0% is the shared event path that each witness runs on their own (views 0.7% at most for any one call, drives, observations, table writes), and 0.4% each listener's own keep-or-retell choice. No call is above 0.7% of the year, and each listener's cost comes from their own stance, traits and household, so no two listeners share an input. Grouping them would need a result cache keyed on every one of those inputs, which saves under a second and puts the rule ("each person gets exactly the result they'd get alone") at risk. Not built. The year's biggest single cost is memory work: the garbage collector is 25% of the profile, which is the same cause as Montpelier's year 4 (`core-speed-montpelier-snap-scope-memory`).
 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:13 UTC) on branch claude/pool-core-speed-colorado-election-year-persuasion.
+
+Released (2026-11-11): Year 4 is 63.4 s on main 0afb9a2262 (bar 120 s); nothing to cut (PR #8418). Continue on branch claude/pool-core-speed-colorado-election-year-persuasion and pull request #8418.
