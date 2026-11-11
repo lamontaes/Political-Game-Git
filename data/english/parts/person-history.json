@@ -4788,15 +4788,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.when.year-back",
-      "move": "story",
-      "text": "Back in {year},",
-      "origin": "authored",
-      "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
-      "date": "2026-11-11",
-      "kind": "written"
-    },
-    {
       "key": "person-history.when.same-year",
       "move": "story",
       "text": "That same year,",

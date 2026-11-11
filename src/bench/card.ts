@@ -805,7 +805,6 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     number,
     { year: string; when: string | undefined; framed: boolean }
   >();
-  let toldBefore = false;
   return folded.flatMap((line) => {
     // The same record twice (a move the person's own facts and the moves
     // engine both keep, a school started twice) is said once.
@@ -880,8 +879,6 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
           ? ["person-history.when.same-year"]
           : [
               "person-history.when.year",
-              // "Back in" opens only a story's first sentence (lead, Nov 11).
-              ...(toldBefore ? [] : ["person-history.when.year-back"]),
               // Only after the first sentence: "Then in 2008, ...".
               ...(lastYear !== undefined
                 ? [
@@ -910,7 +907,6 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       }
     }
     before.set(group, { year, when: whenKey ?? lastWhen, framed });
-    toldBefore = true;
     // The story names them in the first sentence that says who it is about.
     if (first && partText("person-history", wording.key).includes("{who}"))
       named = true;
