@@ -114,6 +114,7 @@ Either way, comment once on the pull request, starting "Seen:" or "Not seen:", w
 - Never ask for "a record exists" or "the test passes" alone.
 - Open the screen yourself before you write its steps. On Nov 10 two checks named a "Laws panel" that does not exist and asked for a state row where the table has state columns; the second session had to say what it used instead.
 - Do the whole check yourself once before you hand it over, in a played world, and write the steps from what you did. On Nov 10 a check asked a second session to meet a neighbor and watch them go back to the counts after 240 days. It could not happen: a person the player talks to joins the player's circle, and the circle is kept as full people on purpose. The check came back "not seen" for a fix that worked.
+- **An item whose pull request merged but that still says `in-pr` or `claimed` cannot be recorded, and a second session does not wait on it (Nov 11).** `pool seen` refuses anything that is not `merged`, and the command that flips an item pushes to main, which a second session may not do. Tell the orchestrator and go on to the next group. The orchestrator flips the item in a pool-only pull request with `npm run pool -- status <id> merged --pr <n> --no-push` (every pool command takes `--no-push`); on Nov 11 a second session sat in a loop for an hour over five such items.
 
 ## When `seen` says "claimed, not merged"
 
