@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-wire-law-links-to-people-part-3-effects-families-6-to-9
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:27:19.197Z
+branch: claude/pool-wire-law-links-to-people-part-3-effects-families-6-to-9
 ---
 
 **What.** Part of wire-law-links-to-people. Families 6 to 9 of the Oct 29 effects plan (sentencing law, place prices, child health, births into credit) are unread links: the research exists but no engine reads the measure, so the law's effect stops at a record. Each family is one PR, proven in two drawn places, with the matrices regenerated once. Seen: a person's place prices, child health and credit after a law (the sentencing family waits on the crime system).
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** docs/reports/effects-web-plan-2026-10-29.md, src/core2/data/outcome-web/unwired.json, scripts/outcome-web/effect-matrix.ts, src/core2/modules/outcome-web.ts
+
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:27 UTC) on branch claude/pool-wire-law-links-to-people-part-3-effects-families-6-to-9.
