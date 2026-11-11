@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-opening-evening-talk-raises-what-the-president-said
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: high
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026, on the first evening's talk in the strip pull request's picture (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine")
 checked: fable 2026-11-11
+claimed-at: 2026-11-11T06:35:25.037Z
+branch: claude/pool-words-opening-evening-talk-raises-what-the-president-said
 ---
 
 **What.** A new life opens on the President's address, and that evening a relative talks about it. Today the relative says one of 23 fixed sentences ("I've heard those promises too many times.") and the player picks from four fixed replies, the same in every town and whatever the President said. The owner ruled that this is the demonstration of the game: the relative raises a real thing the President said in this world's address, and where they stand on it from their own views, job and town, composed by the English engine in many versions with inserts from the records. Seen: the first evening at home, in the talk box, after the President's address.
@@ -48,3 +50,5 @@ checked: fable 2026-11-11
 **Files.** src/director/conversation.ts, src/director/opening-facts.ts, src/director/opening-story.ts, src/director/data/conversation-rules.json, src/director/conversation-address-talk.test.ts, src/director/household-talk.test.ts, src/director/reply-set-check.ts, src/english/conversation-words.ts, src/english/english-composition.ts, src/core2/modules/views.ts, src/core2/trait-decisions.ts, data/english/parts/conversation.json, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423. The words split of Nov 10 gives the lines under data/english/parts to the Story session; the CTO was told on issue 7365 that the builder drafts these parts in the pull request with `Review: words` unless he says the Story session writes them. Twenty-five of the President's named federal questions have no axis, so `personStance` reads 0 on them (the cause is in pull request 8589); where the raised point is one of those, the stand falls to `unsure` and the reason carries the line. That night's news about the address is its own item, words-opening-night-news-names-what-the-president-said. Before pictures of today's talk are in docs/seen/strip-of-busts/after-talk.png.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:35 UTC) on branch claude/pool-words-opening-evening-talk-raises-what-the-president-said.
