@@ -70,5 +70,17 @@
     "addedAt": "2026-11-10",
     "replacement": "Results mode opens every engine's records on the skip's first day (a start hook in life.ts that runs once per world before the first skipped day), so the health engine books its calendar days from the opening and no booked day is passed over.",
     "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-counted-part-death-no-estate",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-counted.ts",
+    "line": 614,
+    "whatItFakes": "When a counted record dies in part (an illness in some of the households it stands for), the record stands for that many fewer households and the people who lived with the dead join the group's other households, but nothing passes as an estate, no death notice reaches the survivors, and the jobs the dead and their households held end with the record's weight instead of by the jobs engine's separation.",
+    "why": "A part of a record has no person of its own: the estate, the notice and the separations all read one person or one household, and the record stands for many.",
+    "addedBy": "opus-5234 (core-counted-deaths-opening-small-town-red)",
+    "addedAt": "2026-11-11",
+    "replacement": "A part death settles the share's estate through the estates engine at the record's per-household wealth times the share, emits the counted death to the surviving households it joined, and ends the share's jobs through the jobs engine's separation.",
+    "status": "open"
   }
 ]
