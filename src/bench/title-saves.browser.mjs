@@ -39,7 +39,7 @@ try {
       async () => (await (await fetch("/api/title")).json()).life?.face,
     );
     assert.equal(
-      await page.locator("#sheet .saves-row .mxbust img").count(),
+      await page.locator("#sheet .saves-row .mxbust .bust-stack").count(),
       face ? 1 : 0,
     );
   } else assert.ok(await page.locator("#sheet .saves-none").count());
