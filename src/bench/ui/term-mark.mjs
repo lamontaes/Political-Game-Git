@@ -126,7 +126,11 @@ function wordFor(text, key, isLearned, hooks) {
   });
   word.addEventListener("blur", () => hooks.onLeave());
   word.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") hooks.onClose?.();
+    if (event.key === "Escape") {
+      // The term's card is the top thing open: this press closes it and no more.
+      event.stopPropagation();
+      hooks.onClose?.();
+    }
     if (event.key === "Enter") hooks.onOpen(text);
   });
   word.addEventListener("click", () => hooks.onOpen(text));

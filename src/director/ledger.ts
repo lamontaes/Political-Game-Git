@@ -1716,7 +1716,15 @@ export function createDirector(
       role: string | undefined,
     ) => row.roles.find((r) => r.role === role)?.personIds[zero];
     return entry.bindings.some((row) => {
-      const type = SITUATION_LIBRARY.types.find((t) => t.key === row.typeKey);
+      // The library's rows carry the purpose talk's fields too (PurposeType).
+      const type = SITUATION_LIBRARY.types.find(
+        (t) => t.key === row.typeKey,
+      ) as
+        | ((typeof SITUATION_LIBRARY.types)[number] & {
+            purpose?: string;
+            asked?: string;
+          })
+        | undefined;
       // A purpose talk speaks when the one who asks, and the one asked, are
       // people on record: the same cast the purpose scene composes from.
       if (type?.purpose) {
