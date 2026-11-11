@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-people-cause-shared-daily-repeat
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:37:45.903Z
 after:
 standard: 2
 model: sonnet
@@ -18,6 +18,7 @@ effort: low
 root: none
 lead: lives
 checked: fable 2026-11-10
+branch: claude/pool-people-cause-shared-daily-repeat
 ---
 
 **What.** In a played year of Euharlee, Georgia (seed life-2), Nicholas Phillips shared the same cause with the same neighbor, the mayor, every day from May 5 to May 11, 2025. The drives engine is built to tell each person once: its drive-confidant offer skips anyone already in the drive's told set and the share effect adds the target to that set. So either the told set is not kept across days, a second drive on the same topic offers the same person again, or another path produces the repeat. A worker must reproduce the week before changing anything. Seen: a neighbor hearing the same cause from the same person every day, in talks and the Journal.
@@ -45,3 +46,5 @@ Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `cla
 **Notes (re-run, 2026-11-11, main 79d23fa596).** Skipped: the item names no command, only a played year (Euharlee, Georgia, seed life-2) and no test or script to run. Nothing was run.
 
 Nov 11 (cause finder for Fable B): reproduced on main d64255aa in Euharlee (seed life-2) with a probe that read `drivesReport` and each drive's `told` set; the probe was undone. The repeat comes from the free-time plan replaying one scored share on each later day, not from the drive forgetting whom it told.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:37 UTC) on branch claude/pool-people-cause-shared-daily-repeat.
