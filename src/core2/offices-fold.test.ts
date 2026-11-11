@@ -12,6 +12,7 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { findRecord } from "../bench/dev-trace";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -99,6 +100,11 @@ describe(`ended terms fold into their seat's past (${where})`, () => {
       expect(folded?.endDate, `${where}: ${id} lost its end`).toBeTruthy();
     }
     expect(termById(api, first.id)?.identity, where).toEqual(first.identity);
+    // Dev mode's trace finds a folded term inside its seat's summary.
+    expect(
+      findRecord(core, first.id)?.engine,
+      `${where}: the trace lost ${first.id}`,
+    ).toBe(`${OFFICES_MODULE_ID}.seatPasts`);
     expect(
       terms.get(third),
       `${where}: newest ended term folded`,

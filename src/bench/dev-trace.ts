@@ -5,6 +5,7 @@
  * learned of it" is its own kind. Read-only: it finds what the core and its
  * engines saved; it writes nothing and spends no time.
  */
+import { OFFICES_MODULE_ID, termById } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
@@ -543,6 +544,7 @@ class Lookup {
       countedRecord(core, id) ??
       inStores(core, ENGINE_STORES, id) ??
       this.moduleRow(id) ??
+      foldedTerm(core, id) ??
       this.moment(id) ??
       cashAccount(core, id) ??
       obligation(core, id) ??
@@ -668,6 +670,23 @@ class Lookup {
  * accounts, the simulated past. An id none of them keeps still answers when
  * it is made of ids they do keep (`id-parts`).
  */
+/**
+ * An office term folded into its seat's past: found by its id inside the
+ * seat's summary, as the whole ended row it was (the CTO's ruling, Nov 1,
+ * 23:40).
+ */
+function foldedTerm(core: CoreState, id: string): FoundRecord | undefined {
+  if (!id.startsWith("term:")) return undefined;
+  const term = termById(coreAPI(core), id);
+  return term
+    ? {
+        engine: `${OFFICES_MODULE_ID}.seatPasts`,
+        kind: "terms",
+        record: term,
+      }
+    : undefined;
+}
+
 export function findRecord(
   core: CoreState,
   id: string,
