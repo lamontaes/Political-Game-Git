@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, plays until a death leaves an estate (the Journal or the News names one), opens the heir's card and reads a sentence naming who left it and the year; Trace on it opens the estate's record.
 
-**Waits on.** Pull request 8139 on main. The sentence from Story.
+**Waits on.** Nothing. Pull request #8139 is on main. The build does not wait for the sentence: its pull request names the bank spot, and Story writes it after.
 
 **Files.** src/core2/person-life.ts (new)

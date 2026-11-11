@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, plays a year and finds a talk in which someone brings up an event from their life or the player's. Dev mode's Trace on that line opens the remembered event, and the same event is a sentence on that person's card. It takes a screenshot of the talk and the card.
 
-**Waits on.** Pull requests 8115, 8123 and 8139 on main. Lines from Story for the spots the pull request names.
+**Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123). The build does not wait for lines: its pull request names each spot that needs them, and Story writes them after.
 
 **Files.** src/director/bring-it-up.ts, src/director/conversation.ts, src/core2/person-life.ts (new)
