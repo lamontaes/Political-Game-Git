@@ -54,7 +54,7 @@ import {
   setColorBlind,
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
-import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
@@ -3029,12 +3029,24 @@ async function seatRows() {
         });
       },
     });
+    // The body's line on the board: who sits on it, and the way in to writing
+    // a bill, which takes the whole screen (a list of subjects beside the
+    // chosen one's page). A menu has no Back (owner, Oct 28 and 29): the Your
+    // office tab above it returns to the seat.
+    const write = makeButton({
+      className: "action",
+      textContent: seat.title ?? "",
+    });
+    write.dataset.act = "write-a-bill";
+    write.addEventListener("click", () =>
+      $("sheet-body").replaceChildren(draftBlock),
+    );
     draftNodes.push(
       stripSection(
         2,
         body.title,
         line(body.members.map((m) => m.name).join(" · ")),
-        draftBlock,
+        buttonRow(write),
       ),
     );
   }
@@ -3165,20 +3177,28 @@ async function ownHistory() {
   return card.history ?? [];
 }
 /** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
+/**
+ * A tab of the You group as the approved strip screen: the player's name and
+ * the one bust every tab of the group shows (the card's own face record), with
+ * the tab's sections beside it. No whole figure stands beside a menu (owner,
+ * Nov 7).
+ */
+function ownStrip(columns) {
+  const c = me.card;
+  return stripScreen({
+    name: c.name,
+    role: c.job
+      ? [c.job.title, c.job.employer].filter(Boolean).join(", ")
+      : `${controls.who.age} ${c.age}`,
+    face: c.face ?? null,
+    columns,
+  });
+}
 function lifeParagraphs(lines) {
   // Dev mode: each sentence opens its record in the one Trace box, drawn under the story.
   if (!devModeOn()) return lifeStory(lines, controls.lifeGroups);
   const { node, open } = traceBox(controls.devTrace.trace);
   return [...lifeStory(lines, controls.lifeGroups, open), node];
-}
-function portraitUrl() {
-  // The created look when there is one; else the figure the scene draws you
-  // with, or the one your card's face is cut from (a life started anywhere
-  // but the creator, who is not standing in their own scene).
-  return me.portrait
-    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
-        me.card?.face?.url);
 }
 /** A record image has no substitute when its producer has not supplied one. */
 
@@ -3427,7 +3447,8 @@ const sheets = {
     const job = me.card.job;
     const life = await ownHistory();
     const worked = life.filter((h) => h.kind === "work" || h.kind === "school");
-    const work = plate(
+    const work = stripSection(
+      1,
       labels.work,
       ...(job
         ? [
@@ -3458,16 +3479,22 @@ const sheets = {
     );
     work.classList.add("job-plate");
     return [
-      work,
-      ...(worked.length
-        ? [plate(labels.workAndSchool, ...lifeParagraphs(worked))]
-        : []),
+      ownStrip([
+        [work],
+        worked.length
+          ? [stripSection(2, labels.workAndSchool, ...lifeParagraphs(worked))]
+          : [],
+      ]),
     ];
   },
   // Your own life as sentences, the same lines a person's card tells of anyone you open.
   async history() {
     const life = await ownHistory();
-    return [plate(null, ...lifeParagraphs(life))];
+    return [
+      ownStrip([
+        [stripSection(1, controls.titles.history, ...lifeParagraphs(life))],
+      ]),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3765,10 +3792,7 @@ const sheets = {
                       party: gov.executive.party,
                       post: gov.executive.title,
                       onOpen: () =>
-                        showPerson({
-                          personId: gov.executive.cardId,
-                          figureUrl: gov.executive.face?.url,
-                        }),
+                        showPerson({ personId: gov.executive.cardId }),
                     }),
                   ),
                 ]
@@ -4257,7 +4281,7 @@ const sheets = {
                 face: f.face,
                 onOpen: () => {
                   closeSheet();
-                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+                  showPerson({ personId: f.cardId });
                 },
               }),
               ...f.stances.map((st) =>
@@ -4484,9 +4508,9 @@ const sheets = {
         text ?? "",
       );
     const short = (iso) => dateWords(iso, { month: "short", year: today() });
-    const open = (cardId, face) => () => {
+    const open = (cardId) => () => {
       closeSheet();
-      showPerson({ personId: cardId, figureUrl: face?.url });
+      showPerson({ personId: cardId });
     };
     const stateName = (key) =>
       key === gov.homeState?.key
@@ -4510,7 +4534,7 @@ const sheets = {
           line,
           party: m.party,
           face: m.face,
-          onOpen: open(m.cardId, m.face),
+          onOpen: open(m.cardId),
         },
         { large },
       );
@@ -4704,10 +4728,7 @@ const sheets = {
                         party: chief.members[0].party,
                         post: chief.title,
                         line: sinceLine(chief.members[0]),
-                        onOpen: open(
-                          chief.members[0].cardId,
-                          chief.members[0].face,
-                        ),
+                        onOpen: open(chief.members[0].cardId),
                       }),
                     ),
                   ]
@@ -4728,7 +4749,7 @@ const sheets = {
           o.members.map((m) => ({
             name: m.name,
             relation: o.title,
-            onOpen: open(m.cardId, m.face),
+            onOpen: open(m.cardId),
           })),
         ),
       );
@@ -4754,7 +4775,7 @@ const sheets = {
                         party: head.party,
                         post: chief.title,
                         line: sinceLine(head),
-                        onOpen: open(head.cardId, head.face),
+                        onOpen: open(head.cardId),
                       }),
                     ),
                   ]
@@ -4994,10 +5015,7 @@ const sheets = {
                     face: s.face,
                     onOpen: () => {
                       closeSheet();
-                      showPerson({
-                        personId: s.cardId,
-                        figureUrl: s.face?.url,
-                      });
+                      showPerson({ personId: s.cardId });
                     },
                   }),
                 rows: Math.max(
@@ -5275,10 +5293,12 @@ async function openSheet(tab) {
     tab === "options" || !$("front").hidden,
   );
   const character = groupOf(tab) === "who";
-  // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
+  // You carries its own bust (the approved strip screen). Jobs and study and
+  // Your life are strip screens too: no full-body figure stands beside a menu
+  // (owner, Nov 7: "let's just do the busts"; Nov 10: "start removing the people").
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" ||
+    character ||
       tab === "budgets" ||
       tab === "metrics" ||
       tab === "journal" ||
@@ -5286,21 +5306,6 @@ async function openSheet(tab) {
       tab === "campaign" ||
       tab === "calendar" ||
       tab === "news",
-  );
-  $("sheet").classList.toggle("character-sheet", character && tab !== "who");
-  $("sheet-media").hidden = !character || tab === "who";
-  fillArtwork(
-    $("sheet-media"),
-    character
-      ? {
-          portraitUrl:
-            me.card.presentation?.portraitUrl !== undefined
-              ? me.card.presentation.portraitUrl
-              : portraitUrl(),
-          backgroundUrl: me.card.presentation?.backgroundUrl,
-          name: me.card.name,
-        }
-      : {},
   );
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.remove("place-view", "compact", "tight");
@@ -5315,7 +5320,6 @@ async function openSheet(tab) {
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "news"].includes(tab) &&
-      (!character || tab === "who") &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
