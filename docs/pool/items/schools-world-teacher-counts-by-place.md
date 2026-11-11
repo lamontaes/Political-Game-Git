@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** The teacher minimum's record counts the teachers each generated world gives the town's public schools. In Washington, D.C. (1150000, world seed d5005a7c6bd3a520-0) it holds 79 teachers, 3 named and a counted group of 76, while in Hobart Bay, Alaska (0232550, world seed f5224bf8731ff0e3614347be20f865fb6493a9f3c57783ce36dba2a764376773) the counted teachers number 99 (found in the health-schools family test, Oct 25). Nobody has traced why a city has fewer teachers than a near-empty place. How a place's public school staff is sized against its enrollment is where to look.
+**What.** The teacher minimum's record counts the teachers each generated world gives the town's public schools. In Washington, D.C. (1150000, world seed d5005a7c6bd3a520-0) it holds 79 teachers, 3 named and a counted group of 76, while in Hobart Bay, Alaska (0232550, world seed f5224bf8731ff0e3614347be20f865fb6493a9f3c57783ce36dba2a764376773) the counted teachers number 99 (found in the health-schools family test, Oct 25). Nobody has traced why a city has fewer teachers than a near-empty place. How a place's public school staff is sized against its enrollment is where to look. Seen: the school's teacher count in a place's school and budget numbers, where Washington, D.C. has fewer teachers than a near-empty Alaska place.
 
 **Cause.** Needs cause. Looked at src/core2/public-pay-floor.ts near line 305: it reads the counted-teacher jobs each organization already holds and applies the teacher minimum, and does not size them, so the sizing happens in world generation and has not been found.
 

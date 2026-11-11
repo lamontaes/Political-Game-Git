@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-speech-heard-occasion
+pr: #8497
 after:
 blocked-on:
 model: sonnet
@@ -16,7 +16,7 @@ effort: medium
 root: design-life-record
 lead: words
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T02:24:38.141Z
 checked: fable 2026-11-10
 ---
 

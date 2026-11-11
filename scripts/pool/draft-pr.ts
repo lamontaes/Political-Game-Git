@@ -11,6 +11,17 @@ export const NOTE_PLACEHOLDER =
 export const releaseNote = (id: string): string =>
   `---\nid: ${id}\nimpact: none\n---\n\n${NOTE_PLACEHOLDER}\n`;
 
+/**
+ * The id a new branch's release note takes: the item's own id when no released
+ * change or change file on main uses it, else the item's id with -2, -3 and so
+ * on until one is free (an item sent back or reopened already has a merged note).
+ */
+export function chooseNoteId(id: string, used: ReadonlySet<string>): string {
+  let pick = id;
+  for (let n = 2; used.has(pick); n++) pick = `${id}-${n}`;
+  return pick;
+}
+
 /** The sections of the item the body carries under "The item as claimed". */
 const CLAIMED = [
   "What",

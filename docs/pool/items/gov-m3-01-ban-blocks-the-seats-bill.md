@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: pool/gov-m3-01-ban-blocks-the-seats-bill
 pr: #8251
 blocked-on:

@@ -5,10 +5,10 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-every-test-file-loads
-pr:
+pr: #8327
 after:
 blocked-on:
 lead: cto
