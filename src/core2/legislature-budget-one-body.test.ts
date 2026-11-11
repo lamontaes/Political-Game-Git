@@ -68,8 +68,12 @@ it(`the executive over the body that votes a city's budget proposes its changes 
     }
     // No mayor office at the city's own level: the case is a city whose
     // mayor is modeled as a state-level office (its council is the state's body).
+    const stateGov = governments(api).find((g) => g.level === "state");
     const mayor = offices.find(
-      (o) => o.kind === "mayor" && o.level === "state",
+      (o) =>
+        o.kind === "mayor" &&
+        o.level === "state" &&
+        o.jurisdiction === stateGov?.id,
     );
     if (!mayor) {
       passedOver.push(`${where}: no city-level mayor and no state-level mayor`);
