@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** The monthly founding pass sorts the markets by score and returns out of the function on the first founding, so a market that wins every month keeps every other market from being evaluated. In Cochituate, Massachusetts that left no market but manufacturing ever tried from April on. Evaluate every market each month, so a founding in one does not stop a founding in another.
+**What.** The monthly founding pass sorts the markets by score and returns out of the function on the first founding, so a market that wins every month keeps every other market from being evaluated. In Cochituate, Massachusetts that left no market but manufacturing ever tried from April on. Evaluate every market each month, so a founding in one does not stop a founding in another. Seen: the town's business list, where one founding in a month no longer blocks every other market from getting a new business.
 
 **Cause.** Found in code: src/core2/modules/business.ts `foundings` (line 1721) returns on the first founding ("a founding returns out of this function" in its own comment), so later markets in the sorted list are never evaluated that month.
 

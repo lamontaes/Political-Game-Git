@@ -19,7 +19,7 @@ source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** The owner ruled on Oct 24 that sex and race go on each person's record (OWNER-DECISIONS.md, "Sex and race on the record"). Sex is recorded today; race is not. Give each full person a race drawn from the place's Census shares when the world generates who exists, consistent within a household by the data, and give counted groups the same shares times their count.
+**What.** The owner ruled on Oct 24 that sex and race go on each person's record (OWNER-DECISIONS.md, "Sex and race on the record"). Sex is recorded today; race is not. Give each full person a race drawn from the place's Census shares when the world generates who exists, consistent within a household by the data, and give counted groups the same shares times their count. Feeds: people-protected-traits-on-record.
 
 **Cause.** Design: owner ruling Oct 24, 2026, "Sex and race on the record" (docs/coordination/OWNER-DECISIONS.md); PersonInput in src/core2/types.ts carries no race.
 

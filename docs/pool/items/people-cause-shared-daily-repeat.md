@@ -20,7 +20,7 @@ lead: lives
 checked: fable 2026-11-10
 ---
 
-**What.** In a played year of Euharlee, Georgia (seed life-2), Nicholas Phillips shared the same cause with the same neighbor, the mayor, every day from May 5 to May 11, 2025. The drives engine is built to tell each person once: its drive-confidant offer skips anyone already in the drive's told set and the share effect adds the target to that set. So either the told set is not kept across days, a second drive on the same topic offers the same person again, or another path produces the repeat. A worker must reproduce the week before changing anything.
+**What.** In a played year of Euharlee, Georgia (seed life-2), Nicholas Phillips shared the same cause with the same neighbor, the mayor, every day from May 5 to May 11, 2025. The drives engine is built to tell each person once: its drive-confidant offer skips anyone already in the drive's told set and the share effect adds the target to that set. So either the told set is not kept across days, a second drive on the same topic offers the same person again, or another path produces the repeat. A worker must reproduce the week before changing anything. Seen: a neighbor hearing the same cause from the same person every day, in talks and the Journal.
 
 **Cause.** Needs cause. Looked at src/core2/modules/drives.ts: the confidant offer skips people in the drive's told set (untold) and the share adds the target to it, so one drive should not repeat; the repeat must come from a second drive for the same topic or another path, and it has not been reproduced.
 

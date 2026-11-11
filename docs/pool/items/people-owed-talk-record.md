@@ -19,7 +19,7 @@ root: design-life-record
 checked: fable 2026-11-10
 ---
 
-**What.** Today a reply such as "Give me tonight. Sunday we sit down with the bills." is stored as a scene reply with its line and move, and nothing records that a talk is owed, to whom, about what or for which day. The closing lines "We'll talk more later." and "I'll see you later." write nothing either. This item adds the record, written by the relationships writer when a reply defers a matter to a day, with the person owed, the topic (money or evenings, from the stake record), the due day, and closed or moved when they next talk.
+**What.** Today a reply such as "Give me tonight. Sunday we sit down with the bills." is stored as a scene reply with its line and move, and nothing records that a talk is owed, to whom, about what or for which day. The closing lines "We'll talk more later." and "I'll see you later." write nothing either. This item adds the record, written by the relationships writer when a reply defers a matter to a day, with the person owed, the topic (money or evenings, from the stake record), the due day, and closed or moved when they next talk. Seen: a talk the player or a neighbor put off, coming due on the promised day.
 
 **Cause.** Design: docs/design/scenes/from-life/owed-talk-comes-due.md and docs/design/life-record.md (the relationships writer keeps a short list of what a person went through).
 

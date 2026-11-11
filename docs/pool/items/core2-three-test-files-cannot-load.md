@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 lead: play-first
 model: sonnet
@@ -26,7 +26,7 @@ source: added with npm run pool -- add
 
 **Time box.** 3 hours
 
-**Rules.** Red main comes first: follow .agents/skills/red-main/SKILL.md. Never skip or weaken a test; fix the import order at the root.
+**Rules.** Red main comes first: follow .agents/skills/red-main/SKILL.md. Never skip or weaken a test; fix the import order at the root. Ask why: each fix names the import that entered the two engines by the wrong door, by file and line, so the cause is on the pull request.
 
 **Done when.** The three test files load and their tests pass, with each run naming its place and seed where it draws one. A second session on main runs the three test files and sees them pass; this is a check, so no drawn place of the game applies.
 

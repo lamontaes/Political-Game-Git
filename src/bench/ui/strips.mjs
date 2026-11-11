@@ -122,7 +122,7 @@ export function introText(...parts) {
  * (`groups`: the kinds that belong together, in the order they are read), one
  * paragraph in the story face for each group, each sentence on its record.
  */
-export function lifeStory(lines, groups) {
+export function lifeStory(lines, groups, onOpen) {
   const at = new Map(
     groups.flatMap((kinds, i) => kinds.map((kind) => [kind, i])),
   );
@@ -136,6 +136,20 @@ export function lifeStory(lines, groups) {
         ...rows.flatMap((row, i) => {
           const sentence = el("span", { textContent: row.text });
           sentence.dataset.record = row.recordId;
+          // Dev mode only: the sentence opens its record in the one Trace box.
+          if (onOpen && row.recordId) {
+            const open = () => onOpen(row.recordId);
+            sentence.classList.add("pick");
+            sentence.tabIndex = 0;
+            sentence.setAttribute("role", "button");
+            sentence.addEventListener("click", open);
+            sentence.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                open();
+              }
+            });
+          }
           return i ? [" ", sentence] : [sentence];
         }),
       ),

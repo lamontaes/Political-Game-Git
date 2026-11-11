@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: dropped
 claimed-by:
-pr: #5926
+pr: #8399
 blocked-on:
 standard: 2
 model: opus
@@ -18,11 +18,12 @@ source: added with npm run pool -- add
 claimed-at:
 after:
 checked: fable 2026-11-10
+branch: claude/pool-gov-outside-revenue-fees
 ---
 
 **What.** Charges, fees and miscellaneous general revenue (tuition at public colleges, hospital and park charges, transit fares, permits, utility charges) reach each treasury today as an even twelfth of Census revenue from the outside account, with nobody paying them. Replace that share so each charge is paid by the households and businesses that use the service, on the day they use it, at the price the law and the budget set, into the treasury of the government that runs it. The player would notice that raising a park or transit fee costs the people who use the park or ride, and that a fee nobody uses brings in nothing.
 
-**Cause.** Found in code: src/core2/modules/budgets.ts function closeMonth (line 1006, marker at line 1010) credits each treasury an even twelfth of Census revenue from the outside account, and src/core2/data/outside-flows.json marks those rows plug; the public-safety permit-fee transfers (src/core2/public-safety.ts, near line 1648) match no row in check 6 of scripts/core2-year/closures.mjs.
+**Cause.** Needs cause. Checked Nov 11 by opus-5251 (PR #8399): the cause below no longer holds on main. `outsideRevenueMonthly` (src/core2/budgets-treasury.ts) skips lines with named payers, `chargesAndFees` is paid by `service-users` as `treasury-charges` (src/core2/data/budgets/revenue-payers.json, outside-flows.json), and the permit fee is levied on named payers (src/core2/public-safety.ts `levy`). What may remain (per-use charges for town households, any unmatched fee dollars in closures.mjs check 6) needs a measured run. The earlier text: Found in code: src/core2/modules/budgets.ts function closeMonth (line 1006, marker at line 1010) credits each treasury an even twelfth of Census revenue from the outside account, and src/core2/data/outside-flows.json marks those rows plug; the public-safety permit-fee transfers (src/core2/public-safety.ts, near line 1648) match no row in check 6 of scripts/core2-year/closures.mjs.
 
 **Fix.** Charge each fee to the households and businesses that use the service, on the day of use at the price the law and budget set, into the issuing government's treasury. Include the public-safety permit fee (taken from the dropped gov-permit-fee-to-treasury). Delete the fee share of the monthly plug.
 
@@ -41,5 +42,13 @@ checked: fable 2026-11-10
 Oct 20: gov-outside-revenue-fees-wiring is done, so the item no longer waits on it.
 
 Sent back 2026-10-24 UTC from PR #5926 (branch claude/outside-revenue-fees): council fee-change acceptance explicitly unmet and aggregate budget twelfths do not prove per-use payer chain; fee-family permit closure follow-up needs named tracking or valid bounded scope; finish on that branch, merge main into it first.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:51 UTC) on branch claude/pool-gov-outside-revenue-fees.
+
+Released (2026-11-11): Cause no longer matches main: chargesAndFees already has named payers (treasury-charges) and is skipped by the monthly plug; the permit fee is levied on named payers; see PR #8399. Continue on branch claude/pool-gov-outside-revenue-fees and pull request #8399.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:52 UTC) on branch claude/pool-gov-outside-revenue-fees.
+
+Released (2026-11-11): Cause no longer matches main (see PR #8399); set to Needs cause. Continue on branch claude/pool-gov-outside-revenue-fees and pull request #8399.
 
 Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Fee payment by use is already built in the done items gov-outside-revenue-fees-wiring, -named-payers and -data; what is left is removing an outside share nobody reads.
