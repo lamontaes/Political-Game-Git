@@ -6346,7 +6346,7 @@ export interface SteppedUpRow {
   readonly date: string;
   /** The poll or word row the candidate read (`polls` or `rivalWord`). */
   readonly sourceRecordId: string;
-  readonly sourceKind: "poll" | "word";
+  readonly sourceKind: "poll" | "word" | "doors";
   readonly rivalId: string;
   readonly ownShare: number;
   readonly rivalShare: number;
