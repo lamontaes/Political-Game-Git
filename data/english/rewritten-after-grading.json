@@ -1,5 +1,5 @@
 {
-  "about": "Lines the owner graded in batch 2 or 3 that a later pass rewrote with his lessons (owner, Nov 9, batch 3 by voice): the key and the text as he graded it. The batch tests accept a bank line that matches this text instead of the shipped one. A key listed under deleted is a line a later pass removed outright (the journal's \"after ... out of work\" lines, which became small stories): his grade stays in the grade file and the ledger, and no piece is left to weigh.",
+  "about": "Lines the owner graded in batch 2 or 3 that a later pass rewrote with his lessons (owner, Nov 9, batch 3 by voice): the key and the text as he graded it. The batch tests accept a bank line that matches this text instead of the shipped one. A key listed under deleted is a line a later pass removed outright (the journal's \"after ... out of work\" lines, which became small stories): his grade stays in the grade file and the ledger, and no piece is left to weigh. The person-history story's born-in-a-place lines were removed by the life record, step 1 (#8115, Nov 10), which tells a birth in the card's summary line instead (person-history.summary.born.place: born in {place} in {year}).",
   "rewritten": {
     "bring-it-up.your-bill-failed-act.subject-says-your-bill-didnt-pass-im-sor": "{subject} says your bill didn't pass. I'm sorry.",
     "journal.work-line-again.after-span-out-of-work-i-found-work-in-place": "After {span} out of work, I found work in {place}.",
@@ -18,11 +18,17 @@
     "scene-talk.follow-bargain.your-amendment-gets-a-vote-next-week-that-s-what-s-on-the-table": "Your amendment gets a vote next week. That's what's on the table.",
     "scene-talk.follow-bargain.your-district-s-money-stays-in-the-budget-that-s-what-i-ve-got": "Your district's money stays in the budget. That's what I've got.",
     "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
-    "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow": "Send me the list. I'll answer tomorrow."
+    "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow": "Send me the list. I'll answer tomorrow.",
+    "person-history.story.born.place.third": "{who} was born in {place}.",
+    "person-history.story.born.place.they": "They were born in {place}.",
+    "person-history.story.born.place.you": "You were born in {place}."
   },
   "deleted": [
     "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
     "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
-    "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer"
+    "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer",
+    "person-history.story.born.place.third",
+    "person-history.story.born.place.they",
+    "person-history.story.born.place.you"
   ]
 }
