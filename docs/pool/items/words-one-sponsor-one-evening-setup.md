@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-one-sponsor-one-evening-setup
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ effort: medium
 root: rc2-done-from-records
 lead: director
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T01:35:03.469Z
 branch: claude/pool-words-one-sponsor-one-evening-setup
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-words-one-sponsor-one-evening-setup
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:15 UTC) on branch claude/pool-words-one-sponsor-one-evening-setup.
 
 Released (2026-11-11): Tried staging two bills of one sponsor with draftBill + placeOnAgenda in the test: upcomingMeeting(api, state chamber) returned nothing in 150 days in 6 drawn places (Declo ID, Sand Pillow WI, Sweet Home AR, Scappoose OR, Briar Chapel NC, Pinehurst ID, seed fd20a2a4fc1f6997), so bills cannot be placed that way; the floor-day source of floorAgendaOn needs reading first. A 240-day draw also ran out of memory. No code pushed. Continue on branch claude/pool-words-one-sponsor-one-evening-setup.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:35 UTC) on branch claude/pool-words-one-sponsor-one-evening-setup.
