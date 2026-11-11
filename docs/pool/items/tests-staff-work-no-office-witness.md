@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-staff-work-no-office-witness
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T01:14:14.602Z
 checked: fable 2026-11-10
 branch: claude/pool-tests-staff-work-no-office-witness
 ---
@@ -50,3 +50,5 @@ Merger 1, 2026-10-26 after #5769 merged: the primary office-week fix is delivere
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:12 UTC) on branch claude/pool-tests-staff-work-no-office-witness.
 
 Released (2026-11-11): Cause differs: src/core2/staff.test.ts passes (2 of 2) on main 43a170eac2d at both named seeds 196612b7... and c3be1ee2..., and at seed 5d3a0c9e1b7f4a62; no red to fix. Needs a CTO close or a new repro. Continue on branch claude/pool-tests-staff-work-no-office-witness.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:14 UTC) on branch claude/pool-tests-staff-work-no-office-witness.
