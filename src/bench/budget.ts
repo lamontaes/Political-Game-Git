@@ -1,5 +1,6 @@
 import { coreAPI } from "../core2/state";
 import {
+  BUDGETS_MODULE_ID,
   budgetPriorities,
   budgetsOf,
   governments,
@@ -141,6 +142,37 @@ export function booksOf(core: CoreState, organizationId: string) {
 }
 
 /**
+ * Whether a government's savings are still the game's opening estimate: the
+ * cash it opened with is a calibrated estimate (fundOpeningTreasury, under
+ * SG-WORLD-government-opening-fund-balance), and play replaces it once a
+ * monthly close has swept the treasury to its reserve (a reserveSweeps row)
+ * or the treasury has paid out more than it opened with. Each from the
+ * government's own records; no place is named.
+ */
+function savingsEstimated(
+  core: CoreState,
+  gov: {
+    readonly id: string;
+    readonly organizationId: string;
+    readonly openingCash?: { readonly minor: number };
+  },
+): boolean {
+  if (!gov.openingCash?.minor) return false;
+  const swept = (
+    coreAPI(core)
+      .moduleState(BUDGETS_MODULE_ID)
+      .table("reserveSweeps")
+      .rows() as unknown as { governmentId: string }[]
+  ).some((row) => row.governmentId === gov.id);
+  if (swept) return false;
+  const paidOut = Number(
+    core.cashJournal.totalsByOwner.get(gov.organizationId)?.grossDebitMinor ??
+      0,
+  );
+  return paidOut < gov.openingCash.minor;
+}
+
+/**
  * A budget as the screens show it: its lines largest first and the sums the
  * screen reads (revenue, spending and the balance between them), so no screen
  * adds the lines up itself.
@@ -258,6 +290,7 @@ export function budgetView(core: CoreState, personId: string) {
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),
+        savingsEstimated: savingsEstimated(core, gov),
         latest:
           latest &&
           withTrend(
