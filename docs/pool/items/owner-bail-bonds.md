@@ -19,7 +19,7 @@ lead: cto
 checked: fable 2026-11-10
 ---
 
-**What.** The game has one cash bail of $10,000 (pretrialBailMinor, ESTIMATED), and a charged defendant without that much cash is held until the hearing, 33 to 227 days depending on the state. In most states a defendant who cannot pay the whole bail can instead pay a commercial bail bond company a fee they do not get back, and go home; a few states ban commercial bail, Kentucky among them (docs/research/starting-law-2026/batch-2/end-cash-bail.json). The owner said yes on Oct 23, 2026 and the Oct 25 audit ruled this "simulate it, don't ask", so it is a build item. Build it when the justice engine is scheduled.
+**What.** The game has one cash bail of $10,000 (pretrialBailMinor, ESTIMATED), and a charged defendant without that much cash is held until the hearing, 33 to 227 days depending on the state. In most states a defendant who cannot pay the whole bail can instead pay a commercial bail bond company a fee they do not get back, and go home; a few states ban commercial bail, Kentucky among them (docs/research/starting-law-2026/batch-2/end-cash-bail.json). The owner said yes on Oct 23, 2026 and the Oct 25 audit ruled this "simulate it, don't ask", so it is a build item. Build it when the justice engine is scheduled. Seen: a defendant's card and the court scene, where a poor defendant goes home on a bond for a fee.
 
 **Cause.** Design: owner ruling Oct 23, 2026 ("But yes, for the decision", quoted in the Notes) and the Oct 25 audit; the single $10,000 bail is read at src/core2/justice-pretrial.ts line 47 (pretrialBailMinor) and the share unable to post it in unableToPost in src/core2/public-safety.ts (line 978).
 

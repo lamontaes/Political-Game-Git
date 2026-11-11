@@ -19,7 +19,7 @@ source: split from gov-other-towns-and-counties-never-meet in the pool redo, Nov
 checked: fable 2026-11-10
 ---
 
-**What.** A neighboring town's result is kept without its members or votes. When the player opens one from the News or the Government screen, the meeting, the members and the roll call must be built on demand from the kept result, the same every time and adding up to the vote count. Without it a neighbor's decision could be shown but never examined. The roll call is built when the player opens the result, not kept.
+**What.** A neighboring town's result is kept without its members or votes. When the player opens one from the News or the Government screen, the meeting, the members and the roll call must be built on demand from the kept result, the same every time and adding up to the vote count. Without it a neighbor's decision could be shown but never examined. The roll call is built when the player opens the result, not kept. Feeds: gov-other-towns-and-counties-never-meet
 
 **Cause.** Found in code: src/core2/modules/world-legislating.ts function rollCallOf (line 1548) is the on-demand roll-call pattern for the player's own bodies; src/bench/government.ts and src/bench/nation-news.ts are the screens that open a result.
 
