@@ -3,4 +3,4 @@ id: tests-staff-work-no-office-witness
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The staff test now names, for each place it passes over, the gate that rejected it.
