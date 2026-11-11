@@ -9,6 +9,9 @@ import { gameStartDate } from "../core2/game-start";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
+import { employerSaid, jobSaid } from "../english/journal-words";
+import { properName } from "./words";
+import { writeFileSync } from "node:fs";
 
 // The journal from day one (play-first-10-journal-from-day-one). On the first
 // evening the journal's opening chapter tells where the family came from,
@@ -127,3 +130,92 @@ it(`the first evening's journal names the family from their records (seed ${seed
     `no parent and sibling on record in ${tried.join("; ")} (seed ${seed})`,
   );
 }, 1_800_000);
+
+// The first note of a new life (words-first-journal-note-says-the-same-
+// sentence-twice; Athens, Michigan, Nov 11: "My father went to work somewhere
+// new." twice, no employer, "a chief Administrative Officer at Village of
+// Athens treasury"). In ten new lives in drawn places: no sentence of the
+// opening chapter is said twice; each parent's job change names the employer
+// on that parent's own work record, as people say it; no job title carries a
+// capital inside a sentence.
+const LIVES = 10;
+it(`the first note says each thing once and names each parent's employer (seed ${seed})`, () => {
+  const evidence: string[] = [];
+  let parentJobs = 0;
+  for (let life = 0; life < LIVES; life += 1) {
+    const place = drawPlace(`${seed}:work:${life}`, "journal-opening-work");
+    const where = `${place.name} (${place.key}), seed ${seed}:work:${life}`;
+    setBookkeeping(false);
+    const { core, director, playerId } = buildBenchWorld(
+      place.seed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: place.key },
+    );
+    const player = core.people.get(playerId!)!;
+    director.watch(core, player.id);
+    for (const id of core.households.get(player.householdId)?.memberIds ?? [])
+      if (id !== player.id) director.watch(core, id as PersonId);
+    const [opening] = composeJournal(core, director, player.id);
+    expect(opening, `${where}: no opening chapter`).toBeDefined();
+    const lines = opening!.lines;
+    // No sentence twice, in the note or across its entries.
+    const sentences = lines.flatMap((row) =>
+      row.text.split(/(?<=[.!?])\s+/).map((said) => said.toLowerCase()),
+    );
+    const twice = sentences.filter(
+      (said, at) => sentences.indexOf(said) !== at,
+    );
+    expect(twice, `${where}: said twice`).toEqual([]);
+    // The note on the family's work is one sentence per person (lead, Nov
+    // 11): each opens on who they are with their name ("My father Tracy"),
+    // nobody is the subject of two, and none opens on a time that points
+    // back ("A year and a half on,").
+    for (const row of lines.filter((line) =>
+      line.momentIds.some((id) => id.startsWith("livelihood:")),
+    )) {
+      const said = row.text.split(/(?<=[.!?])\s+/);
+      const subjects = said.map(
+        (sentence) =>
+          /^My [a-z]+(?: [a-z]+)? ([A-Z][a-z]+)\b/.exec(sentence)?.[1],
+      );
+      expect(subjects, `${where}: "${row.text}"`).not.toContain(undefined);
+      expect(
+        subjects.filter((name, at) => subjects.indexOf(name) !== at),
+        `${where}: "${row.text}"`,
+      ).toEqual([]);
+      // Each relative's employer, as the reader says it, is in their sentence.
+      for (const id of core.households.get(player.householdId)?.memberIds ??
+        []) {
+        const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
+        const org = job
+          ? core.organizations.get(job.organizationId)
+          : undefined;
+        const name = core.people.get(id)?.givenName;
+        const sentence = said.find(
+          (text) => name && text.includes(` ${name} `),
+        );
+        if (!org || !sentence || org.kind === "outside-market") continue;
+        // Someone who holds an office is told by the office alone.
+        if (!sentence.includes(jobSaid(job!.title))) continue;
+        expect(sentence, `${where}: ${id}`).toContain(
+          employerSaid(properName(org.name), org),
+        );
+        parentJobs += 1;
+      }
+    }
+    // A job title is said in lower case inside a sentence.
+    for (const id of core.households.get(player.householdId)?.memberIds ?? []) {
+      const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
+      if (!job || jobSaid(job.title) === job.title) continue;
+      for (const row of lines)
+        expect(row.text, `${where}: "${job.title}"`).not.toContain(job.title);
+    }
+    evidence.push(`${where}: ${lines.map((row) => `"${row.text}"`).join(" ")}`);
+  }
+  if (process.env.JOURNAL_EVIDENCE)
+    writeFileSync(process.env.JOURNAL_EVIDENCE, evidence.join("\n") + "\n");
+  expect(
+    parentJobs,
+    `no parent's job change told in ${LIVES} lives`,
+  ).toBeGreaterThan(0);
+}, 3_600_000);

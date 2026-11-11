@@ -112,6 +112,7 @@
     "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
     "filed": "How many others have filed for the office so far, with their noun (\"two other candidates\"), from the elections engine's filings.",
     "clerk": "The clerk at the filing counter, by first name, from the cast record.",
+    "seat": "The seat said short, after a screen has named it once (\"the council\", \"mayor\", \"the seat\"), from the office's record (seatSaid).",
     "kin": "A relative in the scene, by first name, from the family records."
   },
   "maxWords": 70,
@@ -42262,10 +42263,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.you-re-not-the-first-for-office-opponent-filed-when",
+      "key": "scene-talk.state-tell.you-re-not-the-first-for-seat-opponent-filed-when",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "You're not the first for {office}. {opponent} filed {when}.",
+      "text": "You're not the first for {seat}. {opponent} filed {when}.",
       "uses": [
         {
           "subject": "scene",
@@ -53499,10 +53500,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.heads-up-opponent-filed-for-office-when-you-won-t-be-running-unopposed",
+      "key": "scene-talk.state-tell.heads-up-opponent-filed-for-seat-when-you-won-t-be-running-unopposed",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "Heads up: {opponent} filed for {office} {when}. You won't be running unopposed.",
+      "text": "Heads up: {opponent} filed for {seat} {when}. You won't be running unopposed.",
       "uses": [
         {
           "subject": "scene",
@@ -69264,10 +69265,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.has-anyone-else-pulled-papers-for-office",
+      "key": "scene-talk.reply-ask.has-anyone-else-pulled-papers-for-seat",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Has anyone else pulled papers for {office}?",
+      "text": "Has anyone else pulled papers for {seat}?",
       "uses": [
         {
           "subject": "scene",
@@ -123613,6 +123614,35 @@
       }
     },
     {
+      "key": "scene-talk.state-tell-running.so-you-re-running-for-seat",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "so you're running for {seat}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker",
+          "requiresFacts": ["seat"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell-running",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "filing-running",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "scene-talk.state-tell-duty.it-s-a-county-office-you-d-answer-to-everyone-in-the-county-not-just-this-town",
       "move": "state-tell-duty",
       "kind": "spoken",
@@ -126577,14 +126607,6 @@
           "role": "asker",
           "purpose": "talk",
           "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:agree"
         }
       ],
       "bearing": "glad",
@@ -131711,294 +131733,6 @@
       "tag": {
         "move": "narrate",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.then-we-agree-on-something-for-once",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "Then we agree on something for once.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:agree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.glad-somebody-heard-it-the-way-i-did",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "Glad somebody heard it the way I did.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:agree"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-ask-me-again-in-a-year",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. Ask me again in a year.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.we-don-t-have-to-see-it-the-same-way",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "We don't have to see it the same way.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.give-it-time-you-might-come-around",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "Give it time. You might come around.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "disagree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.then-we-ll-see-which-of-us-was-right",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "Then we'll see which of us was right.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "disagree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.that-s-fair-talk-is-cheap-and-that-was-a-lot-of-talk",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "That's fair. Talk is cheap, and that was a lot of talk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:wait"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-hold-my-applause-too",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. I'll hold my applause too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:wait"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.smart-a-speech-is-the-easy-part",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Smart. A speech is the easy part.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:wait"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.things-take-a-long-time-getting-out-here",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "Things take a long time getting out here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:local"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.a-speech-doesn-t-pay-the-rent-either",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "A speech doesn't pay the rent, either.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:local"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.we-ll-be-the-last-place-to-see-any-of-it",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "We'll be the last place to see any of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:local"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
       }
     },
     {
@@ -199143,6 +198877,150 @@
       "date": "2026-11-10"
     },
     {
+      "key": "scene-talk.state-request.friend.tell-me-it-s-wrong-first-i-d-rather-hear-it-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Tell me it's wrong, {first}. I'd rather hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.friend.i-read-every-word-of-it-first-did-you-take-the-money",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I read every word of it, {first}. Did you take the money?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.friend.is-any-of-it-true-first-you-can-tell-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Is any of it true, {first}? You can tell me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.witness.that-story-is-about-the-money-you-offered-me-first",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "That story is about the money you offered me, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.hearsay.i-d-only-heard-it-until-now-first-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'd only heard it until now, {first}. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.taken.it-says-the-money-changed-hands-first-did-you-take-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "It says the money changed hands, {first}. Did you take it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
       "key": "scene-talk.state-greet-counter.hi-there",
       "move": "state-greet-counter",
       "kind": "spoken",
@@ -199701,10 +199579,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.so-you-re-running-for-office",
+      "key": "scene-talk.state-tell-running.running-for-seat-let-me-pull-the-papers",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "so you're running for {office}.",
+      "text": "running for {seat}? Let me pull the papers.",
       "uses": [
         {
           "subject": "scene",
@@ -199713,7 +199591,7 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -199730,10 +199608,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.running-for-office-let-me-pull-the-papers",
+      "key": "scene-talk.state-tell-running.i-ve-got-the-packet-for-seat-right-here",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "running for {office}? Let me pull the papers.",
+      "text": "I've got the packet for {seat} right here.",
       "uses": [
         {
           "subject": "scene",
@@ -199742,7 +199620,7 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -199759,10 +199637,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.office-i-ve-got-that-packet-right-here",
+      "key": "scene-talk.state-tell-running.i-ll-get-you-the-forms-for-seat",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "{office}. I've got that packet right here.",
+      "text": "I'll get you the forms for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -199771,7 +199649,7 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -199788,39 +199666,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.i-ll-get-you-the-forms-for-office",
-      "move": "state-tell-running",
-      "kind": "spoken",
-      "text": "I'll get you the forms for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-running",
-          "role": "asker",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell-running",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-running",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-rule-registered-voter.to-run-for-office-you-have-to-be-a-registered-voter-in-the-county-where-you-d-se",
+      "key": "scene-talk.state-rule-registered-voter.to-run-for-seat-you-have-to-be-a-registered-voter-in-the-county-where-you-d-serv",
       "move": "state-rule-registered-voter",
       "kind": "spoken",
-      "text": "To run for {office}, you have to be a registered voter in the county where you'd serve.",
+      "text": "To run for {seat}, you have to be a registered voter in the county where you'd serve.",
       "uses": [
         {
           "subject": "scene",
@@ -199841,10 +199690,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-registered-voter.you-have-to-be-a-registered-voter-to-file-for-office",
+      "key": "scene-talk.state-rule-registered-voter.you-have-to-be-a-registered-voter-to-file-for-seat",
       "move": "state-rule-registered-voter",
       "kind": "spoken",
-      "text": "You have to be a registered voter to file for {office}.",
+      "text": "You have to be a registered voter to file for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -199865,10 +199714,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.then-running-for-office-will-have-to-wait",
+      "key": "scene-talk.state-accept-terms.then-running-for-seat-will-have-to-wait",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "Then running for {office} will have to wait.",
+      "text": "Then running for {seat} will have to wait.",
       "uses": [
         {
           "subject": "scene",
@@ -199888,10 +199737,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.i-ll-come-back-when-i-can-run-for-office",
+      "key": "scene-talk.state-accept-terms.i-ll-come-back-when-i-can-run-for-seat",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "I'll come back when I can run for {office}.",
+      "text": "I'll come back when I can run for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -199911,10 +199760,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.understood-i-ll-sort-it-out-and-come-back-for-office",
+      "key": "scene-talk.state-accept-terms.understood-i-ll-sort-it-out-and-come-back-for-seat",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "Understood. I'll sort it out and come back for {office}.",
+      "text": "Understood. I'll sort it out and come back for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -199934,10 +199783,10 @@
       }
     },
     {
-      "key": "scene-talk.state-accept-terms.i-guess-i-won-t-run-for-office-this-time",
+      "key": "scene-talk.state-accept-terms.i-guess-i-won-t-run-for-seat-this-time",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "I guess I won't run for {office} this time.",
+      "text": "I guess I won't run for {seat} this time.",
       "uses": [
         {
           "subject": "scene",
@@ -199957,10 +199806,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.then-i-ll-file-for-office",
+      "key": "scene-talk.reply-agree.then-i-ll-file-for-seat",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Then I'll file for {office}.",
+      "text": "Then I'll file for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -199980,10 +199829,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.let-s-get-me-on-the-ballot-for-office",
+      "key": "scene-talk.reply-agree.let-s-get-me-on-the-ballot-for-seat",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Let's get me on the ballot for {office}.",
+      "text": "Let's get me on the ballot for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -200003,10 +199852,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-m-in-give-me-the-papers-for-office",
+      "key": "scene-talk.reply-agree.i-m-in-give-me-the-papers-for-seat",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'm in. Give me the papers for {office}.",
+      "text": "I'm in. Give me the papers for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -200026,10 +199875,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.put-me-down-for-office",
+      "key": "scene-talk.reply-agree.put-me-down-for-seat",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Put me down for {office}.",
+      "text": "Put me down for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -200049,10 +199898,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.i-d-like-to-file-for-office-today",
+      "key": "scene-talk.reply-agree.i-d-like-to-file-for-seat-today",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "I'd like to file for {office} today.",
+      "text": "I'd like to file for {seat} today.",
       "uses": [
         {
           "subject": "scene",
@@ -200072,10 +199921,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.where-do-i-sign-for-office",
+      "key": "scene-talk.reply-agree.where-do-i-sign-for-seat",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Where do I sign for {office}?",
+      "text": "Where do I sign for {seat}?",
       "uses": [
         {
           "subject": "scene",
@@ -200095,10 +199944,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.let-s-do-it-i-m-running-for-office",
+      "key": "scene-talk.reply-agree.let-s-do-it-i-m-running-for-seat",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Let's do it. I'm running for {office}.",
+      "text": "Let's do it. I'm running for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -200118,10 +199967,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.count-me-in-for-office",
+      "key": "scene-talk.reply-agree.count-me-in-for-seat",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Count me in for {office}.",
+      "text": "Count me in for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -200493,10 +200342,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.nobody-else-has-filed-for-office-yet",
+      "key": "scene-talk.follow-answer.nobody-else-has-filed-for-seat-yet",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "nobody else has filed for {office} yet.",
+      "text": "nobody else has filed for {seat} yet.",
       "uses": [
         {
           "subject": "scene",
@@ -200523,10 +200372,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.you-d-be-the-first-one-in-for-office",
+      "key": "scene-talk.follow-answer.you-d-be-the-first-one-in-for-seat",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "you'd be the first one in for {office}.",
+      "text": "you'd be the first one in for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -200553,10 +200402,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.so-far-nobody-the-race-for-office-is-wide-open",
+      "key": "scene-talk.follow-answer.so-far-nobody-the-race-for-seat-is-wide-open",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "so far, nobody. The race for {office} is wide open.",
+      "text": "so far, nobody. The race for {seat} is wide open.",
       "uses": [
         {
           "subject": "scene",
@@ -200583,10 +200432,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.not-a-soul-yet-you-d-be-first-for-office",
+      "key": "scene-talk.follow-answer.not-a-soul-yet-you-d-be-first-for-seat",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "not a soul yet. You'd be first for {office}.",
+      "text": "not a soul yet. You'd be first for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -200613,10 +200462,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.nobody-s-filed-for-office-so-far",
+      "key": "scene-talk.follow-answer.nobody-s-filed-for-seat-so-far",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "nobody's filed for {office} so far.",
+      "text": "nobody's filed for {seat} so far.",
       "uses": [
         {
           "subject": "scene",
@@ -200643,10 +200492,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.you-re-the-first-i-ve-seen-for-office",
+      "key": "scene-talk.follow-answer.you-re-the-first-i-ve-seen-for-seat",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "you're the first I've seen for {office}.",
+      "text": "you're the first I've seen for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -201165,10 +201014,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.you-re-filed-for-office",
+      "key": "scene-talk.follow-accept.you-re-filed-for-seat",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "you're filed for {office}.",
+      "text": "you're filed for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -201178,7 +201027,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -201195,10 +201044,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.you-re-in-the-running-for-office",
+      "key": "scene-talk.follow-accept.you-re-in-the-running-for-seat",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "you're in the running for {office}.",
+      "text": "you're in the running for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -201208,7 +201057,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -201225,10 +201074,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ll-put-you-down-for-office",
+      "key": "scene-talk.follow-accept.i-ll-put-you-down-for-seat",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll put you down for {office}.",
+      "text": "I'll put you down for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -201238,7 +201087,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -201255,10 +201104,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.your-name-s-in-for-office-in-place",
+      "key": "scene-talk.follow-accept.your-name-s-in-for-seat-in-place",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "your name's in for {office} in {place}.",
+      "text": "your name's in for {seat} in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -201268,7 +201117,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office", "place"]
+          "requiresFacts": ["seat", "place"]
         }
       ],
       "origin": "authored",
@@ -201285,10 +201134,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-makes-you-a-candidate-for-office",
+      "key": "scene-talk.follow-accept.that-makes-you-a-candidate-for-seat",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "that makes you a candidate for {office}.",
+      "text": "that makes you a candidate for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -201298,7 +201147,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -201315,10 +201164,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.you-and-opponent-for-office-then",
+      "key": "scene-talk.follow-accept.you-and-opponent-for-seat-then",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "you and {opponent} for {office}, then.",
+      "text": "you and {opponent} for {seat}, then.",
       "uses": [
         {
           "subject": "scene",
@@ -201328,7 +201177,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office", "opponent"]
+          "requiresFacts": ["seat", "opponent"]
         }
       ],
       "origin": "authored",
@@ -201345,10 +201194,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.the-race-for-office-has-one-more-name-now",
+      "key": "scene-talk.follow-accept.the-race-for-seat-has-one-more-name-now",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "the race for {office} has one more name now.",
+      "text": "the race for {seat} has one more name now.",
       "uses": [
         {
           "subject": "scene",
@@ -201358,7 +201207,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -201375,10 +201224,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-ve-got-you-on-the-list-for-office-with-filed",
+      "key": "scene-talk.follow-accept.i-ve-got-you-on-the-list-for-seat-with-filed",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I've got you on the list for {office} with {filed}.",
+      "text": "I've got you on the list for {seat} with {filed}.",
       "uses": [
         {
           "subject": "scene",
@@ -201388,7 +201237,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office", "filed"]
+          "requiresFacts": ["seat", "filed"]
         }
       ],
       "origin": "authored",
@@ -201405,10 +201254,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.you-re-on-file-for-office-in-place-as-of-now",
+      "key": "scene-talk.follow-accept.you-re-on-file-for-seat-in-place-as-of-now",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "you're on file for {office} in {place} as of now.",
+      "text": "you're on file for {seat} in {place} as of now.",
       "uses": [
         {
           "subject": "scene",
@@ -201418,7 +201267,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office", "place"]
+          "requiresFacts": ["seat", "place"]
         }
       ],
       "origin": "authored",
@@ -201435,10 +201284,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.signed-and-stamped-for-office",
+      "key": "scene-talk.follow-accept.signed-and-stamped-for-seat",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "signed and stamped for {office}.",
+      "text": "signed and stamped for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -201448,7 +201297,7 @@
           "move": "accept",
           "role": "asker",
           "after": "agree",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -202579,10 +202428,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.another-one-for-office",
+      "key": "scene-talk.state-tell-running.another-one-for-seat",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "another one for {office}.",
+      "text": "another one for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -202591,7 +202440,7 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["office", "filed"]
+          "requiresFacts": ["seat", "filed"]
         }
       ],
       "origin": "authored",
@@ -202608,10 +202457,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.office-then-good",
+      "key": "scene-talk.state-tell-running.papers-for-seat-coming-right-up",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "{office}, then. Good.",
+      "text": "papers for {seat}, coming right up.",
       "uses": [
         {
           "subject": "scene",
@@ -202620,7 +202469,7 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -202637,10 +202486,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.you-want-office-i-can-do-that",
+      "key": "scene-talk.state-tell-running.you-want-seat-i-can-do-that",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "you want {office}. I can do that.",
+      "text": "you want {seat}. I can do that.",
       "uses": [
         {
           "subject": "scene",
@@ -202649,7 +202498,7 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "origin": "authored",
@@ -202666,10 +202515,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.office-you-re-the-first-one-in",
+      "key": "scene-talk.state-tell-running.you-re-the-first-one-in-for-seat",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "{office}. You're the first one in.",
+      "text": "you're the first one in for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -202678,7 +202527,7 @@
           "step": "state",
           "move": "tell-running",
           "role": "asker",
-          "requiresFacts": ["office", "none-filed"]
+          "requiresFacts": ["seat", "none-filed"]
         }
       ],
       "origin": "authored",

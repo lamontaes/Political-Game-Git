@@ -12,6 +12,8 @@ description: >
 
 # The people pack and mannequin plates
 
+**Set aside until after early access (owner, Nov 10 and 11, 2026).** Rooms draw no figures now: a room is its painting, and the people in it are a strip of busts (`src/bench/ui/bust-strip.mjs`, `peopleHere` in `src/bench/scene.ts`). Nothing in this skill is built or fixed while busts are the system. `docs/art/full-body-people-after-early-access.md` says what was removed, where the last working copy is, and how the work comes back. The methods and traps below are kept for that day.
+
 Owner, Oct 29: "make it to where these can be updated very easily. so either a v4 version or more clothes or anything like that." Oct 28: "do not put people in until there are mannequins in there for every position." Oct 28: no face is ever drawn separately, scaled or moved.
 
 ## Where things are

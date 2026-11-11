@@ -30,11 +30,12 @@ import {
   type FilingContest,
   type FilingVisit,
 } from "../director/filing-visit";
-import { backdropFor, stagePeople, type StageReason } from "./scene";
+import { backdropFor, peopleHere, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
+import { petitionView } from "./campaign";
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {
@@ -52,7 +53,7 @@ export interface BenchFilingVisit {
   filedWith: string;
   place: string;
   backdrop: ReturnType<typeof backdropFor>;
-  people: ReturnType<typeof stagePeople>["people"];
+  people: ReturnType<typeof peopleHere>["people"];
   names: Record<string, string>;
   /**
    * Each offered race told apart before the player picks, from its records:
@@ -193,6 +194,13 @@ export function openBenchFilingVisit(
       termYears: office?.termYears ?? null,
       kind: `${row.family}-${(office?.seats ?? 1) > 1 ? "body" : "single"}`,
       body: bodyOf(office),
+      // The seat as its records hold it, for how the talk says it.
+      seat: {
+        title: row.title,
+        seats: office?.seats ?? 1,
+        bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
+        district: row.district,
+      },
       sourceIds: [...row.sources, row.officeId],
     };
   });
@@ -264,7 +272,7 @@ export function openBenchFilingVisit(
         )
       : [],
     backdrop,
-    people: stagePeople(core, backdrop.file, cast).people,
+    people: peopleHere(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
   };
@@ -350,7 +358,15 @@ export function chooseAtCounter(
           choices: [],
         }
       : filedAtCounter(core, state.visit, choice);
-    return { ...state, visit, result };
+    const made = (result as { filing?: { id: string } }).filing;
+    return {
+      ...state,
+      visit,
+      result: {
+        ...result,
+        petition: made ? petitionView(api, made.id) : null,
+      },
+    };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
 }
