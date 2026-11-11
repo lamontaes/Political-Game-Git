@@ -69,6 +69,7 @@ import {
   residentFacts,
   residentPerson,
   residentsRuntime,
+  type ResidentsRuntime,
   startRegionalWork,
   stopRegionalWork,
 } from "./residents";
