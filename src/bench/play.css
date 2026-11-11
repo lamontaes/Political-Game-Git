@@ -5483,11 +5483,11 @@ body.color-blind .meeting-member.vote-abstain {
   object-fit: cover;
   margin-bottom: 12px;
   -webkit-mask-image:
-    linear-gradient(180deg, #000 62%, transparent 100%),
-    linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
   -webkit-mask-composite: source-in;
   mask-image:
-    linear-gradient(180deg, #000 62%, transparent 100%),
-    linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    linear-gradient(180deg, black 62%, transparent 100%),
+    linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
   mask-composite: intersect;
 }
