@@ -4237,10 +4237,15 @@ const sheets = {
     const doHere = (p) =>
       p.trail || p.filing
         ? []
-        : p.reasons
-            .filter((r) => r.kind === "action")
-            .map((r) => controls.actions?.[r.recordId] ?? "")
-            .filter(Boolean);
+        : [
+            // Why you may go: your party's office.
+            ...p.reasons
+              .filter((r) => r.kind === "member")
+              .map(() => labels.memberHere ?? ""),
+            ...p.reasons
+              .filter((r) => r.kind === "action")
+              .map((r) => controls.actions?.[r.recordId] ?? ""),
+          ].filter(Boolean);
     const town = me.placeName.split(",")[0];
     const groupOf = (p) =>
       p.trail ? labels.groupTrail : p.filing ? labels.groupFiling : town;
