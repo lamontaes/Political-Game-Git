@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-job-offer-answer-repeats-title-and-pay
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T02:17:24.757Z
 branch: claude/pool-words-job-offer-answer-repeats-title-and-pay
 ---
 
