@@ -31624,6 +31624,174 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.good-talking-with-you-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good talking with you, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": [
+            "default"
+          ],
+          "requiresFacts": [
+            "about-again",
+            "player-first"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.nice-catching-up-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Nice catching up, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": [
+            "default"
+          ],
+          "requiresFacts": [
+            "about-again",
+            "player-first"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.i-ll-let-you-go-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "I'll let you go, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": [
+            "default"
+          ],
+          "requiresFacts": [
+            "about-again",
+            "player-first"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.don-t-be-a-stranger-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Don't be a stranger, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": [
+            "default"
+          ],
+          "requiresFacts": [
+            "about-again",
+            "player-first"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.see-you-around-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "See you around, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": [
+            "default"
+          ],
+          "requiresFacts": [
+            "about-again",
+            "player-first"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.glad-you-stopped-by-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Glad you stopped by, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": [
+            "default"
+          ],
+          "requiresFacts": [
+            "about-again",
+            "player-first"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
     }
   ]
 }
