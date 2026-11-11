@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-07-every-day-starts-at-midnight
+status: open
+claimed-by:
 pr:
-after:
+after: play-filing-visit-moves-the-clock
 blocked-on:
 standard: 2
 model: sonnet
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-11T04:00:37.571Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-07-every-day-starts-at-midnight
 ---
@@ -57,3 +57,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Replay done (PR 8324): Day and closed-office travel pass; the 3-hour filing visit leaves the clock unmoved. Searched OWNER-DECISIONS and parameters: filingVisitHours is 3 and cites the CTO's Oct 28 note that filing spends the afternoon, so the unmoved clock is a defect. Likely cause (unconfirmed): BenchPlayer.spend returns nothing while the clerk's stop holds the clock (player.ts ~236, handler.ts /api/filing/choose ~1855). Needs a fix item with a Fable-checked cause, proved with filing.browser.mjs in two drawn places; filing.browser.mjs line ~247 accepts a held clock and should be tightened. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:00 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+**Notes (opus-5234, Nov 11).** Re-offered after two releases with the replay done (PR 8324): Day and closed-office travel pass, the filing visit leaves the clock unmoved. That failing step is now its own item, play-filing-visit-moves-the-clock, with its cause found in code (`BenchPlayer.spend` returns nothing while the filing's own story stop is the open packet, src/bench/player.ts line 242; src/bench/filing.browser.mjs line 244 accepts the held clock). This item waits on it (`after:`), then a second session replays the whole finish line again.
