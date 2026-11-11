@@ -38,6 +38,7 @@ import {
   possessivePronoun,
   relationPhrase,
   saysOffice,
+  bodySaid,
   employerSaid,
   withArticle,
   wordJournalLine,
@@ -491,40 +492,79 @@ function householdMoments(
     // One sentence per person, in the household's order (parents first,
     // then by age): the id leads with that place so the entry keeps it.
     const order = `livelihood:${String(at).padStart(P.two, "0")}:${person.id}`;
-    // An office first, told with the livelihood words: the office as the
-    // work and its government as the employer, on the term's record. Someone
-    // who holds an office is told by it alone (lead, Nov 11: one sentence per
-    // person).
-    for (const office of work.offices.slice(zero, one))
+    // An office is said the way people say it (lead, Nov 11): a seat on a
+    // body is "sits on the Nelson City Council"; any other office is "serves
+    // as county clerk for the County of Nuckolls". A job held beside it joins
+    // the same sentence ("... and works as a janitor at ..."): one sentence
+    // per person.
+    const office = work.offices[zero];
+    const job = work.job ? core.jobs.get(work.job.id) : undefined;
+    if (office) {
+      const ids = [office.termId, office.officeId];
+      const side = job
+        ? employerName(core, job.organizationId, job.id)
+        : undefined;
       moments.push({
         ...base(`${order}:${office.termId}`, lastDay),
         causeId: office.termId,
         causeFactId: office.termId,
-        causeKind: office.governmentName
-          ? "household:livelihood:at"
-          : "household:livelihood",
+        // A fact the record does not hold picks the wording that does
+        // without it: an office with no government on record, a job with no
+        // employer on record.
+        causeKind: [
+          "household:livelihood:",
+          office.bodyName ? "seat" : "office",
+          !office.bodyName && !office.governmentName ? "-plain" : "",
+          // Work for the outside buyers names no workplace: only a body
+          // seat or a plain office says it without one.
+          job && (side || office.bodyName || !office.governmentName)
+            ? "-and-job"
+            : "",
+          job && !side && (office.bodyName || !office.governmentName)
+            ? "-plain"
+            : "",
+        ].join(""),
         counterpartIds: [earner.id],
         beat: "work",
         actFacts: {
-          job: {
-            text: withArticle(officeInSentence(office.title)),
-            sourceRecordIds: [office.termId, office.officeId],
-          },
-          ...(office.governmentName
+          ...(office.bodyName
             ? {
-                employer: {
-                  // The government itself ("the County of Nuckolls").
-                  text: employerSaid(properName(office.governmentName), {
-                    kind: "government-treasury",
-                  }),
-                  sourceRecordIds: [office.termId, office.officeId],
+                body: {
+                  text: bodySaid(properName(office.bodyName)),
+                  sourceRecordIds: ids,
                 },
+              }
+            : {
+                office: {
+                  text: officeInSentence(office.title),
+                  sourceRecordIds: ids,
+                },
+                ...(office.governmentName
+                  ? {
+                      employer: {
+                        // The government itself ("the County of Nuckolls").
+                        text: employerSaid(properName(office.governmentName), {
+                          kind: "government-treasury",
+                        }),
+                        sourceRecordIds: ids,
+                      },
+                    }
+                  : {}),
+              }),
+          ...(job
+            ? {
+                job: {
+                  text: withArticle(job.title),
+                  sourceRecordIds: [job.id],
+                },
+                ...(side ? { workplace: side } : {}),
               }
             : {}),
         },
       });
-    const job = work.job ? core.jobs.get(work.job.id) : undefined;
-    if (!job || work.offices.length) continue;
+      continue;
+    }
+    if (!job) continue;
     const held = heldSinceRecord(core as CoreState, earner.id, job.id);
     const employer = employerName(core, job.organizationId, job.id);
     const cause = held?.id ?? job.id;

@@ -16,6 +16,7 @@ import {
   type GroundedEnglishPacket,
 } from "./grounded-english";
 import { journalDataFromBank } from "./mined/journal-bank";
+import articleSounds from "../../data/english/article-sounds.json" with { type: "json" };
 
 const zero = P.zero;
 const one = P.one;
@@ -598,10 +599,23 @@ export function jobSaid(title: string): string {
     .join("");
 }
 
+/** "a" or "an" by the word's first sound ("a union", "an hour"), from data/english/article-sounds.json. */
+export function articleFor(word: string): "a" | "an" {
+  const start = word.toLowerCase();
+  if (articleSounds.a.some((prefix) => start.startsWith(prefix))) return "a";
+  if (articleSounds.an.some((prefix) => start.startsWith(prefix))) return "an";
+  return /^[aeiou]/.test(start) ? "an" : "a";
+}
+
 /** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
 export function withArticle(title: string): string {
   const said = jobSaid(title);
-  return `${/^[aeiou]/i.test(said) ? "an" : "a"} ${said}`;
+  return `${articleFor(said)} ${said}`;
+}
+
+/** A body's name in a sentence: "the Nelson City Council". */
+export function bodySaid(name: string): string {
+  return /^the\s/i.test(name) ? name : `the ${name}`;
 }
 
 /** What an employer's record says it is, enough to say its name in a sentence. */
