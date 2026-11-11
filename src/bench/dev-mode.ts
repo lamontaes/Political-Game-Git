@@ -104,7 +104,12 @@ import { decisionPanels, type WhyPanel } from "./dev-why";
 import { traceNode, type TraceNode } from "./dev-trace";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
-import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
+import {
+  causeMatches,
+  playsAsScene,
+  SITUATION_LIBRARY,
+  writeBacksOf,
+} from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -1289,7 +1294,20 @@ export class DevMode {
           : type.causes.some((c) => c.match)
             ? "moment"
             : null);
-      return { key: type.key, causeRecords, waiting, recipe };
+      // What the kind writes that another engine reads, or that it will not
+      // play (director-no-scene-without-a-purpose).
+      const writesBack = writeBacksOf(type);
+      return {
+        key: type.key,
+        causeRecords,
+        waiting,
+        recipe,
+        writesBack,
+        plays: playsAsScene(type),
+        ...(type.playsWithout
+          ? { playsWithout: type.playsWithout.ruling }
+          : {}),
+      };
     });
   }
 

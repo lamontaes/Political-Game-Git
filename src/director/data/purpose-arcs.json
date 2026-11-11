@@ -5617,5 +5617,24 @@
         }
       ]
     }
+  },
+  "keepsWrite": {
+    "about": "What an ending's keeps writes and the engine that reads it (director-no-scene-without-a-purpose, Nov 11, 2026): a scene's ending counts only when another engine reads the record it wrote. A keeps value not listed here (none, promise, favor-owed, meeting-set, story-runs outside a press interview) is read by no engine yet (SG-WORDS-favor-promise-keeps-unread); readBy is the reader as path#identifier.",
+    "relationship-strained": {
+      "record": "the tie's closeness, contact hours taken off (purpose-scene.ts, ENDING_STRAIN)",
+      "readBy": "src/core2/closeness.ts#currentCloseness"
+    },
+    "trust-lost": {
+      "record": "the tie's closeness, contact hours taken off (purpose-scene.ts, ENDING_STRAIN)",
+      "readBy": "src/core2/closeness.ts#currentCloseness"
+    },
+    "oath": {
+      "record": "the officiant met by name, a tie written through the relationship writer (swearing-in.ts meetOfficiant)",
+      "readBy": "src/core2/closeness.ts#currentCloseness"
+    },
+    "address": {
+      "record": "the inaugural address heard by the room (inaugural-address.ts giveInauguralAddress, the speech engine)",
+      "readBy": "src/core2/modules/views.ts#stanceAfterCase"
+    }
   }
 }

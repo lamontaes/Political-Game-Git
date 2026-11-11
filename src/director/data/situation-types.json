@@ -1416,6 +1416,12 @@
     },
     {
       "key": "proposal",
+      "writesBack": [
+        {
+          "record": "the couple's stage",
+          "readBy": "src/core2/modules/partnerships.ts#answerProposal"
+        }
+      ],
       "roles": [
         {
           "key": "proposing",
@@ -2506,6 +2512,12 @@
     },
     {
       "key": "race-lost",
+      "writesBack": [
+        {
+          "record": "the concession, said or refused that night",
+          "readBy": "src/core2/modules/press.ts#reportConcession"
+        }
+      ],
       "roles": [
         {
           "key": "candidate",
@@ -2738,6 +2750,12 @@
     },
     {
       "key": "veto",
+      "writesBack": [
+        {
+          "record": "a reply to an override ask, counted at the roll",
+          "readBy": "src/core2/modules/legislature.ts#keepReply"
+        }
+      ],
       "occasion": "signing",
       "roles": [
         {
@@ -2896,6 +2914,12 @@
     },
     {
       "key": "recall",
+      "writesBack": [
+        {
+          "record": "the member's answer to the petition",
+          "readBy": "src/core2/modules/recalls.ts#keepAnswer"
+        }
+      ],
       "roles": [
         {
           "key": "official",
@@ -3085,6 +3109,12 @@
     },
     {
       "key": "press-interview",
+      "writesBack": [
+        {
+          "record": "the quote kept on the story",
+          "readBy": "src/core2/modules/press.ts#keepComment"
+        }
+      ],
       "roles": [
         {
           "key": "reporter",
@@ -3536,6 +3566,9 @@
     },
     {
       "key": "address",
+      "playsWithout": {
+        "ruling": "OWNER-DECISIONS Nov 1, 22:25 and Oct 29, 02:35: the President's address plays as a montage, then the talk after it; the address itself writes nothing back."
+      },
       "occasion": "address",
       "roles": [
         {
@@ -4348,6 +4381,12 @@
     },
     {
       "key": "bribe-offer",
+      "writesBack": [
+        {
+          "record": "the bribe taken or refused",
+          "readBy": "src/core2/modules/corruption.ts#bribe-refused"
+        }
+      ],
       "eachCause": true,
       "purpose": "bribe-offer",
       "asker": "offerer",
@@ -4405,6 +4444,12 @@
     },
     {
       "key": "party-recruit",
+      "writesBack": [
+        {
+          "record": "the decision to run and its filing",
+          "readBy": "src/core2/modules/candidacy.ts#answerPartyAsk"
+        }
+      ],
       "note": "A party with no one filed for a partisan seat asks one of its members to run: the candidacy engine's party-asked record names the member, the chair who asks, the party and the seat. The chair comes by the member's home. Their answer is a scene reply the candidacy engine reads: a yes is the decision to run, and the filing follows.",
       "roles": [
         {
@@ -4622,6 +4667,12 @@
     },
     {
       "key": "family-loss",
+      "writesBack": [
+        {
+          "record": "the relative's backing for the next race",
+          "readBy": "src/core2/modules/candidacy.ts#noteHouseholdBacking"
+        }
+      ],
       "purpose": "family-loss",
       "asker": "relative",
       "asked": "you",
@@ -5278,6 +5329,12 @@
     },
     {
       "key": "cause-invite",
+      "writesBack": [
+        {
+          "record": "the player joins the action",
+          "readBy": "src/core2/modules/public-action.ts#playerJoins"
+        }
+      ],
       "note": "Someone who shared a cause with a person asks them to come along (the cause-shared record names the cause and who shared it).",
       "roles": [
         {
@@ -5597,6 +5654,12 @@
     },
     {
       "key": "bribe-pressed",
+      "writesBack": [
+        {
+          "record": "the pressed offer reported",
+          "readBy": "src/core2/modules/corruption.ts#reportPressedOffer"
+        }
+      ],
       "eachCause": true,
       "note": "The person whose bribe the official turned down comes back (the corruption engine's refusal record and their own reasons to press; no roll). The pressure runs from veiled to open by their temper in the bank's bearings. The official can hold the line, say they will report it, or put the talk off; what they say strains the tie.",
       "purpose": "bribe-pressed",
@@ -5912,6 +5975,12 @@
     },
     {
       "key": "interview-invite",
+      "writesBack": [
+        {
+          "record": "the interview accepted or declined",
+          "readBy": "src/core2/modules/press.ts#answerInvitation"
+        }
+      ],
       "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; anything else leaves it open.",
       "roles": [
         {
@@ -5976,6 +6045,12 @@
     },
     {
       "key": "interview-sitting",
+      "writesBack": [
+        {
+          "record": "the interview's answers, published",
+          "readBy": "src/core2/modules/press.ts#answerInterview"
+        }
+      ],
       "note": "The candidate said yes to an outlet's invitation: the press engine's interview-accepted record names the candidate, the reporter who will ask and the outlet. The sitting is played in the conversation engine, never answered for them: the reporter puts each of the interview's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the press engine publishes the interview with exactly those moves. A question the reporter cannot put in words is answered from the candidate's filed platform.",
       "roles": [
         {
@@ -6027,6 +6102,12 @@
     },
     {
       "key": "debate-sitting",
+      "writesBack": [
+        {
+          "record": "the debate's answers, published",
+          "readBy": "src/core2/modules/meetings.ts#answerDebate"
+        }
+      ],
       "occasion": "debate",
       "note": "The candidate said yes to a debate's invitation: the meetings engine's debate-accepted record names the candidate, the moderator who will ask and the outlet that hosts it. The sitting is played in the conversation engine, never answered for them: the moderator puts each of the debate's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the meetings engine holds the debate with exactly those moves while the other candidates answer from their own positions. A question the moderator cannot put in words is answered from the candidate's filed platform. A debate no one sits for is held on the eve of the election. Its stage is a public place until the lane maps the debate stage picture to this type.",
       "roles": [
@@ -6079,6 +6160,12 @@
     },
     {
       "key": "debate-invite",
+      "writesBack": [
+        {
+          "record": "the debate accepted or held without the player",
+          "readBy": "src/core2/modules/meetings.ts#answerDebateInvitation"
+        }
+      ],
       "note": "The race's debate on the town's widest-reaching outlet waits on the candidate: the meetings engine's debate-invited record names the candidate and the host outlet's reporter closest to them. The host calls. A yes puts the sitting on the record (debate-accepted) for the debate-sitting scene; a no lets the debate go on without them; anything else leaves it waiting until the eve of the election, when it is held without a sitting.",
       "roles": [
         {
@@ -6143,6 +6230,12 @@
     },
     {
       "key": "volunteer-offer",
+      "writesBack": [
+        {
+          "record": "a declined helper leaves the campaign",
+          "readBy": "src/core2/modules/campaigns.ts#answerOffer"
+        }
+      ],
       "note": "Someone who knows a candidate heard they filed (the press's story of the filing, read or passed on in talk) and offers to help: the campaigns engine's volunteer-offered record names the candidate and the one who offers, who weighed it by their liking, closeness and work hours. They come by. A yes puts them on the campaign's volunteers.",
       "roles": [
         {
@@ -6210,6 +6303,12 @@
     },
     {
       "key": "manager-offer",
+      "writesBack": [
+        {
+          "record": "a declined helper leaves the campaign",
+          "readBy": "src/core2/modules/campaigns.ts#answerOffer"
+        }
+      ],
       "note": "Someone close to a candidate (a partner, a relative, a best friend) heard they filed and offers to run the campaign, not only to help with it: the campaigns engine's volunteer-offered record with role manager, weighed by the same liking, closeness and work hours with closeness and family counted again (managerReason). It comes before any volunteer's offer while the campaign has nobody running it, the household included. A yes puts them on the campaign's staff, where the cast and election night read them; a no takes them off (answerOffer). The owner's election team (Oct 26) and campaign board (Oct 27: 'maybe it's your significant other or your best friend').",
       "roles": [
         {
@@ -6277,6 +6376,12 @@
     },
     {
       "key": "job-offer",
+      "writesBack": [
+        {
+          "record": "the hire or the declined offer",
+          "readBy": "src/core2/modules/jobs.ts#answerOffer"
+        }
+      ],
       "note": "An employer picked the player for an opening: the jobs engine's job-offered record names the applicant, the person at the employer who makes the offer (the one there longest) and the position. They call. A yes takes the job; a no turns it down and the position opens to others; anything else leaves it waiting until its deadline, when the employer withdraws it. A job offer comes through a person and a scene or not at all (owner, Oct 27): it is in scheduling.ownRecordScenes, so it stops the day; its lines are the scene-talk bank's job-offer purpose (SG-DIR-job-offer-lines, resolved Oct 28).",
       "roles": [
         {
