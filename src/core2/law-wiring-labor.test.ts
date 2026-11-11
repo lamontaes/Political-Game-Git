@@ -567,7 +567,9 @@ function run(specId: string, want: readonly Subject[]) {
       (lawInForce(api, "unemployment-weekly-maximum").value ?? 0) *
       api.parameter("minorPerDollar");
     if (!topClaim || topClaim.weeklyMinor < maximumMinor)
-      throw new NoSubject("no claimant earns above the weekly maximum");
+      throw new NoSubject(
+        `no claimant earns above the weekly maximum (claimant ${capped || "none filed"}, weekly ${topClaim?.weeklyMinor}, maximum ${maximumMinor}, best paid daily ${bestPaid?.wageDailyMinor}, law was ${maxNowDollars} dollars)`,
+      );
     need(
       topClaim.weeklyMinor === maximumMinor &&
         reached("unemployment-weekly-maximum").some(
