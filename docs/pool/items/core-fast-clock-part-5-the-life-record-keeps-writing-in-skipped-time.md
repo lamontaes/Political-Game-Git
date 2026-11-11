@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-fast-clock-part-5-the-life-record-keeps-writing-in-skipped-time
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:04:37.355Z
+branch: claude/pool-core-fast-clock-part-5-the-life-record-keeps-writing-in-skipped-time
 ---
 
 **What.** A skip must not leave a hole in anyone's life. What happened to the player's household and circle in skipped years (a death, a birth, a job taken or lost, a move, an election) has to be on their cards and in the Journal when play resumes. This part is a test first, and code only where the test finds a hole.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/person-life.ts (new), src/core2/life.ts, src/core2/results-mode.test.ts (new)
 
 **Notes (Fable B, Nov 10).** The life record's own steps, which this part also waited on, are on main (pull requests #8115 and #8139, which holds #8123), so Waits on now names only the three fast clock parts.
+
+**Notes.** Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:04 UTC) on branch claude/pool-core-fast-clock-part-5-the-life-record-keeps-writing-in-skipped-time.
