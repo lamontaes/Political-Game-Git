@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-budget-cut-names-the-executive
 pr:
 blocked-on:
 after:
@@ -16,7 +16,7 @@ effort: medium
 root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27, from scenes-from-life episode budget-cut-department-head; evidence in the first probe of a mayor's year in Riverton, Wyoming, Prospect, Kentucky and East Bend, North Carolina
 lead: laws-effects
-claimed-at:
+claimed-at: 2026-11-11T06:10:18.891Z
 checked: fable 2026-11-10
 ---
 
