@@ -54,7 +54,7 @@ export function personCard(
         { actions, column },
       ),
     );
-  const card = memberCard(person, large);
+  const card = memberLayout(person, large);
   return person.more
     ? el("div", { className: "candidate" }, card, ...person.more)
     : card;
@@ -69,7 +69,7 @@ function lineNode(line, className) {
   ];
 }
 
-function memberCard(person, large) {
+function memberLayout(person, large) {
   const face = drawFace(person.face);
   face.classList.add("member-face");
   const card = makeButton(
@@ -103,7 +103,7 @@ function leaderCard(person, note) {
   return el(
     "div",
     { className: "leader" },
-    drawFace(person.face, { bust: true, alt: person.name, column: 200 }),
+    drawFace(person.face, { shape: "bust", alt: person.name, column: 200 }),
     el(
       "div",
       { className: "leader-text" },
@@ -131,7 +131,7 @@ function sectionCard(person, { heading, actions, column }) {
   return stripSection(
     1,
     heading ?? person.name,
-    drawFace(person.face, { bust: true, alt: person.name, column }),
+    drawFace(person.face, { shape: "bust", alt: person.name, column }),
     ...(heading
       ? [
           el("h2", { className: "strip-name", textContent: person.name }),

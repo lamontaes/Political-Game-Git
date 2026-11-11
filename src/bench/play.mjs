@@ -2,7 +2,7 @@
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
-import { headshot } from "./ui/headshot.mjs";
+import { face as drawFace } from "./ui/face.mjs";
 import {
   talkLine,
   transcript,
@@ -16,7 +16,7 @@ import {
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
-import { memberCard } from "./ui/member-card.mjs";
+import { personCard } from "./ui/person-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
 import {
@@ -98,7 +98,6 @@ import {
 } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
-  bust,
   stripScreen,
   stripSection,
   perkList,
@@ -116,15 +115,12 @@ import {
   quitButton,
   optionsBoard,
   patchNotesScreen,
-  savedLifeRow,
-  leaderBlock,
   seatNumbers,
   voteRows,
   moneyFigure,
   deskBill,
   deskTitle,
   deskList,
-  candidate,
   rosterTitle,
   rosterCols,
   rosterSide,
@@ -161,7 +157,7 @@ function setClock(at) {
 }
 /** A bust: the person's round headshot (the People map's), or nothing. */
 function setFace(id, face) {
-  $(id).replaceChildren(...(face ? [headshot(face)] : []));
+  $(id).replaceChildren(...(face ? [drawFace(face)] : []));
 }
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
@@ -3990,14 +3986,17 @@ const sheets = {
                   stripSection(
                     4,
                     gov.executive.title,
-                    leaderBlock({
-                      face: gov.executive.face,
-                      name: gov.executive.name,
-                      party: gov.executive.party,
-                      post: gov.executive.title,
-                      onOpen: () =>
-                        showPerson({ personId: gov.executive.cardId }),
-                    }),
+                    personCard(
+                      {
+                        face: gov.executive.face,
+                        name: gov.executive.name,
+                        party: gov.executive.party,
+                        line: gov.executive.title,
+                        onOpen: () =>
+                          showPerson({ personId: gov.executive.cardId }),
+                      },
+                      { layout: "leader" },
+                    ),
                   ),
                 ]
               : []),
@@ -4159,19 +4158,23 @@ const sheets = {
     const life = titleLife;
     if (!life) return [plate(null, prose(words.none, "saves-none"))];
     return [
-      savedLifeRow({
-        name: life.name,
-        face: life.face,
-        date: dateWords(life.date),
-        load: makeButton({
-          className: "action",
-          textContent: words.load,
-          onclick: () => {
-            closeSheet();
-            $("front-continue").click();
-          },
-        }),
-      }),
+      personCard(
+        { name: life.name, face: life.face },
+        {
+          layout: "saved",
+          note: dateWords(life.date),
+          actions: [
+            makeButton({
+              className: "action",
+              textContent: words.load,
+              onclick: () => {
+                closeSheet();
+                $("front-continue").click();
+              },
+            }),
+          ],
+        },
+      ),
     ];
   },
   /**
@@ -4550,24 +4553,22 @@ const sheets = {
     const racePage = (race) => {
       const candidates = race.filers.length
         ? race.filers.map((f) =>
-            candidate(
-              memberCard({
-                name: f.name ?? "",
-                line: f.party ?? "",
-                party: f.party,
-                face: f.face,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: f.cardId });
-                },
-              }),
-              ...f.stances.map((st) =>
+            personCard({
+              name: f.name ?? "",
+              line: f.party ?? "",
+              party: f.party,
+              face: f.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: f.cardId });
+              },
+              more: f.stances.map((st) =>
                 row(
                   policyLabel(st.question),
                   st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
                 ),
               ),
-            ),
+            }),
           )
         : [prose(labels.noFilers, "record-empty")];
       const mayFile =
@@ -4792,7 +4793,7 @@ const sheets = {
             })
           : district;
     const card = (body, m, line, large = false) =>
-      memberCard(
+      personCard(
         {
           name: m.name,
           line,
@@ -4958,14 +4959,16 @@ const sheets = {
                     stripSection(
                       5,
                       chief.title,
-                      leaderBlock({
-                        face: chief.members[0].face,
-                        name: chief.members[0].name,
-                        party: chief.members[0].party,
-                        post: chief.title,
-                        line: sinceLine(chief.members[0]),
-                        onOpen: open(chief.members[0].cardId),
-                      }),
+                      personCard(
+                        {
+                          face: chief.members[0].face,
+                          name: chief.members[0].name,
+                          party: chief.members[0].party,
+                          line: chief.title,
+                          onOpen: open(chief.members[0].cardId),
+                        },
+                        { layout: "leader", note: sinceLine(chief.members[0]) },
+                      ),
                     ),
                   ]
                 : []),
@@ -5001,14 +5004,16 @@ const sheets = {
                     stripSection(
                       1,
                       chief.title,
-                      leaderBlock({
-                        face: head.face,
-                        name: head.name,
-                        party: head.party,
-                        post: chief.title,
-                        line: sinceLine(head),
-                        onOpen: open(head.cardId),
-                      }),
+                      personCard(
+                        {
+                          face: head.face,
+                          name: head.name,
+                          party: head.party,
+                          line: chief.title,
+                          onOpen: open(head.cardId),
+                        },
+                        { layout: "leader", note: sinceLine(head) },
+                      ),
                     ),
                   ]
                 : []),
@@ -5240,7 +5245,7 @@ const sheets = {
             ? pager({
                 items: seats,
                 render: (s) =>
-                  memberCard({
+                  personCard({
                     name: s.name,
                     line: s.title,
                     party: name,
@@ -5819,10 +5824,14 @@ api("/api/title").then((title) => {
   // New game's two choices, each under its busts (the mock's fr-new): someone
   // starting out, and three who hold office.
   $("new-start-busts").replaceChildren(
-    ...(title.newGame?.start ? [bust(title.newGame.start, "", 210)] : []),
+    ...(title.newGame?.start
+      ? [drawFace(title.newGame.start, { shape: "bust", column: 210 })]
+      : []),
   );
   $("new-advanced-busts").replaceChildren(
-    ...(title.newGame?.advanced ?? []).map((face) => bust(face, "", 132)),
+    ...(title.newGame?.advanced ?? []).map((face) =>
+      drawFace(face, { shape: "bust", column: 132 }),
+    ),
   );
 });
 $("front-continue").addEventListener("click", async () => {
@@ -6239,7 +6248,9 @@ $("cr-place-random").addEventListener("click", async () => {
 // a row with arrows for each thing a bust shows.
 function showLook(view) {
   setup.recipe = view.recipe;
-  $("cr-bust").replaceChildren(bust(view.face, "", 250));
+  $("cr-bust").replaceChildren(
+    drawFace(view.face, { shape: "bust", column: 250 }),
+  );
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
       lookRow(row, {

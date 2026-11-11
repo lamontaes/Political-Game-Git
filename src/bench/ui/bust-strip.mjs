@@ -5,14 +5,11 @@
 // and joins the top of the talk box in a talk, where whoever speaks is lit and a
 // little larger. A room is its painting alone; nobody is drawn into it.
 import { el } from "./dom.mjs";
-import { bustStack } from "./bust.mjs";
+import { face } from "./face.mjs";
 
 /** One person on the strip: their bust, cut soft at the shoulders, and their name. */
 function stripPerson(person, { speakingId, onClick }) {
-  const bust = person.face.bust;
-  const stack = bustStack(bust, person.name);
-  // The head's middle sits over the middle of the person's place on the strip.
-  stack.style.setProperty("--head-middle", String(bust.head[1] / bust.size));
+  const stack = face(person.face, { shape: "strip", alt: person.name });
   const cell = el(
     "div",
     { className: "busts-person" },

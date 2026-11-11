@@ -2,9 +2,8 @@
 // the bust system"). A person on a menu is a few pictures stacked on one
 // square canvas: head, top, facial hair, hair (src/bench/bust.ts picks them).
 // Every piece is one file shared by everyone who wears it, so the browser
-// fetches and decodes each once. Screens call `bustStack` through `bust`
-// (strips.mjs) and `headshot` (headshot.mjs); nothing else draws a person on
-// a menu.
+// fetches and decodes each once. Screens call `bustStack` only through the
+// one face part (face.mjs); nothing else draws a person on a menu.
 import { el } from "./dom.mjs";
 
 /**

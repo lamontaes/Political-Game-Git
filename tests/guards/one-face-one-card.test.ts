@@ -41,19 +41,28 @@ function shipped(): string[] {
  * The parts that may draw with the face part, each for its reason. The person
  * card; the strip screen's own bust (You, the person card's screen, Budgets);
  * the play screen's single face slots (the talk box's speaker, the title's
- * Continue); a ballot's candidate rows and a meeting's member ring, which show
- * a face in a mark of their own beside a vote, not a person card.
+ * Continue, New game, the creator); a ballot's candidate rows and a meeting's
+ * member ring, which show a face in a mark of their own beside a vote, not a
+ * person card; and the strip of busts along a room, which is who is here, not
+ * a card.
  */
 const MAY_DRAW_FACES = new Set([
   "src/bench/ui/person-card.mjs",
+  "src/bench/ui/bust-strip.mjs",
   "src/bench/ui/strips.mjs",
   "src/bench/play.mjs",
   "src/bench/ui/ballot-paper.mjs",
   "src/bench/ui/meeting-item.mjs",
 ]);
 
-/** Marks of drawing a face: building its frames, or cropping by a face record's head box. */
+/**
+ * Marks of drawing a face: building its frames, stacking or placing a bust
+ * (ui/bust.mjs's two calls), or cropping by a face record's head box. The
+ * bust part itself (ui/bust.mjs) stacks and places; only face.mjs calls it.
+ */
+const BUST_PART = "src/bench/ui/bust.mjs";
 const FACE_MARKS: readonly RegExp[] = [
+  /\bbust(?:Stack|Place)\(/,
   /className:\s*["'`](?:headshot|mxbust|mxglow)\b/,
   /\[\s*top\s*,\s*middle\s*,\s*width\s*\]\s*=/,
   /\.head\s*\[\s*[012]\s*\]/,
@@ -66,6 +75,7 @@ describe("one face part and one person card", () => {
     const drawn = files.filter(
       (file) =>
         file !== FACE_PART &&
+        file !== BUST_PART &&
         FACE_MARKS.some((mark) =>
           mark.test(readFileSync(path.join(ROOT, file), "utf8")),
         ),

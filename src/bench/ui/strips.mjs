@@ -9,7 +9,7 @@ import { picture } from "./picture.mjs";
 import { rosterScreen } from "./roster-screen.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
-import { bustPlace, bustStack } from "./bust.mjs";
+import { face as drawFace } from "./face.mjs";
 
 /** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
 const JOURNAL_TWO_COLUMNS = 700;
@@ -26,39 +26,6 @@ export function stripSection(depth, title, ...nodes) {
     el("h3", { className: "sechead", textContent: title }),
     el("div", { className: "secbody" }, ...nodes),
   );
-}
-
-/** The column a bust is sized for. */
-const COLUMN_PX = 320;
-/** The share of the column a bust's head takes: the shoulders reach the column's edges. */
-const BUST_HEAD_SHARE = 0.36;
-
-/**
- * A person's bust for a screen's left column (ui/bust.mjs): the whole of it
- * across the column, ending in a soft fade on the chest. `face` is the card's
- * face record; someone with none (a child) gets the warm light alone.
- */
-export function bust(face, alt, column = COLUMN_PX) {
-  if (!face) return el("div", { className: "mxglow" });
-  const record = face.bust;
-  const scale = column / COLUMN_PX;
-  const at = bustPlace(record, {
-    share: BUST_HEAD_SHARE,
-    top: (12 * scale) / column,
-  });
-  const stack = bustStack(record, alt);
-  Object.assign(stack.style, {
-    width: `${Math.round(at.side * column)}px`,
-    left: `${Math.round(at.left * column)}px`,
-    top: `${Math.round(at.top * column)}px`,
-  });
-  const frame = el("div", { className: "mxbust" }, stack);
-  // The frame ends where the canvas does, so the fade falls on the chest.
-  frame.style.height = `${Math.round((at.top + at.side) * column)}px`;
-  frame.style.width = `${column}px`;
-  const glow = el("div", { className: "mxglow" }, frame);
-  glow.style.width = `${column}px`;
-  return glow;
 }
 
 /**
@@ -80,7 +47,7 @@ export function stripScreen({ name, role, face, columns }) {
           ? [el("p", { className: "strip-role", textContent: role })]
           : []),
       ),
-      bust(face, name),
+      drawFace(face, { shape: "bust", alt: name }),
     ),
     el(
       "div",
@@ -276,37 +243,6 @@ export function departmentRow({ name, amount, head, selected, onSelect }) {
   return row;
 }
 
-/**
- * A leader: a bust at the left, the name big beside it, the party and post under
- * it, then a line (the mock's mayor and governor). `onOpen` opens their card.
- */
-export function leaderBlock({ face, name, party, post, line, onOpen }) {
-  const nameNode = nameLink(name, onOpen);
-  nameNode.className = "leader-name pick";
-  return el(
-    "div",
-    { className: "leader" },
-    bust(face, name, 200),
-    el(
-      "div",
-      { className: "leader-text" },
-      nameNode,
-      el(
-        "p",
-        { className: "leader-post" },
-        ...(party
-          ? [
-              el("span", { className: "leader-party", textContent: party }),
-              " · ",
-            ]
-          : []),
-        post,
-      ),
-      ...(line ? [el("p", { className: "intro", textContent: line })] : []),
-    ),
-  );
-}
-
 /** Seats as big numbers, each in its party's color: `parts` are { party, seats, label }. */
 export function seatNumbers(parts, vacant) {
   return el(
@@ -354,21 +290,6 @@ export function voteRows(rows) {
       });
       return node;
     }),
-  );
-}
-
-/** A saved life as a strip: its name over a bust, the game's date and the Load button. */
-export function savedLifeRow({ name, face, date, load }) {
-  return el(
-    "div",
-    { className: "strip-screen strip-wrap strips ol-g saves-row" },
-    stripSection(
-      1,
-      name,
-      bust(face, name, 300),
-      el("p", { className: "save-date", textContent: date }),
-      el("div", { className: "acts" }, load),
-    ),
   );
 }
 
@@ -555,5 +476,3 @@ export const rosterCols = (...nodes) =>
   el("div", { className: "roster-cols" }, ...nodes);
 export const rosterSide = (...nodes) =>
   el("div", { className: "roster-side" }, ...nodes);
-export const candidate = (...nodes) =>
-  el("div", { className: "candidate" }, ...nodes);
