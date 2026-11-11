@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/trade-refusal-on-main
-pr: 8081
+pr: 8805
 blocked-on:
 lead: words
 milestone: play-first
