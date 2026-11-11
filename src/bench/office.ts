@@ -4,7 +4,7 @@
  * bill reaches it, and what stops the player. Records and control names
  * only; the words of each act come from the engines that kept them.
  */
-import { billTitleOf } from "../english/bill-names";
+import { billTitleOf, spokenDesignation } from "../english/bill-names";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import {
   leavePostOpen,
@@ -91,7 +91,9 @@ export function billItem(core: CoreState, bill: BillRow) {
     billId: bill.id,
     // The bill's real name from its title record, never its description.
     title: billTitleOf(bill)?.title ?? null,
-    number: bill.number,
+    // The number as a clerk reads it ("Ordinance 2025-6"): a bare "2025-6"
+    // under a title reads as a date (owner, Nov 11).
+    number: spokenDesignation(bill.number, bill.form.kind),
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
     // Opening the bill is meeting the people who spoke on it: a speaker still in the wider
