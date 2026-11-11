@@ -16,7 +16,14 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
-export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
+export function newsBoard({
+  outlets,
+  labels,
+  date,
+  headlineOf,
+  photoOf,
+  actionOf,
+}) {
   let chosen = outlets.keys().next().value;
   let opened = null;
   const holder = el("div", { className: "news-board" });
@@ -89,6 +96,8 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
             el("p", { className: "intro", textContent: text }),
           ),
         ),
+        // What the story's record opens (another state's change: its roll call).
+        ...(className === "lead" && actionOf?.(story) ? [actionOf(story)] : []),
       );
     // One paper needs no tab over its own masthead.
     holder.replaceChildren(

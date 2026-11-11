@@ -1,3 +1,4 @@
+import { stateRollCall } from "./states";
 import {
   drawAheadNow,
   drawAheadOn,
@@ -1966,6 +1967,18 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/card",
     run: async ({ url, send }) => {
       send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/state/roll-call",
+    run: async ({ url, send }) => {
+      // Another state's change, its roll call in each chamber and its sponsor (states.ts).
+      send(
+        200,
+        stateRollCall(requireCore(), url.searchParams.get("lawId") ?? ""),
+      );
       return;
     },
   },

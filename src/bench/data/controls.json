@@ -878,7 +878,12 @@
     "fiscalYear": "fiscal year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
-    "subjects": "Subjects"
+    "subjects": "Subjects",
+    "repealed": "Repealed",
+    "rollCallSponsor": "Sponsor",
+    "rollCallYes": "Yes ({n})",
+    "rollCallNo": "No ({n})",
+    "rollCallOpen": "How they voted"
   },
   "results": {
     "you": "You",

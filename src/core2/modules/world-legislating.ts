@@ -1471,6 +1471,10 @@ function openOutsideSession(
     firstFloor: adjournAt,
     filings: [],
     bills: [],
+    // Who sat in each chamber when the counts were taken (in the order of
+    // the law rows' bodies): a roll call ranks them, not whoever sits on the
+    // day it is opened, so its lists add up to the counts.
+    memberKeys: keys,
   } as unknown as ModuleRow);
   calendar.schedule({
     key: `session-close:${id}`,
@@ -1518,7 +1522,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       `No effective-date rule for ${jurisdiction} acts (state-effective-dates.json).`,
     );
   const conveneAt = sessionId.slice(sessionId.lastIndexOf(":") + 1);
-  enactLaw(api, {
+  const law = enactLaw(api, {
     jurisdiction,
     level: "state",
     series: question,
@@ -1536,6 +1540,14 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       decision,
     },
   });
+  // The roll call is kept the day the law passes, from the members who sat
+  // then, so a seat left vacant or filled later cannot change who voted or
+  // leave the lists short of the count (play-states-screen-opens-any-state:
+  // Maine's House read 78 to 74 against a recorded 78 to 75 once a seat fell
+  // vacant).
+  String(counts)
+    .split("/")
+    .forEach((_, at) => rollCallOf(api, law.id, at));
 }
 
 /**
@@ -1575,14 +1587,18 @@ export function rollCallOf(
   if (!count || !chamberId) return null;
   const [yesCount, noCount] = count.split("-").map(Number) as [number, number];
   const direction = Number(terms.direction) || 1;
-  const ranked = members(api, chamberId)
-    .map((term) => {
-      const key = memberKey(term);
-      return {
-        key,
-        lean: (officialStance(api, key, row.series) ?? 0) * direction,
-      };
-    })
+  // The members the counts were taken from, kept on the session; a session
+  // kept before they were falls back to the chamber as it sits.
+  const session = sessionTable(api).get(terms.session) as unknown as
+    { memberKeys?: readonly (readonly string[])[] } | undefined;
+  const counted =
+    session?.memberKeys?.[chamberIndex] ??
+    members(api, chamberId).map(memberKey);
+  const ranked = counted
+    .map((key) => ({
+      key,
+      lean: (officialStance(api, key, row.series) ?? 0) * direction,
+    }))
     .sort((a, b) => b.lean - a.lean || a.key.localeCompare(b.key));
   const yes = ranked.slice(0, yesCount).map((m) => m.key);
   const no = ranked
