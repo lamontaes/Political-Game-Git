@@ -5,9 +5,9 @@ area: laws
 kind: feature
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-income-tax-flatten-sponsor-rate
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:49:59.451Z
 ---
 
 **What.** When a catalog act repeals a graduated state or local income tax, it enacts one national flat rate (4.25%) for every place. Real legislatures that flattened chose a rate tied to their own old schedule: five conversions from 2023 to 2026 set the new rate at 0.667 to 1.0 of the old top rate, sourced in data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json. The provision should carry the rate the sponsor writes from their views and the law in force, as the legislature's rate sections already do through `shapedRate`, so the repeal reads that rate instead of the national parameter and resolves SG-GOV-REACH-B-flat-tax-replacement. Seen: the new flat rate on the bill card when a repeal replaces a graduated income tax.
