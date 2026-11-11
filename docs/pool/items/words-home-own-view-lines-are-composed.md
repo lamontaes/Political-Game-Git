@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/words-w3-own-view
-pr: 8822
+pr: #8822
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -19,6 +19,7 @@ source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: ever
 checked:
 claimed-at: 2026-11-11
 branch: claude/words-w3-own-view
+merged-at: 2026-11-11T18:59:32.982Z
 ---
 
 **What.** A person who follows politics tells the player where they stand. Today they say one of 18 labels as whole sentences ("I should tell you, I lean conservative.", "I'm about as liberal as they come.", "Politics? I keep out of it."), and the player answers with one of 8 fixed replies ("I see it the same way."). 25 of the 26 lines under the bank's `own-view` subject have no insert. Nobody names a question, so a farmer and a teacher with the same lean say the same thing. Seen: the talk box when someone the player knows says where they stand, and the player's replies; then the person card's line for where they stand.
