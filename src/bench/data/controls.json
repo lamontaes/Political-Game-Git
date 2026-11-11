@@ -987,6 +987,10 @@
     "note": "One word",
     "saved": "Graded"
   },
+  "here": {
+    "label": "Here",
+    "more": "and {count} more"
+  },
   "talkBox": {
     "continue": "Continue",
     "skipScene": "Skip scene",
