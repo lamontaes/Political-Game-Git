@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time
-pr:
+pr: #8606
 after:
 blocked-on:
 lead: elections
