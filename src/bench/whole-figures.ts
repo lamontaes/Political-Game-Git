@@ -19,11 +19,12 @@ import {
 } from "./people-pack";
 import {
   bustFor,
+  bustOfLook,
   bustPeople,
   bustPerson,
   bustPick,
-  lookText,
   type BustDress,
+  type BustLook,
   type BustPerson,
   type PersonBust,
 } from "./bust";
@@ -38,18 +39,6 @@ export function ageBandOf(core: CoreState, birthDate: string): AgeBand {
   return age < 13 ? "child" : age < 18 ? "teen" : age < 65 ? "adult" : "older";
 }
 
-/**
- * A look chosen in the creator: one of the pack's people, their everyday
- * clothes and their work clothes (people-pack.ts `lookKey` each), and a
- * palette color per part of the everyday clothes.
- */
-export interface ChosenLook {
-  person: string;
-  outfit: string;
-  work?: string;
-  colors?: Readonly<Record<string, string>>;
-}
-
 /** Who is being drawn: their record, and whether they hold office. */
 export interface FigurePerson {
   id: string;
@@ -60,8 +49,8 @@ export interface FigurePerson {
   official: boolean;
   /** The seed of the person's own appearance record, where they have one. */
   seed?: string;
-  /** A look the person chose in the creator (the player), worn everywhere it is painted. */
-  look?: ChosenLook;
+  /** A look the person chose in the creator (the player): their bust everywhere (bust.ts). */
+  look?: BustLook;
 }
 
 /** A well-mixed hash, so neighbors with alike ids still differ. */
@@ -151,14 +140,17 @@ export function bustOf(
 ): PersonBust | null {
   const band = ageBandOf(core, who.birthDate);
   if (band === "child") return null;
+  const dress = who.official ? "official" : dressKindFor(core, who, place);
+  // A look made in the creator names its own pieces.
+  if (who.look) return bustOfLook(who.look, dress);
   const person = bustPersonOf(who);
   if (!person) return null;
   return bustFor(
     person,
-    who.official ? "official" : dressKindFor(core, who, place),
-    bustPick(who.look ? lookText(who.look) : `${who.seed ?? who.id}:bust`),
-    // A teenager wears no beard, and a look made in the creator keeps the face it was made with.
-    band !== "teen" && !who.look,
+    dress,
+    bustPick(`${who.seed ?? who.id}:bust`),
+    // A teenager wears no beard.
+    band !== "teen",
   );
 }
 /** Whether a figure is in the dress someone wears here first, not a fallback. */
@@ -170,9 +162,8 @@ export const dressedForPlace = (
 ) => figure.dress === dressesFor(core, who, place)[0];
 
 /**
- * The person's figure in a pose: each dress in turn, and in a dress the look
- * chosen in the creator for that kind of clothes, else their own look (set
- * once from their seed); among
+ * The person's figure in a pose: each dress in turn, and in a dress their
+ * own look (set once from their seed); among
  * those, the one turned most nearly as the spot faces, then on the same seat.
  */
 function figureIn(
@@ -186,24 +177,8 @@ function figureIn(
     (row) => row.person === person.id && fits(row),
   );
   const seed = who.seed ?? who.id;
-  // In each dress, the look chosen in the creator for that kind of clothes
-  // (everyday or work) first, then their own look set once from their seed.
-  const chosenFor = (dress: string) =>
-    !who.look
-      ? undefined
-      : dress === rules.everydayDress
-        ? who.look.outfit
-        : who.look.work;
-  const groups = dresses.flatMap((dress) => {
-    const chosen = chosenFor(dress);
-    const picked = chosen
-      ? mine.filter(
-          (row) =>
-            lookKey(row) === chosen &&
-            (row.dress === rules.everydayDress) ===
-              (dress === rules.everydayDress),
-        )
-      : [];
+  // In each dress, their own look set once from their seed.
+  const groups = dresses.map((dress) => {
     const rows = mine.filter((row) => row.dress === dress);
     const looks = [
       ...new Set(
@@ -216,7 +191,7 @@ function figureIn(
       ? looks[mixed(`${seed}:${dress}`) % looks.length]
       : undefined;
     const worn = rows.filter((row) => lookKey(row) === own);
-    return [picked, worn.length ? worn : rows];
+    return worn.length ? worn : rows;
   });
   const rows = groups.find((group) => group.length);
   return rows ? [...rows].sort(rank)[0]! : null;
@@ -276,30 +251,8 @@ export function figureForSpot(
 }
 
 /**
- * A figure a portrait may show: standing, holding nothing (owner, Oct 29:
- * nobody sits in the character creator or a profile; "They should all be
- * standing").
- */
-export const portraitPose = (row: PackFigure) =>
-  row.seat === "none" && !row.prop && !row.needsDesk;
-/** A pack person's standing portrait in a look or dress. */
-export function portraitOf(
-  person: PackPerson,
-  who: FigurePerson,
-  dresses: readonly string[],
-): PackFigure | null {
-  return figureIn(
-    person,
-    who,
-    dresses,
-    portraitPose,
-    (a, b) => turnApart(a.facing, 0) - turnApart(b.facing, 0) || byId(a, b),
-  );
-}
-
-/**
- * The color each recolorable part is painted: the one chosen in the creator,
- * else one of the person's palette set once from their seed; someone 65 or
+ * The color each recolorable part is painted: one of the person's palette
+ * set once from their seed; someone 65 or
  * older has gray hair where the palette has it.
  */
 export function colorsFor(
@@ -311,8 +264,6 @@ export function colorsFor(
   return Object.fromEntries(
     colorParts(person).map((part) => {
       const names = Object.keys(person.palettes[part]!);
-      const chosen = who.look?.colors?.[part];
-      if (chosen && names.includes(chosen)) return [part, chosen];
       if (
         part === "hair" &&
         band === "older" &&
