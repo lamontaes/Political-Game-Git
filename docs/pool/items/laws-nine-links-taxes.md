@@ -6,9 +6,9 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-nine-links-taxes
+claimed-by:
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T00:05:56.581Z
+claimed-at:
 branch: claude/pool-laws-nine-links-taxes
 ---
 
@@ -44,3 +44,5 @@ Laws lead, Oct 25: PR #5649 now lands the eleven laws that are wired as `laws-ni
 Laws lead, Oct 26: PR #5649 now lands ten as `laws-nine-links-taxes-ten`. This item stays open for the estate tax (blocked on `people-estate-wealth-top-tail`) and for the local income tax grant's bill, which waits on the Words row `words-bill-section-local-income-tax-authority`.
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:05 UTC) on branch claude/pool-laws-nine-links-taxes.
+
+Released (2026-11-11): local income tax authority already graded wired in the matrix; only the estate half (people-estate-wealth-top-tail, open) remains. Continue on branch claude/pool-laws-nine-links-taxes.
