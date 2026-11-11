@@ -833,6 +833,9 @@ export function openLegislature(core: CoreState): void {
     registerModule(core, LEGISLATURE_MODULE);
   registerBudgetVote(councilBudget);
   registerBudgetHearing(holdCouncilBudgetHearing);
+  // Registered when the legislature opens, never as the file loads: in an
+  // import cycle the corruption module's list may not exist yet.
+  registerBribeScope(billBribeScope);
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
 }
@@ -6548,7 +6551,11 @@ export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
  * A bribe for a bill's vote can only go to someone who has a say on it: a member of a chamber it
  * passes through, or the executive who signs it. Read from the bill's own body, never a named place.
  */
-registerBribeScope((api, subjectId, officialId) => {
+function billBribeScope(
+  api: CoreAPI,
+  subjectId: string,
+  officialId: string,
+): string | null {
   if (
     !subjectId.startsWith("bill:") ||
     !api.state.modules.has(LEGISLATURE_MODULE_ID)
@@ -6566,7 +6573,7 @@ registerBribeScope((api, subjectId, officialId) => {
   return deciders.has(officialId)
     ? null
     : "That official has no vote or signature on this bill, so there is nothing to buy from them.";
-});
+}
 
 export function billOf(api: CoreAPI, billId: string): BillRow {
   return table(api, "bills").get(billId) as unknown as BillRow;

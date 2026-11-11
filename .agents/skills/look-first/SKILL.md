@@ -62,5 +62,6 @@ Stop at the first hit that answers; read it whole.
 - [ ] I read OWNER-DECISIONS whole and the prior-rulings digest for my area.
 - [ ] I searched docs/, the pool and Drive (or said the connector was missing) for the subject and its synonyms.
 - [ ] Before I built, or started a helper on, a fix for a red test or a line someone else owns, I read the titles of the open pull requests and the pool items claimed in the last day for the same file or line. (Nov 10: a helper reworded two journal lines an hour after the Story line had claimed the same two; the second pull request was withdrawn.)
+- [ ] Before I measured or wrote a cause, I searched the open pull requests for the engine and function it names and read the skill for that kind of work. (Nov 11: the lead spent an hour measuring why memory grows, found that office hours fill in counted residents, and wrote the fix into an item. The Speed lead's pull request for that fix had been open for nine hours, and `speed-work` already named the cause. One search for `bringCases` would have found both.)
 - [ ] Every question I still have ends with the reading line, and none of them is answered above.
 - [ ] Every ruling I found is cited where I build on it.
