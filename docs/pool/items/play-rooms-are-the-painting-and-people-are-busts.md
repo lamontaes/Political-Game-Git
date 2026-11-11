@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 1
 size: L
-status: blocked
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 8643
 after: play-busts-stand-alone-without-the-people-pack
-blocked-on: the owner's answers to calls 8 (the talk box) and 9 (who's here) on the decisions page; mock-ups in docs/seen/talk-and-whos-here
+blocked-on:
 lead: screens
 source: "owner, Nov 10, 2026, about 9:24 p.m. (call 7 of the decisions page), recorded in docs/coordination/OWNER-DECISIONS.md"
 model: opus
@@ -34,3 +34,5 @@ checked: fable 2026-11-11
 **Waits on.** The owner's answers to calls 8 and 9; play-busts-stand-alone-without-the-people-pack.
 
 **Files.** src/bench/play.mjs, src/bench/play.html, src/bench/play.css, src/bench/ui/room.mjs, src/bench/ui/bust.mjs (new), src/bench/scene.ts, src/bench/handler.ts, src/bench/montage.ts, src/bench/story.ts, src/bench/whole-figures.ts, src/bench/mannequin-plates.ts, src/bench/occluders.ts, src/bench/people-pack.ts, src/core2/data/stopgaps/play.json, the browser checks that click a figure (person-card, talk-history, four-screens, panels, circumstance-scene, talk-clickable, room-talkable-after-story)
+
+Built (Fable B, 2026-11-11, pull request 8643): the owner answered call 11 with option A, the strip. `peopleHere` in src/bench/scene.ts and src/bench/ui/bust-strip.mjs replace the figures. Pictures in docs/seen/strip-of-busts. The room's request takes 7.9 thousandths of a second against 2.6 on main in Goleta, California (seed 0c066ddb-a485-4cf0-ba75-b14ff37d36d3), where main drew nobody. The server-side files the figures used are left for step 3 of docs/art/full-body-people-after-early-access.md.
