@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T09:23:13.626Z
+claimed-at: 2026-11-11T09:43:46.932Z
 branch: claude/pool-tests-government-staffing-ward-charter-no-employer
 ---
 
@@ -60,3 +60,7 @@ Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): The Cause does not hold (three releases say so); rewritten as Needs cause on pool/notes-2026-11-11-10 (31523b368aa9), not rebuilt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:23 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause found by probe (the hire comes after the April job-finding review, about 77 days after the change); written on pool/notes-2026-11-11-10 (0806785e43f1) with checked cleared for Fable's check; not built. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:43 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
