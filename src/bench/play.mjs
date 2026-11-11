@@ -2637,7 +2637,7 @@ async function officeParts() {
                     {
                       rows: 3,
                       columns: 1,
-                      rowHeight: 96,
+                      rowHeight: 116,
                       className: "office-paged",
                     },
                   ),

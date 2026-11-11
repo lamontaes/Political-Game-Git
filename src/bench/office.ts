@@ -317,7 +317,14 @@ const AIDE_CANDIDATES_SHOWN = 8;
 /** The player's aides serving now, and the staff engine's own candidates for the post with the reasons it weighs. */
 function aidesView(core: CoreState, personId: string) {
   const api = coreAPI(core);
+  // The engine can return one person twice (a counted resident and the person
+  // filled in from them); the screen offers each person once.
+  const seen = new Set<string>();
   const ranked = staffCandidates(api, personId)
+    .filter(
+      (candidate) =>
+        !seen.has(candidate.personId) && seen.add(candidate.personId),
+    )
     .map((candidate) => ({ candidate, ...hireReasons(candidate) }))
     .sort(
       (a, b) =>
