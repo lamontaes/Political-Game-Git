@@ -5,4 +5,4 @@ section: Fixed
 title: Everyone keeps one face in every menu
 ---
 
-A person now shows the same face, hair and clothes on You, Jobs and study, Your life, the title's Continue, Saved games, People, the government screens and every card. Before, the same character could look like two different people, depending on which screen drew them and where you were standing.
+The title's Continue and Saved games now show your character as play does. Before, a character over 65 had gray hair and an older face in play, and their younger look on the title. Every face and person card in the game is now drawn the same way, so a person's face, skin and hair match on every screen.
