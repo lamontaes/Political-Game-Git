@@ -276,9 +276,25 @@ export function seatAct(
     (b) => b.officeId === input.officeId,
   );
   if (!body) throw new Error("You don't sit on that body.");
+  // A budget line's amount in force today, as the writing screen shows it
+  // beside the box: the player types the line's new amount, and a budget-line
+  // section records the change to the line (`value`) on that amount (`of`),
+  // as every other drafter of a budget bill does (legislature.ts
+  // `budgetProvisions`, world-legislating), so the law sets the line to what
+  // was typed.
+  const lineToday = input.line
+    ? (menusFor(api, body.level, input.officeId!)
+        .flatMap((menu) => menu.items)
+        .find((row) => row.line === input.line)?.inForce ?? null)
+    : null;
   const sectionOf = (value: number | undefined): Provision =>
     input.line
-      ? { kind: "budget-line", line: input.line, value: value ?? 0 }
+      ? {
+          kind: "budget-line",
+          line: input.line,
+          value: value === undefined ? 0 : value - (lineToday ?? 0),
+          ...(lineToday ? { of: lineToday } : {}),
+        }
       : input.series
         ? {
             kind: "law-amount",
@@ -432,6 +448,20 @@ function disputedWarning(
 }
 
 /**
+ * The amount a budget-line section sets its line to: the engine's own after
+ * (the line in force plus the change), else the change on the amount the
+ * section names it is made on.
+ */
+function lineSets(
+  provision: Provision,
+  section: { after: { value: number | null } } | null,
+): number {
+  return typeof section?.after.value === "number"
+    ? section.after.value
+    : (provision.of ?? 0) + provision.value;
+}
+
+/**
  * The bill as one paper document, read from its records: the designation and
  * title in the English engine's words, the sponsor by name, each section with
  * the estimate the records give for it (the statute it amends with the values
@@ -472,7 +502,7 @@ export function billPaper(core: CoreState, billId: string) {
     const clause =
       composed?.sections[index] ??
       (provision.kind === "budget-line" && named
-        ? budgetSectionSaid(named, moneySaid(provision.value))
+        ? budgetSectionSaid(named, moneySaid(lineSets(provision, section)))
         : purpose && named
           ? `${named}: ${purpose}`
           : (purpose ?? named));
@@ -508,8 +538,12 @@ export function billPaper(core: CoreState, billId: string) {
         // null when it takes effect by the bill's closing section.
         effectiveDate: section?.after.effectiveDate ?? null,
         line: provision.line ?? null,
-        lineAmountMinor:
-          provision.kind === "budget-line" ? provision.value : null,
+        // The amount the bill sets the line to for the year: the change added
+        // to the amount it is made on, as the law would pay it.
+        lineNewMinor:
+          provision.kind === "budget-line"
+            ? lineSets(provision, section)
+            : null,
         ofMinor: provision.of ?? null,
       },
     };

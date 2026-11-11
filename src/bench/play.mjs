@@ -2833,12 +2833,12 @@ function billEstimate(paper, section) {
       newLabel: words.proposed ?? "",
       proposed: after,
     };
-  else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
+  else if (est.line && est.ofMinor != null && est.lineNewMinor != null)
     compare = {
       todayLabel: words.today ?? "",
       today: roundedMoney(est.ofMinor),
       newLabel: words.proposed ?? "",
-      proposed: roundedMoney(est.ofMinor + est.lineAmountMinor),
+      proposed: roundedMoney(est.lineNewMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
   // The two cells above carry the amounts; the line is then only named.
@@ -2846,8 +2846,8 @@ function billEstimate(paper, section) {
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        !compare && est.lineAmountMinor != null
-          ? roundedMoney(est.lineAmountMinor)
+        !compare && est.lineNewMinor != null
+          ? roundedMoney(est.lineNewMinor)
           : null,
         !compare && est.ofMinor != null
           ? `${words.from ?? ""} ${roundedMoney(est.ofMinor)}`
