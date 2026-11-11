@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 8175
+pr: #8175
 after:
 blocked-on:
 lead: money
@@ -17,6 +17,7 @@ effort: medium
 root: design-country-tier
 source: split from core-country-tier-first-slice by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+merged-at: 2026-11-11T04:52:19.090Z
 ---
 
 **What.** Dev mode's Trace on a state shows its households, employers and ledger. It does not show why this month differs from last, so a second session that sees two worlds differ cannot open the cause from a screen. This part keeps, for each state and month, what each step of the month moved, and shows it in Trace.
