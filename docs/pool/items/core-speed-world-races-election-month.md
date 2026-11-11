@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-speed-world-races-election-month
-pr: #8677
+pr: #0
 after:
 blocked-on:
 model: opus
