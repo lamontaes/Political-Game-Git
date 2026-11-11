@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 claimed-by: claude/pool-play-nov8-journal-says-he-moved-to-where-he-was-born
-pr:
+pr: #8459
 after:
 blocked-on:
 standard: 2
