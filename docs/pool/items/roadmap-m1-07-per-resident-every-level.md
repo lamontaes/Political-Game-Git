@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-roadmap-m1-07-per-resident-every-level
 pr:
 blocked-on:
 after: roadmap-m1-housing-budgets-business-commands
@@ -17,7 +17,7 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T04:25:57.813Z
 branch: claude/pool-roadmap-m1-07-per-resident-every-level
 ---
 
