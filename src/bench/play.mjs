@@ -1563,6 +1563,15 @@ function renderFiling(value) {
   fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
   // label under the talk, not as words in the clerk's mouth.
+  if (value.result?.petition)
+    addTalkLine(
+      talkLine({
+        kind: "label",
+        text: controls.filing.petition
+          .replace("{needed}", String(value.result.petition.needed))
+          .replace("{date}", dateWords(value.result.petition.due)),
+      }),
+    );
   if (value.result)
     addTalkLine(
       talkLine({
@@ -1706,6 +1715,7 @@ async function campaignParts() {
     contest,
     campaign,
     pollSample,
+    petition,
     outings,
     standing,
     debates,
@@ -1999,6 +2009,32 @@ async function campaignParts() {
               { label: labelsC.spent, value: moneyWords(campaign.spentMinor) },
               { label: labelsC.volunteers, value: String(campaign.volunteers) },
               { label: labelsC.doors, value: String(campaign.doors) },
+              // The petition record: the signatures held against those the
+              // clerk will count, and the clerk's verdict once it has checked.
+              ...(petition
+                ? [
+                    {
+                      label: labelsC.signatures,
+                      value: labelsC.signaturesHeld
+                        .replace("{signed}", String(petition.signed))
+                        .replace("{needed}", String(petition.needed))
+                        .replace("{date}", dateWords(petition.due)),
+                    },
+                    ...(petition.check
+                      ? [
+                          {
+                            label: labelsC.clerkCount,
+                            value: labelsC.clerkCounted
+                              .replace("{valid}", String(petition.check.valid))
+                              .replace(
+                                "{struck}",
+                                String(petition.check.struck),
+                              ),
+                          },
+                        ]
+                      : []),
+                  ]
+                : []),
               ...(campaign.endorsements
                 ? [
                     {

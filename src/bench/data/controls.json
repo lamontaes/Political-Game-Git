@@ -486,6 +486,7 @@
     "speakAgainst": "Speak against"
   },
   "filing": {
+    "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
     "status": {
       "petitioning": "Collecting signatures",
       "on-ballot": "You are on the ballot",
@@ -1215,6 +1216,10 @@
     "spent": "Spent",
     "volunteers": "Volunteers",
     "doors": "Doors knocked",
+    "signatures": "Signatures",
+    "signaturesHeld": "{signed} of {needed}, due {date}",
+    "clerkCount": "The clerk's count",
+    "clerkCounted": "{valid} counted, {struck} struck",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
