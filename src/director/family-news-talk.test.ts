@@ -377,11 +377,12 @@ it(`someone both know comes up with what happened to them, by name and place (se
   for (let draw = 0; draw < 8; draw += 1) {
     const world = relativeAskedAfter(`${seed}:mutual:${draw}`);
     const { core, director, me, player, where } = world;
-    // Someone the player knows, not family, whom another person the player
-    // knows also knows.
+    // Someone the player knows whom another person the player knows, not a
+    // relative of theirs, also knows.
     const pair = [...player.knownIds].sort().flatMap((aboutId) => {
       const about = core.people.get(aboutId);
-      if (!about?.alive || player.familyIds.has(aboutId)) return [];
+      // Someone both know may be the player's relative; the listener is not.
+      if (!about?.alive) return [];
       const listenerId = [...player.knownIds].sort().find((id) => {
         const other = core.people.get(id);
         // Not a relative of the player: relatives don't talk of people both
