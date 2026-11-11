@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-entry-records-name-no-cause
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T02:57:16.218Z
 branch: claude/pool-core-entry-records-name-no-cause
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-core-entry-records-name-no-cause
 **Notes.** recordEntry has four callers in state.ts (about lines 2058, 2515, 2756 and 2800); each knows why the entry happened and can pass the record id. Finishing this lets play-dev-trace-answers-why-for-every-record-the-game-names meet its second Done-when line.
 
 Released (2026-11-11): Measured in Merrionette-style 45-day run (place 1779007, seed scratch1): 52 person.recorded filled-in, 34 interest-group and 7 cause-group organization.recorded. Fill-in has no record for the meeting or click (personOrFillIn takes only a person id), and the groups come from several creators (interest-groups.ts x3, campaigns, drives) that must each pass a cause through addOrganization; needs a decision on which record names a fill-in's cause. Continue on branch claude/pool-core-entry-records-name-no-cause.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:57 UTC) on branch claude/pool-core-entry-records-name-no-cause.
