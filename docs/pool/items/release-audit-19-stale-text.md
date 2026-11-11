@@ -5,12 +5,12 @@ area: docs
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-release-audit-19-stale-text
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:39:50.360Z
 standard: 2
 model: sonnet
 effort: low
