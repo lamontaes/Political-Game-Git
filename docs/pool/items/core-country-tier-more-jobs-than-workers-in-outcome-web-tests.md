@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 lead: speed
 model: opus
@@ -33,3 +33,5 @@ source: added with npm run pool -- add
 **Waits on.** Nothing.
 
 **Files.** src/core2/country-model.ts, src/core2/modules/macro.ts, src/core2/outcome-web.test.ts
+
+Nov 11, Fable B helper (red nobody-files): the same throw stops three bench tests once they wait for filing to open, on fresh draws with bookkeeping on: speech-screen in Princeton, Kentucky (2163138, run seed 362fee991b029cb1bc1dc590c89571803e917a574e0a9c846c021c972a435141, US-KY 2167073.68 jobs for 2166425.43 workers), campaign-day-controls in Glencoe, Minnesota (2723948, run seed b75dbbae1991d2b3cdc02014af4e59ec1367de905f1dfe67577ac65350b3ecc7, US-MN 2777964.46 for 2777213.16) and debate-answer in Sinajana, Guam (territory:GU:sinajana, run seed bdaf3175784ed14c82741e939ea1cb4f121b8c7d19c8805b6b11b1efda26d9c6, US-GU 76558.36 for 76274.61). With CORE2_BOOKKEEPING=0 all three pass on those seeds, so play is not stopped; the tests are.
