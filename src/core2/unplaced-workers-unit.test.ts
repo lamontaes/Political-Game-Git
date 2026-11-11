@@ -34,6 +34,8 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const place = drawPlace(seed, "unplaced-workers-unit");
 const where = `${place.name} (${place.key}), seed ${seed}, world seed ${place.seed}`;
 const PLAYED_DAYS = 400;
+// Two skipped months, so the residents engine catches up at least twice.
+const SKIPPED_DAYS = 60;
 // A pool's pay is kept in whole cents a period, so the two sides of the
 // identity may differ by the rounding of each hire: a thousandth of the pool.
 const ROUNDING_SHARE = 0.001;
@@ -233,5 +235,30 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
   expect(
     over.slice(0, 8),
     `${over.length} records of more than one household hold a whole worker more than their working-age members (${where})`,
+  ).toEqual([]);
+
+  // ---- Skipped: results mode runs no module's day, and the residents engine
+  // catches up on the first of each month; members who passed working age on
+  // any skipped day still take their share of the work with them.
+  advanceCore(core, addDays(makeIsoDate(core.date), SKIPPED_DAYS), {
+    results: true,
+  });
+  report(`after ${SKIPPED_DAYS} skipped days`);
+  const overSkipped: string[] = [];
+  let skippedRecords = 0;
+  for (const h of store.liveHouseholds()) {
+    if (!(store.weightOf(h) > 1)) continue;
+    skippedRecords += 1;
+    if (h.unplacedWorkers >= workingAge(h) + 1)
+      overSkipped.push(
+        `${h.id} (weight ${store.weightOf(h).toFixed(1)}): ${h.unplacedWorkers.toFixed(2)} workers, ${workingAge(h)} working-age members`,
+      );
+  }
+  process.stdout.write(
+    `UNPLACED WORKERS after ${SKIPPED_DAYS} skipped days: of ${skippedRecords} records of more than one household, ${overSkipped.length} hold a worker more than their working-age members\n`,
+  );
+  expect(
+    overSkipped.slice(0, 8),
+    `${overSkipped.length} records of more than one household hold a whole worker more than their working-age members after ${SKIPPED_DAYS} skipped days (${where})`,
   ).toEqual([]);
 }, 1_800_000);

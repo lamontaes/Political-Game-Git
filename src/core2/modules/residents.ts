@@ -233,6 +233,8 @@ export interface ResidentsRuntime {
    * day walks every household.
    */
   workingAgeEnds: Map<string, number[]>;
+  /** The last day `passWorkingAge` has run through (a skipped month catches up from it). */
+  workingAgePassedThrough: string;
 }
 
 interface ResidentMonth {
@@ -282,6 +284,7 @@ registerSnapshotPart("core2-residents", {
       moneyCache: { serial: moneySerial ?? 0 },
       retirementLevel: saved.retirementLevel ?? new Map(),
       workingAgeEnds: saved.workingAgeEnds ?? new Map(),
+      workingAgePassedThrough: saved.workingAgePassedThrough ?? core.date,
       store,
       households: new CountedHouseholdMap(store),
       householdOfPerson: new CountedPersonHouseholdMap(store),
@@ -769,6 +772,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     fillInCash: new Map(),
     fillIns: 0,
     workingAgeEnds: new Map(),
+    workingAgePassedThrough: core.date,
   };
   const owners = packOpening(core, rt, input);
   for (const row of input.flows) {
@@ -2330,6 +2334,7 @@ export function residentWageShortfall(
 export const RESIDENTS_MODULE: CoreModule = {
   id: RESIDENTS_MODULE_ID,
   onDay: runResidentsDay,
+  onResultsMonth: runResidentsDay,
 };
 
 export interface ResidentCounts {
@@ -3701,16 +3706,30 @@ function indexWorkingAgeEnds(
   }
 }
 
-/** Today's counted members who pass the counted working age leave its work. */
-function passWorkingAge(rt: ResidentsRuntime, date: string): void {
-  const members = rt.workingAgeEnds.get(date);
-  if (!members) return;
-  rt.workingAgeEnds.delete(date);
-  for (const m of members) {
-    if (!rt.store.isCounted(m)) continue;
-    const h = rt.store.households[rt.store.household[m]!]!;
-    leaveUnplacedWork(rt, h, m, date, true);
+/**
+ * The counted members who passed the counted working age since the last
+ * pass, through today, leave its work: one lookup a day since then (a month
+ * of skipped days catches up at once). A member acts only if they really
+ * pass the age on that day.
+ */
+function passWorkingAge(rt: ResidentsRuntime, today: string): void {
+  const below = countedParameter("countedWorkingAgeBelow");
+  let date = rt.workingAgePassedThrough;
+  while (date < today) {
+    const before = date;
+    date = addDays(makeIsoDate(date), 1);
+    const members = rt.workingAgeEnds.get(date);
+    if (!members) continue;
+    rt.workingAgeEnds.delete(date);
+    for (const m of members) {
+      if (!rt.store.isCounted(m)) continue;
+      const born = rt.store.born[m]!;
+      if (ageOn(born, date) < below || ageOn(born, before) >= below) continue;
+      const h = rt.store.households[rt.store.household[m]!]!;
+      leaveUnplacedWork(rt, h, m, date, true);
+    }
   }
+  rt.workingAgePassedThrough = date;
 }
 
 /**
