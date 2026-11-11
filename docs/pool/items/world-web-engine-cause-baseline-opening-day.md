@@ -6,20 +6,35 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+lead: laws-effects
+model: opus
+effort: medium
+root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** The outcome web takes each engine-measure cause's baseline when it opens, so a cause a law changes on that same day (a state corporate rate, a property tax rate) gets the changed value as its baseline and the web never sees the change. The taxes helper fixed it for those two measures with baselineReader in src/core2/modules/outcome-web.ts on PR #5649; every other engine-measure cause still has it. The fix belongs in one place for all causes, not per measure.
+**What.** The outcome web takes each engine-measure cause's baseline when it opens, so a cause a law changes on that same day gets the changed value as its baseline and the web never sees the change. The taxes helper fixed it for two law measures (a state corporate rate, a property tax rate) with baselineReader. The causes split three ways: law reads with a date already take the law in force the day before the web opened; the SNAP maximum and minimum-wage measures are defined against their own reference; and the budget-line causes (parks, highways, schools, health and hospitals, welfare, higher education) read the budget row in place, which `amendBudget` overwrites, so the day-before value is not kept. The fix belongs in one place for all causes, not per measure.
 
-**Rules.** Replace, never layer: one baseline rule for every engine-measure cause, read from the law in force the day before the web opened, replacing the per-measure readers; an effect is a read, not a record.
+**Cause.** Found in code: `ENGINE_READERS` (src/core2/modules/outcome-web.ts line 236) read budget rows in place, `amendBudget` (src/core2/modules/budgets.ts line 2105) overwrites the fiscal year's row so the day-before value is not kept, and `BASELINE_READERS` (line 309) covers only dated law reads.
 
-**Done when.** Every engine-measure cause's baseline is the value the day before the web opened, through one code path in src/core2/modules/outcome-web.ts; a test changes a cause on the web's opening day and shows the web moving, for at least three causes, in a drawn place named with its seed. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Fix.** Keep a dated log of budget line changes, make `ENGINE_READERS` take a date, and delete `BASELINE_READERS` and the JSON baselineReader field in src/core2/data/outcome-web/outcome-web.json.
 
-**Files.** src/core2/modules/outcome-web.ts
+**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the effect numbers on the bill card and Metrics tab for a law that takes effect on the web's opening day, which show no change today.
+
+**Rules.** Replace, never layer: one baseline rule for every engine-measure cause, read from the value the day before the web opened, replacing the per-measure readers. An effect is a read, not a record: the web reads the dated value when it measures. Speed: the log is written on the day a line changes, never a scan.
+
+**Done when.** A second session, on main in a drawn place (place and seed named), changes a budget line and a tax rate on the web's opening day in dev mode, plays a month, and sees the web move for both, with every engine-measure cause's baseline the value the day before the web opened through one code path in src/core2/modules/outcome-web.ts. A test changes a cause on the opening day and shows the web moving, for at least three causes.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/outcome-web-model.ts, src/core2/modules/budgets.ts
 
 **Notes.** TODO
 

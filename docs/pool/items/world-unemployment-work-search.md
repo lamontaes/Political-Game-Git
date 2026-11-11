@@ -6,20 +6,35 @@ kind: feature
 priority: 3
 size: S
 status: open
+standard: 2
 claimed-by:
 pr: #5595
+after:
 blocked-on:
+lead: laws-effects
+model: sonnet
+effort: medium
+root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** State unemployment law rows carry workSearchContactsPerWeek in src/core2/data/laws/starting-law.json (1 to 4, or null where none is asked), and nothing reads it. By the owner's Oct 20 ruling the rule is recorded law that claimants follow in the background, with no form or log for the player. Add the requirement to UnemploymentTerms in src/core2/jobs-benefits.ts and copy it onto the ClaimRow with the law id. Each week, size a claimant's contacts from their own search effort (their drive and traits through decisionLean) and the regional labor market that src/core2/modules/regional.ts already reads, not from posted openings, and in payClaims pay the week at the share contacts/required capped at one, so the benefit slides with search and never flips at a threshold. Record the contacts on the claim row so the claim and week can be cited.
+**What.** State unemployment law rows carry workSearchContactsPerWeek in src/core2/data/laws/starting-law.json (1 to 4, or null where none is asked), and nothing reads it. By the owner's Oct 20 ruling the rule is recorded law that claimants follow in the background, with no form or log for the player. Add the requirement to UnemploymentTerms in src/core2/jobs-benefits.ts and copy it onto the ClaimRow with the law id. Each week, size a claimant's contacts from their own search effort (their drive and traits through decisionLean) and the regional labor market that src/core2/modules/regional.ts already reads, not from posted openings, and in payClaims pay the week at the share contacts over required capped at one, so the benefit slides with search and never flips at a threshold. Record the contacts on the claim row so the claim and week can be cited.
 
-**Rules.** No dice: contacts follow the claimant's drive, traits, hours and the regional labor market, so two claimants differ for stated reasons and never by a roll. Sliding scales and causes: the week's payment is the weekly benefit times contacts over the requirement, capped at one, and nothing flips at a threshold. One rule, all 56 places: the requirement is read from the state's law row in force, and a null row asks nothing; no state is named in code. This is a game, not a spreadsheet: the player files no contacts, a jobless player sees only the payment and the English engine's words for it. An effect is a read: payClaims reads the contacts and the household's cash shows the smaller week. One model, two tiers: a counted claimant takes the same rule times its weight.
+**Cause.** Found in code: `payClaims` in src/core2/jobs-benefits.ts (line 459) pays full weeks, and no .ts file reads workSearchContactsPerWeek, which 53 rows of src/core2/data/laws/starting-law.json carry.
 
-**Done when.** A test in src/core2/jobs-benefits.test.ts runs a one-year played world (buildBenchWorld, a place drawn from all 56 with a work-search rule, a seed the builder did not choose), shows two laid-off claimants with different drives paid different shares of the same weekly benefit in the same week, by claim id and week date, and shows a place whose law row is null pays in full. The household's cash after the lower payment is read by its next bill, and the journal balances.
+**Fix.** Add the requirement to the claim terms, size weekly contacts from the claimant's drive and the regional labor market, and pay the share contacts over required capped at one, recording the contacts on the claim row.
 
-**Files.** src/core2/jobs-benefits.ts, src/core2/modules/jobs.ts, src/core2/data/laws/starting-law.json, src/core2/jobs-benefits.test.ts
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the unemployment benefit a claimant is paid; the owner's Oct 20 ruling asks for the state's contact rule to be followed in the background, with no form.
+
+**Rules.** No dice: contacts follow the claimant's drive, traits, hours and the regional labor market, so two claimants differ for stated reasons and never by a roll. Sliding scales and causes: the week's payment is the weekly benefit times contacts over the requirement, capped at one, and nothing flips at a threshold. One rule, all 56 places: the requirement is read from the state's law row in force, and a null row asks nothing; no state is named in code. This is a game, not a spreadsheet: the player files no contacts, a jobless player sees only the payment and the English engine's words for it. An effect is a read, not a record: payClaims reads the contacts and the household's cash shows the smaller week. One model, two tiers: a counted claimant takes the same rule times its weight.
+
+**Done when.** A second session, on main in a place drawn from all 56 with a work-search rule and a seed the builder did not choose, plays a year in dev mode and sees two laid-off claimants with different drives paid different shares of the same weekly benefit in the same week, by claim id and week date, while a place whose law row is null pays in full. The household's cash after the lower payment is read by its next bill, the journal balances, and a test in src/core2/jobs-benefits.test.ts proves it.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/jobs-benefits.ts, src/core2/modules/jobs.ts, src/core2/data/laws/starting-law.json, src/core2/jobs-benefits.test.ts (new)
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
 

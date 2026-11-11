@@ -31,8 +31,8 @@ import { REGISTER_CARDS } from "../english/speech-registers";
 import { kinAddress, relationPhrase } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
 
-// M4-02, conversations (audit 1, Oct 12): at least four distinct choices
-// every turn, each answering the last line from real records; talking is
+// M4-02, conversations (audit 1, Oct 12; the count is up to four since Nov 10,
+// "So just up to 4"): one to four distinct choices every turn, each answering the last line from real records; talking is
 // time together and passes news; a lie is believed by everyone present whose
 // traits give it the benefit of the doubt, and
 // is found out when someone who knows the truth talks to them.
@@ -120,7 +120,7 @@ const hasRelativePair = (person: (typeof base.people)[number]) =>
       )
     );
   });
-const player = base.people.find(
+const fitPlayers = base.people.filter(
   (person) =>
     person.tier !== "husk" &&
     hasRelativePair(person) &&
@@ -135,19 +135,44 @@ const player = base.people.find(
         job.personId !== person.id &&
         job.organizationId === orgOf(person.jobId),
     ),
+);
+/** The world as a played one starts for this player: pre-start years, director, first days. */
+function startWorld(playerId: PersonId) {
+  const worldInput = { ...base, playerId };
+  const started = createDirector({
+    watch: [...initialFocusPeople(worldInput)],
+  });
+  const world = createLifeCore(worldInput, {
+    modules: [viewsModule, newsModule, beliefsModule, started.module],
+  });
+  // The years before the start, run from the player's birth year as a new game
+  // runs them (the school years people talk about are the school engine's).
+  const history = defaultPreStart(world);
+  if (history)
+    runPreStart(world, preStartWindow(world, history.from, history.step));
+  started.start(world);
+  advanceCore(world, "2021-01-03");
+  return { core: world, director: started };
+}
+// The opening records list only a few of the people each person knows; the
+// rest are added as the world starts. So the player is chosen from the people
+// each fitting person knows once a world has started (the core's knownIds, a
+// record, not a talk's output): the one who knows the most full people, the
+// first of them in the population's order. A world starts once to read those
+// records and again for the chosen player.
+const probeWorld = startWorld(fitPlayers[0]!.id);
+const probe = probeWorld.core;
+const knownFull = (id: PersonId) =>
+  [...(probe.people.get(id)?.knownIds ?? [])].filter((otherId) => {
+    const row = probe.people.get(otherId);
+    return row?.alive && row.tier !== "husk";
+  }).length;
+const player = fitPlayers.reduce((best, person) =>
+  knownFull(person.id) > knownFull(best.id) ? person : best,
 )!;
-const input = { ...base, playerId: player.id };
-const director = createDirector({ watch: [...initialFocusPeople(input)] });
-const core = createLifeCore(input, {
-  modules: [viewsModule, newsModule, beliefsModule, director.module],
-});
-// The years before the start, run from the player's birth year as a new game
-// runs them (the school years people talk about are the school engine's).
-const history = defaultPreStart(core);
-if (history)
-  runPreStart(core, preStartWindow(core, history.from, history.step));
-director.start(core);
-advanceCore(core, "2021-01-03");
+const played =
+  player.id === fitPlayers[0]!.id ? probeWorld : startWorld(player.id);
+const { core, director } = played;
 const api = coreAPI(core);
 const me = core.people.get(player.id)!;
 const myOrg = () =>
@@ -217,7 +242,7 @@ const opening = (talk: Conversation) =>
   talk.lines.find((row) => row.kind !== "greet")!;
 
 describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("offers four distinct replies every turn, each answering the last line and only following on from it", () => {
+  it("offers up to four distinct replies every turn (one to four, the scene sets it), each answering the last line and only following on from it", () => {
     const four = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
     let turns = 0;
     for (const otherId of others.slice(0, 15)) {
@@ -251,8 +276,8 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         if (questioned) {
           for (const choice of talk.choices)
             expect(choice.move, choice.text).not.toMatch(/^ack:/);
-          expect(texts.length).toBeGreaterThanOrEqual(P.two);
-        } else expect(texts.length).toBeGreaterThanOrEqual(P.two);
+          expect(texts.length).toBeGreaterThanOrEqual(1);
+        } else expect(texts.length).toBeGreaterThanOrEqual(1);
         expect(texts.length).toBeLessThanOrEqual(four);
         expect(new Set(texts).size).toBe(texts.length);
         // A second move only follows from the first (owner, batch 6): the
@@ -661,8 +686,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           );
           return both.length ? [{ from: actor.id, to: id, both }] : [];
         }),
-      )
-      .slice(0, 20);
+      );
     expect(pairs.length, "relatives who share a relative").toBeGreaterThan(0);
     const shared: string[] = [];
     for (const { from: a, to: b, both } of pairs) {
@@ -1021,9 +1045,9 @@ describe("the answers to a question fit it", () => {
     // The people the player knows, then every other full person: in a world
     // where each talk with someone known ends on their answered question
     // (no goodbye then, by rule), the goodbyes are said to the rest.
-    const known = new Set(others);
+    const known = new Set(talkers);
     const everyone = [
-      ...others,
+      ...talkers,
       ...[...core.people.values()]
         .filter(
           (row) =>

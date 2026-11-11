@@ -11,17 +11,29 @@ claimed-by:
 pr:
 blocked-on:
 source: CTO, Oct 29 (people-pack-v4 review)
+after:
+standard: 2
+model: sonnet
+effort: medium
+root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
-**What.** Pack v4 paints the standard Oval Office poses for some people and not others. The medium and slim men and the heavy woman have no `stand` figure, the heavy man has no `couch` figure, and the three women and the heavy man have no `gesture` figure. A person without the pose a spot needs is not drawn there, so a President drawn as the medium man sits at the desk but cannot stand behind it, and the heavy man never sits on the Oval Office couches. This is stopgap SG-PLAY-people-pack-v4-pose-gaps.
+**What.** Pack v4 paints the standard Oval Office poses for some people and not others. The medium and slim men and the heavy woman have no stand figure, the heavy man has no couch figure, and the three women and the heavy man have no gesture figure. A person without the pose a spot needs is not drawn there, so a President drawn as the medium man sits at the desk but cannot stand behind it. This is stopgap SG-PLAY-people-pack-v4-pose-gaps. It is full-body work, and on Nov 10 the owner ruled that full-body staging waits while busts are decided.
 
-**Do.** The art session draws each missing pose at the five angles (front, three-quarter left and right, back three-quarter left and right) in the person's existing looks, and adds them as rows to `art/people-engine/v4/manifest.json` in the same shape as the other v4 rows. No code changes: the loader and staging read new rows as they are (the `people-pack` skill).
+**Cause.** Found in code: art/people-engine/v4/manifest.json lacks the stand, couch and gesture rows listed above; the stopgap row SG-PLAY-people-pack-v4-pose-gaps is in src/core2/data/stopgaps/play.json (line 255).
 
-**Rules.** Placeholders: the stopgap SG-PLAY-people-pack-v4-pose-gaps is closed in the same PR that adds the rows, with its status set; Replace, never layer: the new rows join the v4 manifest and no second pack or folder is made; One rule, all 56 places: the poses are pack rows read by the one staging engine for every room and place.
+**Fix.** The art session draws each missing pose at the five angles (front, three-quarter left and right, back three-quarter left and right) in the person's existing looks, and adds them as rows to art/people-engine/v4/manifest.json in the same shape as the other v4 rows. No code changes: the loader and staging read new rows as they are (people-pack skill). Then paint the slim woman's and the medium man's everyday kit in talk/chair, listen/chair, watch/couch and write/desk-chair, so dressOrder.everyday can drop its work dresses in data (the replacement of SG-PLAY-people-everyday-falls-back-to-work).
 
-**Done when.** `people-pack.test.ts` passes, and a test lists every pack person with a `stand`, `couch` and `gesture` figure at the five angles. A screenshot of the Oval Office plate from a drawn place (name the place and seed) shows each of the six people placed on a couch cushion and on a standing spot, and the medium man standing behind the desk as President.
+**Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Files.** `art/people-engine/v4/manifest.json`, `art/people-engine/v4/people/`, `src/core2/data/stopgaps.json`, `src/bench/people-pack.test.ts`.
+**Rules.** Placeholders: the stopgap SG-PLAY-people-pack-v4-pose-gaps is closed in the same PR that adds the rows, with its status set. Replace, never layer: the new rows join the v4 manifest and no second pack or folder is made. One rule, all 56 places: the poses are pack rows read by the one staging engine for every room and place.
+
+**Done when.** A second session runs people-pack.test.ts and a test that lists every pack person with a stand, couch and gesture figure at the five angles, and sees in a screenshot of the Oval Office plate from a drawn place (name the place and seed) each of the six people placed on a couch cushion and on a standing spot, and the medium man standing behind the desk as President.
+
+**Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts").
+
+**Files.** art/people-engine/v4/manifest.json, src/core2/data/stopgaps/play.json
 
 **Notes.**
 

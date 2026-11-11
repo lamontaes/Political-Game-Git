@@ -152,6 +152,9 @@
 /src/core2/modules/federal-courts.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
+/src/core2/country-law.ts @lamontaes
+/src/core2/country-model.ts @lamontaes
+/src/core2/country-opening.ts @lamontaes
 /src/core2/modules/jobs.ts @lamontaes
 /src/core2/modules/work.ts @lamontaes
 /src/core2/modules/business.ts @lamontaes
@@ -199,6 +202,7 @@
 /src/core2/modules/life.ts @lamontaes
 /src/core2/modules/moves.ts @lamontaes
 /src/core2/modules/counted-moves.ts @lamontaes
+/src/core2/returned-members-move.ts @lamontaes
 /src/core2/modules/counted-demotion.ts @lamontaes
 /src/core2/modules/health.ts @lamontaes
 /src/core2/modules/housing.ts @lamontaes
@@ -210,6 +214,8 @@
 /src/core2/modules/homeless-count.ts @lamontaes
 /src/core2/modules/coverage.ts @lamontaes
 /src/core2/modules/views.ts @lamontaes
+/src/core2/stance-listeners.ts @lamontaes
+/src/core2/views-keys.ts @lamontaes
 /src/core2/modules/speech.ts @lamontaes
 /src/core2/hearer-groups.ts @lamontaes
 /src/core2/modules/record.ts @lamontaes
@@ -274,6 +280,7 @@
 /src/core2/modules/mentorship.ts @lamontaes
 /src/core2/modules/rescue.ts @lamontaes
 /src/core2/modules/quarrel.ts @lamontaes
+/src/core2/modules/grievance.ts @lamontaes
 /src/core2/modules/public-action.ts @lamontaes
 /src/core2/husk-promoters.ts @lamontaes
 /src/core2/opening-ties.ts @lamontaes
@@ -283,6 +290,7 @@
 /src/core2/past.ts @lamontaes
 /src/core2/past-*.ts @lamontaes
 /src/core2/deep-past.ts @lamontaes
+/src/core2/own-past-kinds.ts @lamontaes
 /src/core2/pre-start.ts @lamontaes
 /src/core2/shared-history.ts @lamontaes
 

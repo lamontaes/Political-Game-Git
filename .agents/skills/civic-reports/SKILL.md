@@ -9,9 +9,9 @@ description: >
 
 # Civic reports
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "play first"; every status report leads with how far he can play)
+**Play first (owner, Oct 24):** every status report leads with how far he can play now toward the one acceptance. **Only done counts (owner, Nov 3):** a report counts an item as done only when a second session has seen it in the running game (`seen-in-game`); everything else is "merged, not yet seen" or "in review".
 
 The owner reads reports between other things, often on a phone, and acts on
 them. A report is finished when a reader who was not there can say what
@@ -74,14 +74,15 @@ the player, with "Before:" and "After:" where that helps.
 
 1. Run `npm run report:check -- <file.md>` (add `--story` for a life or walk
    written outside a playtest folder). Every error is a required repair.
-2. Have the `civic-report-reviewer` agent read the report against this skill.
+2. Have a reviewer who did not write the report read it against this skill (in Claude, the `civic-report-reviewer` agent in `.claude/agents/`; any other tool gives a fresh session this skill and the report).
    It returns PASS or the specific sentences that fail and why. Repair and
    ask again; do not argue a FAIL into a PASS.
 3. Then publish. The session hook in `.claude/settings.json` runs step 1
    automatically on every owner-facing markdown file written under
    `/mnt/project-files/` or `docs/playtest/` and `docs/reports/`, and refuses
    a failing markdown upload to Drive. It cannot run step 2 for you, and it
-   doesn't cover pull request bodies.
+   doesn't cover pull request bodies. Where the hook does not run (another tool, a pull request body), run step 1 yourself.
+   A report about an item goes on the item's own pull request, which is the item's thread (owner, Nov 10); the owner's Drive or `docs/reports/` holds the ones meant for him alone.
 
 `npm run test:skill-ops` runs `report:check` over every report under
 `docs/reports/` written after the standard, so a report pushed without its

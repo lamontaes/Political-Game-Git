@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,7 @@ source: added with npm run pool -- add
 **Files.** src/bench/play.mjs, docs/play-first/screens/
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. A bench screenshot of a built scene is replaced by the acceptance rule in AGENTS.md ("Done means a second session saw it in the game") and the seen-in-game skill. Its only dependency, play-officeholder-hires-aide, is still open and carries the aide.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

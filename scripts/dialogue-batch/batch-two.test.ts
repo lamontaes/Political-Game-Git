@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { readMapPieces } from "./grade-map";
+import { readBankPieces } from "../words/run-rules";
 
 const batch = JSON.parse(
   readFileSync("docs/coordination/batches/2026-11-09-batch-2.json", "utf8"),
@@ -17,7 +17,14 @@ const batch = JSON.parse(
     }[];
   }[];
 };
-const pieces = readMapPieces({});
+const pieces = new Map(readBankPieces().map((piece) => [piece.key, piece]));
+/** Lines graded in a batch that a later pass rewrote with his lessons: key to the text he graded. */
+const rewrittenFile = JSON.parse(
+  readFileSync("data/english/rewritten-after-grading.json", "utf8"),
+) as { rewritten: Record<string, string>; deleted?: string[] };
+/** Lines he graded that a later pass deleted outright: no piece is left. */
+const deleted = new Set(rewrittenFile.deleted ?? []);
+const rewritten = rewrittenFile.rewritten;
 
 describe("batch 2 lets the owner grade part of a line and reaches the whole game", () => {
   it("every line is a bank line, three to a moment, each moment described", () => {
@@ -26,7 +33,18 @@ describe("batch 2 lets the owner grade part of a line and reaches the whole game
       expect(moment.description.length).toBeGreaterThan(20);
       expect(moment.speaker.length).toBeGreaterThan(2);
       for (const line of moment.lines)
-        expect(pieces.get(line.key)?.text).toBe(line.line);
+        if (rewritten[line.key]) {
+          // He graded this text; a later pass rewrote it with his lessons.
+          expect(rewritten[line.key]).toBe(line.line);
+          expect(Boolean(pieces.get(line.key)?.text)).toBe(
+            !deleted.has(line.key),
+          );
+        } else
+          // The batch keeps the lines as he graded them; a lesson applied to
+          // every bank since ("Alright", not "All right") may respell the line.
+          expect(
+            pieces.get(line.key)?.text.replace(/\bAlright\b/g, "All right"),
+          ).toBe(line.line);
     }
     expect(batch.coverage.lines).toBeGreaterThanOrEqual(150);
     expect(batch.coverage.lines).toBeLessThanOrEqual(250);
