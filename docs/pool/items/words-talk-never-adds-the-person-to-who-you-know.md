@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by: claude/words-w4-meet
-pr:
+pr: 8836
 after: words-home-school-mutual-lines-are-composed
 blocked-on:
 lead: words
