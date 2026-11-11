@@ -5,10 +5,10 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-web-fare-free-riders-reach-nothing
+pr: #8716
 after:
 blocked-on:
 lead: effects
@@ -17,7 +17,7 @@ effort: low
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:34:47.182Z
 branch: claude/pool-web-fare-free-riders-reach-nothing
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-web-fare-free-riders-reach-nothing
 **Notes.** Filed Oct 25 by the effects lead from web-reach-places-services.
 
 Released (2026-11-11): Cause is narrower than the Fix assumes: the ridership factor place-prices.ts reads (transit.ridership, the transit-fare price rule and the web-only rule) is moved by other links too (transit-service-to-ridership) and prices a positive fare with no fare-free law, so deleting the read would break those; the effect matrix grades a link by whether an engine reads its outcome (reachPoint, engineReaders(link.to)), so no stopgap row naming the link changes its grade and the only per-link override, a links.json status, would state something false. Needs a design call from the laws lead (a link-level reach override with a reason, or a vehicle-miles reader) before a build. Continue on branch claude/pool-web-fare-free-riders-reach-nothing.
+
+Released (2026-11-11): Looked for where a link is marked not reaching: src/core2/data/outcome-web/coverage.json is generated (scripts/outcome-web/write-coverage.ts, coverageTable() in src/core2/outcome-web-model.ts) and lists fare-free-transit-to-ridership under 'wired' because place-prices.ts reads the ridership factor in its transit-fare rule; 'waiting' rows are derived from missing engine measures (waitingOn), not set by hand, and the 'reaches' grade is in scripts/outcome-web/effect-matrix.ts / docs/reports/effect-web-matrix. Marking it not reaching needs a change to that derivation or the matrix's grade rule plus a stopgap row and test; I did not find a hand-set field. The owner of the effect matrix should say where a known-not-reaching link is recorded. Continue on branch claude/pool-web-fare-free-riders-reach-nothing.
