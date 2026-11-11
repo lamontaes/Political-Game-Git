@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-one-sponsor-one-evening-setup
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ effort: medium
 root: rc2-done-from-records
 lead: director
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:15:49.564Z
+branch: claude/pool-words-one-sponsor-one-evening-setup
 ---
 
 **What.** src/director/one-sponsor-one-evening.test.ts waits for a played year in which one sponsor asks the player about two bills on one evening. Once governing/ask-skips-held-bills sends each bill to its committee the evening before (legislature-ask-skips-bills-the-committee-will-hold), a held bill leaves the agenda before the asks, so the case is rare: on seed fd20a2a4fc1f6997, six places over 150 and 240 days had none, and twelve draws at 240 days ran out of memory. The governing lead covers the staging with a built-world test meanwhile (Words agreed, Nov 2).
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/director/one-sponsor-one-evening.test.ts
 
 **Notes.** Filed by Words at handoff (Nov 2, 02:55 UTC) on the governing lead's question.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 01:15 UTC) on branch claude/pool-words-one-sponsor-one-evening-setup.

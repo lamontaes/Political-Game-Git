@@ -468,6 +468,24 @@ export function householdCash(
 }
 
 /**
+ * What a counted record takes with it when it leaves: its group's fund per
+ * person times the people the record stands for (`weightedCount`), rounded
+ * down. A retired record is the whole record, so a weight of three takes three
+ * households' share and a weight of one half takes half of one.
+ */
+export function departingCash(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
+  if (!rt.api || !rt.funded || h.group < 0) return 0;
+  const people = peopleInGroup(rt, h.group);
+  if (people <= 0) return 0;
+  return Math.floor(
+    (fundBalance(rt.api, rt, h.group) * rt.store.weightedCount(h)) / people,
+  );
+}
+
+/**
  * The same read for a pass over many households at one moment: each group's
  * people and fund balance are counted once, not once per household (counting a
  * group's people walks all its households). Valid only until the next posting.
@@ -3057,8 +3075,9 @@ export function departCountedHousehold(
   const own = store.countedMembers(h).reduce((n, m) => n + store.liquid[m]!, 0);
   const remaining = rt.openingCashByPlace.get(placeId) ?? 0;
   rt.openingCashByPlace.set(placeId, remaining - own);
-  // Its share of its group's money leaves with it.
-  const cash = householdCash(rt, h);
+  // Its share of its group's money leaves with it: the record's own people
+  // (its members times its weight), not one real household's share.
+  const cash = departingCash(rt, h);
   const outsideOwner = outsideMarketOf(core, rt, placeId);
   const paidFromFund = !!(rt.api && rt.funded && outsideOwner);
   if (paidFromFund && cash > 0)

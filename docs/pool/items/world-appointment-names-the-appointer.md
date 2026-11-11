@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The official-appointed record names only the person appointed in personIds; the appointer is a fact (appointedBy) and no one's record. In Woodway, Texas a mayor's year held a replacement city attorney named on January 15, 2026, and the mayor's moments held nothing from it, so no scene could bring the person who was next in line, or the one who wanted the post, to the mayor who chose. Name the appointer in personIds when a town post or a cabinet post is filled, and keep the ranked candidates the appointer weighed in the record's facts (reasons already rank them in the appointment row). Add the director moment that the appointer then has.
+**What.** The official-appointed record names only the person appointed in personIds; the appointer is a fact (appointedBy) and no one's record. In Woodway, Texas a mayor's year held a replacement city attorney named on January 15, 2026, and the mayor's moments held nothing from it, so no scene could bring the person who was next in line, or the one who wanted the post, to the mayor who chose. Name the appointer in personIds when a town post or a cabinet post is filled, and keep the ranked candidates the appointer weighed in the record's facts (reasons already rank them in the appointment row). Add the director moment that the appointer then has. Seen: the scene where the mayor meets the person next in line for a post the mayor fills.
 
 **Cause.** Found in code: src/core2/modules/executive.ts (the api.emit of kind official-appointed, line 584) writes personIds: [row.holderId]; the appointer appears only as facts.appointedBy (line 591). Evidence is in docs/design/scenes/from-life/executive-record-gaps.md.
 

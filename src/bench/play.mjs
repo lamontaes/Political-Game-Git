@@ -33,6 +33,7 @@ import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
+import { traceBox } from "./ui/dev-trace-box.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
@@ -319,7 +320,12 @@ function openNewsReader(news) {
   }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
-    ...readerBody({ lead, address: news.address, photo: storyPhoto(lead) }),
+    ...readerBody({
+      lead,
+      address: news.address,
+      photo: storyPhoto(lead),
+      none: controls.news.noStoryText,
+    }),
   );
   $("news-reader-more").replaceChildren(...readerMore(rest.map(storyHeadline)));
   show("news-reader", true);
@@ -3160,7 +3166,10 @@ async function ownHistory() {
 }
 /** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
 function lifeParagraphs(lines) {
-  return lifeStory(lines, controls.lifeGroups);
+  // Dev mode: each sentence opens its record in the one Trace box, drawn under the story.
+  if (!devModeOn()) return lifeStory(lines, controls.lifeGroups);
+  const { node, open } = traceBox(controls.devTrace.trace);
+  return [...lifeStory(lines, controls.lifeGroups, open), node];
 }
 function portraitUrl() {
   // The created look when there is one; else the figure the scene draws you

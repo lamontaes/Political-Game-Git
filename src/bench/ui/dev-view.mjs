@@ -21,6 +21,7 @@ const isId = (value) =>
 
 /** A record id that opens in Trace when clicked; `text` is what shows (the id by default). */
 export function idLink(id, onTrace, text = id, className = "id") {
+  if (typeof id !== "string") throw new TypeError("idLink takes a record id");
   return node("span", { className, onclick: () => onTrace(id) }, text);
 }
 
