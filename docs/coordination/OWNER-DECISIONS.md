@@ -14,6 +14,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - **Lines he graded bad leave the bank in the same change,** with every reference.
   - **What was on main:** that talk was whole fixed sentences from Oct 25 and Nov 2. On Nov 8 (playtest P37) he called it terrible ("how the words still aren't updated"), and that became three bad grades instead of a rewrite. Across the 21 banks, 8,218 of 12,075 lines carried no insert.
   - **A guard counts the lines with no insert in each player-facing bank,** and that count can only go down. Any kind of line the lead thinks should stay fixed goes to him as a call. Fable B holds the work (CTO line on #7365, Nov 11).
+- **Which short lines stay (owner, about 1:26 a.m., decisions page call 12, no note):** "Replies of one to three words and action names stay; everything else is rewritten." Replies of one to three words ("Hello.", "You won.", "Got a second?") and the names of actions the player picks ("Go to work.", "Rest.") stay as they are, about 650 lines. A piece the engine joins counts as composed when the sentence it makes carries an insert. Everything else, about 7,500 lines, is rewritten with inserts, the opening first. The guard excuses exactly those kinds, by rule.
 
 ## Nov 10: rules, checks and skills merge first; staging waits for busts (owner)
 
