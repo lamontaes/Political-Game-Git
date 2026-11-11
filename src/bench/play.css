@@ -103,16 +103,27 @@
   --ui: "Fira Sans", "Helvetica Neue", sans-serif;
   --glow: 0 0 6px rgba(255, 255, 255, 0.6), 0 0 16px rgba(255, 255, 255, 0.25);
   --gutter: 24px;
+  /* The type scale: every size of type in the game is one of these steps
+     (menu look: small text at least about 15px, labels about 14px in
+     capitals). A rule reads a step; it never types a pixel size. */
+  --t-label: 14px;
+  --t-ui: 15px;
+  --t-read: 17px;
+  --t-h3: 20px;
+  --t-h2: 26px;
+  --t-h1: 34px;
+  --t-name: 40px;
+  --t-display: 58px;
   /* The UI system's sizes. Every control reads these, so one change here
      changes every screen (src/bench/ui/README.md). */
   --control-h: 34px;
   --control-pad: 6px 16px;
   --control-radius: 2px;
-  --control-font: 500 15px/1.2 var(--ui);
+  --control-font: 500 var(--t-ui) / 1.2 var(--ui);
   /* A row a player picks in a list beside its page. */
   --pick-pad: 6px 12px;
-  --pick-font: 600 15px var(--ui);
-  --pick-aside-font: 400 14px var(--ui);
+  --pick-font: 600 var(--t-ui) var(--ui);
+  --pick-aside-font: 400 var(--t-label) var(--ui);
   --pick-hover: rgba(214, 189, 132, 0.12);
   --pick-hover-glow: 0 0 10px rgba(214, 189, 132, 0.2);
   --pick-on: linear-gradient(
@@ -121,13 +132,13 @@
     rgba(196, 160, 90, 0.08)
   );
   /* The heading strip over a list or a section. */
-  --head-font: 700 15px var(--name);
+  --head-font: 700 var(--t-ui) var(--name);
   --head-wash: linear-gradient(
     90deg,
     rgba(196, 160, 90, 0.32),
     rgba(196, 160, 90, 0)
   );
-  --group-font: 700 12px var(--ui);
+  --group-font: 700 var(--t-label) var(--ui);
   --cream: #f2e6c9;
   --muted: #c4bbab;
 }
@@ -143,7 +154,7 @@ body {
   height: 100%;
   background: #111;
   color: var(--text);
-  font: 400 14.5px/1.4 var(--ui);
+  font: 400 var(--t-ui)/1.4 var(--ui);
   overflow: hidden;
   /* A game, not a web page: clicking a title never selects it (C17). */
   user-select: none;
@@ -294,7 +305,7 @@ ol {
     0 4px 0 rgba(0, 0, 0, 0.58),
     0 12px 24px rgba(0, 0, 0, 0.58);
   color: var(--text);
-  font: 400 14.5px/1.4 var(--ui);
+  font: 400 var(--t-ui)/1.4 var(--ui);
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -354,34 +365,34 @@ ol {
   height: 100%;
 }
 .name {
-  font: 800 18px/1.15 var(--name);
+  font: 800 var(--t-h3)/1.15 var(--name);
   letter-spacing: 0.05em;
   color: var(--text-strong);
 }
 .heading {
-  font: 800 30px/1.1 var(--name);
+  font: 800 var(--t-h1)/1.1 var(--name);
   letter-spacing: 0.05em;
   color: var(--text-strong);
 }
 .role {
-  font: 400 13px var(--ui);
+  font: 400 var(--t-label) var(--ui);
   color: var(--text-2);
 }
 .speech {
-  font: 500 17.5px/1.34 var(--speech);
+  font: 500 var(--t-read)/1.34 var(--speech);
   color: var(--text-strong);
 }
 .prose {
-  font: 500 15px/1.4 var(--speech);
+  font: 500 var(--t-ui)/1.4 var(--speech);
 }
 .label {
-  font: 600 10.5px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gold);
 }
 .when {
-  font: 400 12.5px/1.3 var(--ui);
+  font: 400 var(--t-label)/1.3 var(--ui);
   color: var(--text-2);
 }
 
@@ -450,7 +461,7 @@ select:focus-visible {
   counter-increment: r;
   display: block;
   width: 100%;
-  font: 400 14.5px/1.4 var(--ui);
+  font: 400 var(--t-ui)/1.4 var(--ui);
   color: rgba(242, 237, 228, 0.84);
   padding: 1px 0;
 }
@@ -613,7 +624,7 @@ select:focus-visible {
 .row > b:first-child {
   flex: none;
   max-width: 48%;
-  font: 600 10.5px/1.5 var(--ui);
+  font: 600 var(--t-label)/1.5 var(--ui);
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--gold);
@@ -753,7 +764,7 @@ select:focus-visible {
    open. */
 input,
 select {
-  font: 400 15px var(--ui);
+  font: 400 var(--t-ui) var(--ui);
   color: var(--text);
   background: transparent;
   border: 1px solid transparent;
@@ -909,7 +920,7 @@ input[type="range"]::-moz-range-thumb {
   gap: 12px;
   padding: 6px 0;
   color: var(--text-2);
-  font-size: 14px;
+  font-size: var(--t-label);
 }
 .field input {
   width: 170px;
@@ -949,7 +960,7 @@ input[type="range"]::-moz-range-thumb {
 }
 #cr-character .date-row select {
   padding-inline: 6px;
-  font-size: 13px;
+  font-size: var(--t-label);
 }
 #cr-character .group.row > :not(.label):not(.date-row):not(.choices) {
   grid-column: 1 / -1;
@@ -1002,7 +1013,7 @@ input[type="range"]::-moz-range-thumb {
   padding: 26px 28px 22px;
 }
 .title {
-  font: 800 30px/1.1 var(--name);
+  font: 800 var(--t-h1)/1.1 var(--name);
   letter-spacing: 0.07em;
   color: var(--gold);
 }
@@ -1013,7 +1024,7 @@ input[type="range"]::-moz-range-thumb {
 }
 .item b {
   display: block;
-  font: 800 15px var(--name);
+  font: 800 var(--t-ui) var(--name);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1062,7 +1073,7 @@ input[type="range"]::-moz-range-thumb {
   text-align: right;
   margin-top: 10px;
   color: var(--text-3);
-  font: 400 11px var(--ui);
+  font: 400 var(--t-label) var(--ui);
 }
 #front-main .item b {
   display: inline;
@@ -1137,13 +1148,13 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text);
 }
 .summary-name {
-  font: 700 15px var(--name);
+  font: 700 var(--t-ui) var(--name);
   font-variant: small-caps;
   letter-spacing: 0.06em;
 }
 .summary-edit {
   color: var(--gold);
-  font: 600 12px var(--ui);
+  font: 600 var(--t-label) var(--ui);
 }
 #front h2.label {
   margin: 12px 0 6px;
@@ -1226,7 +1237,7 @@ input[type="range"]::-moz-range-thumb {
   grid-column: 2;
   justify-content: flex-start;
   color: var(--text-2);
-  font: 500 12px var(--ui);
+  font: 500 var(--t-label) var(--ui);
 }
 .swatches {
   display: flex;
@@ -1347,11 +1358,11 @@ body:not(.dev) .dev-only {
 #card-clock {
   margin: 0;
   padding-left: 11px;
-  font: 600 14px/1.35 var(--ui);
+  font: 600 var(--t-label)/1.35 var(--ui);
   color: var(--text-strong);
 }
 .me .name {
-  font-size: 16px;
+  font-size: var(--t-read);
 }
 #card-place:empty {
   display: none;
@@ -1406,7 +1417,7 @@ body:not(.dev) .dev-only {
 /* What was said before: a separate block above the line being said now, quieter, with a
    rule under it and the speaker named. */
 .talk-lines .history {
-  font: 400 13px/1.35 var(--ui);
+  font: 400 var(--t-label)/1.35 var(--ui);
   color: var(--text-3);
   padding-bottom: 8px;
   margin-bottom: 10px;
@@ -1414,7 +1425,7 @@ body:not(.dev) .dev-only {
 }
 .talk-lines .history-who {
   display: block;
-  font: 600 10.5px/1.5 var(--ui);
+  font: 600 var(--t-label)/1.5 var(--ui);
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--text-3);
@@ -1447,7 +1458,7 @@ body:not(.dev) .dev-only {
   text-underline-offset: 3px;
 }
 .talk-lines .why {
-  font: 400 11px/1.3 var(--ui);
+  font: 400 var(--t-label)/1.3 var(--ui);
   color: var(--text-3);
   overflow-wrap: anywhere;
 }
@@ -1490,7 +1501,7 @@ body:not(.dev) .dev-only {
 }
 .nav-item .nl {
   display: block;
-  font: 800 14px var(--name);
+  font: 800 var(--t-label) var(--name);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text);
@@ -1597,7 +1608,7 @@ body:not(.dev) .dev-only {
 }
 #sheet-body .narrative {
   display: block;
-  font: 500 15px/1.4 var(--speech);
+  font: 500 var(--t-ui)/1.4 var(--speech);
 }
 #sheet-body .narrative > b:first-child,
 #sheet-body .campaign > b:first-child {
@@ -1669,7 +1680,7 @@ body:not(.dev) .dev-only {
   min-width: 0;
 }
 .calendar-board h3 {
-  font: 600 20px var(--name);
+  font: 600 var(--t-h3) var(--name);
   color: var(--gold);
   margin: 0;
 }
@@ -1701,7 +1712,7 @@ body:not(.dev) .dev-only {
 .month .weekday {
   grid-row: 1;
   height: auto;
-  font: 600 11px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--gold);
   text-align: center;
   padding: 0 0 2px;
@@ -1728,7 +1739,7 @@ body:not(.dev) .dev-only {
   box-shadow: none;
 }
 .month .day .num {
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
 }
 .month .day.past {
   opacity: 0.55;
@@ -1769,12 +1780,12 @@ body:not(.dev) .dev-only {
   padding: 18px 20px;
 }
 .calendar-day .plate > .label {
-  font: 700 11px var(--ui);
+  font: 700 var(--t-label) var(--ui);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 .calendar-day .plate h3 {
-  font-size: 30px;
+  font-size: var(--t-h1);
 }
 .calendar-day-list {
   display: flex;
@@ -1787,12 +1798,12 @@ body:not(.dev) .dev-only {
   grid-template-columns: 20px minmax(0, 1fr);
   align-items: start;
   gap: 10px;
-  font: 15px/1.35 var(--ui);
+  font: var(--t-ui)/1.35 var(--ui);
 }
 .calendar-empty {
   margin: 0;
   color: var(--muted, var(--text));
-  font: 14px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 .calendar-day .plate > .action {
   margin: 10px 0 0;
@@ -1808,7 +1819,7 @@ body:not(.dev) .dev-only {
   margin: 0;
   padding: 4px 8px;
   text-align: left;
-  font: 14px/1.25 var(--ui);
+  font: var(--t-label)/1.25 var(--ui);
   background: rgba(255, 255, 255, 0.04);
   box-shadow: none;
   border: 0;
@@ -1819,7 +1830,7 @@ body:not(.dev) .dev-only {
 }
 .calendar-entry .when {
   white-space: nowrap;
-  font: 600 12px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--gold);
 }
 
@@ -1917,7 +1928,7 @@ body:not(.dev) .dev-only {
 }
 #person-facts .screen-lede {
   margin: 0;
-  font: 400 17px/1.45 var(--speech);
+  font: 400 var(--t-read)/1.45 var(--speech);
   color: var(--text);
   max-width: 60ch;
 }
@@ -1976,7 +1987,7 @@ body:not(.dev) .dev-only {
 }
 #tip .prose {
   margin: 6px 0 10px;
-  font: 400 15px/1.45 var(--speech);
+  font: 400 var(--t-ui)/1.45 var(--speech);
 }
 
 /* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
@@ -2046,7 +2057,7 @@ body:not(.dev) .dev-only {
 }
 #news-reader .heading {
   margin: 0 0 12px;
-  font: 600 34px/1.15 var(--speech);
+  font: 600 var(--t-h1)/1.15 var(--speech);
 }
 #news-reader .paper-masthead {
   border-bottom: 1px solid var(--gold);
@@ -2060,7 +2071,7 @@ body:not(.dev) .dev-only {
   padding: 26px 30px;
 }
 #news-reader-body .prose {
-  font: 18px/1.5 var(--speech);
+  font: var(--t-h3)/1.5 var(--speech);
 }
 #news-reader-more {
   border-left: 1px solid rgba(214, 189, 132, 0.4);
@@ -2089,7 +2100,7 @@ body:not(.dev) .dev-only {
   display: flex;
   gap: 8px;
   align-items: center;
-  font: 400 13.5px var(--ui);
+  font: 400 var(--t-label) var(--ui);
   color: var(--text-2);
 }
 @media (max-width: 900px) {
@@ -2129,7 +2140,7 @@ body:not(.dev) .dev-only {
 }
 #meeting > .heading {
   margin: 0 0 12px;
-  font-size: 26px;
+  font-size: var(--t-h2);
 }
 .meeting-item + .meeting-item {
   margin-top: 16px;
@@ -2138,12 +2149,12 @@ body:not(.dev) .dev-only {
 }
 .meeting-title {
   margin: 0;
-  font: 600 20px/1.2 var(--name);
+  font: 600 var(--t-h3)/1.2 var(--name);
 }
 .meeting-sub {
   margin: 2px 0 10px;
   color: var(--text-2);
-  font: 13px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 /* The members as round faces ringed by how each voted on this item. */
 .meeting-members {
@@ -2182,13 +2193,13 @@ body:not(.dev) .dev-only {
   margin: 0 0 6px;
 }
 .meeting-result strong {
-  font: 700 17px var(--ui);
+  font: 700 var(--t-read) var(--ui);
   color: var(--gold);
 }
 .meeting-remarks {
   margin: 0 0 8px;
   color: var(--text-2);
-  font: 13px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 .meeting-acts {
   display: flex;
@@ -2234,7 +2245,7 @@ body:not(.dev) .dev-only {
 #returns.nation #returns-count .row {
   padding: 2px 0;
   gap: 8px;
-  font-size: 12.5px;
+  font-size: var(--t-label);
   white-space: nowrap;
 }
 #returns.nation #returns-count .row > b:first-child {
@@ -2270,11 +2281,11 @@ body:not(.dev) .dev-only {
 }
 /* The record screen (ui/screen.mjs): every screen of one person's or one place's records. */
 .record-title {
-  font: 600 34px var(--name);
+  font: 600 var(--t-h1) var(--name);
   margin: 16px 0;
 }
 .record-empty {
-  font: 22px var(--speech);
+  font: var(--t-h3) var(--speech);
 }
 .record-stats {
   display: flex;
@@ -2304,7 +2315,7 @@ body:not(.dev) .dev-only {
   border-bottom: 1px solid rgba(214, 189, 132, 0.2);
 }
 .record-figure strong {
-  font: 500 24px var(--ui);
+  font: 500 var(--t-h2) var(--ui);
 }
 /* Character screen: layout additions on the existing Kit 13 panel. */
 #sheet.character-sheet {
@@ -2358,7 +2369,7 @@ body:not(.dev) .dev-only {
 }
 /* What you're like, as a short paragraph under your name. */
 #sheet-body .screen-lede {
-  font: 400 19px/1.45 var(--speech);
+  font: 400 var(--t-h3)/1.45 var(--speech);
   max-width: 46ch;
   margin: 0 0 26px;
 }
@@ -2392,7 +2403,7 @@ body:not(.dev) .dev-only {
   margin: 6px 0;
 }
 .record-feature {
-  font: 500 21px var(--speech);
+  font: 500 var(--t-h3) var(--speech);
 }
 .record-people {
   list-style: none;
@@ -2408,7 +2419,7 @@ body:not(.dev) .dev-only {
   gap: 10px;
 }
 .record-note {
-  font-size: 13px;
+  font-size: var(--t-label);
 }
 .record-views {
   display: grid;
@@ -2417,14 +2428,14 @@ body:not(.dev) .dev-only {
 }
 .record-views h4 {
   margin: 0 0 4px;
-  font: 600 10.5px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gold);
 }
 .view-plate .narrative {
   margin: 0;
-  font: 400 15.5px/1.4 var(--speech);
+  font: 400 var(--t-ui)/1.4 var(--speech);
 }
 .record-views {
   gap: 10px;
@@ -2497,7 +2508,7 @@ select.government-state {
   border-color: rgba(214, 189, 132, 0.55);
 }
 .record-place {
-  font: 18px var(--speech);
+  font: var(--t-h3) var(--speech);
   margin: 0 0 20px;
 }
 .record-section.wide .record-section {
@@ -2543,16 +2554,16 @@ select.government-state {
 .person-row-sub {
   flex-basis: 100%;
   margin: -10px 0 4px 46px;
-  font-size: 13px;
+  font-size: var(--t-label);
 }
 .record-total {
   display: block;
-  font: 600 30px var(--name);
+  font: 600 var(--t-h1) var(--name);
   margin: 12px 0 25px;
 }
 .record-warning {
   color: var(--red);
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   margin: 0 0 8px;
 }
 .screen-grid > .wide {
@@ -2576,7 +2587,7 @@ details.entry summary::-webkit-details-marker {
   display: none;
 }
 .entry-value {
-  font: 24px var(--speech);
+  font: var(--t-h2) var(--speech);
 }
 details.entry[open] {
   margin-bottom: 28px;
@@ -2589,7 +2600,7 @@ details.entry[open] {
   max-width: 960px;
 }
 .money-section h3 {
-  font: 600 22px var(--name);
+  font: 600 var(--t-h3) var(--name);
   color: var(--gold);
   margin: 0 0 18px;
 }
@@ -2600,7 +2611,7 @@ details.entry[open] {
   margin-top: 12px;
 }
 .money-home p {
-  font: 20px var(--speech);
+  font: var(--t-h3) var(--speech);
 }
 .property-image {
   float: left;
@@ -2614,16 +2625,16 @@ details.entry[open] {
 }
 @media (max-width: 1100px) {
   #sheet-body .lead .story-headline {
-    font-size: 25px;
+    font-size: var(--t-h2);
   }
   .story-lede {
-    font-size: 16px;
+    font-size: var(--t-read);
   }
   .paper {
     padding: 0;
   }
   .paper-masthead h2 {
-    font-size: 30px;
+    font-size: var(--t-h1);
   }
 }
 
@@ -2719,11 +2730,11 @@ details.entry[open] {
   text-align: left;
 }
 .pick-row .pick-name {
-  font: 700 17px var(--name);
+  font: 700 var(--t-read) var(--name);
 }
 .pick-row .pick-role {
   color: var(--text-2);
-  font: 500 13px var(--ui);
+  font: 500 var(--t-label) var(--ui);
 }
 .pick-row[aria-pressed="true"] {
   background: linear-gradient(
@@ -2763,7 +2774,7 @@ details.entry[open] {
   gap: 8px;
 }
 .bill-doc .prose {
-  font-size: 17px;
+  font-size: var(--t-read);
 }
 .bill-section {
   display: block;
@@ -2826,7 +2837,7 @@ details.entry[open] {
 /* The masthead names the paper: the sheet's own title is not shown, the close
    X sits in the corner in ink. */
 .paper {
-  font: 16px/1.45 var(--speech);
+  font: var(--t-read)/1.45 var(--speech);
   color: var(--paper-ink);
 }
 .paper-masthead {
@@ -2860,7 +2871,7 @@ details.entry[open] {
   padding: 5px 0;
   border-top: 1px solid var(--paper-ink);
   border-bottom: 3px double var(--paper-ink);
-  font: 13px/1.2 var(--ui);
+  font: var(--t-label)/1.2 var(--ui);
   letter-spacing: 0.05em;
 }
 /* The paper's page arrows, at the end of the dateline (ui/newspaper.mjs). */
@@ -2889,7 +2900,7 @@ details.entry[open] {
 #sheet-body .side-headline {
   margin: 0 0 4px;
   color: var(--paper-ink);
-  font: 600 12px/1.35 var(--ui);
+  font: 600 var(--t-label)/1.35 var(--ui);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: default;
@@ -2923,7 +2934,7 @@ details.entry[open] {
   border: 0;
   box-shadow: none;
   color: var(--paper-ink);
-  font: 700 22px/1.15 var(--speech);
+  font: 700 var(--t-h3)/1.15 var(--speech);
   text-align: left;
   text-shadow: none;
 }
@@ -2935,17 +2946,17 @@ details.entry[open] {
   color: var(--paper-red);
 }
 #sheet-body .lead .story-headline {
-  font-size: 40px;
+  font-size: var(--t-name);
   letter-spacing: -0.01em;
 }
 /* A front page that would run past the paper's foot sets its lead smaller
    (ui/newspaper.mjs, the page never scrolls). */
 #sheet-body .paper.tight .lead .story-headline {
-  font-size: 30px;
+  font-size: var(--t-h1);
 }
 .story-lede {
   margin: 8px 0 12px;
-  font: italic 19px/1.35 var(--speech);
+  font: italic var(--t-h3)/1.35 var(--speech);
 }
 .story-image {
   display: block;
@@ -2963,7 +2974,7 @@ details.entry[open] {
 }
 .story-text {
   margin: 0 0 10px;
-  font: 16px/1.5 var(--speech);
+  font: var(--t-read)/1.5 var(--speech);
 }
 .story-body .story-text {
   break-inside: avoid;
@@ -2971,17 +2982,17 @@ details.entry[open] {
 .story-body .story-text.drop-cap::first-letter {
   float: left;
   margin: 4px 6px 0 0;
-  font: 700 44px/0.8 var(--speech);
+  font: 700 var(--t-name)/0.8 var(--speech);
 }
 #sheet-body .paper-story.second .story-headline {
-  font-size: 20px;
+  font-size: var(--t-h3);
 }
 .paper-story.second .story-lede {
   margin: 6px 0 0;
-  font: 15px/1.4 var(--speech);
+  font: var(--t-ui)/1.4 var(--speech);
 }
 #sheet-body .paper-story.brief .story-headline {
-  font-size: 17px;
+  font-size: var(--t-read);
 }
 /* A modern daily: white stock, the name on a blue bar, sans type. */
 .paper-modern {
@@ -3005,7 +3016,7 @@ details.entry[open] {
   letter-spacing: -0.02em;
 }
 .paper-modern .story-lede {
-  font: 18px/1.4 var(--ui);
+  font: var(--t-h3)/1.4 var(--ui);
   color: #3a3a3a;
 }
 .paper-modern .story-text {
@@ -3038,7 +3049,7 @@ details.entry[open] {
   grid-template-columns: 2fr 1fr;
 }
 #sheet-body .paper-tabloid .lead .story-headline {
-  font: 900 46px/1 var(--ui);
+  font: 900 var(--t-name)/1 var(--ui);
   text-transform: uppercase;
   letter-spacing: -0.02em;
 }
@@ -3066,7 +3077,7 @@ details.entry[open] {
   grid-template-columns: 1fr 1fr;
 }
 #sheet-body .paper-weekly .lead .story-headline {
-  font-size: 34px;
+  font-size: var(--t-h1);
 }
 /* The first evening's paper (the reader over the scene) is the same page. */
 #news-reader {
@@ -3086,7 +3097,7 @@ details.entry[open] {
   border-left: 1px solid var(--paper-rule);
 }
 #news-reader .heading {
-  font: 700 34px/1.15 var(--speech);
+  font: 700 var(--t-h1)/1.15 var(--speech);
 }
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
@@ -3187,19 +3198,19 @@ details.entry[open] {
   overflow: hidden;
 }
 .issue-cards .entry h3 {
-  font: 600 15px/1.2 var(--ui);
+  font: 600 var(--t-ui)/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
 .issue-cards .entry .entry-value {
   display: block;
-  font: 500 19px/1.15 var(--speech);
+  font: 500 var(--t-h3)/1.15 var(--speech);
   color: var(--gold);
   overflow-wrap: break-word;
   margin: 2px 0 4px;
 }
 .issue-cards .entry .entry-line {
-  font: 12.5px var(--ui);
+  font: var(--t-label) var(--ui);
   color: var(--text-2);
   margin: 0;
 }
@@ -3225,7 +3236,7 @@ details.entry[open] {
   flex-wrap: wrap;
 }
 #sheet-body .government-bodies .tab {
-  font-size: 13.5px;
+  font-size: var(--t-label);
   padding: 4px 12px;
   min-height: 0;
 }
@@ -3266,13 +3277,13 @@ details.entry[open] {
   gap: 3px;
 }
 .chamber-name {
-  font: 800 21px/1.1 var(--name);
+  font: 800 var(--t-h3)/1.1 var(--name);
   letter-spacing: 0.04em;
   color: var(--text-strong);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
 }
 .chamber-line {
-  font: 400 13px/1.3 var(--ui);
+  font: 400 var(--t-label)/1.3 var(--ui);
   color: var(--text);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
 }
@@ -3327,14 +3338,14 @@ details.entry[open] {
   gap: 2px;
 }
 .member-name {
-  font: 600 15px/1.15 var(--ui);
+  font: 600 var(--t-ui)/1.15 var(--ui);
   color: var(--text-strong);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .member-line {
-  font: 400 12.5px/1.2 var(--ui);
+  font: 400 var(--t-label)/1.2 var(--ui);
   color: var(--text-2);
   white-space: nowrap;
   overflow: hidden;
@@ -3362,7 +3373,7 @@ details.entry[open] {
   height: 64px;
 }
 .member-card.large .member-name {
-  font-size: 17px;
+  font-size: var(--t-read);
 }
 
 /* The long-list box: the rows that fit, the rest a scroll inside the box (never arrows or page numbers). */
@@ -3395,18 +3406,18 @@ details.entry[open] {
   display: contents;
 }
 .date-list-when {
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--gold);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 .date-list-text {
-  font: 400 14px/1.3 var(--ui);
+  font: 400 var(--t-label)/1.3 var(--ui);
   color: var(--text-strong);
 }
 .date-list-empty {
   margin: 0;
-  font: italic 400 14px var(--speech);
+  font: italic 400 var(--t-label) var(--speech);
   color: var(--text-2);
 }
 .split-main .record-section {
@@ -3432,7 +3443,7 @@ details.entry[open] {
 }
 .draft-title {
   margin: 0;
-  font: 700 12px var(--ui);
+  font: 700 var(--t-label) var(--ui);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--gold);
@@ -3449,10 +3460,10 @@ details.entry[open] {
 }
 .draft-cell small {
   color: var(--text-2);
-  font: 12px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 .draft-today {
-  font: 600 18px var(--ui);
+  font: 600 var(--t-h3) var(--ui);
 }
 .draft-entry {
   display: inline-flex;
@@ -3465,7 +3476,7 @@ details.entry[open] {
 .draft-note {
   margin: 0;
   color: var(--text-2);
-  font: 13px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 .draft-note:empty {
   display: none;
@@ -3488,10 +3499,10 @@ details.entry[open] {
 }
 .bill-compare-cell small {
   color: var(--text-2);
-  font: 12px var(--ui);
+  font: var(--t-label) var(--ui);
 }
 .bill-compare-cell strong {
-  font: 700 20px var(--ui);
+  font: 700 var(--t-h3) var(--ui);
 }
 .bill-compare-cell.new {
   border-color: var(--gold);
@@ -3555,7 +3566,7 @@ details.entry[open] {
 }
 .chip {
   padding: 2px 10px;
-  font: 500 12.5px/1.5 var(--ui);
+  font: 500 var(--t-label)/1.5 var(--ui);
   color: var(--gold);
   border: 1px solid rgba(214, 189, 132, 0.55);
   border-radius: 999px;
@@ -3627,7 +3638,7 @@ details.entry[open] {
 }
 .travel-group {
   margin: 12px 0 6px;
-  font: 700 12px var(--ui);
+  font: 700 var(--t-label) var(--ui);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
@@ -3659,7 +3670,7 @@ details.entry[open] {
   left: 10px;
   bottom: 8px;
   right: 10px;
-  font: 600 15px var(--ui);
+  font: 600 var(--t-ui) var(--ui);
   color: #fff7e2;
   text-shadow: 0 1px 4px #000;
 }
@@ -3705,7 +3716,7 @@ details.entry[open] {
   bottom: 10px;
   margin: 0;
   font:
-    600 26px/1.1 "Playfair Display",
+    600 var(--t-h2)/1.1 "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
@@ -3714,12 +3725,12 @@ details.entry[open] {
   text-shadow: 0 1px 4px #000;
 }
 .travel-facts {
-  font: 15px var(--ui);
+  font: var(--t-ui) var(--ui);
   color: var(--cream);
 }
 .travel-facts span {
   display: block;
-  font: 700 11px var(--ui);
+  font: 700 var(--t-label) var(--ui);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--gold);
@@ -3727,7 +3738,7 @@ details.entry[open] {
 .travel-does {
   margin: 0;
   padding: 0 0 0 18px;
-  font: 15px var(--ui);
+  font: var(--t-ui) var(--ui);
   color: var(--cream);
 }
 #sheet-body .travel-go {
@@ -3779,18 +3790,18 @@ details.entry[open] {
   overflow: hidden;
 }
 .race-cards .entry h3 {
-  font: 600 15px/1.2 var(--ui);
+  font: 600 var(--t-ui)/1.2 var(--ui);
   color: var(--text-strong);
   margin: 0 0 4px;
 }
 .race-cards .entry .entry-value {
   display: block;
-  font: 500 16px/1.2 var(--speech);
+  font: 500 var(--t-read)/1.2 var(--speech);
   color: var(--gold);
   margin: 0 0 4px;
 }
 .race-cards .entry p {
-  font: 12.5px/1.3 var(--ui);
+  font: var(--t-label)/1.3 var(--ui);
   color: var(--text-2);
   margin: 0;
 }
@@ -3846,7 +3857,7 @@ details.entry[open] {
 #sheet-body .guide-term {
   margin: 0;
   font:
-    600 38px/1.1 "Playfair Display",
+    600 var(--t-name)/1.1 "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
@@ -3860,7 +3871,7 @@ details.entry[open] {
 }
 .guide-none {
   color: var(--muted);
-  font: 15px var(--ui);
+  font: var(--t-ui) var(--ui);
 }
 
 /* Patch notes: the release's name is its picker; its changes one card a
@@ -3878,14 +3889,14 @@ select.release-pick {
 .release-date {
   margin: 0 0 10px;
   color: var(--text-2);
-  font: 13px/1.3 var(--ui);
+  font: var(--t-label)/1.3 var(--ui);
 }
 .note-cards .entry h3 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  font: 600 14px/1.3 var(--ui);
+  font: 600 var(--t-label)/1.3 var(--ui);
   color: var(--text-strong);
   margin: 0;
 }
@@ -3928,7 +3939,7 @@ select.release-pick {
    bounded box of its own that scrolls inside (never the menu as a page). */
 @media (max-height: 780px) {
   #sheet-body .screen-lede {
-    font-size: 17px;
+    font-size: var(--t-read);
     margin-bottom: 14px;
   }
 }
@@ -3945,7 +3956,7 @@ select.release-pick {
   margin-block: 6px;
 }
 #sheet-body.compact .screen-lede {
-  font-size: 16px;
+  font-size: var(--t-read);
   margin-bottom: 8px;
 }
 #sheet-body.tight .screen-lede {
@@ -4000,7 +4011,7 @@ select.release-pick {
   cursor: pointer;
 }
 .loading-year {
-  font: 600 44px/1 var(--name);
+  font: 600 var(--t-name)/1 var(--name);
   letter-spacing: 0.04em;
   color: var(--gold);
   font-variant-numeric: tabular-nums;
@@ -4026,7 +4037,7 @@ select.release-pick {
   animation: loading-write 0.6s ease both;
 }
 .loading-headline {
-  font: 600 13px/1.35 var(--ui);
+  font: 600 var(--t-label)/1.35 var(--ui);
   color: rgba(242, 237, 228, 0.78);
   border-left: 2px solid var(--gold);
   padding-left: 10px;
@@ -4076,7 +4087,7 @@ select.release-pick {
 .strip-screen .strip-name {
   margin: 0;
   font:
-    600 40px/1.1 "Playfair Display",
+    600 var(--t-name)/1.1 "Playfair Display",
     Georgia,
     serif;
   letter-spacing: 0.3px;
@@ -4086,7 +4097,7 @@ select.release-pick {
 }
 .strip-screen .strip-role {
   margin: 2px 0 0;
-  font: 500 16.5px var(--f-ui);
+  font: 500 var(--t-read) var(--f-ui);
   color: var(--gold2);
 }
 .strip-screen .mx3main {
@@ -4113,7 +4124,7 @@ select.release-pick {
   margin: 0;
   padding: 7px 14px;
   border-radius: var(--control-radius);
-  font: 700 15.5px var(--f-title);
+  font: 700 var(--t-ui) var(--f-title);
   letter-spacing: 0.6px;
   color: var(--cream);
 }
@@ -4200,12 +4211,12 @@ select.release-pick {
 }
 .strip-screen .intro {
   margin: 0;
-  font: 400 16.5px/1.55 var(--f-story);
+  font: 400 var(--t-read)/1.55 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .hispeople {
   margin: 0;
-  font: 400 16px/1.5 var(--f-story);
+  font: 400 var(--t-read)/1.5 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .nm {
@@ -4229,12 +4240,12 @@ select.release-pick {
   gap: 12px;
 }
 .strip-screen .perkname b {
-  font: 700 17px var(--f-title);
+  font: 700 var(--t-read) var(--f-title);
   letter-spacing: 0.3px;
   color: var(--cream);
 }
 .strip-screen .perkname span {
-  font: 600 12.5px var(--f-ui);
+  font: 600 var(--t-label) var(--f-ui);
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: var(--gold);
@@ -4243,7 +4254,7 @@ select.release-pick {
   position: relative;
   margin: 2px 0 0;
   padding-left: 24px;
-  font: italic 400 16px/1.45 var(--f-story);
+  font: italic 400 var(--t-read)/1.45 var(--f-story);
   color: #f3ead8;
 }
 .strip-screen .perk p::before {
@@ -4266,12 +4277,12 @@ select.release-pick {
 }
 .strip-screen .said blockquote {
   margin: 0;
-  font: italic 400 16px/1.5 var(--f-story);
+  font: italic 400 var(--t-read)/1.5 var(--f-story);
   color: #f3ead8;
 }
 .strip-screen .said figcaption {
   margin-top: 5px;
-  font: 400 14.5px var(--f-ui);
+  font: 400 var(--t-ui) var(--f-ui);
   color: var(--muted);
 }
 /* The bust: head to upper chest, a soft fade over its lower third and at the sides, never a hard edge. */
@@ -4335,7 +4346,7 @@ select.release-pick {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  font: 400 16px/1.7 var(--f-story);
+  font: 400 var(--t-read)/1.7 var(--f-story);
   color: #efe6d4;
 }
 .strip-screen .dotleader {
@@ -4370,7 +4381,7 @@ select.release-pick {
   gap: 16px;
 }
 .strip-board .bfy {
-  font: 400 15px var(--ui);
+  font: 400 var(--t-ui) var(--ui);
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
@@ -4392,7 +4403,7 @@ select.release-pick {
   padding: 7px 12px;
   border-radius: var(--control-radius);
   cursor: pointer;
-  font: 400 16px var(--f-ui);
+  font: 400 var(--t-read) var(--f-ui);
   color: var(--cream);
 }
 .strip-screen .bsdept b {
@@ -4405,7 +4416,7 @@ select.release-pick {
 }
 .strip-screen .bsdept span {
   grid-column: 1 / -1;
-  font-size: 14px;
+  font-size: var(--t-label);
   color: var(--muted);
 }
 .strip-screen .bsdept.sel,
@@ -4415,7 +4426,7 @@ select.release-pick {
 }
 .strip-screen .dotrow.typed {
   font-family: var(--ui);
-  font-size: 16px;
+  font-size: var(--t-read);
   text-transform: none;
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4423,7 +4434,7 @@ select.release-pick {
 }
 .strip-screen .bmsub {
   margin: 0 0 8px;
-  font: 400 14px var(--ui);
+  font: 400 var(--t-label) var(--ui);
   color: var(--muted);
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4482,14 +4493,14 @@ select.release-pick {
 }
 .strip-wrap .leader .leader-name {
   font:
-    600 34px/1.1 "Playfair Display",
+    600 var(--t-h1)/1.1 "Playfair Display",
     Georgia,
     serif;
   color: var(--cream);
 }
 .strip-wrap .leader-post {
   margin: 4px 0 6px;
-  font: 500 15px var(--f-ui);
+  font: 500 var(--t-ui) var(--f-ui);
   color: var(--muted);
 }
 .strip-wrap .leader-party {
@@ -4507,12 +4518,12 @@ select.release-pick {
   gap: 10px;
 }
 .seat-number b {
-  font: 600 44px/1 var(--f-ui);
+  font: 600 var(--t-name)/1 var(--f-ui);
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--party, #d9d2c2);
 }
 .seat-number span {
-  font: 500 15px var(--f-ui);
+  font: 500 var(--t-ui) var(--f-ui);
   letter-spacing: 0.4px;
   color: var(--muted);
 }
@@ -4523,7 +4534,7 @@ select.release-pick {
   display: none;
 }
 #front-main .item b {
-  font: 600 17px var(--ui);
+  font: 600 var(--t-read) var(--ui);
   letter-spacing: 0;
   text-transform: none;
 }
@@ -4540,7 +4551,7 @@ select.release-pick {
 }
 .saves-row .save-date {
   margin: 0;
-  font: 500 16px var(--f-ui);
+  font: 500 var(--t-read) var(--f-ui);
   color: var(--cream);
 }
 
@@ -4552,7 +4563,7 @@ select.release-pick {
   margin-bottom: 8px;
 }
 .strip-screen .setting-label {
-  font: 600 13px var(--f-ui);
+  font: 600 var(--t-label) var(--f-ui);
   letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--gold2);
@@ -4614,7 +4625,7 @@ select.release-pick {
   transform: translateY(-50%);
   padding: 5px 12px;
   white-space: nowrap;
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--cream);
   background: linear-gradient(rgba(34, 32, 29, 0.97), rgba(20, 19, 17, 0.97));
   border-radius: 3px;
@@ -4709,7 +4720,7 @@ select.release-pick {
   float: left;
   margin: 2px 8px 0 0;
   font:
-    600 58px/0.85 "Playfair Display",
+    600 var(--t-display)/0.85 "Playfair Display",
     Georgia,
     serif;
   color: var(--cream);
@@ -4718,13 +4729,13 @@ select.release-pick {
 /* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
 .strip-board .money-figure {
   margin: 0 0 6px;
-  font: 600 44px/1.05 var(--f-ui);
+  font: 600 var(--t-name)/1.05 var(--f-ui);
   font-variant-numeric: lining-nums tabular-nums;
   color: #fbf6ea;
 }
 .strip-board .dotrows .dotrow {
   font-family: var(--ui);
-  font-size: 15px;
+  font-size: var(--t-ui);
   text-transform: none;
 }
 
@@ -4753,7 +4764,7 @@ select.release-pick {
 .news-masthead h2 {
   margin: 0;
   font:
-    400 40px/1.1 "Old Standard TT",
+    400 var(--t-name)/1.1 "Old Standard TT",
     Georgia,
     serif;
   text-transform: none;
@@ -4761,20 +4772,20 @@ select.release-pick {
   color: var(--cream);
 }
 .news-masthead span {
-  font: 500 15px var(--ui);
+  font: 500 var(--t-ui) var(--ui);
   color: var(--muted);
 }
 .news-headline {
   margin: 0 0 6px;
   font:
-    700 28px/1.15 "Old Standard TT",
+    700 var(--t-h2)/1.15 "Old Standard TT",
     Georgia,
     serif;
   color: #f6efe0;
   cursor: pointer;
 }
 .news-headline.side {
-  font-size: 21px;
+  font-size: var(--t-h3);
 }
 .news-text .intro {
   margin: 0 0 10px;
@@ -4882,7 +4893,7 @@ select.release-pick {
 #sheet-body .roster-title {
   margin: 0 0 10px;
   font:
-    600 32px/1.1 "Playfair Display",
+    600 var(--t-h1)/1.1 "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
@@ -4891,7 +4902,7 @@ select.release-pick {
 }
 .roster-title span {
   margin-left: 12px;
-  font: 500 15px var(--ui);
+  font: 500 var(--t-ui) var(--ui);
   color: var(--gold2, #e6cd93);
 }
 .roster-cols {
@@ -4994,7 +5005,7 @@ select.release-pick {
 }
 .ballot-race {
   margin: 14px 0 2px;
-  font: 700 15px var(--ui);
+  font: 700 var(--t-ui) var(--ui);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--cream);
@@ -5009,7 +5020,7 @@ select.release-pick {
   border: none;
   box-shadow: none;
   color: var(--cream);
-  font: 600 15px var(--ui);
+  font: 600 var(--t-ui) var(--ui);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -5035,7 +5046,7 @@ select.release-pick {
 }
 .ballot-person b {
   font:
-    600 20px "Playfair Display",
+    600 var(--t-h3) "Playfair Display",
     Georgia,
     serif;
   color: var(--cream);
@@ -5049,7 +5060,7 @@ select.release-pick {
 .night-title {
   margin: 0;
   font:
-    600 34px "Playfair Display",
+    600 var(--t-h1) "Playfair Display",
     Georgia,
     serif;
   text-transform: none;
@@ -5078,7 +5089,7 @@ select.release-pick {
   border: none;
 }
 #election-day-lines p {
-  font: italic 18px/1.5 var(--speech);
+  font: italic var(--t-h3)/1.5 var(--speech);
   color: var(--cream);
 }
 #election-day-acts {
@@ -5093,7 +5104,7 @@ select.release-pick {
   background: none;
   border: none;
   box-shadow: none;
-  font: 16px var(--ui);
+  font: var(--t-read) var(--ui);
   color: var(--cream);
 }
 #election-day-acts .action::before {
@@ -5139,7 +5150,7 @@ select.release-pick {
 /* New game: the two choices read in the title's own type, not small capitals (fr-new). */
 #front-new .item b {
   font:
-    700 24px "Playfair Display",
+    700 var(--t-h2) "Playfair Display",
     Georgia,
     serif;
   letter-spacing: 0.01em;
@@ -5183,7 +5194,7 @@ body.color-blind .meeting-member.vote-abstain {
   padding: 2px 0;
 }
 .dev-bill-member .name {
-  font: 600 14px var(--ui);
+  font: 600 var(--t-label) var(--ui);
   color: var(--cream);
 }
 .dev-bill-card .acts {
@@ -5192,7 +5203,7 @@ body.color-blind .meeting-member.vote-abstain {
 /* What came of the bill: its ending, the law it made and who that law reached, a line each. */
 .dev-bill-line {
   margin: 2px 0;
-  font: 500 13px var(--ui);
+  font: 500 var(--t-label) var(--ui);
   color: var(--cream);
 }
 
@@ -5231,7 +5242,7 @@ body.color-blind .meeting-member.vote-abstain {
   margin: 0;
   padding: 18px 16px 8px;
   font:
-    600 24px "Cinzel",
+    600 var(--t-h2) "Cinzel",
     "Playfair Display",
     serif;
   color: var(--gold);
