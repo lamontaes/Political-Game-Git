@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: open
 standard: 2
-claimed-by:
+claimed-by: Words builder W7
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: rc2-done-from-records
 source: lead's reading of the code after two findings on Nov 11, 2026 (Words builder W7's pictures for the reporter's call; Seen helper C's 100 played days as an official with no office-hours visit)
 checked:
-claimed-at:
+claimed-at: 2026-11-11
 ---
 
 **What.** The director decides, for each moment in a watched life, whether it is a scene now, a scene that waits, or a journal line. Only "a scene now" ever plays. A scene that ranks within the life's pace and is not an interrupt is staged, cast and written on the ledger as waiting, and then nothing opens it. Two sessions hit it on Nov 11. Words builder W7, playing a seated council member in Pocatello, Idaho (seed w7-press-b): a reporter's call was staged on the day of her own floor vote and never came. Seen helper C, playing a council member in Hudson Falls, New York (seed a2bdef34-c13f-438c-be8b-e4f5883a501f): five residents' cases were open on February 19, 2025, and in 100 played days no resident came to office hours. The lead's own walks found five quiet days in a row after the opening. Seen: any played week, in which the scenes the director staged for the player open when the player next has control, and a quiet week is quiet because nothing ranked, never because nothing read the ledger.
@@ -44,3 +44,10 @@ claimed-at:
 **Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/reach.ts, src/director/conversation.ts, src/bench/story.ts, src/bench/handler.ts, src/bench/player.ts, src/bench/dev-mode.ts, src/director/waiting-scenes.test.ts (new)
 
 **Notes.** Written by the lead (Fable B), Nov 11, 10:15 UTC, from the code and two helpers' findings. The count of waiting entries in a played year is not yet measured; the builder measures it first, in two drawn places, and writes the numbers here before changing anything: how many of the player's moments were `scene-now`, `scene-waiting` and `journal-line` in 60 days. If waiting scenes turn out to be reached some other way that this reading missed, say so here and stop. Related: scene-reporter-call-after-a-vote-never-plays (W7's narrow item), the cause finder's item on office hours never visiting a played official (asked for at 09:50 UTC), director-casting-rule-on-every-scene-kind (PR 8451: who a scene may come to).
+
+Measured by Words builder W7, Nov 11, 2026, before any code change. The player's own clock ran 60 days from the opening (`advancePlayerV1`, every stop resumed and the first offer taken at each choice), and the player's ledger was counted by outcome:
+
+- West Point, Nebraska (place key 3152575, seed `w7-wait-a`), to March 20, 2025: 4 `scene-now`, 4 `scene-waiting`, 72 `journal-line`. All 4 stops the director opened were the `scene-now` entries; none of the 4 waiting entries opened. Waiting by type: `address` 3, `gathering-missing` 1.
+- Breñas, Puerto Rico (place key 7208700, seed `w7-wait-b`), to March 20, 2025: 3 `scene-now`, 3 `scene-waiting`, 18 `journal-line`. All 3 stops were `scene-now`; none of the 3 waiting entries opened. Waiting by type: `address` 2, `gathering-missing` 1.
+
+One more reader than the Cause names, on the opening day only: the bench's new-life route (src/bench/handler.ts, the `/api/newlife` route, "A scene the director already staged for today ... plays first") sends the first scene entry dated that day, waiting or now, as `sceneMomentId`, and the page opens it. That is how the President's address on the opening evening plays. It does not reach any waiting scene after the first day, so the reading holds from day two on, and the build goes ahead. The new reader should take over that opening-day case too, so there is one reader of what waits.
