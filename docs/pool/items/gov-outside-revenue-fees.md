@@ -5,8 +5,8 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/pool-gov-outside-revenue-fees
+status: open
+claimed-by:
 pr: #8399
 blocked-on:
 standard: 2
@@ -15,7 +15,7 @@ effort: high
 lead: governing
 root: rc1-world-outside-town
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T00:51:10.609Z
+claimed-at:
 after:
 checked: fable 2026-11-10
 branch: claude/pool-gov-outside-revenue-fees
@@ -44,3 +44,5 @@ Oct 20: gov-outside-revenue-fees-wiring is done, so the item no longer waits on 
 Sent back 2026-10-24 UTC from PR #5926 (branch claude/outside-revenue-fees): council fee-change acceptance explicitly unmet and aggregate budget twelfths do not prove per-use payer chain; fee-family permit closure follow-up needs named tracking or valid bounded scope; finish on that branch, merge main into it first.
 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:51 UTC) on branch claude/pool-gov-outside-revenue-fees.
+
+Released (2026-11-11): Cause no longer matches main: chargesAndFees already has named payers (treasury-charges) and is skipped by the monthly plug; the permit fee is levied on named payers; see PR #8399. Continue on branch claude/pool-gov-outside-revenue-fees and pull request #8399.
