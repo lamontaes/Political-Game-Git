@@ -636,24 +636,9 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const record = JSON.parse(text) as Record<string, unknown>;
-    const { person, outfit, work, colors } = record;
-    return typeof person === "string" && typeof outfit === "string"
-      ? {
-          person,
-          outfit,
-          ...(typeof work === "string" ? { work } : {}),
-          ...(colors && typeof colors === "object"
-            ? {
-                colors: Object.fromEntries(
-                  Object.entries(colors).filter(
-                    (row): row is [string, string] =>
-                      typeof row[1] === "string",
-                  ),
-                ),
-              }
-            : {}),
-        }
+    const { person, hair, face } = JSON.parse(text) as Record<string, unknown>;
+    return typeof person === "string" && typeof hair === "string"
+      ? { person, hair, ...(typeof face === "string" ? { face } : {}) }
       : undefined;
   } catch {
     return undefined;
