@@ -83,6 +83,7 @@ import {
   incumbentOf,
   petitionCirculating,
   petitionOf,
+  petitionSigners,
   type ContestRow,
   type FilingRow,
 } from "./modules/elections";
@@ -383,7 +384,8 @@ function playRace(
     if (
       !petition ||
       !petitionCirculating(api, filing.id) ||
-      petition.signers.length >= signaturesToGather(petition.needed)
+      petitionSigners(api, filing.id).length >=
+        signaturesToGather(petition.needed)
     )
       break;
     liveUntil(addDays(makeIsoDate(core.date), 1));
@@ -398,7 +400,7 @@ function playRace(
   )?.status;
   if (status !== "on-ballot" && status !== "petitioning")
     return {
-      tried: `${where}: the player's filing ${filing.id} for ${contest.title} ended ${status ?? "gone"}${petition ? ` (${petition.signers.length} of ${petition.needed} signatures by ${petition.due})` : ""}`,
+      tried: `${where}: the player's filing ${filing.id} for ${contest.title} ended ${status ?? "gone"}${petition ? ` (${petitionSigners(api, filing.id).length} of ${petition.needed} signatures by ${petition.due})` : ""}`,
     };
 
   // The campaign, every week to election day, as path-check plays it; no
