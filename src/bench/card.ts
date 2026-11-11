@@ -38,7 +38,7 @@ import {
   type PronounWords,
 } from "../english/pronoun-words";
 import { joinList } from "../english/bill-names";
-import { spanSaid } from "../english/span-words";
+import { countSaid, spanSaid } from "../english/span-words";
 import {
   corePlaceByJurisdictionId,
   coreStateName,
@@ -735,12 +735,21 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // appointment is its own sentence, since the run's words say "won".
     // Spells at the same employer one after another (a campaign shop's
     // seasons) fold the same way.
-    const term =
-      run &&
-      OFFICE_KEYS.includes(run.key) &&
-      OFFICE_KEYS.includes(line.key) &&
-      line.key !== "office.appointed" &&
-      run.slots.office === line.slots.office;
+    // The run of terms in one office is the last line of that office told
+    // so far, whatever came between (a child born between two terms, Jim
+    // Thorpe, Pennsylvania, seed 390bcb5a-59a1-4d8a-9c85-785b90538bd7: the
+    // terms were told one by one, then again as a run).
+    const officeRun =
+      OFFICE_KEYS.includes(line.key) && line.key !== "office.appointed"
+        ? [...folded]
+            .reverse()
+            .find(
+              (told) =>
+                OFFICE_KEYS.includes(told.key) &&
+                told.slots.office === line.slots.office,
+            )
+        : undefined;
+    const term = !!officeRun && officeRun.key !== "office.appointed";
     const spell =
       run &&
       run.key === "work.spell" &&
@@ -755,12 +764,13 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       (elsewhere.later ??= []).push(line.recordId);
       continue;
     }
-    if (run && (term || spell)) {
+    const into = term ? officeRun : spell ? run : undefined;
+    if (into) {
       const year = line.date.slice(0, 4);
-      const years = (run.again ??= []);
-      if (year !== run.date.slice(0, 4) && !years.includes(year))
+      const years = (into.again ??= []);
+      if (year !== into.date.slice(0, 4) && !years.includes(year))
         years.push(year);
-      (run.later ??= []).push(line.recordId);
+      (into.later ??= []).push(line.recordId);
       continue;
     }
     folded.push({ ...line });
@@ -784,12 +794,26 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       line.recordId,
       ...(line.later ?? []),
     ]);
-    first.key = "work.history";
-    first.slots = {
-      year: last.date.slice(0, 4),
-      employers: joinList(earlier, "and"),
-      employer: last.slots.employer!,
-    };
+    // Three or more earlier employers are a count and a span, never a long
+    // list under one year (Kailua, Hawaii, seed
+    // f452a892-32e1-46f9-b078-414359b9773a: nine employers "In 2006"): how
+    // many jobs, from the first spell's start to the last's, and the first.
+    const many = earlier.length >= 3;
+    first.key = many ? "work.many" : "work.history";
+    first.slots = many
+      ? {
+          first: earlier[0]!,
+          count: countSaid(earlier.length),
+          span: spanSaid(
+            daysBetween(makeIsoDate(first.date), makeIsoDate(last.date)),
+          ),
+          employer: last.slots.employer!,
+        }
+      : {
+          year: last.date.slice(0, 4),
+          employers: joinList(earlier, "and"),
+          employer: last.slots.employer!,
+        };
     first.recordId = last.recordId;
     first.later = records.filter((id) => id !== last.recordId);
     delete first.again;

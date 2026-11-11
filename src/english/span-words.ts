@@ -30,3 +30,8 @@ export function spanSaid(days: number): string {
     ? data.longer
     : ABOUT[String(nearest)]!;
 }
+
+/** A small count as people say it: "eight", "twelve", "more than twenty". */
+export function countSaid(count: number): string {
+  return data.counts[Math.max(0, Math.round(count))] ?? data.countsMore;
+}

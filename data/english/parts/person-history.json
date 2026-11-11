@@ -22,7 +22,9 @@
     "span": "How long a stretch of work lasted, as people say it: nine years.",
     "here": "The town or county the person lives in now, from the place records.",
     "age": "How old the person was then, from their birth record and the record's date.",
-    "child": "A child's first name from their record."
+    "child": "A child's first name from their record.",
+    "first": "The first employer of a run of jobs, by its record's name.",
+    "count": "How many jobs a person held before the one held now or last, in words, from their work records."
   },
   "maxWords": 24,
   "parts": [
@@ -2529,6 +2531,60 @@
       "kind": "written"
     },
     {
+      "key": "person-history.story.work.many.i",
+      "move": "story",
+      "text": "I worked {count} jobs in {span} before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.i.w2",
+      "move": "story",
+      "text": "I held {count} jobs over {span}, starting at {first}, before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.i.w3",
+      "move": "story",
+      "text": "I went through {count} jobs in {span}, from {first} on, before settling at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.i.w4",
+      "move": "story",
+      "text": "I started at {first} and worked {count} jobs in {span} before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.i.w5",
+      "move": "story",
+      "text": "I bounced through {count} jobs in {span} before landing at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.i.w6",
+      "move": "story",
+      "text": "I spent {span} on {count} jobs, the first at {first}, before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
       "key": "person-history.story.work.history.third.w2",
       "move": "story",
       "text": "{who} held jobs at {employers} before {employer}.",
@@ -2574,6 +2630,60 @@
       "kind": "written"
     },
     {
+      "key": "person-history.story.work.many.third",
+      "move": "story",
+      "text": "{who} worked {count} jobs in {span} before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.third.w2",
+      "move": "story",
+      "text": "{who} held {count} jobs over {span}, starting at {first}, before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.third.w3",
+      "move": "story",
+      "text": "{who} went through {count} jobs in {span}, from {first} on, before settling at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.third.w4",
+      "move": "story",
+      "text": "{who} started at {first} and worked {count} jobs in {span} before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.third.w5",
+      "move": "story",
+      "text": "{who} bounced through {count} jobs in {span} before landing at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.third.w6",
+      "move": "story",
+      "text": "{who} spent {span} on {count} jobs, the first at {first}, before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
       "key": "person-history.story.work.history.they.w2",
       "move": "story",
       "text": "They held jobs at {employers} before {employer}.",
@@ -2615,6 +2725,60 @@
       "text": "They bounced from {employers} to {employer}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.they",
+      "move": "story",
+      "text": "They worked {count} jobs in {span} before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.they.w2",
+      "move": "story",
+      "text": "They held {count} jobs over {span}, starting at {first}, before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.they.w3",
+      "move": "story",
+      "text": "They went through {count} jobs in {span}, from {first} on, before settling at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.they.w4",
+      "move": "story",
+      "text": "They started at {first} and worked {count} jobs in {span} before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.they.w5",
+      "move": "story",
+      "text": "They bounced through {count} jobs in {span} before landing at {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
+      "date": "2026-11-11",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.many.they.w6",
+      "move": "story",
+      "text": "They spent {span} on {count} jobs, the first at {first}, before {employer}.",
+      "origin": "authored",
+      "author": "Claude (Words builder W8)",
       "date": "2026-11-11",
       "kind": "written"
     },

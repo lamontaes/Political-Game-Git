@@ -62,5 +62,29 @@
     "70": "about seventy years",
     "75": "about seventy-five years",
     "80": "about eighty years"
-  }
+  },
+  "counts": [
+    "none",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
+    "twenty"
+  ],
+  "countsMore": "more than twenty"
 }

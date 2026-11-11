@@ -125,8 +125,9 @@ export function introText(...parts) {
 /**
  * A life told as sentences, never a list of dates: the card's lines (oldest
  * first, each with its kind and the record behind it) grouped by what mattered
- * (`groups`: the kinds that belong together, in the order they are read), one
- * paragraph in the story face for each group, each sentence on its record.
+ * (`groups`: the kinds that belong together), one paragraph in the story face
+ * for each group, the paragraphs in the order their first events happened,
+ * each sentence on its record.
  */
 export function lifeStory(lines, groups, onOpen) {
   const at = new Map(
@@ -135,8 +136,13 @@ export function lifeStory(lines, groups, onOpen) {
   const paragraphs = [...groups, []].map(() => []);
   for (const line of lines)
     paragraphs[at.get(line.kind) ?? groups.length].push(line);
+  // The paragraphs in the order their first events happened, so a life
+  // reads forward: school before the home and children it came before
+  // (Kailua, Hawaii, seed f452a892-32e1-46f9-b078-414359b9773a, Fable B).
+  const first = new Map(lines.map((line, i) => [line, i]));
   return paragraphs
     .filter((rows) => rows.length)
+    .sort((a, b) => first.get(a[0]) - first.get(b[0]))
     .map((rows) =>
       introText(
         ...rows.flatMap((row, i) => {
