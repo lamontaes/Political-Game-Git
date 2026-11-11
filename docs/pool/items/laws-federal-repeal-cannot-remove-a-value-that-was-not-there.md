@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-laws-federal-repeal-cannot-remove-a-value-that-was-not-there
-pr:
+pr: #8707
 after:
 blocked-on:
 lead: legislation
