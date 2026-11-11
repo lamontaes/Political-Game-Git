@@ -1673,13 +1673,16 @@ export function composeJournal(
     // by two that name the same person again.
     for (const named of row.follow ?? []) {
       for (const field of named.split("|")) {
+        // No two lines of the journal end the same way ("I was 27 when it
+        // happened." twice), the same guard the look-back hook keeps.
         const told = render(
-          { part: "memoir", field: field as MemoirField },
+          { part: "memoir", field: field as MemoirField, closedWith },
           facts,
           `${moment.id}:${field}`,
           sourceIds,
         );
         if (!told) continue;
+        closedWith.add(journalClosing(told));
         parts.push(told);
         break;
       }
@@ -1753,7 +1756,13 @@ export function composeJournal(
       revisedAlready.add(changed.id);
       parts.push(revision);
     }
-    if (!revision && later && moment.hindsight >= interrupt) {
+    // A line already framed by the age ("When I was 13, ...") says it once.
+    if (
+      !revision &&
+      later &&
+      moment.hindsight >= interrupt &&
+      !framed.has(moment.id)
+    ) {
       // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
         {

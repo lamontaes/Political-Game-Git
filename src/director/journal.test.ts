@@ -640,9 +640,10 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     const told = lines.filter((line) => /moved away/.test(line.text));
     expect(told.length).toBeGreaterThan(0);
     for (const line of told) {
-      // A second relative of one relation is said by given name ("Olivia moved away.").
+      // A second relative of one relation is said by given name ("Olivia moved away.");
+      // a move while the person was young opens on their age ("When I was 13, my brother moved away.").
       expect(line.plain ?? line.text).toMatch(
-        /^(My \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
+        /^(When I was \d+( years old)?, )?([Mm]y \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
       );
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     }
@@ -752,7 +753,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         )
         .map((line) => line.plain ?? line.text);
     const named = told(mover.placeId);
-    const moved = named.filter((line) => /^We /.test(line));
+    // A move while the person was young opens on their age ("When I was 13 years old, we moved ...").
+    const ours = /^(When I was \d+( years old)?, )?[Ww]e /;
+    const moved = named.filter((line) => ours.test(line));
     expect(moved).toHaveLength(1);
     expect(moved[0]).toContain(
       corePlaceByJurisdictionId(mover.placeId as never)!.displayName,
@@ -761,7 +764,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     // A place with no name leaves nothing to say about the move (the
     // journal's other lines, where the family came from, still stand).
     expect(
-      told("jurisdiction_unnamed").filter((line) => /^We /.test(line)),
+      told("jurisdiction_unnamed").filter((line) => ours.test(line)),
     ).toEqual([]);
   });
 
