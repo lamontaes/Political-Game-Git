@@ -1403,6 +1403,8 @@ export function subjectsBetween(
         ? corePlaceByJurisdictionId(relative.placeId as never)
         : undefined;
     const work = person ? namedJobOf(core, person) : null;
+    // Mentioned only with something of their life to tell.
+    if (!home && !work) continue;
     out.push({
       id: `kin:${id}`,
       kind: "kin",
