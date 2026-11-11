@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-world-local-sales-below-opening-forecast-part-1-household-categories
-pr:
+pr: #8499
 after:
 blocked-on:
 lead: money
