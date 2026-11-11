@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-new-state-income-tax-pays-out-where-it-should-collect
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:39:51.855Z
+branch: claude/pool-laws-new-state-income-tax-pays-out-where-it-should-collect
 ---
 
 **What.** A new income tax pays out where it should collect. Measured in LaGrange, Wyoming (seed 63355aee286d): Wyoming has no income tax, and adopting one at 1% left households $349,000 higher and governments $138,000 lower after 180 days, against a twin world with no bill. The payments' labels show the Wyoming treasury paying residents $349,000 more, and its withholding line fell by $31,000 where it should have risen (traced to the payer). The Wyoming treasury itself ended $142,000 lower: it paid out the $349,000, the $31,000 and about $8,000 on smaller lines, and a reserve sweep brought in $246,000 from outside. Where a state already has the tax the direction is right: in Marion, Mississippi (seed 7df73e53cd67), raising the state rate from 4.4% to 6.6% took $479,000 from counted households and $7,000 from full people in town. So the fault is in adopting the tax where no value was in force. The audit traced it to the treasury that pays and no further. Find the payment that carries the $349,000 and the reason the withholding line falls, and fix it at the cause for every government that adopts an income tax where it had none: paychecks are withheld at the new rate, the treasury that levied the tax receives it, and no payment to residents grows because of it.
@@ -40,3 +42,5 @@ checked: fable 2026-11-10
 **Notes (Fable's check, Nov 10).** When the payment is found, the fix is made at that payment, so the tax withholds at the new rate and the treasury that levied it receives it.
 
 **Notes (cause finder, Nov 10).** Ran twin worlds from `buildBenchWorld("63355aee286d", gameStartDate(), {twoLevel: true, placeKey: "5643745"})`, one with the 1% state bill passed the dev-tester way (every member yes, chair hears it, governor signs; enacted, no added sections) and one left alone, for 180 days to 2025-07-19. A temporary probe in `postJournal` tallied every posting by owner and label; it was removed and not committed. Then a probe in `shapedRate` read a row with no rated bracket as flat. With it, `SF 1` became `percent`, and the Wyoming treasury took in $75,881 on `work.unplaced-residents` against the twin's $322,471 (0.235, and 1/4.25 is 0.235). So the bill collects at 1%, and the rest of the gap is the twin's own 4.25% adoption. The probe was undone. Checked and ruled out: a 2026-01-01 starting row overriding an enacted rate (enacted rows always outrank starting rows in `lawRowIsLater`, src/core2/laws-in-force.ts line 180), the reserve sweep (it only covers the shortfall), and every other reader of the income tax law (`counted-moves.ts`, `country-law.ts`, `outside-budgets.ts`; all go through `withholdingFor` or a rate ratio that is 1 when the opening rate is 0). Still unknown: whether the policy question adopting an income tax on its own in under five months is the intended pace (the twin trap belongs in the dev-tester skill), and whether dev mode's Law control should offer "flat" or "graduated" when a state adopts its first income tax. The audit's $349,000 figure was not reproduced to the dollar; this run's gap on the four Wyoming withholding lines is $380,807.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:39 UTC) on branch claude/pool-laws-new-state-income-tax-pays-out-where-it-should-collect.
