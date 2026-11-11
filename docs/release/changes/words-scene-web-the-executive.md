@@ -3,4 +3,4 @@ id: words-scene-web-the-executive
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The scene web now links every executive row to an episode, and lists which rows fire and what each waits on, plus the address lines Story still needs.
