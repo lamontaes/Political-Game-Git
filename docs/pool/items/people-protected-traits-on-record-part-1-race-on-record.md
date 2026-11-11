@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-people-protected-traits-on-record-part-1-race-on-record
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: design-one-model-two-tiers
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:14:09.094Z
+claimed-at:
 branch: claude/pool-people-protected-traits-on-record-part-1-race-on-record
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-people-protected-traits-on-record-part-1-race-on-record
 **Files.** src/core2/types.ts, src/core2/population.ts, src/core2/opening-origin.ts, src/core2/counted-groups.ts, src/core2/person-race.test.ts (new)
 
 **Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:13 UTC) on branch claude/pool-people-protected-traits-on-record-part-1-race-on-record.
+
+Released (2026-11-11): Cause differs from code: each household already has a race-and-origin drawn from Census shares (opening-origin.ts, looks.origin) and counted members carry it (counted-groups.ts originIx); the Fix would add a second writer. Continue on branch claude/pool-people-protected-traits-on-record-part-1-race-on-record.
