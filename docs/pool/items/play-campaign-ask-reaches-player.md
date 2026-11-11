@@ -7,7 +7,7 @@ priority: 2
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-campaign-ask-reaches-player
-pr: #5407
+pr: #8387
 blocked-on:
 milestone:
 source: "core-player-money-spending: world campaigns no longer draw on the player's account"
