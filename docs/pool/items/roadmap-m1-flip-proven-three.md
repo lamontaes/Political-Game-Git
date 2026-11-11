@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-roadmap-m1-flip-proven-three
-pr: #5875
+pr: "#8718"
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T06:31:57.349Z
