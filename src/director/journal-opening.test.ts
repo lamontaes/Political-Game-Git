@@ -144,6 +144,9 @@ const KNOWN_DRAWS = [
   "3ce58b155d125aeb788fea59f8353c954131e6f3:work:0",
   // Stowe, Vermont: "My father DeAndre ..." (a capital inside a name).
   "0da7d0ae7277eff20bce2be78ff0923fcf5a106a:work:1",
+  // Winter Harbor, Maine: a father who changed jobs and holds a county seat
+  // ("County Commissioner" mid-sentence).
+  "aa73e37ebdc41b538771fe51249d8514cb45eea4:work:7",
 ];
 /**
  * A note's sentences: split after a stop, never after an initial such as the
@@ -224,12 +227,21 @@ it(`the first note says each thing once and names each parent's employer (seed $
         parentJobs += 1;
       }
     }
-    // A job title is said in lower case inside a sentence.
+    // A job title is said in lower case inside a sentence. It is matched as
+    // whole words: a body's own name may hold it ("the Board of County
+    // Commissioners of Hancock County", Winter Harbor, Maine, seed
+    // aa73e37ebdc41b538771fe51249d8514cb45eea4:work:7), and that is a name.
     for (const id of core.households.get(player.householdId)?.memberIds ?? []) {
       const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
       if (!job || jobSaid(job.title) === job.title) continue;
+      const title = new RegExp(
+        `\\b${job.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+      );
       for (const row of lines)
-        expect(row.text, `${where}: "${job.title}"`).not.toContain(job.title);
+        expect(
+          row.text,
+          `${where}: "${job.title}" in "${row.text}"`,
+        ).not.toMatch(title);
     }
     evidence.push(`${where}: ${lines.map((row) => `"${row.text}"`).join(" ")}`);
   }

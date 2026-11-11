@@ -18,6 +18,7 @@ import {
   beliefsOf,
   CONVERSATION_DATA,
   CONVERSATION_RULES,
+  composedLine,
   doubtsClaim,
   openConversation,
   say,
@@ -1163,5 +1164,170 @@ describe("the answers to a question fit it", () => {
       );
     }
     expect(talks).toBeGreaterThan(0);
+  });
+});
+
+// words-home-greet-farewell-lines-are-composed (owner, Nov 11, 2026: "all the
+// lines in the game need to be run through the English engine ... a ton of
+// different speech versions"): a greeting names the listener or when the two
+// last met, a goodbye names what the talk was about, and the hour at home.
+describe("hellos and goodbyes are composed from the records", () => {
+  const SPOKEN_GAPS = [
+    "yesterday",
+    "a few days ago",
+    "last week",
+    "a few weeks ago",
+    "a couple of months ago",
+    "last year",
+    "years ago",
+  ];
+  /** Plays a talk to its end, taking the replies in turn. */
+  const play = (otherId: PersonId) => {
+    const talk = openConversation(core, player.id, otherId, { director });
+    for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+      say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+    return talk;
+  };
+  const away = (id: PersonId) =>
+    core.people.get(id)?.householdId !== me.householdId;
+  const everyone = () =>
+    [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.tier !== "husk" &&
+          row.id !== player.id &&
+          away(row.id as PersonId),
+      )
+      .map((row) => row.id as PersonId);
+
+  it("names when the two last met on a second talk, the employer of a talk about work, and says over 30 different greetings and goodbyes in 100 talks", () => {
+    const greetings = new Set<string>();
+    const goodbyes = new Set<string>();
+    // A talk that ends on the other person's answered question says no
+    // goodbye (by rule), so more people are talked to than goodbyes counted.
+    const people = everyone().slice(0, 200);
+    let aboutWork = 0;
+    let said = 0;
+    const employers: { text: string; sourceRecordIds: readonly string[] }[] =
+      [];
+    let second = 0;
+    for (const round of [0, 1]) {
+      // The second talk is the next day: the greeting names the first, and
+      // nobody is unsure about yesterday (Fable B's review of #8758).
+      if (round) advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      for (const otherId of people) {
+        const talk = play(otherId);
+        // The hello is its own turn; the line after it names the last meeting.
+        const greets = talk.lines.filter((line) => line.kind === "greet");
+        const greet = greets.at(-1);
+        const bye = talk.lines.find((line) => line.kind === "farewell");
+        if (greet) greetings.add(greets.map((line) => line.text).join(" "));
+        if (greet && round) {
+          second += 1;
+          expect(greet.wording?.facts, `${otherId}: ${greet.text}`).toContain(
+            "when",
+          );
+          expect(
+            SPOKEN_GAPS.some((gap) => greet.text.includes(gap)),
+            greet.text,
+          ).toBe(true);
+          expect(greet.text).not.toMatch(
+            /I think|if I remember right|I don't think|a while|ages/,
+          );
+        }
+        const employerFact = talk.topicFacts?.employer;
+        if (employerFact) employers.push(employerFact);
+        if (!bye) continue;
+        said += 1;
+        goodbyes.add(bye.text);
+        const employer = talk.topicFacts?.employer?.text;
+        if (employer) {
+          aboutWork += 1;
+          // One screen names a thing once: a goodbye names the employer
+          // only when no line before it in the talk did; else the player.
+          const before = talk.lines.filter((line) => line !== bye);
+          if (before.some((line) => line.text.includes(employer)))
+            expect(bye.text, `${otherId}: ${bye.text}`).not.toContain(employer);
+          else expect(bye.text, `${otherId}: ${bye.text}`).toContain(employer);
+        }
+      }
+    }
+    process.stdout.write(
+      `greetings ${greetings.size}, goodbyes ${goodbyes.size} of ${said}, about work ${aboutWork}, second greetings ${second}\n`,
+    );
+    expect(second).toBeGreaterThan(0);
+    expect(aboutWork).toBeGreaterThan(0);
+    expect(greetings.size).toBeGreaterThanOrEqual(30);
+    // Most goodbyes said differ, and 100 goodbyes composed from the topics
+    // these talks recorded say at least 30 different things.
+    expect(said).toBeGreaterThan(0);
+    expect(goodbyes.size * 2).toBeGreaterThan(said);
+    const composed = new Set<string>();
+    for (let n = 0; n < 100 && employers.length; n += 1) {
+      const line = composedLine(
+        core,
+        people[n % people.length]!,
+        "farewell",
+        {
+          "about-said": employers[n % employers.length]!,
+          "about-employer": { text: "yes", sourceRecordIds: [player.id] },
+          [n % 2 ? "about-employer-yours" : "about-employer-mine"]: {
+            text: "yes",
+            sourceRecordIds: [player.id],
+          },
+        },
+        "default",
+        `goodbye-variety:${n}`,
+      );
+      if (line) composed.add(line.text);
+    }
+    expect(composed.size).toBeGreaterThanOrEqual(30);
+  });
+
+  it("at home, a talk given the evening's minute (the opening night) never says goodbye for the morning", () => {
+    const housemates = [
+      ...(core.households.get(me.householdId)?.memberIds ?? []),
+    ]
+      .filter((id) => id !== me.id && core.people.get(id)?.alive)
+      .map((id) => id as PersonId);
+    let byes = 0;
+    for (const otherId of housemates)
+      for (const minute of [20 * 60 + 30, 21 * 60]) {
+        const talk = openConversation(core, player.id, otherId, {
+          director,
+          minuteOfDay: minute,
+        });
+        for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+          say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+        const bye = talk.lines.find((line) => line.kind === "farewell");
+        if (!bye) continue;
+        byes += 1;
+        expect(bye.text, bye.text).not.toMatch(/morning|afternoon/);
+      }
+    process.stdout.write(`evening goodbyes at home: ${byes}\n`);
+  });
+
+  it("at home, says the hour the clock gives: an evening goodbye never names the morning", () => {
+    for (const [mark, said, never] of [
+      ["evening", "tonight", /morning|afternoon/],
+      ["morning", "this morning", /tonight|evening|afternoon/],
+    ] as const)
+      for (let n = 0; n < 40; n += 1) {
+        const line = composedLine(
+          core,
+          others[n % others.length]!,
+          "farewell",
+          {
+            [mark]: { text: "yes", sourceRecordIds: [player.id] },
+            daypart: { text: said, sourceRecordIds: [player.id] },
+          },
+          "home",
+          `home-goodbye:${mark}:${n}`,
+        );
+        expect(line, `${mark} ${n}`).not.toBeNull();
+        expect(line!.text).toContain(said);
+        expect(line!.text).not.toMatch(never);
+      }
   });
 });

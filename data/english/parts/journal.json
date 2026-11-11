@@ -42,7 +42,9 @@
     "together": "How long a couple has been together, from the day their partnership's record names, to the day told.",
     "death_age": "The age of a person who died, from their birth record and the day of the death.",
     "after_illness": "What the death record's topic says the person had been, in plain words.",
-    "school_for": "How long the person had been at a school, from the school's attendance record."
+    "school_for": "How long the person had been at a school, from the school's attendance record.",
+    "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
+    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market."
   },
   "maxWords": 10,
   "mining": {
@@ -10545,6 +10547,318 @@
       ],
       "origin": "authored",
       "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-seat.named-sits-on-body",
+      "move": "work-line-livelihood-seat",
+      "kind": "spoken",
+      "text": "{named} sits on {body}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-seat",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:seat",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-seat.named-serves-on-body",
+      "move": "work-line-livelihood-seat",
+      "kind": "spoken",
+      "text": "{named} serves on {body}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-seat",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:seat",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-seat.named-has-a-seat-on-body",
+      "move": "work-line-livelihood-seat",
+      "kind": "spoken",
+      "text": "{named} has a seat on {body}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-seat",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:seat",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-seat-and-job.named-sits-on-body-and-works-as-job-at-workplace",
+      "move": "work-line-livelihood-seat-and-job",
+      "kind": "spoken",
+      "text": "{named} sits on {body} and works as {job} at {workplace}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-seat-and-job",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:seat-and-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-seat-and-job.named-serves-on-body-and-is-job-at-workplace",
+      "move": "work-line-livelihood-seat-and-job",
+      "kind": "spoken",
+      "text": "{named} serves on {body} and is {job} at {workplace}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-seat-and-job",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:seat-and-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-seat-and-job-plain.named-has-a-seat-on-body-and-works-as-job",
+      "move": "work-line-livelihood-seat-and-job-plain",
+      "kind": "spoken",
+      "text": "{named} has a seat on {body} and works as {job}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-seat-and-job-plain",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:seat-and-job-plain",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-office.named-serves-as-office-for-employer",
+      "move": "work-line-livelihood-office",
+      "kind": "spoken",
+      "text": "{named} serves as {office} for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-office",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-office.named-is-office-for-employer",
+      "move": "work-line-livelihood-office",
+      "kind": "spoken",
+      "text": "{named} is {office} for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-office",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-office-plain.named-serves-as-office",
+      "move": "work-line-livelihood-office-plain",
+      "kind": "spoken",
+      "text": "{named} serves as {office}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-office-plain",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:office-plain",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-office-and-job.named-serves-as-office-for-employer-and-works-as-job-at-workplace",
+      "move": "work-line-livelihood-office-and-job",
+      "kind": "spoken",
+      "text": "{named} serves as {office} for {employer} and works as {job} at {workplace}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-office-and-job",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:office-and-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-office-and-job.named-is-office-for-employer-and-also-job-at-workplace",
+      "move": "work-line-livelihood-office-and-job",
+      "kind": "spoken",
+      "text": "{named} is {office} for {employer} and also {job} at {workplace}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-office-and-job",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:office-and-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-office-plain-and-job.named-serves-as-office-and-works-as-job",
+      "move": "work-line-livelihood-office-plain-and-job",
+      "kind": "spoken",
+      "text": "{named} serves as {office} and works as {job}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-office-plain-and-job",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:office-plain-and-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
       "date": "2026-11-11",
       "tag": {
         "move": "tell"

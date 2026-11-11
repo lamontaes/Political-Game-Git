@@ -124,6 +124,7 @@ import {
 import { pollingScene } from "./polling";
 import { officeCases, decideCase } from "./office-cases";
 import {
+  meetOverTalk,
   openConversation,
   say,
   sayNothing,
@@ -237,6 +238,7 @@ function sceneNow(current: CoreState, id: string) {
             person.personId === id ||
             openConversation(current, id, person.personId, {
               director: state.director,
+              look: true,
             }).lines.length > 0,
         })),
       }
@@ -588,12 +590,32 @@ const ROUTES: readonly Route[] = [
         throw new Error("Talk to a living resident.");
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
+      // The minute the talk is had at: the opening day is that evening at
+      // home, whatever the clock's own start of the day says (the opening's
+      // talks spend their minutes from the clock's morning); else the clock.
+      const clockMinute = state.player.packet?.at.minuteOfDay;
+      const minuteOfDay =
+        state.director?.ledger.opening?.date === requireCore().date
+          ? Math.max(
+              clockMinute ?? OPENING_EVENING_MINUTE,
+              OPENING_EVENING_MINUTE,
+            )
+          : clockMinute;
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
         otherId,
         state.director
-          ? { director: state.director, ...(occasionId ? { occasionId } : {}) }
+          ? {
+              director: state.director,
+              ...(occasionId ? { occasionId } : {}),
+              ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
+              // The place the player came to, so a goodbye knows it is said
+              // at the speaker's work.
+              ...(state.visit
+                ? { visitOrganizationId: state.visit.organizationId }
+                : {}),
+            }
           : {},
       );
       // A talk with no line is no talk (owner, Nov 1), on every road: a scene,
@@ -604,6 +626,9 @@ const ROUTES: readonly Route[] = [
         send(200, null);
         return;
       }
+      // The player talked with them: the two have met (the encounters
+      // engine's meeting, through the director's one entry for it).
+      meetOverTalk(requireCore(), state.conversation);
       send(200, talkView(state.conversation));
       return;
     },
