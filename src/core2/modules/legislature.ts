@@ -4409,9 +4409,13 @@ function committeeStage(
     kind: heard ? "committee-hearing" : "bill-held-in-committee",
     personIds: [
       // The people the record names: the committee's members and chair (its
-      // roll call), then the witnesses it heard.
-      ...record.memberIds,
-      ...witnesses.map((w) => w.personId),
+      // roll call), then the witnesses it heard, then the bill's sponsor, so a
+      // bill held without a hearing is a moment the sponsor meets.
+      ...new Set([
+        ...record.memberIds,
+        ...witnesses.map((w) => w.personId),
+        bill.sponsorId,
+      ]),
     ].filter((id) => api.state.people.has(id)),
     placeId: lawChain(api).townPlaceId,
     source: {
@@ -4421,9 +4425,12 @@ function committeeStage(
       estimatedFrom: "SG-GOV-committee-structure",
     },
     publicRecord: true,
-    news: heard,
+    // The paper tells a bill that died without a hearing as well as one that
+    // was heard (printed-words' `committee` story says which).
+    news: true,
     facts: {
       billId: bill.id,
+      sponsorId: bill.sponsorId,
       level: billReach(api, bill).level,
       committee: record.committee,
       chair: record.chairId,
