@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-core-memory-heard-knowledge-keys
+claimed-by:
 pr: #8413
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:05:34.911Z
+claimed-at:
 branch: claude/pool-core-memory-heard-knowledge-keys
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-core-memory-heard-knowledge-keys
 Reader sweep, Nov 4 10:15 UTC (Lane 5), every reader of `knowledgeByPerson` outside state.ts on main: heard promises are read by `modules/record.ts:202` and `modules/voting.ts:800` (a voter holds a kept or broken promise against the speaker at the next election), so they must last a term and can't go by age. News keys (`newsKey`) are read by `voting.ts:789,1237`, `place-prices.ts:629,691` and `news.ts:485`, the director's `conversation.ts:818` and `bring-it-up.ts`. Organization and role keys are read by `people.ts:614`, `drives.ts:2049,2078` and `life.ts:77,331`. Whole-store scans: `conversation.ts:542,2156`, `bring-it-up.ts:268`, `campaigns.ts:5293`, `corruption.ts:332`. Proposal: keep each key kind its readers need, but store a heard promise (value "heard") as an id in a per-voter set, not a full fact object with its own source string. That is about three quarters of a promise key's memory; the record and voting reads become a set lookup. That touches Lane 1's campaigns.ts, record.ts and voting.ts and needs Lane 1's agreement (asked on docs/lanes/state/lane-1.md).
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:05 UTC) on branch claude/pool-core-memory-heard-knowledge-keys.
+
+Released (2026-11-11): Cause no longer matches main: at Arcadia CA app-heap-1 year 2 heard keys hold about 40 MB of a 4,232 MB heap; medicalBills 510 MB and credit.loans 374 MB lead (PR 8413). Continue on branch claude/pool-core-memory-heard-knowledge-keys and pull request #8413.
