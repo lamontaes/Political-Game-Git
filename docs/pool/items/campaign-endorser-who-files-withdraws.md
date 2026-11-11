@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-campaign-endorser-who-files-withdraws
-pr:
+pr: #8406
 after:
 blocked-on:
 lead: governing
