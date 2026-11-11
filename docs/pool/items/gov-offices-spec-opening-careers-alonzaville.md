@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-offices-spec-opening-careers-alonzaville
 pr: #8533
 blocked-on:
