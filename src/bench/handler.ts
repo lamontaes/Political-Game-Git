@@ -44,6 +44,7 @@ import {
   stayedHomeLine,
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
+import { storyPicture } from "./news-picture";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
   billPageView,
@@ -1951,7 +1952,22 @@ const ROUTES: readonly Route[] = [
             const state = stateNames.get(value);
             if (state) names[value] = state;
           }
-          return Object.keys(names).length ? { ...row, names } : row;
+          // A story the paper can lead with carries the picture of what it
+          // is about, chosen from its own record.
+          const told = row as { headline?: string; lede?: string };
+          const picture =
+            (told.headline || told.lede) && facts
+              ? storyPicture(
+                  core,
+                  facts,
+                  (row as { sourceRecordIds?: string[] }).sourceRecordIds ?? [],
+                )
+              : null;
+          return {
+            ...row,
+            ...(Object.keys(names).length ? { names } : {}),
+            ...(picture ? { picture } : {}),
+          };
         }),
       );
       return;

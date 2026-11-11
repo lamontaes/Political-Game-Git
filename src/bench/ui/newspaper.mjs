@@ -34,7 +34,7 @@ const MASTHEADS = {
   ],
 };
 /** One of `list`, always the same one for the same record. */
-export const sameFor = (list, key) =>
+const sameFor = (list, key) =>
   list[
     [...String(key)].reduce((sum, c) => sum + c.charCodeAt(0), 0) % list.length
   ];
