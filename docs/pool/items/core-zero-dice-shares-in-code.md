@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-zero-dice-shares-in-code
-pr:
+pr: #8417
 after:
 blocked-on:
 lead: cto

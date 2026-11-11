@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-press-money-dawson-springs-red
-pr:
+pr: #8430
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T01:04:45.903Z
