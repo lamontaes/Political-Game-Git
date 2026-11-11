@@ -17,6 +17,11 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { lifeOf, openWholePast } from "./modules/people";
 import { partnershipGeo } from "./opening-partnership";
 import { PAST_PARTNERSHIP_ENDED } from "./past-partners";
+import {
+  hospitalStayAges,
+  hospitalStayShare,
+  PAST_HOSPITAL_STAY,
+} from "./past-health";
 import { preStartHistory } from "./pre-start";
 import type { CoreState, PersonId, PersonState } from "./types";
 
@@ -130,4 +135,51 @@ it(`an earlier partnership comes from the opening's chain, in ${where}`, () => {
     ended.length,
     `someone had an earlier partner, in ${where}`,
   ).toBeGreaterThan(0);
+  // A night in hospital before the start: the most recent, with how many.
+  const stays = adults.filter(
+    (p) =>
+      preStartHistory(core, { kind: PAST_HOSPITAL_STAY, personId: p.id })
+        .length,
+  );
+  for (const person of stays) {
+    const [row] = preStartHistory(core, {
+      kind: PAST_HOSPITAL_STAY,
+      personId: person.id,
+    });
+    const ages = hospitalStayAges(core, person, core.startedAt);
+    expect(row!.facts.stays, row!.id).toBe(ages.length);
+    expect(row!.facts.age, row!.id).toBe(ages.at(-1));
+    expect(row!.date < core.startedAt, row!.id).toBe(true);
+    expect(
+      lifeOf(core, person.id).some((event) => event.id === row!.id),
+      `${row!.id} is told in their life`,
+    ).toBe(true);
+  }
+  // The town's yearly share in the year before the start, beside the table's.
+  const bands = [
+    [18, 45],
+    [45, 65],
+    [65, 120],
+  ] as const;
+  const lines = bands.map(([low, high]) => {
+    const band = adults.filter((p) => {
+      const age = ageOnDate(
+        makeIsoDate(p.birthDate),
+        makeIsoDate(core.startedAt),
+      );
+      return age >= low + 1 && age < high;
+    });
+    const lastYear = band.filter((p) => {
+      const age = ageOnDate(
+        makeIsoDate(p.birthDate),
+        makeIsoDate(core.startedAt),
+      );
+      return hospitalStayAges(core, p, core.startedAt).at(-1) === age - 1;
+    }).length;
+    return `${low}-${high - 1}: ${lastYear} of ${band.length} in the last year against ${(100 * hospitalStayShare(low)).toFixed(1)}%`;
+  });
+  process.stdout.write(
+    `past hospital stays in ${where}: ${stays.length} of ${adults.length} opened adults had one before the start; ${lines.join("; ")}.\n`,
+  );
+  expect(stays.length, `someone had a stay, in ${where}`).toBeGreaterThan(0);
 }, 1_800_000);

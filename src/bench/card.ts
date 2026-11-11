@@ -498,6 +498,8 @@ function lineOf(
     }
     case "health/serious-illness":
       return make("health.ill", {});
+    case "health/hospital-stay":
+      return make("health.hospital", {});
     case "law/victim":
     case "law/accused":
     case "law/charged":

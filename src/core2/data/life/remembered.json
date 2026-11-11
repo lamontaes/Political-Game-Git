@@ -1007,6 +1007,11 @@
       "kind": "family.partnership-ended",
       "life": "partner",
       "what": "separated"
+    },
+    {
+      "kind": "health.hospital-stay",
+      "life": "health",
+      "what": "hospital-stay"
     }
   ]
 }

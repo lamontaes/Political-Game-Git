@@ -16,6 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
+import { pastHealthFor } from "../past-health";
 import { pastPartnersFor } from "../past-partners";
 import { REMEMBERED_RECORD_KINDS, rememberEvent } from "../person-life";
 import {
@@ -582,6 +583,7 @@ export function openWholePast(core: CoreState, personId: PersonId): void {
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
   pastPartnersFor(core, [person], PEOPLE_MODULE_ID);
+  pastHealthFor(core, [person], PEOPLE_MODULE_ID);
 }
 
 /** The people the player starts out knowing: their household and everyone they know, opened at the opening. */
