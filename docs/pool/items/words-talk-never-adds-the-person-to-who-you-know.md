@@ -29,12 +29,13 @@ branch: claude/words-w4-meet
 - **What reads it.** `subjectsBetween` raises `mutual` only for an id in both people's `knownIds`, and `family` only for a relative the listener knows. So in play the only people both know are the player's starting circle, mostly relatives, and a relative's news is then asked after as `family`, as it should be.
 - **A second, smaller cause.** An unwatched person's new job is not a core event: `recordedMoments` (src/director/conversation.ts line 504) reads `core.logByPerson`, and a job start shows up only as a `money:job-started` moment in a watched person's ledger. So of what happens to people outside the player's circle, only moves, illnesses and births reach `familyNews` (line 571).
 
-**Fix.** (Fable B's review, Nov 11, 15:26Z, changed the first draft: through the encounters engine, the person talked to only, and the jobs gap as a stopgap.)
+**Fix.** (Fable B's reviews, Nov 11, 15:26Z and the second, changed the first draft: through the encounters engine, the person talked to only, from the talk route, the People screen listing everyone known, and the jobs gap as a stopgap.)
 
-1. **Through the encounters engine.** Meeting people has one engine, src/core2/encounters.ts (`meetAtVisit`, `meetAtJoin`, `meetAtWork`), with its causes in src/core2/data/encounters.json. Add `meetInTalk` beside them, its cause a row in that data file (`metInTalk`), its hours the talk's own time (the exchanges said times `minutesPerExchange`). `openConversation` calls it through the people family's entry (src/core2/modules/people.ts). No cause string typed in the director.
+1. **Through the encounters engine.** Meeting people has one engine, src/core2/encounters.ts (`meetAtVisit`, `meetAtJoin`, `meetAtWork`), with its causes in src/core2/data/encounters.json. Add `meetInTalk` beside them, its cause a row in that data file (`metInTalk`), its hours the talk's own time (the exchanges said times `minutesPerExchange`). The director's `meetOverTalk` calls it through the people family's entry (src/core2/modules/people.ts), and only the talk route (`/api/talk/open`, src/bench/handler.ts) calls `meetOverTalk`, after the talk it opened has a line by the other person. `openConversation` writes no meeting: the room's probe of who has something to say (`sceneNow`) opens a talk with everyone present. No cause string typed in the director.
 2. **Who is met.** The person talked to, once per pair, only when the talk really opens (they said a line), not when a card is opened. Whether the others standing in the room are met too is not part of this item.
 3. **The jobs gap.** The jobs engine's hire writes no event naming the person, so an unwatched person's new job is never news. It is registered as `SG-JOBS-job-start-not-a-person-event` in src/core2/data/stopgaps/jobs.json, with no new record kind.
-4. **Test** in src/director/family-news-talk.test.ts, on drawn places: before any talk the player does not know two people who know each other; after a talk with each, each knows the player, and when one moves away (the moves engine's own `person.moved-away`), the other has them as someone both know.
+4. **The People screen lists everyone known.** The card (src/bench/card.ts) carries `known`, every relationship record of the person, closest first; its own `ties` page stays the closest eight. The People screen (src/bench/play.mjs) lists all of `known` by group, closest first in each.
+5. **Test** in src/director/family-news-talk.test.ts, on drawn places: the room's probe over everyone present changes nobody's `knownIds`; one talk opened the route's way meets exactly that person. Before any talk the player does not know two people who know each other; after a talk with each, each knows the player, and when one moves away (the moves engine's own `person.moved-away`), the other has them as someone both know.
 
 **Time box.** 3 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -44,8 +45,9 @@ branch: claude/words-w4-meet
 
 **Waits on.** Nothing.
 
-**Files.** src/director/conversation.ts, src/core2/state.ts (read only), src/bench/handler.ts (read only), src/director/family-news-talk.test.ts, the jobs engine's hire (for part 2).
+**Files.** src/director/conversation.ts, src/core2/encounters.ts, src/core2/state.ts (read only), src/bench/handler.ts, src/bench/card.ts, src/bench/play.mjs, src/director/family-news-talk.test.ts, the jobs engine's hire (for part 2).
 
 **Notes.** Found by Words builder W4 while taking the pictures for PR 8801 and PR 8816 (Nov 11). With dev mode's illness, Kingsville, Maryland (seed w4seed-d) gave "How's your partner?" / "James took sick yesterday." on day 4: the relative is in the player's starting circle. A person met that week never was.
 
 - 2026-11-11, Words builder W4: built on claude/words-w4-meet from main, as Fable B asked at 15:26Z, before the 16:00 notes carried the item to main (not claimed).
+- 2026-11-11, Words builder W4: Fable B's second review: the meeting moved from `openConversation` to the talk route, and the People screen lists everyone known.
