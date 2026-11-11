@@ -4,7 +4,7 @@
    .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
    plain is Back; one size for all; the brass corner mark shows only while .active or
-   pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
+   pressed), .tab-rail / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
    radial menus, items, cards, tabs or rows. Nothing inside a menu scrolls: long screens page.
@@ -653,7 +653,6 @@ select:focus-visible {
    and something to delineate that that's the one that's selected"): a recessed bar with
    a brass edge; a tab at rest is plain type in it, and the chosen one is a raised glass
    plate, lit, with a gold bar where it meets what it shows. */
-.tabs,
 .tab-rail {
   display: flex;
   flex-wrap: wrap;
@@ -671,7 +670,6 @@ select:focus-visible {
     inset 0 -1px 0 rgba(255, 240, 199, 0.05),
     0 1px 0 rgba(255, 255, 255, 0.05);
 }
-.tabs:empty,
 .tab-rail:empty {
   display: none;
 }

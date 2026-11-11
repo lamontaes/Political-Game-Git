@@ -96,3 +96,8 @@ Two Words builders each had an item that said "the engine joins a sentence from 
 - **When two items need the same new step, the lead names one owner in both briefs:** "W5 writes the joining step and pushes it by itself first; W1 uses it." The other builder starts from that push.
 - **A builder whose item adds a step other items say they will use posts it the minute its tests pass,** with the function's name and how to call it, as W5 did at 07:21 UTC. A builder about to write such a step searches the crew's issue for it first.
 - **A direction posted on the crew's issue reaches a builder only when it next reads the issue.** A rule that must hold in a builder's next pull request also goes to that builder by message, naming the skill or the pull request comment that holds it.
+
+## Lessons of Nov 11 (the afternoon: messages that waited)
+
+- **Read your queued messages every pass.** A message from another session waits in the notification queue while your turn runs and is not shown until you read the queue. On Nov 11 eleven messages sat for up to 49 minutes, four of them builders holding for a call. Read the queue at the start of each pass and after every long command, before you start anything of your own.
+- **A builder who stopped still owns an open pull request, and nobody is gating it.** A pull request whose builder hit the usage limit sat ready and ungated for nine hours. When a session stops, the lead lists its open pull requests and hands each to a gate desk by name, with who finishes the mechanical part.
