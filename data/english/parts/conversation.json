@@ -27038,12 +27038,15 @@
       "move": "own-view-raise-very-liberal",
       "kind": "spoken",
       "text": "I'm about as liberal as they come.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-very-liberal",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "very-liberal",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["veryLiberal"]
         }
       ],
@@ -27060,12 +27063,15 @@
       "move": "own-view-raise-very-liberal",
       "kind": "spoken",
       "text": "I'm far over on the liberal side.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-very-liberal",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "very-liberal",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["veryLiberal"]
         }
       ],
@@ -27082,12 +27088,15 @@
       "move": "own-view-raise-very-liberal",
       "kind": "spoken",
       "text": "I'm a liberal, and I don't mind who knows it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-very-liberal",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "very-liberal",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["veryLiberal"]
         }
       ],
@@ -27104,12 +27113,15 @@
       "move": "own-view-raise-liberal",
       "kind": "spoken",
       "text": "I should tell you, I lean liberal.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-liberal",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "liberal",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["liberal"]
         }
       ],
@@ -27126,12 +27138,15 @@
       "move": "own-view-raise-liberal",
       "kind": "spoken",
       "text": "Most things, I come down on the liberal side.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-liberal",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "liberal",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["liberal"]
         }
       ],
@@ -27148,12 +27163,15 @@
       "move": "own-view-raise-liberal",
       "kind": "spoken",
       "text": "If you're curious where I stand, it's liberal, mostly.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-liberal",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "liberal",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["liberal"]
         }
       ],
@@ -27170,12 +27188,15 @@
       "move": "own-view-raise-moderate",
       "kind": "spoken",
       "text": "I'm in the middle on most of it, politically.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-moderate",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "moderate",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["moderate"]
         }
       ],
@@ -27192,12 +27213,15 @@
       "move": "own-view-raise-moderate",
       "kind": "spoken",
       "text": "I take each thing as it comes.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-moderate",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "moderate",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["moderate"]
         }
       ],
@@ -27214,12 +27238,15 @@
       "move": "own-view-raise-moderate",
       "kind": "spoken",
       "text": "Honestly, I land somewhere in the middle.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-moderate",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "moderate",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["moderate"]
         }
       ],
@@ -27236,12 +27263,15 @@
       "move": "own-view-raise-conservative",
       "kind": "spoken",
       "text": "I should tell you, I lean conservative.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-conservative",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "conservative",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["conservative"]
         }
       ],
@@ -27258,12 +27288,15 @@
       "move": "own-view-raise-conservative",
       "kind": "spoken",
       "text": "Most things, I come down on the conservative side.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-conservative",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "conservative",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["conservative"]
         }
       ],
@@ -27280,12 +27313,15 @@
       "move": "own-view-raise-conservative",
       "kind": "spoken",
       "text": "If you're curious where I stand, it's conservative, mostly.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-conservative",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "conservative",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["conservative"]
         }
       ],
@@ -27302,12 +27338,15 @@
       "move": "own-view-raise-very-conservative",
       "kind": "spoken",
       "text": "I'm about as conservative as they come.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-very-conservative",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "very-conservative",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["veryConservative"]
         }
       ],
@@ -27324,12 +27363,15 @@
       "move": "own-view-raise-very-conservative",
       "kind": "spoken",
       "text": "I'm far over on the conservative side.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-very-conservative",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "very-conservative",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["veryConservative"]
         }
       ],
@@ -27346,12 +27388,15 @@
       "move": "own-view-raise-very-conservative",
       "kind": "spoken",
       "text": "I'm a conservative, and I don't mind who knows it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-very-conservative",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "very-conservative",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["veryConservative"]
         }
       ],
@@ -27368,12 +27413,15 @@
       "move": "own-view-raise-not-sure",
       "kind": "spoken",
       "text": "I don't follow politics much, honestly.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-not-sure",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "not-sure",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["not-sure"]
         }
       ],
@@ -27390,12 +27438,15 @@
       "move": "own-view-raise-not-sure",
       "kind": "spoken",
       "text": "Politics? I keep out of it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-not-sure",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "not-sure",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["not-sure"]
         }
       ],
@@ -27412,12 +27463,15 @@
       "move": "own-view-raise-not-sure",
       "kind": "spoken",
       "text": "I haven't made up my mind yet.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "opener"
+      },
       "uses": [
         {
-          "move": "own-view-raise-not-sure",
-          "subject": "own-view",
-          "role": "raise",
-          "choice": "not-sure",
+          "move": "own-view-say-opener",
+          "subject": "own-view-say",
+          "role": "opener",
           "stages": ["not-sure"]
         }
       ],
@@ -27430,74 +27484,6 @@
       }
     },
     {
-      "key": "conversation.own-view-answer-agree.i-see-it-the-same-way",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "I see it the same way.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
-    },
-    {
-      "key": "conversation.own-view-answer-agree.same-here-as-it-happens",
-      "move": "own-view-answer-agree",
-      "kind": "spoken",
-      "text": "Same here, as it happens.",
-      "uses": [
-        {
-          "move": "own-view-answer-agree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "agree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-see-it-differently",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I see it differently.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
-    },
-    {
-      "key": "conversation.own-view-answer-disagree.i-come-down-somewhere-else",
-      "move": "own-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I come down somewhere else.",
-      "uses": [
-        {
-          "move": "own-view-answer-disagree",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "disagree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
-    },
-    {
       "key": "conversation.own-view-answer-hear.good-to-know",
       "move": "own-view-answer-hear",
       "kind": "spoken",
@@ -27508,57 +27494,6 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "hear"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
-    },
-    {
-      "key": "conversation.own-view-answer-hear.i-m-glad-you-told-me",
-      "move": "own-view-answer-hear",
-      "kind": "spoken",
-      "text": "I'm glad you told me.",
-      "uses": [
-        {
-          "move": "own-view-answer-hear",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "hear"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
-    },
-    {
-      "key": "conversation.own-view-answer-private.i-keep-mine-to-myself-mostly",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "I keep mine to myself, mostly.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story session (story-person-view-learned)",
-      "date": "2026-11-09"
-    },
-    {
-      "key": "conversation.own-view-answer-private.i-d-rather-not-say-where-i-stand",
-      "move": "own-view-answer-private",
-      "kind": "spoken",
-      "text": "I'd rather not say where I stand.",
-      "uses": [
-        {
-          "move": "own-view-answer-private",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "private"
         }
       ],
       "origin": "authored",
@@ -30582,6 +30517,1395 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-m-for-about-and-i-don-t-budge-on-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I'm for {about}, and I don't budge on it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.about-is-the-one-i-d-go-to-the-mat-for",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "{about} is the one I'd go to the mat for.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.if-it-s-about-count-me-in",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "If it's {about}, count me in.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.the-big-one-for-me-is-about-i-m-for-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "The big one for me is {about}. I'm for it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-d-vote-for-about-every-time",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I'd vote for {about} every time.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.nothing-matters-more-to-me-than-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Nothing matters more to me than {about}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-want-about-and-i-ve-said-so-for-years",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I want {about}, and I've said so for years.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.ask-me-about-about-i-m-all-for-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Ask me about {about}. I'm all for it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-ve-always-backed-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've always backed {about}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.about-is-where-i-put-my-vote",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "{about} is where I put my vote.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-m-against-about-and-i-don-t-budge-on-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I'm against {about}, and I don't budge on it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.about-is-the-one-i-d-fight-hardest",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "{about} is the one I'd fight hardest.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.if-it-s-about-count-me-out",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "If it's {about}, count me out.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.the-big-one-for-me-is-about-i-m-against-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "The big one for me is {about}. I'm against it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-d-vote-against-about-every-time",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I'd vote against {about} every time.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.nothing-gets-me-going-like-about-i-m-against-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Nothing gets me going like {about}. I'm against it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-don-t-want-about-and-i-ve-said-so-for-years",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I don't want {about}, and I've said so for years.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.ask-me-about-about-i-m-dead-set-against-it",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "Ask me about {about}. I'm dead set against it.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.i-ve-always-fought-about",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "I've always fought {about}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-core.about-is-where-i-d-draw-the-line",
+      "move": "own-view-say-core",
+      "kind": "spoken",
+      "text": "{about} is where I'd draw the line.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-say-core",
+          "subject": "own-view-say",
+          "role": "core",
+          "requiresFacts": ["side-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.i-see-it-every-day-at-employer",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "I see it every day at {employer}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.working-at-employer-taught-me-that",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "Working at {employer} taught me that.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.you-d-feel-the-same-working-at-employer",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "You'd feel the same working at {employer}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.it-s-the-people-at-employer-i-think-about",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "It's the people at {employer} I think about.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.that-s-how-it-goes-at-employer-anyway",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "That's how it goes at {employer}, anyway.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.employer-is-where-i-learned-that",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "{employer} is where I learned that.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.money-s-tight-in-place-right-now",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "Money's tight in {place} right now.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.every-dollar-counts-in-place-these-days",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "Every dollar counts in {place} these days.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.things-cost-too-much-around-place",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "Things cost too much around {place}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.ask-anyone-in-place-how-the-bills-are-going",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "Ask anyone in {place} how the bills are going.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.it-s-hard-to-make-rent-in-place",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "It's hard to make rent in {place}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-say-reason.i-ve-watched-prices-climb-here-in-place",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "I've watched prices climb here in {place}.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.same-here-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Same here on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.you-and-me-both-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "You and me both on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-m-with-you-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'm with you on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-feel-the-same-about-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I feel the same about {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.we-re-on-the-same-side-of-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "We're on the same side of {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-d-vote-your-way-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I'd vote your way on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.no-argument-from-me-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "No argument from me on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.count-me-with-you-on-about",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Count me with you on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["my-same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-see-about-the-other-way",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I see {about} the other way.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-don-t-agree-on-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We don't agree on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-come-down-the-other-side-of-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I come down the other side of {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-d-vote-the-other-way-on-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd vote the other way on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.you-won-t-get-me-there-on-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "You won't get me there on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-can-t-go-along-with-you-on-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I can't go along with you on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.we-ll-have-to-differ-on-about",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "We'll have to differ on {about}.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-ve-never-seen-about-your-way",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I've never seen {about} your way.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree",
+          "requiresFacts": ["my-other"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.what-got-you-there-first",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "What got you there, {first}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.why-that-one-first",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Why that one, {first}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.how-d-you-come-to-that-first",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "How'd you come to that, {first}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.what-makes-that-the-big-one-first",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "What makes that the big one, {first}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.first-what-put-that-at-the-top",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "{first}, what put that at the top?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.since-when-first",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Since when, {first}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.what-happened-to-make-you-care-first",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "What happened to make you care, {first}?",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-why.tell-me-why-first",
+      "move": "own-view-answer-why",
+      "kind": "spoken",
+      "text": "Tell me why, {first}.",
+      "uses": [
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-private.rather-not-say",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "Rather not say.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-private.mine-s-private",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "Mine's private.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-answer-private.i-ll-keep-mine",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "I'll keep mine.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.years-at-employer-will-do-that",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Years at {employer} will do that.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.you-d-know-if-you-d-worked-at-employer",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "You'd know if you'd worked at {employer}.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.it-s-what-i-see-at-employer-every-day",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "It's what I see at {employer} every day.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.spend-a-week-at-employer-and-you-d-get-it",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Spend a week at {employer} and you'd get it.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.employer-taught-me-the-hard-way",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "{employer} taught me, the hard way.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.try-paying-the-bills-in-place-on-what-i-make",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Try paying the bills in {place} on what I make.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.every-month-in-place-it-gets-harder",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Every month in {place} it gets harder.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.look-at-what-rent-costs-in-place-now",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Look at what rent costs in {place} now.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.you-see-the-prices-in-place-that-s-why",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "You see the prices in {place}. That's why.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.own-view-back-core.living-in-place-on-a-paycheck-will-do-that",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Living in {place} on a paycheck will do that.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
       "date": "2026-11-11"
     }
   ]

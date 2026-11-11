@@ -146,7 +146,13 @@ import {
 } from "./words";
 import { dayParts, sceneMinute } from "./day-part";
 import { dayPartSaid } from "../english/day-words";
-import { learnView, viewKey, viewSubjectOf } from "./view-learned";
+import {
+  learnView,
+  learnViewQuestion,
+  stanceRecordId,
+  viewKey,
+  viewSubjectOf,
+} from "./view-learned";
 
 const zero = P.zero;
 const one = P.one;
@@ -258,8 +264,8 @@ export interface Subject {
    * event; zero when small talk outweighs it.
    */
   weight?: number;
-  /** What the listener learns once it is said: the knowledge key and the records it cites. */
-  learned?: { key: string; recordIds: readonly string[] };
+  /** What the listener learns once it is said: the knowledge key and the records it cites, and the question they care most about. */
+  learned?: { key: string; recordIds: readonly string[]; question?: string };
 }
 
 /** Which mined sentence said a line, and what picked it (for reports and grading). */
@@ -1544,17 +1550,63 @@ export function subjectsBetween(
   // their lean, said only as far as their tie to the listener and their
   // temperament allow (`./view-learned`). Once said, the listener knows it.
   const stand = viewSubjectOf(core, speakerId, listenerId);
-  if (stand)
+  if (stand) {
+    // The question they care most about, the side they are on and why, from
+    // their own life, each citing its record.
+    const top = stand.strongest;
+    const reason = stand.reason;
+    const speakerPlace = corePlaceByJurisdictionId(speaker.placeId as never);
     out.push({
       id: `own-view:${speakerId}`,
       kind: "own-view",
       stage: stand.stage,
       weight: stand.weight,
+      ...(top ? { news: { question: top.question } } : {}),
       facts: {
         stand: { text: "", sourceRecordIds: [stand.recordId] },
+        ...(top
+          ? {
+              about: { text: top.about, sourceRecordIds: [top.recordId] },
+              [`side-${top.side}`]: {
+                text: "yes",
+                sourceRecordIds: [top.recordId],
+              },
+            }
+          : {}),
+        ...(reason?.reason === "work"
+          ? {
+              employer: {
+                text: properName(reason.employer),
+                sourceRecordIds: reason.recordIds,
+              },
+            }
+          : {}),
+        ...(reason?.reason === "money"
+          ? {
+              "why-money": { text: "yes", sourceRecordIds: reason.recordIds },
+              ...(speakerPlace
+                ? {
+                    place: {
+                      text: spoken(speakerPlace),
+                      sourceRecordIds: [speaker.householdId],
+                    },
+                  }
+                : {}),
+            }
+          : {}),
+        ...(reason
+          ? { "has-reason": { text: "yes", sourceRecordIds: reason.recordIds } }
+          : {}),
+        // The speaker's given name, for the player asking them why.
+        first: { text: speaker.givenName, sourceRecordIds: [speakerId] },
       },
-      learned: { key: viewKey(speakerId), recordIds: [stand.recordId] },
+      learned: {
+        key: viewKey(speakerId),
+        recordIds: [stand.recordId, ...(top ? [top.recordId] : [])],
+        ...(top ? { question: top.question } : {}),
+      },
     });
+  }
   // At home, the day itself: the weekday, the last time the two spent
   // together and a work day, from records. Raised last, when
   // nothing else opens the talk.
@@ -2128,6 +2180,17 @@ function playerFacts(
       sourceRecordIds: [player.householdId],
     };
   // News: what the story or the change has to do with the player.
+  // Where they stand: whether the player's own view on the same question is
+  // on the same side, the other side, or none.
+  if (last.kind === "own-view" && last.subject.news?.question) {
+    const mine = newsStake(core, playerId, last.subject);
+    const theirs = last.subject.facts["side-for"] ? "for" : "against";
+    if (mine.reason === "stance")
+      facts[mine.side === theirs ? "my-same" : "my-other"] = {
+        text: "yes",
+        sourceRecordIds: mine.recordIds,
+      };
+  }
   if (last.kind === "news") {
     const stake = newsStake(core, playerId, last.subject);
     Object.assign(facts, stakeMarks(stake, "my-"));
@@ -2364,18 +2427,30 @@ function raiseSubject(
   const then = data.otherRaises[subject.kind];
   if (!then) return false;
   const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`;
-  const line = said
-    ? null
-    : subject.kind === POINT
+  // A subject whose raise the engine composes: the address's point, or one
+  // with a `<kind>-say` sentence in the bank (where they stand).
+  const composedRaise =
+    subject.kind === POINT
+      ? POINT
+      : composedConversationBank(`${subject.kind}-say`)
+        ? `${subject.kind}-say`
+        : null;
+  const composed =
+    !said && composedRaise
       ? composedLine(
           core,
           otherId,
-          POINT,
+          composedRaise,
           subject.facts,
           subject.stage ?? "default",
           momentKey,
           saidParts(conversation, otherId),
         )
+      : null;
+  const line = said
+    ? null
+    : composed
+      ? composed
       : words(
           core,
           data,
@@ -2416,8 +2491,17 @@ function raiseSubject(
   if (subject.learned) {
     const api = coreAPI(core as CoreState);
     const sourceId = `conversation:${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.kind}`;
-    for (const hearerId of [playerId, ...conversation.presentIds])
+    for (const hearerId of [playerId, ...conversation.presentIds]) {
       learnView(api, hearerId, otherId, subject.learned.recordIds, sourceId);
+      if (subject.learned.question)
+        learnViewQuestion(
+          api,
+          hearerId,
+          otherId,
+          subject.learned.question,
+          sourceId,
+        );
+    }
   }
   // Theirs, not the player's: no own record the player could lie about.
   const raised: Subject = {
@@ -3181,8 +3265,10 @@ function offerChoices(
         between.some((row) => row.id === raised.id) &&
         !!replyFacts(core, otherId, raised)) ||
       !!data.tells?.[last.kind]?.[choiceKey] ||
-      // Every reply to the address's point is answered, in composed words.
+      // Every reply to the address's point is answered, in composed words,
+      // and so is asking someone why they stand where they do.
       last.kind === POINT ||
+      (last.kind === "own-view" && choiceKey === OWN_VIEW_WHY) ||
       REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
     const text = joinedReply(head, tail);
     const opensAsking = asksQuestion({
@@ -3877,6 +3963,51 @@ export function say(
       sourceId: eventId,
       access: "told",
     });
+  // Asked why they stand where they do, they answer from the reason on
+  // record (their work, or money in their town), in composed words.
+  if (last.kind === "own-view" && !choice.lie && choice.move === OWN_VIEW_WHY) {
+    const back = composedLine(
+      core,
+      otherId,
+      OWN_VIEW_BACK,
+      last.facts,
+      "default",
+      `${eventId}:back`,
+      saidParts(conversation, otherId),
+    );
+    if (back)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: OWN_VIEW_BACK,
+        act: "tell",
+        ...back,
+        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+      });
+    carryOn(core, conversation, data);
+    return conversation;
+  }
+  // A reply to where they stand that agrees or disagrees tells them where
+  // the player stands on the same question: they learn it (the views
+  // engine's stance record), as the player learned theirs.
+  if (
+    last.kind === "own-view" &&
+    !choice.lie &&
+    last.subject.news?.question &&
+    OWN_VIEW_TAKES.includes(choice.move)
+  ) {
+    const question = last.subject.news.question;
+    for (const hearerId of hearers) {
+      learnView(
+        api,
+        hearerId,
+        playerId,
+        [stanceRecordId(playerId, question)],
+        eventId,
+      );
+      learnViewQuestion(api, hearerId, playerId, question, eventId);
+    }
+  }
   // A reply to the address's point: the other person keeps what the player
   // said on that question, and answers it in words the engine composes.
   if (last.kind === POINT && last.subject.point && !choice.lie) {
@@ -4056,6 +4187,12 @@ function answerPoint(
     });
   carryOn(core, conversation, data);
 }
+
+/** The player's replies to where someone stands that say where the player stands. */
+const OWN_VIEW_TAKES: readonly string[] = ["agree", "disagree"];
+/** The player's reply that asks them why, and the subject their answer is composed under. */
+const OWN_VIEW_WHY = "why";
+const OWN_VIEW_BACK = "own-view-back";
 
 /** The subject the other person's answer to a reply on news is composed under. */
 const NEWS_BACK = "news-back";

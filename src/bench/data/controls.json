@@ -699,6 +699,7 @@
     "mild": "Moderate",
     "views": "Politics",
     "viewUnknown": "You don't know where they stand yet.",
+    "viewAbout": "Cares most about {about}.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },

@@ -2357,6 +2357,13 @@ async function personCardNode(
             2,
             controls.who.views,
             introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+            ...(c.viewAbout
+              ? [
+                  introText(
+                    controls.who.viewAbout.replace("{about}", c.viewAbout),
+                  ),
+                ]
+              : []),
           ),
         ]
       : []),

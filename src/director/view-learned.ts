@@ -17,12 +17,21 @@
  * the views engine already holds into what the player knows.
  */
 import { closenessBetween } from "../core2/closeness";
-import { VIEWS_MODULE_ID, stanceRow, viewOf } from "../core2/modules/views";
+import {
+  VIEWS_MODULE_ID,
+  stanceRow,
+  stancesOf,
+  viewOf,
+  viewOn,
+} from "../core2/modules/views";
 import { onStoryHeard } from "../core2/modules/news-listeners";
 import { LETTER, printedStoryOf } from "../core2/modules/press";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
-import { decisionLean } from "../core2/trait-decisions";
+import { decisionLean, hardshipStress } from "../core2/trait-decisions";
+import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
+import { questionSubject } from "../english/policy-names";
+import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Story } from "../core2/modules/news";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
@@ -92,6 +101,111 @@ export function viewTopicWeight(willingness: number): number {
   return weight > talkParameter("directorTalkSmallTalkWeight") ? weight : zero;
 }
 
+/** The knowledge key under which someone learns the question a person cares most about. */
+export const viewQuestionKey = (personId: string) =>
+  `person:${personId}:view-question`;
+
+/** The question areas that read a person's work or money, by the bill catalog's subjects and questions by name. */
+const AREAS = (
+  rulesFile as unknown as {
+    addressPoint: {
+      work: { subjects: readonly string[] };
+      money: { subjects: readonly string[]; questions: readonly string[] };
+    };
+  }
+).addressPoint;
+
+/** Whether a question is about work or pay, or about prices, rent or taxes, or neither. */
+function questionArea(question: string): "work" | "money" | null {
+  const subject = questionSubject(question);
+  if (
+    AREAS.money.questions.includes(question) ||
+    (subject && AREAS.money.subjects.includes(subject))
+  )
+    return "money";
+  return subject && AREAS.work.subjects.includes(subject) ? "work" : null;
+}
+
+/**
+ * The question a person holds the strongest view on: every question their
+ * stances name and every question with a spoken name, the one whose view is
+ * farthest from zero (the views engine's `viewOn`), ties broken by the
+ * question's id. Null when no view is past zero, the views engine's own rule
+ * for no view. With it: the question worded, the side, and the record.
+ */
+export function strongestQuestion(
+  api: CoreAPI,
+  personId: PersonId,
+): {
+  question: string;
+  about: string;
+  side: "for" | "against";
+  recordId: string;
+} | null {
+  const lean = viewOf(api, personId)?.lean;
+  if (lean === undefined) return null;
+  const questions = [
+    ...new Set([
+      ...stancesOf(api, personId).map((row) => row.topic),
+      ...NAMED_QUESTIONS,
+    ]),
+  ].sort();
+  let best: { question: string; about: string; view: number } | null = null;
+  for (const question of questions) {
+    const about = questionAbout(question);
+    if (!about) continue;
+    const view = viewOn(api, personId, question, lean);
+    if (view !== zero && (!best || Math.abs(view) > Math.abs(best.view)))
+      best = { question, about, view };
+  }
+  if (!best) return null;
+  return {
+    question: best.question,
+    about: best.about,
+    side: best.view > zero ? "for" : "against",
+    recordId: stanceRow(api, personId, best.question)
+      ? stanceRecordId(personId, best.question)
+      : viewRecordId(personId),
+  };
+}
+
+/**
+ * Why a person holds their strongest view, from their own life: their work
+ * (the question is about work or pay, and they hold a job or lost one), else
+ * money (the question is about prices, rent or taxes, and the trait engine's
+ * hardship stress is past zero), else none. Each cites its record.
+ */
+function viewReason(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  question: string,
+):
+  | { reason: "work"; employer: string; recordIds: readonly string[] }
+  | { reason: "money"; recordIds: readonly string[] }
+  | null {
+  const person = core.people.get(personId);
+  if (!person) return null;
+  const area = questionArea(question);
+  if (area === "work") {
+    let job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+    if (!job)
+      for (const [key, row] of core.knowledgeByPerson.get(personId) ?? []) {
+        const match = /^job:(.+):status$/.exec(key);
+        if (match && row.value === "ended") job = core.jobs.get(match[one]!);
+      }
+    const employer = job ? core.organizations.get(job.organizationId) : null;
+    if (job && employer)
+      return {
+        reason: "work",
+        employer: employer.name,
+        recordIds: [job.id, employer.id],
+      };
+  }
+  if (area === "money" && hardshipStress(core, person) > zero)
+    return { reason: "money", recordIds: [person.householdId] };
+  return null;
+}
+
 /**
  * What a person who says where they stand cites: the views engine's record of
  * their lean, and the stage the words are said at (the view's own label:
@@ -106,16 +220,23 @@ export function viewSubjectOf(
   stage: string;
   recordId: string;
   weight: number;
+  /** The question they care most about, its side and record, and why, when they have one. */
+  strongest: ReturnType<typeof strongestQuestion>;
+  reason: ReturnType<typeof viewReason>;
 } | null {
   if (!core.modules.has(VIEWS_MODULE_ID)) return null;
   if (core.knowledgeByPerson.get(listenerId)?.has(viewKey(speakerId)))
     return null;
-  const view = viewOf(coreAPI(core as CoreState), speakerId);
+  const api = coreAPI(core as CoreState);
+  const view = viewOf(api, speakerId);
   if (!view) return null;
+  const strongest = strongestQuestion(api, speakerId);
   return {
     stage: view.label,
     recordId: viewRecordId(speakerId),
     weight: viewTopicWeight(viewWillingness(core, speakerId, listenerId)),
+    strongest,
+    reason: strongest ? viewReason(core, speakerId, strongest.question) : null,
   };
 }
 
@@ -134,6 +255,28 @@ export function learnView(
   api.observe(learnerId, {
     key: viewKey(aboutId),
     value: recordIds.join(" "),
+    learnedAt: api.state.date,
+    sourceId,
+    access: "told",
+  });
+  return true;
+}
+
+/**
+ * The listener learns the question a person cares most about, once: the
+ * card names it beside where they stand. The source is the talk that told it.
+ */
+export function learnViewQuestion(
+  api: CoreAPI,
+  learnerId: PersonId,
+  aboutId: PersonId,
+  question: string,
+  sourceId: string,
+): boolean {
+  if (api.knows(learnerId, viewQuestionKey(aboutId))) return false;
+  api.observe(learnerId, {
+    key: viewQuestionKey(aboutId),
+    value: question,
     learnedAt: api.state.date,
     sourceId,
     access: "told",
