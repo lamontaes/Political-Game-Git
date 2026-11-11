@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-long-run-controlled-sources-required-forever
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc5-full-detail-every-day
 checked: fable 2026-11-11
-claimed-at:
+claimed-at: 2026-11-11T05:34:04.279Z
 branch: claude/pool-core-long-run-controlled-sources-required-forever
 ---
 
@@ -50,3 +50,5 @@ Released (2026-11-11): Read and scoped, not built: controlled sources are retain
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:33 UTC) on branch claude/pool-core-long-run-controlled-sources-required-forever.
 
 Released (2026-11-11): Cause matches, but the payroll path (work-payroll-cash.ts) has no prior-source release for any source and keeps controlled receipts whole on purpose (retainFull), so it needs the speed lead's design first; not built. Continue on branch claude/pool-core-long-run-controlled-sources-required-forever.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:34 UTC) on branch claude/pool-core-long-run-controlled-sources-required-forever.
