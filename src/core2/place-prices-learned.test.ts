@@ -118,6 +118,40 @@ function townWithLaw(
   return { core, api, learned, lawId: lawId!, effectiveDate };
 }
 
+/**
+ * The learned events about this test's own fixture law. A town also learns of
+ * its starting laws (a clean-electricity standard, say) the same way; those
+ * are legitimate events about other laws and are checked against their own law
+ * in `otherLawEventsTrace`, never against the fixture.
+ */
+function ownLawEvents(learned: readonly Learned[], lawId: string) {
+  return learned.filter(
+    (l) => l.event.facts?.priceRuleId && l.event.facts?.lawId === lawId,
+  );
+}
+
+/** Each learned event about another law is kept and traced to the story it cites, which is about that law. */
+function otherLawEventsTrace(
+  api: ReturnType<typeof coreAPI>,
+  learned: readonly Learned[],
+  lawId: string,
+  at: string,
+) {
+  const others = learned.filter(
+    (l) => l.event.facts?.priceRuleId && l.event.facts?.lawId !== lawId,
+  );
+  for (const l of others) {
+    expect(l.event.facts?.learnedFrom, `${at}: ${l.event.id}`).toBeDefined();
+    // Where the news still keeps the story, it is about the law the event names.
+    if (l.storyId)
+      expect(
+        storyLawId(api, l.storyId),
+        `${at}: ${l.event.id} cites ${l.storyId}`,
+      ).toBe(l.event.facts?.lawId);
+  }
+  return others;
+}
+
 /** The law's record of reaching a person's household: the day of its first bill under the law. */
 function reachedHousehold(api: ReturnType<typeof coreAPI>, personId: string) {
   const household = api.state.people.get(personId)?.householdId;
@@ -174,7 +208,7 @@ it(`a household that heard the story learns what the price law did to them (${wh
   try {
     const { core, api, learned, lawId } = townWithLaw();
     advanceCore(core, addDays(makeIsoDate(core.date), 75));
-    const events = learned.filter((l) => l.event.facts?.priceRuleId);
+    const events = ownLawEvents(learned, lawId);
     expect(
       events.length,
       `${where}: no household learned the effect`,
@@ -192,6 +226,7 @@ it(`a household that heard the story learns what the price law did to them (${wh
       ).toBe(true);
       expect(l.event.facts?.lawId, `${where}: ${l.event.id}`).toBe(lawId);
     }
+    otherLawEventsTrace(api, learned, lawId, where);
     const withView = expectStances(api, events);
     console.log(
       `learned from a story heard before the bill: ${where}; law ${lawId}; ${events.length} learned, ${withView.length} with a view; e.g. ${events[0]!.event.id} from ${events[0]!.storyId} heard ${events[0]!.heardOn}`,
@@ -207,7 +242,7 @@ it(`a payer whose household already paid ties the cost to the law the day they h
     // The press runs its story a week after the first bill.
     const { core, api, learned, lawId } = townWithLaw(21);
     advanceCore(core, addDays(makeIsoDate(core.date), 45));
-    const events = learned.filter((l) => l.event.facts?.priceRuleId);
+    const events = ownLawEvents(learned, lawId);
     expect(
       events.length,
       `${where}: no household learned the effect`,
@@ -271,7 +306,7 @@ it(`a payer who heard a story the news has since forgotten still ties the first 
         place,
       );
       advanceCore(core, addDays(makeIsoDate(core.date), 82));
-      const events = learned.filter((l) => l.event.facts?.priceRuleId);
+      const events = ownLawEvents(learned, lawId);
       expect(
         events.length,
         `${at}: no household learned the effect`,

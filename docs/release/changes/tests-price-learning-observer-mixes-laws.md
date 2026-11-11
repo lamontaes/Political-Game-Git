@@ -3,4 +3,4 @@ id: tests-price-learning-observer-mixes-laws
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The price-law learning test now checks each learned event against its own law, so a legitimate event about another law no longer fails it.
