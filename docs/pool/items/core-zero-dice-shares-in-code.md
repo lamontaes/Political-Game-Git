@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-zero-dice-shares-in-code
+pr: #8417
 after:
 blocked-on:
 lead: cto
@@ -17,6 +17,8 @@ effort: medium
 root: design-guards
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:59:59.869Z
+branch: claude/pool-core-zero-dice-shares-in-code
 ---
 
 **What.** Pointing the zero-dice guard at src/core2, src/bench and src/director found shares written as numbers in code. Six remain in the allowlist: SAME_SEX_COUPLE_SHARE (town-households.ts), TOWN_PART_TIME_SHARE (town-workplaces.ts), COUNCIL_SIZE_SHARES and COUNCIL_TERM_SHARES (gov-rules/typical-council-size.ts), and the 0.5 even split in electorate-places.ts and modules/campaigns.ts. The seventh, HIDDEN_SHARE in bench/scene.ts, is no longer in src. Every number lives in a parameter table with its tag, so each moves to its module's parameters with a source and spread, or is shown to be a structural one-half that the guard should not read as a share.
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Oct 25 audit: unblocked; core-old-engine-01-zero-dice-guard-repoint is done (PR #5832 merged).
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 00:59 UTC) on branch claude/pool-core-zero-dice-shares-in-code.

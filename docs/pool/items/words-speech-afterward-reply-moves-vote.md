@@ -5,13 +5,13 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-speech-afterward-reply-moves-vote
 pr:
 blocked-on:
 source: "filed by the words-and-scenes lead, Oct 26, while answering the send-back on #6136"
 lead: effects
-claimed-at:
+claimed-at: 2026-11-11T04:43:46.115Z
 after:
 standard: 2
 model: sonnet

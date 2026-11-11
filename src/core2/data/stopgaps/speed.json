@@ -36,7 +36,7 @@
     "why": "The fast clock, part 1 (pool item core-fast-clock-part-1-a-results-mode-for-skipped-time): one year day by day took 41.5 seconds in the smallest measured town; the base that the later parts add their monthly steps to.",
     "addedBy": "Fable helper",
     "addedAt": "2026-11-10",
-    "replacement": "Parts 2 to 4 of the fast clock give each engine whose daily work a skipped year needs (births, deaths and illness; prices, pay and jobs; elections counted from the voters) its own onResultsMonth step, each the engine's own code at a monthly pace.",
+    "replacement": "Parts 2 and 3 of the fast clock are on main (births, deaths and illness; prices, pay and jobs). Part 4 (elections counted from the voters) and the parts after it give each remaining engine whose daily work a skipped year needs its own onResultsMonth step, each the engine's own code at a monthly pace.",
     "status": "open"
   },
   {

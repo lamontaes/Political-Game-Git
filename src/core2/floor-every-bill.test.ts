@@ -152,12 +152,16 @@ it("a bill drafted after the session opened gets a floor date, is whipped the da
       const eve = addDays(makeIsoDate(date), -1);
       if (eve > today()) advanceCore(core, eve);
       const ahead = new Set(floorAgendaOn(api, date).map((b) => b.id));
+      // Every bill still waiting is whipped at each step (a read, no game time
+      // passes), so a bill its committee holds from the floor a day early,
+      // as the record check below allows, still has its count; the agenda
+      // is checked for the bills whose floor date this is.
       for (const b of waiting) {
-        if (floorDateOf(api, b.id) !== date) continue;
-        expect(
-          ahead.has(b.id),
-          `${where}: ${b.id} not on ${date}'s agenda`,
-        ).toBe(true);
+        if (floorDateOf(api, b.id) === date)
+          expect(
+            ahead.has(b.id),
+            `${where}: ${b.id} not on ${date}'s agenda`,
+          ).toBe(true);
         const whip = whipCount(api, b.id);
         for (const c of whip)
           expect(
@@ -189,11 +193,6 @@ it("a bill drafted after the session opened gets a floor date, is whipped the da
       const record = legislativeSessionsOf(api)
         .find((s) => s.id === session.id)!
         .bills.find((b) => b.number === after.number);
-      expect(record?.fate, `${where}: ${bill.id}`).toBe("voted");
-      expect(
-        record!.decidedOn <= scheduled.get(bill.id)!,
-        `${where}: ${bill.id}`,
-      ).toBe(true);
       // Every member of the chamber it was introduced in voted on the
       // record; or its committee kept it from the floor on the record: each
       // member's vote where it was heard, the chair's hold where it was not.
@@ -204,6 +203,16 @@ it("a bill drafted after the session opened gets a floor date, is whipped the da
         .get(`committee:${bill.id}:${bill.bodyOfficeId}`) as unknown as
         CommitteeRecord | undefined;
       const held = !votes.length && committee?.reported === false;
+      // The player's own bill reaches a recorded floor vote by its floor
+      // date; a bill its committee holds from the floor ends on the
+      // committee's record instead, checked below.
+      if (bill.sponsorId === player || !held) {
+        expect(record?.fate, `${where}: ${bill.id}`).toBe("voted");
+        expect(
+          record!.decidedOn <= scheduled.get(bill.id)!,
+          `${where}: ${bill.id}`,
+        ).toBe(true);
+      }
       if (held) {
         expect(
           [...core.durableLog.values()].find((e) => e.id === committee.id)
@@ -223,7 +232,7 @@ it("a bill drafted after the session opened gets a floor date, is whipped the da
             `${where}: ${bill.id} (${after.status}, ${votes.length} votes) no vote by ${memberKey(t)}`,
           ).toBe(true);
       lines.push(
-        `${bill.id} (${after.number}), sponsor ${bill.sponsorId}, drafted ${bill.introduced}, floor date ${scheduled.get(bill.id)}, whip the day before: ${whips.get(bill.id)}; voted ${record!.decidedOn}: ${after.status}, ${held ? `held in committee ${committee.id}, ${committee.heard ? `${committee.yes} for and ${committee.no} against` : `not heard by chair ${committee.chairId}`}` : `${votes.length} votes, e.g. vote:${bill.id}:${votes[0]?.memberId} ${votes[0]?.vote}`}`,
+        `${bill.id} (${after.number}), sponsor ${bill.sponsorId}, drafted ${bill.introduced}, floor date ${scheduled.get(bill.id)}, whip the day before: ${whips.get(bill.id)}; decided ${record?.decidedOn ?? "by its committee"}: ${after.status}, ${held ? `held in committee ${committee.id}, ${committee.heard ? `${committee.yes} for and ${committee.no} against` : `not heard by chair ${committee.chairId}`}` : `${votes.length} votes, e.g. vote:${bill.id}:${votes[0]?.memberId} ${votes[0]?.vote}`}`,
       );
     }
     process.stdout.write(

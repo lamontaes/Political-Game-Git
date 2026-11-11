@@ -9,6 +9,13 @@
     "size: S before M before L.",
     "id: alphabetical, so the order is the same for everyone."
   ],
+  "kinds": {
+    "play": {
+      "why": "Owner, Nov 10: \"the stuff I actually click and play\". Player-facing items only.",
+      "areas": ["play"],
+      "leads": ["play-first", "screens"]
+    }
+  },
   "classes": [
     {
       "name": "rules-checks-skills",

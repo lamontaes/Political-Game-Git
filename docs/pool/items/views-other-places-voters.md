@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** Roadmap M1-13 asks that other places' voters' views change from their own conditions within real ranges. The views engine (src/core2/modules/views.ts) keeps views for the town's full and counted people only; races elsewhere are counted from each place's 2024 lean (src/core2/electorate-places.ts), which never moves. So nothing about another place's voters changes in a year, and the new M1-13 check fails the clause. Keep a coarse lean per other place, stepped from that place's own conditions (its jobs, prices and the news it gets), read by the races counted there.
+**What.** Roadmap M1-13 asks that other places' voters' views change from their own conditions within real ranges. The views engine (src/core2/modules/views.ts) keeps views for the town's full and counted people only; races elsewhere are counted from each place's 2024 lean (src/core2/electorate-places.ts), which never moves. So nothing about another place's voters changes in a year, and the new M1-13 check fails the clause. Keep a coarse lean per other place, stepped from that place's own conditions (its jobs, prices and the news it gets), read by the races counted there. Seen: other states' voters and races, whose polls and results now move year to year.
 
 **Cause.** Found in code: src/core2/modules/views.ts holds views only for the town's full and counted people; races elsewhere are counted from each place's 2024 lean in src/core2/electorate-places.ts, which never moves; src/bench/m1-13-check.ts (line 132) prints 'no engine keeps or moves other places' voters' views' and fails its views clause.
 
