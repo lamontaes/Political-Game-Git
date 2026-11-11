@@ -28,7 +28,7 @@ const bare = (text: unknown) =>
 describe(`a bill's number is said with its word on every screen (seed ${seed})`, () => {
   it("reaches no bench view bare", () => {
     const tried: string[] = [];
-    for (let i = 0; i < 12; i += 1) {
+    for (let i = 0; i < 24; i += 1) {
       const draw = drawPlace(`${seed}:${i}`, "bill-numbers-worded");
       const world = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,
@@ -53,17 +53,52 @@ describe(`a bill's number is said with its word on every screen (seed ${seed})`,
       const player = new BenchPlayer(world.core, world.director);
       player.select(sponsor);
       world.core.focusPersonIds.add(sponsor);
-      const wage = seatView(world.core, sponsor).amounts.find(
-        (a: { series: string }) => a.series === "minimum-wage",
-      );
-      const drafted = seatAct(world.core, sponsor, {
-        kind: "draft",
-        officeId: council.id,
-        series: "minimum-wage",
-        value: (wage?.current ?? 0) + 200,
-      }) as { id: string; status: string; spoken: string; title: string };
-      if (drafted.status !== "drafted") {
-        tried.push(`${where}: the draft was ${drafted.status}`);
+      // Any subject the body may draft gives the bill its number: the first
+      // its menus allow that the drafting engine takes. A place's law may bar
+      // a subject (a state that preempts the town's minimum wage); each one
+      // refused is named and the next tried.
+      type Item = {
+        kind: string;
+        series?: string;
+        question?: string;
+        line?: string;
+        inForce?: number | null;
+        allowed?: boolean;
+      };
+      const items = (
+        seatView(world.core, sponsor).bodies.find(
+          (b: { officeId: string }) => b.officeId === council.id,
+        )?.menus ?? []
+      )
+        .flatMap((menu: { items: Item[] }) => menu.items)
+        .filter((item: Item) => item.allowed !== false);
+      const refused: string[] = [];
+      let drafted:
+        | { id: string; status: string; spoken: string; title: string }
+        | undefined;
+      for (const item of items) {
+        const tryIt = seatAct(world.core, sponsor, {
+          kind: "draft",
+          officeId: council.id,
+          ...(item.series
+            ? { series: item.series, value: (item.inForce ?? 0) + 1 }
+            : item.line
+              ? { line: item.line, value: (item.inForce ?? 0) + 100 }
+              : { question: item.question ?? "", value: 1 }),
+        }) as { id: string; status: string; spoken: string; title: string };
+        if (tryIt.status === "drafted") {
+          drafted = tryIt;
+          break;
+        }
+        refused.push(
+          `${item.series ?? item.line ?? item.question}: ${tryIt.status}`,
+        );
+        if (refused.length >= 6) break;
+      }
+      if (!drafted) {
+        tried.push(
+          `${where}: no subject drafted (${refused.join(", ") || "no subject on its menus"})`,
+        );
         continue;
       }
       // Every number each view hands the page, by where it was read.
