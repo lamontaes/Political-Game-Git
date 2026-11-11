@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-speed-colorado-election-year-persuasion
-pr:
+pr: #8418
 after:
 blocked-on:
 model: opus
