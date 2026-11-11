@@ -190,3 +190,11 @@ Builders build; checkers check (owner, Oct 29; skill `checker`). A Words session
 > Write your status block in your channel section every two hours (commit to main: `leads: words status <time>`); a need from another role is a Needs-from line there and a pool item with lead: set.
 > One PR per item, body line 1 the item id, "Lead: words" in the body. Never merge your own PR, never force-push.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+
+## Lessons of Nov 11 (the lead's review of the opening talk, #8736)
+
+The first composed scene came back right in its build and wrong on the screen in two ways. Check both before you open a words pull request.
+
+- **One screen names a thing once.** The relative's line named the point twice and each of four replies named it again: "legal cannabis sales" six times in one box. The insert rule asks for an insert in each line, not the same insert in every line. On one screen, no two replies carry the same insert: one names the point, one the town, one the other person, one a third party. The speaker's own line names the point once in full, then says "it".
+- **A reply that asks about the world gets an answer from the world.** "How would it land in {place}?" had eight answers and every one was a dodge ("I couldn't tell you yet"). An answer carries one fact the world keeps, cited to its record: the place's own law on the question, a figure about the town, an employer, a person. A dodge may close an answer; it is never the whole answer. Test it: every answer to a question carries a slot besides the one the question already named.
+- **Read the scene in three drawn places before the pull request, as the owner would.** If all three are about the same thing, say why in the body by function and line, and tell the lead: the cause is usually upstream (here, what the President may raise), and it needs its own item the same night.

@@ -41,18 +41,22 @@ What does not go in it:
 4. Post one line on the crew's issue: `<your prefix>: noted <item id> <the commit's full sha>` and the cause in two sentences. The line is how the lead and the CTO read your finding; the bundle is only how it reaches main.
 5. A note needs no release note of its own. The bundle carries one.
 
-If `pool/notes` does not exist when you come to commit (the hour's merge just happened), wait two minutes and try again; Desk B cuts the new one. Do not create it yourself.
+`pool/notes` always exists; commit to it at any minute. Fetch and merge before you push, and never force-push it.
 
 ## Desk B, at the top of each hour
 
-1. Fetch `pool/notes` and merge main into it in your own tree. Run `npm run pool -- --check` and prettier on the items it changes. Fix what is mechanical (formatting, a path that needs ` (new)`); for anything else, revert that one commit on the branch and tell its author on the crew's issue with the check's own words.
-2. Post `Desk B: ready #<the bundle's number> <full head sha>` with how many items it holds.
-3. After the CTO merges it: cut `pool/notes` again from main, add the hour's release note (`docs/release/changes/pool-notes-<date>-<hour>.md`, with only `id` and `impact: none` in the front matter and one sentence under it), and open the next pull request. Its line 1 is `Touches pool item: many (the hour's pool notes; nothing built).` and its title is `pool notes: <date>, <hour> UTC`.
-4. An hour with no commits has no bundle to gate. Leave the open pull request as it is.
+`pool/notes` is a rolling branch. It is never the head of a pull request, because helpers commit to it all hour and a head that moves under the gate can never be merged at the sha that was checked (Nov 11: the first bundle, #8714, moved three times during its gate). Each hour's pull request is opened from a frozen branch.
 
-## The CTO, once an hour
+1. Fetch `pool/notes`. Note its head sha: that is the hour's cut. In your own tree, check out that sha and merge main into a scratch branch. Run `npm run pool -- --check` and prettier on the items the cut changes.
+2. A commit that fails: tell its author on the crew's issue with the check's own words. The author fixes it with a new commit on `pool/notes`; take the new head as the cut and check only what changed since (`git diff <old cut>..<new cut>`).
+3. Freeze the cut: `git push origin <cut sha>:refs/heads/pool/notes-<date>-<hour>` (for example `pool/notes-2026-11-11-07`). Open the hour's pull request from that branch. Its line 1 is `Touches pool item: the <n> items in this hour's notes; nothing built.` and its title is `pool: the notes of <hour> UTC, <date>`.
+4. Post `Desk B: ready #<its number> <cut sha>` with how many items it holds. Commits that reach `pool/notes` after the cut ride the next hour.
+5. An hour with no commits since the last cut has no bundle.
+6. When main has moved far from `pool/notes` (a note's item was changed on main), merge main into `pool/notes` and push; never rebase it.
 
-Merge the bundle on the head Desk B posted. A note that waits an hour costs nothing; a note that merges unread costs a builder's day. If the bundle is red, merge nothing and say which commit Desk B should take out.
+## Whoever holds the merge step, once an hour
+
+Merge the hour's pull request on the cut sha Desk B posted. A note that waits an hour costs nothing; a note that merges unread costs a builder's day. If the bundle is red, merge nothing and say which commit the author should fix.
 
 ## The cap on new work
 
