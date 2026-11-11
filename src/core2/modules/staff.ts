@@ -1235,6 +1235,21 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       campaignParameter("staffPerOfficial")
     )
       continue;
+    // The money the line can actually carry (as `hireStaff` caps the aide's pay): a line with no room
+    // gets no hire, and an applicant weighs the pay the post will really pay, not the full staff wage.
+    const employer = employerOf(api, officialId);
+    const capDaily = employer
+      ? postPayCapDaily(api, employer, `staff:${officialId}`, 1)
+      : undefined;
+    if (capDaily !== undefined && capDaily <= 0) continue;
+    const postPay =
+      capDaily === undefined
+        ? postHourly
+        : Math.min(
+            postHourly,
+            (capDaily * treasuryParameter("daysPerYear")) /
+              treasuryParameter("fullTimeHoursPerYear"),
+          );
     if (
       !leanedYes(
         api.state,
@@ -1262,7 +1277,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       .filter(
         (c) =>
           (review.people.get(c.personId)?.pay ??
-            currentPay(state, c.personId)) < postHourly,
+            currentPay(state, c.personId)) < postPay,
       )
       .map((c) => ({ ...c, score: hireReasons(c).score }))
       .sort(
