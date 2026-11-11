@@ -46,7 +46,13 @@ function stripPerson(person, { speakingId, onClick }) {
  * and quiets the rest (a talk); left out, everyone is lit alike. `onClick`
  * makes each person with something to say a button.
  */
-export function bustStrip({ people, more = 0, words = {}, speakingId, onClick }) {
+export function bustStrip({
+  people,
+  more = 0,
+  words = {},
+  speakingId,
+  onClick,
+}) {
   const strip = el("div", { className: "bust-strip" });
   // The busts' size follows how many stand on the strip (play.css).
   strip.dataset.count = String(Math.min(people.length, 4));

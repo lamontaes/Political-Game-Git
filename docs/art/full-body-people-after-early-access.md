@@ -95,8 +95,15 @@ Busts lean on the pack today, so the pack cannot move until two things are cut:
 - The `people-pack` and `room-spots` skills keep their methods and their traps.
 - The owner's standing rulings on full bodies still apply: one figure per named person, people drawn only on a plate's spots, and the Nov 10 note that staging defects are not filed while busts are the system.
 
+## What step 2 left for step 3
+
+Step 2 took the figures off the screen and made the scene's list of people independent of plates. It left these in the tree, unused by the game, for step 3 to delete: `src/bench/mannequin-plates.ts` (still read by the home's plated-room preference in `scene.ts`, stopgap `SG-PLAY-home-plated-room-first`), `src/bench/occluders.ts` and its test, the figure functions in `whole-figures.ts` and `people-pack.ts`, the three art routes in `handler.ts`, `seatRoles` and `occasions` in `src/bench/data/whole-figures.json`, and `scripts/people/`. A room's spot count in `art/backdrops/staging.json` still caps how many coworkers are present (`presentIds`); it gets its own small number per room in step 3.
+
 ## Removal log
 
-| Step | Pull request | Commit on main just before it |
-| ---- | ------------ | ----------------------------- |
-| 0    | this page    | `843df6be9b`                  |
+| Step | Pull request                                                                                                                                                                                  | Commit on main just before it                                |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| 0    | this page                                                                                                                                                                                     | `843df6be9b`                                                 |
+| 1    | #8511                                                                                                                                                                                         | the commit before `a2f25c0538`                               |
+| 4    | #8526                                                                                                                                                                                         | the commit before `b73c2fd3ba`                               |
+| 2    | the strip of busts (owner, call 11, Nov 11): `peopleHere` in `src/bench/scene.ts` replaces `stagePeople`; `drawHere` and `ui/bust-strip.mjs` replace `drawPeople`, `roomPeople` and `#people` | filled in by the pull request that removes the rest (step 3) |
