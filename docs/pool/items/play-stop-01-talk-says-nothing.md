@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-01-talk-says-nothing
+status: open
+claimed-by:
 pr: #8258
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:03:15.399Z
+claimed-at:
 branch: claude/pool-play-stop-01-talk-says-nothing
 ---
 
@@ -63,3 +63,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released by next (2026-11-11): no push to claude/pool-play-stop-01-talk-says-nothing since 2026-11-10 22:57 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-01-talk-says-nothing and pull request #8258.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:03 UTC) on branch claude/pool-play-stop-01-talk-says-nothing.
+
+Released (2026-11-11): Replay-only item; partial replay posted on its child PR (mayor and council seen in Abbott TX; Federal lists the whole state delegation); pool seen refuses non-merged items; not complete. Continue on branch claude/pool-play-stop-01-talk-says-nothing and pull request #8258.
