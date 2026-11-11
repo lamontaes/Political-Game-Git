@@ -1,0 +1,47 @@
+Naples, Maine, seed 5fb428ac-05e0-4a3c-8b68-7f0b06070a44 (drawn4), playing as Aria Welch, County Commissioner
+
+--- talk 1, Wednesday, January 22, 20258:00 AM
+: First thing on January 22nd, you meet Denise Witt downtown. / Denise Witt has more to say than the meeting had room for.
+Denise Witt: Do you have a minute? I've been meaning to ask you something. / Where are you on it?
+    replies: You asked plainly, so I'll answer plainly. Here's how I see it. | Before I say anything, what are you hearing from the others? | I'm with you. You can count on it. | No. I won't be pinned down in a hallway, and I won't be pushed.
+Denise Witt: ARIA WELCH / You asked plainly, so I'll answer plainly. Here's how I see it. / I appreciate that. It helps to know where you are.
+--- talk 2, Friday, January 24, 20258:00 AM
+: First thing on January 24th, Barbara Pierce is waiting for you downtown. / Barbara Pierce catches you after the vote on Ordinance 2025-1. They are smiling, which is not the same as friendly.
+Barbara Pierce: You voted against Ordinance 2025-1, Aria. We were counting on you. We'll remember that in the spring.
+    replies: I heard your case. It didn't change what I thought was right. | I don't want to be on the wrong side of you. Let's talk it through. | Don't try to lean on me. It won't change my vote next time. | I can't talk about this here.
+Barbara Pierce: ARIA WELCH / I heard your case. It didn't change what I thought was right. / Fair enough. We'll see how the spring goes.
+--- talk 3, Friday, January 31, 20258:00 AM
+: First thing on January 31st, you run into Jonathan Solis on the street. / Jonathan Solis crosses the street to catch you.
+Jonathan Solis: I read about Ordinance 2025-1. / I keep reading about Ordinance 2025-1. I want to know what it means for us.
+    replies: I voted the way I thought was right for Naples. Here's why. | Give me your number. I'll look into what it means for you. | This isn't the place.
+Jonathan Solis: ARIA WELCH / I voted the way I thought was right for Naples. Here's why. / That doesn't help us.
+    replies: You're right. Let me see what I can do. | I'll call you this week. | I'm sorry. I have to go.
+Jonathan Solis: ARIA WELCH / You're right. Let me see what I can do. / At least you said it to my face.
+--- talk 4, Wednesday, February 12, 20258:00 AM
+: First thing on February 12th, you meet Ivy Petty downtown. / Ivy Petty has more to say than the meeting had room for.
+Ivy Petty: Aria. I want a word with you. / I wanted to ask how you read that meeting. Were you with where we ended up?
+    replies: I'm leaning yes. | What's this about, exactly? Tell me what you're asking before I answer it. | Count me in. Just tell me when. | I'd rather keep that to myself for now. I hope you understand.
+Ivy Petty: ARIA WELCH / I'm leaning yes. / I hope so. Can I count on you not to change your mind on me?
+    replies: You deserve a real answer, so here it is. I'm taking it seriously. | Asking again won't change it. | Let's pick this up another time.
+Ivy Petty: ARIA WELCH / You deserve a real answer, so here it is. I'm taking it seriously. / That's a start. But will you say the same thing when it counts?
+    replies: Fine. I'll say it plainly: I'll decide on the merits, and I'll tell you when I have. | That's all I'm going to say on it. | Excuse me. I have somewhere to be.
+Ivy Petty: ARIA WELCH / Fine. I'll say it plainly: I'll decide on the merits, and I'll tell you when I have. / I believe you. I just need to hear it again when it matters.
+    replies: My answer hasn't changed. | I really need to go now.
+Ivy Petty: ARIA WELCH / My answer hasn't changed. / You can keep it to yourself. But the rest of us are going to wonder. / Fine. Another time.
+--- talk 5, Wednesday, February 19, 20258:00 AM
+: First thing on February 19th, you meet Curtis Gutierrez downtown. / The meeting is over, but Curtis Gutierrez, a reporter, is still here and still working.
+Curtis Gutierrez: Hello, I'm Curtis Gutierrez, with the local press. Can I ask you a few questions? / I have to file on this meeting. Are you going to stand behind what you did in there, or not?
+    replies: You can print that. | What's the story you're writing? I'd like to know the angle before I answer. | Give me a chance to check the details and I'll call you with the whole thing. You have my word. | I won't be quoted on my way out of a meeting. Ask me when I've had time to think.
+Curtis Gutierrez: ARIA WELCH / You can print that. / And if someone says the opposite? Will you stand by that?
+    replies: Put it this way, then. I did what I thought was right, and I'll explain why. | Asking again won't change it. | Excuse me. I have somewhere to be.
+Curtis Gutierrez: ARIA WELCH / Put it this way, then. I did what I thought was right, and I'll explain why. / I have to ask: is that your whole answer? My editor is going to want more.
+    replies: Alright. Here's my honest view, and it's not complicated. | That's all I'm going to say on it. | Let's pick this up another time.
+Curtis Gutierrez: ARIA WELCH / Alright. Here's my honest view, and it's not complicated. / Can you be more specific? What exactly would you point to?
+    replies: My answer hasn't changed. | I really need to go now.
+Curtis Gutierrez: ARIA WELCH / My answer hasn't changed. / People will read a no comment as an answer, you know. / Fine. Another time.
+--- talk 6, Wednesday, February 26, 20258:00 AM
+: First thing on February 26th, you meet Denise Witt downtown. / Denise Witt serves on the same body as you and wants to know which way you lean.
+Denise Witt: Excuse me. Do you have a minute? / I'd like to hear how you're seeing this, if you're willing to tell me. It matters to me.
+    replies: I'll give you a straight answer, even if it's not the one you want. | What are you hearing? | You'll have my support when it comes up. You can count on that. | Not here.
+Denise Witt: ARIA WELCH / I'll give you a straight answer, even if it's not the one you want. / Thanks, Aria. That's what I needed to hear.
+ended Saturday, March 1, 2025 7:00 AM
