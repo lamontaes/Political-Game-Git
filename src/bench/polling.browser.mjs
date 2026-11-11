@@ -339,43 +339,24 @@ try {
       ).includes(targetClock)
     )
       break;
-    // Answer whatever stop is open.
-    const talk = page.locator(
-      "#talk:not([hidden]) #talk-choices button:visible",
-    );
-    if (await talk.count()) {
+    // Answer whatever stop is open: a talk is played to its end as a player
+    // would (Continue on each line, the first reply, Leave), a stop's Continue pressed.
+    if (await page.locator("#talk:not([hidden])").count()) {
       console.log(
         "Stop: talk,",
-        (
-          await talk
-            .first()
-            .innerText()
-            .catch(() => "?")
-        ).slice(0, 60),
-      );
-      await talk.first().click();
-      await page.waitForTimeout(2000);
-    } else if (await page.locator("#talk:not([hidden])").count()) {
-      console.log(
-        "Stop: choiceless talk:",
         (
           (await page
             .locator("#talk-lines")
             .innerText()
             .catch(() => "?")) ?? ""
-        ).slice(-160),
+        )
+          .replace(/\s+/g, " ")
+          .slice(0, 100),
       );
-      await page.screenshot({
-        path: "docs/reports/ballot-pages-2026-10-24/stop.png",
-      });
-      const left = page.locator("#talk-leave:visible");
-      if (await left.count()) await left.click().catch(() => {});
-      else
-        await page
-          .locator("#talk-silent:visible")
-          .click()
-          .catch(() => {});
-      await page.waitForTimeout(2000);
+      // A talk under the calendar is played once the sheet is closed.
+      if (await page.locator("#sheet:not([hidden])").count())
+        await page.locator("#sheet-close").click();
+      await finishTalk(page);
     } else if (await page.locator("#continue:not([hidden]):visible").count()) {
       console.log("Stop: player Continue");
       await page
@@ -501,24 +482,9 @@ try {
         .innerText()
         .catch(() => "?"),
     );
-    const talk = page.locator(
-      "#talk:not([hidden]) #talk-choices button:visible",
-    );
-    if (await talk.count()) {
-      console.log("Election day stop: talk");
-      await talk.first().click();
-      await page.waitForTimeout(2000);
-      continue;
-    }
     if (await page.locator("#talk:not([hidden])").count()) {
-      const left = page.locator("#talk-leave:visible");
-      if (await left.count()) await left.click().catch(() => {});
-      else
-        await page
-          .locator("#talk-silent:visible")
-          .click()
-          .catch(() => {});
-      await page.waitForTimeout(2000);
+      console.log("Election day stop: talk");
+      await finishTalk(page);
       continue;
     }
     if (await page.locator("#continue:not([hidden]):visible").count()) {
