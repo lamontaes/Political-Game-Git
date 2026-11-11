@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-world-business-founding-no-purchase-kinds
+claimed-by:
 pr:
 blocked-on:
 after:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T06:23:11.487Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-world-business-founding-no-purchase-kinds
 ---
@@ -46,3 +46,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Cause differs from the code on main: the only enterMarket caller (business.ts ~2144-2154) picks like as an incumbent with live purchase flows in the market's place and calls enterMarket only when one exists (households is 0 otherwise), and enterResidentMarket (residents.ts 2692-2701) reads its kinds from exactly that rival's live purchase flows in the same place, so the kinds cannot be empty on that path. Not reproduced: the calibration run (CALIBRATION_RUN=1, stay-out pull 3.8, seeds c1 to c6) was not rerun here. If it still throws, record the failing seed and place; the cause is then outside this call. Continue on branch claude/pool-world-business-founding-no-purchase-kinds.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:23 UTC) on branch claude/pool-world-business-founding-no-purchase-kinds.
+
+Released (2026-11-11): Re-claimed by my own next loop, not worked; see my earlier release note on this item (world-deposit-reserve-reads-unweighted-costs: the weighting is already applied at credit-deposits.ts ~122; what remains is a per-business proof at Census scale, and the spread it must sit inside is a number nobody has stated, so it needs that number first). Continue on branch claude/pool-world-business-founding-no-purchase-kinds.
