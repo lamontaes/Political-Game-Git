@@ -73,7 +73,7 @@
   "campaignUnavailable": {
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
-    "eventMoney": "Hall {price} \u00b7 campaign {cash}",
+    "eventMoney": "The hall costs {price}. The campaign has {cash}.",
     "forumHeld": "You hosted a forum today",
     "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
@@ -589,13 +589,13 @@
   },
   "bill": {
     "open": "Read the bill",
-    "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
     "where": "Where it is",
     "bill": "The bill",
     "vote": "The vote",
     "estimate": "What it would do",
+    "noFigure": "No dollar figure on record for this section.",
     "amends": "Amends",
     "from": "from",
     "to": "to",
@@ -685,13 +685,14 @@
     "notSure": "Not sure yet"
   },
   "lifeGroups": [
-    ["partner", "child", "loss"],
+    ["partner", "child"],
     ["school"],
     ["work", "business"],
     ["moved", "home"],
     ["health"],
     ["law"],
-    ["office"]
+    ["office"],
+    ["loss"]
   ],
   "who": {
     "age": "Age",
@@ -845,22 +846,7 @@
       "legislative": "Legislative",
       "executive": "Executive"
     },
-    "meets": "Meets {schedule}",
-    "meetsWeekly": "every {weekday}",
-    "meetsTwice": "the {first} and {second} {weekday} of the month",
-    "meetsMonthly": "the {first} {weekday} of the month",
-    "weekdays": [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ],
-    "ordinals": ["1st", "2nd", "3rd", "4th", "5th"],
     "nextMeeting": "next meeting {date}",
-    "nextElection": "next election {date}",
     "seatsTotal": "{n} seats",
     "recentVotes": "Recent votes",
     "noVotes": "No roll calls on record yet",
@@ -883,7 +869,6 @@
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
     "officers": "Officers",
-    "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
     "partySince": "{party} \u00b7 since {date}",
@@ -905,8 +890,7 @@
     "fiscalYear": "fiscal year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
-    "subjects": "Subjects",
-    "backToGovernment": "Back to the government"
+    "subjects": "Subjects"
   },
   "results": {
     "you": "You",
@@ -997,6 +981,10 @@
     "bad": "Bad",
     "note": "One word",
     "saved": "Graded"
+  },
+  "here": {
+    "label": "Here",
+    "more": "and {count} more"
   },
   "talkBox": {
     "continue": "Continue",
@@ -1097,6 +1085,7 @@
     "since": "since last year"
   },
   "titles": {
+    "watch": "Watch",
     "people": "People",
     "who": "You",
     "money": "Money and property",
@@ -1206,10 +1195,6 @@
     "callOverride": "Take up the veto message"
   },
   "billFollow": {
-    "open": "Read the bill",
-    "back": "Back to the bills",
-    "reaches": "Reaches your town",
-    "yourMembers": "Your members",
     "empty": "No bill is before your town, county, state or Congress yet."
   },
   "frontTitles": {
@@ -1229,6 +1214,7 @@
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
+    "notToday": "Not today",
     "groupOut": "Out and about",
     "groupAsk": "Ask",
     "groupMoney": "Money",
@@ -1283,7 +1269,8 @@
     "to": "to",
     "notVoting": "Didn't vote",
     "noParty": "No party",
-    "yours": "Your member"
+    "yours": "Your member",
+    "yourMembers": "Your members"
   },
   "devBill": {
     "title": "Dev mode",

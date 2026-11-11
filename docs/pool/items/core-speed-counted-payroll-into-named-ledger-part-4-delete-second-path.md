@@ -19,7 +19,7 @@ source: split from core-speed-counted-payroll-into-named-ledger in the pool redo
 checked: fable 2026-11-10
 ---
 
-**What.** Once parts 1 to 3 pay every counted group through the one ledger, the counted settlement code in `payGroups` (src/core2/counted-money.ts) has no caller. Delete it and its markers, count the lines removed in the PR body, and prove the year did not slow. This is part 4 of core-speed-counted-payroll-into-named-ledger.
+**What.** Once parts 1 to 3 pay every counted group through the one ledger, the counted settlement code in `payGroups` (src/core2/counted-money.ts) has no caller. Delete it and its markers, count the lines removed in the PR body, and prove the year did not slow. This is part 4 of core-speed-counted-payroll-into-named-ledger. Feeds: core-speed-counted-payroll-into-named-ledger
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, Nov 8 night Coordinator call "Counted payroll: the same rule, times the count, on the employer's own calendar." `payGroups` in src/core2/counted-money.ts (line 584) is the second settlement path the owner's call says to merge away.
 
