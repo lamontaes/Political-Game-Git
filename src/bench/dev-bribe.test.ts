@@ -82,4 +82,61 @@ describe(`dev bribe: ${where}`, () => {
     expect(refuses.moved, where).toBe(0);
     expect(refuses.record.reasons.take?.picked, where).toBe(-1);
   });
+
+  it("an offer for a bill goes only to someone with a say on it; anyone else is refused in words", () => {
+    const bodies = dev.lawmakingBodies().filter((b) => b.members.length > 2);
+    const federal = bodies.find((b) => b.level === "federal");
+    // The first town or county body whose law lets the bill be introduced at all.
+    let local: (typeof bodies)[number] | undefined;
+    let row: ReturnType<typeof dev.introduce>["bill"] | undefined;
+    for (const body of bodies.filter(
+      (b) => b.level === "city" || b.level === "county",
+    ))
+      for (const series of ["minimum-wage", "property-tax", "sales-tax"]) {
+        if (local) break;
+        const tried = dev.introduce({
+          bodyOfficeId: body.id,
+          sponsorId: body.members[0]!.key,
+          series,
+          value: 20,
+        }).bill;
+        if (tried.status !== "blocked") {
+          local = body;
+          row = tried;
+        }
+      }
+    expect(local && federal && row, where).toBeTruthy();
+    const [offerer] = dev.wealthiest(1);
+    const ask = (officialId: string) => ({
+      offererId: offerer!.personId,
+      officialId,
+      subjectId: row!.id,
+      stakeMinor: 50_000_000,
+      answer: "takes" as const,
+    });
+    // The panel's Official list holds that body's members (and its signer), and no member of Congress.
+    const deciders = new Set(dev.billDeciders(row!.id).map((p) => p.personId));
+    for (const m of local!.members)
+      expect(deciders.has(m.personId!), where).toBe(true);
+    for (const m of federal!.members)
+      expect(deciders.has(m.personId!), where).toBe(false);
+    // A member of the bill's own body can be asked.
+    const member = local!.members.find(
+      (m) => m.personId !== offerer!.personId,
+    )!;
+    expect(() => dev.forceBribe(ask(member.personId!)), where).not.toThrow();
+    // A member of Congress has no say on a town's bill: refused in words, no record, no money.
+    const outsider = federal!.members.find(
+      (m) => m.personId !== offerer!.personId,
+    )!;
+    const records = world.core.durableLog.size;
+    const cash = world.core.people.get(offerer!.personId)!.liquidMinor;
+    expect(() => dev.forceBribe(ask(outsider.personId!)), where).toThrow(
+      /no vote or signature on this bill/,
+    );
+    expect(world.core.people.get(offerer!.personId)!.liquidMinor, where).toBe(
+      cash,
+    );
+    expect(world.core.durableLog.size, where).toBe(records);
+  });
 });

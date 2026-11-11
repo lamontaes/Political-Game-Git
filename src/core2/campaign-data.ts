@@ -6,6 +6,7 @@
  * stay in `campaign-views.ts`.
  */
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
+import federalAxes from "../../data/research/campaigns/federal-issue-axes-2026.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
 
 /** One stated position: support (+1) or oppose (-1) a policy question. */
@@ -35,5 +36,28 @@ export function campaignParameter(key: string): number {
   return row.value;
 }
 
-export const axisOf = (axes as { axes: Record<string, { axis: number }> }).axes;
+/** A question's measured direction and how widely its "yes" is already backed. */
+export interface QuestionAxis {
+  readonly axis: number;
+  readonly yesShare: number;
+}
+
+type AxisFile = { axes: Record<string, QuestionAxis> };
+
+/**
+ * Every policy question's left-right direction, as one map: the questions
+ * states answer (measured across states, `issue-axes-2026.json`) and the ones
+ * only federal law answers (measured from roll calls by party,
+ * `federal-issue-axes-2026.json`). A question in both files is a data error.
+ */
+export const axisOf: Readonly<Record<string, QuestionAxis>> = (() => {
+  const state = (axes as unknown as AxisFile).axes;
+  const federal = (federalAxes as unknown as AxisFile).axes;
+  const both = Object.keys(federal).filter((question) =>
+    Object.hasOwn(state, question),
+  );
+  if (both.length > 0)
+    throw new Error(`Question in both axis files: ${both.join(", ")}`);
+  return { ...state, ...federal };
+})();
 export const PLATFORM_QUESTIONS: readonly string[] = Object.keys(axisOf).sort();
