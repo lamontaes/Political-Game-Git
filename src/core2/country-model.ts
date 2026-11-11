@@ -40,6 +40,8 @@ const HOMES: CountrySector = "construction";
 const OLDEST = COUNTRY_AGE_BANDS.length - 1;
 /** Below this a count or a dollar figure is treated as nothing. */
 const TINY = 1e-9;
+/** One whole job: the count of jobs at which a sector's staffing says half of what it would about its price. */
+const ONE_JOB = 1;
 
 type BySector = Record<CountrySector, number>;
 
@@ -1486,10 +1488,20 @@ export function stepCountry(
             ? row.pay / months / row.productivity / rules.laborShare[row.sector]
             : row.price;
         const busy = row.jobs > 0 ? plan.staffNeeded / row.jobs : 1;
+        // How much a sector's staffing can say about its price fades with how
+        // few jobs it holds, on a sliding scale: a sector left with a
+        // fraction of one job (a played town that takes nearly all of its
+        // state's jobs leaves floating-point leftovers) has no staff to be
+        // busy, and one with thousands of jobs is unchanged to a fraction of
+        // a percent. Without it a leftover of 4.5e-13 jobs read as 6e14
+        // times busy and doubled a state's prices in two months.
+        const staffed = row.jobs / (row.jobs + ONE_JOB);
         row.price *= Math.exp(
           state.expectedInflation / months +
             rules.pricePassPerMonth * Math.log(unitCost / row.price) +
-            (rules.priceBusyPerYear / months) * Math.log(Math.max(busy, TINY)),
+            staffed *
+              (rules.priceBusyPerYear / months) *
+              Math.log(Math.max(busy, TINY)),
         );
       }
       if (row.expectedSales > 0) {
