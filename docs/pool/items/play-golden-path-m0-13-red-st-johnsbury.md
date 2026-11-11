@@ -5,13 +5,13 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-golden-path-m0-13-red-st-johnsbury
 pr:
 blocked-on: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split, play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth, play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots, play-golden-path-m0-13-red-st-johnsbury-part-4-homes-and-pay, play-golden-path-m0-13-red-st-johnsbury-part-5-business-borrowing
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T01:43:01.575Z
 after:
 lead: play-first
 model: sonnet
