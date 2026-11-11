@@ -20,7 +20,7 @@ import {
   type ScheduleEntry,
 } from "./scheduling";
 import { properName, spoken } from "./words";
-import { dayOpening } from "../english/day-words";
+import { dayOpening, daySince } from "../english/day-words";
 
 const zero = P.zero;
 
@@ -200,6 +200,10 @@ export function composeScene(
           sourceRecordIds: [moment.id],
         },
       };
+      // A record made on an earlier day (a call that came in the evening,
+      // played the next morning) is told as past: "yesterday".
+      const since = daySince(moment.date, core.date);
+      if (since) facts.since = { text: since, sourceRecordIds: [moment.id] };
       if (meeting)
         facts.name = {
           text: `${meeting.givenName} ${meeting.familyName}`,
