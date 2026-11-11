@@ -59,6 +59,7 @@ About 40 minutes before a train's time:
    - `NODE_OPTIONS=--max-old-space-size=8192 node --import tsx scripts/dev-lab/typecheck.ts`
    - the tests `npm run agent:test-cadence` names for the train's changed files, and the changed test files themselves
    - `npm run old-imports`
+   - `npm run guards` (on Nov 11 two reds reached main that a guard on the train's own tree would have shown: a pull request written before the pointer guard deleted files that documents still named)
    - `npm run release:check -- --mode push` (a train that leaves the release check red holds the next build; on Nov 10 a packaging run failed on a reused release-note id)
    - the golden path: `node --import tsx tests/golden-path/runner.mjs`
    - for a screens or words train, a new game in the bench on a place and seed nobody chose: the browser checks the riders changed, with `BENCH_BROWSER=/opt/pw-browsers/chromium`
