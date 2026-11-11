@@ -6,8 +6,8 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-m3-04-person-card-law-effects
 pr:
 blocked-on:
 standard: 2
@@ -17,7 +17,7 @@ root: rc10-screens-keep-own-facts
 source: governing lead Oct 29
 after:
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:24:05.544Z
 branch: claude/pool-gov-m3-04-person-card-law-effects
 ---
 
@@ -48,3 +48,5 @@ Released (2026-11-11): Not built: the plumbing is small (add lawEffects from rea
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:23 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.
 
 Released (2026-11-11): Re-claimed by my own next loop, not worked; see my earlier release note on this item (world-deposit-reserve-reads-unweighted-costs: the weighting is already applied at credit-deposits.ts ~122; what remains is a per-business proof at Census scale, and the spread it must sit inside is a number nobody has stated, so it needs that number first). Continue on branch claude/pool-gov-m3-04-person-card-law-effects.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-gov-m3-04-person-card-law-effects.
