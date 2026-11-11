@@ -27,3 +27,5 @@ Each person names the question they care most about and their side. Their card t
 - Sunrise: "I'm a conservative, and I don't mind who knows it. If it's a ban on discrimination in housing and work, count me out." The replies are "Good to know." / "I'll keep mine." / "I'd vote your way, John.". Picking the last: "Good. I thought it was just me."
 
 Asking why ("Why that one?", "How come?") is offered only when the person has a reason on record, their employer or money. None of these three had one.
+
+Every line of the own-view subjects (where someone stands, its reasons, the replies and the answer back), with its insert, the owner's grade, the line rules and whether it plays, is in `lines-checked.md` (86 lines, all pass).
