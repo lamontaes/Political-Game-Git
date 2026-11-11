@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-every-life-partner-from-counts
-pr:
+pr: #8631
 after:
 blocked-on:
 source: added with npm run pool -- add

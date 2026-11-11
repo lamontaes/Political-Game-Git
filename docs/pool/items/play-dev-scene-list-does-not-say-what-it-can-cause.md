@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-dev-scene-list-does-not-say-what-it-can-cause
-pr:
+pr: #8640
 after:
 blocked-on:
 lead: director
