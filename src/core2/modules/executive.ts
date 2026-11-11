@@ -38,7 +38,12 @@ import {
 } from "../state";
 import { drawnAdult } from "./counted-moves";
 import { placeStateKey } from "../place-map";
-import { admitCountedHousehold } from "./residents";
+import {
+  admitCountedHousehold,
+  countedHouseholdOf,
+  countedJob,
+  residentFacts,
+} from "./residents";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain, lawInForce } from "./laws";
@@ -370,6 +375,52 @@ const hasRecord = (record: ReturnType<typeof postRecord>) =>
  * the records say they have done, each on a saturating scale (no step at any
  * number of years): years in the post's field, years of any work, schooling.
  */
+/**
+ * A counted adult's record for a post, by the same rule `postRecord` reads a
+ * full person's (one model, two tiers), from what the counts keep, so the two
+ * score on one scale in `appointmentQualification`. Coarse parts: the counts
+ * keep no past jobs, so their years of work are their years since adulthood
+ * (`appointmentAdulthoodAge`); their related years are only the job they
+ * hold now, for as long as their record says they have held it. Exact parts:
+ * that job's kind against the post's, and their schooling (`schoolingOn`
+ * reads a counted person). Their pay is not weighed, as a full person's is
+ * not.
+ */
+export function countedPostRecord(
+  api: CoreAPI,
+  personId: string,
+  post: string,
+  date: string,
+): ReturnType<typeof postRecord> {
+  const core = api.state as CoreState;
+  const facts = residentFacts(core, personId as never);
+  const schooling = schoolingOn(api, personId, date);
+  if (!facts)
+    return { relatedYears: 0, workYears: 0, schooling, recordIds: [] };
+  const workYears = Math.max(
+    0,
+    yearsBetween(facts.birthDate, date) -
+      campaignParameter("appointmentAdulthoodAge"),
+  );
+  const fields = new Set(RELATED.posts[post] ?? []);
+  let relatedYears = 0;
+  const recordIds: string[] = [];
+  for (const c of countedHouseholdOf(core, personId as never)
+    ?.workCommitments ?? []) {
+    if (c.personId !== personId || c.startsAt > date) continue;
+    if (c.endsAt !== undefined && c.endsAt <= date) continue;
+    const job = core.jobs.get(c.jobId) ?? countedJob(core, c.jobId);
+    if (!job?.occupationClassification) continue;
+    if (!fields.has(job.occupationClassification)) continue;
+    relatedYears += Math.min(
+      workYears,
+      yearsBetween(c.heldSince ?? c.startsAt, date),
+    );
+    recordIds.push(c.id);
+  }
+  return { relatedYears, workYears, schooling, recordIds };
+}
+
 export function appointmentQualification(
   person: Readonly<Pick<PersonState, "traits">>,
   record: ReturnType<typeof postRecord>,
@@ -509,12 +560,10 @@ function townPostInput(
       ...counted.map((row) => ({
         id: row.person.id,
         lean: leanOf(api, row.person.id, row.person),
-        qualification: appointmentQualification(row.person, {
-          relatedYears: 0,
-          workYears: 0,
-          schooling: undefined,
-          recordIds: [] as string[],
-        }),
+        qualification: appointmentQualification(
+          row.person,
+          countedPostRecord(api, row.person.id, spec.key, date),
+        ),
         known: false,
       })),
     ],
