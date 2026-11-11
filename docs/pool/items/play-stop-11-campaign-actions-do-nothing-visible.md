@@ -5,8 +5,8 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
+status: open
+claimed-by:
 pr: #8262
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T04:13:58.358Z
+claimed-at:
 branch: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
 merged-at:
 ---
@@ -58,3 +58,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Replay-only item needing a filed candidate and each campaign action in the running game; not replayed by me; pool seen refuses non-merged items. Continue on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible and pull request #8262.
 
 Claimed by next for sonnet-13d3 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:10 UTC) on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible.
+
+Released (2026-11-11): Replay-only item (Fix: nothing is built); needs a second session in the running game with screenshots, and pool seen refuses a claimed item; released twice already. Continue on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible and pull request #8262.
