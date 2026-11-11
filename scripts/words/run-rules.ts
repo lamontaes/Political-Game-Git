@@ -42,6 +42,7 @@ import {
   awaitingAfter,
   pulledFileOf,
   runRules,
+  usesWithTags,
   type PlaceReports,
   type LineRule,
   type LineRulesFile,
@@ -74,13 +75,13 @@ export function readBankPieces(dir = PARTS_DIR): RulePiece[] {
     .filter((entry) => entry.endsWith(".json"))
     .sort()) {
     const bank = JSON.parse(readFileSync(join(dir, name), "utf8")) as {
-      parts?: {
+      parts?: ({
         key: string;
         text: unknown;
         kind?: string;
         move?: string;
         uses?: Record<string, unknown>[];
-      }[];
+      } & Record<string, unknown>)[];
     };
     for (const part of bank.parts ?? [])
       pieces.push({
@@ -90,7 +91,7 @@ export function readBankPieces(dir = PARTS_DIR): RulePiece[] {
           typeof part.text === "string" ? part.text : JSON.stringify(part.text),
         kind: part.kind ?? "",
         move: part.move ?? "",
-        uses: part.uses ?? [],
+        uses: usesWithTags(part, part.uses ?? []),
       });
   }
   return pieces;

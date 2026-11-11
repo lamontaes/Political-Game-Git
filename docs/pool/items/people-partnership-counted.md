@@ -20,7 +20,7 @@ lead: lives
 checked: fable 2026-11-10
 ---
 
-**What.** This is the roll-up for giving the counted tier the three partnership rules that full people already have in src/core2/modules/partnerships.ts: leaving a parent's home, partnering and separating. Nothing is built under this id. It is done when its three parts are done, with the counted households of a town turning over by the same rules as full people, times their count. The folded-in done-when lines from the Oct 25 combination are kept in the Notes.
+**What.** This is the roll-up for giving the counted tier the three partnership rules that full people already have in src/core2/modules/partnerships.ts: leaving a parent's home, partnering and separating. Nothing is built under this id. It is done when its three parts are done, with the counted households of a town turning over by the same rules as full people, times their count. The folded-in done-when lines from the Oct 25 combination are kept in the Notes. Seen: the town's household count and its rents year over year, as counted households form and part.
 
 **Cause.** Found in code: src/core2/modules/partnerships.ts (header, line 33, and COUNTED_STOPGAP at line 88) leaves the counted population's partnerships as their own unit; the stopgap row SG-LIVES-partner-counted is in src/core2/data/stopgaps/lives.json (line 75): the counted population's household types never change by partnering or parting.
 
