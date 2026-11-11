@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-words-eviction-moment-at-fill-in
 pr: #8477
