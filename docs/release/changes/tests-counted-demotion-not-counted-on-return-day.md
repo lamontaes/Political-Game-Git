@@ -3,4 +3,4 @@ id: tests-counted-demotion-not-counted-on-return-day
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Test-only change: the counted-demotion test now accepts a household that returns to the counts and moves away on the same day. No change to play.
