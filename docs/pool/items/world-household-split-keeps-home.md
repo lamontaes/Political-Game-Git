@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-household-split-keeps-home
 pr:
 blocked-on:
 after:
@@ -17,7 +17,7 @@ effort: medium
 root: design-life-record
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T04:25:22.670Z
 branch: claude/pool-world-household-split-keeps-home
 ---
 
