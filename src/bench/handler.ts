@@ -4,6 +4,7 @@ import {
   figureAtPath,
   figurePng,
 } from "./people-pack";
+import { bustPath } from "./bust";
 import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
@@ -456,6 +457,21 @@ const ROUTES: readonly Route[] = [
       response.end(
         figurePng(figure, Object.fromEntries(url.searchParams.entries())),
       );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname.startsWith("/art/busts/"),
+    run: async ({ url, response }) => {
+      // A piece of a bust (bust.ts): the same file for everyone who wears it,
+      // so the screen fetches each piece once.
+      const content = await readFile(bustPath(url.pathname));
+      response.writeHead(200, {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=86400, immutable",
+      });
+      response.end(content);
       return;
     },
   },

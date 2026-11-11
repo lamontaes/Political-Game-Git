@@ -69,6 +69,17 @@ Guide, Elections, Parties, Issues, Bills), is always these three from
 A `className` passed to them is a hook for the screen's own checks. It never
 carries a second look.
 
+## People on a menu are busts
+
+A person on a menu is a bust: a head, a top, facial hair and hair, stacked on
+one canvas. `src/bench/bust.ts` picks a person's pieces from their record and
+puts them on the person's face record (`face.bust`). `bust.mjs` here is the
+only part that draws one. `bust()` in `strips.mjs` (the big bust on You, the
+person card and a leader) and `headshot()` (the round face in a list) both
+call it. The art, its manifest and the spec the painter works to:
+`art/busts/v1/` and `docs/art/busts-spec.md`. A new piece is a file and a row
+in the manifest; no screen changes.
+
 ## The guards
 
 - `tests/guards/kit-only-ui.test.ts`: no file outside this folder builds

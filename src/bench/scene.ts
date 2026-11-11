@@ -17,6 +17,7 @@ import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
 import {
   ageBandOf,
+  bustOf,
   drawnUrl,
   dressedForPlace,
   figureForSpot,
@@ -26,6 +27,7 @@ import {
   type FigurePerson,
 } from "./whole-figures";
 import { drawAhead, type PackFigure } from "./people-pack";
+import type { PersonBust } from "./bust";
 import { depthOf, plateFor, plates, type PlateSpot } from "./mannequin-plates";
 import { placeStateKey } from "../core2/place-map";
 
@@ -918,6 +920,8 @@ export interface PersonFace {
   head: readonly [number, number, number];
   width: number;
   height: number;
+  /** The person as a bust (bust.ts): what a menu draws. The figure above is for the rooms. */
+  bust?: PersonBust;
 }
 /** A figure's face: the figure itself, cropped by the screen to its own head box. */
 export function faceOfFigure(figure: PackFigure, url: string): PersonFace {
@@ -941,7 +945,8 @@ export function faceOf(
   if (!figure) return null;
   const url = drawnUrl(figure, who, ageBandOf(core, who.birthDate));
   drawAhead(url);
-  return faceOfFigure(figure, url);
+  const bust = bustOf(core, who, place);
+  return { ...faceOfFigure(figure, url), ...(bust ? { bust } : {}) };
 }
 
 export function benchScene(

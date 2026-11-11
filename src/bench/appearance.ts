@@ -1,5 +1,6 @@
 import type { PersonFace } from "./scene";
 import { faceOfFigure } from "./scene";
+import { bustFor, bustPick, lookText } from "./bust";
 import {
   colorParts,
   figurePng,
@@ -336,5 +337,11 @@ export function portraitFace(
   url: string,
 ): PersonFace | null {
   const figure = figureFor(recipe);
-  return figure ? faceOfFigure(figure, url) : null;
+  if (!figure) return null;
+  const person = packPerson(recipe.person);
+  // The same bust the game draws for this look everywhere (bust.ts).
+  const bust = person
+    ? bustFor(person, "everyday", bustPick(lookText(recipe)), false)
+    : null;
+  return { ...faceOfFigure(figure, url), ...(bust ? { bust } : {}) };
 }

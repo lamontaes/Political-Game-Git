@@ -8,6 +8,7 @@ import { el } from "./dom.mjs";
 import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
+import { bustPlace, bustStack } from "./bust.mjs";
 
 /** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
 const JOURNAL_TWO_COLUMNS = 700;
@@ -38,6 +39,7 @@ const COLUMN_PX = 320;
  */
 export function bust(face, alt, column = COLUMN_PX) {
   if (!face) return el("div", { className: "mxglow" });
+  if (face.bust) return bustOf(face.bust, alt, column);
   const [top, middle, width] = face.head;
   const scale = column / COLUMN_PX;
   const k = (HEAD_PX * scale) / width;
@@ -49,6 +51,31 @@ export function bust(face, alt, column = COLUMN_PX) {
   });
   const frame = el("div", { className: "mxbust" }, image);
   frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
+  frame.style.width = `${column}px`;
+  const glow = el("div", { className: "mxglow" }, frame);
+  glow.style.width = `${column}px`;
+  return glow;
+}
+
+/** The share of the column a bust's head takes: the shoulders reach the column's edges. */
+const BUST_HEAD_SHARE = 0.36;
+
+/** A person's own bust (ui/bust.mjs): the whole of it across the column, ending in the same soft fade. */
+function bustOf(record, alt, column) {
+  const scale = column / COLUMN_PX;
+  const at = bustPlace(record, {
+    share: BUST_HEAD_SHARE,
+    top: (12 * scale) / column,
+  });
+  const stack = bustStack(record, alt);
+  Object.assign(stack.style, {
+    width: `${Math.round(at.side * column)}px`,
+    left: `${Math.round(at.left * column)}px`,
+    top: `${Math.round(at.top * column)}px`,
+  });
+  const frame = el("div", { className: "mxbust" }, stack);
+  // The frame ends where the canvas does, so the fade falls on the chest.
+  frame.style.height = `${Math.round((at.top + at.side) * column)}px`;
   frame.style.width = `${column}px`;
   const glow = el("div", { className: "mxglow" }, frame);
   glow.style.width = `${column}px`;

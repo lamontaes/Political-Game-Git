@@ -1850,8 +1850,7 @@ body:not(.dev) .dev-only {
   column-gap: 26px;
   padding: 26px 30px 28px;
 }
-.dossier #person-media,
-.character-sheet #sheet-media {
+.dossier #person-media {
   border: 1px solid rgba(156, 131, 80, 0.6);
   border-radius: 3px;
   background:
@@ -1866,8 +1865,7 @@ body:not(.dev) .dev-only {
     inset 0 0 40px rgba(0, 0, 0, 0.55),
     0 3px 8px rgba(0, 0, 0, 0.35);
 }
-.dossier #person-media::after,
-.character-sheet #sheet-media::after {
+.dossier #person-media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1883,8 +1881,7 @@ body:not(.dev) .dev-only {
   background-repeat: no-repeat;
   background-size: 13px 13px;
 }
-.dossier #person-media .screen-portrait,
-.character-sheet #sheet-media .screen-portrait {
+.dossier #person-media .screen-portrait {
   inset: 14px 0 0;
   height: calc(100% - 14px);
 }
@@ -2317,25 +2314,7 @@ body:not(.dev) .dev-only {
 .record-figure strong {
   font: 500 var(--t-h2) var(--ui);
 }
-/* Character screen: layout additions on the existing Kit 13 panel. */
-#sheet.character-sheet {
-  display: grid;
-  grid-template-columns: minmax(180px, 30%) minmax(0, 1fr);
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  column-gap: clamp(24px, calc(var(--vw) * 0.03), 48px);
-}
-.character-sheet .sheet-head,
-.character-sheet #sheet-tabs,
-.character-sheet #sheet-body {
-  grid-column: 2;
-}
-.character-sheet #sheet-body {
-  max-width: none;
-}
-#sheet-media {
-  grid-column: 1;
-  grid-row: 1 / 5;
-}
+
 /* The large side figure of the character screen and the person card. */
 .screen-media {
   position: relative;
@@ -2444,10 +2423,6 @@ body:not(.dev) .dev-only {
   overflow-wrap: anywhere;
 }
 @media (max-width: 950px) {
-  #sheet.character-sheet {
-    grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
-    column-gap: 18px;
-  }
   .record-people {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
@@ -2466,6 +2441,25 @@ body:not(.dev) .dev-only {
 .headshot {
   display: block;
   background-repeat: no-repeat;
+}
+/* The bust (ui/bust.mjs): a square of stacked pictures, one per piece, each
+   filling the square. The part that holds it sets its size and place. */
+.bust-stack {
+  position: absolute;
+  aspect-ratio: 1;
+}
+.bust-stack img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  max-width: none;
+  user-select: none;
+}
+.headshot.busted {
+  position: relative;
+  overflow: hidden;
 }
 /* People: the roster of everyone you know at the left, grouped, and the selected person's
    card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
@@ -4313,10 +4307,7 @@ select.release-pick {
   display: block;
   max-width: none;
 }
-/* The You sheet: no side figure, the screen carries its own bust. */
-#sheet.strip-sheet #sheet-media {
-  display: none;
-}
+
 #sheet.strip-sheet #sheet-body {
   max-width: none;
   width: 100%;

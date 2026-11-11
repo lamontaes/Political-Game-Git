@@ -2,6 +2,7 @@
 // middle of the circle, so every face takes the same share of the frame at
 // every size (no box; owner, Oct 28).
 import { el } from "./dom.mjs";
+import { bustPlace, bustStack } from "./bust.mjs";
 
 /** The head's share of the circle's width, and its top's distance from the rim. */
 const FACE_SHARE = 0.56;
@@ -9,6 +10,20 @@ const FACE_TOP = 0.17;
 
 /** `face` is the card's face record: the figure's url and size, and its head [top, middle, width]. */
 export function headshot(face) {
+  // A person with a bust is drawn as it: the head in the same place and at
+  // the same share of the circle as a head cut from a figure.
+  if (face.bust) {
+    const frame = el("span", { className: "headshot busted" });
+    const stack = bustStack(face.bust);
+    const at = bustPlace(face.bust, { share: FACE_SHARE, top: FACE_TOP });
+    Object.assign(stack.style, {
+      width: `${at.side * 100}%`,
+      left: `${at.left * 100}%`,
+      top: `${at.top * 100}%`,
+    });
+    frame.append(stack);
+    return frame;
+  }
   const [top, middle, width] = face.head;
   const scale = FACE_SHARE / width;
   // The figure's size and offset in fractions of the round frame, as a

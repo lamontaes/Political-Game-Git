@@ -1,0 +1,32 @@
+{
+  "pack": 1,
+  "about": "The bust bank: a person on a menu is a head, a top, facial hair and hair stacked on one canvas (src/bench/bust.ts is the only reader). Painted by the CTO with Codex, Nov 7 to 9, 2026; see README.md for the owner's rulings on these pieces. New pieces keep the canvas and the order, and are added as rows here.",
+  "canvas": 1254,
+  "order": ["head", "top", "face", "hair"],
+  "sets": {
+    "woman": {
+      "dir": "women/front",
+      "head": { "top": 99, "middle": 626, "width": 436 },
+      "heads": ["head-A.png", "head-B.png", "head-C.png"],
+      "tops": {
+        "everyday": "top-tee.png",
+        "work": "top-blouse.png",
+        "official": "top-blazer.png"
+      },
+      "face": [],
+      "hair": ["hair-short.png", "hair-shoulder.png", "hair-tied.png"]
+    },
+    "man": {
+      "dir": "men/front",
+      "head": { "top": 83, "middle": 614, "width": 423 },
+      "heads": ["head-A.png", "head-B.png", "head-C.png"],
+      "tops": {
+        "everyday": "top-chambray.png",
+        "work": "top-shirt.png",
+        "official": "top-suit.png"
+      },
+      "face": ["face-beard.png", "../front-fixes/face-mustache-darkbrown.png"],
+      "hair": ["hair-sidepart.png", "hair-crop.png", "hair-receding.png"]
+    }
+  }
+}

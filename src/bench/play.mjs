@@ -54,7 +54,7 @@ import {
   setColorBlind,
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
-import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
@@ -3171,15 +3171,6 @@ function lifeParagraphs(lines) {
   const { node, open } = traceBox(controls.devTrace.trace);
   return [...lifeStory(lines, controls.lifeGroups, open), node];
 }
-function portraitUrl() {
-  // The created look when there is one; else the figure the scene draws you
-  // with, or the one your card's face is cut from (a life started anywhere
-  // but the creator, who is not standing in their own scene).
-  return me.portrait
-    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
-        me.card?.face?.url);
-}
 /** A record image has no substitute when its producer has not supplied one. */
 
 // ---- Menus ----
@@ -5265,10 +5256,12 @@ async function openSheet(tab) {
     tab === "options" || !$("front").hidden,
   );
   const character = groupOf(tab) === "who";
-  // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
+  // You carries its own bust (the approved strip screen). Jobs and study and
+  // Your life are strip screens too: no full-body figure stands beside a menu
+  // (owner, Nov 7: "let's just do the busts"; Nov 10: "start removing the people").
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" ||
+    character ||
       tab === "budgets" ||
       tab === "metrics" ||
       tab === "journal" ||
@@ -5276,21 +5269,6 @@ async function openSheet(tab) {
       tab === "campaign" ||
       tab === "calendar" ||
       tab === "news",
-  );
-  $("sheet").classList.toggle("character-sheet", character && tab !== "who");
-  $("sheet-media").hidden = !character || tab === "who";
-  fillArtwork(
-    $("sheet-media"),
-    character
-      ? {
-          portraitUrl:
-            me.card.presentation?.portraitUrl !== undefined
-              ? me.card.presentation.portraitUrl
-              : portraitUrl(),
-          backgroundUrl: me.card.presentation?.backgroundUrl,
-          name: me.card.name,
-        }
-      : {},
   );
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.remove("place-view", "compact", "tight");
@@ -5305,7 +5283,6 @@ async function openSheet(tab) {
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "news"].includes(tab) &&
-      (!character || tab === "who") &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );

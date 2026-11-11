@@ -18,6 +18,13 @@ import {
   type PackFigure,
   type PackPerson,
 } from "./people-pack";
+import {
+  bustFor,
+  bustPick,
+  lookText,
+  type BustDress,
+  type PersonBust,
+} from "./bust";
 import { frontUrl, type Plate, type PlateSpot } from "./mannequin-plates";
 import type { Occluder } from "./occluders";
 
@@ -114,13 +121,42 @@ function dressesFor(
   who: FigurePerson,
   place: string,
 ): readonly string[] {
-  if (who.official && rules.governmentPlaces.includes(place))
-    return rules.dressOrder.official;
+  return rules.dressOrder[dressKindFor(core, who, place)];
+}
+/** How someone is dressed here: as an official at a government place, for their own work at their workplace, or everyday. */
+function dressKindFor(
+  core: CoreState,
+  who: FigurePerson,
+  place: string,
+): BustDress {
+  if (who.official && rules.governmentPlaces.includes(place)) return "official";
   const person = core.people.get(who.id);
   const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
-  if (job && orgPlace(core, job.organizationId) === place)
-    return rules.dressOrder.work;
-  return rules.dressOrder.everyday;
+  if (job && orgPlace(core, job.organizationId) === place) return "work";
+  return "everyday";
+}
+/**
+ * A person's bust for a menu: the head of their painted person's skin tone,
+ * the top they would wear where the viewer is (an officeholder as they
+ * serve, wherever the viewer is), and the hair set once from their look or
+ * their appearance seed. Null for a child, as a face is.
+ */
+export function bustOf(
+  core: CoreState,
+  who: FigurePerson,
+  place: string,
+): PersonBust | null {
+  const band = ageBandOf(core, who.birthDate);
+  if (band === "child") return null;
+  const person = packPersonOf(who);
+  if (!person) return null;
+  return bustFor(
+    person,
+    who.official ? "official" : dressKindFor(core, who, place),
+    bustPick(who.look ? lookText(who.look) : `${who.seed ?? who.id}:bust`),
+    // A teenager wears no beard, and a look made in the creator keeps the face it was made with.
+    band !== "teen" && !who.look,
+  );
 }
 /** Whether a figure is in the dress someone wears here first, not a fallback. */
 export const dressedForPlace = (
