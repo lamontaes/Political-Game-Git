@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 8172
+pr: #8172
 after:
 blocked-on:
 lead: jobs
@@ -17,6 +17,7 @@ effort: medium
 root: design-country-tier
 source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+merged-at: 2026-11-11T04:52:19.885Z
 ---
 
 **What.** The country tier keeps every state's employers by sector. The town keeps its businesses by kind. Nothing says which sector a kind belongs to, so a town seller cannot be matched to the buyers its state and the nation hold. This part adds that one table.
