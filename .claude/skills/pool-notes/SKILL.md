@@ -48,6 +48,7 @@ Why not one rolling branch: it was tried on Nov 11 and failed twice in two hours
 4. If the commit is refused because the file changed under you, read it again from the branch, put your change on top of what is there, and commit again. Never overwrite another helper's paragraph.
 5. Post one line on the crew's issue: `<your prefix>: noted <item id> <the commit's full sha>` and the cause in two sentences. The line is how the lead and the CTO read your finding; the bundle is only how it reaches main.
 6. A note needs no release note of its own. The desk adds the hour's.
+7. Once an item is being built, its notes go to its pull request's branch, not the bundle. And a builder whose item reached main through a bundle merges main into the branch before posting ready and keeps both sides of the item file: on Nov 11 two passed words pull requests could not join their train because main's copy of their item and the branch's differed.
 
 ## Desk B, at the top of each hour
 
