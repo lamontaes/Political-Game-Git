@@ -53,6 +53,18 @@ it("an aide can come from a private job, which the post's hire ends", () => {
       for (const row of fromWork) {
         expect(row.jobId, `${where}: ${row.id}`).toBeDefined();
         const post = core.jobs.get(row.jobId!)!;
+        // An official may let an aide go for missing too much work (reviewAttendance), which ends the
+        // post: a dismissed aide's post ended on the dismissal (the next day's calendar where they had
+        // worked that day), and any other aide's post still runs.
+        if (row.dismissed) {
+          expect(post.endsAt, `${where}: ${row.id} dismissed`).toBeDefined();
+          expect(
+            post.endsAt! >= row.dismissed.on &&
+              post.endsAt! <= addDays(makeIsoDate(row.dismissed.on), 1),
+            `${where}: ${row.id} post ended ${post.endsAt}, dismissed ${row.dismissed.on}`,
+          ).toBe(true);
+          continue;
+        }
         expect(post.endsAt, `${where}: ${row.id}`).toBeUndefined();
         expect(core.people.get(row.personId)?.jobId, where).toBe(row.jobId);
       }
