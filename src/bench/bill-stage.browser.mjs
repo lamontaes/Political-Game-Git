@@ -133,10 +133,13 @@ try {
       ...allowed.filter((o) => /Sales tax rate/i.test(o.textContent)),
       ...allowed.filter((o) => !/Sales tax rate/i.test(o.textContent)),
     ];
-    const option =
-      ordered.find((o) => todayOf(o) && !/not set/i.test(todayOf(o))) ??
-      ordered[0];
-    if (!option) return null;
+    const option = ordered.find(
+      (o) => todayOf(o) && !/not set/i.test(todayOf(o)),
+    );
+    // No subject with a law in force is named, never drafted around: the
+    // redraft below needs one, and a body with none is a finding about the place.
+    if (!option)
+      return { none: allowed.map((o) => o.querySelector("b").textContent) };
     option.click();
     await new Promise((done) => setTimeout(done, 100));
     return {
@@ -145,7 +148,10 @@ try {
       unit: document.querySelector(".draft-unit").textContent,
     };
   });
-  assert.ok(chosen, "the body has no law amount it may draft");
+  assert.ok(
+    !chosen.none,
+    `seed ${seed}: no subject this body may draft has a law in force today (${(chosen.none ?? []).join(", ")})`,
+  );
   console.log("draft card:", chosen);
   assert.ok(chosen.today, "the draft card shows nothing in force today");
   await page.locator(".draft-card input").fill("2");
