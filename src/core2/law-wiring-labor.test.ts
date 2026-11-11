@@ -268,8 +268,28 @@ function run(specId: string, want: readonly Subject[]) {
     "federal-unemployment-tax",
   ];
   const taxLaw: Record<string, string> = {};
-  for (const s of taxes) taxLaw[s] = amountAt(api, s, 1.1, s).id;
-  const maxLaw = amountAt(api, "unemployment-weekly-maximum", 1.1, "max").id;
+  for (const s of on("taxes") ? taxes : [])
+    taxLaw[s] = amountAt(api, s, 1.1, s).id;
+  // The weekly maximum caps a claimant whose share of pay is above it. For the
+  // maximum's own test the law is set (through the law series) to a quarter of
+  // the best-paid resident's weekly pay, so that resident is capped.
+  const bestPaid = [...(fullJobs.length ? fullJobs : namedJobs)].sort(
+    (a, b) => (b.wageDailyMinor ?? 0) - (a.wageDailyMinor ?? 0),
+  )[0];
+  const maxNowDollars =
+    lawInForce(api, "unemployment-weekly-maximum").value ?? 0;
+  const maxFactor =
+    on("maximum") && bestPaid && maxNowDollars > 0
+      ? Math.max(
+          0.01,
+          (0.25 * (bestPaid.wageDailyMinor ?? 0) * 7) /
+            api.parameter("minorPerDollar") /
+            maxNowDollars,
+        )
+      : 1.1;
+  const maxLaw = on("claims", "maximum")
+    ? amountAt(api, "unemployment-weekly-maximum", maxFactor, "max").id
+    : "";
   const council = townSeats(api).find(
     (s) => s.office.kind === "council" && s.holder?.personId,
   );
@@ -344,21 +364,6 @@ function run(specId: string, want: readonly Subject[]) {
     resident && (resident.wageDailyMinor ?? 0) * 7 * 0.6 > maxNow
       ? resident
       : byPay(namedJobs)[0];
-  // A claimant above the weekly maximum is built through the core's pay seam:
-  // the best-paid resident is paid a quarter over the pay the maximum caps.
-  if (on("maximum") && top && (top.wageDailyMinor ?? 0) * 7 * 0.6 <= maxNow) {
-    const needed = Math.ceil(
-      ((top.hourlyMinor ?? 0) * maxNow * 1.25) /
-        (7 * 0.6 * Math.max(1, top.wageDailyMinor ?? 1)),
-    );
-    if ((top.hourlyMinor ?? 0) > 0 && needed > 0)
-      api.rerateJob(top.id, needed, {
-        tag: "ESTIMATED",
-        citation: "A claimant paid above the weekly maximum (test setup)",
-        estimatedFrom: "Test setup",
-        asOf: core.date,
-      });
-  }
   const claimant = top ? (core.jobs.get(top.id) ?? top) : undefined;
   const capped =
     on("maximum") &&
@@ -755,7 +760,6 @@ function run(specId: string, want: readonly Subject[]) {
   const raises = [
     ...(on("wage") ? [wage] : []),
     ...(on("bargaining") ? [bargaining] : []),
-    ...(on("teacher") ? [teacher] : []),
   ];
   const moved = raises.reduce((total, list) => total + sum(list), 0);
   need(
