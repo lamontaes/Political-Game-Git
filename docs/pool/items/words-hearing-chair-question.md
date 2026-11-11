@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-words-hearing-chair-question
-pr:
+pr: #8426
 after:
 blocked-on:
 lead: words
