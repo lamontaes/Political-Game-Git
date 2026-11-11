@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-core-every-life-partner-from-counts
+pr: #8631
 after:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:27:58.501Z
+branch: claude/pool-core-every-life-partner-from-counts
 ---
 
 **What.** When a single adult living elsewhere marries, the partnerships module (src/core2/modules/partnerships.ts, PR #7082) generates the partner as a new full person on top of the population. So the place or state they live in counts one more resident than its data: the counted-moves engine reads them as a resident of a counted place, and a state's coarse counts are not reduced. The speed lead found this through the unit 4 ablation, and under one model, two tiers a filled-in person must match the records already kept.
@@ -36,3 +38,9 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/partnerships.ts, src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, src/core2/partnerships.test.ts
 
 **Notes.** Filed by the lives lead, Nov 1, on the speed lead's point after the unit 4 ablation (PR #7082).
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:47 UTC) on branch claude/pool-core-every-life-partner-from-counts.
+
+Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:27 UTC) on branch claude/pool-core-every-life-partner-from-counts.
