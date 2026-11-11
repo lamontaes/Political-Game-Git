@@ -199604,10 +199604,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-work-at-employer-and-about-would-make-a-real-difference-there",
+      "key": "scene-talk.state-request.i-work-at-employer-and-it-would-make-a-real-difference-there",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I work at {employer}, and {about} would make a real difference there.",
+      "text": "I work at {employer}, and it would make a real difference there.",
       "uses": [
         {
           "subject": "scene",
@@ -199616,7 +199616,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -199633,10 +199633,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.a-place-like-employer-does-better-with-about",
+      "key": "scene-talk.state-request.a-place-like-employer-does-better-with-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "A place like {employer} does better with {about}.",
+      "text": "A place like {employer} does better with it.",
       "uses": [
         {
           "subject": "scene",
@@ -199645,7 +199645,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -199662,10 +199662,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-d-see-what-about-does-every-day-at-employer",
+      "key": "scene-talk.state-request.i-d-see-what-it-does-every-day-at-employer",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'd see what {about} does every day at {employer}.",
+      "text": "I'd see what it does every day at {employer}.",
       "uses": [
         {
           "subject": "scene",
@@ -199674,7 +199674,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -199691,10 +199691,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.it-s-about-about-and-that-matters-to-us-at-employer",
+      "key": "scene-talk.state-request.it-matters-to-the-people-i-work-with-at-employer",
       "move": "state-request",
       "kind": "spoken",
-      "text": "It's about {about}, and that matters to us at {employer}.",
+      "text": "It matters to the people I work with at {employer}.",
       "uses": [
         {
           "subject": "scene",
@@ -199703,7 +199703,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -199732,7 +199732,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -199761,7 +199762,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "calm",
@@ -199898,10 +199900,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-work-at-employer-and-about-would-cost-us",
+      "key": "scene-talk.state-request.i-work-at-employer-and-it-would-cost-us",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I work at {employer}, and {about} would cost us.",
+      "text": "I work at {employer}, and it would cost us.",
       "uses": [
         {
           "subject": "scene",
@@ -199910,7 +199912,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "braced",
@@ -199927,10 +199929,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.a-place-like-employer-takes-the-hit-from-about",
+      "key": "scene-talk.state-request.a-place-like-employer-takes-the-hit-from-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "A place like {employer} takes the hit from {about}.",
+      "text": "A place like {employer} takes the hit from it.",
       "uses": [
         {
           "subject": "scene",
@@ -199939,7 +199941,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "braced",
@@ -199956,10 +199958,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.ask-anyone-at-employer-what-about-would-mean-for-them",
+      "key": "scene-talk.state-request.ask-anyone-at-employer-what-it-would-mean-for-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Ask anyone at {employer} what {about} would mean for them.",
+      "text": "Ask anyone at {employer} what it would mean for them.",
       "uses": [
         {
           "subject": "scene",
@@ -199968,7 +199970,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "braced",
@@ -199985,10 +199987,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.it-s-about-and-employer-would-be-the-one-paying-for-it",
+      "key": "scene-talk.state-request.employer-would-be-the-one-paying-for-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "It's {about}, and {employer} would be the one paying for it.",
+      "text": "{employer} would be the one paying for it.",
       "uses": [
         {
           "subject": "scene",
@@ -199997,7 +199999,7 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["employer", "about"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "braced",
@@ -200026,7 +200028,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "braced",
@@ -200055,7 +200058,8 @@
           "role": "asker",
           "purpose": "donor-ask",
           "key": "favor-asked",
-          "requiresFacts": ["about"]
+          "requiresFacts": ["about"],
+          "excludesFacts": ["employer"]
         }
       ],
       "bearing": "braced",
