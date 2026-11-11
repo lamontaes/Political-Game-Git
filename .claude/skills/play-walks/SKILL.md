@@ -20,11 +20,12 @@ Each was one or two presses from the opening. Each would have been the first thi
 
 They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each takes a folder for its pictures and log, starts a new life through the one helper every browser check uses (`src/bench/start-life.mjs`), and prints the log at the end.
 
-| Walk          | What it plays                                                                                                                    | Run                                                    |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `at-home.mjs` | Each day for a few days: a talk with everyone at home who has something to say, then Day                                         | `node scripts/play-walks/at-home.mjs <out-dir> [days]` |
-| `meet.mjs`    | The first morning, then the places Travel lists one after another: who is there, a talk with up to two of them, and the way home | `node scripts/play-walks/meet.mjs <out-dir> [places]`  |
-| `menus.mjs`   | The office that takes filings (what the counter says and offers), then the first screenful of words on every menu                | `node scripts/play-walks/menus.mjs <out-dir>`          |
+| Walk           | What it plays                                                                                                                                                                  | Run                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------- |
+| `at-home.mjs`  | Each day for a few days: a talk with everyone at home who has something to say, then Day                                                                                       | `node scripts/play-walks/at-home.mjs <out-dir> [days]`  |
+| `meet.mjs`     | The first morning, then the places Travel lists one after another: who is there, a talk with up to two of them, and the way home                                               | `node scripts/play-walks/meet.mjs <out-dir> [places]`   |
+| `menus.mjs`    | The office that takes filings (what the counter says and offers), then the first screenful of words on every menu                                                              | `node scripts/play-walks/menus.mjs <out-dir>`           |
+| `official.mjs` | The Advanced start: steps in as a member of a local body, presses Day for some weeks, and writes down every stop, scene, note and what Politics says on the first and last day | `node scripts/play-walks/official.mjs <out-dir> [days]` |
 
 The log has one block per thing said: the clock, who spoke, the last lines of the talk box, and the replies offered. A reply is taken in turn (first, then second, and so on), so a walk hears more than the first answer.
 
@@ -61,5 +62,7 @@ The review rules in the skill `words-engine` (its lessons of Nov 11), and these,
 - **Some browser checks write pictures into tracked folders.** After running one in your own tree, look at `git status` and put back what it changed.
 - **Do not change the checkout a walk is running from.** A walk started from a checkout loads its scripts as it goes; switching that checkout's branch under it makes the next walk in the queue fail with "Cannot find module". Run walks from a checkout you will not touch until they finish, or from a copy of `scripts/play-walks/` beside the bench.
 - **The bench serves its working tree.** A patch applied there for a look is in every picture taken after it. Put the tree back (`git status`) before taking a "before".
+- **Escape does not close a menu.** In play it puts Options over the open menu, and the clock stays covered, so the next press of Day never lands. Close a menu with `closeMenu` from the library (the menu's own close button), until the item play-escape-opens-options-over-an-open-menu is on main.
+- **A quiet walk is a finding too.** Twenty-four days as a seated county commissioner played one street scene, and the board passed its budget on its meeting day with no stop for the player's vote. Read what did not happen against what Politics said was coming up, and post that.
 - **A walk is not a pass.** "The walk ran with no page errors" says nothing about what was said. Quote lines.
 - **Do not turn a walk into a test by adding asserts.** When a walk finds a rule worth holding, the rule goes into a test or a guard in the area that owns it, and the walk stays a walk.

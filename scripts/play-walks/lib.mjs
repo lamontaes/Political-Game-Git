@@ -194,3 +194,13 @@ export async function openMenu(page, key) {
   await page.locator(`[data-tab="${key}"]`).first().click();
   await page.waitForTimeout(1200);
 }
+
+/**
+ * Close the open menu by its own close button. Escape does not close a menu
+ * in play: it opens Options over it, and the clock stays covered.
+ */
+export async function closeMenu(page) {
+  const close = page.locator("#sheet-close");
+  if (await close.isVisible()) await close.click();
+  await page.waitForTimeout(400);
+}

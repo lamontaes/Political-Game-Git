@@ -6,6 +6,7 @@
 import {
   clockOf,
   newLife,
+  closeMenu,
   openMenu,
   openWalk,
   playTalk,
@@ -39,7 +40,7 @@ try {
     walk.say(`=== after the counter: ${await clockOf(page)}`);
   } else {
     walk.say("Travel lists no office that takes filings");
-    await page.keyboard.press("Escape");
+    await closeMenu(page);
   }
   const tabs = await page.evaluate(() =>
     [...document.querySelectorAll("[data-tab]")]
@@ -50,7 +51,7 @@ try {
     await openMenu(page, tab);
     walk.say(`### ${tab}: ${await words("#sheet", 900)}`);
     await walk.snap(`menu-${tab}`);
-    await page.keyboard.press("Escape");
+    await closeMenu(page);
     await page.waitForTimeout(400);
   }
 } finally {
