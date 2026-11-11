@@ -4,9 +4,9 @@ title: "Stopgaps in justice-law (missing-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-stopgap-justice-law-missing-data
-pr: #5317
+pr: #8560
 blocked-on:
 milestone:
 standard: 2
