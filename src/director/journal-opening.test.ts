@@ -155,9 +155,17 @@ it(`the first note says each thing once and names each parent's employer (seed $
     director.watch(core, player.id);
     for (const id of core.households.get(player.householdId)?.memberIds ?? [])
       if (id !== player.id) director.watch(core, id as PersonId);
-    const [opening] = composeJournal(core, director, player.id);
+    const chapters = composeJournal(core, director, player.id);
+    const [opening] = chapters;
     expect(opening, `${where}: no opening chapter`).toBeDefined();
     const lines = opening!.lines;
+    // A lost job is told once in any chapter (lead, Nov 11): never "I lost my
+    // job." followed by "I had no job after ...".
+    for (const chapter of chapters)
+      for (const row of chapter.lines)
+        expect(row.text, where).not.toMatch(
+          /I lost my job\. I had no job after/,
+        );
     // No sentence twice, in the note or across its entries.
     const sentences = lines.flatMap((row) =>
       row.text.split(/(?<=[.!?])\s+/).map((said) => said.toLowerCase()),

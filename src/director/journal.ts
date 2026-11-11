@@ -1775,7 +1775,21 @@ export function composeJournal(
       );
       if (hard) {
         closedWith.add(journalClosing(hard));
-        parts.push(hard);
+        // A lost job is told once (lead, Nov 11: "I lost my job. I had no
+        // job after Colon Supply Company." says the loss twice): when the hard
+        // time names the employer and the bare line before it does not, the
+        // hard time alone tells it.
+        const named = facts.employer?.text;
+        if (
+          lostJob &&
+          named &&
+          hard.text.includes(named) &&
+          parts.length === one &&
+          parts[zero] === event &&
+          !event.text.includes(named)
+        )
+          parts[zero] = hard;
+        else parts.push(hard);
       }
     }
     // The event told as a small story: each field the row names follows it,
