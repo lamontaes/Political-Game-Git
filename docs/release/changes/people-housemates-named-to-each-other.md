@@ -3,4 +3,4 @@ id: people-housemates-named-to-each-other
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+People who share a home now know each other's names from the first day, so scenes and the journal can name them.
