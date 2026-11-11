@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-wire-law-links-to-people-part-1-partly-wired-laws
-pr:
+pr: #8523
 after:
 blocked-on:
 lead: laws-effects
