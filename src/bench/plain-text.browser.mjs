@@ -18,7 +18,8 @@ const shots = process.env.PLAIN_TEXT_SHOTS;
 const found = [];
 // What developer text looks like once a screen draws it.
 const tells = [
-  ["an ISO date", /\b\d{4}-\d{2}(?:-\d{2})?\b/],
+  // "Act 2025-12" is a statute's number, not a date.
+  ["an ISO date", /(?<!\bActs? )\b\d{4}-\d{2}(?:-\d{2})?\b/],
   ["a field name", /\b[a-z]+[A-Z][A-Za-z]*\b/],
   ["a status code", /\b[a-z]+(?:-[a-z]+)+\b/],
   ["a status code", /\b[A-Z]+(?:-[A-Z]+)+\b/],
