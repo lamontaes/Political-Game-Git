@@ -42001,24 +42001,24 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.to-congress.polished-ina-sta-all-core-the-first-matter-i-will-bring-before-you-is",
+      "key": "opening-speech.to-congress.polished-ina-sta-all-core-speaker-speaker-the-first-matter-i-will-bring-before",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "the first matter I will bring before you is a plan on {hardest}.",
+      "text": "Speaker {speaker}, the first matter I will bring before this House is a plan on {hardest}.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["speaker", "hardest"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["speaker", "hardest"]
         }
       ],
       "voice": "polished",
@@ -42035,21 +42035,21 @@
       "key": "opening-speech.to-congress.polished-ina-sta-all-core-i-will-come-to-you-first-with-a-plan",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "I will come to you first with a plan on {hardest}, and I will ask for your votes on it.",
+      "text": "I will come to you first with a plan on {hardest}, and I will ask Speaker {speaker} to bring it to a vote.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "speaker"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "speaker"]
         }
       ],
       "voice": "polished",
@@ -42066,21 +42066,21 @@
       "key": "opening-speech.to-congress.polished-ina-sta-all-core-my-first-request-of-this-congress-will-concern-hardest",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "my first request of this Congress will concern {hardest}: a plan, sent to you for a vote.",
+      "text": "my first request of this Congress will concern {hardest}, the thing families in {home-state} raised with me most.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "home-state"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "home-state"]
         }
       ],
       "voice": "polished",
@@ -42097,21 +42097,21 @@
       "key": "opening-speech.to-congress.polished-ina-sta-all-core-hardest-is-where-i-will-ask-you-to-begin",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "{hardest} is where I will ask you to begin, with a plan I will send to both chambers.",
+      "text": "{hardest} is where I will ask you to begin, and Vice President {vice-president} will carry the plan to the Senate.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "vice-president"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "vice-president"]
         }
       ],
       "voice": "polished",
@@ -42125,24 +42125,24 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.to-congress.plain-ina-sta-all-core-first-thing-i-m-bringing-you-a-plan-on",
+      "key": "opening-speech.to-congress.plain-ina-sta-all-core-speaker-speaker-first-thing-i-m-bringing-your-house",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "first thing, I'm bringing you a plan on {hardest}.",
+      "text": "Speaker {speaker}, first thing, I'm bringing your House a plan on {hardest}.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["speaker", "hardest"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["speaker", "hardest"]
         }
       ],
       "voice": "plain",
@@ -42159,21 +42159,21 @@
       "key": "opening-speech.to-congress.plain-ina-sta-all-core-the-first-plan-you-ll-get-from-me-is",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "the first plan you'll get from me is on {hardest}.",
+      "text": "the first plan you'll get from me is on {hardest}, and I want Speaker {speaker} to give it a vote.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "speaker"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "speaker"]
         }
       ],
       "voice": "plain",
@@ -42187,24 +42187,24 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.to-congress.plain-ina-sta-all-core-i-m-starting-with-hardest-and-i-ll-send",
+      "key": "opening-speech.to-congress.plain-ina-sta-all-core-i-m-starting-with-hardest-because-that-s-what",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "I'm starting with {hardest}, and I'll send you a plan on it soon.",
+      "text": "I'm starting with {hardest}, because that's what folks back in {home-state} asked me about most.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "home-state"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "home-state"]
         }
       ],
       "voice": "plain",
@@ -42218,24 +42218,24 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.to-congress.plain-ina-sta-all-core-expect-a-plan-on-hardest-from-me-first-and",
+      "key": "opening-speech.to-congress.plain-ina-sta-all-core-expect-a-plan-on-hardest-from-me-first-vice",
       "move": "to-congress",
       "kind": "spoken",
-      "text": "expect a plan on {hardest} from me first, and I'll be asking for a vote.",
+      "text": "expect a plan on {hardest} from me first; {vice-president} is going to walk it over to the Senate.",
       "uses": [
         {
           "move": "to-congress",
           "subject": "inaugural",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "vice-president"]
         },
         {
           "move": "to-congress",
           "subject": "state-of-the-union",
           "role": "to-congress",
           "choice": "to-congress",
-          "requiresFacts": ["hardest"]
+          "requiresFacts": ["hardest", "vice-president"]
         }
       ],
       "voice": "plain",
