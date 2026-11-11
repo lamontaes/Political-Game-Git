@@ -523,9 +523,20 @@ function run(specId: string, want: readonly Subject[]) {
       const claim = (
         claims.rows() as unknown as { personId: string; paidMinor: number }[]
       ).find((c) => c.personId === filed.counted);
-      const row = ui.find(
-        (r) => r.targetId === `counted-claimants:${filed.counted}`,
+      // A counted claimant filled in since filing is paid as a full person, and
+      // the engine then records the reach on the person's own row: the claim's
+      // money is the sum of the claimant's rows on either tier.
+      const own = ui.filter(
+        (r) =>
+          r.targetId === `counted-claimants:${filed.counted}` ||
+          r.targetId === filed.counted,
       );
+      const row = own[0]
+        ? {
+            amountMinor: own.reduce((total, r) => total + r.amountMinor, 0),
+            count: own[own.length - 1]!.count,
+          }
+        : undefined;
       const paydays = entries.filter(
         (e) =>
           e.sourceId.startsWith(`unemployment-benefit:${filed.counted}:`) ||
@@ -545,7 +556,18 @@ function run(specId: string, want: readonly Subject[]) {
           row &&
           claim.paidMinor > 0 &&
           Math.abs(row.amountMinor - journal) <= paydays.length,
-        `unemployment-insurance: counted claimant ${filed.counted} paid ${claim?.paidMinor} a claim, ${journal} in the journal over ${paydays.length} paydays, but the row says ${row?.amountMinor} for ${row?.count} people`,
+        `unemployment-insurance: counted claimant ${filed.counted} paid ${claim?.paidMinor} a claim, ${journal} in the journal over ${paydays.length} paydays, but the row says ${row?.amountMinor} for ${row?.count} people; rows for the claimant: ${rows(
+          api,
+          "unemployment-insurance",
+          true,
+        )
+          .concat(rows(api, "unemployment-insurance", false))
+          .filter((r) => r.targetId === `counted-claimants:${filed.counted}`)
+          .map(
+            (r) =>
+              `${r.lawId.slice(-30)} since ${r.since} last ${r.lastOn} x${r.times} count ${r.count} ${r.amountMinor} ended ${r.endedOn}`,
+          )
+          .join(" | ")}; paydays ${paydays.map((e) => e.date).join(",")}`,
       );
     }
     need(
