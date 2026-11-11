@@ -1776,6 +1776,27 @@ export function coarsePlace(
   return runtimes.get(core)?.states.get(usps);
 }
 
+/**
+ * A person met by someone living elsewhere comes out of the state's coarse
+ * people, one in their age band, so a partnership adds no resident (one
+ * model, two tiers). False when the state holds no one in that band.
+ */
+export function takeCoarsePerson(
+  api: CoreAPI,
+  placeId: string,
+  age: number,
+): boolean {
+  const core = api.state as CoreState;
+  if (!core.modules.has(COUNTED_MOVES_MODULE_ID)) return false;
+  const usps = householdStateOf(core, placeId);
+  const state = usps ? runtimeOf(api)?.states.get(usps) : undefined;
+  if (!state) return false;
+  const band = coarseIndex(age, api.parameter("votingAge"));
+  if (!(state.people[band]! >= api.parameter("one"))) return false;
+  state.people[band] = state.people[band]! - api.parameter("one");
+  return true;
+}
+
 export const COUNTED_MOVES_MODULE: CoreModule = {
   id: COUNTED_MOVES_MODULE_ID,
   state: {

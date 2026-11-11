@@ -54,6 +54,7 @@ import {
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
+import { takeCoarsePerson } from "./counted-moves";
 import { reviewMentorship } from "./mentorship";
 import { rescueOnset } from "./rescue";
 import { quarrelOverMoney } from "./quarrel";
@@ -187,6 +188,10 @@ function meetPartner(
     api.parameter("votingAge"),
   );
   if (partnerAge === undefined) return undefined;
+  // They are one of the people the state's counts already hold, so the state
+  // gives up one in their band and the total is unchanged.
+  if (livesElsewhere(core, person))
+    takeCoarsePerson(api, person.placeId, partnerAge);
   const id = createStableId("person", `${core.seed}:${key}`) as PersonId;
   const year = Number(core.date.slice(0, 4)) - partnerAge;
   const birthDate = makeIsoDate(`${year}${core.date.slice(4, 10)}` as IsoDate);

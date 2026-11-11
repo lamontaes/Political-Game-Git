@@ -3,4 +3,4 @@ id: core-every-life-partner-from-counts
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A partner met by someone living elsewhere now comes out of their state's counted people, so partnering adds no resident.
