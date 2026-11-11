@@ -17,7 +17,9 @@ import type { GroundedEnglishPacket } from "./grounded-english";
  * piece is said only where its fact is held. A figure, written in or slotted,
  * fails here, and so does any line the owner turned down.
  */
-const FIGURE_SLOT = /\{[\w-]*(?:rate|growth|added|percent)\}/;
+// How far a subject moved is said in words ("rose a little"), never as a
+// figure, so a `change-` slot is no figure even when its subject is growth.
+const FIGURE_SLOT = /\{(?!change-)[\w-]*(?:rate|growth|added|percent)\}/;
 /** Lines the owner turned down in the v0.73.0 playtest (OWNER-DECISIONS, Nov 1 22:25). */
 const TURNED_DOWN = [
   /government closest to the people/,
@@ -118,7 +120,11 @@ describe("the opening address's pieces", () => {
 
   it("tells the country's year in words, in the speaker's manner", () => {
     for (const kind of KINDS) {
-      const facts = { "inflation-up": "yes", "prices-up": "yes" };
+      const facts = {
+        "inflation-up": "yes",
+        "prices-up": "yes",
+        "change-inflation": "sharply",
+      };
       const polished = said(kind, "polished", "story-says", facts, {
         topic: "inflation",
       });

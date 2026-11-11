@@ -11347,7 +11347,7 @@
       "key": "opening-speech.occasion.polished-ina-sta-combative-core-this-is-no-time-for-polite-speeches-it-is",
       "move": "occasion",
       "kind": "spoken",
-      "text": "this is no time for polite speeches; it is a time to say who has blocked the work on {hardest} and why it must move.",
+      "text": "this is no time for polite speeches; it is a time to say who has blocked the work on {hardest} and why it has to move.",
       "uses": [
         {
           "move": "occasion",
@@ -15787,6 +15787,32 @@
       "date": "2026-11-11"
     },
     {
+      "key": "opening-speech.unity.plain-ina-mourning-core-nobody-who-lost-someone-gets-asked-how-they-voted",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "nobody who lost someone gets asked how they voted, not by me and not by Vice President {vice-president}.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity",
+          "requiresFacts": ["vice-president"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "addressKind": "mourning",
+      "piece": {
+        "of": "opening-unity",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
       "key": "opening-speech.creed.polished-ina-sta-all-opener-here-is-what-i-believe",
       "move": "creed",
       "kind": "spoken",
@@ -17159,10 +17185,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.creed.plain-ina-sta-combative-core-nobody-in-this-town-gets-to-tell-a-family",
+      "key": "opening-speech.creed.plain-ina-sta-combative-core-nobody-in-washington-gets-to-tell-a-family-in",
       "move": "creed",
       "kind": "spoken",
-      "text": "nobody in this town gets to tell a family in {home-state} how to pray, how to raise their kids or how to run their business.",
+      "text": "nobody in Washington gets to tell a family in {home-state} how to pray, how to raise their kids or how to run their business.",
       "uses": [
         {
           "move": "creed",
@@ -37132,7 +37158,7 @@
       "key": "opening-speech.stake.polished-ina-sta-all-wages-core-prices-have-outrun-wages-which-is-why-we-should",
       "move": "stake",
       "kind": "spoken",
-      "text": "prices have outrun wages, which is why we should {to} before the gap grows any wider.",
+      "text": "prices have outrun wages, which is why we should {to} before paychecks fall any further behind.",
       "uses": [
         {
           "move": "stake",
@@ -38449,10 +38475,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.stake.polished-ina-sta-all-inflation-core-higher-prices-are-the-reason-we-must-to-with",
+      "key": "opening-speech.stake.polished-ina-sta-all-inflation-core-higher-prices-are-the-reason-we-have-to-to",
       "move": "stake",
       "kind": "spoken",
-      "text": "higher prices are the reason we must {to} with close attention to what it costs households.",
+      "text": "higher prices are the reason we have to {to} with close attention to what it costs households.",
       "uses": [
         {
           "move": "stake",
@@ -40255,10 +40281,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.law.plain-ina-sta-all-opener-look",
+      "key": "opening-speech.law.plain-ina-sta-all-opener-plainly-put",
       "move": "law",
       "kind": "spoken",
-      "text": "Look,",
+      "text": "Plainly put,",
       "uses": [
         {
           "move": "law",
@@ -43239,7 +43265,7 @@
       "key": "opening-speech.history.polished-ina-sta-all-core-no-generation-has-been-spared-its-trials-and-ours",
       "move": "history",
       "kind": "spoken",
-      "text": "no generation has been spared its trials, and ours must answer for {hardest} as earlier ones answered for theirs.",
+      "text": "no generation has been spared its trials, and ours has to answer for {hardest} as earlier ones answered for theirs.",
       "uses": [
         {
           "move": "history",
