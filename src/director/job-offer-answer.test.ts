@@ -13,6 +13,8 @@ interface Use {
   purpose?: string;
   step?: string;
   move?: string;
+  after?: string;
+  requiresFacts?: string[];
   excludesFacts?: string[];
 }
 interface Part {
@@ -54,4 +56,37 @@ it("every job-offer answer says a fact the offer did not", () => {
       answers.filter((part) => slots(part.text).has(fact)).length,
       fact,
     ).toBeGreaterThanOrEqual(2);
+});
+
+// An answer answers its question (lead, Nov 11): the player asks about the
+// fact the record holds ("What are the hours?", "Who would I be working
+// with?", "Whose job was it?"), and the answer that follows that ask says it.
+it("every job-offer answer follows the ask for a fact it says", () => {
+  const byKey = new Map(bank.parts.map((part) => [part.key, part]));
+  const answers = bank.parts.filter(
+    (part) => useOf(part)?.step === "follow" && useOf(part)?.move === "answer",
+  );
+  const loose: string[] = [];
+  for (const part of answers) {
+    const use = useOf(part)!;
+    if (use.excludesFacts?.length) continue;
+    const ask = use.after ? byKey.get(use.after) : undefined;
+    const asked = ask ? (useOf(ask)?.requiresFacts ?? []) : [];
+    if (!asked.length || !asked.every((fact) => slots(part.text).has(fact)))
+      loose.push(`${part.key}: after ${use.after ?? "nothing"}`);
+  }
+  expect(loose).toEqual([]);
+  // The general asks stand aside whenever the record holds one of the facts.
+  for (const part of bank.parts.filter(
+    (row) => useOf(row)?.step === "reply" && useOf(row)?.move === "ask",
+  )) {
+    const use = useOf(part)!;
+    expect(
+      (use.requiresFacts?.length ?? 0) > 0 ||
+        ["hours", "crew", "replaced"].every((fact) =>
+          use.excludesFacts?.includes(fact),
+        ),
+      part.key,
+    ).toBe(true);
+  }
 });

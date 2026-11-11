@@ -126684,7 +126684,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "ask",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["hours", "crew", "replaced"]
         }
       ],
       "bearing": "curious",
@@ -126708,7 +126709,8 @@
           "key": "favor-asked",
           "step": "reply",
           "move": "ask",
-          "role": "asked"
+          "role": "asked",
+          "excludesFacts": ["hours", "crew", "replaced"]
         }
       ],
       "bearing": "curious",
@@ -204796,7 +204798,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-hours-would-i-work-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204820,7 +204823,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-hours-would-i-work-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204844,7 +204848,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.what-hours-would-i-work-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204868,7 +204873,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.who-else-works-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204892,7 +204898,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.who-had-this-job-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204916,7 +204923,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.who-had-this-job-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204940,7 +204948,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.who-else-works-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204964,7 +204973,8 @@
           "key": "favor-asked",
           "step": "follow",
           "move": "answer",
-          "role": "asker"
+          "role": "asker",
+          "after": "scene-talk.reply-ask.who-else-works-at-employer"
         }
       ],
       "bearing": "calm",
@@ -204973,6 +204983,81 @@
       "date": "2026-11-11",
       "tag": {
         "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-hours-would-i-work-at-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What hours would I work at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["hours"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-job-offer-answer-repeats-title-and-pay)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-works-at-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else works at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["crew"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-job-offer-answer-repeats-title-and-pay)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-had-this-job-at-employer",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who had this job at {employer}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["replaced"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-job-offer-answer-repeats-title-and-pay)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
         "key": "favor-asked"
       }
     }
