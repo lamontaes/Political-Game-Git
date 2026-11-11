@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-core-long-run-controlled-sources-required-forever
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc5-full-detail-every-day
 checked: fable 2026-11-11
-claimed-at: 2026-11-11T05:25:09.778Z
+claimed-at:
 branch: claude/pool-core-long-run-controlled-sources-required-forever
 ---
 
@@ -44,3 +44,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 **Notes (Nov 11, 2026, map folded in).** The first builder (#8440) confirmed the cause in both files and stopped because it could not show the player's trace stays whole after a release, and because the 120-day proof cannot run through `advanceCore`. The Fix now puts the test first and says how to drive it. The speed lead (started Nov 11) owns this family and may take it or hand it to a helper.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:25 UTC) on branch claude/pool-core-long-run-controlled-sources-required-forever.
+
+Released (2026-11-11): Read and scoped, not built: controlled sources are retained on purpose (retainedControlledSources, retainFull, control snapshots verified around every plan) so a controlled person's payroll replays; releasing them touches the hardened private-identity paths in work-cash.ts and work-payroll-cash.ts and needs the 120-day controlled-person test written first, which the player clock makes slow to drive; not a bounded first part for this session. Continue on branch claude/pool-core-long-run-controlled-sources-required-forever.
