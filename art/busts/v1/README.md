@@ -48,3 +48,39 @@ The owner accepted these on the decisions page (call 10, "Accept, but fix what I
 - Known: five new heads miss the shared outline by up to 2 px under the hair, because they were cut with Codex's alpha and heads A to C with Adobe's.
 - They're kept in this folder so the lead can swap them in for round 2 in one change (manifest rows plus deleting the round 2 pieces they replace).
 - Next, from his note: ties, shirts and jackets as separate pieces, and clothing in more than one color. Both wait on a spec update from the lead.
+
+# Busts, round 4: clothes as layers, in colors (front view; accepted Nov 11, 2026)
+
+Painted by the CTO with Codex on Nov 11, 2026, to Fable B's bust spec 2 (`docs/art/busts-spec.md`, #8559). The owner asked for it on Nov 10: "yes, I would like to be able to change ties and stuff ... I want to see colors and stuff changing as well."
+
+**In the game since Nov 11, 2026.** The owner, that morning: "put these in the morning build." The pieces sit with the rest in `men/front/` and `women/front/`; the manifest's `clothes` lists them and its `dress` says what each way of dressing wears. They replaced round 3's tops, all but the women's denim, which round 4 does not paint.
+
+## Pieces
+
+Every piece is 1254 × 1254 RGBA on round 3's canvas, at offset (0, 0), on round 3's neck join. The layer order is head, shirt, tie, jacket, facial hair, hair.
+
+- **Men, 16 pieces:**
+  - `shirt-dress` in white, lightblue and cream
+  - `tie-silk` in navy, burgundy, forestgreen and navystripe
+  - `jacket-suit` in charcoal, navy and brown
+  - `top-sweater` in gray, green and maroon
+  - `top-chambray` in blue, tan and olive
+- **Women, 12 pieces:**
+  - `shirt-dress` in white, lightblue and cream
+  - `jacket-blazer` in charcoal, navy and burgundy
+  - `top-henley` in gray, green and maroon
+  - `top-cardigan` in cream, navy and rust
+
+Each color is its own Codex painting from one master, never tinted. `tags.json` gives each piece's `kind`, `name`, `color` and `layer`, plus `use` for the whole tops.
+
+## Checks
+
+Every shirt × (no tie or each tie) × (no jacket or each jacket), plus every whole top, was checked on all six heads: 396 combinations for men and 108 for women. The results are in `men/front/clothes-checks.json` and `women/front/clothes-checks.json`.
+
+- 0 holes.
+- No shirt showing outside a jacket.
+- No uncovered neck joins.
+- No tie pixels outside a shirt.
+- Ties drift at most 2.4 px from knot to bottom edge.
+
+The sheets are `sheets/men-clothes-front-colors.jpg` and `sheets/women-clothes-front-colors.jpg`.
