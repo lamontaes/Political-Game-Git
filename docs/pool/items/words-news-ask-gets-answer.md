@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/pool-words-news-ask-gets-answer
-pr:
+pr: #8431
 blocked-on:
 source: added with npm run pool -- add
 after:
