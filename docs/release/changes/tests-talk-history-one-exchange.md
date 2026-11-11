@@ -3,4 +3,4 @@ id: tests-talk-history-one-exchange
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The talk-history browser check now looks for a talk of two exchanges across the people in the room and across the days, instead of failing when the first talk has one.
