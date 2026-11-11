@@ -47,4 +47,5 @@ branch: claude/words-w4-school
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 71 distinct lines, 22 with no insert and not excused (shared-school 29 and 10, mutual 29 and 6, asked-mutual 17 and 6). Three today: "That was a long time ago.", "I haven't seen him.", "Not for a long time." Between relatives neither subject is raised (`familyTalk.dropped`).
+
 - 2026-11-11, Words builder W4: built on claude/words-w4-school, stacked on claude/words-w4-family. Someone both know is raised only for a staged happening (job, move, illness, baby), so every mention says what happened. The "ask about the happening" reply is not built: the raise already tells it.
