@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-medical-bills-year-cost
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:37:13.470Z
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -82,3 +82,5 @@ Released (2026-11-11): Cause no longer holds on main (2026-11-11): one-year prof
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:15 UTC) on branch claude/pool-laws-medical-bills-year-cost.
 
 Released (2026-11-11): Four-year profile on main 2026-11-11 (Long Hill CT, seed m7b, profiled years 116/216/185/230 s): billMedicalCare is 24.7 s of 831 s (3%), payCounted 4.3 s, so no 10 percent cut exists in the medical pass; the year is over 120 s from elsewhere (campaignWork 91 s, press 58 s, recordProof 51 s under profiling, postCashJournal 45 s all callers). Close this item and open ones for those. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:37 UTC) on branch claude/pool-laws-medical-bills-year-cost.
