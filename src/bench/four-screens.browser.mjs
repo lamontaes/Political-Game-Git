@@ -1,12 +1,11 @@
 /* global console, document, process, URL, URLSearchParams, fetch */
-// The player dossier, the speech panel and the debate panel are built from
-// the shared parts in src/bench/ui/ (owner, Oct 26: one UI). Run against the bench (npm run
-// bench) at 1440x900 in a drawn place; a grown resident files for the first office the
-// records allow. Screenshots go to FOUR_SHOTS (default docs/reports/four-screens-2026-10-27).
+// The player dossier is built from the shared parts in src/bench/ui/ (owner, Oct 26: one
+// UI), and a grown resident files for the first office the records allow once its filing
+// opens. Run against the bench (npm run bench) at 1440x900 in a drawn place. The speech and
+// debate panels on the campaign trail are checked by debate-card.browser.mjs. Screenshots go to FOUR_SHOTS (default docs/reports/four-screens-2026-10-27).
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { finishTalk, playOpening } from "./start-life.mjs";
-import { openCampaignTrail } from "./campaign-trail.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const shots = process.env.FOUR_SHOTS ?? "docs/reports/four-screens-2026-10-27";
 const browser = await chromium.launch({
@@ -24,24 +23,6 @@ const settle = async () => {
   await page.waitForTimeout(400);
 };
 try {
-  // The debate the outlet would invite the player to: added to the campaign view, since
-  // invitations depend on the season. Its questions are two of the game's own policy names.
-  await page.route("**/api/campaign?*", async (route) => {
-    const response = await route.fetch();
-    const view = await response.json();
-    const names = Object.keys(
-      (await (await fetch(`${base}/api/controls`)).json()).policyNames ?? {},
-    );
-    for (const c of view.campaigns ?? [])
-      c.debates = [
-        {
-          id: "debate-check",
-          date: "2026-10-20",
-          questions: names.slice(0, 2),
-        },
-      ];
-    await route.fulfill({ response, json: view });
-  });
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
   await ready;
@@ -182,16 +163,17 @@ try {
           { method: "POST" },
         );
         const body = await r.json().catch(() => ({}));
-        // On the ballot at once: a race filed by petition reaches the ballot
-        // (and its debate) only with signatures, which this check does not gather.
-        if (r.ok && body.filing?.status === "on-ballot")
+        if (
+          r.ok &&
+          ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
+        )
           return { id: contest.id, electionDate: contest.electionDate };
       }
       return null;
     }, view.contests ?? []);
     if (!filed) {
       passedOver.push(
-        `${place} (seed ${campaignSeed}): ${view.contests?.length ?? 0} races open on ${next.filingOpens}, none would put the player on the ballot`,
+        `${place} (seed ${campaignSeed}): ${view.contests?.length ?? 0} races open on ${next.filingOpens}, none would take the filing`,
       );
       console.log("Passed over:", passedOver.at(-1));
     }
@@ -201,89 +183,9 @@ try {
     `the player could file for nothing in three draws: ${passedOver.join("; ")}`,
   );
   console.log("Filed:", filed.id, "election", filed.electionDate);
-  // A race's debate is set about two weeks before its general election
-  // (meetings' debate week), and an invitation left unanswered is held on its
-  // eve: the world runs until the outlet's invitation to the player is on the
-  // record (dev mode's run-until, stopping on that record's kind).
-  const today = (await (await page.request.get(`${base}/api/title`)).json())
-    .life.date;
-  const toDebate = Math.round(
-    (Date.parse(filed.electionDate) - Date.parse(today)) / 86400000,
-  );
-  if (toDebate > 0) {
-    const ran = await page.request.post(`${base}/api/dev/run-until`, {
-      data: { kind: "debate-invited", days: toDebate, cap: toDebate },
-      timeout: 1800000,
-    });
-    assert.equal(ran.status(), 200, await ran.text());
-    const stopped = await ran.json();
-    console.log("Run to the debate:", stopped.reason ?? "", stopped.date ?? "");
-    await page.reload();
-    await page
-      .locator("#front-continue")
-      .click()
-      .catch(() => {});
-    await page.waitForFunction(() =>
-      document.getElementById("card-name").textContent.trim(),
-    );
-    await finishTalk(page);
-  }
-  console.log(
-    "Debate season:",
-    (await page.locator("#card-clock").innerText()).replace(/\s+/g, " "),
-  );
-  await openCampaignTrail(page);
-
-  // The debate: a tab for each position on each question, one chosen at a time.
-  const bars = page.locator("#sheet-body nav.tabs");
-  assert.equal(await bars.count(), 2, "two questions, two position bars");
-  assert.equal(
-    await page
-      .locator("#sheet-body nav.tabs ~ select, #sheet-body select")
-      .count(),
-    0,
-    "no select in the debate",
-  );
-  const against = bars.first().locator('[data-position="-1"]');
-  await against.click();
-  assert.equal(await against.getAttribute("aria-pressed"), "true");
-  assert.equal(
-    await bars
-      .first()
-      .locator('[data-position="null"]')
-      .getAttribute("aria-pressed"),
-    "false",
-  );
-  await settle();
-  await page.screenshot({ path: `${shots}/debate.png` });
-
-  // The speech: parts said are talk lines, the four on offer are numbered replies.
-  await page
-    .getByRole("button", { name: "Give a speech", exact: true })
-    .click();
-  await page.locator(".talk-sheet .replies .reply").first().waitFor();
-  assert.equal(await page.locator(".talk-sheet .replies .reply").count(), 4);
-  await settle();
-  await page.screenshot({ path: `${shots}/speech-begin.png` });
-  for (let part = 0; part < 4; part += 1) {
-    const said = await page.locator(".talk-sheet .talk-lines li").count();
-    await page.locator(".talk-sheet .replies .reply").first().click();
-    await page.waitForFunction(
-      (n) => document.querySelectorAll(".talk-sheet .talk-lines li").length > n,
-      said,
-    );
-    if (!(await page.locator(".talk-sheet .replies .reply").count())) break;
-  }
-  const give = page.locator("#sheet-body button", {
-    hasText: /^Give the speech$/,
-  });
-  await give.waitFor({ state: "attached" });
-  await give.scrollIntoViewIfNeeded();
-  await give.waitFor();
-  await settle();
-  await page.screenshot({ path: `${shots}/speech-built.png` });
+  // The debate and speech panels on the trail are checked by debate-card.browser.mjs.
   assert.deepEqual(errors, []);
-  console.log("PASS dossier, debate and speech panels from the shared parts");
+  console.log("PASS dossier, and the player files in season");
 } catch (error) {
   console.log("PAGE ERRORS", errors);
   throw error;
