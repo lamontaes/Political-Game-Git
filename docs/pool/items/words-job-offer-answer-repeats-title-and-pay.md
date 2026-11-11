@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-words-job-offer-answer-repeats-title-and-pay
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:17:24.757Z
+claimed-at:
 branch: claude/pool-words-job-offer-answer-repeats-title-and-pay
 ---
 
@@ -52,3 +52,5 @@ Released (2026-11-11): needs Story's answer lines under data/english/parts; see 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:16 UTC) on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.
 
 Released (2026-11-11): re-offered after release; see draft PR 8461. Continue on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.
+
+Released (2026-11-11): needs Story's answer lines under data/english/parts; new facts without lines would be an unread record; see draft PR 8461. Continue on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.
