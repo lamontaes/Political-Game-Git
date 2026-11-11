@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: pool/play-repeal-action-on-every-law-page
-pr:
+pr: #8284
 after:
 blocked-on:
 standard: 2
