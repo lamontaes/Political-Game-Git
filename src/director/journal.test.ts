@@ -328,13 +328,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     );
     // A death in the family is a hard time; running begins with deciding to.
     // A line may open on the time since the one before it ("One month on,").
-    // The relative is named by relation, or by their given name when another
-    // relative already holds the relation (two sons are not both "my son").
+    // The relative is named by relation, with their given name too when
+    // another relative holds the same relation (two sons are each "my son
+    // Mark" and "my son Tom").
     const relative = core.people.get(relativeId)!;
     expect(
       text.some((line) =>
         new RegExp(
-          `^(?:[^.]*, )?(?:[Mm]y \\w+|${relative.givenName}) (died|passed away)\\.`,
+          `^(?:[^.]*, )?(?:[Mm]y \\w+(?: ${relative.givenName})?|${relative.givenName}) (died|passed away)\\.`,
         ).test(line),
       ),
       text.join(" | "),

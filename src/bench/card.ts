@@ -1,4 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
@@ -685,9 +686,8 @@ interface HistoryLine {
   start?: string;
 }
 
-/** Office titles read in running text: "council member", but "U.S. senator". */
-const inSentence = (title: string) =>
-  /^[A-Z][a-z]/.test(title) ? title.toLowerCase() : title;
+/** Office titles read in running text: the one wording the journal shares. */
+const inSentence = officeInSentence;
 
 /** Who a card's story is about, and the form its sentences take. */
 interface Teller {
@@ -982,7 +982,7 @@ function summaryOf(
     teller.form === "you" ? ".you" : teller.form === "first" ? ".first" : "";
   const line = (key: string, slots: Record<string, string>) =>
     screenLine("person-history", `person-history.summary.${key}${you}`, slots);
-  const role = now.office
+  const office = now.office
     ? line(
         now.office.terms > 1 && now.office.wonAgain
           ? "office.run"
@@ -992,13 +992,20 @@ function summaryOf(
           year: now.office.since.slice(0, 4),
         },
       )
-    : now.work?.employer
-      ? now.work.title
-        ? line("work.title", {
-            title: inSentence(now.work.title),
-            employer: now.work.employer,
-          })
-        : line("work.employer", { employer: now.work.employer })
+    : null;
+  // Their job, from the same record the journal reads (`personWorkOf`): told
+  // beside an office they hold too, never in place of it.
+  const work = now.work?.employer
+    ? now.work.title
+      ? line("work.title", {
+          title: inSentence(now.work.title),
+          employer: now.work.employer,
+        })
+      : line("work.employer", { employer: now.work.employer })
+    : null;
+  const role =
+    office || work
+      ? null
       : now.school
         ? line("school", { school: now.school })
         : now.place
@@ -1012,7 +1019,9 @@ function summaryOf(
   const before = now.before
     ? line(`before.${now.before.kind}`, { state: now.before.state })
     : null;
-  return [role, before, born].filter((text): text is string => !!text);
+  return [office, work, role, before, born].filter(
+    (text): text is string => !!text,
+  );
 }
 
 /**
@@ -1358,7 +1367,8 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const shared = sharedHistory(core, viewerId, otherId);
   const housemate = shared.some((row) => row.kind === "household");
   const coworker = shared.some((row) => row.kind === "coworker");
-  const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
+  // What they do: one reader for the card, the journal and Travel.
+  const job = personWorkOf(core, otherId).job;
   const tie = tieBetween(core, viewerId, otherId);
   const publicKnowledge = core.modules.has(PAST_MODULE_ID)
     ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)

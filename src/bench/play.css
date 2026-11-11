@@ -333,6 +333,20 @@ ol {
   white-space: nowrap;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
 }
+/* The office a scene names someone by, under their name; the glass is a line taller for it. */
+.bust-strip .busts-role {
+  font: 500 var(--t-label) var(--ui);
+  color: var(--muted);
+  padding-bottom: 8px;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+.bust-strip .busts-person:has(.busts-role) .busts-name {
+  padding-bottom: 0;
+}
+.bust-strip:has(.busts-role) .busts-glass {
+  height: calc(var(--bust) * 0.24 + 52px);
+}
 .bust-strip .busts-more {
   font: 400 var(--t-ui) var(--ui);
   color: var(--muted);
@@ -2962,6 +2976,13 @@ details.entry[open] {
   text-align: right;
   overflow-wrap: anywhere;
 }
+.bill-clause[role="button"] {
+  cursor: pointer;
+}
+.bill-clause[role="button"]:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
 .bill-clause s {
   color: var(--muted);
 }
@@ -3806,7 +3827,9 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
-.patch-detail {
+/* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
+.roster-screen.patch-notes .roster-page,
+.roster-screen.journal .roster-page {
   max-height: calc(100vh - 250px);
   overflow-y: auto;
   scrollbar-width: thin;
@@ -4913,6 +4936,47 @@ select.release-pick {
   margin: 8px 0;
 }
 /* The country in 20 years: a wide table in a narrow panel, so its first column and its figures stay on one line. */
+/* Dev mode's Watch: its own tab of the Calendar's sheet. Its sections stand
+   side by side and each table scrolls inside its own box, so every header and
+   cell can be read (it used to be squeezed under the calendar). */
+.dev-watch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 22px;
+  align-items: start;
+}
+.dev-watch > :last-child {
+  grid-column: 1 / -1;
+}
+.dev-watch .scroll {
+  max-height: 230px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+  margin-bottom: 8px;
+}
+.dev-watch table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 var(--t-ui) var(--ui);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cream);
+}
+.dev-watch th {
+  position: sticky;
+  top: 0;
+  padding: 4px 12px 4px 0;
+  text-align: left;
+  font: 600 var(--t-label) var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--iron);
+}
+.dev-watch td {
+  padding: 3px 12px 3px 0;
+  vertical-align: top;
+}
 .dev-outlook-table table {
   width: 100%;
   font-size: 0.85em;
@@ -5505,4 +5569,14 @@ body.color-blind .meeting-member.vote-abstain {
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+
+/* Government in Dev mode: Bills and Bribe sit in the main column under the members; the chamber picture gives them its room. */
+.dev-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.split-main:has(.dev-panels) .chamber {
+  display: none;
 }
