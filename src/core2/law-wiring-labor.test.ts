@@ -33,6 +33,7 @@ import { reachParameter as reachA } from "./law-reach/group-a-records";
 import { draftBill } from "./modules/legislature";
 import { fileClaim } from "./jobs-benefits";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
+import bargainingData from "./data/laws/public-bargaining.json" with { type: "json" };
 import { residentsRuntime } from "./modules/residents";
 import type { LawRowInput } from "./laws-starting";
 import type { CoreAPI, CoreState, JobInput } from "./types";
@@ -371,19 +372,27 @@ function run(specId: string, want: readonly Subject[]) {
     fileClaim(api, claims, claimant as JobInput, "labor-test", 52)
       ? claimant.personId
       : "";
-  // A public unit's contract is dated by its government's budget year, so a
-  // world has the bargaining subject only when one falls due inside the run:
-  // found before the run, on the calendar the reach handler keeps.
+  // A public unit's contract is dated the day after its government's budget
+  // year begins, so a drawn world seldom has one inside the run. The subject
+  // is built through the reach module's own calendar: each government's
+  // contract falls due ten days on, the way the law's handler dates it.
   if (on("bargaining")) {
     const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
-    const from = makeIsoDate(core.date);
-    const due = governments(api).some((gov) =>
-      Array.from({ length: 2 * WINDOW + 10 }, (_, d) =>
-        calendar.get(`bargaining:${gov.id}:${addDays(from, d)}`),
-      ).some(Boolean),
-    );
-    if (!due)
-      throw new NoSubject("no public unit's contract falls due in the run");
+    for (const gov of governments(api)) {
+      const dueOn = addDays(makeIsoDate(core.date), 10);
+      calendar.schedule({
+        key: `bargaining:${gov.id}:${dueOn}`,
+        date: dueOn,
+        kind: bargainingData.contractKind,
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation: "Labor law-wiring test: a unit's contract falls due.",
+          estimatedFrom: "Test setup",
+        },
+        sourceRecordIds: [gov.id],
+      });
+    }
   }
   step(WINDOW);
   const date = core.date;
