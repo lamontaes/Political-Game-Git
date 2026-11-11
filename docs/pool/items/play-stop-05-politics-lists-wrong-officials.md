@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
+status: open
+claimed-by:
 pr: #8261
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:21:01.687Z
+claimed-at:
 branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 ---
 
@@ -61,3 +61,5 @@ Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Replayed by API on main (no browser screenshots). Tiverton, RI (4470700, place seed 7c584d33d780): key people = 2 U.S. senators, 1 U.S. representative (own district), own state representative; bodies local: Town council (5), no executive (no mayor row); state: 75+38, governor etc.; federal 2 reps + 2 senators of the state, president, VP. Stockett, MT (3071350): 3 county commissioners and county sheriff/attorney/clerk/treasurer/coroner, 2 senators, 1 own representative; state 100+50. Faga'itua, American Samoa: no local bodies at all. Not checked: council term lengths, every party holding seats (only the first party printed). Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:20 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Same replay note as before. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
