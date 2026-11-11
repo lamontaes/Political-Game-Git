@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-six-list-and-detail-screens-build-their-own-part-5-one-tab-strip-guard
 pr: #8821
