@@ -1613,8 +1613,12 @@ export function createDirector(
     at: { date: IsoDate; minuteOfDay: number },
     kind: string | undefined,
   ): { date: IsoDate; minuteOfDay: number } {
-    const row = data.settingHours.rows[kind ?? "home"];
-    if (!row) return at;
+    // A setting with no hours of its own keeps the player's day: nothing
+    // stops the clock at midnight (owner, Oct 27).
+    const row = data.settingHours.rows[kind ?? "home"] ?? {
+      opens: null,
+      closes: coreParam(core, "minutesPerHour") * coreParam(core, "hoursPerDay"),
+    };
     const opens = row.opens ?? coreParam(core, "playerDayStartMinute");
     if (at.minuteOfDay >= opens && at.minuteOfDay < row.closes) return at;
     return at.minuteOfDay < opens
