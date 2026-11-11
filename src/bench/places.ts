@@ -66,6 +66,9 @@ const SCHOOL_AGE_UNDER = 19;
  * organization with a picture (owner, Oct 13: "Why would you need to visit
  * the market?").
  */
+/** A party's office: listed for its members (play-join-a-party-has-no-scene-and-no-headquarters). */
+const PARTY_OFFICE = "membership:political-party";
+
 export function townPlaces(
   core: CoreState,
   playerId: string,
@@ -135,6 +138,11 @@ export function townPlaces(
           })),
           ...(official && STATE_OFFICES.has(org.classification ?? "")
             ? [{ kind: "serve" as const, recordId: org.id }]
+            : []),
+          // The office of a party the player belongs to (their membership record).
+          ...(core.memberships.has(`${playerId}:${org.id}`) &&
+          org.classification === PARTY_OFFICE
+            ? [{ kind: "member" as const, recordId: org.id }]
             : []),
         ];
         const open = PUBLIC_PLACES.has(place);
