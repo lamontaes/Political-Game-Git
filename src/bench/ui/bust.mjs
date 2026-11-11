@@ -15,8 +15,23 @@ export function bustStack(bust, alt = "") {
   const stack = el("div", { className: "bust-stack" });
   stack.setAttribute("role", "img");
   stack.setAttribute("aria-label", alt);
-  for (const src of bust.layers)
-    stack.append(el("img", { src, alt: "", draggable: false }));
+  // A person is shown whole or not yet: the stack stays clear until every
+  // piece has arrived, so nobody is ever a head with no shoulders.
+  stack.classList.add("loading");
+  let waiting = bust.layers.length;
+  const arrived = () => {
+    waiting -= 1;
+    if (waiting <= 0) stack.classList.remove("loading");
+  };
+  for (const src of bust.layers) {
+    const piece = el("img", { src, alt: "", draggable: false });
+    if (piece.complete) arrived();
+    else {
+      piece.addEventListener("load", arrived, { once: true });
+      piece.addEventListener("error", arrived, { once: true });
+    }
+    stack.append(piece);
+  }
   return stack;
 }
 

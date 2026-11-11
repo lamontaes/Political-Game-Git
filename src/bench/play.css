@@ -814,11 +814,21 @@ input[type="search"]::-webkit-search-cancel-button {
 input#place::-webkit-calendar-picker-indicator {
   display: none;
 }
+/* A dropdown is a control at rest (menu look: "clickable things need a cue
+   at rest"): the glass of a button and a small mark at its right. */
 select {
   -webkit-appearance: none;
   appearance: none;
-  padding-right: 8px;
+  padding: 5px 30px 5px 12px;
   cursor: pointer;
+  border-color: rgba(255, 255, 255, 0.16);
+  border-radius: var(--control-radius);
+  background:
+    linear-gradient(45deg, transparent 50%, var(--gold) 50%) calc(100% - 17px)
+      55% / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--gold) 50%, transparent 50%) calc(100% - 11px)
+      55% / 6px 6px no-repeat,
+    var(--key);
 }
 select option,
 select optgroup {
@@ -2455,6 +2465,11 @@ body:not(.dev) .dev-only {
 .bust-stack {
   position: absolute;
   aspect-ratio: 1;
+  transition: opacity 0.14s ease;
+}
+/* Shown whole or not yet: clear until every piece has arrived. */
+.bust-stack.loading {
+  opacity: 0;
 }
 .bust-stack img {
   position: absolute;
@@ -2474,11 +2489,27 @@ body:not(.dev) .dev-only {
 #sheet-body:has(.people-screen) {
   max-width: none;
 }
+/* The list and the card each keep to the panel's height and scroll inside
+   themselves; the screen never runs past the panel's foot (a menu never
+   scrolls as a page). */
+#sheet-body:has(.people-screen) {
+  display: flex;
+  overflow: hidden;
+}
 .people-screen {
+  flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: 270px 1fr;
+  grid-template-rows: minmax(0, 1fr);
   gap: 22px;
-  align-items: start;
+}
+.people-roster,
+.people-pane {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 .people-roster {
   display: flex;
@@ -3587,9 +3618,11 @@ details.entry[open] {
 #sheet-body:has(.travel-screen) {
   max-width: none;
 }
+/* The screen keeps to its panel: at a wider floor than the panel it ran off
+   the right edge, cutting the chosen place's name, hours and button. */
 .travel-screen {
-  width: 100%;
-  min-width: min(1180px, calc(var(--vw) * 0.88));
+  width: min(1000px, calc(var(--vw) * 0.88));
+  max-width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
   gap: 26px;
@@ -3686,6 +3719,8 @@ details.entry[open] {
   position: absolute;
   z-index: 1;
   left: 16px;
+  /* A long name wraps inside the picture; it never runs off its edge. */
+  right: 16px;
   bottom: 10px;
   margin: 0;
   font:
