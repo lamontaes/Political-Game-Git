@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-people-owed-talk-record
-pr:
+pr: #8429
 blocked-on:
 source: added with npm run pool -- add
 lead: effects
