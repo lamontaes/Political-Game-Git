@@ -5260,10 +5260,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.it-was-count-on-bill-who-did-you-think-would-vote-the-other-way",
+      "key": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "It was {count} on {bill}. Who did you think would vote the other way?",
+      "text": "It was {count} on {bill}. Is that how you had it counted?",
       "uses": [
         {
           "subject": "scene",
@@ -5993,7 +5993,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.it-was-count-on-bill-who-did-you-think-would-vote-the-other-way"
+          "after": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted"
         }
       ],
       "bearing": "firm",
@@ -6032,7 +6032,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.it-was-count-on-bill-who-did-you-think-would-vote-the-other-way"
+          "after": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted"
         }
       ],
       "bearing": "firm",
@@ -6071,7 +6071,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.it-was-count-on-bill-who-did-you-think-would-vote-the-other-way"
+          "after": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted"
         }
       ],
       "bearing": "firm",
