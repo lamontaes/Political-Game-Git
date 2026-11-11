@@ -59,6 +59,7 @@ About 40 minutes before a train's time:
    - `NODE_OPTIONS=--max-old-space-size=8192 node --import tsx scripts/dev-lab/typecheck.ts`
    - the tests `npm run agent:test-cadence` names for the train's changed files, and the changed test files themselves
    - `npm run old-imports`
+   - `npm run guards` (on Nov 11 two reds reached main that a guard on the train's own tree would have shown: a pull request written before the pointer guard deleted files that documents still named)
    - `npm run release:check -- --mode push` (a train that leaves the release check red holds the next build; on Nov 10 a packaging run failed on a reused release-note id)
    - the golden path: `node --import tsx tests/golden-path/runner.mjs`
    - for a screens or words train, a new game in the bench on a place and seed nobody chose: the browser checks the riders changed, with `BENCH_BROWSER=/opt/pw-browsers/chromium`
@@ -103,3 +104,17 @@ When the CTO posts a build window (on Nov 11: the last train lands by 12:45 UTC,
 - **Later riders are checked on top of earlier ones only in the posted order.** Merging out of order voids the check.
 - **A rider that changed after its light gate** (a new head) leaves the train unless the light gate is run again on the new head first.
 - **Do not hold a ready red-main fix for a train.** It merges alone.
+
+## Lessons of the first night of trains (Nov 11)
+
+- **A train post is final once posted.** The merger merges the list as written. To pull a rider, post the corrected train before the first post, or post `Train <area> <time>: hold` and then the corrected one. The merger waits two minutes after any train post so a correction can land (CTO, Nov 11, after a rider was merged while its send-back was still being read).
+- **A rider sent back by any desk is off every train until its new head is posted.** Before you post a train, read each rider's newest comments, not only your own gate line: the other desk may have sent it back on a check you did not run.
+- **Walk the combined train in the bench once, as a player would.** The lead merged the six screen riders in its own tree and opened every menu at 1440x900. The checks were green and the walk still found the Journal note covering a face in the new strip, and a bill's page saying one sentence three times. Ten minutes; do it for every screens train.
+- **A rider that holds another rider** conflicts with nothing only in the posted order. When the held one merges first and main moves, the holder needs main merged in again before it can merge; the desk does that merge, it is mechanical.
+
+## Lessons of the second night of trains (Nov 11, the morning)
+
+- **A rider that changes words the player reads carries its pictures, or it does not ride.** The CTO held five of the ten riders of a words train: each changed words on screen and none showed its scene before and after in three drawn places, or named the owner's complaint it answers (owner, Nov 11: "No lines should not be verified and touched"). "No rider changed a screen" is not the test; what the player reads is. In the light gate, a pull request that changes a bank, a rules file or the director's or the English engine's code needs six pictures under `docs/seen/` (three drawn places, the same seeds before and after), the line as played, the complaint named with its date, and the lead's review. Without them the desk sends it back and says so.
+- **Lines that nothing plays yet ride with the pull request that plays them.** A bank change with no reader cannot be shown on screen, so it cannot meet the line above alone.
+- **Count the finished work by area every hour.** `gh api -X GET search/issues -f q='repo:OWNER/REPO is:pr is:open draft:false' --paginate --jq '.items[] | "\(.number)\t\(.comments)\t\(.title)"'` lists every ready pull request with its comment count. On Nov 11 it showed 47 screen fixes and 12 scenes built and never gated, some for six hours: the crew was short of desks, not builders. The lead starts more gate-only desks, each with a short list in one area; they run the light gate, look at the screen in a drawn place and post `passed #N <sha> (<area>)`; one desk builds the train from those lines and runs the heavy checks once.
+- **A rider's own item file can conflict with main.** When the hour's notes carried an item to main and a builder then built it, the branch's copy of the item and main's differ. The builder merges main in and keeps both sides before posting ready; a desk that meets it does that merge, it is mechanical.

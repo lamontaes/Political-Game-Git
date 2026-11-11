@@ -92,7 +92,7 @@ it.each(["a", "b", "c"])(
         // The states' part names its people over the capitol and draws none
         // (owner, Nov 4: no people tonight).
         expect(beat.people.length, `${where}: state`).toBe(0);
-      else if (beat.kind !== "america")
+      else if (beat.kind !== "america" && beat.kind !== "home")
         expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
     }
@@ -127,10 +127,14 @@ it.each(["a", "b", "c"])(
       );
       console.log(`${where}: ${beat.caption} over ${beat.backdrop.file}`);
     }
-    // Home holds the player.
-    expect(
-      beats.at(-1)!.people.map((person) => person.personId),
-      where,
-    ).toContain(world.playerId);
+    // Home lists the people the player lives with (nobody, for someone who
+    // lives alone), and never the player: the strip shows who else is there.
+    const household = world.core.households.get(
+      world.core.people.get(world.playerId!)!.householdId,
+    );
+    const home = beats.at(-1)!.people.map((person) => person.personId);
+    expect(home, where).not.toContain(world.playerId);
+    for (const id of home)
+      expect(household?.memberIds ?? [], where).toContain(id);
   },
 );
