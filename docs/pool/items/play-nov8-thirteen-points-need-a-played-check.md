@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-play-nov8-thirteen-points-need-a-played-check
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 lead: play-first
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6 and "What I ran, and what I could not verify")
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T04:35:05.250Z
+claimed-at:
 branch: claude/pool-play-nov8-thirteen-points-need-a-played-check
 ---
 
@@ -60,3 +60,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:35 UTC) on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.
+
+Released (2026-11-11): Replay-only (build nothing): thirteen screenshots in two places for an 8-hour sitting in the browser; not started. Continue on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.
