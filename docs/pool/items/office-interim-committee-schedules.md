@@ -18,6 +18,7 @@ effort: medium
 root: rc9-place-facts-one-default
 lead: governing
 checked: fable 2026-11-10
+branch: claude/pool-office-interim-committee-schedules
 ---
 
 **What.** Between sessions a state legislator's calendar has one committee day, the same day of every month in every state. interimCommitteeDayOfMonth is 15, ESTIMATED with a spread of 1 to 28, and src/core2/office-day-state.ts reads it for the interim-committee entry. Real interim committees meet by their own schedule: some monthly, some quarterly, some only when leadership calls them. Collect each state legislature's interim committee schedule (meetings a year, months, day or weekday), cite the source for each, and read it in place of the single day so a member's interim calendar differs by state.
@@ -39,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Written Oct 20 (claude/interim-spec) from the code. The shared day is read at `office-day-state.ts` lines 375 to 385; the parameter is in `state-parameters.json` with its NCSL source note. Many states do not publish a single schedule, so expect a share of ESTIMATED rows.
 
 Oct 20 (pool feeder): the spec was already complete from the Oct 20 write-up; only the blocked-on text was stale and is now cleared. It is research plus a small reader, so it needs no other item; verified against office-day-state.ts and state-parameters.json that interimCommitteeDayOfMonth exists.
+
+Released (2026-11-11): needs sourced interim committee schedules for 56 legislatures (NCSL or each legislature's rules), none fetched; ESTIMATED rows for all would change nothing real; not started. Continue on branch claude/pool-office-interim-committee-schedules.
