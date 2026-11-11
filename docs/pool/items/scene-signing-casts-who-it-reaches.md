@@ -5,15 +5,15 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-scene-signing-casts-who-it-reaches
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web executive pass (packet the-signing)"
 lead: director
 milestone: play-first
-claimed-at: 2026-11-11T05:27:32.524Z
+claimed-at:
 after:
 model: sonnet
 effort: medium
@@ -53,3 +53,5 @@ Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): the executive's four replies (commit to the next step, credit others, temper expectations, decline) are bank lines, Story's under the Nov 10 split; swapping asker/asked without them leaves the executive with no replies. Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:27 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story-session lines under data/english/parts, a dedicated machine for speed runs, or a rewrite beyond one pass (see my earlier release notes on this item). Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
