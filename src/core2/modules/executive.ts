@@ -397,6 +397,7 @@ export function countedPostRecord(
   const schooling = schoolingOn(api, personId, date);
   if (!facts)
     return { relatedYears: 0, workYears: 0, schooling, recordIds: [] };
+  // stopgapId: SG-EXECUTIVE-counted-work-years
   const workYears = Math.max(
     0,
     yearsBetween(facts.birthDate, date) -

@@ -1,5 +1,17 @@
 [
   {
+    "id": "SG-EXECUTIVE-counted-work-years",
+    "kind": "approximation",
+    "file": "src/core2/modules/executive.ts",
+    "line": 400,
+    "whatItFakes": "A counted adult weighed for a town post is credited with every year since adulthood (appointmentAdulthoodAge) as years of work, because the counts keep no past jobs. It leans toward counted adults: a full person's workYears sums their real spells, so a counted adult with no job now, or with gaps, is credited more than a full person with the same gaps.",
+    "why": "The counted households keep only the job held now (its kind and how long it has been held), not a work history; filling every candidate in to read one would cost a year's time (gov-appointments-weigh-counted-adults, review of Nov 11).",
+    "addedBy": "opus-5251 (gov-appointments-weigh-counted-adults)",
+    "addedAt": "2026-11-11",
+    "replacement": "The counts keep a work-years figure by age band (from the labor model's own employment rates), read here in place of the years since adulthood.",
+    "status": "open"
+  },
+  {
     "id": "SG-EXECUTIVE-administrator-appoints",
     "kind": "partial-model",
     "file": "src/core2/modules/executive.ts",
