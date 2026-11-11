@@ -8,7 +8,7 @@ size: L
 status: in-pr
 standard: 2
 claimed-by: claude/words-opening-evening-talk
-pr:
+pr: #8736
 after:
 blocked-on:
 lead: words
