@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-traits-donate-reasons-too-flat-in-some-towns
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: none
 source: red main (checker), Oct 30; lead set to governing by the CTO (folded into the campaign money calibration)
 lead: governing
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:46:56.268Z
+claimed-at:
 branch: claude/pool-traits-donate-reasons-too-flat-in-some-towns
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-traits-donate-reasons-too-flat-in-some-towns
 Nov 1 evidence (governing lead, review of governing/traits-endorsements-heard, head ed93f41c81, main also red): GOLDEN_PATH_SEED=chk2-c, Lyndon Center, Vermont (draw :0): campaigns.donate odds ratio 4.39 against the bound of 4.01, so the giving case still fails there (it read 8.18 on main b216577 on Oct 30). The same run's running-for-office case is a separate item, tests-campaigns-traits-run-ratio-cruz-bay (Cruz Bay, U.S. Virgin Islands, seed a4eca5af1791dc3df7527d94791fb774b3fcdd52 draw :0).
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:46 UTC) on branch claude/pool-traits-donate-reasons-too-flat-in-some-towns.
+
+Released (2026-11-11): The giving test passes on main with chk2-c and chk2-a; marking its Cause Needs cause (PR 8535). Continue on branch claude/pool-traits-donate-reasons-too-flat-in-some-towns.
