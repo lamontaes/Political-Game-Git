@@ -59,6 +59,8 @@ import {
  * moment it decides (this family's entry, tests/guards/families.json).
  */
 export { webReach, webFactorFor } from "../outcome-web-reach";
+// A law's row, for readers outside the family (a screen that lists what a law did).
+export type { LawRowInput } from "../laws-starting";
 // The town's modeled people (named and counted), for the screens.
 export { townFacts } from "../law-reach/group-b-people";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */

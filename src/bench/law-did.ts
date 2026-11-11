@@ -13,8 +13,11 @@
 import type { CoreState } from "../core2/types";
 import { coreAPI } from "../core2/state";
 import { lawReach } from "../core2/law-reach/applied";
-import { lawChain, LAWS_MODULE_ID } from "../core2/modules/laws";
-import type { LawRowInput } from "../core2/laws-starting";
+import {
+  lawChain,
+  LAWS_MODULE_ID,
+  type LawRowInput,
+} from "../core2/modules/laws";
 
 /** The full people a page names under one law, the most money first (a list length, not a model value). */
 const NAMED = 8;
