@@ -299,6 +299,10 @@ try {
     await page.waitForFunction(() =>
       document.getElementById("card-name").textContent.trim(),
     );
+    // Whatever the run left open (a stop, a talk) is played first.
+    await finishTalk(page);
+    if (await page.locator("#continue:not([hidden]):visible").count())
+      await page.locator("#continue").click();
     console.log(
       "Dev run:",
       daysAway - 7,
