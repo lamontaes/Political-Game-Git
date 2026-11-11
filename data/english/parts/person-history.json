@@ -4780,7 +4780,7 @@
     },
     {
       "key": "person-history.when.year",
-      "move": "story",
+      "move": "when",
       "text": "In {year},",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
@@ -4789,7 +4789,7 @@
     },
     {
       "key": "person-history.when.same-year",
-      "move": "story",
+      "move": "when",
       "text": "That same year,",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
@@ -4798,7 +4798,7 @@
     },
     {
       "key": "person-history.when.age",
-      "move": "story",
+      "move": "when",
       "text": "At {age},",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
@@ -4807,7 +4807,7 @@
     },
     {
       "key": "person-history.when.age-years",
-      "move": "story",
+      "move": "when",
       "text": "At age {age},",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
@@ -5680,7 +5680,7 @@
     },
     {
       "key": "person-history.when.then-year",
-      "move": "story",
+      "move": "when",
       "text": "Then in {year},",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
@@ -5689,7 +5689,7 @@
     },
     {
       "key": "person-history.when.later-year",
-      "move": "story",
+      "move": "when",
       "text": "Later, in {year},",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
@@ -5771,7 +5771,7 @@
     {
       "key": "person-history.story.child.you.any",
       "move": "story",
-      "text": "You were born in {year}.",
+      "text": "You came into the world in {year}.",
       "origin": "authored",
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
