@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-director-cap-on-scene-repeats
-pr:
+pr: #8424
 after:
 blocked-on:
 model: opus
