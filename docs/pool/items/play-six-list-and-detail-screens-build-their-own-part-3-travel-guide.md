@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: merged
+status: in-pr
 standard: 2
 claimed-by:
 pr: #8820
