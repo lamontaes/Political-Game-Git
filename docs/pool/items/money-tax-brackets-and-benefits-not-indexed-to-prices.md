@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-money-tax-brackets-and-benefits-not-indexed-to-prices
 pr: #8694
