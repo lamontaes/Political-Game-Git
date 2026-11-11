@@ -4511,12 +4511,12 @@ const sheets = {
               2,
               labels.dates,
               dateList([
-                ...(race.filingOpens && race.filingOpens > me.date
+                ...(race.filingOpens && race.filingOpens > today()
                   ? [
                       {
                         when: dateWords(race.filingOpens, {
                           month: "short",
-                          year: me.date,
+                          year: today(),
                         }),
                         text: labels.filingOpens,
                       },
