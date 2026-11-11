@@ -19,7 +19,7 @@ source: split from world-community-calendar in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** With events and attendance recorded, the town's paper and a person's journal must read them or the events are placeholders. The press module quotes an event and who attended from the records, and the journal tells a person's own attendance. The words themselves are written by the Words line (words-paper-and-journal-everyday-life); this part makes the engine records readable by the news and journal producers.
+**What.** With events and attendance recorded, the town's paper and a person's journal must read them or the events are placeholders. The press module quotes an event and who attended from the records, and the journal tells a person's own attendance. The words themselves are written by the Words line (words-paper-and-journal-everyday-life); this part makes the engine records readable by the news and journal producers. Feeds: world-community-calendar
 
 **Cause.** Design: docs/design/life-record.md and the owner's Nov 1, 2026 question recorded in the parent item; the news side is src/core2/modules/news.ts and the journal banks are data/english/parts/journal.json and news.json.
 
