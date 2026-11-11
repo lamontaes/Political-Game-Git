@@ -170,6 +170,8 @@ try {
     .click();
   // The debate: a tab for each position on each question, one chosen at a time.
   const bars = page.locator("#sheet-body nav.tabs");
+  // The card draws once the tile's page has loaded.
+  await bars.first().waitFor();
   assert.equal(await bars.count(), 2, "two questions, two position bars");
   assert.equal(
     await page
@@ -192,7 +194,13 @@ try {
   await page.screenshot({ path: `${shots}/debate.png` });
 
   // The speech: parts said are talk lines, the four on offer are numbered replies.
+  // The speech is a trail tile too, and its card begins with a button of the same words.
   await page
+    .locator("#sheet-body .travel-tile", { hasText: "Give a speech" })
+    .first()
+    .click();
+  await page
+    .locator("#sheet-body .travel-detail")
     .getByRole("button", { name: "Give a speech", exact: true })
     .click();
   await page.locator(".talk-sheet .replies .reply").first().waitFor();
