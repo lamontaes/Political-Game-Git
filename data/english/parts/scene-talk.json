@@ -101665,6 +101665,131 @@
       }
     },
     {
+      "key": "scene-talk.state-tell.i-read-that-law-took-effect-what-does-it-mean",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I read that {law} took effect. What does it mean for us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder W8, law-news-street red)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.they-say-law-is-the-law-now-nobody-s-told",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "They say {law} is the law now. Nobody's told me what changes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude (Words builder W8, law-news-street red)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-saw-the-news-on-law-i-want-to-hear",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I saw the news on {law}. I want to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude (Words builder W8, law-news-street red)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.law-went-into-effect-and-i-ve-got-questions",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{law} went into effect, and I've got questions.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude (Words builder W8, law-news-street red)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.my-neighbor-showed-me-the-story-on-law-what-happens",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "My neighbor showed me the story on {law}. What happens now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "law-reaches",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["law"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude (Words builder W8, law-news-street red)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.state-tell.bill-is-law-now-and-it-costs-us-cost-a-month",
       "move": "state-tell",
       "kind": "spoken",
