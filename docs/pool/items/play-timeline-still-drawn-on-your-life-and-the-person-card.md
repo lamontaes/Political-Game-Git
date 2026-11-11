@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-timeline-still-drawn-on-your-life-and-the-person-card
-pr: #8115
+pr: #8486
 after:
 blocked-on:
 lead: screens
@@ -31,3 +31,5 @@ merged-at:
 Not seen in the game (2026-11-10, second session (acceptance check)): Rock Hill, Missouri, seed 0cf1896a-28d6-4915-b0d4-7cf95baa3efd, main b094bee1: My life read as three I-sentences with no timeline, icons or dated cards, and cards were sentence paragraphs; but in Caño Martin Peña seed 50fe2d1143af adults born before 1980 showed only child sentences, no schooling or work, and a lost candidate's card could not be reached
 
 **Notes (Fable, Nov 10, after the second session's check).** The check did not pass, and the item is open again. What it found has its causes in four new items, each built on its own: life-a-dead-persons-own-card-says-they-died, life-a-loss-is-told-in-its-place-not-first, life-relatives-who-live-elsewhere-have-a-past and life-sentences-open-the-trace-in-dev-mode. This item is checked again by a new second session when those four are on main. Two of the check's own steps asked for something no screen offers (opening the card of a neighbor never met, and of a candidate who lost a state or federal race); the next check drops them.
+
+Closed with evidence (2026-11-11, opus-1fd7): on main 0ccf24ed there is no `ui/timeline.mjs`, no `lifeTimeline` and no `.timeline` style; a search of src/bench for "timeline" finds only ui/trend-line.mjs, budget.ts and budget-trend.test.ts (the trend line). Seen on a bench restarted on main in Pikes Creek, Pennsylvania (seed 91ecef5a-7698-4fc1-9c94-5660c9726e36): Your life, Jobs and study and a person card (his father) tell the history as sentences in section strips, with no timeline part and no ISO date (docs/play-first/shots/play-timeline-still-drawn-on-your-life-and-the-person-card/). The commit that removed it is outside this shallow clone.
