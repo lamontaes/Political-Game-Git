@@ -3796,10 +3796,7 @@ const sheets = {
                       party: gov.executive.party,
                       post: gov.executive.title,
                       onOpen: () =>
-                        showPerson({
-                          personId: gov.executive.cardId,
-                          figureUrl: gov.executive.face?.url,
-                        }),
+                        showPerson({ personId: gov.executive.cardId }),
                     }),
                   ),
                 ]
@@ -4288,7 +4285,7 @@ const sheets = {
                 face: f.face,
                 onOpen: () => {
                   closeSheet();
-                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+                  showPerson({ personId: f.cardId });
                 },
               }),
               ...f.stances.map((st) =>
@@ -4515,9 +4512,9 @@ const sheets = {
         text ?? "",
       );
     const short = (iso) => dateWords(iso, { month: "short", year: today() });
-    const open = (cardId, face) => () => {
+    const open = (cardId) => () => {
       closeSheet();
-      showPerson({ personId: cardId, figureUrl: face?.url });
+      showPerson({ personId: cardId });
     };
     const stateName = (key) =>
       key === gov.homeState?.key
@@ -4541,7 +4538,7 @@ const sheets = {
           line,
           party: m.party,
           face: m.face,
-          onOpen: open(m.cardId, m.face),
+          onOpen: open(m.cardId),
         },
         { large },
       );
@@ -4735,10 +4732,7 @@ const sheets = {
                         party: chief.members[0].party,
                         post: chief.title,
                         line: sinceLine(chief.members[0]),
-                        onOpen: open(
-                          chief.members[0].cardId,
-                          chief.members[0].face,
-                        ),
+                        onOpen: open(chief.members[0].cardId),
                       }),
                     ),
                   ]
@@ -4759,7 +4753,7 @@ const sheets = {
           o.members.map((m) => ({
             name: m.name,
             relation: o.title,
-            onOpen: open(m.cardId, m.face),
+            onOpen: open(m.cardId),
           })),
         ),
       );
@@ -4785,7 +4779,7 @@ const sheets = {
                         party: head.party,
                         post: chief.title,
                         line: sinceLine(head),
-                        onOpen: open(head.cardId, head.face),
+                        onOpen: open(head.cardId),
                       }),
                     ),
                   ]
@@ -5015,10 +5009,7 @@ const sheets = {
                     face: s.face,
                     onOpen: () => {
                       closeSheet();
-                      showPerson({
-                        personId: s.cardId,
-                        figureUrl: s.face?.url,
-                      });
+                      showPerson({ personId: s.cardId });
                     },
                   }),
                 rows: Math.max(

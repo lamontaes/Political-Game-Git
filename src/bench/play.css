@@ -2445,20 +2445,17 @@ body:not(.dev) .dev-only {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
+/* A round headshot: the person's bust, placed inside the frame by ui/headshot.mjs. */
 .headshot {
   box-sizing: border-box;
+  display: block;
+  position: relative;
+  overflow: hidden;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   border: 3px solid var(--kind, var(--gold));
-  object-fit: cover;
-  object-position: center top;
   background: var(--iron);
-}
-/* The headshot's figure is placed inside the round frame by play.mjs. */
-.headshot {
-  display: block;
-  background-repeat: no-repeat;
 }
 /* The bust (ui/bust.mjs): a square of stacked pictures, one per piece, each
    filling the square. The part that holds it sets its size and place. */
@@ -2479,10 +2476,6 @@ body:not(.dev) .dev-only {
   display: block;
   max-width: none;
   user-select: none;
-}
-.headshot.busted {
-  position: relative;
-  overflow: hidden;
 }
 /* People: the roster of everyone you know at the left, grouped, and the selected person's
    card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
@@ -4315,11 +4308,6 @@ select.release-pick {
     linear-gradient(180deg, #000 62%, transparent 100%),
     linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   mask-composite: intersect;
-}
-.strip-screen .mxbust img {
-  position: absolute;
-  display: block;
-  max-width: none;
 }
 
 #sheet.strip-sheet #sheet-body {

@@ -27,41 +27,19 @@ export function stripSection(depth, title, ...nodes) {
   );
 }
 
-/** The bust's size: the head fills this share of the column, and the crop ends this far below the head's top. */
-const HEAD_PX = 190;
-const BUST_BELOW_HEAD = 1.65;
+/** The column a bust is sized for. */
 const COLUMN_PX = 320;
-
-/**
- * A bust from a pack figure: head to upper chest, ending in a soft fade. `face`
- * is the card's face record (the figure's url and size, and its head
- * [top, middle, width] in the figure's pixels).
- */
-export function bust(face, alt, column = COLUMN_PX) {
-  if (!face) return el("div", { className: "mxglow" });
-  if (face.bust) return bustOf(face.bust, alt, column);
-  const [top, middle, width] = face.head;
-  const scale = column / COLUMN_PX;
-  const k = (HEAD_PX * scale) / width;
-  const image = el("img", { src: face.url, alt });
-  Object.assign(image.style, {
-    height: `${Math.round(face.height * k)}px`,
-    left: `${Math.round(column / 2 - middle * k)}px`,
-    top: `${Math.round(12 * scale - top * k)}px`,
-  });
-  const frame = el("div", { className: "mxbust" }, image);
-  frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
-  frame.style.width = `${column}px`;
-  const glow = el("div", { className: "mxglow" }, frame);
-  glow.style.width = `${column}px`;
-  return glow;
-}
-
 /** The share of the column a bust's head takes: the shoulders reach the column's edges. */
 const BUST_HEAD_SHARE = 0.36;
 
-/** A person's own bust (ui/bust.mjs): the whole of it across the column, ending in the same soft fade. */
-function bustOf(record, alt, column) {
+/**
+ * A person's bust for a screen's left column (ui/bust.mjs): the whole of it
+ * across the column, ending in a soft fade on the chest. `face` is the card's
+ * face record; someone with none (a child) gets the warm light alone.
+ */
+export function bust(face, alt, column = COLUMN_PX) {
+  if (!face) return el("div", { className: "mxglow" });
+  const record = face.bust;
   const scale = column / COLUMN_PX;
   const at = bustPlace(record, {
     share: BUST_HEAD_SHARE,

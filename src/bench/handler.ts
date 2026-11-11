@@ -803,7 +803,6 @@ const ROUTES: readonly Route[] = [
                     readRecipe(
                       state.core!.people.get(personId)!.looks!.recipe!,
                     ),
-                    `/api/portrait?id=${encodeURIComponent(personId)}`,
                   )
                 : null,
               placeName: state.placeName,

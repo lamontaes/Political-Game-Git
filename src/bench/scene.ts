@@ -22,7 +22,6 @@ import {
   dressedForPlace,
   figureForSpot,
   fitOn,
-  portraitFigure,
   type FigureBox,
   type FigurePerson,
 } from "./whole-figures";
@@ -913,26 +912,11 @@ function whoOf(core: CoreState, id: string, looks: Looks): Who {
   };
 }
 
-/** A person's face for a map or list: their own figure in their own colors, and where its head is. */
+/** A person's face for a menu, a list or the talk box: their bust (bust.ts). */
 export interface PersonFace {
-  url: string;
-  /** The head in the figure's pixels: top, middle and width. */
-  head: readonly [number, number, number];
-  width: number;
-  height: number;
-  /** The person as a bust (bust.ts): what a menu draws. The figure above is for the rooms. */
-  bust?: PersonBust;
+  bust: PersonBust;
 }
-/** A figure's face: the figure itself, cropped by the screen to its own head box. */
-export function faceOfFigure(figure: PackFigure, url: string): PersonFace {
-  return {
-    url,
-    head: [figure.head.top, figure.head.x, figure.head.width],
-    width: figure.size[0],
-    height: figure.size[1],
-  };
-}
-/** The person standing as they are dressed in `place`, cropped to their head; null for a child. */
+/** The person as a bust, dressed as they would be in `place`; null for a child. */
 export function faceOf(
   core: CoreState,
   id: string,
@@ -940,13 +924,8 @@ export function faceOf(
 ): PersonFace | null {
   const looks = looksOf(core, id);
   if (!looks) return null;
-  const who = whoOf(core, id, looks);
-  const figure = portraitFigure(core, who, place);
-  if (!figure) return null;
-  const url = drawnUrl(figure, who, ageBandOf(core, who.birthDate));
-  drawAhead(url);
-  const bust = bustOf(core, who, place);
-  return { ...faceOfFigure(figure, url), ...(bust ? { bust } : {}) };
+  const bust = bustOf(core, whoOf(core, id, looks), place);
+  return bust ? { bust } : null;
 }
 
 export function benchScene(

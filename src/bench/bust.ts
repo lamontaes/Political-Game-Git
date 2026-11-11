@@ -6,7 +6,6 @@
 // art/busts/v1/manifest.json: it says which pieces a person is and where each
 // piece's file is. The screen stacks them (ui/bust.mjs).
 import { readFileSync } from "node:fs";
-import { packPeople, type PackPerson } from "./people-pack";
 
 export const BUST_PACK = "v1";
 const PACK_DIR = new URL(`../../art/busts/${BUST_PACK}/`, import.meta.url);
@@ -30,6 +29,7 @@ interface Manifest {
   pack: number;
   canvas: number;
   order: readonly string[];
+  people: readonly { id: string; sex: string; head: string }[];
   sets: Readonly<Record<string, BustSet>>;
 }
 const MANIFEST = JSON.parse(
@@ -69,52 +69,48 @@ export const lookText = (look: {
     .map(([part, color]) => `${part}=${color}`)
     .join(",")}`;
 
-const luminance = ([r, g, b]: readonly number[]) =>
-  0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
-
 /**
- * Which head someone has: the pack paints its people of one sex in skin tones
- * from light to dark, and the bust bank paints its heads the same way, so a
- * person's bust has the skin of their painted figure.
+ * Someone a bust can be: one of the bank's painted people. `tone` is their
+ * skin among the people of their sex, 0 the lightest.
  */
-function headOf(person: PackPerson, set: BustSet): string {
-  const alike = packPeople()
-    .filter((row) => row.sex === person.sex)
-    .sort(
-      (a, b) =>
-        luminance(b.skin) - luminance(a.skin) || a.id.localeCompare(b.id),
-    );
-  const rank = Math.max(
-    0,
-    alike.findIndex((row) => row.id === person.id),
-  );
-  return set.heads[
-    Math.min(
-      set.heads.length - 1,
-      Math.floor((rank * set.heads.length) / Math.max(1, alike.length)),
-    )
-  ]!;
+export interface BustPerson {
+  readonly id: string;
+  /** The bank's word: woman or man. */
+  readonly sex: string;
+  readonly tone: number;
+  /** The file of their head, in their set's folder. */
+  readonly head: string;
 }
+const PEOPLE: readonly BustPerson[] = MANIFEST.people.map((row) => ({
+  ...row,
+  tone: Math.max(0, MANIFEST.sets[row.sex]?.heads.indexOf(row.head) ?? 0),
+}));
+const BY_ID = new Map(PEOPLE.map((row) => [row.id, row]));
+/** Every person the bank paints, in the manifest's order. */
+export const bustPeople = (): readonly BustPerson[] => PEOPLE;
+/** One of the bank's people by id (the id a saved look names). */
+export const bustPerson = (id: string) => BY_ID.get(id);
 
 const url = (set: BustSet, file: string) =>
   new URL(`${set.dir}/${file}`, "http://bust/art/busts/").pathname;
 
 /**
- * The bust of one of the pack's people, dressed as `dress`. `pick` is a
+ * The bust of one of the bank's people, dressed as `dress`. `pick` is a
  * number set once from the person's own appearance seed: it decides which
  * hair and facial hair they have, so the same person is the same bust
  * everywhere. It decides who someone looks like, never what anyone does.
  * `facialHair` is false for someone who wears none: a teenager, and a look
  * chosen in the creator, which offers none.
- * Null where the bank paints no set for the person's sex.
+ * Null for someone the bank does not paint.
  */
 export function bustFor(
-  person: PackPerson,
+  who: { readonly id: string },
   dress: BustDress,
   pick: number,
   facialHair = true,
 ): PersonBust | null {
-  const set = MANIFEST.sets[person.sex];
+  const person = BY_ID.get(who.id);
+  const set = person && MANIFEST.sets[person.sex];
   if (!set) return null;
   const n = Math.abs(Math.trunc(pick));
   const hair = set.hair[n % set.hair.length]!;
@@ -124,7 +120,7 @@ export function bustFor(
       ? set.face[Math.floor(n / 7) % (set.face.length + 1)]
       : undefined;
   const pieces: Readonly<Record<string, string | undefined>> = {
-    head: headOf(person, set),
+    head: person.head,
     top: set.tops[dress],
     face,
     hair,

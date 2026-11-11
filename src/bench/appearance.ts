@@ -1,5 +1,4 @@
 import type { PersonFace } from "./scene";
-import { faceOfFigure } from "./scene";
 import { bustFor, bustPick, lookText } from "./bust";
 import {
   colorParts,
@@ -331,17 +330,13 @@ export function portraitPng(
   return figurePng(figure, figure.kind === "kit" ? (recipe.colors ?? {}) : {});
 }
 
-/** The look as a face for a headshot: its everyday figure drawn at `url`, cropped by the screen to the figure's own head. */
-export function portraitFace(
-  recipe: LookRecipe,
-  url: string,
-): PersonFace | null {
-  const figure = figureFor(recipe);
-  if (!figure) return null;
-  const person = packPerson(recipe.person);
-  // The same bust the game draws for this look everywhere (bust.ts).
-  const bust = person
-    ? bustFor(person, "everyday", bustPick(lookText(recipe)), false)
-    : null;
-  return { ...faceOfFigure(figure, url), ...(bust ? { bust } : {}) };
+/** The look as a face for a headshot: the same bust the game draws for this look everywhere (bust.ts). */
+export function portraitFace(recipe: LookRecipe): PersonFace | null {
+  const bust = bustFor(
+    { id: recipe.person },
+    "everyday",
+    bustPick(lookText(recipe)),
+    false,
+  );
+  return bust ? { bust } : null;
 }
