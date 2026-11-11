@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-stopgap-never-hit-audit
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ effort: medium
 root: design-guards
 lead: cto
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:20:43.443Z
 checked: fable 2026-11-10
 branch: claude/pool-core-stopgap-never-hit-audit
 ---
@@ -48,3 +48,5 @@ Released (2026-11-11): Not built: it needs three drawn towns run two played year
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:20 UTC) on branch claude/pool-core-stopgap-never-hit-audit.
 
 Released (2026-11-11): Re-claimed by my own next loop, not worked; see the release above (split by stopgap family file, each with its own replay). Continue on branch claude/pool-core-stopgap-never-hit-audit.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:20 UTC) on branch claude/pool-core-stopgap-never-hit-audit.
