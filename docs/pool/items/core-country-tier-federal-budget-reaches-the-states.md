@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-core-country-tier-federal-budget-reaches-the-states
-pr: #8401
+pr: #8388
 after:
 blocked-on:
 lead: fable
