@@ -6,6 +6,7 @@
     "U.S. Senate roll call XML (senate.gov)",
     "Gallup",
     "Quinnipiac University (via The Hill)",
+    "Napolitan News Service",
     "Federal Register API (Executive Order 14193)",
     "govinfo (H.J.Res. 72, engrossed text)"
   ],
@@ -71,6 +72,13 @@
       "yesShare": 0.537,
       "tag": "SOURCED",
       "source": "House roll call 496, 18-Jul-2019, H R 582 (On Passage), \"Raise the Wage Act\": Republicans 3 yea, 192 nay; Democrats 228 yea, 6 nay; independents 0 yea, 1 nay. Raised the federal minimum wage in steps. A yea is a yes on the question. Fetched https://clerk.house.gov/evs/2019/roll496.xml."
+    },
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+      "axis": 0.24,
+      "yesShare": 0.61,
+      "tag": "ESTIMATED",
+      "spread": 0.031,
+      "source": "Napolitan News Service, online survey of 1,000 registered voters, January 19-20, 2026 (no roll call on a rate cap since 2010; the last, a Senate amendment in 2009, is older): \"A majority (61%) of voters favor President Trump's announcement that he would cap credit card interest rates at 10%.\" \"More Republicans (74%) than Democrats (50%) favor the idea.\" Margin of error 3.1 points. The question named the President, so the party gap carries his cue. https://napolitannews.org/posts/a-majority-favor-capping-credit-card-rates-at-10-percent, fetched 2026-11-11."
     },
     "us-federal-positions:social-insurance.raise-retirement-age": {
       "axis": 0.016,

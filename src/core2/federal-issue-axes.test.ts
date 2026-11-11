@@ -79,6 +79,30 @@ describe("the President's views on federal questions, in drawn places", () => {
       expect(held.length, here).toBeGreaterThanOrEqual(15);
       const stands = standsAt(api, president!, "federal", "US");
       expect(stands.length, here).toBeGreaterThanOrEqual(6);
+      // The address names at least three national points, at least two of
+      // them questions only federal law answers, each one of his stands.
+      const points = [
+        ...new Set(
+          world.director.ledger.opening!.address.sentences.flatMap((row) =>
+            row.sourceRecordIds
+              .filter((id) => id.startsWith("question:"))
+              .map((id) => id.slice("question:".length)),
+          ),
+        ),
+      ];
+      expect(
+        points.length,
+        `${here}: ${points.join(", ")}`,
+      ).toBeGreaterThanOrEqual(3);
+      expect(
+        points.filter((question) => question in rows).length,
+        `${here}: ${points.join(", ")}`,
+      ).toBeGreaterThanOrEqual(2);
+      for (const question of points)
+        expect(
+          stands.some((row) => row.question === question),
+          `${here}: ${question}`,
+        ).toBe(true);
       // A Republican President stands with most of his party on a question
       // the roll call split by party, and a Democratic one with most of hers.
       const side = president!.party === "Republican" ? 1 : -1;
@@ -106,7 +130,7 @@ describe("the President's views on federal questions, in drawn places", () => {
       );
       expect(apart.length, here).toBeGreaterThanOrEqual(5);
       seen.push(
-        `${here}: ${president!.party} President, ${stands.length} stands; the parties' median House members apart on ${apart.length}`,
+        `${here}: ${president!.party} President, ${stands.length} stands; the parties' median House members apart on ${apart.length}; first points ${points.slice(0, 3).join(", ")}`,
       );
     }
     console.log(seen.join("\n"));
