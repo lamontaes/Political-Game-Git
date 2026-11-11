@@ -6,6 +6,7 @@ import officeHours from "./data/office-hours.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   ELECTIONS_MODULE_ID,
+  ballot,
   checkEligibility,
   filingOfficeFor,
   openContests,
@@ -21,9 +22,12 @@ import { contestPositions } from "../core2/contest-positions";
 import { seatHolder } from "../core2/modules/voting";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
+  askAtCounter,
   counterNarration,
+  filedAtCounter,
   openFilingVisit,
   pickContest,
+  type FilingContest,
   type FilingVisit,
 } from "../director/filing-visit";
 import { backdropFor, stagePeople, type StageReason } from "./scene";
@@ -152,10 +156,35 @@ export function openBenchFilingVisit(
       )
     );
   };
+  // Who else has filed for each race so far, the earliest first, from the
+  // elections engine's filings; the player is never one of them.
+  const filedFor = (contestId: string): FilingContest["filed"] => {
+    const others = [...ballot(api, contestId)]
+      .filter((row) => row.personId !== playerId)
+      .sort(
+        (a, b) =>
+          a.filedOn.localeCompare(b.filedOn) || a.id.localeCompare(b.id),
+      );
+    const first = others[0];
+    const person = first ? core.people.get(first.personId) : undefined;
+    return {
+      count: others.length,
+      ...(first && person
+        ? {
+            first: {
+              name: `${person.givenName} ${person.familyName}`,
+              recordId: first.id,
+            },
+          }
+        : {}),
+      recordIds: others.map((row) => row.id),
+    };
+  };
   const contests = open.map((row) => {
     const office = offices.get(row.officeId) as unknown as
       OfficeRecord | undefined;
     return {
+      filed: filedFor(row.id),
       id: row.id,
       title: raceTitle(row.title, row.district),
       filingDeadline: row.filingDeadline,
@@ -193,7 +222,13 @@ export function openBenchFilingVisit(
   // The clerk the contest's filing office records name (none for a state or federal counter).
   const clerkRow = filingClerkFor(api, contests[0]!.id);
   const clerk = clerkRow?.personId;
-  const visit = openFilingVisit(core, playerId, contests, clerk ?? undefined);
+  const visit = openFilingVisit(
+    core,
+    playerId,
+    contests,
+    clerk ?? undefined,
+    filedWith,
+  );
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
   const cast: { id: string; name: string; reason: StageReason }[] = [
@@ -286,6 +321,8 @@ export function chooseAtCounter(
       overlay: overlayFor(core, state.visit.playerId, action.contestId),
     };
   }
+  if (action.kind === "ask")
+    return { ...state, visit: askAtCounter(core, state.visit, key) };
   if (action.kind === "file") {
     const result = fileForOffice(
       core,
@@ -293,15 +330,27 @@ export function chooseAtCounter(
       action.contestId,
       filing,
     );
-    state.visit.lines.push({
-      speaker: "player",
-      text: choice.text,
-      sourceRecordIds: choice.sourceRecordIds,
-    });
-    // What the petition asks is the clerk's next scene, staged from the
-    // filing's record by the director (the `filing` situation type), so the
-    // clerk says it once.
-    return { ...state, visit: { ...state.visit, choices: [] }, result };
+    // The clerk takes the papers and names the day that counts next; what
+    // the petition asks is the clerk's next scene, staged from the filing's
+    // record by the director (the `filing` situation type), so the clerk
+    // says it once.
+    const refused =
+      (result as { status?: string } | undefined)?.status === "refused";
+    const visit = refused
+      ? {
+          ...state.visit,
+          lines: [
+            ...state.visit.lines,
+            {
+              speaker: "player" as const,
+              text: choice.text,
+              sourceRecordIds: choice.sourceRecordIds,
+            },
+          ],
+          choices: [],
+        }
+      : filedAtCounter(core, state.visit, choice);
+    return { ...state, visit, result };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
 }
