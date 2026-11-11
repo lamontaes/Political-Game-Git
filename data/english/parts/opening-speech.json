@@ -74762,6 +74762,1990 @@
       "origin": "authored",
       "author": "Claude (Words builder, opening address versions)",
       "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-congress-can-to-this-year-and-i-ll-be",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress can {to} this year, and I'll be right there to sign it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-ll-sign-a-bill-to-to-the-day",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll sign a bill to {to} the day it reaches me.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-m-counting-on-congress-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm counting on Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-folks-have-waited-long-enough-for-congress-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "folks have waited long enough for Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-get-me-a-bill-to-to-and-i-ll",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "get me a bill to {to}, and I'll sign it that same day.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-congress-ought-to-to-and-soon",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress ought to {to}, and soon.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-ll-keep-after-congress-until-they-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll keep after Congress until they {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-the-next-bill-i-want-to-sign-is-one",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "the next bill I want to sign is one to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-if-you-want-congress-to-to-call-your-member",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "if you want Congress to {to}, call your member and tell them so.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-m-asking-congress-for-a-vote-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm asking Congress for a vote to {to}, and I'll sign what they send.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-there-s-no-reason-congress-can-t-to-this",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "there's no reason Congress can't {to} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-want-to-sign-a-bill-to-to-before",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I want to sign a bill to {to} before the year is out.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-congress-has-what-it-needs-to-to-and-i",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress has what it needs to {to}, and I'll sign it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-my-pen-is-ready-the-day-congress-votes-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "my pen is ready the day Congress votes to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-it-s-time-for-congress-to-to-and-i",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "it's time for Congress to {to}, and I'll back them all the way.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-ll-work-with-anybody-in-congress-who-wants",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll work with anybody in Congress who wants to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-congress-i-m-asking-you-plainly-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress, I'm asking you plainly to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-ll-put-my-name-on-a-bill-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll put my name on a bill to {to} the day they pass it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-a-vote-to-to-is-the-first-thing-i",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "a vote to {to} is the first thing I want from this Congress.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-m-going-to-keep-pushing-congress-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm going to keep pushing Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-any-bill-for-about-is-getting-my-veto",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "any bill for {about} is getting my veto.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-won-t-put-my-name-on-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I won't put my name on {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-congress-can-send-me-a-bill-for-about-and",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress can send me a bill for {about}, and I'll send it right back.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-m-standing-against-about-plain-and-simple",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm standing against {about}, plain and simple.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-you-won-t-see-me-sign-off-on-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "you won't see me sign off on {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-about-isn-t-happening-on-my-watch",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} isn't happening on my watch.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-ll-fight-about-every-step-of-the-way",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll fight {about} every step of the way.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-don-t-support-about-and-i-won-t",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I don't support {about}, and I won't pretend I do.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-a-bill-for-about-gets-a-veto-from-me",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "a bill for {about} gets a veto from me.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-i-m-not-backing-about-and-i-ll-say",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm not backing {about}, and I'll say so to anyone.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-if-about-comes-to-my-desk-it-goes-back",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "if {about} comes to my desk, it goes back unsigned.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.plain-ina-sta-all-core-my-answer-on-about-is-no-and-i-ll",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "my answer on {about} is no, and I'll keep saying it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "plain",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-urge-congress-to-to-and-i-will-sign",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I urge Congress to {to}, and I will sign that measure when it arrives.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-sign-a-bill-to-to-the-day",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will sign a bill to {to} the day it reaches my desk.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-call-on-this-congress-to-to-without-further",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I call on this Congress to {to} without further delay.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-the-time-has-come-for-congress-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "the time has come for Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-work-with-members-of-either-party-who",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will work with members of either party who will help {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-congress-has-it-within-its-power-to-to-and",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress has it within its power to {to}, and I ask that it act.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-ask-the-congress-to-to-and-i-will",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I ask the Congress to {to}, and I will lend this office to the effort.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-a-bill-to-to-will-have-my-signature",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "a bill to {to} will have my signature.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-not-rest-until-congress-acts-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will not rest until Congress acts to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-the-american-people-have-waited-long-enough-for-congress",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "the American people have waited long enough for Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-respectfully-ask-the-congress-to-to-this-year",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I respectfully ask the Congress to {to} this year.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-congress-should-act-to-to-and-it-will-find",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress should act to {to}, and it will find in me a willing partner.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-gladly-sign-a-measure-to-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will gladly sign a measure to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-let-this-congress-be-the-one-that-votes-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "let this Congress be the one that votes to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-make-the-case-in-every-forum-i",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will make the case, in every forum I have, for Congress to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-ask-both-houses-to-to-and-i-will",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I ask both houses to {to}, and I will sign their work.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-my-administration-stands-ready-to-help-congress-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "my administration stands ready to help Congress {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-congress-can-to-this-session-and-i-urge-it",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Congress can {to} this session, and I urge it to do so.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-sign-into-law-any-sound-bill-to",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will sign into law any sound bill to {to}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-look-to-the-congress-to-to-and-i",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I look to the Congress to {to}, and I will hold it to that charge.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "to"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-cannot-support-about-and-i-will-say-so",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I cannot support {about}, and I will say so plainly.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-any-bill-for-about-will-meet-my-veto",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "any bill for {about} will meet my veto.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-oppose-about-with-every-tool-this-office",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will oppose {about} with every tool this office provides.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-about-will-not-become-law-while-i-hold-this",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} will not become law while I hold this office.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-return-any-measure-for-about-to-congress",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will return any measure for {about} to Congress unsigned.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-stand-opposed-to-about-now-and-in-the",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I stand opposed to {about}, now and in the months ahead.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-this-administration-will-not-lend-its-support-to-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "this administration will not lend its support to {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-urge-congress-to-reject-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I urge Congress to reject {about}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-should-congress-send-me-a-bill-for-about-i",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "should Congress send me a bill for {about}, I will veto it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-i-will-press-the-case-against-about-wherever-i",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will press the case against {about} wherever I can.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-about-does-not-have-my-support-and-it-will",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} does not have my support, and it will not.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.ask.polished-ina-sta-all-core-my-answer-to-about-is-no-and-it-will",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "my answer to {about} is no, and it will remain no.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-not-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Words builder W8 (red on main: the address's ask said the same in three worlds)",
+      "date": "2026-11-11"
     }
   ]
 }
