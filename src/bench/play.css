@@ -414,6 +414,11 @@ ol {
 #game:has(#desk:not([hidden])) #here .busts-row {
   padding: 0 8px;
 }
+/* The band is too narrow there for its label beside the names. */
+#game:has(#meeting:not([hidden])) #here .busts-label,
+#game:has(#desk:not([hidden])) #here .busts-label {
+  display: none;
+}
 /* Three stand in the room the panel leaves; the rest are the faces on it. */
 #game:has(#meeting:not([hidden]))
   #here
