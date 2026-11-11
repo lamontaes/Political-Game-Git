@@ -59,6 +59,7 @@ About 40 minutes before a train's time:
    - `NODE_OPTIONS=--max-old-space-size=8192 node --import tsx scripts/dev-lab/typecheck.ts`
    - the tests `npm run agent:test-cadence` names for the train's changed files, and the changed test files themselves
    - `npm run old-imports`
+   - `npm run release:check -- --mode push` (a train that leaves the release check red holds the next build; on Nov 10 a packaging run failed on a reused release-note id)
    - the golden path: `node --import tsx tests/golden-path/runner.mjs`
    - for a screens or words train, a new game in the bench on a place and seed nobody chose: the browser checks the riders changed, with `BENCH_BROWSER=/opt/pw-browsers/chromium`
 4. **A failure that is also red on clean main does not stop a train.** Name it in the comment.
@@ -87,6 +88,14 @@ The lines are in merge order. The sha is each pull request's own head as GitHub 
 Whoever holds the merge step (on Nov 11: the CTO's account; a desk may merge only where the owner has allowed it in that desk's own account) merges the lines top to bottom, each with the head pinned (`--match-head-commit <sha>`, or `expectedHeadSha`). A pull request whose head moved since the train was posted is skipped and named; it never merges unpinned. After the last line, post `Train <area> <HH:MM>: merged <n> of <m>` with the ones skipped.
 
 After a train lands, the desk that built it runs the golden path once on main. If it is red, say so on the crew's issue at once and name the train: finding which rider did it comes before the next train.
+
+## A build window
+
+When the CTO posts a build window (on Nov 11: the last train lands by 12:45 UTC, the Mac build is dispatched at 12:50 UTC):
+
+- **Nothing merges from the window's start until the CTO posts `CTO: build published`,** reds included. The packaging run publishes only if main has not moved between its check and its publish. Gating goes on.
+- **Nothing that touches `.github/workflows` or `scripts/release` rides a train after the time the CTO names** (Nov 11: 10:00 UTC) unless it fixes a red.
+- **The last train before a window is the shortest sure one.** Post it early and green.
 
 ## Traps
 
