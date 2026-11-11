@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
-pr: #8206
+pr: #8522
 after:
 blocked-on:
 lead: words
