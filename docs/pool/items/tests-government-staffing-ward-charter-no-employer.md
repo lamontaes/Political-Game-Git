@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-government-staffing-ward-charter-no-employer
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T09:16:54.130Z
 branch: claude/pool-tests-government-staffing-ward-charter-no-employer
 ---
 
@@ -50,3 +50,5 @@ Released (2026-11-11): Cause does not hold: with the item's fix (play on weekly 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:16 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
 
 Released (2026-11-11): Cause does not hold: weekly play to 63 days after the change still leaves no hired-on-budget-line row on seeds 446eaae155bdacc270446225a696c32454dda4b0 (place 3050200), a1b2c3d4e5f60718 (3314200), 9f8e7d6c5b4a3921 (1825000); on the last the organization staffing row is missing too. Test change reverted; needs a new cause find. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:16 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
