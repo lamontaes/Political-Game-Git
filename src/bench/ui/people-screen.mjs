@@ -41,16 +41,28 @@ export function peopleScreen({ people, household, labels, card }) {
         : [];
     }),
     // The chosen person's card; a name inside it opens that person's card here too.
-    render: (entry, show) => {
-      const open = async (person) => {
+    // The list follows: the row of the person now shown is the lit one, and
+    // none is lit for someone who is not on the list.
+    render: (entry, show, shows) => {
+      const open = async (person, moved) => {
         const mine = ++request;
         const built = await card(
           person,
           () => mine === request,
           (other) =>
-            open(people.find((p) => p.personId === other.personId) ?? other),
+            open(
+              people.find((p) => p.personId === other.personId) ?? other,
+              true,
+            ),
         );
-        if (built && mine === request) show(built.node);
+        if (!built || mine !== request) return;
+        show(built.node);
+        if (moved)
+          shows(
+            people.some((p) => p.personId === person.personId)
+              ? person.personId
+              : null,
+          );
       };
       open(entry.person);
     },
