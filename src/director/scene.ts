@@ -213,13 +213,11 @@ export function composeScene(
       return facts;
     },
     `${moment.id}:arrival`,
-    // Someone who lives with the player does not arrive: they are home
-    // (the receive rule's facts), so their line is the housemate's stage.
+    // Someone who lives with the player does not arrive: they are home, so
+    // the day opens as it does alone and the scene's lead says who is there.
     (facts) =>
-      facts.name
-        ? meeting && livesWith(core, personId, meeting.id)
-          ? "housemate"
-          : "other"
+      facts.name && !(meeting && livesWith(core, personId, meeting.id))
+        ? "other"
         : "alone",
   );
   // The call or letter line is the fallback when no arrival is worded.
