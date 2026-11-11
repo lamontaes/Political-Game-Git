@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
 pr: #8380
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: rc1-world-outside-town
 source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:17:40.355Z
 branch: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
 ---
 
@@ -52,3 +52,5 @@ Nov 11 (cause finder for Fable B): read on main d64255aa31. Congress's filing lo
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:16 UTC) on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data.
 
 Released (2026-11-11): Opus-tier high-effort item: admitting federal questions needs standing answers, stances and effect readers for 27 questions; file-from-data wiring alone leaves the stopgap in place and is not a bounded Sonnet part. Continue on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data and pull request #8380.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:17 UTC) on branch claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data.
