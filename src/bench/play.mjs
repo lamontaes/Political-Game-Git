@@ -5094,10 +5094,13 @@ const sheets = {
         );
         if (!d.records) return [head, prose(w.noOneYet, "record-empty")];
         const group = (key, part) =>
-          part.people
+          Math.round(part.people)
             ? [
                 row(
-                  fill(w[key], { n: part.people }),
+                  // Counted groups stand for whole people in words.
+                  fill(w[key], {
+                    n: Math.round(part.people).toLocaleString("en-US"),
+                  }),
                   roundedMoney(part.amountMinor),
                 ),
               ]
