@@ -577,7 +577,6 @@
   },
   "bill": {
     "open": "Read the bill",
-    "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
     "where": "Where it is",
@@ -835,22 +834,7 @@
       "legislative": "Legislative",
       "executive": "Executive"
     },
-    "meets": "Meets {schedule}",
-    "meetsWeekly": "every {weekday}",
-    "meetsTwice": "the {first} and {second} {weekday} of the month",
-    "meetsMonthly": "the {first} {weekday} of the month",
-    "weekdays": [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ],
-    "ordinals": ["1st", "2nd", "3rd", "4th", "5th"],
     "nextMeeting": "next meeting {date}",
-    "nextElection": "next election {date}",
     "seatsTotal": "{n} seats",
     "recentVotes": "Recent votes",
     "noVotes": "No roll calls on record yet",
@@ -873,7 +857,6 @@
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
     "officers": "Officers",
-    "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
     "partySince": "{party} \u00b7 since {date}",
@@ -895,8 +878,7 @@
     "fiscalYear": "fiscal year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
-    "subjects": "Subjects",
-    "backToGovernment": "Back to the government"
+    "subjects": "Subjects"
   },
   "results": {
     "you": "You",
@@ -987,6 +969,10 @@
     "bad": "Bad",
     "note": "One word",
     "saved": "Graded"
+  },
+  "here": {
+    "label": "Here",
+    "more": "and {count} more"
   },
   "talkBox": {
     "continue": "Continue",
@@ -1196,10 +1182,6 @@
     "callOverride": "Take up the veto message"
   },
   "billFollow": {
-    "open": "Read the bill",
-    "back": "Back to the bills",
-    "reaches": "Reaches your town",
-    "yourMembers": "Your members",
     "empty": "No bill is before your town, county, state or Congress yet."
   },
   "frontTitles": {
@@ -1274,7 +1256,8 @@
     "to": "to",
     "notVoting": "Didn't vote",
     "noParty": "No party",
-    "yours": "Your member"
+    "yours": "Your member",
+    "yourMembers": "Your members"
   },
   "devBill": {
     "title": "Dev mode",
