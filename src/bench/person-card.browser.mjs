@@ -2,7 +2,7 @@
 // Run against the bench; fresh runs draw a world, later runs reuse its life.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife, someoneToTalkTo } from "./start-life.mjs";
+import { finishTalk, startLife, someoneToTalkTo } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER || undefined,
 });
@@ -107,8 +107,19 @@ try {
   console.log(
     "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
-  await page.locator("#here .busts-person.talkable").first().press("Enter");
-  await page.locator("#talk:not([hidden])").waitFor();
+  // A second talk can open on a line with no speaker named (a story that
+  // came up meanwhile): it is played through and the person asked again.
+  for (let tries = 0; tries < 3; tries += 1) {
+    await (await someoneToTalkTo(page)).first().press("Enter");
+    await page.locator("#talk:not([hidden])").waitFor();
+    const named = await page
+      .locator("#talk-name")
+      .waitFor({ timeout: 5000 })
+      .then(() => true)
+      .catch(() => false);
+    if (named) break;
+    await finishTalk(page);
+  }
   await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();
   await page.setViewportSize({ width: 1024, height: 768 });
