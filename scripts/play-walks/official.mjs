@@ -147,7 +147,12 @@ try {
       }
       if (await shown("continue")) {
         walk.say(`    (a stop at [${await clockOf(page)}]: Continue)`);
-        await page.locator("#continue").click();
+        // The page may open a scene between the look and the press: wait a
+        // little for the button, then go round again, never the whole timeout.
+        await page
+          .locator("#continue")
+          .click({ timeout: 3000 })
+          .catch(() => {});
         continue;
       }
       if (!(await page.locator("#day").isDisabled())) break;
