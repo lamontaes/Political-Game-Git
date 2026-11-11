@@ -296,6 +296,70 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.103.0
+
+_Released November 11, 2026._
+
+### Added
+
+- **Clothes in colors, and a Shirt, a Tie and a Jacket to choose** People's
+  portraits now wear clothes painted as layers in colors. When you make your
+  character you choose the color of your shirt, a tie or none, and a jacket or
+  none, and the portrait changes as you choose. Everyone in the game is dressed
+  from the same pieces: everyday tops at home, a shirt at work, and a shirt and
+  jacket for anyone who holds office, with a tie for the men who wear one.
+
+### Fixed
+
+- **A "yes" at the door now holds at the ballot** A voter who told a candidate
+  "yes" at the door and has learned nothing since to undo it now votes for that
+  candidate, even where the other reasons they weigh add up to more for a rival.
+
+- **A game in Washington, D.C. plays past its first March** A game set in
+  Washington, D.C. stopped on its first April with an error, after the capital's
+  prices doubled in two months. The country's economy now keeps the capital's
+  books whole when the town holds every job its state has, so prices stay in a
+  normal range and the year plays on.
+
+- **Money says whose home it is and how it is held** Money listed your
+  household's home under "What you own" as "Owned … House", even for a
+  17-year-old with no money, and listed a rented apartment there too. The home
+  now has its own part, named "Your household's home" when you share it, and
+  says what it is and how it is held: "House … Owned" or "Apartment … Rented ·
+  $2,030 per month".
+
+- **Election day no longer offers a vote to someone who cannot vote there.** If
+  you live outside the town whose race is counted, election day no longer
+  narrates a missing ballot; it goes straight on to the count.
+
+- **Someone on a shift is no longer also at home** A family member who is at
+  work on their shift is no longer shown in the kitchen at the same hour. The
+  home and the workplace now read the same work hours.
+
+- **The first Journal note's work lines stay within the journal's ten-word
+  limit** Five lines about where a relative works were an eleventh word or more
+  over the journal's ten-word limit and failed the bank test; they are shortened
+  without losing the job, the place or when.
+
+### Changed
+
+- **The President and Congress now take sides on national questions** The
+  President and every member of Congress now hold a view on questions only
+  federal law answers, such as tariffs, the federal minimum wage, immigration
+  and student loans. Each side follows how their party really voted, so the
+  President's address speaks on national points and Congress writes bills on
+  them.
+
+- **When you meet someone, talk about work names where they work and what they
+  do there.** Meeting someone new, the talk about work is put together fresh
+  from that person's records: where they work, what their job is, and the town
+  it is in when it is out of town ("These days I'm at Singh Building Services.
+  They've got me on as a janitor."). Your own answer can name your employer or
+  your job. Your replies are different moves, and no two of them repeat the same
+  name: tell them where you work, ask how long they have been there (only when
+  that is on record), ask what they do there, or just take it in. The old lines
+  that asked how busy a place was, or whether someone likes it there, are gone.
+
 ## PRE-ALPHA 0.102.0
 
 _Released November 11, 2026._
