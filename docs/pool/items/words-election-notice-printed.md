@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-election-notice-printed
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at: 2026-11-11T05:35:05.440Z
+claimed-at:
 checked: fable 2026-11-11
 branch: claude/pool-words-election-notice-printed
 ---
@@ -54,3 +54,5 @@ Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Cause matches, but no record exists for the paper to print a notice from (no upcoming-election event in press, no notice story kind in english-newscast), so it needs an elections-side record and a Words-reviewed story kind first; not built. Continue on branch claude/pool-words-election-notice-printed.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:35 UTC) on branch claude/pool-words-election-notice-printed.
+
+Released (2026-11-11): Needs an elections-side record the paper can print from and a Words-reviewed notice story kind first; not built. Continue on branch claude/pool-words-election-notice-printed.
