@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:21:09.149Z
+claimed-at:
 branch: claude/pool-tests-law-wiring-labor-one-subject-per-test
 ---
 
@@ -44,3 +44,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:21 UTC) on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
+
+Released (2026-11-11): Reproduced on main 2026-11-11 (one run, 249 s, seed 2804b6fc1159bf058ba3f9e9e104c698a67de9c2): 'no place with a subject' after ten tries, each missing a different subject (no claimant earns above the weekly maximum x3, no seated council member x5, no teacher in the town, no full or counted jobs). The Fix (one test per labor law, each building its own subject through the core's seams, under 60 s) is a six-hour split of src/core2/law-wiring-labor.test.ts I did not start; the seams per subject are the open work. Continue on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
