@@ -21,6 +21,9 @@ import {
 } from "./macro";
 import { REGIONAL_MODULE, REGIONAL_PARAMETERS } from "./regional";
 import { WORLD_METRICS_MODULE } from "./world-metrics";
+
+/** The towns' figures as the economy engines record them, read through this family's entry. */
+export { townMetrics } from "./world-metrics";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
 import { withMembershipDues } from "../membership-dues";
 
