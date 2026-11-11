@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-people-housemates-named-to-each-other
 pr: #8456
 blocked-on:
