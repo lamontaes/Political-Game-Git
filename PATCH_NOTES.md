@@ -296,6 +296,228 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.102.0
+
+_Released November 11, 2026._
+
+### Added
+
+- **An officeholder can repeal a law from its own page, and the page names who
+  can where they cannot** Every law's page in Issues now shows a Repeal action
+  to an officeholder whose body can change that law: pressing it drafts the
+  repeal bill through the seat and opens its paper. Where the player's bodies
+  lack the power, the page names the bodies that hold it instead, and a resident
+  with no office sees no action.
+
+### Improved
+
+- **Filing shows its petition** When you file for an office that asks for
+  signatures, the counter now says how many the clerk will count and the last
+  day to hand them in. Your campaign screen shows the signatures you hold
+  against that number, and the clerk's count once it has checked.
+
+### Fixed
+
+- **When you go somewhere, you stay there until you leave** After you traveled
+  to a place and talked to someone there, the game put you back in your own
+  home, with the people you had just left standing in your kitchen. Now you stay
+  where you went, through talks and waiting, until you go somewhere else, choose
+  Home in Travel, or the day ends. The card's clock also moves when a talk ends.
+
+- **A bill's page keeps its vote on screen, and Play as lists only offices this
+  world runs** A bill opened from Your office or Bills now shows where it
+  stands, the staff and your vote in its first column, and each column scrolls
+  inside itself, so the vote buttons no longer fall off the foot of the sheet.
+  Your own members' votes read as a name and a vote. An empty Staff heading is
+  gone. In Advanced, Play as no longer offers other states' legislators and
+  governors, whose offices had nothing in force.
+
+- **A bill opened from the mayor's desk or a council meeting no longer overlaps
+  itself** The bill's text, its title and what it would do were drawn on top of
+  each other in the narrow side panel. A bill read from the desk or from a
+  meeting now opens at a menu's full width.
+
+- **Dev mode's Watch can be read: it has its own tab on the Calendar** With Dev
+  mode on, the Calendar now has a Watch tab that takes the whole sheet, with
+  each table in a box that scrolls inside itself. Before, Watch was squeezed
+  into a sliver under the calendar and its tables were cut off.
+
+- **An employer you turned down stops calling with the same job, and a relative
+  stops writing the same letter.** After you turned down or let lapse a job
+  offer, the same employer used to phone again and again with the same job at
+  the same pay. Now it calls back only with another job or a real raise. A
+  relative who lives elsewhere writes again only when something has happened
+  since their last letter: news of their life, a birthday they missed or their
+  own birthday coming up. Otherwise the letter is a line in your journal.
+
+- **Scenes go only to someone who could be in them.** A parent or sibling who
+  lives with you no longer "comes to the house" or knocks at your door with a
+  request: someone who comes, calls or asks lives apart from you, and a scene
+  that would need it goes to your journal instead. A scene set at a legislative
+  seat or in a chamber now reaches you only when you hold an office.
+
+- **Four small menu fixes: the creator's birthday, the bill amount, blocked
+  subjects and a side column** In the creator, a long month and "1968 (age 56)"
+  are no longer drawn under the dropdown's mark. Writing a bill, the amount is a
+  field with its box showing and its dollar sign in front, and a subject your
+  body may not write about is dimmed. On list pages the side column is wide
+  enough for a date and a name on one row.
+
+- **Travel no longer cuts off the chosen place, dropdowns look like dropdowns,
+  and the People list stays inside its panel** The chosen place in Travel ran
+  off the right edge, hiding part of its name, hours and button. A dropdown
+  looked like plain text. The People list ran past the bottom of the panel. A
+  person's bust could show as a head with no shoulders while its pictures
+  loaded. All four are fixed.
+
+- **Talking to your family on the first evening no longer costs you the next
+  day** In a new life, a talk at home on the opening evening was charged to the
+  next morning, so the first Day skipped a whole day. A talk before your first
+  morning now holds the clock, and Day lands on the very next morning.
+
+- **The Parties screen lists every party, not only the ones that hold office in
+  your town** A member of a party with no one in office nearby could not see
+  their own party on the Parties screen, and no one could join such a party. The
+  screen now lists the parties that hold office, the parties open to join and
+  your own.
+
+- **A relative who holds an office and a job is told with both on her card and
+  in your journal.** Your sister's card used to say she had served as
+  commissioner since 2018, while your journal said she was a cook, because each
+  screen read a different record. Now the card, the journal and Travel all read
+  what she does from the same records. A relative who holds a part-time office
+  beside her job is told with both, the office and where she works, on her card
+  and in your journal.
+
+- **No Back button on a bill's page, and no small print under a council's name**
+  A bill opened from Bills, Government or a law's page closes like every other
+  menu, with the tabs and the close control; there is no Back button. On
+  Government, a council's or office's name sits on its picture with no line of
+  small text under it; its seats are in Seats, and its next meeting and election
+  are in Coming up.
+
+- **A bill's page says each section once** A bill's page printed a section's
+  sentence three times. The typed sentence is now the section you click, and
+  "What it would do" shows only what the records give for it.
+
+- **Your party is yours to choose, and its office is on the map** A new life no
+  longer starts registered with a party; Politics, Parties offers each party to
+  join. Once you join, the party's office appears in Travel as your party's
+  office, so you can go there.
+
+- **The national news prints the President's address instead of losing it to a
+  cabinet nomination on the alphabet** When two stories weigh the same, the
+  national desks now print the one more people watched, then the earlier one.
+  The President's address on the first day is printed on the national news
+  again.
+
+- **National news no longer ranks another state's new law as if it bound your
+  town** A law taking effect in another state no longer counts every reader as
+  affected, so it stops crowding the national news. The President's address and
+  Congress's own votes now get the space.
+
+- **When the paper reports a bribe, the friend who comes to ask you about it now
+  speaks** When the paper printed a bribe and the person who came to ask about
+  it was a close friend, the scene was set up and then never played, because the
+  friend had no opening line for a printed story. The friend now asks, and so do
+  the three other kinds of accuser (someone who was offered the money, someone
+  who only heard about it, someone who knows it was taken), each in their own
+  way.
+
+- **A scene from something that happened during the day never opens at
+  midnight.** Something that happens during your day (a call, a filing, a law
+  you hear about) now opens its scene the next morning, when your day starts,
+  and the scene's first line names that morning's date, the same day the clock
+  shows. No scene stops the clock at 12:00 AM, even in a place whose hours the
+  game doesn't list.
+
+- **The first Journal note tells each relative's work in one sentence** The
+  first Journal note tells the family's work one person at a time: who they are,
+  the job they hold and where, and since when, with the job they left for it.
+  Nothing is said twice, and a relative who works for a town or county is said
+  to work for the town or county itself.
+
+### Changed
+
+- **Politics, Bills is a list of bills beside the chosen bill's page** Bills now
+  lists the bills you follow at the left, grouped by where each stands, with the
+  chosen bill's page beside it. Before, it was a column of boxes with a Read the
+  bill button each, and reading one took the list away.
+
+- **People on menus are busts, and no full-body figure stands beside Your life
+  or Jobs and study** You, the person card, Government's leaders and the round
+  faces in lists now show each person as a bust: a head, a top and hair, with a
+  calm face. The tall figure beside Your life and Jobs and study is gone.
+
+- **New faces everywhere: six heads, six hairstyles in four colors and six tops
+  for each sex** Every person on a menu now comes from the new set of busts:
+  three skin tones, each as an adult and as an older face, six hairstyles in
+  black, dark brown, blond and gray, two tops for each way of dressing and, for
+  men, a beard or a mustache. People over 65 have the older face and gray hair.
+  The creator has a Hair color row.
+
+- **The campaign trail's tiles show the place each act happens** On the campaign
+  trail, each thing you can do today shows a picture of where it happens: a
+  street of doors, the hall, a newsroom, the campaign office, a supporter's
+  living room. The tiles were black boxes. An act you cannot do today says why
+  under "Not today".
+
+- **Your town and county now count inside your state's figures, so what happens
+  at home moves the state's jobs and population.** Each month the state's own
+  counts give up the people, workers, jobs and cash your town and county hold,
+  the rest of the state runs as before, and the state's figures are the rest
+  plus your town. When a business in town closes, your state's jobs fall by its
+  jobs the next month.
+
+- **New game shows faces on both choices, and the creator shows your bust from
+  its first frame** New game now shows a bust over Start a life and three over
+  Advanced. The creator shows your character as a bust the moment it opens, with
+  rows for skin, hair and facial hair; the two full-length figures and the color
+  rows are gone. The look you make is the one on the title's Continue and on
+  every screen in play. New game, the creator and Advanced now sit in the middle
+  of the screen.
+
+- **A room is its painting, and the people in it stand as busts on a strip**
+  Nobody is painted into a room any more. The people who are there stand as
+  busts on a strip of soft glass along the foot of the room, with their names; a
+  crowd names the people you know and says how many more. Click someone with
+  something to say to talk. In a talk the strip joins the top of the talk box,
+  and whoever speaks is lit and a little larger. The small round face in the
+  talk box is gone.
+
+- **Buttons, tabs and list rows are one size on every screen, and the side
+  buttons stay put when a menu opens** Every button, tab and filter is now the
+  same height with the same corners. The lists in People, the Guide, Elections,
+  Parties and Issues share one row. The round buttons at the left no longer jump
+  when a menu opens.
+
+- **Small text on every menu is easier to read** Every size of type in the game
+  now comes from one scale of eight steps. Small labels that were 10 to 13
+  pixels are 14, and no menu text is under 14 pixels.
+
+- **The President's address that opens a new life now speaks of your world, in
+  many versions.** Every sentence of the President's address is now put together
+  by the English engine from many versions, and names things from your world:
+  the Vice President and the Speaker of the House, the President's home state,
+  what the President asks Congress for first, and how far prices, pay and jobs
+  moved this year, in words. Two new lives no longer hear the same speech.
+
+- **On the first evening, your relative talks about something the President
+  actually said.** After the President's address, the relative at home names one
+  thing from that speech, a policy the President took a side on or what the
+  speech said about the country's year, says where they stand on it, and says
+  why, from their own life: a job they lost, money being tight, what rent or
+  work is like in town, or a view they already held. The line is put together
+  fresh each time, so two relatives, or two new lives, rarely say it the same
+  way. You get up to four replies, each about that point: agree, disagree, ask
+  what it would mean for your town, or ask what they would do instead. They
+  answer what you said, and they remember it.
+
+- **Writing a bill shows every subject with what is in force today, not one
+  dropdown** In Your office, Draft a bill now opens a list of everything your
+  body may write a bill about, grouped by law area, each with what is in force
+  today. Pick one to see its page, set the new amount and draft it.
+
 ## PRE-ALPHA 0.101.0
 
 _Released November 11, 2026._
