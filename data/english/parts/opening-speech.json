@@ -574,13 +574,14 @@
       "key": "opening-speech.occasion.polished-twn-crisis-before-i-ask-anything-of-the-council-i-owe",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Before I ask anything of the council, I owe you a candid word about how hard the year has been.",
+      "text": "Before I ask anything of the council, I owe {place} a candid word about how hard the year has been.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -1394,25 +1395,28 @@
       "key": "opening-speech.occasion.plain-sta-sos-twn-crisis-i-m-going-to-start-with-what-s-gone",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm going to start with what's gone wrong. You've seen it, so I won't dance around it.",
+      "text": "I'm going to start with what's gone wrong in {place}. You've seen it, so I won't dance around it.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -1508,13 +1512,14 @@
       "key": "opening-speech.occasion.plain-twn-crisis-before-i-ask-the-council-for-anything-i-owe",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Before I ask the council for anything, I owe you an honest word about how hard this year's been.",
+      "text": "Before I ask the council for anything, I owe {place} an honest word about how hard this year's been.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -2128,7 +2133,7 @@
       "key": "opening-speech.salutation.polished-sos-combative-members-of-the-legislature-and-citizens-of-this-state",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of the legislature, and citizens of {place}, tonight I intend to say who let {place} down, because someone should, and plenty have found it easier to stay quiet.",
+      "text": "Members of the legislature, and citizens of {place}, tonight I intend to say who let you down, because someone should, and plenty have found it easier to stay quiet.",
       "uses": [
         {
           "move": "salutation",
@@ -3317,25 +3322,28 @@
       "key": "opening-speech.occasion.plain-sta-sos-twn-combative-i-ll-give-you-the-report-straight-tonight-and",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'll give you the report straight tonight, and some of you aren't going to like it.",
+      "text": "I'll give you the report on {place} straight tonight, and some of you aren't going to like it.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -4033,7 +4041,7 @@
       "key": "opening-speech.salutation.polished-sos-hopeful-members-of-the-legislature-and-citizens-of-this-state",
       "move": "salutation",
       "kind": "spoken",
-      "text": "Members of the legislature, and citizens of {place}, I am glad to be here tonight, because I have good reason to be hopeful about {place} and I mean to tell you why.",
+      "text": "Members of the legislature, and citizens of {place}, I am glad to be here tonight, because I have good reason to be hopeful about where we are headed, and I mean to tell you why.",
       "uses": [
         {
           "move": "salutation",
@@ -5203,25 +5211,28 @@
       "key": "opening-speech.occasion.plain-sta-sos-twn-hopeful-short-version-there-s-a-lot-of-reason-to",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Short version: there's a lot of reason to feel hopeful, and I'll tell you why.",
+      "text": "Short version: there's a lot of reason to feel hopeful about {place}, and I'll tell you why.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -6284,13 +6295,14 @@
       "key": "opening-speech.occasion.polished-twn-victory-members-of-the-council-will-forgive-me-if-i",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Members of the council will forgive me if I begin by taking a modest bow on behalf of everyone who earned it.",
+      "text": "Members of the council will forgive me if I begin by taking a modest bow on behalf of everyone in {place} who earned it.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -7124,25 +7136,28 @@
       "key": "opening-speech.occasion.plain-sta-sos-twn-victory-forgive-me-if-i-start-by-taking-a-small",
       "move": "occasion",
       "kind": "spoken",
-      "text": "Forgive me if I start by taking a small bow, on behalf of everybody who earned it.",
+      "text": "Forgive me if I start by taking a small bow, on behalf of everybody in {place} who earned it.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -8022,25 +8037,28 @@
       "key": "opening-speech.occasion.polished-sta-sos-twn-mourning-i-come-before-you-not-to-report-first-but",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you not to report first, but to grieve with the families who have lost someone.",
+      "text": "I come before you not to report first, but to grieve with the families of {place} who have lost someone.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -8958,25 +8976,28 @@
       "key": "opening-speech.occasion.plain-sta-sos-twn-mourning-i-m-here-to-report-but-first-i-m",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here to report, but first I'm here to grieve with the families who lost someone.",
+      "text": "I'm here to report, but first I'm here to grieve with the families in {place} who lost someone.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -8990,25 +9011,28 @@
       "key": "opening-speech.occasion.plain-sta-sos-twn-mourning-there-s-a-report-to-give-and-it-can",
       "move": "occasion",
       "kind": "spoken",
-      "text": "There's a report to give, and it can wait a minute. First, we remember the ones we lost.",
+      "text": "There's a report to give on {place}, and it can wait a minute. First, we remember the ones we lost.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -9865,25 +9889,28 @@
       "key": "opening-speech.occasion.polished-sta-sos-twn-policy-i-come-before-you-with-a-plan-and-a",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I come before you with a plan and a short list of priorities, and I would like to read them to you.",
+      "text": "I come before you with a plan for {place} and a short list of priorities, and I would like to read them to you.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -9999,13 +10026,14 @@
       "key": "opening-speech.occasion.polished-twn-policy-this-will-be-a-working-speech-i-have-particular",
       "move": "occasion",
       "kind": "spoken",
-      "text": "This will be a working speech. I have particular things to ask of the council, and I will be particular about them.",
+      "text": "This will be a working speech about what {place} needs. I have particular things to ask of the council, and I will be particular about them.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -10799,25 +10827,28 @@
       "key": "opening-speech.occasion.plain-sta-sos-twn-policy-i-m-here-with-a-plan-and-a-short",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm here with a plan and a short list, and I want to walk you through it.",
+      "text": "I'm here with a plan for {place} and a short list, and I want to walk you through it.",
       "uses": [
         {
           "move": "occasion",
           "subject": "state-of-the-union",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         },
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -10911,13 +10942,14 @@
       "key": "opening-speech.occasion.plain-twn-policy-i-m-going-to-tell-you-where-things-stand",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm going to tell you where things stand, then give the council some specifics.",
+      "text": "I'm going to tell you where {place} stands, then give the council some specifics.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -10931,13 +10963,14 @@
       "key": "opening-speech.occasion.plain-twn-policy-this-is-a-working-speech-i-ve-got-particular",
       "move": "occasion",
       "kind": "spoken",
-      "text": "This is a working speech. I've got particular things to ask the council for, and I'll be specific.",
+      "text": "This is a working speech about what {place} needs. I've got particular things to ask the council for, and I'll be specific.",
       "uses": [
         {
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
