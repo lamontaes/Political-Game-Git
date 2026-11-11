@@ -28,7 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
-import { familyFactsOf } from "../core2/modules/people";
+import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import {
   PERSON_MOVED_IN,
   heldSinceRecord,
@@ -516,6 +516,7 @@ function recentMoments(
  * the moments a book would hold: the event is the cause, its other people
  * the counterparts.
  */
+// stopgapId: SG-JOBS-job-start-not-a-person-event
 function recordedMoments(
   core: Readonly<CoreState>,
   personId: PersonId,
@@ -3008,6 +3009,31 @@ export function openConversation(
     endConversation(core, conversation, data);
   }
   return conversation;
+}
+
+/**
+ * A talk the player really opened (the other person said a line) is how the
+ * two meet: the encounters engine's own meeting, once per pair, the talk's
+ * time together as its hours. Nobody else in the room is met by it. Called
+ * only where the player opens a talk, never by a probe of who has something
+ * to say (the room's `sceneNow` reads `openConversation` without writing).
+ */
+export function meetOverTalk(
+  core: CoreState,
+  conversation: Conversation,
+  data: ConversationData = CONVERSATION_DATA,
+): boolean {
+  const { playerId, otherId } = conversation;
+  if (!conversation.lines.some((line) => line.speakerId === otherId))
+    return false;
+  return meetInTalk(
+    coreAPI(core),
+    playerId,
+    otherId,
+    core.people.get(playerId)!.placeId,
+    (data.minutesPerExchange * conversation.lines.length) / P.minutesPerHour,
+    `conversation:${playerId}:${otherId}:${core.date}:met`,
+  );
 }
 
 /**

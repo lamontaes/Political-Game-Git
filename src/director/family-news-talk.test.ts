@@ -13,7 +13,11 @@ import {
   CONVERSATION_WORDS,
   wordConversationMove,
 } from "../english/conversation-words";
-import { subjectsBetween } from "./conversation";
+import {
+  meetOverTalk,
+  openConversation,
+  subjectsBetween,
+} from "./conversation";
 import { spoken } from "./words";
 import { expectUpToFourDifferent } from "./reply-set-check";
 
@@ -499,3 +503,141 @@ it('names the school or the years in every reply about a shared school, and neve
   );
   expect(jumps.map((move) => move.text)).toEqual([]);
 });
+
+it(`a talk the player opens makes that one person someone they know (the room's probe meets nobody), so their news comes up from someone both know (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let draw = 0; draw < 8; draw += 1) {
+    const place = drawPlace(`${seed}:met:${draw}`, "family-news");
+    const where = `${place.name} (${place.key}), seed ${seed}:met:${draw}`;
+    setBookkeeping(false);
+    const { core, director, playerId } = buildBenchWorld(
+      place.seed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: place.key },
+    );
+    const me = playerId! as PersonId;
+    director!.watch(core, me);
+    advanceCore(core, addDays(makeIsoDate(gameStartDate()), 30));
+    const player = core.people.get(me)!;
+    // Two grown people who know each other and whom the player does not know.
+    const pair = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.tier !== "husk" &&
+          row.id !== me &&
+          row.jobId &&
+          !player.knownIds.has(row.id) &&
+          !player.familyIds.has(row.id) &&
+          row.householdId !== player.householdId,
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .flatMap((a) => {
+        const b = [...a.knownIds].sort().find((id) => {
+          const row = core.people.get(id);
+          return (
+            !!row?.alive &&
+            row.tier !== "husk" &&
+            id !== me &&
+            !player.knownIds.has(id) &&
+            !player.familyIds.has(id) &&
+            !row.familyIds.has(a.id) &&
+            row.householdId !== player.householdId
+          );
+        });
+        return b ? [{ a: a.id, b }] : [];
+      })[0];
+    if (!pair) {
+      tried.push(
+        `${where}: no two people who know each other and not the player`,
+      );
+      continue;
+    }
+    // Before any talk, the player does not know them: neither is someone both know.
+    expect(player.knownIds.has(pair.a), where).toBe(false);
+    // The room's probe of who has something to say (handler.ts `sceneNow`)
+    // opens a talk with everyone present and writes nothing: nobody is met.
+    const knownBefore = [...player.knownIds].sort();
+    const present = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.tier !== "husk" &&
+          row.id !== me &&
+          (row.placeId === player.placeId ||
+            row.id === pair.a ||
+            row.id === pair.b),
+      )
+      .sort(
+        (x, y) =>
+          Number(y.id === pair.a || y.id === pair.b) -
+          Number(x.id === pair.a || x.id === pair.b),
+      )
+      .slice(0, 40);
+    const talks = new Map(
+      present.map((row) => [
+        row.id,
+        openConversation(core, me, row.id as PersonId, { director }),
+      ]),
+    );
+    expect([...core.people.get(me)!.knownIds].sort(), where).toEqual(
+      knownBefore,
+    );
+    const talkA = talks.get(pair.a)!;
+    const talkB = talks.get(pair.b)!;
+    if (!talkA.lines.length || !talkB.lines.length) {
+      tried.push(`${where}: a talk said nothing, so nobody was met`);
+      continue;
+    }
+    // The player opens one talk, as the talk route does: exactly that person is met.
+    expect(meetOverTalk(core, talkA), where).toBe(true);
+    expect(
+      [...core.people.get(me)!.knownIds].filter(
+        (id) => !knownBefore.includes(id),
+      ),
+      where,
+    ).toEqual([pair.a]);
+    expect(meetOverTalk(core, talkB), where).toBe(true);
+    // The talk is how they met: each now knows the other.
+    expect(core.people.get(me)!.knownIds.has(pair.a as PersonId), where).toBe(
+      true,
+    );
+    expect(core.people.get(pair.a as PersonId)!.knownIds.has(me), where).toBe(
+      true,
+    );
+    // Then A moves away, as the moves engine writes it.
+    const a = core.people.get(pair.a as PersonId)!;
+    const to = player.countyId ?? player.placeId;
+    const moveId = `person.moved-away:${a.id}:${core.date}`;
+    applyCoreEvent(core, {
+      id: moveId,
+      date: core.date,
+      kind: "person.moved-away",
+      personIds: [a.id],
+      placeId: a.placeId,
+      publicRecord: false,
+      topic: to,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Recorded as the moves engine writes a move away.",
+        estimatedFrom: "SG-P15-moves-weights",
+      },
+      facts: {
+        [`person:${a.id}:residence`]: to,
+        "moves:elsewhere": a.placeId,
+      },
+    } as never);
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    // B knows A and now so does the player: A is someone both know, with news.
+    const mutual = subjectsBetween(core, pair.b as PersonId, me, director).find(
+      (row) => row.kind === "mutual" && row.aboutId === a.id,
+    );
+    expect(mutual, `${where}: ${a.id} is not someone both know`).toBeTruthy();
+    process.stdout.write(
+      `MET ${where}: the player met ${a.id} and ${pair.b} in talks; after ${a.id} moved, ${pair.b} has them as someone both know (${mutual!.id})\n`,
+    );
+    return;
+  }
+  throw new Error(`no drawn place had such a pair: ${tried.join("; ")}`);
+}, 1_800_000);
