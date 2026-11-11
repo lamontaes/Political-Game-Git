@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr: #4938
+claimed-by: claude/pool-world-town-net-moving-negative
+pr: #8528
 after:
 blocked-on:
 lead: m0-m2
@@ -16,8 +16,9 @@ model: opus
 effort: medium
 root: none
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T03:34:32.491Z
 checked: fable 2026-11-10
+branch: claude/pool-world-town-net-moving-negative
 ---
 
 **What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net. A real town's net migration sits near its state's, so a town that empties faster than its state is a sign that the in-moves and out-moves follow different rules. Two causes were fixed on Oct 17 (the counted engine could not tell which state a state-level counted place lay in, and newcomers settled only where a counted household of their age lived). The cause that is left is in how arrivals are paid out, below.
@@ -60,3 +61,5 @@ Sent back 2026-10-23 from PR #4935 (branch claude/arrivals-by-place): The remain
 Cause found 2026-11-10 (claude, claude/cause-town-net-moving), on main at 3d74e9179b. Ran a one-year probe (in-moves and out-moves by cause, town and the counted places around it, the carried balances, the state's change) in seven drawn places, seeds nm1 to nm7 through `drawPlace(seed, "netmove")`: Colon, Nebraska; Washington, District of Columbia; Tatgua, Northern Mariana Islands; Bancroft, South Dakota; Palmas, Puerto Rico; Reyno, Arkansas; Marcola, Oregon. Then I ran two probes in my working copy, both undone: per-place shares alone (the town's due came right, but most of it stayed carried under one household), then per-place totals paid at half a household (the nets came right). Still unknown: (a) The leftover suspects of Oct 17 were checked and are not the cause. The destination pull is normalized now (the fitted `attract` and `destRowsOf` share each sum to one), and newcomers already settle by everyone living there, full people too. (b) A departure record names only the destination with the most due, so the records overstate moves within the state (around Marcola, 22,434 recorded within the state and 2 out of it). That is a records question for the Done when's "names a recorded reason", not the net. (c) In Washington, District of Columbia's world, the town's state's arrivals also settle in counted places in neighboring states (`placePeople` in `month` takes every counted place), which grew 10 percent in a year. That may be a separate item. (d) Around the town, under the second probe, the counted places gained 1 to 2.6 percent against their state's 0.6 to 0.7. One year cannot tell a catch-up from a lean; the builder's test should print it.
 
 **Notes (Fable B's check, Nov 10).** Checked against main: `arrivals` in src/core2/modules/counted-moves.ts picks a place by a seeded hash weighted by people (the `cumulative` loop near line 1345) and stops a balance at the first household larger than what is left (`if (left < size) break;` near line 1371), where a county record's size is its people times its weight. So the cause holds. Three changes to the finder's item: the build is for Opus, because it rewrites how one engine pays out and its choices (whose shape a newcomer takes, which balance pays) need judgment; the clause about carrying a saved world's balances over is gone, because saves do not matter before early-access preparation (AGENTS.md); and read this with core-country-tier-moves-one-holder, which changes where the due arrivals come from in the same function. The two do not depend on each other; whichever lands second merges main first. The fix also removes a draw that decided where a household settles, which the no-dice rule wants gone.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:34 UTC) on branch claude/pool-world-town-net-moving-negative.
