@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T23:04:00.604Z
+claimed-at: 2026-11-11T03:06:04.577Z
 branch: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
 ---
 
@@ -45,3 +45,7 @@ branch: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:06; screenshots 49, 50, 53, 54, 55. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was laws. Split Oct 24 into play-stop-11-campaign-actions-do-nothing-visible-a and play-stop-11-campaign-actions-do-nothing-visible-b, each four hours or less; the CTO sets this item done when the last part is done. A grayed campaign outing (Knock on doors, Hold an event, Ask for an interview, Call donors) now shows its reason from the records on its button, in the play-stop-25 fix on branch claude/play-stop-25-door-count (speed lead, Oct 25); this item's "a grayed action says why" can cite it once that lands.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:03 UTC) on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-11-campaign-actions-do-nothing-visible since 2026-11-10 23:04 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible and pull request #8262.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:06 UTC) on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible.
