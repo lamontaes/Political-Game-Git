@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-reelected-official-reads-ended-term
-pr:
+pr: #8500
 blocked-on:
 source: added with npm run pool -- add
 after:
