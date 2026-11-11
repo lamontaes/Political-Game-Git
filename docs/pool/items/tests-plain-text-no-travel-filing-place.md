@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-plain-text-no-travel-filing-place
-pr:
+pr: #8795
 blocked-on:
 source: added with npm run pool -- add
 after:
