@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-campaigns-shows-your-record
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T02:12:40.339Z
 branch: claude/pool-play-campaigns-shows-your-record
 ---
 
@@ -50,3 +50,5 @@ Released (2026-11-11): Same note as before. Continue on branch claude/pool-play-
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:53 UTC) on branch claude/pool-play-campaigns-shows-your-record.
 
 Released (2026-11-11): Still needs a record view and Story's lines; see earlier note. Continue on branch claude/pool-play-campaigns-shows-your-record.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:12 UTC) on branch claude/pool-play-campaigns-shows-your-record.
