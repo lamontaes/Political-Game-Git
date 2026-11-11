@@ -787,8 +787,23 @@ function billBlock(item, members, rows, onPaper) {
 function inMeeting() {
   return new Promise((resolve) => {
     const words = voteWords();
+    // A press acts once: every button on the panel is off from the press until
+    // the panel redraws from the server's answer, so a second quick press sends
+    // nothing. A refusal (the item was already taken up) redraws the meeting as
+    // it stands with the server's own line at its top, never a page error.
+    const act = async (path) => {
+      for (const b of $("meeting").querySelectorAll("button"))
+        b.disabled = true;
+      try {
+        draw(await post(path));
+      } catch (refused) {
+        draw(await api("/api/meeting"));
+        $("meeting-items").prepend(prose(refused.message, "meeting-note"));
+      }
+    };
     const draw = (scene) => {
       if (!scene) return finish();
+      $("meeting-adjourn").disabled = false;
       $("backdrop").src = scene.backdrop.url;
       drawHere(scene);
       $("card-place").textContent = scene.title;
@@ -802,11 +817,9 @@ function inMeeting() {
                 words[position === "for" ? "speakFor" : "speakAgainst"] ??
                 position,
             });
-            b.addEventListener("click", async () =>
-              draw(
-                await post(
-                  `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
-                ),
+            b.addEventListener("click", () =>
+              act(
+                `/api/meeting/speak?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, position })}`,
               ),
             );
             return b;
@@ -816,11 +829,9 @@ function inMeeting() {
               className: "action",
               textContent: words[how] ?? how,
             });
-            b.addEventListener("click", async () =>
-              draw(
-                await post(
-                  `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote: how })}`,
-                ),
+            b.addEventListener("click", () =>
+              act(
+                `/api/meeting/item?${new URLSearchParams({ meetingId: scene.id, billId: item.billId, vote: how })}`,
               ),
             );
             return b;
@@ -840,6 +851,7 @@ function inMeeting() {
         }),
       );
       $("meeting-adjourn").onclick = async () => {
+        $("meeting-adjourn").disabled = true;
         await post(
           `/api/meeting/adjourn?${new URLSearchParams({ meetingId: scene.id })}`,
         );
