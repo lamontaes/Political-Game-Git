@@ -17,6 +17,8 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-laws-income-tax-flatten-sponsor-rate
 ---
 
 **What.** When a catalog act repeals a graduated state or local income tax, it enacts one national flat rate (4.25%) for every place. Real legislatures that flattened chose a rate tied to their own old schedule: five conversions from 2023 to 2026 set the new rate at 0.667 to 1.0 of the old top rate, sourced in data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json. The provision should carry the rate the sponsor writes from their views and the law in force, as the legislature's rate sections already do through `shapedRate`, so the repeal reads that rate instead of the national parameter and resolves SG-GOV-REACH-B-flat-tax-replacement. Seen: the new flat rate on the bill card when a repeal replaces a graduated income tax.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/law-reach/group-b-money.ts, src/core2/modules/legislature.ts, src/core2/data/laws/reach-group-b-parameters.json, data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json, src/core2/data/stopgaps/gov.json, src/core2/law-reach-group-b.test.ts
 
 **Notes.** TODO
+
+Released (2026-11-11): Read and scoped, not built: it needs a new field on the repeal provision (catalog and bill drafting), shapedRate in legislature.ts to carry the sponsor's rate, incomeTaxAct (group-b-money.ts line ~1960) to read it, a withholding check for full and counted workers, and a director line from the English engine (new bank lines are Story's); four modules and a words dependency, not one bounded part. Continue on branch claude/pool-laws-income-tax-flatten-sponsor-rate.

@@ -21,6 +21,7 @@ import type { PersonId } from "../core2/types";
 import { storyReply, storyScene } from "../bench/story";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The call after the count, from the winner's side (episode
 // docs/design/scenes/from-life/concession-call-received.md). In the played
@@ -188,10 +189,12 @@ const run = (drawSeed: string): string | null => {
       margin,
     );
   }
-  // Four replies that are four stances.
+  // Up to four replies, all different stances (owner, Nov 10).
   const replies = scene.talk.tree.replies;
-  expect(replies.length, where).toBe(4);
-  expect(new Set(replies.map((row) => row.line.move)).size, where).toBe(4);
+  expectUpToFourDifferent(
+    replies.map((row) => row.line),
+    where,
+  );
   // Each stance leads somewhere and the scene ends in a named ending.
   for (const reply of replies)
     expect(

@@ -54,3 +54,23 @@ Released (2026-11-11): Claimed by my own next loop but not worked: see my earlie
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:19 UTC) on branch claude/pool-laws-medical-bills-year-cost.
 
 Released (2026-11-11): Claimed by my own next loop, not worked; see earlier notes (needs dedicated machine / six-hour presence-decider refactor). Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:27 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story-session lines under data/english/parts, a dedicated machine for speed runs, or a rewrite beyond one pass (see my earlier release notes on this item). Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:37 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Needs profiled alternating speed:year runs (about two minutes a year, several runs) to prove each cut; too long for this session; not built. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:03 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Needs a dedicated machine for npm run speed:year (four-year timed runs); not buildable in a shared cloud container. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:04 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Only item left for tier mid; needs a dedicated machine for repeated speed:year runs (skill heavy-runs). Handoff: remaining cost is payCounted/payFull journal postings and recordMedicalDebt in src/core2/medical-bills.ts. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Re-read billMedicalCare/payCounted on the branch: no cut I can prove unchanged or faster without speed:year runs and a records proof this container cannot hold. Needs a dedicated machine. Continue on branch claude/pool-laws-medical-bills-year-cost.

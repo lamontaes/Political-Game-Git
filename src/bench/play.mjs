@@ -2723,13 +2723,101 @@ async function openBillPaper(billId, show, back, backLabel) {
     })
     .catch(() => null);
   const floor = controls.floor ?? {};
-  const backButton = makeButton({
-    className: "action",
-    textContent: backLabel ?? words.back ?? "",
-  });
-  backButton.addEventListener("click", back);
+  // A bill opened inside the meeting or the desk returns to it; a menu has no Back
+  // (owner, Oct 29: "continue and back needs to be removed from every single menu"):
+  // a menu's bill closes with the menu's tabs and close control.
+  const backButton = backLabel
+    ? makeButton({ className: "action", textContent: backLabel })
+    : null;
+  backButton?.addEventListener("click", back);
+  // Where the bill is: the committee's record, what members told you, the floor and
+  // the override, each member by name (ui/bill-stage.mjs). They stand in the
+  // bill's own board, under Where it is.
+  const stageNodes = billStageSections(
+    stage,
+    controls.billStage ?? {},
+    (person) => showPerson({ personId: person.personId }),
+    async (how) => {
+      await api(
+        `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+        "POST",
+      );
+      await openBillPaper(billId, show, back, backLabel);
+    },
+    {
+      onMove: async (index, direction) => {
+        await api(
+          `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      onCall: async (item) => {
+        await api(
+          `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      estimate: (item) =>
+        [
+          item.estimateAfter.workersRaised > 0
+            ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+            : null,
+          item.estimateAfter.annualPayMinor > 0
+            ? moneyWords(item.estimateAfter.annualPayMinor)
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+    },
+    {
+      onDecide: async (how) => {
+        await api(`/api/desk?${new URLSearchParams({ billId, how })}`, "POST");
+        await openBillPaper(billId, show, back, backLabel);
+      },
+    },
+    {
+      onAsk: (index) =>
+        api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
+      onKeep: async (index) => {
+        await api(
+          `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      estimate: (redraft) =>
+        [
+          redraft.estimateAfter.workersRaised > 0
+            ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
+            : null,
+          redraft.estimateAfter.annualPayMinor > 0
+            ? moneyWords(redraft.estimateAfter.annualPayMinor)
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+    },
+    {
+      onVote: async (how) => {
+        await api(
+          `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      onCall: async () => {
+        await api(
+          `/api/bill/override-call?${new URLSearchParams({ billId })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+    },
+  );
   show(
-    backButton,
+    ...(backButton ? [backButton] : []),
     billPaper({
       spoken: paper.spoken,
       title: paper.title,
@@ -2739,6 +2827,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       billLabel: words.bill ?? "",
       voteLabel: words.vote ?? "",
       band,
+      stage: stageNodes,
       estimateLabel: words.estimate ?? "",
       // The budget lines the bill sets, this year beside last year's.
       extra: billFigures({
@@ -2791,14 +2880,21 @@ async function openBillPaper(billId, show, back, backLabel) {
             ...(tally?.notVoting
               ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
               : []),
-            // The player's own member in this chamber and the vote they cast (the page view's yourMembers).
-            ...(view.yourMembers ?? [])
-              .filter((m) => m.chamber === entry.chamber && m.vote)
-              .map((m) => ({
-                label: pageWords.yours,
-                value: `${m.name}, ${controls.billStage?.[m.vote] ?? ""}`,
-              })),
           ],
+          // The player's own members in this chamber and the vote each cast
+          // (the page view's yourMembers): a name, then the vote.
+          members: (() => {
+            const mine = (view.yourMembers ?? []).filter(
+              (m) => m.chamber === entry.chamber && m.vote,
+            );
+            return {
+              label: mine.length > 1 ? pageWords.yourMembers : pageWords.yours,
+              rows: mine.map((m) => ({
+                label: m.name,
+                value: controls.billStage?.[m.vote] ?? "",
+              })),
+            };
+          })(),
         };
       }),
       blank: billEstimate(paper, { estimate: {} }),
@@ -2820,94 +2916,6 @@ async function openBillPaper(billId, show, back, backLabel) {
           : null,
       ],
     }),
-    // Where the bill is: the committee's record, what members told you, the floor and
-    // the override, each member by name (ui/bill-stage.mjs).
-    ...billStageSections(
-      stage,
-      controls.billStage ?? {},
-      (person) => showPerson({ personId: person.personId }),
-      async (how) => {
-        await api(
-          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-      {
-        onMove: async (index, direction) => {
-          await api(
-            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        onCall: async (item) => {
-          await api(
-            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        estimate: (item) =>
-          [
-            item.estimateAfter.workersRaised > 0
-              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
-              : null,
-            item.estimateAfter.annualPayMinor > 0
-              ? moneyWords(item.estimateAfter.annualPayMinor)
-              : null,
-          ]
-            .filter(Boolean)
-            .join(" · "),
-      },
-      {
-        onDecide: async (how) => {
-          await api(
-            `/api/desk?${new URLSearchParams({ billId, how })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-      },
-      {
-        onAsk: (index) =>
-          api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
-        onKeep: async (index) => {
-          await api(
-            `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        estimate: (redraft) =>
-          [
-            redraft.estimateAfter.workersRaised > 0
-              ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
-              : null,
-            redraft.estimateAfter.annualPayMinor > 0
-              ? moneyWords(redraft.estimateAfter.annualPayMinor)
-              : null,
-          ]
-            .filter(Boolean)
-            .join(" · "),
-      },
-      {
-        onVote: async (how) => {
-          await api(
-            `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        onCall: async () => {
-          await api(
-            `/api/bill/override-call?${new URLSearchParams({ billId })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-      },
-    ),
     // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
     ...(devModeOn()
       ? [
@@ -4437,57 +4445,27 @@ const sheets = {
     const words = controls.billFollow ?? {};
     const status = controls.floor?.status ?? {};
     const list = await api("/api/bills/following");
-    const body = (...nodes) => $("sheet-body").replaceChildren(...nodes);
-    const open = (item) =>
-      openBillPaper(item.id, body, () => openSheet("bills"), words.back);
-    return [
-      stripScreen({
-        name: controls.titles.bills,
-        role: "",
-        face: null,
-        columns: [
-          list.length
-            ? list.map((item, at) => {
-                const button = makeButton({
-                  className: "action",
-                  textContent: words.open,
-                });
-                button.addEventListener("click", () => open(item));
-                return stripSection(
-                  1 + (at % 5),
-                  `${item.number} · ${item.title}`,
-                  line(
-                    [
-                      status[item.status],
-                      ...item.floor.map(
-                        (f) => `${f.chamberTitle}: ${f.result}`,
-                      ),
-                      item.reachesYou ? words.reaches : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  ),
-                  ...(item.mine.length
-                    ? [
-                        introText(
-                          `${words.yourMembers}: `,
-                          ...item.mine.flatMap((m, i) => [
-                            ...(i ? [", "] : []),
-                            nameLink(m.name, () =>
-                              showPerson({ personId: m.memberId }),
-                            ),
-                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
-                          ]),
-                        ),
-                      ]
-                    : []),
-                  button,
-                );
-              })
-            : [stripSection(1, controls.titles.bills, prose(words.empty))],
-        ],
-      }),
-    ];
+    if (!list.length)
+      return [stripSection(1, controls.titles.bills, prose(words.empty))];
+    // The bills a player follows, listed by where each stands, beside the
+    // chosen bill's own page (the one list-beside-page part): no button to
+    // read a bill and no Back from it.
+    const stages = [...new Set(list.map((item) => item.status))];
+    return rosterScreen({
+      title: controls.titles.bills,
+      className: "bills",
+      groups: stages.map((stage) => ({
+        title: status[stage] ?? "",
+        entries: list
+          .filter((item) => item.status === stage)
+          .map((item) => ({
+            key: item.id,
+            label: item.title,
+            aside: item.number,
+          })),
+      })),
+      render: (entry, show) => void openBillPaper(entry.key, show, () => {}),
+    });
   },
   /** Dev mode's Watch: what moved since the first dev change, month by month, and the golden path's steps. */
   async watch() {
@@ -4511,10 +4489,6 @@ const sheets = {
       closeSheet();
       showPerson({ personId: cardId });
     };
-    const stateName = (key) =>
-      key === gov.homeState?.key
-        ? gov.homeState.name
-        : (states.find((st) => st.key === key)?.name ?? key);
     // A seat as a voter says it: a town's ward, a state's district, at large.
     const seatWords = (body, district) =>
       !district
@@ -4548,27 +4522,6 @@ const sheets = {
     // the panel never scrolls, so a short window pages sooner.
     const rowsFor = (taken, most) =>
       Math.max(1, Math.min(most, Math.floor((viewHeight() - taken) / 72)));
-    // When a body meets, as its rule says it: "every Tuesday", "the 1st and
-    // 3rd Tuesday of the month".
-    const scheduleWords = (rule) => {
-      if (!rule) return null;
-      const weekday = labels.weekdays?.[rule.weekday] ?? "";
-      const nth = (i) => labels.ordinals?.[i - 1] ?? String(i);
-      const schedule =
-        rule.weeksOfMonth.length === 0
-          ? fill(labels.meetsWeekly, { weekday })
-          : rule.weeksOfMonth.length > 1
-            ? fill(labels.meetsTwice, {
-                first: nth(rule.weeksOfMonth[0]),
-                second: nth(rule.weeksOfMonth[1]),
-                weekday,
-              })
-            : fill(labels.meetsMonthly, {
-                first: nth(rule.weeksOfMonth[0]),
-                weekday,
-              });
-      return fill(labels.meets, { schedule });
-    };
     const comingWords = (item) =>
       item.kind === "meeting"
         ? labels.regularMeeting
@@ -4602,7 +4555,6 @@ const sheets = {
                           (...nodes) =>
                             $("sheet-body").replaceChildren(...nodes),
                           () => openSheet("government"),
-                          labels.backToGovernment,
                         ),
                     }
                   : {}),
@@ -4637,23 +4589,13 @@ const sheets = {
           : null,
       );
     };
-    const lawmakingView = (body, executive, level, stateKey) => {
-      const election = body.comingUp.find((c) => c.kind === "election");
+    const lawmakingView = (body, executive) => {
+      // The body's name over its room, no line under it (owner, Nov 7: no
+      // subtitles on menus): its seats are in Seats, its meeting and election
+      // in Coming up.
       const header = chamberHeader({
         picture: body.picture,
         name: body.name,
-        line: [
-          level === "federal"
-            ? fill(labels.delegation, { state: stateName(stateKey) })
-            : null,
-          scheduleWords(body.meeting),
-          fill(labels.seatsTotal, { n: body.seats }),
-          election
-            ? fill(labels.nextElection, { date: dateWords(election.date) })
-            : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
       });
       const big = body.seats > 12;
       // A big chamber: your own members and its leaders first, then everyone
@@ -4739,7 +4681,7 @@ const sheets = {
     };
     // The executive branch: the chief executive's office on the left, the
     // level's other elected officers and what is coming up on the right.
-    const executiveView = (executive, level) => {
+    const executiveView = (executive) => {
       const chief = executive.find((e) => e.chief) ?? executive[0];
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
@@ -4758,10 +4700,6 @@ const sheets = {
               chamberHeader({
                 picture: chief.picture,
                 name: chief.title,
-                // A local office is named under its government ("Village of
-                // Mokena"); a state's or the nation's never repeats the state
-                // the filter names (owner, Oct 28, point 16).
-                line: level === "local" ? chief.government : null,
               }),
               ...(head
                 ? [
@@ -4925,8 +4863,8 @@ const sheets = {
             side: [],
           }
         : branch === "executive" || !body
-          ? executiveView(v.executive, level)
-          : lawmakingView(body, v.executive, level, v.state.key);
+          ? executiveView(v.executive)
+          : lawmakingView(body, v.executive);
       const screenNode = splitScreen({
         className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
@@ -5323,7 +5261,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "news", "watch"].includes(tab) &&
+    !["calendar", "people", "news", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
