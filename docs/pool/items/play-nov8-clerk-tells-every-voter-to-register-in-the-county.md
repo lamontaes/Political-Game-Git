@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: rc9-place-facts-one-default
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point C11, partly fixed)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:57:38.027Z
 ---
 
 **What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut), on the filing clerk's lines: "It's just a bunch of garbled mess." The CTO's note (point C11): the clerk says "in the county where you live" though Connecticut has no county government. Most of it is fixed: the residency refusal now names the place the office serves and the place the player's records put them. The sister refusal for a player who is not registered still says "You have to be a registered voter in the county where you want to serve." in every place, including places with no county government and territories with no counties. Every refusal the clerk gives should name the place from the rule's own record, and no clerk line should carry a fixed word for a kind of place.
