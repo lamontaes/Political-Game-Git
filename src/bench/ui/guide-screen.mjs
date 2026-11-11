@@ -4,6 +4,7 @@
 // records; the screen hands them in.
 import { el, viewHeight } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
+import { pickHead, pickRow } from "./list-row.mjs";
 import { pager } from "./pager.mjs";
 import { searchBox } from "./fields.mjs";
 import { stripSection, introText } from "./strips.mjs";
@@ -16,7 +17,7 @@ import { stripSection, introText } from "./strips.mjs";
 export function guideScreen({ terms, labels, query, onSearch, onReset }) {
   let shown = terms;
   let chosen = terms[0]?.key;
-  const roster = el("nav", { className: "guide-roster" });
+  const roster = el("nav", { className: "pick-list guide-roster" });
   roster.setAttribute("aria-label", labels.title);
   const article = el("div", { className: "guide-article strip-screen strips" });
   const drawArticle = () => {
@@ -69,13 +70,12 @@ export function guideScreen({ terms, labels, query, onSearch, onReset }) {
   };
   const drawRoster = () => {
     roster.replaceChildren(
-      el("h3", { className: "sechead", textContent: labels.title }),
+      pickHead(labels.title),
       shown.length
         ? pager({
             items: shown,
             render: (t) => {
-              const row = makeButton({ className: "term-row" });
-              row.textContent = t.term;
+              const row = pickRow({ label: t.term, className: "term-row" });
               row.dataset.term = t.key;
               row.setAttribute("aria-pressed", String(t.key === chosen));
               row.addEventListener("click", () => {

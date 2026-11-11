@@ -16,13 +16,36 @@ export interface OrderKind {
   areas?: string[];
   leads?: string[];
 }
+/**
+ * What the player sees comes first (order.json `visible`; owner, Nov 11,
+ * 2026). `first` names the classes that still come before everything, `reds`
+ * is a pattern for the ids of reds on main, and `playKind` names the kind of
+ * work (order.json `kinds`) that leads the seen items.
+ */
+export interface OrderVisible {
+  why?: string;
+  first?: string[];
+  reds?: string;
+  playKind?: string;
+}
+/**
+ * The cap on new work (order.json `cap`; owner, Nov 11, 2026): while more
+ * than `openGamePullRequests` game pull requests are open, `next` hands out
+ * only what still comes first (a red on main, a rule, a check or a skill).
+ */
+export interface OrderCap {
+  why?: string;
+  openGamePullRequests: number;
+}
 export interface Order {
   levels: string[];
   classes: OrderClass[];
   kinds: Record<string, OrderKind>;
+  visible?: OrderVisible;
+  cap?: OrderCap;
 }
 
-/** Item fields the order reads; `waits-on` and `time-box` are the item's sections, added when the item is read. */
+/** Item fields the order reads; `waits-on` and `time-box` are the item's sections and `shown` is the kind its What ends on (Seen:, Feeds: or Guards:), added when the item is read. */
 export type Row = Record<string, string | undefined> & {
   id: string;
   status: string;
@@ -45,6 +68,8 @@ export function readOrder(poolDir: string): Order {
     levels: raw.levels?.length ? raw.levels : MODELS,
     classes: raw.classes ?? [],
     kinds: raw.kinds ?? {},
+    ...(raw.visible ? { visible: raw.visible } : {}),
+    ...(raw.cap ? { cap: raw.cap } : {}),
   };
 }
 
@@ -74,6 +99,31 @@ export function classOf(i: Row, order: Order): number {
       (!!c.milestone && i.milestone === c.milestone),
   );
   return k < 0 ? order.classes.length : k;
+}
+
+/**
+ * Where an item stands by what the player sees of it (order.json `visible`):
+ * 0 a red on main or a class that still comes first (rules, checks and
+ * skills); 1 play or screens work whose What says `Seen:` or says none of
+ * the three; 2 any other `Seen:` item; 3 `Feeds:`; 4 `Guards:`; 5 any other
+ * item that says none of them. Every item is 0 when the order has no `visible`. The
+ * item's `shown` field is the kind its What ends on.
+ */
+export function visibleRank(i: Row, order: Order): number {
+  const v = order.visible;
+  if (!v) return 0;
+  const cls = order.classes[classOf(i, order)]?.name;
+  if (cls && (v.first ?? []).includes(cls)) return 0;
+  if (v.reds && new RegExp(v.reds).test(i.id)) return 0;
+  // Play and screens work is what the player clicks: it leads when its What
+  // says Seen:, and also when it says nothing yet (most items written before
+  // Nov 10 carry no such line).
+  const play = v.playKind ? order.kinds[v.playKind] : undefined;
+  if (play && inKind(i, play) && (i.shown === "Seen:" || !i.shown)) return 1;
+  if (i.shown === "Seen:") return 2;
+  if (i.shown === "Feeds:") return 3;
+  if (i.shown === "Guards:") return 4;
+  return 5;
 }
 
 const ITEM_ID = /[a-z0-9]+(?:-[a-z0-9]+)+/g;
@@ -115,10 +165,10 @@ export function unblocks(items: Row[]): Map<string, number> {
 }
 
 /**
- * The one order (docs/pool/order.json): priority; class; how many live items
- * wait on it, more first; effort; size; id. Inside the stops-play class the
- * play-first lane keeps its own order. Next up, Ready by model and `next` all
- * sort with it.
+ * The one order (docs/pool/order.json): what the player sees first
+ * (`visibleRank`); then priority; class; how many live items wait on it, more
+ * first; effort; size; id. Inside the stops-play class the play-first lane
+ * keeps its own order. Next up, Ready by model and `next` all sort with it.
  */
 export function makeOrder(
   items: Row[],
@@ -128,7 +178,11 @@ export function makeOrder(
   const cls = new Map(items.map((i) => [i.id, classOf(i, order)]));
   const play = order.classes.findIndex((c) => !!c.milestone);
   const clsOf = (i: Row): number => cls.get(i.id) ?? classOf(i, order);
+  const seen = new Map(items.map((i) => [i.id, visibleRank(i, order)]));
+  const seenOf = (i: Row): number => seen.get(i.id) ?? visibleRank(i, order);
   return (a, b) => {
+    const bySeen = seenOf(a) - seenOf(b);
+    if (bySeen) return bySeen;
     const byPriority = a.priority.localeCompare(b.priority);
     if (byPriority) return byPriority;
     const ca = clsOf(a);

@@ -5,10 +5,10 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-words-director-claims-shared-rule
-pr:
+pr: #8510
 after:
 blocked-on:
 lead: words

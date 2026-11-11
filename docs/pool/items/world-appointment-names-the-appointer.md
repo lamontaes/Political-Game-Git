@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-appointment-names-the-appointer
-pr:
+pr: #8509
 blocked-on:
 after:
 model: sonnet

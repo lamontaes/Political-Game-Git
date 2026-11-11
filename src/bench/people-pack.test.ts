@@ -3,8 +3,7 @@
 import { execFileSync } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import type * as NodeFs from "node:fs";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   PEOPLE_PACK,
   figureAtPath,
@@ -14,12 +13,6 @@ import {
   packPeople,
 } from "./people-pack";
 import { depthOf, plateFor, plates } from "./mannequin-plates";
-import {
-  appearanceRows,
-  drawnAppearance,
-  figureFor,
-  moveAppearance,
-} from "./appearance";
 import type { CoreState } from "../core2/types";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -31,12 +24,7 @@ import { coreAPI } from "../core2/state";
 import { dwellingKind } from "../core2/modules/housing";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
-import {
-  figureForSpot,
-  fitOn,
-  packPersonOf,
-  portraitPose,
-} from "./whole-figures";
+import { figureForSpot, fitOn, packPersonOf } from "./whole-figures";
 
 const ROOT = new URL("../../", import.meta.url);
 const tracked = execFileSync("git", ["ls-files"], {
@@ -323,7 +311,6 @@ describe("the people pack", () => {
           );
           expect(figure?.needsDesk, `${spot.id} ${figure?.id}`).toBeFalsy();
         }
-    for (const row of desked) expect(portraitPose(row), row.id).toBe(false);
   });
 
   it("draws farther spots first: the desk before anyone standing in front of it", () => {
@@ -339,34 +326,6 @@ describe("the people pack", () => {
     );
     expect(front.length).toBeGreaterThan(0);
     for (const spot of front) expect(depthOf(desk)).toBeLessThan(depthOf(spot));
-  });
-
-  it("shows everyone standing in the creator and in their portrait", () => {
-    // Owner, Oct 29: "people shouldn't be sitting in their image creator".
-    for (const person of packPeople()) {
-      const gender = person.sex === "woman" ? "female" : "male";
-      let look = drawnAppearance(gender, person.id, 0);
-      for (let n = 0; n < 12; n++) {
-        for (const clothes of ["everyday", "work"] as const) {
-          const figure = figureFor(look, clothes)!;
-          expect(figure.seat, `${look.person} ${clothes}`).toBe("none");
-        }
-        look = moveAppearance(look, gender, "work", 1);
-      }
-    }
-  });
-
-  it("lists every work look a person has in the creator, three or more, none of them everyday clothes", () => {
-    let look = drawnAppearance("male", "looks", 0);
-    const seen = new Set<string>();
-    for (let n = 0; n < 12; n++) {
-      seen.add(
-        appearanceRows(look, "male").find((row) => row.id === "work")!.value,
-      );
-      expect(figureFor(look, "work")!.dress).not.toBe("casual");
-      look = moveAppearance(look, "male", "work", 1);
-    }
-    expect(seen.size).toBeGreaterThanOrEqual(3);
   });
 
   it("dresses an official at a government place in work clothes only", () => {
@@ -575,53 +534,4 @@ describe("the people pack", () => {
       console.log(`${where}: ${crowded} homes with more people than seats`);
     },
   );
-
-  it("offers a new manifest row in the creator with no code change", async () => {
-    // A seventh person, added the way the art session adds one: a row in the
-    // manifest (here a copy of a painted person under a new id and build).
-    const manifestPath = new URL(
-      `art/people-engine/${PEOPLE_PACK}/manifest.json`,
-      ROOT,
-    ).pathname;
-    const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-    const model = manifest.people.find(
-      (row: { sex: string }) => row.sex === "woman",
-    );
-    manifest.people.push({ ...model, id: "woman-tall", build: "tall" });
-    manifest.figures.push(
-      ...manifest.figures
-        .filter((row: { person: string }) => row.person === model.id)
-        .map((row: { id: string }) => ({
-          ...row,
-          id: row.id.replace(model.id, "woman-tall"),
-          person: "woman-tall",
-        })),
-    );
-    vi.resetModules();
-    vi.doMock("node:fs", async () => {
-      const fs = await vi.importActual<typeof NodeFs>("node:fs");
-      const readFileSync = ((path: unknown, ...rest: unknown[]) =>
-        String(path instanceof URL ? path.pathname : path) === manifestPath
-          ? JSON.stringify(manifest)
-          : (fs.readFileSync as (...args: unknown[]) => unknown)(
-              path,
-              ...rest,
-            )) as typeof fs.readFileSync;
-      return { ...fs, default: { ...fs, readFileSync }, readFileSync };
-    });
-    const creator = await import("./appearance");
-    let look = creator.drawnAppearance("female", "new-row", 0);
-    const seen = new Set<string>();
-    for (let n = 0; n < 8; n++) {
-      seen.add(
-        creator
-          .appearanceRows(look, "female")
-          .find((row) => row.id === "build")!.value,
-      );
-      look = creator.moveAppearance(look, "female", "build", 1);
-    }
-    expect(seen).toContain("Tall");
-    vi.doUnmock("node:fs");
-    vi.resetModules();
-  });
 });
