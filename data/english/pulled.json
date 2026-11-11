@@ -52,6 +52,9 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
+    "scene-talk.follow-ask.so-count-is-that-how-you-had-it-counted": [
+      "no-filler"
+    ],
     "scene-talk.follow-press.are-you-sure-you-re-all-right-first": [
       "alright-in-dialogue"
     ],

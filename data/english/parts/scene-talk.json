@@ -4989,10 +4989,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.even-if-bill-costs-you-votes-in-place",
+      "key": "scene-talk.follow-ask.even-if-it-costs-you-votes-in-place",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Even if {bill} costs you votes in {place}?",
+      "text": "Even if it costs you votes in {place}?",
       "uses": [
         {
           "subject": "scene",
@@ -5049,10 +5049,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.even-if-people-in-place-are-against-bill",
+      "key": "scene-talk.follow-ask.even-if-people-in-place-are-against-it",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Even if people in {place} are against {bill}?",
+      "text": "Even if people in {place} are against it?",
       "uses": [
         {
           "subject": "scene",
@@ -5109,10 +5109,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-do-you-tell-people-who-wanted-the-other-side-of-bill",
+      "key": "scene-talk.follow-ask.what-do-you-tell-people-in-place-who-wanted-the-other-side-of-it",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What do you tell people who wanted the other side of {bill}?",
+      "text": "What do you tell people in {place} who wanted the other side of it?",
       "uses": [
         {
           "subject": "scene",
@@ -5229,10 +5229,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.the-vote-on-bill-was-count-did-you-have-it-counted-that-way-going-in",
+      "key": "scene-talk.follow-ask.it-went-count-did-you-have-it-counted-that-way-going-in",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "The vote on {bill} was {count}. Did you have it counted that way going in?",
+      "text": "It went {count}. Did you have it counted that way going in?",
       "uses": [
         {
           "subject": "scene",
@@ -5260,10 +5260,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted",
+      "key": "scene-talk.follow-ask.so-count-is-that-how-you-had-it-counted",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "It was {count} on {bill}. Is that how you had it counted?",
+      "text": "So, {count}. Is that how you had it counted?",
       "uses": [
         {
           "subject": "scene",
@@ -5351,10 +5351,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.and-if-bill-doesn-t-do-what-you-say",
+      "key": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-for-place",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "And if {bill} doesn't do what you say?",
+      "text": "And if it doesn't do what you say for {place}?",
       "uses": [
         {
           "subject": "scene",
@@ -5471,10 +5471,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-d-cast-the-same-vote-on-bill-again",
+      "key": "scene-talk.reply-answer.i-d-cast-the-same-vote-again-and-place-can-hold-me-to-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'd cast the same vote on {bill} again.",
+      "text": "I'd cast the same vote again, and {place} can hold me to it.",
       "uses": [
         {
           "subject": "scene",
@@ -5483,7 +5483,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-bill-costs-you-votes-in-place"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-votes-in-place"
         },
         {
           "subject": "scene",
@@ -5501,7 +5501,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-bill"
+          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-it"
         }
       ],
       "bearing": "firm",
@@ -5531,7 +5531,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-bill-costs-you-votes-in-place"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-votes-in-place"
         },
         {
           "subject": "scene",
@@ -5549,7 +5549,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-bill"
+          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-it"
         }
       ],
       "bearing": "firm",
@@ -5579,7 +5579,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-bill-costs-you-votes-in-place"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-votes-in-place"
         },
         {
           "subject": "scene",
@@ -5597,7 +5597,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-bill"
+          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-it"
         }
       ],
       "bearing": "firm",
@@ -5615,10 +5615,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-d-rather-lose-over-bill-than-win-by-ducking-it",
+      "key": "scene-talk.reply-answer.i-d-rather-lose-in-place-than-win-by-ducking-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'd rather lose over {bill} than win by ducking it.",
+      "text": "I'd rather lose in {place} than win by ducking it.",
       "uses": [
         {
           "subject": "scene",
@@ -5627,7 +5627,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-bill-costs-you-votes-in-place"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-votes-in-place"
         },
         {
           "subject": "scene",
@@ -5645,7 +5645,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-bill"
+          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-it"
         }
       ],
       "bearing": "firm",
@@ -5663,10 +5663,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.most-of-the-worry-about-bill-is-over-things-it-doesn-t-do",
+      "key": "scene-talk.reply-answer.most-of-the-worry-in-place-is-over-things-it-doesn-t-do",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Most of the worry about {bill} is over things it doesn't do.",
+      "text": "Most of the worry in {place} is over things it doesn't do.",
       "uses": [
         {
           "subject": "scene",
@@ -5684,7 +5684,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-tell-people-who-wanted-the-other-side-of-bill"
+          "after": "scene-talk.follow-ask.what-do-you-tell-people-in-place-who-wanted-the-other-side-of-it"
         }
       ],
       "bearing": "firm",
@@ -5723,7 +5723,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-tell-people-who-wanted-the-other-side-of-bill"
+          "after": "scene-talk.follow-ask.what-do-you-tell-people-in-place-who-wanted-the-other-side-of-it"
         }
       ],
       "bearing": "firm",
@@ -5741,10 +5741,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-ll-walk-anyone-in-place-through-bill-page-by-page",
+      "key": "scene-talk.reply-answer.i-ll-walk-anyone-in-place-through-it-page-by-page",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'll walk anyone in {place} through {bill} page by page.",
+      "text": "I'll walk anyone in {place} through it page by page.",
       "uses": [
         {
           "subject": "scene",
@@ -5762,7 +5762,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-tell-people-who-wanted-the-other-side-of-bill"
+          "after": "scene-talk.follow-ask.what-do-you-tell-people-in-place-who-wanted-the-other-side-of-it"
         }
       ],
       "bearing": "firm",
@@ -5984,7 +5984,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.the-vote-on-bill-was-count-did-you-have-it-counted-that-way-going-in"
+          "after": "scene-talk.follow-ask.it-went-count-did-you-have-it-counted-that-way-going-in"
         },
         {
           "subject": "scene",
@@ -5993,7 +5993,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted"
+          "after": "scene-talk.follow-ask.so-count-is-that-how-you-had-it-counted"
         }
       ],
       "bearing": "firm",
@@ -6023,7 +6023,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.the-vote-on-bill-was-count-did-you-have-it-counted-that-way-going-in"
+          "after": "scene-talk.follow-ask.it-went-count-did-you-have-it-counted-that-way-going-in"
         },
         {
           "subject": "scene",
@@ -6032,7 +6032,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted"
+          "after": "scene-talk.follow-ask.so-count-is-that-how-you-had-it-counted"
         }
       ],
       "bearing": "firm",
@@ -6062,7 +6062,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.the-vote-on-bill-was-count-did-you-have-it-counted-that-way-going-in"
+          "after": "scene-talk.follow-ask.it-went-count-did-you-have-it-counted-that-way-going-in"
         },
         {
           "subject": "scene",
@@ -6071,7 +6071,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.it-was-count-on-bill-is-that-how-you-had-it-counted"
+          "after": "scene-talk.follow-ask.so-count-is-that-how-you-had-it-counted"
         }
       ],
       "bearing": "firm",
@@ -6206,10 +6206,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.then-i-ll-come-back-and-fix-bill-myself",
+      "key": "scene-talk.reply-answer.then-i-ll-come-back-to-place-and-fix-it-myself",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Then I'll come back and fix {bill} myself.",
+      "text": "Then I'll come back to {place} and fix it myself.",
       "uses": [
         {
           "subject": "scene",
@@ -6218,7 +6218,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-bill-doesn-t-do-what-you-say"
+          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-for-place"
         },
         {
           "subject": "scene",
@@ -6257,7 +6257,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-bill-doesn-t-do-what-you-say"
+          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-for-place"
         },
         {
           "subject": "scene",
@@ -6296,7 +6296,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-if-bill-doesn-t-do-what-you-say"
+          "after": "scene-talk.follow-ask.and-if-it-doesn-t-do-what-you-say-for-place"
         },
         {
           "subject": "scene",
@@ -8691,10 +8691,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.your-answer-on-bill-goes-in-as-you-said-it",
+      "key": "scene-talk.follow-thank.your-answer-goes-in-outlet-as-you-said-it",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Your answer on {bill} goes in as you said it.",
+      "text": "Your answer goes in {outlet} as you said it.",
       "uses": [
         {
           "subject": "scene",
@@ -13663,7 +13663,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-bill-costs-you-votes-in-place"
+          "after": "scene-talk.follow-ask.even-if-it-costs-you-votes-in-place"
         },
         {
           "subject": "scene",
@@ -13681,7 +13681,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-bill"
+          "after": "scene-talk.follow-ask.even-if-people-in-place-are-against-it"
         }
       ],
       "bearing": "calm",
@@ -13721,7 +13721,7 @@
           "purpose": "press-comment",
           "key": "routine",
           "requiresFacts": ["bill"],
-          "after": "scene-talk.follow-ask.what-do-you-tell-people-who-wanted-the-other-side-of-bill"
+          "after": "scene-talk.follow-ask.what-do-you-tell-people-in-place-who-wanted-the-other-side-of-it"
         }
       ],
       "bearing": "braced",
@@ -13759,7 +13759,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.what-do-you-tell-people-who-wanted-the-other-side-of-bill"
+          "after": "scene-talk.follow-ask.what-do-you-tell-people-in-place-who-wanted-the-other-side-of-it"
         }
       ],
       "bearing": "calm",

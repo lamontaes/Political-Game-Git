@@ -38,7 +38,12 @@ import {
 } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { billNameFor, spokenDesignation } from "../english/bill-names";
+import {
+  billNameFor,
+  billNameOf,
+  billTitleSaid,
+  spokenDesignation,
+} from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import { raceTurnoutFacts } from "./race-turnout-facts";
@@ -335,6 +340,19 @@ function pressBillFacts(
   const api = coreAPI(core as CoreState);
   const bill = billOf(api, billId);
   if (!bill) return out;
+  // A reporter and the player say a bill by what it does, never by its
+  // number (the words-engine lesson of Nov 11, fourth batch): its title, as
+  // the bill's own page names it. A bill with no authored name keeps its
+  // number.
+  const named = billNameOf(bill);
+  if (named && facts.bill) {
+    out.bill = {
+      text: billTitleSaid(named.title),
+      sourceRecordIds: facts.bill.sourceRecordIds,
+    };
+    if (facts.story?.text === facts.bill.text)
+      out.story = { ...out.bill };
+  }
   const yes = Number(said.yes);
   const no = Number(said.no);
   if (
