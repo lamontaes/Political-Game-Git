@@ -47,13 +47,13 @@ try {
     await page.locator("#talk").waitFor({ state: "visible" });
     // The scene can set the evening first ("Late on ... finds you at home"):
     // Continue, as a player does, until the address itself is said.
-    let said = await page.locator("#talk").innerText();
+    let said = await page.locator("#talk-lines").innerText();
     for (let line = 0; line < 5 && said.length <= 80; line += 1) {
       const next = page.locator("#talk-next:visible");
       if (!(await next.count())) break;
       await next.click();
       await page.waitForTimeout(400);
-      said = await page.locator("#talk").innerText();
+      said = await page.locator("#talk-lines").innerText();
     }
     console.log(
       `${width}x${height}:`,
