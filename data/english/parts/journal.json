@@ -3,6 +3,8 @@
   "register": "journal",
   "description": "The 'My life' journal: a first-person life story that names people by relationship and never invents a feeling. Every part is a whole sentence American speakers said about their own lives in public-domain federal transcripts (NASA and U.S. House oral histories, congressional hearing testimony, the Congressional Record), counted also against the Library of Congress WPA life histories, 1936 to 1940. The facts are slots from the person's own records. No part names a feeling. Each group names the journal row (kindPrefix) and field it fills; a sentence that names one particular relative is left out, since the journal says whichever relative the record names.",
   "slots": {
+    "body": "The body a relative's seat belongs to, as the reader says it: the Nelson City Council.",
+    "workplace": "Where a relative who holds an office also works, as the reader says it: Michael's Market.",
     "from": "The employer a relative left for the one they hold now, as the reader says it: Rasmussen Manufacturing.",
     "school": "A school, from the school record.",
     "employer": "An employer, from the job record.",
