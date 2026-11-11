@@ -26,11 +26,12 @@ import {
   pickContest,
   type FilingVisit,
 } from "../director/filing-visit";
-import { backdropFor, stagePeople, type StageReason } from "./scene";
+import { backdropFor, peopleHere, type StageReason } from "./scene";
 import { fileForOffice } from "./government";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
+import { petitionView } from "./campaign";
 
 /** The picture for the office that takes a contest's filings. */
 export function officePlace(filedWith: string): string {
@@ -48,7 +49,7 @@ export interface BenchFilingVisit {
   filedWith: string;
   place: string;
   backdrop: ReturnType<typeof backdropFor>;
-  people: ReturnType<typeof stagePeople>["people"];
+  people: ReturnType<typeof peopleHere>["people"];
   names: Record<string, string>;
   /**
    * Each offered race told apart before the player picks, from its records:
@@ -229,7 +230,7 @@ export function openBenchFilingVisit(
         )
       : [],
     backdrop,
-    people: stagePeople(core, backdrop.file, cast).people,
+    people: peopleHere(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
   };
@@ -301,7 +302,15 @@ export function chooseAtCounter(
     // What the petition asks is the clerk's next scene, staged from the
     // filing's record by the director (the `filing` situation type), so the
     // clerk says it once.
-    return { ...state, visit: { ...state.visit, choices: [] }, result };
+    const made = (result as { filing?: { id: string } }).filing;
+    return {
+      ...state,
+      visit: { ...state.visit, choices: [] },
+      result: {
+        ...result,
+        petition: made ? petitionView(api, made.id) : null,
+      },
+    };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
 }

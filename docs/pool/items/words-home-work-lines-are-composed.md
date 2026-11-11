@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/words-w4-work
-pr:
+pr: 8767
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -39,7 +39,7 @@ branch: claude/words-w4-work
 
 **Time box.** 5 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. Estimate, never UNKNOWN: a fact no record holds is not asked about, rather than answered with a guess. No dice. One rule, all 56 places: the tests draw their places and nothing names one. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
+**Rules.** No hand-written player text in code. Estimate, never UNKNOWN: a fact no record holds is not asked about, rather than answered with a guess. No dice. One rule, all 56 places: the tests draw their places and nothing names one.
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds, and meets someone new away from home in each. Each work talk names the person's employer and either their job or how long they have been there, and the player's replies are at most four different moves, each naming an employer or a job. It opens that person's card afterward and finds the employer on it. tests/guards/english passes with the lowered count.
 
@@ -48,4 +48,4 @@ branch: claude/words-w4-work
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/reply-set-check.ts, src/director/conversation.test.ts, src/english/conversation-words.ts, src/core2/shared-history.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 90 distinct lines across the four subjects, 23 with no insert and not excused (own-work 39 and 8, other-work 42 and 14, heard-work 21 and 3, shared-work 17 and 1). Three today: "What do you do?", "Have you been there long?", "Let's not talk shop. Maybe another time." Work is not talked about between relatives (`familyTalk.dropped`), so this is heard away from home.
-- 2026-11-11, Words builder W4: built on claude/words-w4-work from claude/words-opening-evening-talk. In the conversation-test worlds nobody has a start-date record for their current job (`heldSinceRecord` finds none), so "how long" is offered only where the bench's played worlds have one; the test checks that an offered "how long" is answered with the years.
+- 2026-11-11, Words builder W4: built on claude/words-w4-work. In the conversation-test worlds nobody has a start-date record for their current job (`heldSinceRecord` finds none), so "how long" is offered only where the bench's played worlds have one; the test checks that an offered "how long" is answered with the years.

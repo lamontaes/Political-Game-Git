@@ -223,8 +223,5 @@ it("offers the house party by its control word and runs the engine's donor meeti
   );
   // Seen in the host's home, the people in the room around the candidate.
   expect(out.scene, where).toBeDefined();
-  expect(
-    out.scene!.people.length + out.scene!.unplaced.length,
-    where,
-  ).toBeGreaterThan(0);
+  expect(out.scene!.people.length + out.scene!.more, where).toBeGreaterThan(0);
 });
