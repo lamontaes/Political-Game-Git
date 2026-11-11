@@ -9,9 +9,13 @@ import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { enactLaw, lawChain, lawInForce } from "./modules/laws";
-import { lawValue } from "./modules/outcome-web";
+import { enactLaw, lawChain, lawInForce, yesLevels } from "./modules/laws";
 import { coreAPI } from "./state";
+
+import type { CoreAPI } from "./types";
+/** The law on a question for the town on a date, by the laws engine's one lookup: 1 when a level says yes. */
+const lawSaysYes = (api: CoreAPI, series: string, date: string) =>
+  yesLevels(api, series, date).length ? 1 : 0;
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "outside-act-not-town-law");
@@ -41,7 +45,7 @@ it(
         );
         return;
       }
-      const before = lawValue(api, question, api.state.date);
+      const before = lawSaysYes(api, question, api.state.date);
       enactLaw(api, {
         jurisdiction: other,
         level: "state",
@@ -52,7 +56,7 @@ it(
         citation: "Test: another state passes the law",
       });
       advanceCore(world.core, addDays(makeIsoDate(api.state.date), 3));
-      const after = lawValue(api, question, api.state.date);
+      const after = lawSaysYes(api, question, api.state.date);
       process.stdout.write(
         `OUTSIDE-NOT-TOWN ${place.name} (${place.key}, seed ${place.seed}), home ${home}: ${other} passes ${question}; the web's reading of the town's law ${before} to ${after}\n`,
       );

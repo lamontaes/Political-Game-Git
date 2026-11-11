@@ -25,6 +25,42 @@ import {
   type WebLink,
 } from "./outcome-web-model";
 import { coreAPI } from "./state";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import {
+  enactLaw,
+  lawChain,
+  openLaws,
+  stateOpeningLawRows,
+  yesLevels,
+} from "./modules/laws";
+import { inForceOn } from "./laws-in-force";
+import { placeStateKey } from "./place-map";
+
+/**
+ * A state law takes effect on `date` through the laws engine, as a played
+ * bill's would: enacted the day before, so the engine announces it on its
+ * day and the web reruns that month.
+ */
+function enactStateLaw(
+  core: CoreState,
+  series: string,
+  value: number,
+  date: string,
+  tag: string,
+): void {
+  const api = coreAPI(core);
+  advanceCore(core, addDays(makeIsoDate(date), -1));
+  enactLaw(api, {
+    jurisdiction: lawChain(api).stateKey,
+    level: "state",
+    series,
+    value,
+    effectiveDate: date,
+    measureId: `outcome-web-test-${tag}`,
+    citation: "Controlled fixture: a state law in a test; not a played vote",
+  });
+  advanceCore(core, addDays(makeIsoDate(date), 1));
+}
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -237,8 +273,32 @@ describe(`drinking-water violations are read into low birth weight, in a generat
   }, 600_000);
 });
 
+/** Whether a place's state already has a yes on a law question at the start (its research's starting law): enacting it again would move nothing. */
+const startsWithLaw = (key: string, series: string) => {
+  const stateKey = placeStateKey(key);
+  return (
+    !!stateKey &&
+    stateOpeningLawRows(stateKey, gameStartDate()).some(
+      (row) =>
+        row.series === series &&
+        row.value === 1 &&
+        row.level === "state" &&
+        inForceOn(row, gameStartDate()),
+    )
+  );
+};
+
 describe(`a law ripples through the web and lands on people (seed ${seed})`, () => {
-  const place = drawPlace(seed, "outcome-web-law");
+  // A place whose state does not start with the crisis-response law.
+  const place = drawPlace(
+    seed,
+    "outcome-web-law",
+    (key) =>
+      !startsWithLaw(
+        key,
+        link("crisis-response-to-crime").from.slice("law:".length),
+      ),
+  );
   it(`${place.name}, ${place.state}: a behavioral health crisis response law cuts violent crime after its lag and the effect ends the day the law does`, () => {
     const core = createLifeCore(
       generatedOpening(place, {
@@ -254,28 +314,9 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
     // carriedBy); any lagged law link the web runs shows the same rule.
     const exempt = link("crisis-response-to-crime");
     const series = exempt.from.slice("law:".length);
-    const lawEvent = (date: string, value: string) => {
-      advanceCore(core, date);
-      // The event exactly as OPUS-GOV's laws module announces a law's phase.
-      api.emit({
-        id: `law-took-effect:test:${date}`,
-        date,
-        kind: "law-took-effect",
-        personIds: [],
-        placeId: town,
-        source: { tag: "SOURCED", asOf: date, citation: "Test enactment." },
-        publicRecord: true,
-        facts: {
-          lawId: `law:test:${date}`,
-          series,
-          level: "state",
-          jurisdiction: `state:${place.state}`,
-          tier: "standard",
-          value,
-          unit: "",
-        },
-      });
-    };
+    openLaws(core);
+    const lawEvent = (date: string, value: string) =>
+      enactStateLaw(core, series, Number(value), date, date);
     lawEvent(`${Y}-02-10`, "1");
     // Lag 6: the law reads as of six months back, so September 3 is the first month it acts.
     advanceCore(core, `${Y}-10-05`);
@@ -392,32 +433,29 @@ describe(`the outcomes the web now produces move with their laws, in a generated
     );
     const api = coreAPI(core);
     const town = core.people.get(core.playerId!)!.placeId;
-    advanceCore(core, `${Y}-02-09`);
-    for (const key of ADDED_LAW_LINKS) {
-      const series = link(key).from.replace(/^law:/, "");
-      api.emit({
-        id: `law-took-effect:test:${key}`,
-        date: core.date,
-        kind: "law-took-effect",
-        personIds: [],
-        placeId: town,
-        source: {
-          tag: "SOURCED",
-          asOf: core.date,
-          citation: "Test enactment.",
-        },
-        publicRecord: true,
-        facts: {
-          lawId: `law:test:${key}`,
-          series,
-          level: "state",
-          jurisdiction: `state:${place.state}`,
-          tier: "standard",
-          value: "1",
-          unit: "",
-        },
+    openLaws(core);
+    // A law the place already has at the start moves nothing when enacted again.
+    const added = ADDED_LAW_LINKS.filter(
+      (key) => !yesLevels(api, link(key).from.replace(/^law:/, "")).length,
+    );
+    process.stdout.write(
+      `outcome web added laws: ${place.name}, ${place.state}: enacting ${added.join(", ")}; already law: ${ADDED_LAW_LINKS.filter((key) => !added.includes(key)).join(", ") || "none"}\n`,
+    );
+    expect(added.length, place.name).toBeGreaterThan(0);
+    // Every law takes effect the same day, as the events once did.
+    advanceCore(core, `${Y}-02-08`);
+    for (const key of added)
+      enactLaw(api, {
+        jurisdiction: lawChain(api).stateKey,
+        level: "state",
+        series: link(key).from.replace(/^law:/, ""),
+        value: 1,
+        effectiveDate: `${Y}-02-09`,
+        measureId: `outcome-web-test-${key}`,
+        citation:
+          "Controlled fixture: a state law in a test; not a played vote",
       });
-    }
+    advanceCore(core, `${Y}-02-10`);
     const lagged = Math.max(
       ...ADDED_LAW_LINKS.map(
         (key) => link(key).lagMonths + (link(key).phaseInMonths ?? 0),
@@ -428,7 +466,7 @@ describe(`the outcomes the web now produces move with their laws, in a generated
     const reads = `${String(Number(Y) + Math.floor(monthIndex / 12))}-${String((monthIndex % 12) + 1).padStart(2, "0")}`;
     advanceCore(core, `${reads}-05`);
     const row = monthOf(api, town, reads);
-    for (const key of ADDED_LAW_LINKS) {
+    for (const key of added) {
       const one = link(key);
       expect(row.effects[key], key).toBeCloseTo(one.size!, 8);
       const base = row.bases[one.to]!;

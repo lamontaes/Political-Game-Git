@@ -28,11 +28,8 @@
     "lawMeasuresWhy": "Rates set in law stay as the real starting law (owner, Oct 27). The property-tax rate is the ACS effective rate, held here until the CTO rules whether it is law (docs/reports/real-statistics-in-play-2026-10-27.md)."
   },
   "lawsModule": {
-    "moduleId": "core2-laws-v1",
-    "table": "laws",
-    "index": "bySeriesOnly",
     "eventKind": "law-took-effect",
-    "why": "OPUS-GOV's laws module keeps every level's law rows (series, jurisdiction, value, effectiveDate) and announces each phase as a law-took-effect event; a law measure is 1 when any level's latest row in force says yes."
+    "why": "The laws module announces each phase as a law-took-effect event, and the web reruns its month that day. A law measure is 1 when a level of the town's chain has a row in force that says yes and is not set aside, read through the laws module's one lookup (yesLevels, lawInForce)."
   },
   "keptOutcomes": {
     "births.rate": {
