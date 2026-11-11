@@ -6077,6 +6077,15 @@
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   },
+  "traitWeightBringItUpRemembered": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the bring-it-up.remembered decision: how much a speaker's traits weigh telling an event of their own life over keeping it (src/director/bring-it-up.ts, rememberedToBringUp). Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
   "traitWeightConversationBelieveClaim": {
     "value": 0.18,
     "tag": "ESTIMATED",

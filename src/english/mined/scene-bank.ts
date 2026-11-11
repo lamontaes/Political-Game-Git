@@ -151,5 +151,20 @@ export function bringWordsFromBank(
       passed: variants(bank, "your-bill", "passed", true),
       failed: variants(bank, "your-bill", "failed", true),
     },
+    // An event of the speaker's life, by its role (`life/what`); its choice
+    // says whose memory it fits (`ours`, `mine`, or `any`).
+    remembered: Object.fromEntries(
+      [
+        ...new Set(
+          bank.parts.flatMap((part) =>
+            part.uses
+              .filter((use) => use.subject === "remembered")
+              .map((use) => use.role),
+          ),
+        ),
+      ]
+        .sort()
+        .map((role) => [role, variants(bank, "remembered", role, true)]),
+    ),
   };
 }
