@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-words-director-one-path-part-4-opening-address-by-events
+pr: #8512
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,8 @@ effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:10:13.066Z
+branch: claude/pool-words-director-one-path-part-4-opening-address-by-events
 ---
 
 **What.** Part of words-director-one-path. The opening address should differ by who the player is and what is happening in the world, as the owner approved on Oct 28; today it is assembled from a small fixed set. Build it from parts the English banks hold, chosen by records, and test two worlds against each other.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/director/opening-story.ts, src/director/data/opening-address.json, src/director/opening-address.test.ts
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:10 UTC) on branch claude/pool-words-director-one-path-part-4-opening-address-by-events.

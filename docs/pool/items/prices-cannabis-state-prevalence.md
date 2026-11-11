@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **On screen.** Nothing yet: it would show on Politics, then Issues and Government, and nothing there reads it.
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have swapped the one national 23 percent cannabis-use share for each state's own; nobody sees the difference, and the national average stays a labeled estimate.
