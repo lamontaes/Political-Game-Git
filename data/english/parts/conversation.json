@@ -7048,144 +7048,6 @@
       }
     },
     {
-      "key": "conversation.kin-reply-not.i-dont-think-so",
-      "move": "kin-reply-not",
-      "kind": "spoken",
-      "text": "I don't think so.",
-      "uses": [
-        {
-          "move": "kin-reply-not",
-          "subject": "kin",
-          "role": "reply",
-          "choice": "not"
-        },
-        {
-          "move": "asked-kin-answer-no",
-          "subject": "asked-kin",
-          "role": "answer",
-          "choice": "no"
-        }
-      ],
-      "transcriptsUsing": 629,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project": 6,
-        "National Archives History Office oral history project (brooks-oral-histories)": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "National Archives History Office oral history project (ross-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Naval History and Heritage Command, Navy strategy oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 15,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 15,
-        "U.S. Senate Historical Office oral history": 36,
-        "briefing": 48,
-        "crec": 35,
-        "dcpd": 207,
-        "hearings": 51,
-        "house": 34,
-        "nasa": 54,
-        "nasa2": 25,
-        "nih": 5,
-        "nps": 87,
-        "nps.gov (PDF)": 1
-      },
-      "source": {
-        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60282",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.kin-reply-not.i-dont-think-i-have",
-      "move": "kin-reply-not",
-      "kind": "spoken",
-      "text": "I don't think I have.",
-      "uses": [
-        {
-          "move": "kin-reply-not",
-          "subject": "kin",
-          "role": "reply",
-          "choice": "not"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "briefing": 1,
-        "dcpd": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Conference",
-        "date": "2020-02-27",
-        "granule": "WH-2020-02-27-remarks-president-trump-vice-president-pence-members-coronavirus-task",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-conference/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.kin-reply-not.no-i-dont-think-so",
-      "move": "kin-reply-not",
-      "kind": "spoken",
-      "text": "No, I don't think so.",
-      "uses": [
-        {
-          "move": "kin-reply-not",
-          "subject": "kin",
-          "role": "reply",
-          "choice": "not"
-        },
-        {
-          "move": "asked-kin-answer-no",
-          "subject": "asked-kin",
-          "role": "answer",
-          "choice": "no"
-        }
-      ],
-      "transcriptsUsing": 173,
-      "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 3,
-        "National Archives History Office oral history project": 3,
-        "National Archives History Office oral history project (brooks-oral-histories)": 1,
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 5,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
-        "U.S. Senate Historical Office oral history": 12,
-        "briefing": 18,
-        "crec": 3,
-        "dcpd": 40,
-        "hearings": 10,
-        "house": 10,
-        "nasa": 20,
-        "nasa2": 11,
-        "nih": 1,
-        "nps": 30
-      },
-      "source": {
-        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
-        "date": "2026-08-19",
-        "granule": "DCPD-202600547",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.kin-reply-not.not-yet",
       "move": "kin-reply-not",
       "kind": "spoken",
@@ -7424,41 +7286,6 @@
       "bearing": "nervous"
     },
     {
-      "key": "conversation.kin-answer-turn.one-of-these-days",
-      "move": "kin-answer-turn",
-      "kind": "spoken",
-      "text": "One of these days.",
-      "uses": [
-        {
-          "move": "kin-answer-turn",
-          "subject": "kin",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "next-2"
-        }
-      ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
-        "dcpd": 2,
-        "hearings": 3,
-        "nasa": 1,
-        "nasa2": 1,
-        "nps": 3
-      },
-      "source": {
-        "document": "Remarks in a Virtual Meeting With Family and Independent Farmers and Ranchers on Efforts To Increase Competition and Reduce Prices in the Meat- Processing Industry and an Exchange With Reporters",
-        "date": "2022-01-03",
-        "granule": "DCPD-202200001",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200001/html/DCPD-202200001.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask"
-      },
-      "bearing": "nervous"
-    },
-    {
       "key": "conversation.kin-answer-turn.maybe-next-time",
       "move": "kin-answer-turn",
       "kind": "spoken",
@@ -7642,233 +7469,6 @@
       },
       "tag": {
         "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-ill.hes-in-the-hospital",
-      "move": "family-answer-ill",
-      "kind": "spoken",
-      "text": "He's in the hospital.",
-      "uses": [
-        {
-          "move": "family-answer-ill",
-          "subject": "family",
-          "role": "answer",
-          "choice": "ill",
-          "stages": ["ill"]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "briefing": 2,
-        "dcpd": 1
-      },
-      "source": {
-        "document": "Press Briefing by Press Secretary Sarah Sanders and Acting Secretary of Health and Human Services Eric Hargan",
-        "date": "2017-11-30",
-        "granule": "WH-2017-11-30-press-briefing-press-secretary-sarah-sanders-113017",
-        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/press-briefing-press-secretary-sarah-sanders-113017/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.family-answer-gone.she-passed-away",
-      "move": "family-answer-gone",
-      "kind": "spoken",
-      "text": "She passed away.",
-      "uses": [
-        {
-          "move": "family-answer-gone",
-          "subject": "family",
-          "role": "answer",
-          "choice": "gone",
-          "stages": ["died"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "dcpd": 2
-      },
-      "source": {
-        "document": "Remarks Prior to a Cabinet Meeting and an Exchange With Reporters",
-        "date": "2025-12-02",
-        "granule": "DCPD-202501155",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501155/html/DCPD-202501155.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.family-answer-gone.he-passed-away",
-      "move": "family-answer-gone",
-      "kind": "spoken",
-      "text": "He passed away.",
-      "uses": [
-        {
-          "move": "family-answer-gone",
-          "subject": "family",
-          "role": "answer",
-          "choice": "gone",
-          "stages": ["died"]
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "National Archives History Office oral history project": 1,
-        "dcpd": 1,
-        "hearings": 2,
-        "house": 1,
-        "nasa": 1,
-        "nasa2": 1
-      },
-      "source": {
-        "document": "SACRED MISSION: HONORING AMERICA'S VETERANS AND THEIR FAMILIES AT VA CEMETERIES",
-        "date": "2024-02-28",
-        "granule": "CHRG-118shrg55115",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55115/html/CHRG-118shrg55115.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.family-answer-gone.she-died",
-      "move": "family-answer-gone",
-      "kind": "spoken",
-      "text": "She died.",
-      "uses": [
-        {
-          "move": "family-answer-gone",
-          "subject": "family",
-          "role": "answer",
-          "choice": "gone",
-          "stages": ["died"]
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "hearings": 3,
-        "nps": 3,
-        "wpa": 5
-      },
-      "source": {
-        "document": "EXAMINING THE BANKRUPTCY OF STEWARD HEALTH CARE: HOW MANAGEMENT DECISIONS HAVE IMPACTED PATIENT CARE",
-        "date": "2024-09-12",
-        "granule": "CHRG-118shrg57254",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg57254/html/CHRG-118shrg57254.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.family-answer-gone.he-died",
-      "move": "family-answer-gone",
-      "kind": "spoken",
-      "text": "He died.",
-      "uses": [
-        {
-          "move": "family-answer-gone",
-          "subject": "family",
-          "role": "answer",
-          "choice": "gone",
-          "stages": ["died"]
-        }
-      ],
-      "transcriptsUsing": 21,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
-        "dcpd": 9,
-        "nih": 1,
-        "nps": 2,
-        "wpa": 7
-      },
-      "source": {
-        "document": "Remarks Prior to a Meeting With President Karol Nawrocki of Poland and an Exchange With Reporters",
-        "date": "2025-09-03",
-        "granule": "DCPD-202500892",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500892/html/DCPD-202500892.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.family-answer-gone.my-father-passed-away",
-      "move": "family-answer-gone",
-      "kind": "spoken",
-      "text": "My father passed away.",
-      "uses": [
-        {
-          "move": "family-answer-gone",
-          "subject": "family",
-          "role": "answer",
-          "choice": "gone",
-          "stages": ["died"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 2
-      },
-      "source": {
-        "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
-        "date": "2024-01-18",
-        "granule": "CHRG-118hhrg54614",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.family-answer-gone.my-father-died",
-      "move": "family-answer-gone",
-      "kind": "spoken",
-      "text": "My father died.",
-      "uses": [
-        {
-          "move": "family-answer-gone",
-          "subject": "family",
-          "role": "answer",
-          "choice": "gone",
-          "stages": ["died"]
-        }
-      ],
-      "transcriptsUsing": 15,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "crec": 1,
-        "hearings": 1,
-        "nps": 2,
-        "wpa": 10
-      },
-      "source": {
-        "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
-        "date": "2024-01-18",
-        "granule": "CHRG-118hhrg54614",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
       }
     },
     {
@@ -12456,43 +12056,6 @@
       }
     },
     {
-      "key": "conversation.asked-kin-answer-name.whos-name",
-      "move": "asked-kin-answer-name",
-      "kind": "spoken",
-      "text": "Who's {name}?",
-      "uses": [
-        {
-          "move": "asked-kin-answer-name",
-          "subject": "asked-kin",
-          "role": "answer",
-          "choice": "name"
-        }
-      ],
-      "transcriptsUsing": 19,
-      "bySource": {
-        "National Archives History Office oral history project (nyc-oral-histories)": 1,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "U.S. Senate Historical Office oral history": 3,
-        "dcpd": 2,
-        "hearings": 2,
-        "house": 2,
-        "nasa": 1,
-        "nasa2": 1,
-        "nps": 5
-      },
-      "source": {
-        "document": "OVERSIGHT OF THE U.S. DEPARTMENT OF JUSTICE",
-        "date": "2024-06-04",
-        "granule": "CHRG-118hhrg55952",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55952/html/CHRG-118hhrg55952.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.ack-reply-right.uh-huh",
       "move": "ack-reply-right",
       "kind": "spoken",
@@ -12833,37 +12396,6 @@
       },
       "tag": {
         "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.family-answer-gone.my-mother-died",
-      "move": "family-answer-gone",
-      "kind": "spoken",
-      "text": "My mother died.",
-      "uses": [
-        {
-          "move": "family-answer-gone",
-          "subject": "family",
-          "role": "answer",
-          "choice": "gone",
-          "stages": ["died"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "chrg": 1,
-        "nasa": 1
-      },
-      "source": {
-        "document": "Drug Pricing In America: A Prescription For Change, Part Ii",
-        "date": "2015-01-01",
-        "granule": "CHRG-116shrg37143",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116shrg37143",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
       }
     },
     {
@@ -15617,135 +15149,6 @@
       }
     },
     {
-      "key": "conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "She's doing well. I'll tell her you asked.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well",
-          "raises": "their-family"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "He's doing well. I'll tell him you asked.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well",
-          "raises": "their-family"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.they-re-doing-well-i-ll-tell-them-you-asked",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "They're doing well. I'll tell them you asked.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well",
-          "raises": "their-family"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.family-answer-well.she-s-good-you-should-come-by-and-see-her",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "She's good. You should come by and see her.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well",
-          "raises": "their-family"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "He's good. You should come by and see him.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well",
-          "raises": "their-family"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.family-answer-well.they-re-good-you-should-come-by-and-see-them",
-      "move": "family-answer-well",
-      "kind": "spoken",
-      "text": "They're good. You should come by and see them.",
-      "uses": [
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well",
-          "raises": "their-family"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "answer"
-      },
-      "bearing": "tender"
-    },
-    {
       "key": "conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you",
       "move": "family-answer-well",
       "kind": "spoken",
@@ -15827,51 +15230,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.family-answer-ill.not-so-good-i-ll-tell-name-you-asked",
-      "move": "family-answer-ill",
-      "kind": "spoken",
-      "text": "Not so good. I'll tell {name} you asked.",
-      "uses": [
-        {
-          "move": "family-answer-ill",
-          "subject": "family",
-          "role": "answer",
-          "choice": "ill",
-          "stages": ["ill"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deliver-news",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "conversation.family-answer-ill.not-too-well-you-should-call-name",
-      "move": "family-answer-ill",
-      "kind": "spoken",
-      "text": "Not too well. You should call {name}.",
-      "uses": [
-        {
-          "move": "family-answer-ill",
-          "subject": "family",
-          "role": "answer",
-          "choice": "ill",
-          "stages": ["ill"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "deliver-news",
-        "key": "threat"
       },
       "bearing": "tender"
     },
@@ -17840,27 +17198,6 @@
       "author": "Words session",
       "date": "2026-10-15",
       "bearing": "glad",
-      "tag": {
-        "move": "ask"
-      }
-    },
-    {
-      "key": "conversation.kin-answer-turn.sometime-soon-i-hope",
-      "move": "kin-answer-turn",
-      "kind": "spoken",
-      "text": "Sometime soon, I hope.",
-      "uses": [
-        {
-          "move": "kin-answer-turn",
-          "subject": "kin",
-          "role": "answer",
-          "choice": "turn"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
       "tag": {
         "move": "ask"
       }
@@ -30379,6 +29716,838 @@
       "bearing": "curious",
       "origin": "authored",
       "author": "Words builder W4 (words-home-work-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-well.name-s-doing-fine",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name}'s doing fine.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-well.name-s-good-thanks",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name}'s good, thanks.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-well.name-is-doing-okay",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name} is doing okay.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-well.good-ill-tell-name-you-asked",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "Good. I'll tell {name} you asked.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-well.name-s-doing-great",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name}'s doing great.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-well.name-is-well-thanks-for-asking",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "{name} is well, thanks for asking.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well",
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-got-sick-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} got sick {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-took-sick-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} took sick {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-came-down-with-something-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} came down with something {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-fell-ill-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} fell ill {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-ill.name-started-feeling-poorly-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "{name} started feeling poorly {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-passed-away-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} passed away {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-gone.we-lost-name-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "We lost {name} {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-died-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} died {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-passed-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} passed {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-s-been-living-in-place",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name}'s been living in {place}.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "stages": ["moved"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-moved-out-to-place",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} moved out to {place}.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "stages": ["moved"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-moved-over-to-place",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} moved over to {place}.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "stages": ["moved"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-moved.name-is-living-in-place-these-days",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} is living in {place} these days.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "stages": ["moved"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-job.name-got-on-at-employer",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} got on at {employer}.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "stages": ["job"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-job.name-works-at-employer-now",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} works at {employer} now.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "stages": ["job"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-job.name-took-a-job-at-employer",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} took a job at {employer}.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "stages": ["job"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-job.name-s-with-employer-now",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name}'s with {employer} now.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "stages": ["job"],
+          "raises": "their-family"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-raise-ask.have-you-met-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Have you met {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-raise-ask.do-you-know-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Do you know {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-raise-ask.have-you-ever-met-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Have you ever met {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-raise-ask.you-ever-meet-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "You ever meet {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-raise-ask.did-you-ever-meet-relation-name",
+      "move": "kin-raise-ask",
+      "kind": "spoken",
+      "text": "Did you ever meet {relation}, {name}?",
+      "uses": [
+        {
+          "move": "kin-raise-ask",
+          "subject": "kin",
+          "role": "raise",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.lives-over-in-place-now",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Lives over in {place} now.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.works-over-at-employer",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Works over at {employer}.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.out-in-place-these-days",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Out in {place} these days.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.with-employer-these-days",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "With {employer} these days.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.lives-out-in-place",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Lives out in {place}.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.works-at-employer",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Works at {employer}.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.over-in-place-now",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Over in {place} now.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reason.works-for-employer",
+      "move": "kin-reason",
+      "kind": "spoken",
+      "text": "Works for {employer}.",
+      "uses": [
+        {
+          "move": "kin-reason",
+          "subject": "kin",
+          "role": "reason",
+          "for": "raise"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reply-not.i-dont-think-ive-met-name",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "I don't think I've met {name}.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        },
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reply-not.i-havent-met-name-yet",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "I haven't met {name} yet.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        },
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reply-not.no-i-havent-met-name",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "No, I haven't met {name}.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        },
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.kin-reply-not.cant-say-ive-met-name",
+      "move": "kin-reply-not",
+      "kind": "spoken",
+      "text": "Can't say I've met {name}.",
+      "uses": [
+        {
+          "move": "kin-reply-not",
+          "subject": "kin",
+          "role": "reply",
+          "choice": "not"
+        },
+        {
+          "move": "asked-kin-answer-no",
+          "subject": "asked-kin",
+          "role": "answer",
+          "choice": "no"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-ill.we-found-out-name-was-sick-when",
+      "move": "family-answer-ill",
+      "kind": "spoken",
+      "text": "We found out {name} was sick {when}.",
+      "uses": [
+        {
+          "move": "family-answer-ill",
+          "subject": "family",
+          "role": "answer",
+          "choice": "ill",
+          "stages": ["ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-gone.name-left-us-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "{name} left us {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.family-answer-gone.we-said-goodbye-to-name-when",
+      "move": "family-answer-gone",
+      "kind": "spoken",
+      "text": "We said goodbye to {name} {when}.",
+      "uses": [
+        {
+          "move": "family-answer-gone",
+          "subject": "family",
+          "role": "answer",
+          "choice": "gone",
+          "stages": ["died"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W4 (words-home-family-kin-lines-are-composed)",
       "date": "2026-11-11"
     }
   ]
