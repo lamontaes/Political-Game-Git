@@ -3827,7 +3827,9 @@ details.entry[open] {
   align-items: start;
   font-family: var(--ui);
 }
-.patch-detail {
+/* Patch notes and the journal run long: their page scrolls inside its own box, never the sheet. */
+.roster-screen.patch-notes .roster-page,
+.roster-screen.journal .roster-page {
   max-height: calc(100vh - 250px);
   overflow-y: auto;
   scrollbar-width: thin;
@@ -5552,4 +5554,14 @@ body.color-blind .meeting-member.vote-abstain {
     linear-gradient(180deg, black 62%, transparent 100%),
     linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
   mask-composite: intersect;
+}
+
+/* Government in Dev mode: Bills and Bribe sit in the main column under the members; the chamber picture gives them its room. */
+.dev-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.split-main:has(.dev-panels) .chamber {
+  display: none;
 }
