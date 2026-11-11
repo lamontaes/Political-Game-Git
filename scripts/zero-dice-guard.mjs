@@ -509,7 +509,7 @@ export function compare(findings, allowlist) {
 }
 
 /**
- * List-pick entries that lack what the allowlist asks of them: one of the
+ * List-pick and roll entries that lack what the allowlist asks of them: one of the
  * four classes, a one-line reason, a generation key that is the id of the
  * thing described (never a place), and for a decision the real reason that
  * should replace it.
@@ -518,7 +518,8 @@ export function compare(findings, allowlist) {
 export function unclassified(allowlist) {
   const problems = [];
   for (const entry of allowlist.entries) {
-    if (entry.kind !== "list-pick") continue;
+    // List-picks and seeded rolls (a draw compared with a threshold) carry the same classes.
+    if (entry.kind !== "list-pick" && entry.kind !== "roll") continue;
     const flag = (problem) =>
       problems.push({ file: entry.file, code: entry.code, problem });
     if (!PICK_CLASSES.includes(entry.class)) {

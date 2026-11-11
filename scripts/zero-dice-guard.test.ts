@@ -51,17 +51,18 @@ describe("zero-dice guard", () => {
     ).toEqual([]);
   });
 
-  it("names the owning build on every allowed line but a list-pick", () => {
+  it("names the owning build on every allowed line but a list-pick or a classified roll", () => {
     const unowned = allowlist.entries.filter(
-      (entry: { build: unknown; kind: string }) =>
+      (entry: { build: unknown; kind: string; class?: string }) =>
         entry.kind !== "list-pick" &&
+        !(entry.kind === "roll" && entry.class) &&
         (typeof entry.build !== "string" ||
           !/^(Build \d+|pool:[a-z0-9-]+)$/.test(entry.build)),
     );
     expect(unowned).toEqual([]);
   });
 
-  it("classifies every list-pick, with a reason", () => {
+  it("classifies every list-pick and every roll, with a reason", () => {
     expect(unclassified(allowlist)).toEqual([]);
   });
 
@@ -329,6 +330,35 @@ describe("what the allowlist asks of a list-pick", () => {
         ...extra,
       },
     ],
+  });
+
+  it("asks the same of a seeded roll as of a list-pick: a class, a reason and a key", () => {
+    const roll = (extra: object) => ({
+      entries: [
+        {
+          file: "src/core2/x.ts",
+          kind: "roll",
+          build: null,
+          count: 1,
+          code: "if (rng.next() < share) return true;",
+          ...extra,
+        },
+      ],
+    });
+    expect(unclassified(roll({}))).toHaveLength(1);
+    expect(unclassified(roll({ class: "LUCK", reason: "x" }))).toHaveLength(1);
+    expect(unclassified(roll({ class: "IDENTITY", reason: "" }))).toHaveLength(
+      1,
+    );
+    expect(
+      unclassified(
+        roll({
+          class: "GENERATION",
+          keyedBy: "world seed + person id",
+          reason: "who exists at the opening",
+        }),
+      ),
+    ).toEqual([]);
   });
 
   it("accepts each class with its reason", () => {
