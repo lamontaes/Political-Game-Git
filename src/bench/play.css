@@ -2606,43 +2606,39 @@ body:not(.dev) .dev-only {
   max-width: none;
   user-select: none;
 }
-/* People: the roster of everyone you know at the left, grouped, and the selected person's
-   card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
-#sheet-body:has(.people-screen) {
-  max-width: none;
-}
-/* The list and the card each keep to the panel's height and scroll inside
-   themselves; the screen never runs past the panel's foot (a menu never
-   scrolls as a page). */
-#sheet-body:has(.people-screen) {
+/* People on the one roster (owner, Nov 7: the person card, "perfect"; the mock's
+   pl-people): the roster at the left and the chosen person's card beside it, the
+   width of the panel; each keeps to the panel's height and scrolls inside itself
+   (a menu never scrolls as a page). */
+#sheet-body:has(.roster-screen.people) {
   display: flex;
   overflow: hidden;
 }
-.people-screen {
+.roster-screen.people {
   flex: 1;
+  width: auto;
   min-height: 0;
-  display: grid;
-  grid-template-columns: 270px 1fr;
+  grid-template-columns: 270px minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
+  align-items: stretch;
   gap: 22px;
 }
-.people-roster,
-.people-pane {
+.roster-screen.people > .roster,
+.roster-screen.people > .roster-page {
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
-.people-roster {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-family: var(--ui);
+.roster-screen.people > .roster {
+  align-content: start;
+  max-height: none;
+  margin: 0;
 }
-.people-pane .strip-screen {
+.roster-screen.people > .roster-page .strip-screen {
   grid-template-columns: 1fr;
 }
-.people-pane .strip-screen:has(.mxbust) {
+.roster-screen.people > .roster-page .strip-screen:has(.mxbust) {
   grid-template-columns: 300px 1fr;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
