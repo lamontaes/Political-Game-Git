@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-three-checks-still-fail-a-run-for-leaving-a-real-range
-pr:
+pr: #8615
 after:
 blocked-on:
 model: sonnet
