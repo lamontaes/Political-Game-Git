@@ -31,7 +31,7 @@ import { plate } from "./ui/plate.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
-import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devBillsPanel, devPanelsRow } from "./ui/dev-bills.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
 import { traceBox } from "./ui/dev-trace-box.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
@@ -4849,6 +4849,23 @@ const sheets = {
     };
     // The chosen level, branch, state and body, kept while the sheet is open.
     let bodyChoice = null;
+    const devBills = devModeOn()
+      ? await devBillsPanel({
+          labels: controls.devBills,
+          onDone: () => refresh(),
+        })
+      : null;
+    const devBribe = devBills
+      ? await devBribePanel({
+          labels: controls.devBribe,
+          bodies: devBills.bodies,
+          billId: devBills.billId,
+          onDone: () => refresh(),
+        })
+      : null;
+    const devPanels = devBills
+      ? devPanelsRow(devBills.section, ...(devBribe ? [devBribe] : []))
+      : null;
     const screen = async () => {
       const level = governmentLevel ?? gov.ownRace?.tier ?? "local";
       const stateKey = level === "local" ? "" : governmentState;
@@ -4972,7 +4989,8 @@ const sheets = {
           stateFilter,
           offered.length > 1 ? branches : null,
         ].filter(Boolean),
-        main: [...bodyTabs, ...view.main],
+        // Dev mode's Bills and Bribe panels sit in the main column under what they act on.
+        main: [...bodyTabs, ...view.main, ...(devPanels ? [devPanels] : [])],
         side: view.side,
       });
       // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
@@ -4980,25 +4998,7 @@ const sheets = {
       fitPagers(screenNode);
       return screenNode;
     };
-    const devBills = devModeOn()
-      ? await devBillsPanel({
-          labels: controls.devBills,
-          onDone: () => refresh(),
-        })
-      : null;
-    const devBribe = devBills
-      ? await devBribePanel({
-          labels: controls.devBribe,
-          bodies: devBills.bodies,
-          billId: devBills.billId,
-          onDone: () => refresh(),
-        })
-      : null;
-    return [
-      await screen(),
-      ...(devBills ? [devBills.section] : []),
-      ...(devBribe ? [devBribe] : []),
-    ];
+    return [await screen()];
   },
   /**
    * Parties, illustrated: the state's map with the player's districts and
@@ -5439,7 +5439,13 @@ function fitPagersNow(root, waits = 30) {
     for (const box of root.querySelectorAll(".pager")) {
       if (!box.setRows) continue;
       const part = box.closest(".split-side, .split-main");
-      while ((over(part) || over($("sheet-body"))) && box.rowCount() > 1)
+      // A screen that shares its sheet with dev panels is made shorter than its content; its own
+      // overflow counts, so the pager gives rows up and nothing is drawn over a dev panel.
+      const screen = box.closest(".split-screen");
+      while (
+        (over(part) || over(screen) || over($("sheet-body"))) &&
+        box.rowCount() > 1
+      )
         box.setRows(box.rowCount() - 1);
     }
     // A side still past its foot: its list of recent votes keeps the newest
