@@ -558,12 +558,10 @@ try {
     path: "docs/reports/ballot-pages-2026-10-24/own-race.png",
   });
   // Mark the own race; the mark response carries the ballot (visit) id.
-  const sceneBefore = await (
-    await page.request.get(`${BASE}/api/polling-place`)
-  ).json();
-  const ownPersonId = sceneBefore?.people?.find(
-    (x) => x.reason === "you",
-  )?.personId;
+  // The player, by the life's own record.
+  const ownPersonId = (
+    await (await page.request.get(`${BASE}/api/title`)).json()
+  ).life?.personId;
   const marked = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/polling-place/mark",
     { timeout: 30000 },
@@ -581,7 +579,7 @@ try {
   // The visit id exists before any vote (marked: {}), so assert the mark
   // itself: the player's candidateId under the filed contest's id.
   const playerId = ownPersonId;
-  assert.ok(playerId, "scene named no 'you' person before marking");
+  assert.ok(playerId, "the title names no player");
   assert.ok(filedContest, "no accepted filing contest id captured");
   assert.equal(
     record.marked?.[filedContest],
