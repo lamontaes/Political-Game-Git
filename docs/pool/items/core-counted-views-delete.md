@@ -5,13 +5,13 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-counted-views-delete
 pr:
 blocked-on:
 after: world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
-claimed-at:
+claimed-at: 2026-11-11T04:24:53.691Z
 lead: speed
 standard: 2
 model: sonnet
