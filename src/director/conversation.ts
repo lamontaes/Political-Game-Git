@@ -344,6 +344,8 @@ export interface Conversation {
   topicFacts?: Facts;
   /** The minute of the day the talk is had at, when the caller gave it (internal). */
   minuteOfDay?: number;
+  /** The organization whose place the player came to for the talk, when the screen knows it (internal). */
+  visitOrganizationId?: string;
   /** A look only: whether there is anything to say, with nothing learned (internal). */
   look?: boolean;
   /** The director's ledger, read for what happened to whom (internal). */
@@ -3036,6 +3038,8 @@ export function openConversation(
     occasionId?: string;
     /** The minute of the day the talk is had at, where the screen knows it better than the clock (the opening evening). */
     minuteOfDay?: number;
+    /** The organization whose place the player came to (a visit), where the screen knows it. */
+    visitOrganizationId?: string;
     /** Only looking whether there is anything to say (the room's check): nothing is learned. */
     look?: boolean;
   } = {},
@@ -3056,6 +3060,9 @@ export function openConversation(
     ...(options.director ? { director: options.director } : {}),
     ...(options.minuteOfDay !== undefined
       ? { minuteOfDay: options.minuteOfDay }
+      : {}),
+    ...(options.visitOrganizationId
+      ? { visitOrganizationId: options.visitOrganizationId }
       : {}),
     ...(options.look ? { look: true } : {}),
   };
@@ -4046,6 +4053,26 @@ function partingLine(
       text: player.givenName,
       sourceRecordIds: [player.id],
     };
+    // Where and when it is said, for the goodbyes that need it: the player
+    // came to the speaker's work, the player holds a job, they do not live
+    // together, and the hour (owner's rule: words know the hour and the person).
+    const mark = (name: string, ids: readonly string[]) => {
+      facts[name] = { text: "yes", sourceRecordIds: ids };
+    };
+    const theirJob = jobOf(core, core.people.get(speakerId)!);
+    if (
+      theirJob &&
+      conversation.visitOrganizationId &&
+      theirJob.org.id === conversation.visitOrganizationId
+    )
+      mark("at-their-work", [theirJob.job.id, theirJob.org.id]);
+    const mine = jobOf(core, player);
+    if (mine) mark("player-works", [mine.job.id]);
+    if (!housemate) mark("not-housemate", [speakerId]);
+    for (const part of dayParts(
+      conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
+    ))
+      mark(part, [conversation.playerId]);
   }
   if (key) {
     const ids = topic[key]!.sourceRecordIds;

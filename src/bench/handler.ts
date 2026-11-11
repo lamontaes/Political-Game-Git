@@ -608,6 +608,11 @@ const ROUTES: readonly Route[] = [
               director: state.director,
               ...(occasionId ? { occasionId } : {}),
               ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
+              // The place the player came to, so a goodbye knows it is said
+              // at the speaker's work.
+              ...(state.visit
+                ? { visitOrganizationId: state.visit.organizationId }
+                : {}),
             }
           : {},
       );

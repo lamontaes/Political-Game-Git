@@ -31677,7 +31677,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -31723,7 +31723,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -31746,7 +31746,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -31815,7 +31815,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -31838,7 +31838,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "not-housemate"]
         }
       ],
       "origin": "authored",
@@ -31907,7 +31907,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -34068,7 +34068,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "player-works"]
         }
       ],
       "origin": "authored",
@@ -34114,7 +34114,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -34183,7 +34183,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "not-housemate"]
         }
       ],
       "origin": "authored",
@@ -34206,7 +34206,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "daytime"]
         }
       ],
       "origin": "authored",
@@ -34229,7 +34229,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -34252,7 +34252,7 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"],
-          "requiresFacts": ["about-again", "player-first"]
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
         }
       ],
       "origin": "authored",
@@ -34264,6 +34264,236 @@
       "move": "farewell-core",
       "kind": "spoken",
       "text": "Thanks for stopping by, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first", "at-their-work"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.good-talk-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good talk, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.glad-we-talked-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Glad we talked, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.catch-you-later-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Catch you later, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.be-good-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Be good, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.take-it-easy-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Take it easy, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.until-next-time-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Until next time, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.always-nice-talking-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Always nice talking, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.okay-then-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Okay then, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.alright-then-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Alright then, {player-first}.",
+      "piece": {
+        "of": "farewell-leave",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "farewell-core",
+          "subject": "farewell",
+          "role": "core",
+          "stages": ["default"],
+          "requiresFacts": ["about-again", "player-first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.farewell-core.good-chatting-player-first",
+      "move": "farewell-core",
+      "kind": "spoken",
+      "text": "Good chatting, {player-first}.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
