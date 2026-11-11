@@ -5,10 +5,10 @@ area: office
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-office-member-ordinance-voted-without-player-stop
+pr: #8807
 after:
 blocked-on:
 lead: governing
@@ -16,6 +16,8 @@ model: opus
 effort: high
 root: rc7-player-cannot-drive
 source: Fable B's play of the bench, Nov 11, 2026 (Advanced start as a county commissioner); cause found by a Fable B helper the same day
+claimed-at: 2026-11-11T13:46:45.820Z
+merged-at: 2026-11-11T15:26:28.995Z
 ---
 
 **What.** A player seated on a three-member county board presses Day through the board's regular meeting and is never stopped. Afterward the board shows a "Budget Ordinance" passed 2 to 0 on the meeting day, the journal says the player introduced it, and the player's own roll-call row says yes, all without a single act by the player. The meeting must hold the player when their seat votes, a bill must not name the player as its sponsor unless the player filed it, and the player's row must come from the player. Seen: the meeting screen opens at the board's meeting hour, and the journal's "I introduced" line appears only after the player files a bill.
@@ -47,3 +49,5 @@ What each part costs: parts 1 and 2 are about 60 lines in office-day.ts plus one
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/office-day.ts, src/core2/modules/world-legislating.ts, src/core2/data/office-day/parameters.json, src/core2/office-day-member-filings.test.ts, src/core2/data/stopgaps/office.json
+
+**Notes.** Replayed on main by opus-5251, Nov 11, before any part was built. The item's bench seed 253225ee-ffc1-449c-b180-ec52013de651 is Deep River, Washington; Holly McGee (`person_58dc6cdc4dd0560d`) was selected after the world was built, and Day was pressed through Feb 13. `meeting:office:gus2025:140688:board:2025-02-04` was adjourned with `agenda: []` and `playerPresent: false`. `bill:office:gus2025:140688:board:2025-02-04:person_58dc6cdc4dd0560d:27` was enacted with `sponsorId` Holly. Holly's roll-call row on it was `yes`. The only stops on the way were two news scenes (Jan 31, Feb 12) and no meeting. After the build (pull request 8807), on the same replay, the meeting held Holly on Feb 4 at 9:00 AM with one bill on its agenda. That bill was filed on the eve by `person_c78cf8d6a43da0e6`, and Holly's row was `abstain` once she adjourned without voting.

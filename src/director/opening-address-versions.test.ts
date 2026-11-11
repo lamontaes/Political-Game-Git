@@ -4,7 +4,10 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import * as worldLegislating from "../core2/modules/world-legislating";
-import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
+import {
+  OPENING_SPEECH_BANK,
+  partValues,
+} from "../english/english-opening-speech";
 
 /**
  * The President's address is the first thing a new player hears, and it
@@ -141,7 +144,9 @@ it(`the President's address says different sentences, with its own world's names
       new Set(
         OPENING_SPEECH_BANK.parts
           .filter(
-            (part) => part.move === "subject" && part.topic?.endsWith(end),
+            (part) =>
+              part.move === "subject" &&
+              partValues(part.topic).some((topic) => topic.endsWith(end)),
           )
           .map((part) => part.text.toLowerCase()),
       );

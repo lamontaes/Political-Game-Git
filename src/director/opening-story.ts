@@ -470,9 +470,6 @@ const PERSON_NAMES: readonly string[] = [
 /** The times a lead-in may name, which its core then does not name again. */
 const TIME_WORDS: readonly string[] = ["year", "term", "today", "tonight"];
 
-/** How many words in a row make two sentences say the same thing (the words lead's third read, Nov 11). */
-const RUN_WORDS = 4;
-
 /** A sentence's runs of four words, without the words of a name it says. */
 function fourWordRuns(text: string, name?: string): Set<string> {
   const skip = new Set((name ?? "").toLowerCase().split(/\s+/).filter(Boolean));
@@ -482,8 +479,9 @@ function fourWordRuns(text: string, name?: string): Set<string> {
     .split(/\s+/)
     .filter((word) => word && !skip.has(word));
   const runs = new Set<string>();
-  for (let at = P.zero; at + RUN_WORDS <= words.length; at += P.one)
-    runs.add(words.slice(at, at + RUN_WORDS).join(" "));
+  const size = SHAPE.parameters.sameRunWords.value;
+  for (let at = P.zero; at + size <= words.length; at += P.one)
+    runs.add(words.slice(at, at + size).join(" "));
   return runs;
 }
 
@@ -511,7 +509,8 @@ interface AddressData {
     | "asidesPerTalk"
     | "namesSaid"
     | "subjectsSaid"
-    | "redraws",
+    | "redraws"
+    | "sameRunWords",
     { value: number }
   >;
 }

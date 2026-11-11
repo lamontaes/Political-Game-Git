@@ -40,6 +40,12 @@ import {
   pendingGovernorOrders,
 } from "../core2/modules/executive";
 import { policyNames } from "./words";
+import {
+  hireReasons,
+  hireStaff,
+  servingStaffOf,
+  staffCandidates,
+} from "../core2/modules/staff";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
@@ -262,6 +268,10 @@ export function officeView(core: CoreState, personId: string) {
         };
       }),
     })),
+    // The aides who serve now and the people the staff engine would weigh for the post, best first by its own score, each with its reasons.
+    aides: jobs.length
+      ? aidesView(core, personId)
+      : { serving: [], candidates: [] },
     // The budget the official may send now, line by line, with the change set for each (null outside the season).
     budget: budgetToSend(core, personId),
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
@@ -299,6 +309,61 @@ export function officeView(core: CoreState, personId: string) {
       .sort((a, b) => b.date.localeCompare(a.date))
       .slice(0, 20),
   };
+}
+
+/** The most candidates the office screen lists for the player's staff. Engineering value (a screen's page). */
+const AIDE_CANDIDATES_SHOWN = 8;
+
+/** The player's aides serving now, and the staff engine's own candidates for the post with the reasons it weighs. */
+function aidesView(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  // The engine can return one person twice (a counted resident and the person
+  // filled in from them); the screen offers each person once.
+  const seen = new Set<string>();
+  const ranked = staffCandidates(api, personId)
+    .filter(
+      (candidate) =>
+        !seen.has(candidate.personId) && seen.add(candidate.personId),
+    )
+    .map((candidate) => ({ candidate, ...hireReasons(candidate) }))
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        a.candidate.personId.localeCompare(b.candidate.personId),
+    )
+    .slice(0, AIDE_CANDIDATES_SHOWN);
+  return {
+    serving: servingStaffOf(api, personId).map((row) => ({
+      id: row.personId,
+      name: personName(core, row.personId),
+      role: row.role,
+    })),
+    candidates: ranked.map(({ candidate, score, reasons }) => ({
+      id: candidate.personId,
+      // A counted resident is filled in as the person they are the moment the player's office weighs them.
+      name: personName(
+        core,
+        personOrFillIn(core, candidate.personId)?.id ?? candidate.personId,
+      ),
+      from: candidate.from,
+      family: !!candidate.familyLinkId,
+      score,
+      reasons,
+    })),
+  };
+}
+
+/** The player hires one of the staff engine's candidates as an aide, paid from the same post the engine's own hires are. */
+export function hireAide(core: CoreState, personId: string, hireId: string) {
+  const api = coreAPI(core);
+  if (!staffCandidates(api, personId).some((row) => row.personId === hireId))
+    throw new Error("Not someone this office could hire.");
+  const row = hireStaff(api, {
+    officialId: personId,
+    personId: hireId,
+    role: "aide",
+  });
+  return { staffId: row.id, view: officeView(core, personId) };
 }
 
 /** The player picks who the next "name a department head" names to an open post; left alone, the official's own first choice stands. */
