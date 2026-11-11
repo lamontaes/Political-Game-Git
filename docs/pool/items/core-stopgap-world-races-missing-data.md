@@ -4,10 +4,10 @@ title: "Stopgaps in world-races (missing-data): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-stopgap-world-races-missing-data
-pr: #5304
+pr: #8626
 after:
 blocked-on:
 milestone:
