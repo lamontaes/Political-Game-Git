@@ -2446,7 +2446,7 @@ async function personCardNode(
       ? [
           stripSection(
             2,
-            heading("howISee"),
+            heading("howISee", "howISeeThem"),
             perkList(
               c.traitLines.map((t) => ({ name: t.label, line: t.line })),
             ),
