@@ -34,6 +34,8 @@ import {
   subjectsBetween,
 } from "./conversation";
 import { expectUpToFourDifferent } from "./reply-set-check";
+import { kinAddress } from "../english/journal-words";
+import { familyFactsOf } from "../core2/closeness";
 import { viewOf } from "../core2/modules/views";
 import { answerInTalk } from "./scene-talk";
 import {
@@ -362,6 +364,12 @@ function ownViewIn(drawSeed: string, skipped: string[]): boolean {
       continue;
     }
     expectUpToFourDifferent(talk.choices, where);
+    // A child never calls a parent or grandparent by their given name.
+    const speaker = core.people.get(id)!;
+    const kin = familyFactsOf(core.people.get(me)!).get(id);
+    if (kin && kinAddress(kin.relation, speaker.looks?.gender ?? ""))
+      for (const choice of talk.choices)
+        expect(choice.text, where).not.toContain(`, ${speaker.givenName}.`);
     process.stdout.write(
       `OWN VIEW TALK ${where}: "${line.text}" replies: ${talk.choices.map((c) => `${c.move}: ${c.text}`).join(" | ")}\n`,
     );

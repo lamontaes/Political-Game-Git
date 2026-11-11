@@ -1694,8 +1694,9 @@ export function subjectsBetween(
         ...(reason
           ? { "has-reason": { text: "yes", sourceRecordIds: reason.recordIds } }
           : {}),
-        // The speaker's given name, for the player asking them why.
-        first: { text: speaker.givenName, sourceRecordIds: [speakerId] },
+        // How the player calls the speaker ("Dad", else their first name),
+        // for the player's replies.
+        first: calledBy(core, listenerId, speakerId),
       },
       learned: {
         key: viewKey(speakerId),
@@ -2021,13 +2022,7 @@ function pointSubject(
     mark("why-view", [...pick.reasonIds, ...said]);
   if (pick.stand !== "unsure") mark("stand-decided", [...said, speakerId]);
   // How the listener calls them: "Mom", "Grandpa", else their first name.
-  const tie = familyFactsOf(core.people.get(listenerId)!).get(speakerId);
-  facts.name = {
-    text:
-      (tie && kinAddress(tie.relation, speaker.looks?.gender ?? "")) ??
-      speaker.givenName,
-    sourceRecordIds: [tie?.factId ?? speakerId],
-  };
+  facts.name = calledBy(core, listenerId, speakerId);
   // What it would mean here, from what this world keeps: the state's own law
   // on the same question where one is on record, else the town's figure.
   const stateKey = place?.stateJurisdictionKey;
@@ -2257,6 +2252,26 @@ function replyFacts(
   }
 }
 
+/**
+ * How a listener calls a speaker to their face: a parent or grandparent by
+ * the family word ("Mom", "Grandpa", from the journal words' kin address),
+ * anyone else by their first name.
+ */
+function calledBy(
+  core: Readonly<CoreState>,
+  listenerId: PersonId,
+  speakerId: PersonId,
+): Fact {
+  const speaker = core.people.get(speakerId)!;
+  const tie = familyFactsOf(core.people.get(listenerId)!).get(speakerId);
+  return {
+    text:
+      (tie && kinAddress(tie.relation, speaker.looks?.gender ?? "")) ??
+      speaker.givenName,
+    sourceRecordIds: [tie?.factId ?? speakerId],
+  };
+}
+
 /** The facts the player's own answers can add, from the player's records. */
 function playerFacts(
   core: Readonly<CoreState>,
@@ -2311,7 +2326,7 @@ function playerFacts(
     const other = otherId ? core.people.get(otherId) : undefined;
     if (headlineSays(last.facts) && other?.givenName) {
       facts["about-said"] = { text: "yes", sourceRecordIds: [last.subject.id] };
-      facts.first = { text: other.givenName, sourceRecordIds: [other.id] };
+      facts.first = calledBy(core, playerId, other.id as PersonId);
     } else
       facts["about-unsaid"] = {
         text: "yes",
