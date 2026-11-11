@@ -52,7 +52,8 @@ import {
   PEOPLE_MIND_VERSION,
 } from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
-import { viewKey } from "../director/view-learned";
+import { viewKey, viewQuestionKey } from "../director/view-learned";
+import { questionAbout } from "../english/question-names";
 import { preStartHistory, sharedHistory } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
@@ -1583,7 +1584,13 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         learned && core.modules.has(VIEWS_MODULE_ID)
           ? (viewOf(coreAPI(core), otherId as PersonId)?.label ?? null)
           : null;
-      return { view: label, viewUnknown: !label };
+      // The question they care most about, once a talk has told it: worded
+      // by the English engine's question names, from the key the talk wrote.
+      const question = label
+        ? coreAPI(core).knows(viewerId, viewQuestionKey(otherId))?.value
+        : undefined;
+      const about = question ? questionAbout(String(question)) : null;
+      return { view: label, viewUnknown: !label, viewAbout: about };
     })(),
     // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
     pronouns: teller.words,
