@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-world-moments-husk-mover-oak-grove
-pr:
+pr: #8410
 after:
 blocked-on:
 model: sonnet
