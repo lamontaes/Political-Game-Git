@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/gov-opening-seats-weigh-counted-adults
+pr: #8827
 after:
 blocked-on:
 lead: governing
@@ -17,7 +17,8 @@ effort: high
 root: design-one-model-two-tiers
 source: lead's play walks and reviews on Nov 11, 2026 (the first Journal note of three new lives), then the code
 checked:
-claimed-at:
+claimed-at: 2026-11-11T14:44:38.322Z
+merged-at: 2026-11-11T15:27:20.105Z
 ---
 
 **What.** In a new life the player is 18 and their family runs the town. Three lives read on Nov 11, each on the first screen: Tatum, South Carolina (seed w8-q), "My father Jerry is a commissioner at the County of Marlboro. My brother Jeremiah is a commissioner at the County of Marlboro. My brother Ezra works at the Town of Tatum as a fire chief."; Athens, Michigan (seed f8aee52b-7aa0-45a2-a3f7-6820913dd30f), mother a county commissioner, father a council member, brother the chief administrative officer; Woonsocket, Rhode Island (seed w8-f), mother a council member, sister the fire chief. A town of thousands of adults has a handful of seats; one household holding two or three of them in every life is the simulation's doing, not the town's. Every scene and talk at home treats the player as an official's child today. Seen: the first Journal note, the People screen and Politics' Government tab, where the members of the town's bodies stop being the player's own household.

@@ -1,6 +1,31 @@
 {
   "entries": [
     {
+      "version": "0.103.0",
+      "releasedOn": "2026-11-11",
+      "revision": "82a7630add013f37f1329d8bbcfab4b7b1adfdb0",
+      "changeIds": [
+        "busts-round-4-clothes",
+        "campaign-door-pledge-held-loses-to-summed-appeal",
+        "core-country-tier-empty-sector",
+        "gov-federal-questions-have-a-measured-left-right-direction",
+        "money-says-whose-home",
+        "play-bill-paper-cited-bill-words",
+        "play-coming-up-lists-a-bill-with-no-name",
+        "play-dev-bribe-offers-officials-with-no-vote-on-the-bill",
+        "play-no-vote-moment-when-cannot-vote",
+        "play-nov8-race-page-reads-the-opening-day-as-today",
+        "play-results-sheet-opens-on-every-load",
+        "play-someone-is-at-home-and-at-work-at-the-same-hour",
+        "pool-notes-2026-11-11-12",
+        "red-journal-bank-length",
+        "red-title-smoke-new-game-faces",
+        "seen-words-nov11",
+        "skill-play-walks",
+        "words-w4-work-talk"
+      ]
+    },
+    {
       "version": "0.102.0",
       "releasedOn": "2026-11-11",
       "revision": "007dfd93d4c3ec6159b020a0c3520d146e235a10",

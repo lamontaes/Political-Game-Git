@@ -1,704 +1,897 @@
 [
- {
-  "file": "men/front/head-dark-adult.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "dark",
-  "age": "adult"
- },
- {
-  "file": "men/front/head-dark-older.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "dark",
-  "age": "older"
- },
- {
-  "file": "men/front/head-light-adult.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "light",
-  "age": "adult"
- },
- {
-  "file": "men/front/head-light-older.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "light",
-  "age": "older"
- },
- {
-  "file": "men/front/head-medium-adult.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "medium",
-  "age": "adult"
- },
- {
-  "file": "men/front/head-medium-older.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "medium",
-  "age": "older"
- },
- {
-  "file": "men/front/top-chambray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "chambray",
-  "use": "everyday"
- },
- {
-  "file": "men/front/top-charcoal.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "charcoal",
-  "use": "official"
- },
- {
-  "file": "men/front/top-oxford.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "oxford",
-  "use": "work"
- },
- {
-  "file": "men/front/top-shirt.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "shirt",
-  "use": "work"
- },
- {
-  "file": "men/front/top-suit.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "suit",
-  "use": "official"
- },
- {
-  "file": "men/front/top-sweater.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "sweater",
-  "use": "everyday"
- },
- {
-  "file": "men/front/face-beard-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "facialHair",
-  "style": "beard",
-  "color": "black"
- },
- {
-  "file": "men/front/face-beard-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "facialHair",
-  "style": "beard",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/face-beard-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "facialHair",
-  "style": "beard",
-  "color": "gray"
- },
- {
-  "file": "men/front/face-mustache-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "facialHair",
-  "style": "mustache",
-  "color": "black"
- },
- {
-  "file": "men/front/face-mustache-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "facialHair",
-  "style": "mustache",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/face-mustache-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 2,
-  "kind": "facialHair",
-  "style": "mustache",
-  "color": "gray"
- },
- {
-  "file": "men/front/hair-crop-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "crop",
-  "color": "black"
- },
- {
-  "file": "men/front/hair-crop-blond.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "crop",
-  "color": "blond"
- },
- {
-  "file": "men/front/hair-crop-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "crop",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/hair-crop-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "crop",
-  "color": "gray"
- },
- {
-  "file": "men/front/hair-curls-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "black"
- },
- {
-  "file": "men/front/hair-curls-blond.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "blond"
- },
- {
-  "file": "men/front/hair-curls-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/hair-curls-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "gray"
- },
- {
-  "file": "men/front/hair-receding-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "receding",
-  "color": "black"
- },
- {
-  "file": "men/front/hair-receding-blond.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "receding",
-  "color": "blond"
- },
- {
-  "file": "men/front/hair-receding-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "receding",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/hair-receding-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "receding",
-  "color": "gray"
- },
- {
-  "file": "men/front/hair-sidepart-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "sidepart",
-  "color": "black"
- },
- {
-  "file": "men/front/hair-sidepart-blond.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "sidepart",
-  "color": "blond"
- },
- {
-  "file": "men/front/hair-sidepart-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "sidepart",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/hair-sidepart-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "sidepart",
-  "color": "gray"
- },
- {
-  "file": "men/front/hair-swept-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "swept",
-  "color": "black"
- },
- {
-  "file": "men/front/hair-swept-blond.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "swept",
-  "color": "blond"
- },
- {
-  "file": "men/front/hair-swept-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "swept",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/hair-swept-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "swept",
-  "color": "gray"
- },
- {
-  "file": "men/front/hair-textured-black.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "textured",
-  "color": "black"
- },
- {
-  "file": "men/front/hair-textured-blond.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "textured",
-  "color": "blond"
- },
- {
-  "file": "men/front/hair-textured-darkbrown.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "textured",
-  "color": "darkbrown"
- },
- {
-  "file": "men/front/hair-textured-gray.png",
-  "set": "men",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "textured",
-  "color": "gray"
- },
- {
-  "file": "women/front/head-dark-adult.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "dark",
-  "age": "adult"
- },
- {
-  "file": "women/front/head-dark-older.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "dark",
-  "age": "older"
- },
- {
-  "file": "women/front/head-light-adult.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "light",
-  "age": "adult"
- },
- {
-  "file": "women/front/head-light-older.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "light",
-  "age": "older"
- },
- {
-  "file": "women/front/head-medium-adult.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "medium",
-  "age": "adult"
- },
- {
-  "file": "women/front/head-medium-older.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 0,
-  "kind": "head",
-  "tone": "medium",
-  "age": "older"
- },
- {
-  "file": "women/front/top-blazer.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "blazer",
-  "use": "official"
- },
- {
-  "file": "women/front/top-cardigan.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "cardigan",
-  "use": "work"
- },
- {
-  "file": "women/front/top-denim.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "denim",
-  "use": "everyday"
- },
- {
-  "file": "women/front/top-henley.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "henley",
-  "use": "everyday"
- },
- {
-  "file": "women/front/top-oxford.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "oxford",
-  "use": "work"
- },
- {
-  "file": "women/front/top-pantsuit.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 1,
-  "kind": "top",
-  "name": "pantsuit",
-  "use": "official"
- },
- {
-  "file": "women/front/hair-bob-black.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "bob",
-  "color": "black"
- },
- {
-  "file": "women/front/hair-bob-blond.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "bob",
-  "color": "blond"
- },
- {
-  "file": "women/front/hair-bob-darkbrown.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "bob",
-  "color": "darkbrown"
- },
- {
-  "file": "women/front/hair-bob-gray.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "bob",
-  "color": "gray"
- },
- {
-  "file": "women/front/hair-curls-black.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "black"
- },
- {
-  "file": "women/front/hair-curls-blond.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "blond"
- },
- {
-  "file": "women/front/hair-curls-darkbrown.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "darkbrown"
- },
- {
-  "file": "women/front/hair-curls-gray.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "curls",
-  "color": "gray"
- },
- {
-  "file": "women/front/hair-pixie-black.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "pixie",
-  "color": "black"
- },
- {
-  "file": "women/front/hair-pixie-blond.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "pixie",
-  "color": "blond"
- },
- {
-  "file": "women/front/hair-pixie-darkbrown.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "pixie",
-  "color": "darkbrown"
- },
- {
-  "file": "women/front/hair-pixie-gray.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "pixie",
-  "color": "gray"
- },
- {
-  "file": "women/front/hair-shoulder-black.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "shoulder",
-  "color": "black"
- },
- {
-  "file": "women/front/hair-shoulder-blond.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "shoulder",
-  "color": "blond"
- },
- {
-  "file": "women/front/hair-shoulder-darkbrown.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "shoulder",
-  "color": "darkbrown"
- },
- {
-  "file": "women/front/hair-shoulder-gray.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "shoulder",
-  "color": "gray"
- },
- {
-  "file": "women/front/hair-updo-black.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "updo",
-  "color": "black"
- },
- {
-  "file": "women/front/hair-updo-blond.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "updo",
-  "color": "blond"
- },
- {
-  "file": "women/front/hair-updo-darkbrown.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "updo",
-  "color": "darkbrown"
- },
- {
-  "file": "women/front/hair-updo-gray.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "updo",
-  "color": "gray"
- },
- {
-  "file": "women/front/hair-waves-black.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "waves",
-  "color": "black"
- },
- {
-  "file": "women/front/hair-waves-blond.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "waves",
-  "color": "blond"
- },
- {
-  "file": "women/front/hair-waves-darkbrown.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "waves",
-  "color": "darkbrown"
- },
- {
-  "file": "women/front/hair-waves-gray.png",
-  "set": "women",
-  "angle": "front",
-  "layer": 3,
-  "kind": "hair",
-  "style": "waves",
-  "color": "gray"
- }
+  {
+    "file": "men/front/head-dark-adult.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "dark",
+    "age": "adult"
+  },
+  {
+    "file": "men/front/head-dark-older.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "dark",
+    "age": "older"
+  },
+  {
+    "file": "men/front/head-light-adult.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "light",
+    "age": "adult"
+  },
+  {
+    "file": "men/front/head-light-older.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "light",
+    "age": "older"
+  },
+  {
+    "file": "men/front/head-medium-adult.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "medium",
+    "age": "adult"
+  },
+  {
+    "file": "men/front/head-medium-older.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "medium",
+    "age": "older"
+  },
+  {
+    "file": "men/front/shirt-dress-cream.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "cream",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/shirt-dress-lightblue.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "lightblue",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/shirt-dress-white.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "white",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/top-chambray-blue.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "chambray",
+    "color": "blue",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-chambray-olive.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "chambray",
+    "color": "olive",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-chambray-tan.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "chambray",
+    "color": "tan",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-sweater-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "sweater",
+    "color": "gray",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-sweater-green.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "sweater",
+    "color": "green",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/top-sweater-maroon.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "sweater",
+    "color": "maroon",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "men/front/face-beard-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "facialHair",
+    "style": "beard",
+    "color": "black"
+  },
+  {
+    "file": "men/front/face-beard-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "facialHair",
+    "style": "beard",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/face-beard-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "facialHair",
+    "style": "beard",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/face-mustache-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "facialHair",
+    "style": "mustache",
+    "color": "black"
+  },
+  {
+    "file": "men/front/face-mustache-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "facialHair",
+    "style": "mustache",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/face-mustache-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "facialHair",
+    "style": "mustache",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/tie-silk-burgundy.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "burgundy",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/tie-silk-forestgreen.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "forestgreen",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/tie-silk-navy.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "navy",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/tie-silk-navystripe.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 2,
+    "kind": "tie",
+    "name": "silk",
+    "color": "navystripe",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/hair-crop-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "crop",
+    "color": "black"
+  },
+  {
+    "file": "men/front/hair-crop-blond.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "crop",
+    "color": "blond"
+  },
+  {
+    "file": "men/front/hair-crop-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "crop",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/hair-crop-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "crop",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/hair-curls-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "black"
+  },
+  {
+    "file": "men/front/hair-curls-blond.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "blond"
+  },
+  {
+    "file": "men/front/hair-curls-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/hair-curls-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/hair-receding-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "receding",
+    "color": "black"
+  },
+  {
+    "file": "men/front/hair-receding-blond.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "receding",
+    "color": "blond"
+  },
+  {
+    "file": "men/front/hair-receding-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "receding",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/hair-receding-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "receding",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/hair-sidepart-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "sidepart",
+    "color": "black"
+  },
+  {
+    "file": "men/front/hair-sidepart-blond.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "sidepart",
+    "color": "blond"
+  },
+  {
+    "file": "men/front/hair-sidepart-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "sidepart",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/hair-sidepart-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "sidepart",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/hair-swept-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "swept",
+    "color": "black"
+  },
+  {
+    "file": "men/front/hair-swept-blond.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "swept",
+    "color": "blond"
+  },
+  {
+    "file": "men/front/hair-swept-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "swept",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/hair-swept-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "swept",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/hair-textured-black.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "textured",
+    "color": "black"
+  },
+  {
+    "file": "men/front/hair-textured-blond.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "textured",
+    "color": "blond"
+  },
+  {
+    "file": "men/front/hair-textured-darkbrown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "textured",
+    "color": "darkbrown"
+  },
+  {
+    "file": "men/front/hair-textured-gray.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "textured",
+    "color": "gray"
+  },
+  {
+    "file": "men/front/jacket-suit-brown.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "suit",
+    "color": "brown",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/jacket-suit-charcoal.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "suit",
+    "color": "charcoal",
+    "formality": "formal"
+  },
+  {
+    "file": "men/front/jacket-suit-navy.png",
+    "set": "men",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "suit",
+    "color": "navy",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/head-dark-adult.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "dark",
+    "age": "adult"
+  },
+  {
+    "file": "women/front/head-dark-older.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "dark",
+    "age": "older"
+  },
+  {
+    "file": "women/front/head-light-adult.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "light",
+    "age": "adult"
+  },
+  {
+    "file": "women/front/head-light-older.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "light",
+    "age": "older"
+  },
+  {
+    "file": "women/front/head-medium-adult.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "medium",
+    "age": "adult"
+  },
+  {
+    "file": "women/front/head-medium-older.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 0,
+    "kind": "head",
+    "tone": "medium",
+    "age": "older"
+  },
+  {
+    "file": "women/front/shirt-dress-cream.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "cream",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/shirt-dress-lightblue.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "lightblue",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/shirt-dress-white.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "shirt",
+    "name": "dress",
+    "color": "white",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/top-cardigan-cream.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "cardigan",
+    "color": "cream",
+    "use": "work",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-cardigan-navy.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "cardigan",
+    "color": "navy",
+    "use": "work",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-cardigan-rust.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "cardigan",
+    "color": "rust",
+    "use": "work",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-denim.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "denim",
+    "use": "everyday"
+  },
+  {
+    "file": "women/front/top-henley-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "henley",
+    "color": "gray",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-henley-green.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "henley",
+    "color": "green",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/top-henley-maroon.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 1,
+    "kind": "top",
+    "name": "henley",
+    "color": "maroon",
+    "use": "everyday",
+    "formality": "regular"
+  },
+  {
+    "file": "women/front/hair-bob-black.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "bob",
+    "color": "black"
+  },
+  {
+    "file": "women/front/hair-bob-blond.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "bob",
+    "color": "blond"
+  },
+  {
+    "file": "women/front/hair-bob-darkbrown.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "bob",
+    "color": "darkbrown"
+  },
+  {
+    "file": "women/front/hair-bob-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "bob",
+    "color": "gray"
+  },
+  {
+    "file": "women/front/hair-curls-black.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "black"
+  },
+  {
+    "file": "women/front/hair-curls-blond.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "blond"
+  },
+  {
+    "file": "women/front/hair-curls-darkbrown.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "darkbrown"
+  },
+  {
+    "file": "women/front/hair-curls-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "curls",
+    "color": "gray"
+  },
+  {
+    "file": "women/front/hair-pixie-black.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "pixie",
+    "color": "black"
+  },
+  {
+    "file": "women/front/hair-pixie-blond.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "pixie",
+    "color": "blond"
+  },
+  {
+    "file": "women/front/hair-pixie-darkbrown.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "pixie",
+    "color": "darkbrown"
+  },
+  {
+    "file": "women/front/hair-pixie-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "pixie",
+    "color": "gray"
+  },
+  {
+    "file": "women/front/hair-shoulder-black.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "shoulder",
+    "color": "black"
+  },
+  {
+    "file": "women/front/hair-shoulder-blond.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "shoulder",
+    "color": "blond"
+  },
+  {
+    "file": "women/front/hair-shoulder-darkbrown.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "shoulder",
+    "color": "darkbrown"
+  },
+  {
+    "file": "women/front/hair-shoulder-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "shoulder",
+    "color": "gray"
+  },
+  {
+    "file": "women/front/hair-updo-black.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "updo",
+    "color": "black"
+  },
+  {
+    "file": "women/front/hair-updo-blond.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "updo",
+    "color": "blond"
+  },
+  {
+    "file": "women/front/hair-updo-darkbrown.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "updo",
+    "color": "darkbrown"
+  },
+  {
+    "file": "women/front/hair-updo-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "updo",
+    "color": "gray"
+  },
+  {
+    "file": "women/front/hair-waves-black.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "waves",
+    "color": "black"
+  },
+  {
+    "file": "women/front/hair-waves-blond.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "waves",
+    "color": "blond"
+  },
+  {
+    "file": "women/front/hair-waves-darkbrown.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "waves",
+    "color": "darkbrown"
+  },
+  {
+    "file": "women/front/hair-waves-gray.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "hair",
+    "style": "waves",
+    "color": "gray"
+  },
+  {
+    "file": "women/front/jacket-blazer-burgundy.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "blazer",
+    "color": "burgundy",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/jacket-blazer-charcoal.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "blazer",
+    "color": "charcoal",
+    "formality": "formal"
+  },
+  {
+    "file": "women/front/jacket-blazer-navy.png",
+    "set": "women",
+    "angle": "front",
+    "layer": 3,
+    "kind": "jacket",
+    "name": "blazer",
+    "color": "navy",
+    "formality": "formal"
+  }
 ]

@@ -55,7 +55,7 @@ import {
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { picture as pictureFrame } from "./ui/picture.mjs";
-import { select, optionsOf, numberBox } from "./ui/fields.mjs";
+import { select, optionsOf, numberBox, statusLine } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
@@ -384,15 +384,32 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-// Escape opens only options and quit (M6 work order), the opening included.
+// Escape closes the top thing that is open and restores focus; only when nothing is open does it
+// open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
+// restores focus; when none is open, it opens the session menu"). In order: a person's card, the
+// news reader, a term's card, the open menu. A talk or a scene is not one of them.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
     closePerson();
     return;
   }
-  if (openTab === "options" || (openTab && !$("front").hidden)) closeSheet();
-  else if ($("front").hidden) openSheet("options");
+  if (!$("news-reader").hidden) {
+    show("news-reader", false);
+    return;
+  }
+  if (!$("tip").hidden) {
+    show("tip", false);
+    return;
+  }
+  if (openTab) {
+    // Focus goes back to the rail button that opened the menu.
+    const opener = document.querySelector("#rings [data-tab].active");
+    closeSheet();
+    opener?.focus();
+    return;
+  }
+  if ($("front").hidden) openSheet("options");
 });
 
 async function renderScene({ keepBackdrop = false } = {}) {
@@ -2645,6 +2662,61 @@ async function officeParts() {
           ),
         ]
       : []),
+    // Your staff: the aides who serve now, and the people the staff engine would weigh for the
+    // post with its reasons; Hire runs the engine's own hire, paid from the post's budget line.
+    ...(v.aides?.serving.length || v.aides?.candidates.length
+      ? [
+          stripSection(
+            2,
+            labels.aides,
+            ...v.aides.serving.map((a) => row(a.name, labels.aideRole ?? "")),
+            ...(v.aides.candidates.length
+              ? [
+                  paged(
+                    v.aides.candidates.map((c) => {
+                      const hire = makeButton({ textContent: labels.hire });
+                      hire.addEventListener("click", async () => {
+                        await post(
+                          `/api/office/hire-aide?${new URLSearchParams({ personId: c.id })}`,
+                        );
+                        openSheet("office");
+                      });
+                      const why = Object.entries(c.reasons)
+                        .filter(([, value]) => value > 0)
+                        .map(([key, value]) =>
+                          key === "family"
+                            ? labels.reasons?.family
+                            : `${labels.reasons?.[key] ?? ""} ${Math.round(value * 100)}%`,
+                        )
+                        .join(" · ");
+                      return deskBill(
+                        peopleSentence([
+                          {
+                            name: c.name,
+                            onOpen: () => {
+                              closeSheet();
+                              showPerson({ personId: c.id });
+                            },
+                          },
+                        ]),
+                        line(
+                          `${c.from === "known" ? labels.fromKnown : labels.fromApplicant} · ${why}`,
+                        ),
+                        buttonRow(hire),
+                      );
+                    }),
+                    {
+                      rows: 3,
+                      columns: 1,
+                      rowHeight: 116,
+                      className: "office-paged",
+                    },
+                  ),
+                ]
+              : []),
+          ),
+        ]
+      : []),
     ...(v.acts.length
       ? [
           stripSection(
@@ -2733,10 +2805,7 @@ function billEstimate(paper, section) {
   const words = controls.bill ?? {};
   const est = section.estimate;
   const lines = [];
-  const webCite =
-    typeof est.statute === "string" && /^https?:\/\//.test(est.statute);
-  if (est.statute && !webCite)
-    lines.push(`${words.amends ?? ""} ${est.statute}`);
+  if (est.statute) lines.push(`${words.amends ?? ""} ${est.statute}`);
   // A question answered yes or no has no numeric scale: its clause says
   // what it does, so bare 0/1 values stay off the screen.
   const scaled = est.beforeUnit != null || est.afterUnit != null;
@@ -4409,10 +4478,64 @@ const sheets = {
     });
   },
   async campaigns() {
-    const [v, ballot] = await Promise.all([
+    const [v, ballot, asked] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
       api("/api/government/local-races"),
+      api("/api/campaign/asks").catch(() => ({ asks: [] })),
     ]);
+    // stopgapId: SG-PLAY-campaign-ask-on-screen
+    // A candidate who knows you asking for money (play-campaign-ask-reaches-player):
+    // what they asked, the sum you'd give by your own reasons, and your answer.
+    const askWords = controls.campaignAsks;
+    const askPage = (ask) => {
+      const status = statusLine();
+      const dollarsIn = numberBox({
+        value: Math.round(ask.suggestedMinor / 100),
+        min: 1,
+        step: 1,
+        label: askWords.amount,
+      });
+      const answer = (kind) =>
+        makeButton({
+          className: kind === "give" ? "action primary" : "action",
+          textContent: askWords[kind],
+          onclick: async () => {
+            const response = await post(
+              `/api/campaign/asks/answer?${new URLSearchParams({
+                askId: ask.id,
+                answer: kind,
+                ...(kind === "give"
+                  ? {
+                      amountMinor: String(
+                        Math.round(Number(dollarsIn.value) * 100),
+                      ),
+                    }
+                  : {}),
+              })}`,
+            ).catch(() => ({ answered: false }));
+            // A sum they can't give (more than they hold, past the limit, not whole dollars) is refused here.
+            if (!response.answered) {
+              status.textContent = askWords.notGiven;
+              return;
+            }
+            await refresh();
+            await openSheet("campaigns");
+          },
+        });
+      return [
+        rosterTitle(ask.candidate, ask.party ?? undefined),
+        stripSection(
+          1,
+          askWords.title,
+          row(askWords.race, ask.race),
+          row(askWords.asked, dateWords(ask.askedOn)),
+          row(askWords.suggested, roundedMoney(ask.suggestedMinor)),
+          row(askWords.cash, roundedMoney(asked.cashMinor)),
+        ),
+        buttonRow(dollarsIn, answer("give"), answer("decline")),
+        status,
+      ];
+    };
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
@@ -4511,12 +4634,12 @@ const sheets = {
               2,
               labels.dates,
               dateList([
-                ...(race.filingOpens && race.filingOpens > me.date
+                ...(race.filingOpens && race.filingOpens > today()
                   ? [
                       {
                         when: dateWords(race.filingOpens, {
                           month: "short",
-                          year: me.date,
+                          year: today(),
                         }),
                         text: labels.filingOpens,
                       },
@@ -4557,6 +4680,20 @@ const sheets = {
       byDate.set(race.electionDate, day);
     }
     const groups = [
+      ...(asked.asks.length
+        ? [
+            {
+              title: askWords.title,
+              entries: asked.asks.map((ask) => ({
+                key: ask.id,
+                label: ask.candidate,
+                aside: roundedMoney(ask.suggestedMinor),
+                data: { ask: ask.id },
+                ask,
+              })),
+            },
+          ]
+        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
@@ -4578,7 +4715,8 @@ const sheets = {
       title: labels.title,
       groups,
       className: "elections-screen",
-      render: async (entry) => racePage(entry.race),
+      render: async (entry) =>
+        entry.ask ? askPage(entry.ask) : racePage(entry.race),
     });
   },
   /**
@@ -4679,10 +4817,14 @@ const sheets = {
       item.kind === "meeting"
         ? labels.regularMeeting
         : item.kind === "bill"
-          ? fill(labels.billOnFloor, {
-              number: item.number ?? "",
-              title: item.title ?? "",
-            })
+          ? // A bill with no composed title is named by the law it changes; a
+            // row never ends in a colon.
+            item.title || item.law
+            ? fill(labels.billOnFloor, {
+                number: item.number ?? "",
+                title: item.title || policyLabel(item.law),
+              })
+            : (item.number ?? "")
           : (item.title ?? "");
     const comingList = (items) =>
       dateList(
