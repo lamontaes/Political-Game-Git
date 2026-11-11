@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-light-opening-kin-households
-pr:
+pr: #8622
 after:
 blocked-on:
 source: split from core-light-opening (M, really L) by the claiming session, Oct 19
