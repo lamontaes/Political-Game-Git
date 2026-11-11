@@ -30,8 +30,28 @@ try {
       requestAnimationFrame(() => setTimeout(done, 50)),
     );
     const after = toast.hidden;
+    // A pop-up already up when a scene opens comes down, and shows again when the scene ends.
+    showToast(toast, 30);
+    const upBefore = !toast.hidden;
+    talk.hidden = false;
+    await new Promise((done) =>
+      requestAnimationFrame(() => setTimeout(done, 50)),
+    );
+    const downDuring = toast.hidden;
+    talk.hidden = true;
+    await new Promise((done) =>
+      requestAnimationFrame(() => setTimeout(done, 50)),
+    );
+    const upAfter = !toast.hidden;
     hideToast(toast);
-    return { during, after, closed: toast.hidden };
+    return {
+      during,
+      after,
+      closed: toast.hidden,
+      upBefore,
+      downDuring,
+      upAfter,
+    };
   });
   assert.equal(state.during, true, "a pop-up showed over a scene");
   assert.equal(
@@ -40,8 +60,21 @@ try {
     "the pop-up did not show when the scene ended",
   );
   assert.equal(state.closed, true, "the pop-up did not close at once");
+  assert.equal(state.upBefore, true, "the pop-up was not up before the scene");
+  assert.equal(
+    state.downDuring,
+    true,
+    "a pop-up already up stayed over a scene that opened",
+  );
+  assert.equal(
+    state.upAfter,
+    true,
+    "the pop-up did not return after the scene",
+  );
   assert.deepEqual(errors, [], errors.join("; "));
-  console.log("PASS pop-ups wait until the scene ends and close at once");
+  console.log(
+    "PASS pop-ups wait until the scene ends, come down when one opens, and close at once",
+  );
 } finally {
   await browser.close();
 }

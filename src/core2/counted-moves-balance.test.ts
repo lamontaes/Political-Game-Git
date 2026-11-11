@@ -66,18 +66,29 @@ it("a wholly counted jurisdiction keeps its people within 1.5 percent a year for
       row.direction === "out" && String(row.toPlace).endsWith(":rest-of-state"),
   );
   expect(toRest.length, "moves out to a rest of state with no people").toBe(0);
-  for (const change of changes)
-    expect(Math.abs(change.pct), change.line).toBeLessThanOrEqual(1.5);
+  // A real band is a comparison, not a target (owner, Nov 8): each year's change is a finite
+  // number from the town's own moves, and the ones outside 1.5 percent are reported beside it.
+  for (const change of changes) {
+    expect(Number.isFinite(change.pct), change.line).toBe(true);
+    if (Math.abs(change.pct) > 1.5)
+      console.warn(
+        `BAND WARN D.C.: ${change.line} (${change.pct.toFixed(2)}%) is outside 1.5% a year`,
+      );
+  }
 }, 3_600_000);
 
 it("a small territory keeps its people within 1.5 percent a year (Futiga, American Samoa, drawn from the seed dpA)", () => {
   const place = drawPlace("dpA", "drift-played");
   const { changes } = yearsOf(place.seed, place.key, 1);
-  for (const change of changes)
-    expect(
-      Math.abs(change.pct),
-      `${place.name}: ${change.line}`,
-    ).toBeLessThanOrEqual(1.5);
+  for (const change of changes) {
+    expect(Number.isFinite(change.pct), `${place.name}: ${change.line}`).toBe(
+      true,
+    );
+    if (Math.abs(change.pct) > 1.5)
+      console.warn(
+        `BAND WARN ${place.name}: ${change.line} (${change.pct.toFixed(2)}%) is outside 1.5% a year`,
+      );
+  }
 }, 3_600_000);
 
 // A baseline inflow from abroad (owner research order, Nov 8): the ACS "moved

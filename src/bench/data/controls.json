@@ -493,6 +493,7 @@
     "speakAgainst": "Speak against"
   },
   "filing": {
+    "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
     "status": {
       "petitioning": "Collecting signatures",
       "on-ballot": "You are on the ballot",
@@ -590,6 +591,7 @@
     "bill": "The bill",
     "vote": "The vote",
     "estimate": "What it would do",
+    "noFigure": "No dollar figure on record for this section.",
     "amends": "Amends",
     "from": "from",
     "to": "to",
@@ -626,8 +628,11 @@
     "federal": "Federal"
   },
   "travel": {
+    "memberHere": "Your party's office",
     "filing": "Filing office",
     "go": "Go to",
+    "home": "Home",
+    "goHome": "Go home",
     "open": "Open now",
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
@@ -817,6 +822,8 @@
     "inForce": "In force",
     "coming": "Coming",
     "changed": "What changed",
+    "repeal": "Repeal",
+    "repealElsewhere": "Only {body} can repeal this law",
     "revenue": "Revenue",
     "spending": "Spending",
     "balance": "Balance",
@@ -1079,6 +1086,7 @@
     "since": "since last year"
   },
   "titles": {
+    "watch": "Watch",
     "people": "People",
     "who": "You",
     "money": "Money and property",
@@ -1204,6 +1212,10 @@
     "spent": "Spent",
     "volunteers": "Volunteers",
     "doors": "Doors knocked",
+    "signatures": "Signatures",
+    "signaturesHeld": "{signed} of {needed}, due {date}",
+    "clerkCount": "The clerk's count",
+    "clerkCounted": "{valid} counted, {struck} struck",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
