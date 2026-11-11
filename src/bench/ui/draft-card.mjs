@@ -8,7 +8,8 @@ import { select, numberBox } from "./fields.mjs";
 
 /**
  * `groups`: [{ name, items: [{ value, label, today, unit, cents, note }] }]; `words`:
- * { title, issue, today, newAmount, draft, none }; `onDraft(item, typed)` drafts the bill.
+ * { title, issue, today, newAmount, draft, none, addStep, stepDate }; `onDraft(item, typed, steps)`
+ * drafts the bill, `steps` the phase-in's rows ({ amount, date }) when the player added any.
  */
 export function draftCard({ groups, words, onDraft }) {
   const items = new Map(
@@ -40,8 +41,36 @@ export function draftCard({ groups, words, onDraft }) {
     draft.disabled = Boolean(item?.blocked);
   };
   pick.addEventListener("change", show);
+  // A phase-in: each added step has its own amount and the day it takes effect;
+  // the engine refuses a bad date and the screen shows its reason.
+  const steps = el("div", { className: "draft-steps" });
+  const rows = [];
+  const addStep = makeButton({
+    className: "action small draft-add-step",
+    textContent: words.addStep ?? "",
+  });
+  addStep.addEventListener("click", () => {
+    const amount = numberBox({ value: 0, label: words.newAmount });
+    const date = el("input", {
+      type: "date",
+      className: "draft-step-date",
+      ariaLabel: words.stepDate ?? "",
+    });
+    rows.push({ amount, date });
+    steps.append(
+      el(
+        "div",
+        { className: "draft-step" },
+        el("span", { className: "draft-entry" }, amount, date),
+      ),
+    );
+  });
   draft.addEventListener("click", () =>
-    onDraft(items.get(pick.value), typed.value),
+    onDraft(
+      items.get(pick.value),
+      typed.value,
+      rows.map((row) => ({ amount: row.amount.value, date: row.date.value })),
+    ),
   );
   show();
   return el(
@@ -66,6 +95,8 @@ export function draftCard({ groups, words, onDraft }) {
       ),
       draft,
     ),
+    steps,
+    addStep,
     note,
   );
 }
