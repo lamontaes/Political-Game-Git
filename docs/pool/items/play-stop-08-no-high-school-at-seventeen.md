@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: claude/pool-play-stop-08-no-high-school-at-seventeen
-pr: #6038
+pr: #8515
 after:
 blocked-on:
 standard: 2
