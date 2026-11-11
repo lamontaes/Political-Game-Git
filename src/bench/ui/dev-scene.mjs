@@ -32,8 +32,11 @@ export async function devScenePanel({ labels, wordOf, onDone }) {
   const rank = (row) => ({ death: 0, layoff: 1, wait: 2 })[row.recipe] ?? 3;
   // Only a scene the game can bring about is offered, by its name alone: a kind nothing can
   // start stays off, and no line explains the rest (owner, Nov 8, 2:15 a.m.: no subtexts).
+  // A kind that writes nothing another engine reads does not play, so it is
+  // not offered either (director-no-scene-without-a-purpose); /api/dev/scenes
+  // lists each kind's write-back.
   const offered = [...scenes]
-    .filter((row) => row.recipe)
+    .filter((row) => row.recipe && row.plays)
     .sort((a, b) => rank(a) - rank(b));
   let chosen =
     offered.find((row) => row.key === lastType)?.key ?? offered[0]?.key;

@@ -18,6 +18,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
+import arcsJson from "./data/purpose-arcs.json" with { type: "json" };
 import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
@@ -100,8 +101,20 @@ export interface SituationCause {
   setting?: readonly string[];
 }
 
+/** A record a scene's ending writes and the engine that reads it, as `path#identifier`. */
+export interface WriteBack {
+  readonly record: string;
+  readonly readBy: string;
+}
+
 export interface SituationType {
   key: string;
+  /** The purpose arc the scene plays (purpose-arcs.json), when it has one. */
+  purpose?: string;
+  /** What the kind's endings write that an engine reads, beyond what its endings' keeps write (purpose-arcs.json `keepsWrite`). */
+  writesBack?: readonly WriteBack[];
+  /** A kind that plays with nothing written back, by the owner's ruling it names. */
+  playsWithout?: { readonly ruling: string };
   roles: readonly SituationRole[];
   setting: readonly string[];
   timing: string;
@@ -179,6 +192,36 @@ export interface SituationLibrary {
 
 export const SITUATION_LIBRARY = situationJson as unknown as SituationLibrary;
 
+const ARCS = arcsJson as unknown as {
+  purposes: Record<string, { endings?: readonly { keeps?: string }[] }>;
+  keepsWrite: Record<string, WriteBack | string>;
+};
+
+/**
+ * What a kind of scene writes that another engine reads (owner, Oct 15: "A
+ * scene has an endpoint"; scene standard rule 1, no consequence, no scene):
+ * its own declared write-backs and each of its purpose's endings whose
+ * keeps an engine reads. Empty for a kind nothing reads.
+ */
+export function writeBacksOf(type: SituationType): readonly WriteBack[] {
+  const out: WriteBack[] = [...(type.writesBack ?? [])];
+  const seen = new Set<string>();
+  for (const ending of (type.purpose && ARCS.purposes[type.purpose]?.endings) ??
+    []) {
+    const write = ending.keeps ? ARCS.keepsWrite[ending.keeps] : undefined;
+    if (!write || typeof write === "string" || seen.has(ending.keeps!))
+      continue;
+    seen.add(ending.keeps!);
+    out.push(write);
+  }
+  return out;
+}
+
+/** Whether the director may stage a kind: it writes something another engine reads, or an owner's ruling plays it anyway. */
+export function playsAsScene(type: SituationType): boolean {
+  return !!type.playsWithout || writeBacksOf(type).length > zero;
+}
+
 export interface SceneBinding {
   typeKey: string;
   roles: { role: string; personIds: PersonId[]; bearing?: string }[];
@@ -208,7 +251,7 @@ export interface CoverageRow {
   personId: PersonId;
   label: string;
   impact: number;
-  /** "no-type", "role-unbound" or "no-place". */
+  /** "no-type", "role-unbound", "no-place" or "no-write-back" (the kind writes nothing an engine reads). */
   reason: string;
   typeKey?: string;
   detail?: string;
@@ -786,6 +829,19 @@ export function scheduleMoment(
   for (const type of library.types)
     for (const cause of type.causes) {
       if (!causeMatches(cause, book, moment, core)) continue;
+      // A kind whose endings write nothing another engine reads does not
+      // play: its cause is the journal's line, with why.
+      if (!playsAsScene(type)) {
+        coverage ??= {
+          momentId: moment.id,
+          personId: moment.personId,
+          label: moment.label,
+          impact: moment.impact,
+          reason: "no-write-back",
+          typeKey: type.key,
+        };
+        continue;
+      }
       const bound = bindType(
         type,
         cause,
