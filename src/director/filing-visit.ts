@@ -23,7 +23,7 @@ import {
   type SceneTalkStep,
 } from "../english/scene-talk-words";
 import { dayOpening } from "../english/day-words";
-import { filedSaid } from "../english/filed-words";
+import { filedSaid } from "../english/count-words";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 
 const zero = P.zero;
