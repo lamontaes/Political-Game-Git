@@ -229,7 +229,9 @@ it("stages the filing talk only for a relative with a stake, and records what th
         const employer = factText("employer");
         if (employer) expect(reply("promise"), here).toContain(employer);
       }
-      const officeText = factText("office");
+      // The seat is named in full once (the relative's question) and short
+      // after; no two replies name it.
+      const officeText = factText("seat") ?? factText("office");
       if (officeText)
         expect(
           scene.talk.tree.replies.filter((row) =>

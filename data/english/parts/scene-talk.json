@@ -20396,10 +20396,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.somebody-has-to-run-for-office-why-not-me",
+      "key": "scene-talk.reply-tell.somebody-has-to-run-for-seat-why-not-me",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Somebody has to run for {office}. Why not me?",
+      "text": "Somebody has to run for {seat}. Why not me?",
       "uses": [
         {
           "subject": "scene",
@@ -20408,7 +20408,7 @@
           "role": "asked",
           "purpose": "family-filing",
           "key": "news-received",
-          "requiresFacts": ["office"]
+          "requiresFacts": ["seat"]
         }
       ],
       "bearing": "proud",
@@ -20421,16 +20421,16 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.office-needs-someone-who-ll-show-up-i-think-that-s-me",
+      "key": "scene-talk.reply-tell.whoever-wins-seat-needs-to-show-up-i-think-that-s-me",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "{office} needs someone who'll show up. I think that's me.",
+      "text": "Whoever wins {seat} needs to show up. I think that's me.",
       "uses": [
         {
           "key": "news-received",
           "move": "tell",
           "purpose": "family-filing",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["seat"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -20446,16 +20446,16 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-ve-thought-about-office-for-a-long-time-i-m-ready",
+      "key": "scene-talk.reply-tell.i-ve-thought-about-running-for-seat-for-a-long-time-i-m-ready",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I've thought about {office} for a long time. I'm ready.",
+      "text": "I've thought about running for {seat} for a long time. I'm ready.",
       "uses": [
         {
           "key": "news-received",
           "move": "tell",
           "purpose": "family-filing",
-          "requiresFacts": ["office"],
+          "requiresFacts": ["seat"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -202625,10 +202625,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.office-runs-remaining-can-our-savings-take-that",
+      "key": "scene-talk.state-ask.the-race-for-office-runs-remaining-can-our-savings-take-that",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "{office} runs {remaining}. Can our savings take that?",
+      "text": "the race for {office} runs {remaining}. Can our savings take that?",
       "uses": [
         {
           "subject": "scene",
@@ -202958,10 +202958,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.office-means-nights-out-who-s-home-with-child",
+      "key": "scene-talk.state-ask.running-for-office-means-nights-out-who-s-home-with-child",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "{office} means nights out. Who's home with {child}?",
+      "text": "running for {office} means nights out. Who's home with {child}?",
       "uses": [
         {
           "subject": "scene",
@@ -203014,10 +203014,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.i-m-happy-for-you-but-office-takes-evenings-and-child-still-needs-one-of-us",
+      "key": "scene-talk.state-ask.i-m-happy-for-you-but-running-for-office-takes-evenings-and-child-still-needs-on",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "I'm happy for you. But {office} takes evenings, and {child} still needs one of us.",
+      "text": "I'm happy for you. But running for {office} takes evenings, and {child} still needs one of us.",
       "uses": [
         {
           "subject": "scene",
@@ -203098,10 +203098,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.child-has-school-in-the-morning-who-s-home-the-nights-office-keeps-you-out",
+      "key": "scene-talk.state-ask.child-has-school-in-the-morning-who-s-home-the-nights-you-re-out-running-for-off",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "{child} has school in the morning. Who's home the nights {office} keeps you out?",
+      "text": "{child} has school in the morning. Who's home the nights you're out running for {office}?",
       "uses": [
         {
           "subject": "scene",
@@ -203154,10 +203154,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-filed-for-office-because-nobody-else-would",
+      "key": "scene-talk.reply-tell.i-filed-for-seat-because-nobody-else-would",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I filed for {office} because nobody else would.",
+      "text": "I filed for {seat} because nobody else would.",
       "uses": [
         {
           "subject": "scene",
@@ -203177,10 +203177,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.office-is-where-the-decisions-get-made-i-want-a-say",
+      "key": "scene-talk.reply-tell.running-for-seat-gets-me-a-say-where-the-decisions-get-made",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "{office} is where the decisions get made. I want a say.",
+      "text": "Running for {seat} gets me a say where the decisions get made.",
       "uses": [
         {
           "subject": "scene",
@@ -203200,10 +203200,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-want-office-because-i-think-i-can-fix-things",
+      "key": "scene-talk.reply-tell.i-want-seat-because-i-think-i-can-fix-things",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I want {office} because I think I can fix things.",
+      "text": "I want {seat} because I think I can fix things.",
       "uses": [
         {
           "subject": "scene",
@@ -203223,10 +203223,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.if-i-don-t-run-for-office-i-ll-always-wonder",
+      "key": "scene-talk.reply-tell.if-i-don-t-run-for-seat-i-ll-always-wonder",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "If I don't run for {office}, I'll always wonder.",
+      "text": "If I don't run for {seat}, I'll always wonder.",
       "uses": [
         {
           "subject": "scene",
@@ -203246,10 +203246,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-filed-for-office-because-i-m-tired-of-complaining",
+      "key": "scene-talk.reply-tell.i-filed-for-seat-because-i-m-tired-of-complaining",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I filed for {office} because I'm tired of complaining.",
+      "text": "I filed for {seat} because I'm tired of complaining.",
       "uses": [
         {
           "subject": "scene",
@@ -203269,10 +203269,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-m-running-for-office-because-i-want-a-say-in-how-things-go",
+      "key": "scene-talk.reply-tell.i-m-running-for-seat-because-i-want-a-say-in-how-things-go",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I'm running for {office} because I want a say in how things go.",
+      "text": "I'm running for {seat} because I want a say in how things go.",
       "uses": [
         {
           "subject": "scene",
@@ -203292,10 +203292,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-ve-wanted-office-for-a-while-i-m-finally-doing-it",
+      "key": "scene-talk.reply-tell.i-ve-wanted-seat-for-a-while-i-m-finally-doing-it",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I've wanted {office} for a while. I'm finally doing it.",
+      "text": "I've wanted {seat} for a while. I'm finally doing it.",
       "uses": [
         {
           "subject": "scene",
@@ -203315,10 +203315,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.running-for-office-is-something-i-need-to-try",
+      "key": "scene-talk.reply-tell.running-for-seat-is-something-i-need-to-try",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Running for {office} is something I need to try.",
+      "text": "Running for {seat} is something I need to try.",
       "uses": [
         {
           "subject": "scene",
@@ -203338,10 +203338,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.office-matters-to-me-i-want-to-see-it-done-right",
+      "key": "scene-talk.reply-tell.running-for-seat-matters-to-me-i-want-it-done-right",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "{office} matters to me. I want to see it done right.",
+      "text": "Running for {seat} matters to me. I want it done right.",
       "uses": [
         {
           "subject": "scene",
@@ -203361,10 +203361,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-want-office-so-things-are-better-by-the-time-we-re-older",
+      "key": "scene-talk.reply-tell.i-want-seat-so-things-are-better-by-the-time-we-re-older",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I want {office} so things are better by the time we're older.",
+      "text": "I want {seat} so things are better by the time we're older.",
       "uses": [
         {
           "subject": "scene",
@@ -204137,10 +204137,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-won-t-let-office-take-over-our-lives",
+      "key": "scene-talk.reply-promise.i-won-t-let-the-race-for-seat-take-over-our-lives",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I won't let {office} take over our lives.",
+      "text": "I won't let the race for {seat} take over our lives.",
       "uses": [
         {
           "subject": "scene",
@@ -204160,10 +204160,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-still-be-at-dinner-most-nights-office-or-not",
+      "key": "scene-talk.reply-promise.i-ll-still-be-at-dinner-most-nights-while-i-run-for-seat",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll still be at dinner most nights, {office} or not.",
+      "text": "I'll still be at dinner most nights while I run for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -204413,10 +204413,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.let-s-talk-about-office-another-time",
+      "key": "scene-talk.reply-deflect.let-s-talk-about-seat-another-time",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Let's talk about {office} another time.",
+      "text": "Let's talk about {seat} another time.",
       "uses": [
         {
           "subject": "scene",
@@ -204436,10 +204436,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.can-office-wait-until-tomorrow",
+      "key": "scene-talk.reply-deflect.can-running-for-seat-wait-until-tomorrow",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Can {office} wait until tomorrow?",
+      "text": "Can running for {seat} wait until tomorrow?",
       "uses": [
         {
           "subject": "scene",
@@ -204597,10 +204597,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-should-have-told-you-before-i-filed-for-office",
+      "key": "scene-talk.reply-apologize.i-should-have-told-you-before-i-filed-for-seat",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I should have told you before I filed for {office}.",
+      "text": "I should have told you before I filed for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -204620,10 +204620,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-apologize.i-m-sorry-you-should-have-heard-about-office-from-me",
+      "key": "scene-talk.reply-apologize.i-m-sorry-you-should-have-heard-i-was-running-for-seat-from-me",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I'm sorry. You should have heard about {office} from me.",
+      "text": "I'm sorry. You should have heard I was running for {seat} from me.",
       "uses": [
         {
           "subject": "scene",
@@ -204965,10 +204965,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thank-you-i-ll-make-office-worth-it",
+      "key": "scene-talk.reply-thank.thank-you-i-ll-make-this-run-for-seat-worth-it",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll make {office} worth it.",
+      "text": "Thank you. I'll make this run for {seat} worth it.",
       "uses": [
         {
           "subject": "scene",
@@ -204988,10 +204988,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thanks-i-won-t-put-office-before-us",
+      "key": "scene-talk.reply-thank.thanks-i-won-t-put-the-race-for-seat-before-us",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thanks. I won't put {office} before us.",
+      "text": "Thanks. I won't put the race for {seat} before us.",
       "uses": [
         {
           "subject": "scene",
@@ -205011,10 +205011,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.fair-enough-i-won-t-put-office-first-in-this-house",
+      "key": "scene-talk.reply-accept.fair-enough-i-won-t-put-the-race-for-seat-first-in-this-house",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Fair enough. I won't put {office} first in this house.",
+      "text": "Fair enough. I won't put the race for {seat} first in this house.",
       "uses": [
         {
           "subject": "scene",
@@ -205034,10 +205034,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.okay-i-ll-keep-office-off-your-plate",
+      "key": "scene-talk.reply-accept.okay-i-ll-keep-the-race-for-seat-off-your-plate",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Okay. I'll keep {office} off your plate.",
+      "text": "Okay. I'll keep the race for {seat} off your plate.",
       "uses": [
         {
           "subject": "scene",
@@ -205057,10 +205057,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.alright-i-ll-handle-office-on-my-own",
+      "key": "scene-talk.reply-accept.alright-i-ll-handle-the-race-for-seat-on-my-own",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Alright. I'll handle {office} on my own.",
+      "text": "Alright. I'll handle the race for {seat} on my own.",
       "uses": [
         {
           "subject": "scene",
@@ -205080,10 +205080,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.deal-i-ll-give-office-my-spare-hours-not-yours",
+      "key": "scene-talk.reply-accept.deal-i-ll-give-the-race-for-seat-my-spare-hours-not-yours",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Deal. I'll give {office} my spare hours, not yours.",
+      "text": "Deal. I'll give the race for {seat} my spare hours, not yours.",
       "uses": [
         {
           "subject": "scene",
@@ -205103,10 +205103,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.okay-if-office-gets-in-the-way-we-talk-again",
+      "key": "scene-talk.reply-accept.okay-if-the-race-for-seat-gets-in-the-way-we-talk-again",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Okay. If {office} gets in the way, we talk again.",
+      "text": "Okay. If the race for {seat} gets in the way, we talk again.",
       "uses": [
         {
           "subject": "scene",
@@ -205126,10 +205126,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.fair-running-for-office-is-my-job-not-yours",
+      "key": "scene-talk.reply-accept.fair-running-for-seat-is-my-job-not-yours",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Fair. Running for {office} is my job, not yours.",
+      "text": "Fair. Running for {seat} is my job, not yours.",
       "uses": [
         {
           "subject": "scene",
@@ -205245,10 +205245,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.you-d-be-good-at-office-don-t-tell-anyone-i-said-that",
+      "key": "scene-talk.follow-comfort.you-d-do-well-running-for-seat-don-t-tell-anyone-i-said-that",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "You'd be good at {office}. Don't tell anyone I said that.",
+      "text": "You'd do well running for {seat}. Don't tell anyone I said that.",
       "uses": [
         {
           "subject": "scene",
@@ -205268,10 +205268,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.if-anyone-can-win-office-you-can",
+      "key": "scene-talk.follow-comfort.if-anyone-can-win-the-race-for-seat-you-can",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "If anyone can win {office}, you can.",
+      "text": "If anyone can win the race for {seat}, you can.",
       "uses": [
         {
           "subject": "scene",
@@ -205410,10 +205410,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.why-office-and-why-now",
+      "key": "scene-talk.follow-ask.why-run-for-seat-and-why-now",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Why {office}, and why now?",
+      "text": "Why run for {seat}, and why now?",
       "uses": [
         {
           "subject": "scene",
@@ -205433,10 +205433,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.what-made-you-pick-office",
+      "key": "scene-talk.follow-ask.what-made-you-pick-seat",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "What made you pick {office}?",
+      "text": "What made you pick {seat}?",
       "uses": [
         {
           "subject": "scene",
@@ -205504,10 +205504,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-disagree.child-needs-you-more-than-office-does",
+      "key": "scene-talk.follow-disagree.child-needs-you-more-than-the-race-for-seat-does",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "{child} needs you more than {office} does.",
+      "text": "{child} needs you more than the race for {seat} does.",
       "uses": [
         {
           "subject": "scene",
@@ -205552,10 +205552,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-disagree.somebody-else-can-run-for-office",
+      "key": "scene-talk.follow-disagree.somebody-else-can-run-for-seat",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "Somebody else can run for {office}.",
+      "text": "Somebody else can run for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -205575,10 +205575,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-disagree.why-does-office-have-to-be-you",
+      "key": "scene-talk.follow-disagree.why-does-it-have-to-be-you-running-for-seat",
       "move": "follow-disagree",
       "kind": "spoken",
-      "text": "Why does {office} have to be you?",
+      "text": "Why does it have to be you running for {seat}?",
       "uses": [
         {
           "subject": "scene",
@@ -205694,10 +205694,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-do-the-yard-signs-for-office-not-the-phone-calls",
+      "key": "scene-talk.follow-promise.i-ll-do-the-yard-signs-first-not-the-phone-calls",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll do the yard signs for {office}. Not the phone calls.",
+      "text": "I'll do the yard signs, {first}. Not the phone calls.",
       "uses": [
         {
           "subject": "scene",
@@ -205717,10 +205717,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.put-me-down-as-your-first-volunteer-for-office",
+      "key": "scene-talk.follow-promise.put-me-down-as-your-first-volunteer-first",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "Put me down as your first volunteer for {office}.",
+      "text": "Put me down as your first volunteer, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -205740,10 +205740,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.i-ll-cook-on-the-nights-you-re-out-campaigning-for-office",
+      "key": "scene-talk.follow-promise.i-ll-cook-on-the-nights-you-re-out-campaigning-for-seat",
       "move": "follow-promise",
       "kind": "spoken",
-      "text": "I'll cook on the nights you're out campaigning for {office}.",
+      "text": "I'll cook on the nights you're out campaigning for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -205859,10 +205859,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-decline.i-m-not-going-to-campaign-for-office-that-s-yours",
+      "key": "scene-talk.follow-decline.i-m-not-going-to-campaign-for-seat-that-s-yours",
       "move": "follow-decline",
       "kind": "spoken",
-      "text": "I'm not going to campaign for {office}. That's yours.",
+      "text": "I'm not going to campaign for {seat}. That's yours.",
       "uses": [
         {
           "subject": "scene",
@@ -205882,10 +205882,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-decline.i-ll-vote-for-you-that-s-as-far-as-i-go-on-office",
+      "key": "scene-talk.follow-decline.i-ll-vote-for-you-that-s-as-far-as-i-go-first",
       "move": "follow-decline",
       "kind": "spoken",
-      "text": "I'll vote for you. That's as far as I go on {office}.",
+      "text": "I'll vote for you. That's as far as I go, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -205953,10 +205953,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.you-filed-for-office-we-re-talking-about-it",
+      "key": "scene-talk.follow-press.you-filed-for-seat-we-re-talking-about-it",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You filed for {office}. We're talking about it.",
+      "text": "You filed for {seat}. We're talking about it.",
       "uses": [
         {
           "subject": "scene",
@@ -205976,10 +205976,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.don-t-shut-me-out-of-office",
+      "key": "scene-talk.follow-press.don-t-shut-me-out-of-this-run-for-seat",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Don't shut me out of {office}.",
+      "text": "Don't shut me out of this run for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -206045,10 +206045,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.just-tell-me-the-truth-about-office",
+      "key": "scene-talk.follow-plea.just-tell-me-the-truth-about-running-for-seat",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Just tell me the truth about {office}.",
+      "text": "Just tell me the truth about running for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -206162,10 +206162,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.please-don-t-spin-me-on-office",
+      "key": "scene-talk.follow-plea.please-don-t-spin-me-on-this-run-for-seat",
       "move": "follow-plea",
       "kind": "spoken",
-      "text": "Please don't spin me on {office}.",
+      "text": "Please don't spin me on this run for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -206275,10 +206275,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.then-go-win-office",
+      "key": "scene-talk.follow-thank.then-go-win-the-race-for-seat",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then go win {office}.",
+      "text": "Then go win the race for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -206297,10 +206297,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.okay-i-m-with-you-on-office",
+      "key": "scene-talk.follow-thank.okay-i-m-with-you-on-running-for-seat",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Okay. I'm with you on {office}.",
+      "text": "Okay. I'm with you on running for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -206363,10 +206363,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fine-just-don-t-let-office-make-you-a-stranger",
+      "key": "scene-talk.follow-accept.fine-just-don-t-let-the-race-for-seat-make-you-a-stranger",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fine. Just don't let {office} make you a stranger.",
+      "text": "Fine. Just don't let the race for {seat} make you a stranger.",
       "uses": [
         {
           "subject": "scene",
@@ -206431,10 +206431,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-go-run-for-office",
+      "key": "scene-talk.follow-accept.okay-go-run-for-seat",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. Go run for {office}.",
+      "text": "Okay. Go run for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -206453,10 +206453,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.we-re-not-done-talking-about-office",
+      "key": "scene-talk.close-warn.we-re-not-done-talking-about-running-for-seat",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "We're not done talking about {office}.",
+      "text": "We're not done talking about running for {seat}.",
       "uses": [
         {
           "subject": "scene",
@@ -206497,10 +206497,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.don-t-think-office-settles-this",
+      "key": "scene-talk.close-warn.don-t-think-filing-for-seat-settles-this",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "Don't think {office} settles this.",
+      "text": "Don't think filing for {seat} settles this.",
       "uses": [
         {
           "subject": "scene",
@@ -206519,10 +206519,10 @@
       }
     },
     {
-      "key": "scene-talk.close-press.talk-to-me-tomorrow-about-office-promise",
+      "key": "scene-talk.close-press.talk-to-me-tomorrow-about-running-for-seat-promise",
       "move": "close-press",
       "kind": "spoken",
-      "text": "Talk to me tomorrow about {office}. Promise.",
+      "text": "Talk to me tomorrow about running for {seat}. Promise.",
       "uses": [
         {
           "subject": "scene",
@@ -206609,10 +206609,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.get-some-sleep-the-race-for-office-will-still-be-there",
+      "key": "scene-talk.close-accept.get-some-sleep-the-race-for-seat-will-still-be-there",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Get some sleep. The race for {office} will still be there.",
+      "text": "Get some sleep. The race for {seat} will still be there.",
       "uses": [
         {
           "subject": "scene",
