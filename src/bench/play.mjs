@@ -8,6 +8,7 @@ import {
   transcript,
   talkReply,
   fillTalk,
+  silenceOffered,
   talkControls,
   addTalkLine,
   mountTalkKeys,
@@ -1367,7 +1368,7 @@ function renderTalk(value) {
   // Lying, the false set stands in place of the true choices.
   const lies = value.lies ?? [];
   const choices = (lying && lies.length ? lies : value.choices).slice(0, 6);
-  talkControls({ silent: true, leave: true });
+  talkControls({ silent: silenceOffered(choices), leave: true });
   fillTalk({
     lines: spokenLines(value.lines),
     replies: replies(choices, (choice) => sayLine(choice.key)),
