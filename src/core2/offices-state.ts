@@ -204,7 +204,9 @@ export function townDistrict(
 ): DistrictIdentity | null {
   const all = districts(stateUsps, chamber);
   const join = placeDistrictJoin(placeGeoid, chamber, date);
-  if (join.kind === "whole-place")
+  // A place the Census join does not know reads its estimated district as a
+  // whole place (SG-OFFICE-place-district-from-county).
+  if (join.kind === "whole-place" || join.kind === "estimated")
     return all.find((d) => d.geoid === join.districtGeoid) ?? null;
   if (join.kind === "split") {
     const candidates = all.filter((d) =>

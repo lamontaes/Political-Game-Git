@@ -11,6 +11,7 @@
  */
 
 import generated from "./place-membership.generated.json" with { type: "json" };
+import estimated from "./place-district-estimates.generated.json" with { type: "json" };
 import type { DistrictChamber } from "./types";
 import { DISTRICT_IDENTITY_VINTAGE } from "./types";
 
@@ -116,6 +117,16 @@ export type PlaceDistrictJoin =
        */
       readonly candidateDistrictGeoids?: readonly string[];
     }
+  | {
+      /**
+       * A place the Census join does not know (created after its 2020 place
+       * list): the district holding most resident workers among its county's
+       * known places, an estimate (place-district-estimates.generated.json,
+       * stopgap SG-OFFICE-place-district-from-county).
+       */
+      readonly kind: "estimated";
+      readonly districtGeoid: string;
+    }
   | { readonly kind: "unknown" };
 
 /**
@@ -180,6 +191,24 @@ export function congressionalRelationVintageFor(
  * a state whose U.S. House lines changed answers from the lines in force then.
  */
 export function placeDistrictJoin(
+  placeGeoid: string,
+  chamber: DistrictChamber,
+  asOf?: string | null,
+): PlaceDistrictJoin {
+  const recorded = recordedPlaceDistrictJoin(placeGeoid, chamber, asOf);
+  if (recorded.kind !== "unknown") return recorded;
+  // stopgapId: SG-OFFICE-place-district-from-county
+  const districtGeoid = (estimated.estimates as Record<string, string>)[
+    `${placeGeoid}:${chamber}`
+  ];
+  return districtGeoid ? { kind: "estimated", districtGeoid } : recorded;
+}
+
+/**
+ * What the Census place-to-district relationship files say of a place, with
+ * no estimate for a place they do not know (the estimator reads this).
+ */
+export function recordedPlaceDistrictJoin(
   placeGeoid: string,
   chamber: DistrictChamber,
   asOf?: string | null,
