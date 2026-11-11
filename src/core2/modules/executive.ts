@@ -655,7 +655,7 @@ function fillTownPost(
       // A counted adult of the town filled in for this post, for the trace.
       ...(named ? { filledIn: "counted" } : {}),
       // How many of the town's counted adults the post weighed.
-      countedWeighed: input.counted.length,
+      countedWeighed: String(input.counted.length),
     },
   });
   // On the town government's payroll at a department head's pay.
