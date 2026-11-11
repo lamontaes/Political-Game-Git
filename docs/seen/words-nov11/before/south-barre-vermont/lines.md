@@ -45,7 +45,7 @@ Last screen of the same talk as 04 (Tuesday, February 4, 20258:00 AM): **Amy Cab
 (Wednesday, April 2, 20258:00 AM, kind unnamed)
 
 - **Narrator:** First thing on April 2nd, at school, you talk with Eden Cabrera.
-- **Eden Cabrera:** 
+- **Eden Cabrera:**
 
 ## 07 talk about the news
 
