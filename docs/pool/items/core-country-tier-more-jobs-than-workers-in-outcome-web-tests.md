@@ -1,0 +1,37 @@
+---
+id: core-country-tier-more-jobs-than-workers-in-outcome-web-tests
+title: "The country tier's own check finds more jobs than workers in the outcome web's world tests"
+area: core
+kind: bug
+priority: 2
+size: S
+status: open
+standard: 2
+claimed-by:
+pr:
+after:
+blocked-on:
+lead: speed
+model: sonnet
+effort: medium
+root: none
+source: added with npm run pool -- add
+---
+
+**What.** On main (Nov 11), src/core2/outcome-web.test.ts fails in drawn places with the tier's bookkeeping check: 'The country tier holds counts that cannot be: US-IN: 3318085.2067525927 jobs for 3317720.325176492 workers' (Earl Park, Indiana, GOLDEN_PATH_SEED=3110f870cf52c299, test 'low birth weight reads the sized link to drinking-water violations'), and US-CO 2805771.97 jobs for 2805763.44 workers on the same seed in Silver Plume, Colorado. The played town's part of its state puts in more jobs than workers each month, because a counted record can hold more jobs than the people it stands for, and the part caps the workers but not the jobs. Seen: dev mode's Run panel and Metrics tab, whose state rows show no more jobs than workers.
+
+**Cause.** Found in code: src/core2/modules/residents.ts `residentsPart` (line 2560, `atWork(band, job.employer, job.heads)`) counts a counted member's job at its heads, both as people at work in the member's age band and as jobs at the employer. A counted job's heads can exceed the household's weight: a hire stands for the position's heads, not the seeker's weight (src/core2/modules/jobs.ts line 3716), and a fill-in hands its jobs' heads to other counted jobs at the same employer (residents.ts line 2306). So the part counts more people at work in a band than the band has adults. src/core2/country-model.ts `resolveCountryPart` (line 1134) then caps each band's workers at its adults and leaves the jobs as they were, and `putInPart` adds both to the state, so the state holds more jobs than workers and `countryProblems` (line 1727) fails with bookkeeping on. Measured: Earl Park, Indiana (1819450, seed 3110f870cf52c299, the test's world: `generatedOpening` two-level, population 1,500, `WORLD_MODULES` and the outcome web, main d64255aa): the part's jobs and workers agree in months 1 and 2, differ by 364.88 in month 3 (exactly the failing message's 3,318,085.21 minus 3,317,720.33) and by 1,861 by month 14, when the raw count shows 6,544 at work among 6,034 adults.
+
+**Fix.** In src/core2/modules/residents.ts `residentsPart`, count a counted member's job as `Math.min(job.heads, weight)` people at work and the same number of jobs at its employer (one `atWork` call with that number), so the part never puts more people at work in a band than the people the member stands for, and its jobs equal its workers. Do the same for the unplaced share (line 2568): give a band at most what is left of its adults. Then in src/core2/country-model.ts `resolveCountryPart`, when a band's workers are capped, scale the part's jobs by the same total (jobs times capped workers over counted workers), so a part can never carry more jobs than workers whatever its counts. Add a case to src/core2/country-model.test.ts: a part whose band counts more workers than adults resolves to jobs equal to its workers. The jobs engine's heads stay as they are; the heads beyond a record's weight are jobs that people elsewhere in the state hold, which the rest of the state already counts.
+
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Red main comes first (owner, Oct 15): the outcome web's test is red by draw on main. Never weaken a check to get green: `countryProblems` stays as it is. One rule, all 56 places: the cap reads the part's own counts, and no place is named. One model, two tiers: a counted record stands for its weight in people at work, the same rule as a full person, who is counted once.
+
+**Done when.** GOLDEN_PATH_SEED=3110f870cf52c299 npx vitest run src/core2/outcome-web.test.ts passes on main in Earl Park, Indiana, and on two fresh draws, each place and seed named. A second session then starts the bench in a drawn place (written down with its seed), runs two years in dev mode's Run panel with dev mode's bookkeeping on, and sees no 'counts that cannot be' error and the Metrics tab's state rows with no more jobs than workers.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/residents.ts, src/core2/country-model.ts, src/core2/country-model.test.ts, src/core2/outcome-web.test.ts
+
+**Notes.** Cause found (Nov 11, 2026, cause finder for Fable B): a probe built the test's own world for Earl Park with the seed above, advanced month by month with bookkeeping off, and read each month's `countryParts` row (jobs and workers) beside `residentsPart`'s raw counts. The difference starts in the month the raw workers first pass the adults in a band and equals the failing message to the cent.

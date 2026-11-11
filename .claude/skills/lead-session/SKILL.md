@@ -11,11 +11,11 @@ description: >
 
 # Lead session
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** One lead holds laws and effects together on one checker and one matrix; traits rows live in the effects matrix. Every helper brief and every `Needs from others` line is SMART with a time box in hours. Before any owner question, do the full reading (`OWNER-DECISIONS.md`, `DECISION-REGISTER.md`, `prior-rulings/`, `LAW.md`, a `docs/` search) and end it with the reading line. Research is allowed and expected. No new family PR opens until the last one is on main. The words-and-scenes lead works one real-life episode per pass (`scenes-from-life`) and names it in its status block.
 
-Current as of 2026-10-24, 21:30 UTC (owner, Oct 20: Opus leads with Sonnet helpers; owner, Oct 24: play first, "simulate it, don't ask", "sessions never message each other")
+Current as of 2026-11-10 (owner, Oct 20: Opus leads with Sonnet helpers; Oct 24: play first, "simulate it, don't ask"; Oct 29: sessions may message each other, and a message never replaces the record). Who is running is `docs/coordination/CREW.md`, not this file.
 
 A lead owns one cross-system family end to end: its checker, its matrix, its PRs. The five leads are **laws, traits, speed, m0-m2** and **effects**; each has a section in the channel whose first line names its work order (`docs/work-orders/lead-<name>-2026-10-24.md`, on main or on the CTO branch the channel names).
 
@@ -23,7 +23,7 @@ A lead owns one cross-system family end to end: its checker, its matrix, its PRs
 
 1. Read `AGENTS.md`, your work order, the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md`, then your own section (`.agents/rules/how-we-talk.md`), then the top of `docs/coordination/OWNER-DECISIONS.md`.
 2. Read your matrix (`docs/reports/<job>-<date>.md`; `wiring-audit` says how it is built). Counts come from the matrix file, never from memory.
-3. Claim each item you take: `npm run pool -- claim <id> --branch <branch>`. Every item in your family carries `lead: <name>`.
+3. Claim each item you take: `npm run pool -- claim <id> --branch <branch>`. Every item in your family carries `lead: <name>`. An item you write meets the Nov 10 standard (`.agents/rules/pool-item-standard.md`): `standard: 2`, a cause that begins `Found in code:`, `Measured:`, `Design:` or `Needs cause.`, a fix, a time box, a model and an effort; only items marked `checked: fable` are taken by builders, and one that says `Needs cause.` is never built. Progress, questions and the handoff note for each item go on its own pull request (owner, Nov 10; `docs/pool/START-A-BUILDER.md`).
 
 ## Work
 
@@ -40,7 +40,7 @@ A lead owns one cross-system family end to end: its checker, its matrix, its PRs
 - **A refused rewrite is fixed forward**: if an amend or a rebase of your own unpushed commit is refused, add a new commit that fixes it and merge main with a plain merge.
 - **Shared files:** the channel's CTO section says whose PR lands first on a shared file (for example laws before traits on `jobs.ts`); merge main after it lands.
 - **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has is built from research as a background simulation, calibrated not hardcoded. A question a standing rule answers is ruled by the CTO; only a design call about the player's own experience goes under **OWNER DECISIONS NEEDED**.
-- You do not write in `src/bench` (the play-first lane's), or `src/director`, `src/english`, `data/english` (the Words line's, and the lane's with Words review). A need there is a pool item with `lead:` set and a `Needs from others:` line in your section.
+- You do not write in `src/bench` (the play-first lane's), or `src/director`, `src/english`, `data/english` (the Words line's, and the lane's with Words review). Only the Story session writes, changes or deletes lines under `data/english/parts/` (owner, Nov 10): list the lines your row needs on its pull request. A need there is a pool item with `lead:` set and a `Needs from others:` line in your section.
 
 ## Every two hours
 
@@ -55,6 +55,6 @@ Push everything, write a last block that says where each PR and helper stands, s
 > Read AGENTS.md and .agents/skills/lead-session/SKILL.md in lamontaes/Political-Game-Git, then the CTO and <name> sections of docs/coordination/LEADS-2026-10-24.md and the work order your section names.
 > You are the <name> lead: an Opus session with at most two Sonnet helpers, owning that family's checker, matrix and PRs.
 > Play-stop and play-first items with lead: <name> come first. One PR per finished unit, body line 1 the item id, "Lead: <name>" in the body, a Done-when table with the matrix row for each claim.
-> Write your status block in your channel section every two hours (commit to main: `leads: <name> status <time>`); a need from another role is a Needs-from line there and a pool item with lead: set. Message the CTO with questions for the owner or blockers, and the session whose work meets yours (docs/coordination/CREW.md) before building in its area, so nothing is built twice (owner, Oct 29).
+> Write your status block in your channel section every two hours (commit to main: `leads: <name> status <time>`); a need from another role is a Needs-from line there and a pool item with lead: set. Message the CTO (or comment on the item's pull request, if your tool cannot message) with questions for the owner or blockers, and the session whose work meets yours (docs/coordination/CREW.md) before building in its area, so nothing is built twice (owner, Oct 29).
 > Simulate it, don't ask. Never say "wired" without the row. Never merge your own PR, never force-push, never push to a branch while a merger is checking it.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

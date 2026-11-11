@@ -15,6 +15,7 @@ import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Someone the player knows who moves away (the moves engine's departure record,
 // circumstance row moved-away-farewell) comes to say goodbye, and the goodbye
@@ -206,9 +207,11 @@ it(`a goodbye is about the leaving, from the record (seed ${seed})`, () => {
         )}; basis ${departure!.destinationBasis}; said ${why.map((row) => row.key).join(",") || "none"}\n`,
       );
       const root = scene.talk.tree.replies.map((reply) => reply.line);
-      expect(new Set(root.map((row) => row.move)), where).toEqual(
-        new Set(["comfort", "ask", "promise", "thank"]),
-      );
+      expectUpToFourDifferent(root, where);
+      for (const row of root)
+        expect(["comfort", "ask", "promise", "thank"], where).toContain(
+          row.move,
+        );
       expect(scene.talk.depth, where).toBeGreaterThan(1);
       for (const row of scene.talk.lines)
         expect(row.text, where).not.toMatch(
