@@ -1712,7 +1712,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-senate",
-              "name": "State campaign contribution limit: stateSenate",
+              "name": "State campaign contribution limit: state senate",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-senate",
               "unit": "USD/election",
@@ -1721,7 +1721,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-house",
-              "name": "State campaign contribution limit: stateHouse",
+              "name": "State campaign contribution limit: state house",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-house",
               "unit": "USD/election",
