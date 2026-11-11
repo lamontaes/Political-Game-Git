@@ -10,9 +10,16 @@ export interface OrderClass {
   roots?: string[];
   milestone?: string;
 }
+/** A named slice of the pool (`next --for <kind>`): an item is in it when its area or its lead is listed. */
+export interface OrderKind {
+  why?: string;
+  areas?: string[];
+  leads?: string[];
+}
 export interface Order {
   levels: string[];
   classes: OrderClass[];
+  kinds: Record<string, OrderKind>;
 }
 
 /** Item fields the order reads; `waits-on` and `time-box` are the item's sections, added when the item is read. */
@@ -23,7 +30,11 @@ export type Row = Record<string, string | undefined> & {
 };
 
 /** The order with no order.json: the levels of the standard and no classes. */
-export const DEFAULT_ORDER: Order = { levels: MODELS, classes: [] };
+export const DEFAULT_ORDER: Order = {
+  levels: MODELS,
+  classes: [],
+  kinds: {},
+};
 
 /** Reads docs/pool/order.json under a pool folder, or the default when it is missing. */
 export function readOrder(poolDir: string): Order {
@@ -33,7 +44,16 @@ export function readOrder(poolDir: string): Order {
   return {
     levels: raw.levels?.length ? raw.levels : MODELS,
     classes: raw.classes ?? [],
+    kinds: raw.kinds ?? {},
   };
+}
+
+/** Whether an item is in a kind of work (order.json `kinds`): its area is in the kind's areas or its lead is in its leads. */
+export function inKind(i: Row, kind: OrderKind): boolean {
+  return (
+    (!!i.area && (kind.areas ?? []).includes(i.area)) ||
+    (!!i.lead && (kind.leads ?? []).includes(i.lead))
+  );
 }
 
 /** The play-first lane's own order inside the stops-play class (docs/play-first/ORDER.md). */

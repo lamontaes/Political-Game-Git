@@ -19,7 +19,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/law-wiring-government.test.ts fails on seed 446eaae155bdacc270446225a696c32454dda4b0 at its fifth attempt, the ward-charter fallback place 3050200: administration staffing applied to an employer, expected more than 0 and got 0. The first four drawn places had at-large councils, so the test fell back to a charter town with ward seats. Whether the town has no administration employer to staff, or the staffing reach misses one it has, is not yet known.
+**What.** src/core2/law-wiring-government.test.ts fails on seed 446eaae155bdacc270446225a696c32454dda4b0 at its fifth attempt, the ward-charter fallback place 3050200: administration staffing applied to an employer, expected more than 0 and got 0. The first four drawn places had at-large councils, so the test fell back to a charter town with ward seats. Whether the town has no administration employer to staff, or the staffing reach misses one it has, is not yet known. Guards: a raised administration staffing line pays an employer in a ward-charter town, on the budget the player reads.
 
 **Cause.** Needs cause. Looked at src/core2/law-wiring-government.test.ts and the staffing reach in src/core2/law-reach/group-a-staffing.ts: whether place 3050200 holds an administration employer that the reach misses, or none at all, was not read. Measured: seed 446eaae155bdacc270446225a696c32454dda4b0, ward-charter place 3050200.
 
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/law-wiring-government.test.ts, src/core2/law-reach/group-a-staffing.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/law-wiring-government.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=446eaae155bdacc270446225a696c32454dda4b0. Still red. First failing assertion as printed: `AssertionError: seed 446eaae155bdacc270446225a696c32454dda4b0, ward charter 3050200 (3050200), attempt 4: someone hired on the raised administration line: expected 0 to be greater than 0` at src/core2/law-wiring-government.test.ts:334.

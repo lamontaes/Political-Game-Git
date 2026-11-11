@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-people-housemates-named-to-each-other
+pr: #8456
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: design-life-record
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:46:47.147Z
+branch: claude/pool-people-housemates-named-to-each-other
 ---
 
 **What.** In a drawn bench world many full housemates are neither kin on record nor in each other's knownIds, so a scene or journal cannot name them: the family filing talk at home and the journal line for a strained ending both skip them. People who live together know each other's names, and relatives in one household carry the family fact that says how they are related. Fix the opening so every full housemate pair is either kin on record or known by name.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/people.ts, src/core2/population.ts
 
 **Notes.** TODO
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:46 UTC) on branch claude/pool-people-housemates-named-to-each-other.
