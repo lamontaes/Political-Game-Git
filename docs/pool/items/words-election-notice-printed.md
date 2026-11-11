@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-election-notice-printed
 pr:
 after:
 blocked-on:
@@ -16,8 +16,9 @@ model: sonnet
 effort: medium
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at:
+claimed-at: 2026-11-11T05:27:06.685Z
 checked: fable 2026-11-11
+branch: claude/pool-words-election-notice-printed
 ---
 
 **What.** The notice of election the owner graded good ("NOTICE OF ELECTION NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.") sits in data/english/parts/notice.json under stopgap SG-WORDS-notice-no-reader. No engine prints it: the filing visit has no notice and the paper prints no election notice. Print it in the newspaper before each election from the contest records, as a real town's paper does. Seen: the town paper, which prints a notice of the election before each election day.
@@ -41,3 +42,5 @@ checked: fable 2026-11-11
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:36 UTC) on branch claude/pool-words-election-notice-printed.
 
 **Notes (Nov 11, 2026, map folded in).** The first builder (#8481) confirmed the cause and found three missing pieces, none on main: no record says an election will be held, no builder prints one, and it did not find how a printed story reaches notice.json. The Fix now names all three. Whether the notice runs as a brief or a story of its own is the words lead's call when the builder asks; build it as one story naming every office until then. No line under data/english/parts/ is written by the builder.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:27 UTC) on branch claude/pool-words-election-notice-printed.
