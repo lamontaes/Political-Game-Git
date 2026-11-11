@@ -5,10 +5,10 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-web-fare-free-riders-reach-nothing
-pr:
+pr: #8716
 after:
 blocked-on:
 lead: effects
