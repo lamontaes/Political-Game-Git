@@ -2125,6 +2125,14 @@ body:not(.dev) .dev-only {
   flex-direction: column;
   overflow: hidden;
 }
+/* A bill read from the meeting or the desk takes a menu's frame: its three
+   columns need the width, and squeezed into the side panel they ran over each
+   other. */
+#meeting:has(.bill-board),
+#desk:has(.bill-board) {
+  left: calc(var(--gutter) + 98px);
+  width: auto;
+}
 /* The meeting and the desk: a titled panel whose agenda scrolls inside it, the Adjourn
    control kept under it. */
 #meeting-items,
