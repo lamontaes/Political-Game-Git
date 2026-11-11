@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-counted-households-transfer-income
 pr:
 blocked-on:
 after:
@@ -16,8 +16,9 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:28:15.290Z
 checked: fable 2026-11-10
+branch: claude/pool-world-counted-households-transfer-income
 ---
 
 **What.** A counted household's income (householdIncome in src/core2/modules/residents.ts) is its recorded wages, its retirement awards and its share of the place's unplaced workers. Nothing else is paid to it: no Social Security for a disabled or surviving member, no cash assistance under the law in force. Once unplaced workers are whole people (branch claude/pr-renter-income, not on main), about 40 percent of renter households in a Puerto Rico town have no income at all and are evicted (65 homeless where HUD implies about 1). Pay counted households the transfers the same rules give a full household, read by householdIncome, rent and the eviction path. The Puerto Rico renter-income item (world-counted-renter-income-puerto-rico-third) is proposed to merge here with its ACS figures (B19055, B19065, B19067, B25071) as evidence. Seen: a renter household's card and the town's evictions and homeless count, where about 40 percent of renters have no income.
@@ -39,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Found working world-counted-renter-income-puerto-rico-third (see its Oct 21 notes for the ACS figures fetched: B19055, B19065, B19067 for Puerto Rico).
 
 Oct 21 (claude): not built. The Done-when starts from "the branch's whole unplaced workers merged" (claude/pr-renter-income), which is not on main, so the day-one no-income share cannot be measured from main. Take it after that lands. Claim released.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:28 UTC) on branch claude/pool-world-counted-households-transfer-income.
