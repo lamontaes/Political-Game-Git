@@ -2345,6 +2345,13 @@ body:not(.dev) .dev-only {
   color: var(--text-2);
   font: var(--t-label) var(--ui);
 }
+.meeting-remarks small {
+  margin-right: 8px;
+  color: var(--gold);
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 .meeting-acts {
   display: flex;
   flex-wrap: wrap;
