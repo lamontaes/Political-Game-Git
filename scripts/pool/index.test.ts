@@ -572,7 +572,7 @@ describe("merged is on main, done is seen in the game", () => {
     put("laws-b", mergedItem("laws-b", "2026-11-04T08:30:00.000Z"));
     put(
       "laws-c",
-      item("laws-c").replace("status: open", "status: merged\npr: PR 7"),
+      item("laws-c").replace("status: open", "status: merged\npr: #7"),
     );
     put("laws-d", item("laws-d").replace("status: open", "status: done"));
     expect(run(dir, false).errors).toEqual([]);
@@ -584,7 +584,7 @@ describe("merged is on main, done is seen in the game", () => {
       [
         "## Merged, waiting to be seen in the game (3)",
         "",
-        "- [laws-c](items/laws-c.md) (laws, PR 7) — Title of laws-c",
+        "- [laws-c](items/laws-c.md) (laws, [#7](https://github.com/lamontaes/Political-Game-Git/pull/7)) — Title of laws-c",
         `- [laws-b](items/laws-b.md) (laws, lead Words, merged 2026-11-04, ${PR_12}) — Title of laws-b`,
         `- [laws-a](items/laws-a.md) (laws, lead Words, merged 2026-11-09, ${PR_12}) — Title of laws-a`,
         "",

@@ -13,7 +13,16 @@ import { join } from "node:path";
 import { execFileSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import { GOOD } from "./index.test";
-import { buildIndexFor, command, indexCheck, reindex, run } from "./index";
+import {
+  buildIndexFor,
+  command,
+  indexCheck,
+  reindex,
+  run,
+  validate,
+} from "./index";
+import { mergeFlip } from "./done-on-merge";
+import { parseFrontMatter } from "./index";
 
 const item = (id: string, extra = ""): string =>
   `---\nid: ${id}\ntitle: "Title of ${id}"\narea: laws\nkind: wiring\npriority: 1\nstatus: open\n${extra}---\n\n${GOOD}`;
@@ -151,5 +160,51 @@ describe("the index never blocks a merge", () => {
     } finally {
       process.chdir(cwd);
     }
+  });
+});
+
+describe("a merged pull request finds its item by the pr field", () => {
+  it("an item whose pr field is a bare number is flipped when the body names no item", () => {
+    const { work, pool } = world();
+    const cwd = process.cwd();
+    process.chdir(work);
+    try {
+      writeFileSync(
+        join(pool, "items", "laws-bare.md"),
+        item("laws-bare", "pr: 8171\n").replace(
+          "status: open",
+          "status: in-pr",
+        ),
+      );
+      const flipped = mergeFlip(
+        "8171",
+        "A pull request whose first line names no item.\n",
+        true,
+      );
+      expect(flipped, "mergeFlip of 8171").toEqual({
+        message: "pool: laws-bare merged (#8171)",
+        failed: false,
+      });
+      expect(
+        parseFrontMatter(
+          readFileSync(join(pool, "items", "laws-bare.md"), "utf8"),
+        )?.status,
+      ).toBe("merged");
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+
+  it("the pool check refuses a pr field that is not # and a number, naming the file", () => {
+    const fm = (pr: string) =>
+      parseFrontMatter(
+        item("laws-bare", `pr: ${pr}\n`).replace(
+          "status: open",
+          "status: in-pr",
+        ),
+      );
+    const bare = validate("laws-bare.md", fm("8171"));
+    expect(bare.join("\n")).toMatch(/laws-bare\.md: pr "8171" must be/);
+    expect(validate("laws-bare.md", fm("#8171"))).toEqual([]);
   });
 });
