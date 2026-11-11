@@ -3,4 +3,4 @@ id: words-scene-web-legislating
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Design packets for four legislating scenes and a refreshed scene-web report; no player-facing change.
