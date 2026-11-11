@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-campaign-door-pledge-held-read-at-ballot
-pr:
+pr: #8525
 after:
 blocked-on:
 source: added with npm run pool -- add
