@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-new-state-income-tax-pays-out-where-it-should-collect
-pr:
+pr: #8396
 after:
 blocked-on:
 lead: laws-effects
