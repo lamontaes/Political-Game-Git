@@ -203116,10 +203116,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.come-by-the-office-here-in-place-and-we-ll-go-through-it-properly",
+      "key": "scene-talk.reply-offer.come-by-the-office-name-and-we-ll-go-through-it-properly",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Come by the office here in {place}, and we'll go through it properly.",
+      "text": "Come by the office, {name}, and we'll go through it properly.",
       "uses": [
         {
           "subject": "scene",
@@ -203145,10 +203145,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.let-s-sit-down-somewhere-in-place-where-we-can-actually-talk",
+      "key": "scene-talk.reply-offer.let-s-sit-down-somewhere-we-can-actually-talk-name",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Let's sit down somewhere in {place} where we can actually talk.",
+      "text": "Let's sit down somewhere we can actually talk, {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -203174,10 +203174,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.my-door-in-place-is-open-call-and-set-a-time",
+      "key": "scene-talk.reply-offer.my-door-is-open-name-call-and-set-a-time",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "My door in {place} is open. Call and set a time.",
+      "text": "My door is open, {name}. Call and set a time.",
       "uses": [
         {
           "subject": "scene",
@@ -203203,10 +203203,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-d-rather-do-this-properly-come-see-me-at-the-office-in-place",
+      "key": "scene-talk.reply-offer.i-d-rather-do-this-properly-come-see-me-at-the-office-name",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I'd rather do this properly. Come see me at the office in {place}.",
+      "text": "I'd rather do this properly. Come see me at the office, {name}.",
       "uses": [
         {
           "subject": "scene",
@@ -203458,96 +203458,6 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-m-not-signing-on-to-cause",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I'm not signing on to {cause}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["cause"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.cause-isn-t-something-i-ll-put-my-name-to",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "{cause} isn't something I'll put my name to.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["cause"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "decline",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-reply-decline",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-decline.i-don-t-see-cause-the-way-you-do",
-      "move": "reply-decline",
-      "kind": "spoken",
-      "text": "I don't see {cause} the way you do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "decline",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["cause"]
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder W6",
       "date": "2026-11-11",
@@ -203860,10 +203770,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.there-s-a-lot-on-the-plate-in-place-right-now-let-me-get-back-to-you",
+      "key": "scene-talk.reply-deflect.let-me-get-back-to-you-on-that-name-there-s-a-lot-going-on",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "There's a lot on the plate in {place} right now. Let me get back to you.",
+      "text": "Let me get back to you on that, {name}. There's a lot going on.",
       "uses": [
         {
           "subject": "scene",
@@ -203889,70 +203799,68 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.bill-is-already-moving-i-ve-talked-to-the-chair",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "{bill} is already moving. I've talked to the chair.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["donor-bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.already-done-i-put-in-a-word-on-bill",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "Already done. I put in a word on {bill}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "donor-ask",
-          "key": "favor-asked",
-          "requiresFacts": ["donor-bill"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "donor-ask-reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
       "key": "scene-talk.reply-lie.it-s-handled-i-made-some-calls-around-place",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "It's handled. I made some calls around {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.it-s-already-moving-i-ve-talked-to-the-right-people-in-place",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "It's already moving. I've talked to the right people in {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-lie",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.already-done-half-of-place-knows-where-i-stand-on-it",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Already done. Half of {place} knows where I stand on it.",
       "uses": [
         {
           "subject": "scene",

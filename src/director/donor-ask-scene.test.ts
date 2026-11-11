@@ -241,6 +241,16 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
           namesAFact(row.text),
           `${here}: "${row.text}" names nothing`,
         ).toBe(true);
+      // One screen names a thing once (lead, Nov 11, 2026): in the
+      // family's arc no two replies offered carry the same fact.
+      if (talk.purpose === "donor-ask")
+        for (const row of result.scene.facts.filter(
+          (fact) => fact.text.length > 2,
+        ))
+          expect(
+            root.filter((reply) => reply.text.includes(row.text)).length,
+            `${here}: "${row.text}" in two replies: ${root.map((reply) => reply.text).join(" / ")}`,
+          ).toBeLessThanOrEqual(1);
       // The donor's reason is their own: where they work and what the bill
       // is about, cited to the job and the views record.
       const employer = result.scene.facts.find((row) => row.key === "employer");
