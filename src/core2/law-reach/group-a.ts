@@ -85,7 +85,9 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "police-oversight": [facialRecognition],
   // The housing engine pays the assistance monthly (housing-assistance.ts), citing the measure kept here.
   "housing-assistance": [housingLine],
-  staffing: [staffing],
+  // Read when a change is applied, not when this table is built: staffing's file
+  // may still be loading when this one is entered first.
+  staffing: [(api, change) => staffing(api, change)],
   "public-bargaining": [records, publicBargaining],
   "right-to-work": [records, rightToWork],
   voting: [voting],
