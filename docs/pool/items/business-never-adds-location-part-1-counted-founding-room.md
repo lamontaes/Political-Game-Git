@@ -5,8 +5,8 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-business-never-adds-location-part-1-counted-founding-room
 pr: #8706
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: opus
 effort: medium
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:34:28.857Z
 branch: claude/pool-business-never-adds-location-part-1-counted-founding-room
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-business-never-adds-location-part-1-counted-founding-room
 **Notes.** Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:28 UTC) on branch claude/pool-business-never-adds-location-part-1-counted-founding-room.
 
 Released (2026-11-11): The Cause differs from the code: the counted score already has the room term (business.ts:1974); the likely cause is the floored gapsOf plus summed pulls, see PR #8706. Continue on branch claude/pool-business-never-adds-location-part-1-counted-founding-room and pull request #8706.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:34 UTC) on branch claude/pool-business-never-adds-location-part-1-counted-founding-room.
