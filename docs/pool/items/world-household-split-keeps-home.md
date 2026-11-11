@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-world-household-split-keeps-home
+claimed-by:
 pr:
 blocked-on:
 after:
@@ -17,7 +17,7 @@ effort: medium
 root: design-life-record
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T04:25:22.670Z
+claimed-at:
 branch: claude/pool-world-household-split-keeps-home
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-world-household-split-keeps-home
 **Notes.** Oct 20 (pool feeder): the row SG-P15-moves-owners-stay stays open while its pool item is done.
 
 Released (2026-11-11): 6-hour change: a recorded who-keeps-the-home decision in moves.ts plus changing the mortgage payer on the credit engine and counted households; moves.ts decide() line 1323 returns null for a mortgaged split; not started. Continue on branch claude/pool-world-household-split-keeps-home.
+
+Released (2026-11-11): second read: leave() in moves.ts already keeps the home when stayers remain; the missing piece is a core API to change a standing mortgage contract's payerIds (none exists in finance/credit: grep for set/replace payer finds nothing) plus the who-keeps-it decision and counted households; needs the credit/finance owner to add the API first. Continue on branch claude/pool-world-household-split-keeps-home.
