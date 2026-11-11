@@ -34,6 +34,7 @@ Before any of these, in any session (lead, lane, words, director, merger, fixer,
 7. `docs/pool/items/`: an item on the subject carries its Notes and its PRs.
    Then the data files that carry rulings: `rg -i '<subject>' src/director/data src/core2/data data/english` and read the `about` and `source` fields near a match. The owner's rulings on how people talk, what a scene is and what a number means are quoted there, not only in `docs/` (Oct 30: the CTO ruled that a relative with no news could be asked after; the owner's Oct 14 Q7 and Oct 15 family-talk rulings in `src/director/data/conversation-rules.json` already said no, and the ruling was withdrawn).
 8. The owner's Drive, when the session has the Drive connector: `search_files` with `fullText contains '<subject>'`; the CTO rulings docs there ("03 CTO RULINGS", "OVERNIGHT ORDERS", "RESEARCH FOR CTO REVIEW") are his words from September and October. A session without the connector reads the prior-rulings digests, which are made from them, and says so.
+9. The open pull requests, before you fix anything you saw in play: `gh api -X GET search/issues -f q='repo:OWNER/REPO is:pr is:open <two words of what you saw>'`. A built fix can wait ungated for hours. On Nov 11 the lead saw the Journal note over the President's address, wrote the fix, and only then found the pool item and a six-hour-old pull request with the same change line for line. The right move was to replay that pull request in a drawn place and send it to a desk.
 
 Stop at the first hit that answers; read it whole.
 
@@ -45,6 +46,7 @@ Stop at the first hit that answers; read it whole.
   `Read: OWNER-DECISIONS (through <date>), DECISION-REGISTER, prior-rulings/<area>.md, LAW; searched docs/ and pool for: <terms>; Drive: <searched | no connector>.`
   A question without the line is sent back (merger, CTO, the owner's local session).
 - **Two rulings conflict:** the newer wins unless the older makes more sense; flag it in OWNER-DECISIONS under the CTO's hand.
+- **Before a question goes to the owner's page, open the item, the code it names and `docs/coordination/OWNER-DECISIONS.md` (grep the subject).** A sweeper's or a helper's one-line reason is not a reading. On Nov 10 three questions were written from one-line reasons and sent to him. Two were already answered (the discrimination ban, ruled Oct 24 and Oct 26, "I said yes"; town events, asked for Nov 1) and one named laws that already worked. He answered a question he had settled twice. This is the CTO's rule for both of them from that night.
 
 ## The owner's standing answers (so they are never asked again)
 

@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-people-no-shared-school-or-work-between-people-at-the-start
-pr:
+pr: #8487
 after:
 blocked-on:
 lead: lives

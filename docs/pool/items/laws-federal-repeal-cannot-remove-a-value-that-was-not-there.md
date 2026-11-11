@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-federal-repeal-cannot-remove-a-value-that-was-not-there
+pr: #8707
 after:
 blocked-on:
 lead: legislation
@@ -17,6 +17,8 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:29:56.132Z
+branch: claude/pool-laws-federal-repeal-cannot-remove-a-value-that-was-not-there
 ---
 
 **What.** A repeal cannot put a body back to having no law of its own. Measured in the Nov 9 law sweep in Marion, Mississippi (seed 7df73e53cd67): every one of the 223 repeals passed, and at the town, county and state the old value was on the books two weeks later. In Congress 31 of 40 went straight back to the old value, but the other 9 repeals left a value where there had been none, because a bill can set a value and cannot remove one. The audit does not list which nine laws. An amount section of a bill always carries a number, the enacting step always writes that number as a new law row, and dev mode's Repeal introduces a bill with the value 0, so a federal 0 now stands where the level used to be silent and anything that reads "the federal value" finds one. Fix it for every body and every amount law: a repeal of a value the body itself set, where it had none before, ends that body's row, so the level is silent again and the next level's law governs as before. Seen: a repeal on the bill card leaving a value on the books where there was none.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/bill-catalog.ts (`provisionFor`, line 130), src/core2/modules/legislature.ts (`enact`, line 6068), src/bench/dev-mode.ts (`introduce`, line 735), src/bench/ui/dev-bills.mjs (the Repeal control, lines 134 to 146), src/core2/laws-in-force.ts, src/core2/laws-starting.ts, scripts/dev-tests/law-run.ts
 
 **Notes.** From the Fable audit, Pillar 2, "Every repeal passed." Measured: the counts. The cause is the audit's reading, confirmed on main Nov 10: `provisionFor` builds a `law-amount` section with a required amount and no way to say "none"; `enact` calls `enactLaw` with `value: provision.value`; the dev Bills panel's Repeal sends `value: 0`; and the crew's harness does the same (`law-run.ts` repeals with `before ? before.value : 0`). Law rows already carry an `endDate` (`src/core2/laws-starting.ts`), and one reader honors it (`rowInForce` in `src/core2/laws-death-taxes.ts`), so ending a row is a kept idea, though the wage question also ends a level's own wage by writing a 0 row (`endOwnWage` in `src/core2/question-wages.ts`, line 126). Whether a federal 0 changes any payment or decision was not measured; the audit reports only that a value stayed. The audit also followed four passed state laws past the next January 1 and found the passed values stayed in force. Related: `law-levels-death-tax-zero-restoration` (claimed; estate and inheritance tax after a zero), `laws-three-answers-to-what-is-the-law-now` (the lookups must agree on an ended row), `laws-income-tax-flatten-sponsor-rate` (open). There is no Repeal button outside dev mode; that is a screens item from the same pillar, not this one.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:29 UTC) on branch claude/pool-laws-federal-repeal-cannot-remove-a-value-that-was-not-there.

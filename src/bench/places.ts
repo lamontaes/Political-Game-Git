@@ -1,5 +1,6 @@
 // "Go to": the town's places from its organizations and the art library,
 // who works there, who's there now and what the player can do there.
+import { personWorkOf } from "../core2/person-work";
 import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
@@ -8,7 +9,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
-import { backdropFor, orgPlace, staffOf, stagePeople } from "./scene";
+import { backdropFor, orgPlace, staffOf, peopleHere } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type { CoreState } from "../core2/types";
@@ -129,13 +130,16 @@ export function townPlaces(
   const household = core.households.get(player.householdId)?.memberIds ?? [
     playerId,
   ];
+  // By the one reader of what a person does (`personWorkOf`), which the card
+  // and the journal tell too: their job's employer and each seat's own.
   const ownWork = new Set(
-    [...household, ...player.familyIds]
-      .map((id) => core.people.get(id)?.jobId)
-      .map((jobId) =>
-        jobId ? core.jobs.get(jobId)?.organizationId : undefined,
-      )
-      .filter((id): id is string => !!id),
+    [...household, ...player.familyIds].flatMap((id) => {
+      const work = personWorkOf(core, id);
+      return [
+        work.job?.organizationId,
+        ...work.offices.map((office) => office.organizationId),
+      ].filter((org): org is string => !!org);
+    }),
   );
   const ownJob = player.jobId
     ? core.jobs.get(player.jobId)?.organizationId
@@ -336,6 +340,6 @@ export function visitPlace(
     place,
     backdrop,
     names: Object.fromEntries(ids.map((row) => [row.id, row.name])),
-    ...stagePeople(core, backdrop.file, ids),
+    ...peopleHere(core, backdrop.file, ids),
   };
 }

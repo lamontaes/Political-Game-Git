@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/health-web.ts, src/core2/health-web.test.ts, src/core2/modules/health.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `HEALTH_WEB_SEED=e278a4ff7b6b5d53 npx vitest run src/core2/health-web.test.ts` (Bayside, Wisconsin): green. Fresh draw `HEALTH_WEB_SEED=67bdaa02eee90b5d`: green. Proposed for the CTO: drop as fixed on main.
