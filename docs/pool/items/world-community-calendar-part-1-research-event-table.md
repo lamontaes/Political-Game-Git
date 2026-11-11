@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-community-calendar-part-1-research-event-table
-pr:
+pr: #8623
 after:
 blocked-on:
 lead: lives
