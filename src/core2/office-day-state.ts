@@ -790,10 +790,15 @@ export function actOn(
       if (chosen.hold && api.state.modules.has(CASES_MODULE_ID))
         for (const row of casesFor(api, entry.holderId)) {
           if (row.status !== "open") continue;
-          const decision =
-            chosen.cases?.[row.id] ??
-            ownCaseDecision(api, entry.holderId, row).decision;
-          const done = handleCase(api, row.id, decision);
+          const own = chosen.cases?.[row.id]
+            ? null
+            : ownCaseDecision(api, entry.holderId, row);
+          const done = handleCase(
+            api,
+            row.id,
+            chosen.cases?.[row.id] ?? own!.decision,
+            own?.duty ?? null,
+          );
           if (done) recordIds.push(done.id);
         }
       break;
