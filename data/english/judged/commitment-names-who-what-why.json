@@ -2,7 +2,638 @@
   "schema": "english-judged/2",
   "rule": "commitment-names-who-what-why",
   "rubric": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
-  "judged": 15,
-  "no": {},
-  "yesHash": "1xxne21utkl"
+  "judged": 636,
+  "no": {
+    "00nxu254m0b": {
+      "keys": ["scene-talk.follow-threaten.don-t-count-on-my-help-next-time"],
+      "why": "Owner flagged this threat as missing context; names no what or why."
+    },
+    "017p7s0la6x": {
+      "keys": ["scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it"],
+      "why": "Promises to do it without saying what."
+    },
+    "01u4661sdcq": {
+      "keys": ["scene-talk.follow-refuse.i-can-t-make-that-deal"],
+      "why": "Refusal names no deal or reason."
+    },
+    "04ci7aa0nss": {
+      "keys": ["scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word"],
+      "why": "Promises to do it without saying what."
+    },
+    "04k6el2s9qq": {
+      "keys": [
+        "scene-talk.reply-refuse.i-d-rather-not-say-and-i-d-rather-you-didn-t-press-me"
+      ],
+      "why": "Declines without saying what or why."
+    },
+    "050p02mf2ny": {
+      "keys": ["scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week"],
+      "why": "Promise names no what, only a time."
+    },
+    "05xdz2u163y": {
+      "keys": ["scene-talk.reply-promise.one-more-try-and-then-ill-decide"],
+      "why": "Vague commitment; no what or why."
+    },
+    "06dykxw766v": {
+      "keys": ["scene-talk.follow-refuse.that-s-not-on-the-table"],
+      "why": "Refusal names no what or why."
+    },
+    "07ia88elql4": {
+      "keys": [
+        "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like"
+      ],
+      "why": "Vague threat naming no what or why."
+    },
+    "084mvyqob65": {
+      "keys": ["scene-talk.reply-refuse.not-on-the-record-reporter"],
+      "why": "Refusal gives no what or why."
+    },
+    "08n6n18qwu9": {
+      "keys": ["scene-talk.reply-refuse.we-ll-see-about-that"],
+      "why": "Vague threat naming no who, what or why."
+    },
+    "08pgq1inw5t": {
+      "keys": ["scene-talk.reply-refuse.i-cant-say-lobbyist"],
+      "why": "Refusal gives no what or why."
+    },
+    "08sg3uar84j": {
+      "keys": [
+        "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking"
+      ],
+      "why": "Commits to \"something\" without naming what or why."
+    },
+    "08vzjybgfbk": {
+      "keys": [
+        "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again"
+      ],
+      "why": "Refusal gives no what or why."
+    },
+    "0973p8ngdoa": {
+      "keys": ["scene-talk.reply-refuse.let-them-count-it-s-still-no"],
+      "why": "No without saying on what."
+    },
+    "098q8j9783l": {
+      "keys": ["scene-talk.reply-promise.we-will-be-back"],
+      "why": "Vague commitment naming no what or why."
+    },
+    "0br0tuae36n": {
+      "keys": ["scene-talk.close-promise.i-ll-be-checking-that-you-did"],
+      "why": "Commitment does not say what is being checked."
+    },
+    "0bwxp43u0br": {
+      "keys": ["scene-talk.reply-refuse.i-have-given-you-my-answer"],
+      "why": "Refusal that names no answer or subject."
+    },
+    "0dlkdcxx2c5": {
+      "keys": ["scene-talk.reply-refuse.not-this-time"],
+      "why": "Bare refusal naming nothing."
+    },
+    "0emveakjo0h": {
+      "keys": ["scene-talk.reply-promise.you-ll-see-i-ll-show-up"],
+      "why": "Promises to show up without saying where or for what."
+    },
+    "0epjfrm5cds": {
+      "keys": [
+        "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still"
+      ],
+      "why": "Veiled threat naming no what or why."
+    },
+    "0eq5atvdmgq": {
+      "keys": ["scene-talk.reply-refuse.i-m-not-answering-that-one"],
+      "why": "Refusal with no what or why."
+    },
+    "0ermqq1yqbk": {
+      "keys": [
+        "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no"
+      ],
+      "why": "Refusal gives no what or why."
+    },
+    "0fu1uwl7qyt": {
+      "keys": ["scene-talk.reply-refuse.friday-then-and-it-s-a-no"],
+      "why": "No without saying on what or why."
+    },
+    "0huvw8prxig": {
+      "keys": ["scene-talk.reply-refuse.asking-again-won-t-change-it"],
+      "why": "Bare refusal with no what or why."
+    },
+    "0id2503ngp8": {
+      "keys": ["scene-talk.reply-refuse.not-yet-i-m-not-ready"],
+      "why": "Refusal names neither what nor a real why."
+    },
+    "0ihfz480cqw": {
+      "keys": ["scene-talk.reply-refuse.the-answer-is-no"],
+      "why": "Bare no with no what or why."
+    },
+    "0ir41cdz1e0": {
+      "keys": ["scene-talk.reply-promise.i-ll-get-you-the-rest"],
+      "why": "Promise does not say what the rest is."
+    },
+    "0jmuxfalx9n": {
+      "keys": ["scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no"],
+      "why": "Refuses with no who, what or why."
+    },
+    "0jwfwrchkw8": {
+      "keys": ["scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word"],
+      "why": "Promises to see to it without naming what."
+    },
+    "0kkc8oy93nz": {
+      "keys": ["scene-talk.follow-promise.i-always-will"],
+      "why": "Promise with no what."
+    },
+    "0kqjzwrow0p": {
+      "keys": [
+        "scene-talk.follow-threaten.be-careful-what-you-refuse-people-notice"
+      ],
+      "why": "Vague threat with no what or why."
+    },
+    "0merjhhm7h2": {
+      "keys": [
+        "scene-talk.reply-refuse.still-no-i-d-rather-you-hear-it-from-me-than-from-someone-else"
+      ],
+      "why": "Bare no with no what or why."
+    },
+    "0mieqgh2dwo": {
+      "keys": ["scene-talk.reply-refuse.that-s-all-i-m-saying-today"],
+      "why": "Refusal with no what or why."
+    },
+    "0mkjydcr4aw": {
+      "keys": [
+        "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help"
+      ],
+      "why": "Promises with no stated what."
+    },
+    "0mz9rq7ftm3": {
+      "keys": ["scene-talk.reply-refuse.i-m-sorry-i-just-can-t"],
+      "why": "Bare refusal naming nothing."
+    },
+    "0nm8uyi5uvr": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-see-it-through-we-re-not-leaving-it-like-this"
+      ],
+      "why": "Vague commitment; never says what is being seen through."
+    },
+    "0noc9iguaeq": {
+      "keys": [
+        "scene-talk.reply-promise.i-know-how-it-sounds-i-mean-it-anyway"
+      ],
+      "why": "Promise with no stated what."
+    },
+    "0o4e2r2edgz": {
+      "keys": [
+        "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no"
+      ],
+      "why": "Refusal gives no what or why."
+    },
+    "0o85uaenrf8": {
+      "keys": ["scene-talk.reply-refuse.spring-s-a-long-way-off"],
+      "why": "Vague brush-off naming nothing."
+    },
+    "0pjnkyu4vhj": {
+      "keys": [
+        "scene-talk.reply-refuse.i-can-t-do-that-and-you-shouldn-t-ask-me-to"
+      ],
+      "why": "Refusal with no what or why."
+    },
+    "0pv7shgtjgh": {
+      "keys": ["scene-talk.close-promise.ill-remember-this"],
+      "why": "Vague threat/promise naming no what or why."
+    },
+    "0qlrf1mcyb8": {
+      "keys": ["scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week"],
+      "why": "Promises to do it with no named what."
+    },
+    "0rr0fv3vd07": {
+      "keys": ["scene-talk.close-promise.i-ll-keep-my-word-you-ll-see"],
+      "why": "Promise names no what."
+    },
+    "0sba7bojmy4": {
+      "keys": ["scene-talk.reply-refuse.not-here-colleague"],
+      "why": "Bare refusal with no what or why."
+    },
+    "0sdx7fe8vz9": {
+      "keys": ["scene-talk.reply-refuse.ask-somebody-else"],
+      "why": "Refusal with no what or why."
+    },
+    "0sv07cofcxz": {
+      "keys": ["scene-talk.reply-promise.you-have-my-word-i-ll-do-it"],
+      "why": "Promises to do it without saying what."
+    },
+    "0vqxbh9rhcc": {
+      "keys": ["scene-talk.reply-promise.call-me-after-reporter"],
+      "why": "Bare deferral naming no what."
+    },
+    "0vvg63ydqz2": {
+      "keys": [
+        "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no"
+      ],
+      "why": "Says no without naming the vote or the reason."
+    },
+    "0w17138fnjj": {
+      "keys": ["scene-talk.follow-refuse.that-s-not-mine-to-give"],
+      "why": "Refusal names neither what nor why."
+    },
+    "0wxx1sum7mg": {
+      "keys": ["scene-talk.reply-promise.ill-look-hard-lobbyist"],
+      "why": "Promise names no what."
+    },
+    "0x0t7tlh9cf": {
+      "keys": ["scene-talk.follow-refuse.i-can-t-do-that-and-you-know-i-can-t"],
+      "why": "Refuses without naming what or why."
+    },
+    "0x7brdgpamp": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-make-sure-it-happens-and-i-won-t-forget"
+      ],
+      "why": "Promises it will happen without saying what."
+    },
+    "0x7pdedjknl": {
+      "keys": [
+        "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off"
+      ],
+      "why": "Promises to do it without saying what."
+    },
+    "0xp03dl6j4j": {
+      "keys": [
+        "scene-talk.reply-refuse.i-gave-it-real-thought-the-answer-is-no"
+      ],
+      "why": "Bare no with no what or why."
+    },
+    "0yr8tekf5mh": {
+      "keys": ["scene-talk.reply-refuse.ask-me-later-colleague"],
+      "why": "Deferral with no what or why."
+    },
+    "0zht0ctmhs9": {
+      "keys": [
+        "scene-talk.reply-promise.you-have-my-word-i-need-to-clear-my-days-first"
+      ],
+      "why": "Gives word without saying what."
+    },
+    "107y511ptly": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-sort-out-my-days-first"
+      ],
+      "why": "Promises to do it without saying what."
+    },
+    "10e71cgtjzf": {
+      "keys": [
+        "scene-talk.reply-refuse.i-can-t-and-i-d-rather-tell-you-now-than-on-the-floor"
+      ],
+      "why": "Refuses without saying what or why."
+    },
+    "11sjn30a8in": {
+      "keys": ["scene-talk.reply-refuse.i-didn-t-like-it-then-and-i-don-t-now"],
+      "why": "Stance names no what or why."
+    },
+    "11vvw02wyxs": {
+      "keys": [
+        "scene-talk.reply-refuse.that-s-one-day-further-than-i-m-going-today"
+      ],
+      "why": "Refusal naming no subject or why."
+    },
+    "125tvhmb1pn": {
+      "keys": [
+        "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you"
+      ],
+      "why": "Refuses with feeling but names no what or why."
+    },
+    "12b5r149qzo": {
+      "keys": ["scene-talk.reply-refuse.let-them-write-it-the-answer-s-no"],
+      "why": "No without saying on what or why."
+    },
+    "12oyn03zult": {
+      "keys": [
+        "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no"
+      ],
+      "why": "Refusal gives no what or why."
+    },
+    "14zkqlbvgsn": {
+      "keys": ["scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no"],
+      "why": "Bare refusal with no what or why."
+    },
+    "16lhw9ei4jo": {
+      "keys": ["scene-talk.reply-refuse.the-answer-is-still-no"],
+      "why": "No without saying on what or why."
+    },
+    "176edveg7nx": {
+      "keys": ["scene-talk.reply-refuse.not-today"],
+      "why": "Bare refusal naming nothing."
+    },
+    "18dt65bc968": {
+      "keys": [
+        "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again"
+      ],
+      "why": "Promises to make it up without saying what."
+    },
+    "18ew1b550ca": {
+      "keys": ["scene-talk.reply-refuse.no-comment-at-this-time"],
+      "why": "Stonewall with no reason."
+    },
+    "19ej87i1h4l": {
+      "keys": ["scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no"],
+      "why": "No with no stated what or why."
+    },
+    "1aeyoadggc6": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-sort-out-my-week-first"
+      ],
+      "why": "Promises to do it without saying what."
+    },
+    "1afxj4qc9jz": {
+      "keys": ["scene-talk.reply-promise.it-s-in-my-hands-now-i-ll-see-to-it"],
+      "why": "Says they will see to it without naming what."
+    },
+    "1br06cmkava": {
+      "keys": ["scene-talk.reply-promise.yes-you-can-count-on-me"],
+      "why": "Bare yes with no what."
+    },
+    "1byrvw2ht00": {
+      "keys": ["scene-talk.reply-refuse.no-let-it-go-for-now"],
+      "why": "No without what or why."
+    },
+    "1cd3e3qa0pt": {
+      "keys": ["scene-talk.follow-promise.you-ll-have-it-by-morning"],
+      "why": "Promise does not say what you will have."
+    },
+    "1cstgfhg1mb": {
+      "keys": ["scene-talk.reply-promise.i-ll-do-my-part-you-ll-see"],
+      "why": "Promises to do their part without saying what."
+    },
+    "1gcc9somxcg": {
+      "keys": ["scene-talk.reply-promise.i-ll-figure-it-out-i-promise"],
+      "why": "Promises to figure \"it\" out with no what or why."
+    },
+    "1getl27tokl": {
+      "keys": ["scene-talk.reply-promise.okay-then-i-ll-do-it-i-m-in"],
+      "why": "Says they are in without naming what."
+    },
+    "1gsqjvbeb3v": {
+      "keys": [
+        "scene-talk.reply-refuse.i-ve-heard-you-the-answer-stays-the-same"
+      ],
+      "why": "Bare refusal with no what or why."
+    },
+    "1hfiiv7smio": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-give-me-until-tomorrow"
+      ],
+      "why": "Promises to do it with no named what, only a deadline."
+    },
+    "1jdexsd1iqa": {
+      "keys": ["scene-talk.reply-refuse.that-s-all-i-m-going-to-say-on-it"],
+      "why": "Bare refusal with no what or why."
+    },
+    "1jkxi72uz4y": {
+      "keys": [
+        "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite"
+      ],
+      "why": "Threat names no what or why."
+    },
+    "1k76gu2kht8": {
+      "keys": ["scene-talk.reply-refuse.i-can-t-i-m-sorry"],
+      "why": "Bare refusal naming nothing."
+    },
+    "1lxhkicufsx": {
+      "keys": [
+        "scene-talk.follow-threaten.you-have-my-check-don-t-make-me-ask-twice"
+      ],
+      "why": "Veiled threat naming no what or why."
+    },
+    "1mbknz83u9q": {
+      "keys": ["scene-talk.follow-promise.i-ll-have-it-on-your-desk-tomorrow"],
+      "why": "Promise does not say what \"it\" is."
+    },
+    "1n9cq7vio31": {
+      "keys": ["scene-talk.reply-refuse.i-d-rather-not-comment-on-that"],
+      "why": "Declines without saying what or why."
+    },
+    "1nzcile6vr1": {
+      "keys": ["scene-talk.reply-promise.this-is-not-the-end"],
+      "why": "Vague commitment naming no who, what or why."
+    },
+    "1olrttutfvr": {
+      "keys": [
+        "scene-talk.reply-promise.things-will-settle-down-now-i-promise"
+      ],
+      "why": "Promise names no what."
+    },
+    "1p4skmvmulg": {
+      "keys": ["scene-talk.reply-refuse.that-s-a-line-on-paper-no"],
+      "why": "No with no stated what or why."
+    },
+    "1pyej54hrmm": {
+      "keys": ["scene-talk.reply-refuse.don-t-get-comfortable"],
+      "why": "Vague threat naming no who, what or why."
+    },
+    "1qc6rmbgjkv": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-do-it-and-you-have-my-word-on-that"
+      ],
+      "why": "Promises to do it without saying what."
+    },
+    "1rhtwwnfxei": {
+      "keys": ["scene-talk.reply-promise.i-ll-be-there-you-have-my-promise"],
+      "why": "Promises to be there without saying where or for what."
+    },
+    "1spacjqxlqb": {
+      "keys": ["scene-talk.reply-refuse.i-m-not-going-to-respond-to-that"],
+      "why": "Refusal naming no what or why."
+    },
+    "1sx7wmtixpb": {
+      "keys": ["scene-talk.reply-refuse.they-know-where-my-office-is"],
+      "why": "Veiled threat naming no who or what."
+    },
+    "1synrz7f22s": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-take-care-of-it-and-you-have-my-word"
+      ],
+      "why": "Promises to take care of it without saying what."
+    },
+    "1thcv455huw": {
+      "keys": ["scene-talk.reply-refuse.no-comment-not-on-this-one"],
+      "why": "Refusal gives no what or why."
+    },
+    "1tquq1r1if1": {
+      "keys": [
+        "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry"
+      ],
+      "why": "Promise with no stated what."
+    },
+    "1tre57sjuo7": {
+      "keys": ["scene-talk.reply-refuse.no-and-this-changes-nothing"],
+      "why": "Refusal gives no what or why."
+    },
+    "1v7apm9thmn": {
+      "keys": ["scene-talk.reply-refuse.no-comment"],
+      "why": "Stonewall with no reason or subject."
+    },
+    "1vjtpvaw9iv": {
+      "keys": [
+        "scene-talk.follow-threaten.youll-regret-it-first-everyone-does"
+      ],
+      "why": "Vague threat with no what or why."
+    },
+    "1w7kfbkjyie": {
+      "keys": ["scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word"],
+      "why": "Promises to make it work without saying what."
+    },
+    "1yxlm3a58uf": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slip"
+      ],
+      "why": "Promises to make it happen without saying what."
+    },
+    "1yytm4nx1bf": {
+      "keys": [
+        "scene-talk.reply-refuse.then-you-ll-hear-a-no-in-about-a-minute"
+      ],
+      "why": "No with no what or why."
+    },
+    "2054uklx2tl": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-enjoy-the-day-first"
+      ],
+      "why": "Promises to do it without saying what."
+    },
+    "207ybix3363": {
+      "keys": ["scene-talk.close-promise.i-m-not-going-anywhere"],
+      "why": "Vague commitment that names no who, what or why."
+    },
+    "20bdh3o0vo8": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word"
+      ],
+      "why": "Promises to do it without saying what."
+    },
+    "20cretbbd3j": {
+      "keys": ["scene-talk.follow-threaten.you-know-how-this-works"],
+      "why": "Implied threat naming nothing."
+    },
+    "224y4o8stof": {
+      "keys": [
+        "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no"
+      ],
+      "why": "Refusal gives no what or why."
+    },
+    "227ox6s0664": {
+      "keys": ["scene-talk.reply-refuse.i-can-t-do-that"],
+      "why": "Bare refusal naming nothing."
+    },
+    "24oafgrhdsn": {
+      "keys": ["scene-talk.reply-promise.i-ll-tell-you-when-i-figure-it-out"],
+      "why": "Promise does not say about what."
+    },
+    "253zlh861j6": {
+      "keys": [
+        "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed"
+      ],
+      "why": "Refusal gives no what or why."
+    },
+    "25jwcgtnvos": {
+      "keys": ["scene-talk.close-promise.you-won-t-regret-this-i-ll-earn-it"],
+      "why": "Promise names no what."
+    },
+    "25q8z9la8x5": {
+      "keys": ["scene-talk.follow-promise.you-ll-have-it"],
+      "why": "Promise does not say what."
+    },
+    "25xjkc4qrvv": {
+      "keys": ["scene-talk.follow-threaten.the-party-has-a-long-memory"],
+      "why": "Vague threat naming no specific consequence or cause."
+    },
+    "264xbtio9tn": {
+      "keys": ["scene-talk.reply-refuse.not-yet-i-m-sorry"],
+      "why": "Bare refusal naming nothing."
+    },
+    "27bwzha5are": {
+      "keys": [
+        "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well"
+      ],
+      "why": "Vague promise about \"the next thing\" with no named what or who."
+    },
+    "29odafyrc39": {
+      "keys": ["scene-talk.close-promise.i-ll-do-my-part-first-you-ll-see"],
+      "why": "Promises to do their part without saying what."
+    },
+    "2acii6ty4q0": {
+      "keys": ["scene-talk.reply-refuse.as-a-friend-i-m-telling-you-no"],
+      "why": "No with no what or why."
+    },
+    "2axinxmf3vx": {
+      "keys": ["scene-talk.reply-refuse.my-answer-hasn-t-changed"],
+      "why": "Bare refusal with no what or why."
+    },
+    "2bejxenwyw1": {
+      "keys": [
+        "scene-talk.reply-promise.i-will-give-me-a-little-time-to-sort-my-days"
+      ],
+      "why": "Agrees without saying to what."
+    },
+    "2bfuym8ni14": {
+      "keys": ["scene-talk.reply-refuse.then-you-ve-got-me-wrong-i-m-a-no"],
+      "why": "Stance says no but not on what or why."
+    },
+    "2c6iu61clie": {
+      "keys": ["scene-talk.reply-refuse.i-understand-i-m-still-where-i-was"],
+      "why": "Bare refusal with no what or why."
+    },
+    "2cmiyvb2zbw": {
+      "keys": ["scene-talk.reply-refuse.dont-make-me-say-it-again-no"],
+      "why": "Refusal gives no what or why."
+    },
+    "2cverzn4662": {
+      "keys": [
+        "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think"
+      ],
+      "why": "Veiled threat naming no what or why."
+    },
+    "2cx4e9cqjjx": {
+      "keys": ["scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change"],
+      "why": "Refusal gives no what or why."
+    },
+    "2d61f0h108y": {
+      "keys": [
+        "scene-talk.close-promise.we-ll-do-something-for-it-i-mean-that"
+      ],
+      "why": "Promises \"something\" with no named what."
+    },
+    "2e0a9k483ss": {
+      "keys": [
+        "scene-talk.reply-promise.i-m-going-to-make-it-count-you-ll-see"
+      ],
+      "why": "Promises to make it count without saying what."
+    },
+    "2e1ih48mk6x": {
+      "keys": ["scene-talk.reply-promise.this-isn-t-the-end-of-it"],
+      "why": "Vague threat with no who, what or why."
+    },
+    "2e446tf2kls": {
+      "keys": [
+        "scene-talk.reply-refuse.i-d-rather-lose-the-argument-with-you-than-lie-to-you-no"
+      ],
+      "why": "Says no without naming what is refused or why."
+    },
+    "2enn48zc9nr": {
+      "keys": [
+        "scene-talk.reply-refuse.you-knew-my-answer-last-week-it-hasn-t-changed"
+      ],
+      "why": "Refusal does not say what the answer is or why."
+    },
+    "2g7rcbtwfl4": {
+      "keys": [
+        "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed"
+      ],
+      "why": "Refusal gives no what or why."
+    },
+    "2gitxzw4cxk": {
+      "keys": ["scene-talk.reply-refuse.i-can-t-do-it-and-you-know-why"],
+      "why": "Refusal with no what; why left implied."
+    },
+    "2gm82at0hsj": {
+      "keys": [
+        "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slide"
+      ],
+      "why": "Promises to make it happen without saying what."
+    }
+  },
+  "yesHash": "1gp9u5tlyap"
 }

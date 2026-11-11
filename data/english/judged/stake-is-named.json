@@ -2,7 +2,382 @@
   "schema": "english-judged/2",
   "rule": "stake-is-named",
   "rubric": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
-  "judged": 0,
-  "no": {},
-  "yesHash": "0wvjl67o803"
+  "judged": 232,
+  "no": {
+    "033co2tff6p": {
+      "keys": [
+        "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "03m0kmmm0x2": {
+      "keys": ["scene-talk.reply-bargain.what-would-you-sign"],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "041kthia3h0": {
+      "keys": [
+        "scene-talk.follow-plea.it-s-changed-for-me-i-m-asking-as-a-friend-this-time"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "04yjee8272e": {
+      "keys": [
+        "scene-talk.follow-plea.don-t-decide-today-give-us-the-time-you-have-left"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "05b5ifghb3m": {
+      "keys": [
+        "scene-talk.follow-plea.please-don-t-spin-me-i-want-the-real-answer"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "06gd5uq84fx": {
+      "keys": ["scene-talk.follow-bargain.depends-on-the-favor"],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "06kilvhrt34": {
+      "keys": [
+        "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk"
+      ],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "07r2450y6az": {
+      "keys": ["scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0ce1nid3jgt": {
+      "keys": ["scene-talk.follow-plea.then-who-do-i-ask"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0cey8xjgg2y": {
+      "keys": ["scene-talk.follow-plea.talk-to-me"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0ck8q5ba0b6": {
+      "keys": ["scene-talk.follow-plea.give-me-something-i-can-believe"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0dl03vatax5": {
+      "keys": ["scene-talk.follow-plea.a-hearing-is-all-i-want-when"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0dq1zofyn45": {
+      "keys": ["scene-talk.follow-plea.then-i-ll-remember-it-as-a-friend"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0ejebdsooce": {
+      "keys": [
+        "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0erfyehfh91": {
+      "keys": [
+        "scene-talk.reply-bargain.then-it-costs-you-something-what-ve-you-got"
+      ],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "0f4w2zyberz": {
+      "keys": ["scene-talk.follow-plea.i-backed-you-when-nobody-else-would"],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "0ggu3a9268f": {
+      "keys": ["scene-talk.follow-plea.say-it-plainly-i-can-take-it"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0hcdythhvuw": {
+      "keys": ["scene-talk.follow-plea.then-who-can-somebody-has-to"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0ki1hbo7tgq": {
+      "keys": ["scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal"],
+      "why": "The trade is left as 'that' and 'this' or 'halfway' and never named."
+    },
+    "0kyhejf2qk0": {
+      "keys": [
+        "scene-talk.follow-plea.then-name-it-quick-they-re-halfway-through-the-roll"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0lpd1ztg4f0": {
+      "keys": [
+        "scene-talk.follow-plea.at-least-hear-the-others-out-before-you-decide"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0lr13cybn65": {
+      "keys": ["scene-talk.follow-plea.i-m-asking-i-don-t-ask-much"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0m7utua49kv": {
+      "keys": [
+        "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0mtptnsp8f3": {
+      "keys": [
+        "scene-talk.follow-bargain.i-can-give-you-that-if-you-give-me-this"
+      ],
+      "why": "The trade is left as 'that' and 'this' or 'halfway' and never named."
+    },
+    "0nxpq6qlh4h": {
+      "keys": ["scene-talk.follow-bargain.what-would-that-take"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0p2tb7nee32": {
+      "keys": ["scene-talk.follow-plea.then-tell-me-what-s-true"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0phph1qhy6e": {
+      "keys": ["scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0ppprxb157k": {
+      "keys": ["scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0sak9sktxr0": {
+      "keys": [
+        "scene-talk.follow-plea.i-thought-we-were-headed-there-tell-me-what-i-got-wrong-and-i-ll-liste"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0trujsw8gus": {
+      "keys": ["scene-talk.follow-plea.just-tell-me-the-truth"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0uf16m993lb": {
+      "keys": ["scene-talk.follow-plea.there-may-not-be-a-next-one-please"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0wivvmqxbgd": {
+      "keys": ["scene-talk.follow-plea.i-was-there-when-you-needed-votes"],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "0wrtfmbx0m0": {
+      "keys": [
+        "scene-talk.reply-bargain.then-make-it-worth-something-what-s-on-the-table"
+      ],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "0x5l1e9ngyq": {
+      "keys": ["scene-talk.follow-plea.sleep-on-it-at-least-call-me"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0xn0fjf449m": {
+      "keys": ["scene-talk.follow-plea.just-think-about-it-for-me"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0yfh7nuil1h": {
+      "keys": ["scene-talk.follow-bargain.i-ll-see-what-i-can-change"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0yranbu2vgr": {
+      "keys": ["scene-talk.follow-plea.then-tell-me-who-s-right"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "0zzb8vdhnny": {
+      "keys": [
+        "scene-talk.follow-plea.could-it-be-you-and-not-a-staffer-i-d-feel-better"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1079w139tjr": {
+      "keys": [
+        "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that"
+      ],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "10ecmy1ixb7": {
+      "keys": ["scene-talk.reply-bargain.i-ll-take-part-of-it-not-all-of-it"],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "10s1rpq3goo": {
+      "keys": [
+        "scene-talk.reply-bargain.tell-me-what-you-d-accept-short-of-what-you-asked-for-and-we-ll-see"
+      ],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "136n0lu08n4": {
+      "keys": ["scene-talk.follow-plea.nobody-reads-those-you-know-that"],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "13bwt4ofda8": {
+      "keys": ["scene-talk.follow-plea.i-know-i-m-asking-anyway"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "13jug0htabt": {
+      "keys": ["scene-talk.reply-bargain.what-do-i-get-for-it"],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "14jawgqzd2e": {
+      "keys": [
+        "scene-talk.follow-plea.i-m-not-asking-for-the-whole-thing-back-just-don-t-let-it-stand-as-it-is"
+      ],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "16sd2ejt8ex": {
+      "keys": ["scene-talk.follow-plea.please-not-as-a-member-as-me"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "173growen2v": {
+      "keys": ["scene-talk.follow-plea.okay-i-had-to-ask"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "18hh4sy0cbk": {
+      "keys": [
+        "scene-talk.follow-plea.then-i-ll-stand-up-at-the-next-meeting-and-say-it-there"
+      ],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "1ccbq62z18z": {
+      "keys": ["scene-talk.follow-plea.i-have-nothing-else-to-give-you-please"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1clp80clzc8": {
+      "keys": ["scene-talk.follow-plea.i-ve-stood-by-you-from-the-start"],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "1csggt3cwuv": {
+      "keys": ["scene-talk.follow-plea.can-t-you-go-with-us-once"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1ersa0q3rct": {
+      "keys": [
+        "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1eu7afpc104": {
+      "keys": [
+        "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1gwvh7uhcn2": {
+      "keys": [
+        "scene-talk.follow-plea.the-party-stood-behind-you-when-you-needed-it"
+      ],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "1i22i5xtt3r": {
+      "keys": ["scene-talk.follow-plea.youre-my-last-chance-first-please"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1kemjsmqhae": {
+      "keys": [
+        "scene-talk.follow-plea.please-youre-the-only-one-who-can-help-me"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1mkjkh2kn1p": {
+      "keys": [
+        "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1mruastx8jb": {
+      "keys": [
+        "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask"
+      ],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "1ntetnct1rq": {
+      "keys": ["scene-talk.reply-bargain.what-if-we-soften-it-first"],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "1ow1j4v0cpb": {
+      "keys": ["scene-talk.follow-plea.please-i-stood-up-to-ask-this"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1plxwkdj5df": {
+      "keys": ["scene-talk.follow-plea.please-i-have-a-lot-riding-on-this"],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "1sh7cdocv62": {
+      "keys": [
+        "scene-talk.follow-plea.its-only-a-gift-wont-you-at-least-look-at-whats-in-it"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1uxosvsxbec": {
+      "keys": [
+        "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1yepknj114l": {
+      "keys": ["scene-talk.follow-plea.i-m-asking-you-straight-just-this-one"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1yfcs7wdgsa": {
+      "keys": ["scene-talk.follow-plea.pick-a-number-and-say-it-tonight"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1z7k0omhey5": {
+      "keys": ["scene-talk.follow-plea.then-why-have-a-town-hall"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1zkwt83thtq": {
+      "keys": [
+        "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "1zu017wgv9v": {
+      "keys": ["scene-talk.follow-plea.who-else-would-you-trust-with-it"],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "20mhfqvg91b": {
+      "keys": [
+        "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "21uuz9e21gw": {
+      "keys": ["scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything"],
+      "why": "Invites a bargain but names nothing offered or asked in exchange."
+    },
+    "22pbgicyftz": {
+      "keys": [
+        "scene-talk.follow-plea.i-was-at-your-kickoff-when-there-were-nine-people-in-the-room"
+      ],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "24r51ycle2u": {
+      "keys": [
+        "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "26futh567pe": {
+      "keys": [
+        "scene-talk.follow-plea.would-you-sit-in-on-it-yourself-it-matters"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "26ll7vmhhpy": {
+      "keys": ["scene-talk.follow-plea.then-what-can-the-city-do-anything"],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "27za8pu3iqa": {
+      "keys": [
+        "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no"
+      ],
+      "why": "The line states no concrete stake, ask or effect; a listener could not tell what is at issue."
+    },
+    "2a736tr0m4v": {
+      "keys": ["scene-talk.follow-plea.id-do-it-for-you-you-know-that"],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    },
+    "2ek035q3wys": {
+      "keys": [
+        "scene-talk.state-plea.i-know-how-this-looks-ive-run-out-of-people-to-ask"
+      ],
+      "why": "Appeals to history or feeling without saying what is at stake or being asked."
+    }
+  },
+  "yesHash": "1dige4rq5yr"
 }

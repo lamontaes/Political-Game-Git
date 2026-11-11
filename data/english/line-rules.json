@@ -1195,13 +1195,13 @@
           "words": "Party ask. I like this. I'm on scene 17. The party needs you to run for attorney general. Now, I hope this wouldn't happen randomly. You know, you would have to have some kind of inroads."
         }
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
       },
       "catches": ["I really need this one."],
       "spares": ["I wish I could, but I can't."],
-      "note": "Stays judged: whether \"I really need this one\" names its reason depends on the move and the record the line commits to, which no pattern on the line's words can read.",
+      "note": "Stays judged: whether \"I really need this one\" names its reason depends on the move and the record the line commits to, which no pattern on the line's words can read. Sample (Nov 11): judged once by a reviewer session over the lines its `applies` covers; the \"no\" lines are listed in pulled.json for the owner to grade before it is enforced.",
       "applies": {
         "banks": ["scene-talk"],
         "moves": "-(promise|refuse|threaten)$"
@@ -1295,7 +1295,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 15"
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
         "kind": "judged"
       },
@@ -1312,7 +1312,7 @@
         "I could lose my primary over this",
         "this is a two-way street"
       ],
-      "note": "Stays judged: a stake can be a figure, a favor or a name in any words, so no pattern separates \"We're close, but not there yet.\" from a line that names its stake.",
+      "note": "Stays judged: a stake can be a figure, a favor or a name in any words, so no pattern separates \"We're close, but not there yet.\" from a line that names its stake. Sample (Nov 11): judged once by a reviewer session over the lines its `applies` covers; the \"no\" lines are listed in pulled.json for the owner to grade before it is enforced.",
       "applies": {
         "banks": ["scene-talk"],
         "moves": "-(plea|bargain)$"

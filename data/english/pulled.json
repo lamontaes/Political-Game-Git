@@ -38,6 +38,27 @@
     "scene-talk.close-press.we-still-have-to-settle-this-you-know": [
       "no-filler"
     ],
+    "scene-talk.close-promise.i-ll-be-checking-that-you-did": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.close-promise.i-ll-do-my-part-first-you-ll-see": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.close-promise.i-ll-keep-my-word-you-ll-see": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.close-promise.i-m-not-going-anywhere": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.close-promise.ill-remember-this": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.close-promise.we-ll-do-something-for-it-i-mean-that": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.close-promise.you-won-t-regret-this-i-ll-earn-it": [
+      "commitment-names-who-what-why"
+    ],
     "scene-talk.follow-accept.all-right-you-might-be-right-i-ll-think-about-it": [
       "alright-in-dialogue"
     ],
@@ -48,6 +69,165 @@
       "no-stock-phrases"
     ],
     "scene-talk.follow-accept.it-s-all-right": ["alright-in-dialogue"],
+    "scene-talk.follow-bargain.depends-on-the-favor": ["stake-is-named"],
+    "scene-talk.follow-bargain.i-can-give-you-that-if-you-give-me-this": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-bargain.i-ll-see-what-i-can-change": ["stake-is-named"],
+    "scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-bargain.what-would-that-take": ["stake-is-named"],
+    "scene-talk.follow-plea.a-hearing-is-all-i-want-when": ["stake-is-named"],
+    "scene-talk.follow-plea.at-least-hear-the-others-out-before-you-decide": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.can-t-you-go-with-us-once": ["stake-is-named"],
+    "scene-talk.follow-plea.could-it-be-you-and-not-a-staffer-i-d-feel-better": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.don-t-decide-today-give-us-the-time-you-have-left": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.give-me-something-i-can-believe": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.hear-me-out-then-say-no-to-my-face": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-backed-you-when-nobody-else-would": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-have-nothing-else-to-give-you-please": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-know-i-m-asking-anyway": ["stake-is-named"],
+    "scene-talk.follow-plea.i-m-asking-i-don-t-ask-much": ["stake-is-named"],
+    "scene-talk.follow-plea.i-m-asking-you-straight-just-this-one": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-m-not-asking-for-the-whole-thing-back-just-don-t-let-it-stand-as-it-is": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-thought-we-were-headed-there-tell-me-what-i-got-wrong-and-i-ll-liste": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-ve-done-this-job-years-years-hear-me-out-before-you-decide": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-ve-stood-by-you-from-the-start": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-was-at-your-kickoff-when-there-were-nine-people-in-the-room": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.i-was-there-when-you-needed-votes": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.id-do-it-for-you-you-know-that": ["stake-is-named"],
+    "scene-talk.follow-plea.is-there-anything-you-can-do-even-something-small": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.it-s-changed-for-me-i-m-asking-as-a-friend-this-time": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.its-only-a-gift-wont-you-at-least-look-at-whats-in-it": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.just-tell-me-the-truth": ["stake-is-named"],
+    "scene-talk.follow-plea.just-think-about-it-for-me": ["stake-is-named"],
+    "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.nobody-reads-those-you-know-that": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.okay-i-had-to-ask": ["stake-is-named"],
+    "scene-talk.follow-plea.pick-a-number-and-say-it-tonight": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.please-don-t-spin-me-i-want-the-real-answer": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.please-i-have-a-lot-riding-on-this": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.please-i-stood-up-to-ask-this": ["stake-is-named"],
+    "scene-talk.follow-plea.please-not-as-a-member-as-me": ["stake-is-named"],
+    "scene-talk.follow-plea.please-youre-the-only-one-who-can-help-me": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.say-it-plainly-i-can-take-it": ["stake-is-named"],
+    "scene-talk.follow-plea.sleep-on-it-at-least-call-me": ["stake-is-named"],
+    "scene-talk.follow-plea.talk-to-me": ["stake-is-named"],
+    "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.the-party-stood-behind-you-when-you-needed-it": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.then-at-least-come-to-dinner-sunday-and-let-me-say-it-all-after-that": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.then-i-ll-remember-it-as-a-friend": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.then-i-ll-stand-up-at-the-next-meeting-and-say-it-there": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.then-name-it-quick-they-re-halfway-through-the-roll": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.then-tell-me-what-s-true": ["stake-is-named"],
+    "scene-talk.follow-plea.then-tell-me-who-s-right": ["stake-is-named"],
+    "scene-talk.follow-plea.then-what-can-the-city-do-anything": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.then-who-can-somebody-has-to": ["stake-is-named"],
+    "scene-talk.follow-plea.then-who-do-i-ask": ["stake-is-named"],
+    "scene-talk.follow-plea.then-why-have-a-town-hall": ["stake-is-named"],
+    "scene-talk.follow-plea.there-may-not-be-a-next-one-please": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.theres-no-need-for-that-we-can-still-work-this-out": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.think-about-what-you-re-doing-no-one-else-will-see-it": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.who-else-would-you-trust-with-it": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.would-you-sit-in-on-it-yourself-it-matters": [
+      "stake-is-named"
+    ],
+    "scene-talk.follow-plea.youre-my-last-chance-first-please": [
+      "stake-is-named"
+    ],
     "scene-talk.follow-press.are-you-sure-you-re-all-right-first": [
       "alright-in-dialogue"
     ],
@@ -60,7 +240,58 @@
     "scene-talk.follow-press.people-will-read-a-no-comment-as-an-answer-you-know": [
       "no-filler"
     ],
+    "scene-talk.follow-promise.i-always-will": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-promise.i-ll-have-it-on-your-desk-tomorrow": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-promise.then-let-s-make-sure-the-next-thing-goes-as-well": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-promise.we-re-doing-something-for-it-i-m-not-asking": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-promise.you-ll-have-it": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-promise.you-ll-have-it-by-morning": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-refuse.i-can-t-do-that-and-you-know-i-can-t": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-refuse.i-can-t-make-that-deal": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-refuse.that-s-not-mine-to-give": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-refuse.that-s-not-on-the-table": [
+      "commitment-names-who-what-why"
+    ],
     "scene-talk.follow-thank.i-m-holding-you-to-that-you-know": ["no-filler"],
+    "scene-talk.follow-threaten.be-careful-what-you-refuse-people-notice": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-threaten.don-t-count-on-my-help-next-time": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-threaten.the-party-has-a-long-memory": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-threaten.you-have-my-check-don-t-make-me-ask-twice": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-threaten.you-know-how-this-works": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.follow-threaten.youll-regret-it-first-everyone-does": [
+      "commitment-names-who-what-why"
+    ],
     "scene-talk.open-greet.deceased-talked-about-you-you-know": ["no-filler"],
     "scene-talk.open-greet.hey-sit-down-for-a-minute-would-you-it-s-not-about-the-bills-well-not-": [
       "no-filler"
@@ -89,6 +320,27 @@
     "scene-talk.reply-ask.are-you-going-to-be-all-right-with-whoever-comes-in-next": [
       "alright-in-dialogue"
     ],
+    "scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything": [
+      "stake-is-named"
+    ],
+    "scene-talk.reply-bargain.i-ll-take-part-of-it-not-all-of-it": [
+      "stake-is-named"
+    ],
+    "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk": [
+      "stake-is-named"
+    ],
+    "scene-talk.reply-bargain.tell-me-what-you-d-accept-short-of-what-you-asked-for-and-we-ll-see": [
+      "stake-is-named"
+    ],
+    "scene-talk.reply-bargain.then-it-costs-you-something-what-ve-you-got": [
+      "stake-is-named"
+    ],
+    "scene-talk.reply-bargain.then-make-it-worth-something-what-s-on-the-table": [
+      "stake-is-named"
+    ],
+    "scene-talk.reply-bargain.what-do-i-get-for-it": ["stake-is-named"],
+    "scene-talk.reply-bargain.what-if-we-soften-it-first": ["stake-is-named"],
+    "scene-talk.reply-bargain.what-would-you-sign": ["stake-is-named"],
     "scene-talk.reply-comfort.don-t-worry-about-me-i-ll-be-all-right": [
       "alright-in-dialogue"
     ],
@@ -110,8 +362,318 @@
     "scene-talk.reply-leave.i-hear-you-let-me-get-to-the-next-question": [
       "no-stock-phrases"
     ],
+    "scene-talk.reply-promise.call-me-after-reporter": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-know-how-it-sounds-i-mean-it-anyway": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-be-there-you-have-my-promise": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-it-and-you-have-my-word-on-that": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-it-i-promise-give-me-until-tomorrow": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-sort-out-my-days-first": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-enjoy-the-day-first": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-sort-out-my-week-first": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-figure-it-out-i-promise": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-get-you-the-rest": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slide": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slip": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-make-sure-it-happens-and-i-won-t-forget": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-see-it-through-we-re-not-leaving-it-like-this": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-see-to-it-you-have-my-word": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-take-care-of-it-and-you-have-my-word": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-ll-tell-you-when-i-figure-it-out": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-m-going-to-make-it-count-you-ll-see": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.i-will-give-me-a-little-time-to-sort-my-days": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.ill-look-hard-lobbyist": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.it-s-in-my-hands-now-i-ll-see-to-it": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.okay-then-i-ll-do-it-i-m-in": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.one-more-try-and-then-ill-decide": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.things-will-settle-down-now-i-promise": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.this-is-not-the-end": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.this-isn-t-the-end-of-it": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.we-will-be-back": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.yes-you-can-count-on-me": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.you-have-my-word-i-ll-do-it": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.you-have-my-word-i-need-to-clear-my-days-first": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-promise.you-ll-see-i-ll-show-up": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.as-a-friend-i-m-telling-you-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.ask-me-later-colleague": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.ask-somebody-else": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.asking-again-won-t-change-it": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.don-t-get-comfortable": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.dont-make-me-say-it-again-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.friday-then-and-it-s-a-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-can-t-and-i-d-rather-tell-you-now-than-on-the-floor": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-can-t-do-it-and-you-know-why": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-can-t-do-that": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-can-t-do-that-and-you-shouldn-t-ask-me-to": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-can-t-i-m-sorry": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-cant-say-lobbyist": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-d-rather-lose-the-argument-with-you-than-lie-to-you-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-d-rather-not-comment-on-that": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-d-rather-not-say-and-i-d-rather-you-didn-t-press-me": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-didn-t-like-it-then-and-i-don-t-now": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-gave-it-real-thought-the-answer-is-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-have-given-you-my-answer": [
+      "commitment-names-who-what-why"
+    ],
     "scene-talk.reply-refuse.i-hear-you-the-answer-is-still-no": [
-      "no-stock-phrases"
+      "no-stock-phrases",
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-m-not-answering-that-one": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-m-not-going-to-respond-to-that": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-m-sorry-i-just-can-t": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-understand-i-m-still-where-i-was": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-ve-heard-you-the-answer-stays-the-same": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.let-them-count-it-s-still-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.let-them-write-it-the-answer-s-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.my-answer-hasn-t-changed": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.no-and-this-changes-nothing": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.no-comment": ["commitment-names-who-what-why"],
+    "scene-talk.reply-refuse.no-comment-at-this-time": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.no-comment-not-on-this-one": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.no-let-it-go-for-now": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.not-here-colleague": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.not-on-the-record-reporter": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.not-this-time": ["commitment-names-who-what-why"],
+    "scene-talk.reply-refuse.not-today": ["commitment-names-who-what-why"],
+    "scene-talk.reply-refuse.not-yet-i-m-not-ready": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.not-yet-i-m-sorry": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.spring-s-a-long-way-off": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.still-no-i-d-rather-you-hear-it-from-me-than-from-someone-else": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.that-s-a-line-on-paper-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.that-s-all-i-m-going-to-say-on-it": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.that-s-all-i-m-saying-today": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.that-s-one-day-further-than-i-m-going-today": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.the-answer-is-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.the-answer-is-still-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.then-you-ll-hear-a-no-in-about-a-minute": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.then-you-ve-got-me-wrong-i-m-a-no": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.they-know-where-my-office-is": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.we-ll-see-about-that": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.reply-refuse.you-knew-my-answer-last-week-it-hasn-t-changed": [
+      "commitment-names-who-what-why"
     ],
     "scene-talk.reply-tell.i-hear-you-i-m-still-leaning-toward-running": [
       "no-stock-phrases"
@@ -125,11 +687,23 @@
     "scene-talk.state-deliver-news.they-sent-aid-for-the-damage-and-the-repairs-come-to-less-than-that-we": [
       "alright-in-dialogue"
     ],
+    "scene-talk.state-plea.i-know-how-this-looks-ive-run-out-of-people-to-ask": [
+      "stake-is-named"
+    ],
     "scene-talk.state-request.i-practiced-this-and-forgot-it-so-plainly-i-d-like-to-be-your-spouse-w": [
       "no-filler"
     ],
     "scene-talk.state-tell.took-you-long-enough-it-was-never-that-close-you-know": [
       "no-filler"
+    ],
+    "scene-talk.state-threaten.i-would-hate-for-this-to-get-complicated-first-we-could-still": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite": [
+      "commitment-names-who-what-why"
+    ],
+    "scene-talk.state-threaten.nothing-has-to-change-between-us-first-unless-you-make-it-think": [
+      "commitment-names-who-what-why"
     ]
   },
   "noReplyFollows": {
@@ -224,5 +798,8 @@
       "conflict-accuse.witness/ask"
     ]
   },
-  "awaitingVerdict": {}
+  "awaitingVerdict": {
+    "commitment-names-who-what-why": 0,
+    "stake-is-named": 0
+  }
 }
