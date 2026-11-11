@@ -622,6 +622,15 @@ it(
         );
       tried.push(`${draw.key} seed ${draw.seed}: ${ended.length} ended`);
       if (!ended.length) continue;
+      // The cash she weighed is the cash that pays: every ending paid its
+      // whole trip, from cash that covered it, so none ended for free.
+      for (const row of ended) {
+        const label = `${draw.key} seed ${draw.seed} ${String(row.id)}`;
+        expect(Number(row.cashMinor), label).toBeGreaterThanOrEqual(
+          Number(row.travelMinor),
+        );
+        expect(Number(row.paidMinor), label).toBe(Number(row.travelMinor));
+      }
       // What the law added to the trips: at most the households' trips times the share, less what a group without the cash could not pay.
       const added = ended.reduce(
         (sum, row) =>
