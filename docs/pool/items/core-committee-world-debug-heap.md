@@ -5,19 +5,20 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-committee-world-debug-heap
 pr:
 after:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T00:53:29.175Z
 lead: memory
 standard: 2
 model: opus
 effort: high
 root: rc5-full-detail-every-day
 checked: fable 2026-11-10
+branch: claude/pool-core-committee-world-debug-heap
 ---
 
 **What.** Merger 1 reproduced an unexpected Vitest worker exit on clean main e269fd0acf3234a06a7ae06e31e9fe0f2cbde18f while collecting src/core2/legislature-committees.test.ts. GOLDEN_PATH_SEED=93678d3573d46855 draws Gastonia, North Carolina (3725580), attempt 0. With normal bookkeeping, one worker and NODE_OPTIONS=--max-old-space-size=5120 in the 8 GiB cloud container, collection ended after 1848.90 seconds, before any assertion. The cgroup oom_kill counter increased from 12 to 13 during this isolated main run. PR #5981 on the same input also exited before assertions at 1828.19 seconds in its isolated 5 GiB repeat; its earlier 4 GiB run hit the V8 heap limit. The producer fix in that PR passes its separate named regression and 35 producer tests.
@@ -41,3 +42,5 @@ checked: fable 2026-11-10
 Split Oct 25: the three retention leaks found while measuring this world are `core-memory-circle-retention-leaks`. With them the Gastonia world's heap at day 660 (November 11, 2026) falls from 4,169 MB to 3,489 MB, and the unchanged test runs to 5,754 seconds instead of 4,492, but it still runs out of its 5 GiB heap (4,772 MB live after the last full collection). What remains is the fall 2026 election: the player's circle grows to 358 people, each focused person weighs up to 55 drive responses a day, and every witnessed event copies its facts into each witness's knowledge (1.6 million of 2.2 million known facts belong to focused people at day 660). Under the Oct 12 memory ruling ("summarize or drop old detail"), the next cuts are one shared copy of an event's facts instead of one per witness, and old focus that the player no longer deals with leaving the circle.
 
 **Notes (Fable's check, Nov 10).** The measurement in Cause was taken on main at e269fd0acf. Whoever builds this reruns it on current main first and stops if the test now finishes.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:53 UTC) on branch claude/pool-core-committee-world-debug-heap.
