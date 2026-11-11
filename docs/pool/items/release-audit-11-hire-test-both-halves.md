@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** Item 11 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The hire test it names belongs to PR 4928, which merged as the done item world-counted-payroll-two-halves, and src/core2/modules/residents.test.ts does not exist on main (only src/core2/modules/residents.ts), so no test is left to fix. Not replayed.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

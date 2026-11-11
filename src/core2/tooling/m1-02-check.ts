@@ -5,12 +5,10 @@
  * (1) UNCHECKED (owner, Nov 8: real ranges are not targets): the simulated
  * 12-month changes and quarterly output growth are printed beside the
  * 1990-2026 bands and never tested against them. The national cycle has no
- * recorded cause to test a value against yet (macro-model.ts moves
- * unemployment, inflation, jobs and output by fixed trends and a persistence,
- * and src/core2/no-steering-behavior.test.ts shows a pushed value returning
- * on its own), so this clause waits for the cycle's causes (Money) and
- * keeps no band meanwhile; (2) the national step heard the town's own
- * income growth once a year of it was recorded; (3) every board vote records
+ * recorded cause to test a value against yet (the national row is the sum of the
+ * country tier's states, country-model.ts), so this clause waits for the cycle's causes (Money) and
+ * keeps no band meanwhile; (2) the country tier holds all 56 states and the
+ * latest simulated month's unemployment is the sum of their cells; (3) every board vote records
  * its reasons; (4) at every rate change, each of the town bank's prime-linked
  * business lines reprices on the decision's effective date. The loan-cost
  * witness (4) needs a town with a bank line open at a rate change; where the
@@ -19,7 +17,8 @@
  * failure.
  */
 import { advanceCore, createLifeCore } from "../life";
-import { checkBands, shiftMonth, type MacroMonth } from "../macro-model";
+import { checkBands, type MacroMonth } from "../macro-model";
+import { countryStates } from "../modules/macro";
 import {
   WORLD_MODULES,
   withWorldEconomy,
@@ -49,9 +48,7 @@ function check(seed: string, placeKey: string) {
   advanceCore(core, end.toISOString().slice(0, 10));
 
   const macro = api.moduleState("macro");
-  const months = [...macro.table("months").rows()] as unknown as (MacroMonth & {
-    townIncomeGrowthPct?: number;
-  })[];
+  const months = [...macro.table("months").rows()] as unknown as MacroMonth[];
   const bands = checkBands(months, p).filter((row) => !row.baseIsHistory);
   // Printed beside the real band, never tested against it (clause 1).
   const beside = bands
@@ -60,17 +57,27 @@ function check(seed: string, placeKey: string) {
       (row) =>
         `${row.measure} ${row.at} ${row.value.toFixed(2)} beside the real [${row.low}, ${row.high}]`,
     );
-  // Only months whose two compared years are both simulated hear the town; before that the base includes the opening's seeded income.
-  const firstSimulated = input.startedAt.slice(0, "YYYY-MM".length);
-  const heard = months
-    .filter(
-      (row) =>
-        row.townIncomeGrowthPct !== undefined &&
-        // Twelve months against the twelve before: both years simulated from the 24th month.
-        row.month >= shiftMonth(firstSimulated, 2 * p("macroMonthsPerYear"), p),
-    )
-    .sort((a, b) => a.month.localeCompare(b.month));
-  if (!heard.length) failures.push("the national step never heard the town");
+  // The national row is the sum of the country tier's states.
+  const states = countryStates(api);
+  if (states.length !== 56)
+    failures.push(`the country tier holds ${states.length} states, not 56`);
+  let workers = 0,
+    seekers = 0;
+  for (const state of states)
+    for (const cell of state.cells) {
+      workers += cell.workers;
+      seekers += cell.seekers;
+    }
+  const latest = months
+    .filter((row) => row.kind === "simulated")
+    .sort((a, b) => a.month.localeCompare(b.month))
+    .at(-1);
+  if (
+    !latest ||
+    Math.abs(latest.unemploymentPct - (100 * seekers) / (workers + seekers)) >
+      1e-6
+  )
+    failures.push("the national unemployment is not the states' sum");
 
   const meetings = [...macro.table("meetings").rows()] as unknown as {
     id: string;
@@ -147,12 +154,8 @@ function check(seed: string, placeKey: string) {
     unchecked:
       "clause 1: the national cycle has no recorded cause to test a value against yet (Money); the figures are printed beside the real band",
     outsideTheRealBand: beside,
-    townGrowthByMonth: heard.map(
-      (row) => `${row.month} ${row.townIncomeGrowthPct!.toFixed(2)}`,
-    ),
-    townHeardFrom: heard[0]
-      ? `${heard[0].month} (${heard[0].townIncomeGrowthPct!.toFixed(2)}% a year), ${heard.length} months`
-      : null,
+    countryStates: states.length,
+    nationalUnemploymentPct: latest?.unemploymentPct,
     rateChanges: changes.map(
       (row) =>
         `${row.id}: ${row.fromRatePct} -> ${row.toRatePct} effective ${row.effectiveAt}`,
@@ -167,7 +170,7 @@ function check(seed: string, placeKey: string) {
 // The drawn town first. A town with no bank line open at a rate change cannot
 // show the loan-cost chain, so further places are drawn from all 56 (bounded)
 // until one does; every attempt is reported, and the zero-line town's other
-// clauses (board votes, the town heard) still have to hold.
+// clauses (board votes, the country tier) still have to hold.
 const NO_WITNESS = "no town bank line was open at a rate change";
 const attempts: unknown[] = [];
 const first = check(seed, placeKey);

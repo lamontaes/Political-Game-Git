@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** Filed Oct 25 by the effects lead from web-reach-places-services; see that item's Oct 24 note.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. disaster.severe is built: src/core2/modules/disasters.ts defines `severityOf` (a ramp over FEMA-inspected damaged homes per resident, with its cutoffs and effect years in src/core2/data/disasters/severity.json, each ESTIMATED with a quoted citation), the disasters engine's news event carries the severity, and src/core2/modules/outcome-web.ts `severeDisasterReading` reads it as disaster.severe (registered as SG-WEB-disaster-severity-damage-proxy). src/core2/law-wiring-disasters-web.test.ts proves disaster-to-home-values and disaster-to-out-migration read it in a drawn place by record id. The item's premise (no engine records disaster.severe) is out of date.

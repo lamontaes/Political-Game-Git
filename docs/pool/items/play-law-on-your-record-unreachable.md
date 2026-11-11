@@ -6,7 +6,7 @@ lead: play-first
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,7 @@ source: laws-and-effects lead, Oct 27 (from laws-in-force-every-question, PR #62
 **Notes.** Filed by the laws-and-effects lead, Oct 27, while building `laws-in-force-every-question`, which leaves the unreachable panel alone because deleting it would leave the law on your own record on no screen.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: surface under Politics as sentences or delete the orphan (replace, never layer).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into play-what-this-law-did-page. The 'Law here' panel the item wants deleted is already gone from src/bench/play.mjs (no `law()` panel and no `openSheet("law")` call), but `lawEffects` in src/bench/card.ts (line 190, built from `reachOn`) is still built and nothing reads it. The same need, what a law did to the player by reach row, is play-what-this-law-did-page. Keep that item and add to it: the registered placeholder `lawEffects` in src/bench/card.ts must be read on the law page or deleted.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `play-what-this-law-did-page`, which carries this item's remaining work.

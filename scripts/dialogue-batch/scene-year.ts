@@ -16,8 +16,9 @@
  */
 import { writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
+import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
-import { advanceCore } from "../../src/core2/life";
+import { advancePlayerV1, resumePlayerV1 } from "../../src/core2/player-v1";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import {
   CONVERSATION_DATA,
@@ -85,6 +86,8 @@ const report = {
   moments: [] as unknown[],
   /** Every situation type: the scenes it fired from a cause record, or why not. */
   reach: [] as ReturnType<typeof reachReport>,
+  /** Every job offer made to the player: employer, title, pay and how it ended (the jobs engine's rows). */
+  offers: [] as unknown[],
 };
 // Watched as the bench watches a chosen resident: the player and their
 // household (src/bench/player.ts, select).
@@ -92,8 +95,26 @@ for (const id of household?.memberIds ?? [playerId])
   if (core.people.get(id)?.alive) director.watch(core, id);
 const book = () => director.ledger.people.get(playerId);
 let seen = book()?.schedule.length ?? 0;
+/**
+ * One day on the player's own clock, which is what registers the player as
+ * the controlled person: the scenes from circumstance (the morning after, a
+ * stop in the street, news told) stage only for a controlled player, so a day
+ * run with `advanceCore` alone lists them as "did not fire". A pause for a
+ * choice is left to the character; a stop is acknowledged.
+ */
+function playDay(): void {
+  let packet = advancePlayerV1(core, {
+    controlledPersonId: playerId,
+    through: { date: addDays(makeIsoDate(core.date), 1), minuteOfDay: 1439 },
+  });
+  while (packet.kind !== "complete")
+    packet = resumePlayerV1(core, {
+      kind: packet.kind === "choice" ? "own-choice" : "stop",
+      pauseId: packet.pauseId,
+    });
+}
 for (let day = 0; day < days; day += 1) {
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  playDay();
   const schedule = book()?.schedule ?? [];
   const fresh = schedule.slice(seen);
   seen = schedule.length;
@@ -206,6 +227,21 @@ for (let day = 0; day < days; day += 1) {
   }
 }
 report.householdAtEnd = membersAt();
+report.offers = (
+  coreAPI(core).moduleState("jobs").table("offers").rows() as unknown as {
+    personId: string;
+    organizationId: string;
+    title: string;
+    hourlyMinor: number;
+    offeredAt: string;
+    status: string;
+  }[]
+)
+  .filter((row) => row.personId === playerId)
+  .map((row) => ({
+    ...row,
+    employer: core.organizations.get(row.organizationId)?.name ?? "",
+  }));
 report.reach = reachReport(
   SITUATION_LIBRARY,
   (household?.memberIds ?? [playerId]).flatMap((id) => {
