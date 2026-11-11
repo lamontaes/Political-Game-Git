@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-nov8-candidates-stands-are-budget-lines
+pr: #8564
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, points P22 and C15, not fixed)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:19:56.054Z
 ---
 
 **What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut): "I don't know why it's telling me like police protection, police welfare, and natural resources... I'm not getting any context." The CTO's note (point C15): stands read "Against" police protection, which reads as against the police; these are Census budget lines, not issues. A local race's page draws each candidate's filed stances as a row of the budget line's name and the word For or Against. Say a stance on a spending line as what the candidate would do with the money (spend more, spend less) in a sentence from the banks, and show only the few stands the race turns on, never a column of line names with one word each.
