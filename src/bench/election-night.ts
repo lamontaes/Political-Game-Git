@@ -30,6 +30,7 @@ import {
 } from "../core2/modules/voting";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { EntityId } from "../core2/kernel/brands";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -276,6 +277,9 @@ export function electionNight(core: CoreState, personId: string) {
     night.find((row) => row.ballot?.voted) ??
     null;
   if (!race) return null;
+  // Election night is the night of the count and the day after: a night counted earlier is the
+  // record's, not news, so no reload or restart reopens it weeks later.
+  if (addDays(makeIsoDate(race.date), 1) < core.date) return null;
   const result = resultOf(api, race.contestId);
   if (!result) return null;
   const recordId = `election-result:${race.contestId}`;
