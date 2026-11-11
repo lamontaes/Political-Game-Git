@@ -5,9 +5,9 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: low
 root: none
 source: Fable B, Nov 10, 2026, after four critical-path items sat in review for hours with their pull requests merged
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:02:00.021Z
+branch: claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash
 ---
 
 **What.** When a pull request merges, the pool marks its item merged, and every item that waits on it becomes available to builders. On Nov 10 that did not happen for five items whose pull requests had merged (8168, 8171, 8172, 8175 and 8243). They stayed "in review", so the fast clock's parts 4, 5 and 7 and other work that waits on them were never offered by `npm run pool -- next`. The merge must find the item whether its `pr:` field says `#8171` or `8171`, and the pool check must refuse a `pr:` field in any other form.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** scripts/pool/done-on-merge.ts, scripts/pool/index.ts, scripts/pool/index-merge.test.ts
 
 **Notes (Fable B, Nov 10).** The five items were marked merged by hand, and the other bare numbers were given their `#`, in the pool-only pull request that filed this item. Six older items are also in review though their pull requests merged on Nov 3 to 9 (health-medical-debt-record and world-medical-spending-categories on 7036, play-travel-place-card-says-what-you-do on 7087, words-archive-parent-death-body-by-seed on 7131, people-press-out-of-town-staff-paid on 7135, world-opening-treasury-not-finite-crash on 7222, words-voice-note-reader on 8053). Their fields have the `#`, so this cause does not explain them; the CTO decides whether each is merged or open.
+
+**Notes.** Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:01 UTC) on branch claude/pool-pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash.
