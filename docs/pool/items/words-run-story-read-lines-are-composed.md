@@ -38,7 +38,7 @@ branch:
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. No dice: who stands where is the views engine's record. Ask why: the reader cites the story only because their record says they read it. An effect is a read: the reader's card reads what the talk taught them.
+**Rules.** No hand-written player text in code. No dice: who stands where is the views engine's record. Ask why: the reader cites the story only because their record says they read it. An effect is a read: the reader's card reads what the talk taught them. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, plays three new lives in drawn places it writes down with their seeds until someone brings up a story they read. Each talk names the story and the outlet, and the player's replies are at most four different moves about that story, with agree or disagree offered as the player's own view bears out. It answers, opens the reader's card and finds where the player stands. `git grep -n "SG-WORDS-story-read-talk-moves-nothing" -- src` returns nothing, and tests/guards/english passes with the lowered count.
 

@@ -38,7 +38,7 @@ branch:
 
 **Time box.** 3 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. No dice: the cause is the voter's record, never a chance of a problem. One rule, all 56 places: precincts and polling places come from each place's records, and the tests draw their places. This is a game, not a spreadsheet: a provisional ballot is not added here without the owner's ruling.
+**Rules.** No hand-written player text in code. No dice: the cause is the voter's record, never a chance of a problem. One rule, all 56 places: precincts and polling places come from each place's records, and the tests draw their places. This is a game, not a spreadsheet: a provisional ballot is not added here without the owner's ruling. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, plays three new lives in drawn places it writes down with their seeds to election day, with a life whose records give the polls a problem (a move since the last election). At the polling place the worker names the voter and where they should vote, and the replies are at most four different moves, each naming the place or the reason. It picks "where do I go" and votes at the place named. tests/guards/english passes with the lowered count.
 

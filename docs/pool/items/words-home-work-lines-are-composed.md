@@ -39,7 +39,7 @@ branch:
 
 **Time box.** 5 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. Estimate, never UNKNOWN: a fact no record holds is not asked about, rather than answered with a guess. No dice. One rule, all 56 places: the tests draw their places and nothing names one.
+**Rules.** No hand-written player text in code. Estimate, never UNKNOWN: a fact no record holds is not asked about, rather than answered with a guess. No dice. One rule, all 56 places: the tests draw their places and nothing names one. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds, and meets someone new away from home in each. Each work talk names the person's employer and either their job or how long they have been there, and the player's replies are at most four different moves, each naming an employer or a job. It opens that person's card afterward and finds the employer on it. tests/guards/english passes with the lowered count.
 
