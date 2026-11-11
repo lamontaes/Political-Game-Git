@@ -248,3 +248,19 @@ it("a partner the person was made with is told before their children", () => {
   }
   console.log(`card-life order: ${where}; no partner dated after a child`);
 });
+
+it("a loss is told after school and work, and a partner before the children, in the one set of paragraphs My life and every card share", () => {
+  const groups: string[][] = JSON.parse(
+    readFileSync(new URL("./data/controls.json", import.meta.url), "utf8"),
+  ).lifeGroups;
+  const at = (kind: string) =>
+    groups.findIndex((kinds) => kinds.includes(kind));
+  for (const kind of ["partner", "child", "school", "work", "loss"])
+    expect(at(kind), `${kind} has a paragraph`).toBeGreaterThanOrEqual(0);
+  expect(at("loss"), "a loss after school").toBeGreaterThan(at("school"));
+  expect(at("loss"), "a loss after work").toBeGreaterThan(at("work"));
+  expect(at("loss"), "a loss in its own paragraph").not.toBe(at("child"));
+  expect(at("partner"), "a partner before the children").toBeLessThanOrEqual(
+    at("child"),
+  );
+});

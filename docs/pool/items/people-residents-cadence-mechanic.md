@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: people-residents-cadence-mechanic-part-1-private-jobs-measure, people-residents-cadence-mechanic-part-2-counted-layoffs, people-residents-cadence-mechanic-part-3-counted-absence, people-residents-cadence-mechanic-part-4-counted-purchase-timing
@@ -47,3 +47,5 @@ Claim released.
 Deferred Oct 25: nothing on screen reads it yet.
 
 **Notes (Fable's check, Nov 10).** research-residents-cadence-sourced sources the pay dates and the absence comparison behind the same stopgap, SG-CORE-residents-cadence. Parts 3 and 4 read its rows where they have landed; the stopgap is resolved once, by whichever of the two finishes last.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A roll-up of four parts; the layoff-order part is kept on its own, and the counted pay-date, absence and purchase-timing detail is dropped.

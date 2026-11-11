@@ -20,7 +20,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** The staffing reach (src/core2/law-reach/group-a-staffing.ts) funds an employer for its opening staff times the line against its base. A fire department with no paid staff, such as a volunteer company in a small town, is therefore funded for zero positions however much its line rises. The raise moves money and reaches nobody: seen in drawn places such as White Meadow Lake, New Jersey and Henderson, Louisiana (budget-line-staffing.test.ts, Oct 24).
+**What.** The staffing reach (src/core2/law-reach/group-a-staffing.ts) funds an employer for its opening staff times the line against its base. A fire department with no paid staff, such as a volunteer company in a small town, is therefore funded for zero positions however much its line rises. The raise moves money and reaches nobody: seen in drawn places such as White Meadow Lake, New Jersey and Henderson, Louisiana (budget-line-staffing.test.ts, Oct 24). Seen: a raised public-safety line on the budget that pays nothing at a volunteer department.
 
 **Cause.** Found in code: `staffing` in src/core2/law-reach/group-a-staffing.ts (lines 191 to 197) sets funded positions to `baseStaff * ratio`, and `baseStaff` is 0 for an employer with no paid staff, so positions stay 0 however far the line rises; the calendar worker (`onReachCalendar(STAFFING_KIND ...)`, line 296) posts openings only by copying an existing job as `templateJobId`, and a volunteer company has none.
 

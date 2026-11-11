@@ -19,7 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 ---
 
-**What.** The owner, Nov 8: "None of my history is simulated. I can't see anything that my character went through. No, a girlfriend or a car accident or college or whatever." The past now tells school, work and moves. Nothing in it happened between people or to a body.
+**What.** The owner, Nov 8: "None of my history is simulated. I can't see anything that my character went through. No, a girlfriend or a car accident or college or whatever." The past now tells school, work and moves. Nothing in it happened between people or to a body. Seen: a person's card, which now tells an earlier partner and a serious illness or injury (owner, Nov 8).
 
 **Cause.** Found in code: the opening already works out each adult's chance of having a partner now from a yearly chain of first marriage, divorce, widowhood and remarriage at researched rates (`partneredByAge`, src/core2/opening-partnership.ts line 234, with `partneringPerYear` at line 879 and `separatingPerYear` at line 905), but only the end state reaches a person: partnered or not. The earlier marriage the chain implies is never written as an event. The writers of the past (src/core2/past-school.ts `schoolHistoryFor` line 176, src/core2/past-work.ts `pastWorkFor` line 896, src/core2/past-moves.ts, src/core2/past-elections.ts, src/core2/past-business.ts) write no earlier partnership that ended and no hospital stay or serious injury before the start.
 
