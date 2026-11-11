@@ -6,7 +6,25 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None open. The Nov 9 question on arrows for single-value steppers was answered the same day (below).
 
-## Nov 11: every line goes through the English engine (owner)
+## Nov 11: every line goes through the English engine; work-list notes bundled; the repo slimmed (owner)
+
+- **Work-list notes merge as one bundle an hour (owner, about 1:30 a.m.):** he asked "I feel like it's only worth merging things in the game, right? Can't everything that has access to GitHub just look at branches and stuff? It's causing a lot of unnecessary problems, aren't they?" In the three hours before, 77 of 184 new PRs touched only docs, the pool or skills. The CTO proposed bundling, and he answered: "Yes, and update everything that needs to be updated."
+  - The pool stays on main, because sessions on both accounts read it.
+  - Cause write-ups, status notes and pool-only changes go to one rolling branch with one PR, merged once an hour, not one PR each.
+  - "Claimed" and "in a PR" are read from the open PRs.
+  - Game PRs keep updating their own item inside the same PR.
+  - While more than about 150 game PRs are open, builders get send-back fixes and PRs that need main merged in, not new items.
+  - Rules, checks, skills and docs PRs stay their own PRs. Fable B updates the rules, skills, the pool README and the builder brief to match (CTO line on #7365).
+- **Slim the repo down to what is needed (owner, about 1:30 a.m., not urgent):** "it would be nice if sometime overnight or now, or whenever is best, Fable goes through everything in the repo, removes all old stuff, just removes it unless it's absolutely necessary, but like old images, old all that shit, just remove it all, slim it down to only what is absolutely needed. That doesn't need to be immediate though."
+  - Main was 2.38 GB in 17,101 files.
+  - Kept: what the game, a test or a script loads; the rulings, prior-rulings, playtest blocks and voice notes; LAW and ORDER; the calibration research; the approved mocks; the bust bank.
+  - The full-body people art leaves main but stays set aside (Nov 10): one index file names the last commit holding each removed group, so it comes back with one checkout.
+  - One PR per area, each passing the new-game check. History is never rewritten.
+- **Nothing points at anything old; one master place for what is current (owner, about 1:32 a.m.):** "Not only that, but updates all documents so that nothing is pointing at anything old, and have somewhere as like a master updater or something, to where in the future old things aren't pointing at all different things at all different times."
+  - Every path, file, skill, item or doc named in the docs, rules, skills and code comments exists on main and is the current one.
+  - One master file names the current thing for each kind, plus a list of what replaced what, kept forever.
+  - A guard on every PR fails when anything names a missing or replaced path, or when a new kind appears without a row in the master file. Its baseline only goes down.
+  - Whoever replaces or removes something updates the master file and every pointer in the same PR. That's "replaced means deleted" (Nov 5), applied to references.
 
 - **Every line through the English engine, with many versions and inserts; the opening first (owner, about 1:04 a.m., after seeing the first evening's talk after the President's address in the strip pull request's screenshot):** "I don't understand why we're still having this conversation all the lines in the game need to be run through the English engine. I don't understand how that somehow being allowed yet you keep saying everything is being updated. No take every line through the English engine. There needs to be a ton of different speech versions a ton of different "" inserts for it like this is this is a demonstration of the game. This introduces people to their world." This restates Oct 6 ("There should be no text anymore in the game that is not written by the English engine"). A whole stock sentence picked as-is from a bank does not meet it.
   - **Every line is composed by the engine,** in many versions, with inserts from the world's records: names, the town, the person's own job and views, and what happened.
@@ -14,6 +32,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
   - **Lines he graded bad leave the bank in the same change,** with every reference.
   - **What was on main:** that talk was whole fixed sentences from Oct 25 and Nov 2. On Nov 8 (playtest P37) he called it terrible ("how the words still aren't updated"), and that became three bad grades instead of a rewrite. Across the 21 banks, 8,218 of 12,075 lines carried no insert.
   - **A guard counts the lines with no insert in each player-facing bank,** and that count can only go down. Any kind of line the lead thinks should stay fixed goes to him as a call. Fable B holds the work (CTO line on #7365, Nov 11).
+- **Which short lines stay (owner, about 1:26 a.m., decisions page call 12, no note):** "Replies of one to three words and action names stay; everything else is rewritten." Replies of one to three words ("Hello.", "You won.", "Got a second?") and the names of actions the player picks ("Go to work.", "Rest.") stay as they are, about 650 lines. A piece the engine joins counts as composed when the sentence it makes carries an insert. Everything else, about 7,500 lines, is rewritten with inserts, the opening first. The guard excuses exactly those kinds, by rule.
 
 ## Nov 10: rules, checks and skills merge first; staging waits for busts (owner)
 
