@@ -408,7 +408,9 @@ function worldFacts(
       president.id,
       kind,
       voice,
-      `${topic}:hard`,
+      // A pledge names its subject plainly ("finding work"), neither hard
+      // nor good news: it says what the President will do about it.
+      `${topic}:say`,
       `say-${topic}`,
     );
     if (words)

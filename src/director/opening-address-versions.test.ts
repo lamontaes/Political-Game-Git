@@ -147,6 +147,7 @@ it(`the President's address says different sentences, with its own world's names
       );
     const hardWords = subjectWords(":hard");
     const goodWords = subjectWords(":good");
+    const sayWords = subjectWords(":say");
     for (const { where, address } of addresses) {
       const said = new Map<string, number>();
       for (const row of address.sentences)
@@ -154,7 +155,12 @@ it(`the President's address says different sentences, with its own world's names
           if (!["hardest", "best"].includes(key) && !key.startsWith("say-"))
             continue;
           said.set(value, (said.get(value) ?? 0) + 1);
-          const words = key === "best" ? goodWords : hardWords;
+          const words =
+            key === "best"
+              ? goodWords
+              : key === "hardest"
+                ? hardWords
+                : sayWords;
           expect(
             words.has(value.toLowerCase()),
             `${where}: ${key} said as "${value}"`,
