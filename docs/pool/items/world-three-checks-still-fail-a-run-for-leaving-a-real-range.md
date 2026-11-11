@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-three-checks-still-fail-a-run-for-leaving-a-real-range
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: none
 lead: money
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 1, "What still fails a run for leaving a real-world range")
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:17:12.197Z
 ---
 
 **What.** The owner ruled on November 8 that real-world ranges are not targets, and no check fails a run for leaving a real band. Four of the old range checks now warn and let the run go on. Three still fail it. All three were read in the code, not run by the audit: regional population change (`src/bench/m1-13-check.ts`, near line 114), yearly population change (`src/core2/counted-moves-balance.test.ts`, near line 69) and turnout (`src/core2/electorate.test.ts`, near line 128). The roadmap's own test for the national economy still reads "keeps national figures within real historical spreads" (`docs/roadmap/features.json`, M1-02). While these stand, a world that takes a wild turn from its own causes is reported as broken, and sessions tune the simulation back toward the real figure to get a green run. Fix the class, not three lines: every check that compares a played run with a real range prints the range beside the result and warns, each keeps a check of the cause in its place (people moved for a recorded reason, ballots came from eligible voters), and the roadmap's wording matches the ruling.
