@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-medical-bills-year-cost
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:09:14.609Z
+claimed-at:
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -48,3 +48,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Read src/core2/medical-bills.ts billMedicalCare on main 2026-11-11: the monthly row put already uses table.putOwned (a fresh row frozen in place, not copied), so the plainCopy cut the item names is partly done; what remains is the per-household payCounted/payFull journal postings and recordMedicalDebt, which cannot be shown faster or records-proof-equal without repeated speed:year runs this container cannot hold (a worker was killed for memory earlier). Needs a dedicated machine (skill heavy-runs, speed-work). Continue on branch claude/pool-laws-medical-bills-year-cost.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:09 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Claimed by my own next loop but not worked: see my earlier release notes (replay-only or heavy-run items); words-director part 2 is a six-hour refactor of presence deciders across bench and english pickers that I did not start. Continue on branch claude/pool-laws-medical-bills-year-cost.
