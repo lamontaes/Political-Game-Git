@@ -105,6 +105,8 @@ try {
     "#sheet-body .mxbust .bust-stack",
   );
   seen.you = await faceIn("#sheet-body .mxbust");
+  // The screen fades in; the picture is taken once it has.
+  await page.waitForTimeout(800);
   await shot("you");
   for (const tab of ["jobs", "history"]) {
     await page.locator(`[data-tab="${tab}"]:visible`).first().click();

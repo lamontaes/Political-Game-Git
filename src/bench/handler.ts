@@ -809,14 +809,14 @@ const ROUTES: readonly Route[] = [
                 ),
                 makeIsoDate(state.core!.date),
               ),
-              // The face the creator saved, for Continue's headshot.
-              face: state.core!.people.get(personId)?.looks?.recipe
-                ? portraitFace(
-                    readRecipe(
-                      state.core!.people.get(personId)!.looks!.recipe!,
-                    ),
-                  )
-                : null,
+              // Continue's and Saved games' face: the player's one face, as
+              // every screen in play draws it (older head and gray hair past
+              // 65), never the creator's look drawn a second way.
+              face: faceOf(
+                state.core!,
+                personId,
+                scenePlace(state.core!, personId).place,
+              ),
               placeName: state.placeName,
               date: state.core!.date,
               minuteOfDay:
