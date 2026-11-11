@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/pool-words-season-variety-thin-circle
-pr:
+pr: #8490
 blocked-on:
 source: added with npm run pool -- add
 after:

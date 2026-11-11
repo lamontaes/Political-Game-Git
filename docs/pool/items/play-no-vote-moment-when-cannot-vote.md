@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-no-vote-moment-when-cannot-vote
-pr:
+pr: #8496
 after:
 blocked-on:
 standard: 2
