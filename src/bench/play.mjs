@@ -26,7 +26,7 @@ import {
   levelChoices,
 } from "./ui/issue-filter.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
-import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
+import { tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
@@ -5411,15 +5411,20 @@ async function openSheet(tab) {
         politics.filings.length > 0 ||
         politics.ofVotingAge),
   );
+  // The sheet's tabs on the one tab bar (ui/tab.mjs).
   $("sheet-tabs").replaceChildren(
-    ...(tabNames.length > 1 ? tabNames : []).map((name) =>
-      makeTab({
-        key: name,
-        label: controls.titles[name],
-        active: name === tab,
-        onSelect: () => openSheet(name),
-      }),
-    ),
+    ...(tabNames.length > 1
+      ? [
+          tabBar({
+            tabs: tabNames.map((name) => ({
+              key: name,
+              label: controls.titles[name],
+              onSelect: () => openSheet(name),
+            })),
+            active: tab,
+          }),
+        ]
+      : []),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
