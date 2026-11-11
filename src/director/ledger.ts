@@ -53,6 +53,7 @@ import { stagePollingVisits } from "./polling-place";
 import { doorsKnocked } from "./doors";
 import { schoolFinished } from "./school";
 import { scheduleMoment, SITUATION_LIBRARY } from "./scheduling";
+import { ADDRESS_FACT } from "./opening-facts";
 import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import type {
@@ -1677,6 +1678,51 @@ export function createDirector(
    * A one-shot stop: the client's acknowledgment consumes it. Moments of
    * anyone not controlled stop nothing.
    */
+  /**
+   * Whether a staged scene has someone to speak or something for the player
+   * to choose: one of its scenes has a purpose (a talk with replies), or casts
+   * someone besides the player. A scene with neither is only narration, and
+   * goes to the journal rather than stopping the clock (the lead's review of
+   * #8812: "the house is quiet" stopped a morning). One rule for interrupting
+   * and waiting scenes.
+   */
+  function speaks(
+    core: Readonly<CoreState>,
+    entry: ScheduleEntry,
+    personId: PersonId,
+  ): boolean {
+    const cause = core.durableLog.get(
+      ledger.people.get(personId)?.momentsById.get(entry.momentId)?.causeId ??
+        "",
+    );
+    const cast = (
+      row: ScheduleEntry["bindings"][number],
+      role: string | undefined,
+    ) => row.roles.find((r) => r.role === role)?.personIds[zero];
+    return entry.bindings.some((row) => {
+      const type = SITUATION_LIBRARY.types.find((t) => t.key === row.typeKey);
+      // A purpose talk speaks when the one who asks, and the one asked, are
+      // people on record: the same cast the purpose scene composes from.
+      if (type?.purpose) {
+        const askerId = cast(row, type.asker);
+        return (
+          !!askerId &&
+          core.people.has(askerId) &&
+          core.people.has(cast(row, type.asked) ?? personId)
+        );
+      }
+      return (
+        // A speech heard plays only when its record kept the words.
+        row.said
+          ? typeof cause?.facts?.[ADDRESS_FACT.text] === "string" &&
+              !!cause.facts[ADDRESS_FACT.text]
+          : row.roles.some((role) =>
+              role.personIds.some((id) => id !== personId),
+            )
+      );
+    });
+  }
+
   function registerInterrupts(core: CoreState): void {
     const line = param("directorInterruptImpact");
     for (const { moment, entry } of interrupts.splice(zero)) {
@@ -1685,6 +1731,11 @@ export function createDirector(
         !core.people.get(moment.personId)?.alive
       )
         continue;
+      if (!speaks(core, entry, moment.personId)) {
+        entry.outcome = "journal-line";
+        entry.closed = data.waitingStop.silent;
+        continue;
+      }
       const at = openedAt(
         core,
         playerClockFrontierV1(core, moment.personId) ?? {
@@ -1791,6 +1842,9 @@ export function createDirector(
         if (row.openUntil < date) {
           row.entry.outcome = "journal-line";
           row.entry.closed = data.waitingStop.notMet;
+        } else if (!speaks(core, row.entry, personId)) {
+          row.entry.outcome = "journal-line";
+          row.entry.closed = data.waitingStop.silent;
         }
       const open = rows.filter((row) => row.entry.outcome === "scene-waiting");
       waiting.set(
@@ -2063,8 +2117,14 @@ export function createDirector(
       registerInterrupts(api.state);
       registerWaiting(api.state);
       // Once a month, each watched person forgets what no longer matters.
-      if (api.state.date.endsWith("-01"))
+      if (api.state.date.endsWith("-01")) {
         for (const book of ledger.people.values()) forget(api.state, book);
+        // Only the controlled player's waiting scenes are read: the lists of
+        // anyone else are dropped, so they never grow.
+        for (const personId of [...waiting.keys()])
+          if (!isExplicitlyControlledPersonV1(api.state, personId))
+            waiting.delete(personId);
+      }
     },
   };
 

@@ -84,7 +84,10 @@ it(`every waiting scene of the player opens or closes with its reason (seed ${se
     );
     for (const row of played) {
       const result = purposeScene(core, director, me, row);
-      expect(result?.kind ?? "no-purpose", where).not.toBe("skipped");
+      expect(
+        result?.kind ?? "no-purpose",
+        `${where}: ${row.momentId} (${row.bindings[0]?.typeKey}) ${result?.kind === "skipped" ? result.reason : ""}`,
+      ).not.toBe("skipped");
     }
     process.stdout.write(
       `WAITING ${where}: ${staged.length} waiting, ${played.length} opened (${played.map((row) => row.bindings[0]?.typeKey).join(", ")}), ${staged.filter((row) => row.closed).length} closed; passed over: ${passed.join("; ") || "none"}\n`,
