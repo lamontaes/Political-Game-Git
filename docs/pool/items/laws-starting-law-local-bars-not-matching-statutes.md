@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-starting-law-local-bars-not-matching-statutes
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:25:08.102Z
 branch: claude/pool-laws-starting-law-local-bars-not-matching-statutes
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-laws-starting-law-local-bars-not-matching-statutes
 **Notes.** Found by the Dev Tester, Nov 8 night, from the Plainview, Tennessee county run (seed 14241446a4f28c37e26d032f7c62bb07531b1aaa6ae2cd79ab563ebcfabc449f) and the worlds glimpses. Sources for all 11 Tennessee and 8 Kansas rows are in the Dev Tester report.
 
 Released (2026-11-11): Cause no longer holds on main: the rows were corrected after the Nov 8 finding. Tennessee fare-free transit (transportation-infrastructure.json line 1414) cites 7-56-101(b) and grants, the transit shift (line 1067-1070) cites 54-4-103(e) with the 22.22 percent cap, civilian oversight (justice-public-safety.json) cites Title 38 ch. 8 with preempts false, bottle deposit for Tennessee has preempts false with its weak-support note, and the Kansas pension row cites K.S.A. 12-5002(a) (fiscal.json line 3603). Not checked: the Tennessee minimum-reserve-balance row's wording (preempts false) and the Kansas bottle deposit row. Continue on branch claude/pool-laws-starting-law-local-bars-not-matching-statutes.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-laws-starting-law-local-bars-not-matching-statutes.
