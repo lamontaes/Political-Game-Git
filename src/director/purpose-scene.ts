@@ -696,6 +696,13 @@ function composeBinding(
   // A town hall (meetings.ts holdTownHall): the question this resident stood up with,
   // and whether the host's answer to it agreed with the resident's own stand,
   // opposed it, or was not given.
+  // The lines that speak of the hall, the microphone and the next question
+  // play only in a scene the hall's own record staged.
+  if (said.townHallId)
+    facts.townhall = {
+      text: said.townHallId,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.townHallId && core.modules.has(MEETINGS_MODULE_ID)) {
     const api = coreAPI(core as CoreState);
     const hall = api
@@ -1264,6 +1271,12 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
+  // Where the scene is set, so a line written for one place (the desk, the
+  // house, the street) is not said in another: `setting-office`, `setting-home`.
+  facts[`setting-${binding.setting.kind}`] = {
+    text: binding.setting.kind,
+    sourceRecordIds: [binding.setting.recordId],
+  };
   // A reporter's call is about something: the bill the record names, else the
   // topic it is about. The lines that follow (what the reporter will print,
   // check or hold) name it through `story`, cited to the records it came from.

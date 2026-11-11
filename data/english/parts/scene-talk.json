@@ -1391,6 +1391,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-chamber", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -1415,6 +1416,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-office", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -1439,6 +1441,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-chamber", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -2169,6 +2172,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "staff-news",
+          "excludesFacts": ["setting-phone"],
           "key": "news-received"
         }
       ],
@@ -2218,6 +2222,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "section-bargain",
+          "excludesFacts": ["setting-office"],
           "key": "vote-wanted"
         }
       ],
@@ -3018,6 +3023,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "donor-ask",
+          "excludesFacts": ["setting-office", "setting-public"],
           "key": "favor-asked"
         }
       ],
@@ -12268,6 +12274,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment",
+          "excludesFacts": ["setting-phone"],
           "key": "routine"
         }
       ],
@@ -28428,6 +28435,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "scandal-comment",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -28498,6 +28506,7 @@
           "key": "threat",
           "move": "greet",
           "purpose": "scandal-comment",
+          "excludesFacts": ["setting-home"],
           "role": "asker",
           "step": "open",
           "subject": "scene"
@@ -29471,7 +29480,6 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -29522,6 +29530,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "recall-confront",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -30184,7 +30193,6 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30209,7 +30217,6 @@
           "move": "greet",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30234,7 +30241,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30259,7 +30265,6 @@
           "move": "tell",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30284,7 +30289,6 @@
           "move": "deny",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30309,7 +30313,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30334,7 +30337,6 @@
           "move": "offer",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30359,7 +30361,6 @@
           "move": "lie",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30384,7 +30385,6 @@
           "move": "ask",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "tell"
         }
@@ -30410,7 +30410,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30435,7 +30434,6 @@
           "move": "press",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "deny"
         }
@@ -30461,7 +30459,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "confront"
         }
@@ -30487,7 +30484,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "lie",
           "requiresFacts": ["knows-truth"]
@@ -30514,7 +30510,6 @@
           "move": "tell",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "ask"
         }
@@ -30540,7 +30535,6 @@
           "move": "offer",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30565,7 +30559,6 @@
           "move": "leave",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30590,7 +30583,6 @@
           "move": "warn",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "leave",
           "outcome": "open"
@@ -31255,7 +31247,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
+          "excludesFacts": ["setting-home", "setting-other-home"],
           "key": "routine"
         }
       ],
@@ -31280,7 +31272,6 @@
           "move": "greet",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31305,7 +31296,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31330,7 +31320,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31355,7 +31344,6 @@
           "move": "tell",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31380,7 +31368,6 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31405,7 +31392,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31430,7 +31416,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31455,7 +31440,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31480,7 +31464,6 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "deflect"
         }
@@ -31506,7 +31489,6 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "apologize"
         }
@@ -31532,7 +31514,6 @@
           "move": "disagree",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "tell"
         }
@@ -31558,7 +31539,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -31584,6 +31564,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -32079,6 +32060,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "protest-warning",
+          "excludesFacts": ["setting-letter", "setting-phone"],
           "key": "threat"
         }
       ],
@@ -35722,7 +35704,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -35748,7 +35729,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -35799,7 +35779,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "lie"
         }
@@ -35825,7 +35804,6 @@
           "move": "tell",
           "role": "asked",
           "purpose": "conflict-accuse",
-          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "press"
         }
@@ -35925,7 +35903,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-press.say-it-out-loud-then-at-the-meeting"
         }
@@ -35950,7 +35927,6 @@
           "key": "routine",
           "move": "apologize",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -35976,7 +35952,6 @@
           "key": "routine",
           "move": "apologize",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -36002,7 +35977,6 @@
           "key": "routine",
           "move": "apologize",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -36578,7 +36552,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -36604,7 +36577,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
         }
@@ -36630,7 +36602,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-confront.grow-up"
         }
@@ -36656,7 +36627,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.grow-up-you-came-at-me-first-and-you-did-it-in-front-of-the-press"
         }
@@ -36682,7 +36652,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-confront.and-you-finished-it-that-s-the-difference"
         }
@@ -40800,7 +40769,6 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -41390,7 +41358,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -41441,7 +41408,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-confront.and-you-finished-it-that-s-the-difference"
         }
@@ -41467,7 +41433,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-let-s-finish-it-properly-tuesday-in-front-of-everybody"
         }
@@ -41593,7 +41558,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -41619,7 +41583,6 @@
           "move": "warn",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "outcome": "open"
         }
@@ -41821,7 +41784,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-press.a-tense-night-that-s-what-you-ve-got"
         }
@@ -41847,7 +41809,6 @@
           "move": "react",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "leave",
           "outcome": "open"
@@ -42571,6 +42532,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "victory-night",
+          "excludesFacts": ["setting-home"],
           "key": "honor"
         }
       ],
@@ -43041,6 +43003,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "veto-call",
+          "excludesFacts": ["setting-venue"],
           "key": "loss"
         }
       ],
@@ -43682,6 +43645,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -46562,7 +46526,6 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46587,7 +46550,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
+          "excludesFacts": ["setting-home", "setting-other-home"],
           "key": "routine"
         }
       ],
@@ -46613,7 +46576,7 @@
           "role": "asker",
           "purpose": "owed-apology",
           "key": "routine",
-          "excludesFacts": ["read-about-money", "daytime"]
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "hurt",
@@ -46637,7 +46600,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46662,7 +46624,6 @@
           "move": "tell",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46687,7 +46648,6 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46712,7 +46672,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46737,7 +46696,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "requiresFacts": ["asked_short_on_money"]
         }
@@ -46763,7 +46721,6 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.you-caught-me-on-a-bad-week-that-s-no-excuse-but-it-s-the-truth"
         }
@@ -46789,7 +46746,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.you-re-right-i-was-out-of-line-i-m-sorry"
         }
@@ -46815,7 +46771,6 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.you-re-right-i-was-out-of-line-i-m-sorry"
         }
@@ -46841,7 +46796,6 @@
           "move": "disagree",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-tell.i-was-going-after-your-argument-if-it-landed-on-you-that-wasn-t-the-po"
         }
@@ -46867,7 +46821,6 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-deflect.we-both-said-things-in-there"
         }
@@ -46893,7 +46846,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.you-started-it-the-minute-you-brought-up-my-district"
         }
@@ -46919,7 +46871,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -46945,7 +46896,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -46971,7 +46921,6 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -46997,7 +46946,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -47023,7 +46971,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -47049,7 +46996,6 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -47075,7 +47021,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -47101,7 +47046,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.all-right-thursday-on-the-record"
         }
@@ -47127,7 +47071,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight"
         }
@@ -47153,7 +47096,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.fine-it-was-personal-i-m-sorry-for-that"
         }
@@ -47179,7 +47121,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-we-read-the-room-differently"
         }
@@ -47205,7 +47146,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out"
         }
@@ -47231,7 +47171,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.and-mine-pays-for-half-the-projects-in-yours"
         }
@@ -47257,7 +47196,6 @@
           "move": "react",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "leave",
           "outcome": "open"
@@ -47284,7 +47222,6 @@
           "move": "warn",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "outcome": "open"
         }
@@ -47310,7 +47247,6 @@
           "move": "thank",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "outcome": "resolved"
         }
@@ -50273,6 +50209,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "victory-night",
+          "excludesFacts": ["setting-home"],
           "key": "honor"
         }
       ],
@@ -53805,6 +53742,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -53829,6 +53767,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -54482,6 +54421,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "recall-confront",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -57809,7 +57749,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -57834,7 +57773,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -57860,7 +57798,6 @@
           "move": "disagree",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "tell"
         }
@@ -57886,7 +57823,6 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "apologize"
         }
@@ -57912,7 +57848,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -57938,7 +57873,6 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -57964,7 +57898,7 @@
           "role": "asked",
           "purpose": "owed-apology",
           "key": "routine",
-          "excludesFacts": ["read-about-money", "daytime"]
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -57988,7 +57922,6 @@
           "move": "tell",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -58013,7 +57946,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-we-ll-settle-it-at-the-next-meeting-in-front-of-everybody"
         }
@@ -58039,7 +57971,6 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-tell.i-didn-t-plan-it-it-came-out-sharper-than-i-meant"
         }
@@ -60764,7 +60695,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -60790,7 +60720,6 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -60816,7 +60745,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.you-want-to-keep-score-fine-i-m-ahead"
         }
@@ -60842,7 +60770,6 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-quit-acting-like-you-didn-t-swing-first"
         }
@@ -60868,7 +60795,6 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -73634,6 +73560,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it"
         },
@@ -73643,6 +73570,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care"
         },
@@ -73652,6 +73580,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us"
         },
@@ -73661,6 +73590,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.two-of-us-at-home-and-both-our-jobs-ride-on-it"
         }
@@ -74062,6 +73992,7 @@
           "move": "promise",
           "role": "asker",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "outcome": "resolved"
         }
@@ -74211,7 +74142,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -74235,7 +74166,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -74259,7 +74190,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -84700,6 +84631,7 @@
           "move": "promise",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84750,6 +84682,7 @@
           "move": "decline",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84775,6 +84708,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84875,6 +84809,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.two-families-moved-out-this-year-nobody-s-moved-in"
         }
@@ -84950,6 +84885,7 @@
           "move": "plea",
           "role": "asker",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.reply-decline.i-m-not-going-to-pick-a-side-on-a-state-law-at-a-town-hall"
         }
@@ -85801,6 +85737,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.written-answers-go-in-a-drawer-will-you-say-it-here-now"
         }
@@ -85876,6 +85813,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.bring-it-how-out-loud-with-my-name"
         }
@@ -85951,6 +85889,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.last-time-it-was-a-form-nobody-wrote-back"
         }
@@ -86026,6 +85965,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.a-list-of-addresses-doesn-t-help-the-people-at-them"
         }
@@ -86353,6 +86293,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "press"
         }
@@ -86479,6 +86420,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "answer"
         }
@@ -86589,6 +86531,7 @@
           "move": "answer",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "ask"
         }
@@ -87114,6 +87057,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.i-rent-and-i-work-for-a-living-i-want-to-know-what-i-d-be-getting"
         }
@@ -87539,7 +87483,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -87563,7 +87507,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -87613,6 +87557,7 @@
           "move": "promise",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-ask.then-send-it-when-can-we-see-it"
         }
@@ -103503,6 +103448,7 @@
         {
           "subject": "scene",
           "purpose": "law-reaches",
+          "excludesFacts": ["setting-home", "setting-workplace"],
           "key": "news-received",
           "step": "narrate",
           "move": "narrate",
@@ -103527,6 +103473,7 @@
         {
           "subject": "scene",
           "purpose": "law-reaches",
+          "excludesFacts": ["setting-home", "setting-workplace"],
           "key": "news-received",
           "step": "narrate",
           "move": "narrate",
@@ -108654,6 +108601,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "cut-argument",
+          "excludesFacts": ["setting-phone"],
           "key": "cut-heard"
         }
       ],
@@ -118696,6 +118644,7 @@
           "move": "beat",
           "role": "narrator",
           "purpose": "desk-visit",
+          "excludesFacts": ["setting-phone"],
           "key": "desk-visit"
         }
       ],
@@ -126323,6 +126272,7 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -126346,6 +126296,7 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -133567,7 +133518,7 @@
       "key": "scene-talk.state-request.raise-your-right-hand-do-you-swear-to-follow-the-law-and-to-do-the-work",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Raise your right hand. Do you swear to follow the law and to do the work of {office} honestly?",
+      "text": "Raise your right hand. Do you swear to follow the law and to do the work of the {office} honestly?",
       "uses": [
         {
           "subject": "scene",
@@ -148170,6 +148121,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "proposal-ask",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "favor-asked"
         }
       ],
