@@ -40,6 +40,6 @@ The "after" texts and pictures were retaken on the same seeds after both reads:
 - The year's hard news and good news are worded apart ("a shrinking paycheck", "rising pay").
 - No name is said more than twice, and no subject's words more than three times.
 
-The addresses are shorter than before (13 to 16 sentences against 25 to 31), because each priority is now one sentence instead of four.
+The addresses are shorter than before (12 to 15 sentences against 25 to 31), because each priority is now one sentence instead of four.
 
 The test `src/director/opening-address-versions.test.ts` checks all of this on ten drawn worlds every run.
