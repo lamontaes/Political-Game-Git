@@ -785,8 +785,10 @@
     "why": "The school engine now decides each graduate's college enrollment and completion (SG-SCHOOL-college-decided-at-graduation), but the core charges no tuition and keeps no college a student attends.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: college enrollment and tuition (setTuition({ institutionId, inStateMinor })) read by household spending.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: OPUS-PEOPLE schools engine: college enrollment and tuition (setTuition({ institutionId, inStateMinor })) read by household spending.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-REACH-B-park-use",

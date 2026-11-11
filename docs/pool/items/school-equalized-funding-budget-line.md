@@ -17,9 +17,10 @@ root: rc8-law-judged-by-paperwork
 lead: laws-effects
 source: stand-in triage, Nov 10 (SG-SCHOOL-equalized-funding-budget)
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** The equalized-funding law changes spending per student only through the web's number: no law handler moves the schools line of the budget in force, though the school engine's spending measure is read from that line.
+**What.** The equalized-funding law changes spending per student only through the web's number: no law handler moves the schools line of the budget in force, though the school engine's spending measure is read from that line. Seen: in the town and state budget he reads (the schools line) and on the bill card for the equalized-funding law.
 
 **Cause.** Found in code: src/core2/school-outcomes.ts:902 registers SG-SCHOOL-equalized-funding-budget because spending per student is built from the schools line of each budget (the loop just above it) and no handler in src/core2/law-reach/ moves that line for education.equalize-school-funding (no file there names the law).
 

@@ -160,8 +160,10 @@
     "why": "The benefit's recipients are payment obligations in the law-reach store (src/core2/law-reach/group-b-food-aid.ts) and world-metrics counts none of them, so the web has no engine record to read and snap-to-food-insecurity reads a moved part that stays zero.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
-    "replacement": "A world-metrics field counts the SNAP benefit's recipients by weight and engineMeasures reads it, so the food-insecurity record reads the benefit's own households.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A world-metrics field counts the SNAP benefit's recipients by weight and engineMeasures reads it, so the food-insecurity record reads the benefit's own households.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-WEB-food-insecurity-ledger",
@@ -172,8 +174,10 @@
     "why": "No engine records a household's food spending against its income or its SNAP benefit; the everyday plan (src/core2/cost-of-living.ts) buys food and other goods from one budget with no food category.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
-    "replacement": "A food-insecurity record per household from its income, its food prices and its SNAP benefit, counted by weight in world-metrics and read through engineMeasures.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A food-insecurity record per household from its income, its food prices and its SNAP benefit, counted by weight in world-metrics and read through engineMeasures.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-WEB-poverty-licensing-no-engine",

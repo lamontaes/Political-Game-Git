@@ -17,9 +17,10 @@ root: rc8-law-judged-by-paperwork
 lead: governing
 source: stand-in triage, Nov 10 (SG-WEB-voting-newspaper-closure; ruling Oct 25 in OWNER-DECISIONS.md, Press outlet shortfall)
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** The owner's ruling of Oct 25 (acting CTO, simulate it, don't ask) says an outlet short of money cuts staff, pages or closes by its own books, and the outside-audience top-up is removed. The top-up still runs, so no local newspaper ever loses money, none closes, and the newspaper-closure link into local turnout moves no one.
+**What.** The owner's ruling of Oct 25 (acting CTO, simulate it, don't ask) says an outlet short of money cuts staff, pages or closes by its own books, and the outside-audience top-up is removed. The top-up still runs, so no local newspaper ever loses money, none closes, and the newspaper-closure link into local turnout moves no one. Seen: in the paper, when a local newspaper that loses money cuts staff or closes, and in local turnout.
 
 **Cause.** Found in code: src/core2/press-money.ts:370 still pays each outlet's shortfall from the outside customers' account each press week (reason key press.wider-audience, stopgap SG-PEOPLE-press-bureau-shortfall), so closedNewspapers (src/core2/modules/press.ts:955) counts zero and the "newspapers-closed" reader (src/core2/modules/outcome-web.ts:253, SG-WEB-voting-newspaper-closure) returns no closure.
 

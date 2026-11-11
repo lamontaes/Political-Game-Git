@@ -16,9 +16,10 @@ model: sonnet
 effort: medium
 standard: 2
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
-**What.** Medicaid expansion now covers named and counted adults by person id and the state and federal treasuries pay the seller Medicaid's part of a covered member's care (payMedicaidCare). The part that is still an estimate: the cost of a member's care is the survey's out-of-pocket medical services line divided by the average out-of-pocket share, scaled by each member's care need, so Medicaid's payment per covered adult is far below the real spending per enrollee. Employer plans and Medicare pay nobody for their members' care, and only the expansion's adults are covered, not traditional Medicaid's children, disabled or elderly.
+**What.** Medicaid expansion now covers named and counted adults by person id and the state and federal treasuries pay the seller Medicaid's part of a covered member's care (payMedicaidCare). The part that is still an estimate: the cost of a member's care is the survey's out-of-pocket medical services line divided by the average out-of-pocket share, scaled by each member's care need, so Medicaid's payment per covered adult is far below the real spending per enrollee. Employer plans and Medicare pay nobody for their members' care, and only the expansion's adults are covered, not traditional Medicaid's children, disabled or elderly. Seen: in the state budget he reads (the Medicaid line) and in a household's medical bills when expansion passes.
 
 **Cause.** Found in code: src/core2/medical-bills.ts (header comment and the `payMedicaidCare` call near line 946) prices care from the out-of-pocket line over the average share; src/core2/law-reach/group-b-money.ts `payMedicaidCare` pays only the part above the member's share of that estimated cost; src/core2/data/laws/reach-group-b-parameters.json holds the shares (stand-in SG-GOV-REACH-B-medicaid-coverage).
 
