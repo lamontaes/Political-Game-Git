@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: claimed
 claimed-by: claude/pool-core-counted-deaths-opening-small-town-red
-pr:
+pr: #8804
 after:
 blocked-on:
 source: added with npm run pool -- add
