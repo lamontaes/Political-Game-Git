@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-medical-bills-year-cost
 pr: #8719
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:38:59.370Z
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -86,3 +86,5 @@ Released (2026-11-11): Four-year profile on main 2026-11-11 (Long Hill CT, seed 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:37 UTC) on branch claude/pool-laws-medical-bills-year-cost.
 
 Released (2026-11-11): opus-5251: the code differs from the Cause (rows are now written with putOwned, not copied, and settled rows are dropped each month); the +19.5% predates that, so re-measure on main before cutting. PR #8719 comment has the detail. Continue on branch claude/pool-laws-medical-bills-year-cost and pull request #8719.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:38 UTC) on branch claude/pool-laws-medical-bills-year-cost.
