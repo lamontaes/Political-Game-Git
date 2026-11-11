@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the population of the player's state and town on the Metrics tab, shrinking faster than any real state.
 
 **Rules.** Real rates check totals; they never pick an outcome, and a region outside the Census range is reported, not failed (No dice; owner, Nov 8: ranges are not targets). One rule, all 56 places: the cause is fixed in the rule, never by naming a state. Sliding scales and causes: a region's population changes from its births, deaths and moves, each from its conditions.
 
