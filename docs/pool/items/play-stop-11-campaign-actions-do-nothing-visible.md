@@ -5,8 +5,8 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
+status: open
+claimed-by:
 pr: #8262
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:06:04.577Z
+claimed-at:
 branch: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
 ---
 
@@ -49,3 +49,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released by next (2026-11-11): no push to claude/pool-play-stop-11-campaign-actions-do-nothing-visible since 2026-11-10 23:04 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible and pull request #8262.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:06 UTC) on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible.
+
+Released (2026-11-11): Replayed by API on main (Indio Hills, CA, place seed 1cc574fd5e0997f2e017845121fcd8a6e28a462123d6e45cbfda333bd972d4ce; filed for the US House seat first after 3 weeks): doors returns a scene (backdrop door-knocking-suburban); interview returns an interview record; speech begins with opener choices; event and forum are unavailable with the reason eventMoney (price 36791 minor, cash 0); calls and donor meeting returned named people each with a reason line (not-warm, no-spare) and raised 0 in week one, so 'raise money from a named person' was not seen in this place. Browser screenshots not taken; pool seen refuses a claimed item. Continue on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible and pull request #8262.
