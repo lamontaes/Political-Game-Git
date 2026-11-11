@@ -16,7 +16,12 @@ import {
  * demonstration of the game"). Ten worlds are drawn from all 56 places on a
  * seed nobody chose (replay with OPENING_VERSIONS_SEED), each built as the
  * player gets it, and the address read as the talk box plays it:
- *  - no whole sentence is said in more than two of the ten addresses;
+ *  - no whole sentence is said in more than two of the ten addresses, where
+ *    the bank holds at least three versions a voice of every core it is
+ *    joined from; a sentence from a thinner group is passed over and named
+ *    with its group, never failed or passed by the luck of the draw (Fable B,
+ *    Nov 11: the policy kind, the address a new life opens on, is at three a
+ *    voice; the other kinds wait on their own pool item);
  *  - every address names at least two things from its own world (the Vice
  *    President, the Speaker, the President's home state or last office, what
  *    the President asks Congress for);
@@ -36,6 +41,8 @@ const MOST_ADDRESSES_PER_SENTENCE = 2;
 const LEAST_WORLD_NAMES = 2;
 const LEAST_POLICY_POINTS = 3;
 const MOST_NAMED = 2;
+/** The fewest versions a voice a core's group holds for its repeats to be held to the bar. */
+const LEAST_VERSIONS = 3;
 const MOST_SUBJECT_WORDS = 3;
 /** The facts that name something from the world, not a subject in words. */
 const NAMES = new Set([
@@ -50,6 +57,40 @@ const NAMES = new Set([
   "place",
   "name",
 ]);
+
+/**
+ * A core's group: its move, address kind, topic and the facts it requires.
+ * Its size is the fewest versions any of its voices holds.
+ */
+const PARTS = OPENING_SPEECH_BANK.parts;
+const listOf = (value: string | readonly string[] | undefined) =>
+  value === undefined ? [""] : typeof value === "string" ? [value] : [...value];
+const groupOf = (part: (typeof PARTS)[number], voice: string) =>
+  [
+    part.move,
+    part.addressKind ?? "",
+    voice,
+    listOf(part.topic).join("|"),
+    [...(part.uses[0]?.requiresFacts ?? [])].sort().join("+"),
+  ].join(" ");
+const groupSizes = new Map<string, number>();
+for (const part of PARTS)
+  if (part.piece?.part === "core")
+    for (const voice of listOf(part.voice))
+      groupSizes.set(
+        groupOf(part, voice),
+        (groupSizes.get(groupOf(part, voice)) ?? 0) + 1,
+      );
+const byKey = new Map(PARTS.map((part) => [part.key, part]));
+/** The thin groups a sentence's cores come from, or none. */
+const thinGroupsOf = (pieces: readonly string[]) =>
+  pieces.flatMap((key) => {
+    const part = byKey.get(key);
+    if (part?.piece?.part !== "core") return [];
+    return listOf(part.voice)
+      .map((voice) => groupOf(part, voice))
+      .filter((group) => (groupSizes.get(group) ?? 0) < LEAST_VERSIONS);
+  });
 
 const sentencesOf = (text: string) =>
   text
@@ -75,15 +116,39 @@ it(`the President's address says different sentences, with its own world's names
 
     // No whole sentence in more than two addresses.
     const inAddresses = new Map<string, string[]>();
-    for (const { where, address } of addresses)
-      for (const sentence of new Set(sentencesOf(address.text)))
-        inAddresses.set(sentence, [
-          ...(inAddresses.get(sentence) ?? []),
-          where,
-        ]);
-    const shared = [...inAddresses]
-      .filter(([, wheres]) => wheres.length > MOST_ADDRESSES_PER_SENTENCE)
+    const thinOf = new Map<string, string[]>();
+    for (const { where, address } of addresses) {
+      const said = new Set<string>();
+      for (const row of address.sentences)
+        for (const sentence of sentencesOf(row.text)) {
+          const thin = thinGroupsOf(row.pieces);
+          if (thin.length)
+            thinOf.set(sentence, [
+              ...new Set([...(thinOf.get(sentence) ?? []), ...thin]),
+            ]);
+          if (said.has(sentence)) continue;
+          said.add(sentence);
+          inAddresses.set(sentence, [
+            ...(inAddresses.get(sentence) ?? []),
+            where,
+          ]);
+        }
+    }
+    const repeated = [...inAddresses].filter(
+      ([, wheres]) => wheres.length > MOST_ADDRESSES_PER_SENTENCE,
+    );
+    const shared = repeated
+      .filter(([sentence]) => !thinOf.has(sentence))
       .map(([sentence, wheres]) => `"${sentence}" in ${wheres.join("; ")}`);
+    // What the bar passed over: a repeat from a group under three versions a
+    // voice, named with its group (pool item
+    // words-opening-address-thin-groups-by-kind).
+    for (const [sentence, wheres] of repeated.filter(([sentence]) =>
+      thinOf.has(sentence),
+    ))
+      console.log(
+        `opening-address-versions: passed over "${sentence}" in ${wheres.length} addresses, from thin group ${thinOf.get(sentence)!.join("; ")}`,
+      );
     expect(shared, `seed ${base}`).toEqual([]);
 
     // It speaks like a person: few colon lead-ins, none twice, each fact once.

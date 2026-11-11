@@ -86,6 +86,8 @@ export interface OpeningSentence {
   readonly sourceRecordIds: readonly string[];
   /** What the sentence is about: the facts it said ("jobs-up", "place", "goal"). */
   readonly facts: readonly string[];
+  /** The bank pieces it was joined from, by key. */
+  readonly pieces: readonly string[];
   /** What each of those facts said in the sentence, the figure or name filled in. */
   readonly values: Readonly<Record<string, string>>;
   /** The state a place line names, from the campaign visit it came from. */
@@ -1481,6 +1483,7 @@ export function composeBlocks(
         part: block.part,
         text: move.text,
         facts: [...used].sort(),
+        pieces: move.parts.map((part) => part.variantKey),
         values: Object.fromEntries(
           [...used].sort().map((key) => [key, block.facts[key]?.text ?? ""]),
         ),
