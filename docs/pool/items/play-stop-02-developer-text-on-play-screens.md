@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
 pr: #8266
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T03:17:46.190Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-02-developer-text-on-play-screens
 ---
@@ -57,3 +57,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): Replayed on main (bench, 1440x900): News, all Politics tabs and clerk talk box show no code, ISO date or status; but plain-text.browser.mjs turns dev mode on so Mark gap shows, and it fails at line 173 (#talk-leave not visible after the race choice for an age-17 life); needs a dev-mode-off run and a fixed flow, then pool seen once merged. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.
 
 Released by next (2026-11-11): no push to claude/pool-play-stop-02-developer-text-on-play-screens since 2026-11-10 22:59 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens and pull request #8266.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:17 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
