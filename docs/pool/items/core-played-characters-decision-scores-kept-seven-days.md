@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-played-characters-decision-scores-kept-seven-days
-pr:
+pr: #8409
 after:
 blocked-on:
 lead: m0-m2
