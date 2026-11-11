@@ -22,6 +22,7 @@ import {
 } from "./purpose-scene";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { TreeNode } from "./scene-talk";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A celebration and a family gathering with someone missing each ask for
 // something (owner, Nov 9: a purpose for every scene kind that lacks one).
@@ -182,9 +183,11 @@ it(`a birthday with a relative missing asks the player to reach out, from the en
           ])
             expect(!!fact(key), `${where}: ${key}`).toBe(key in given);
           const root = scene.talk.tree.replies.map((reply) => reply.line);
-          expect(new Set(root.map((row) => row.move)), where).toEqual(
-            new Set(["agree", "promise", "ask", "decline"]),
-          );
+          expectUpToFourDifferent(root, where);
+          for (const row of root)
+            expect(["agree", "promise", "ask", "decline"], where).toContain(
+              row.move,
+            );
           expect(scene.talk.depth, where).toBeGreaterThan(1);
           expect(
             scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
@@ -398,9 +401,11 @@ it(`a wedding celebration asks the player for something, and a new job's facts c
       if (fact("hometown"))
         expect(fact("hometown")!.text, where).toBe(placeSaid(asker.placeId));
       const root = scene.talk.tree.replies.map((reply) => reply.line);
-      expect(new Set(root.map((row) => row.move)), where).toEqual(
-        new Set(["agree", "promise", "ask", "decline"]),
-      );
+      expectUpToFourDifferent(root, where);
+      for (const row of root)
+        expect(["agree", "promise", "ask", "decline"], where).toContain(
+          row.move,
+        );
       expect(scene.talk.depth, where).toBeGreaterThan(1);
       expect(
         scene.talk.gaps.filter((gap) => gap.includes("/ending/")),

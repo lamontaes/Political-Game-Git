@@ -111,13 +111,6 @@ export const lookKey = (figure: PackFigure) =>
     : figure.hair
       ? `${figure.outfit}:${figure.hair}`
       : figure.outfit;
-/** A look's worded name: the manifest's label of one of its rows, else none. */
-export function lookLabel(person: string, look: string): string | undefined {
-  return MANIFEST.figures.find(
-    (row) => row.person === person && lookKey(row) === look && row.outfitLabel,
-  )?.outfitLabel;
-}
-
 /** The parts a kit figure is recolored by: the person's palettes, in their order. */
 export function colorParts(person: PackPerson): readonly string[] {
   // A part with no colors in its palette is drawn as painted.
