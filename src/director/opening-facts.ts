@@ -1,3 +1,5 @@
+import { yearClaimAbout } from "../english/question-names";
+
 /**
  * The knowledge keys the President's opening address is recorded with: the
  * event's facts, which the news engine teaches everyone who hears the story
@@ -22,3 +24,118 @@ export const ADDRESS_FACT = {
 
 /** What separates the parts of the address in its recorded `address:parts` fact. */
 export const ADDRESS_PART_BREAK = "\n\n";
+
+/**
+ * One point of the address a hearer can raise: a policy question the
+ * President spoke on (`policy`), or something the address said about the
+ * country's year, a claim on work, pay, prices, rent or growth (`year`).
+ */
+export interface AddressPoint {
+  readonly kind: "policy" | "year";
+  /** The bill catalog's question, or `year:<claim>` for a claim about the year. */
+  readonly question: string;
+  /** The claim fact a `year` point stands on ("prices-up"). */
+  readonly claim?: string;
+  /** The point as a noun phrase, as the address worded it ("a higher minimum wage", "prices still going up"). */
+  readonly about: string;
+  /** What the President would do, as a verb phrase ("raise the minimum wage"); empty for a year point. */
+  readonly to: string;
+  /** Whether the President is for it or against it; a year point has no stance to stand against. */
+  readonly stance?: "for" | "against";
+  /** The ids the address's sentences on it stand on. */
+  readonly sourceRecordIds: readonly string[];
+}
+
+/** The sentence shape `addressPoints` reads: the opening story's address sentences. */
+interface PointSentence {
+  readonly facts: readonly string[];
+  readonly values: Readonly<Record<string, string>>;
+  readonly sourceRecordIds: readonly string[];
+  readonly stand?: {
+    readonly about: string;
+    readonly to: string;
+    readonly stance: "for" | "against";
+  };
+}
+
+const QUESTION_ID = /^question:(?<question>.+)$/;
+const YEAR = "year:";
+
+/**
+ * The address's points, in the address's order. One row for each policy
+ * question the President spoke on (the sentences whose source ids name
+ * `question:<question>`), with what the address said of it: `about` and `to`
+ * are the words the sentences filled in, and where no sentence on the
+ * question said one, the stand's own words, which every sentence of its
+ * block carries, stand in; a question whose side no sentence records is left
+ * out. And one row for each claim the address made about the country's year
+ * (a sentence whose facts name a claim on work, pay, prices, rent or growth,
+ * worded in data/english/year-claims.json), which the President states rather
+ * than proposes, so it has no stance. Most federal questions give a President
+ * no stand yet, so an address often names one policy point; its year gives
+ * the rest.
+ */
+export function addressPoints(opening: {
+  readonly address: { readonly sentences: readonly PointSentence[] };
+}): AddressPoint[] {
+  const rows = new Map<
+    string,
+    {
+      claim?: string;
+      about?: string;
+      to?: string;
+      stance?: "for" | "against";
+      ids: Set<string>;
+    }
+  >();
+  for (const sentence of opening.address.sentences) {
+    const question = sentence.sourceRecordIds
+      .map((id) => QUESTION_ID.exec(id)?.groups?.question)
+      .find(Boolean);
+    const claim = question
+      ? undefined
+      : sentence.facts.find((key) => !!yearClaimAbout(key));
+    const key = question ?? (claim ? `${YEAR}${claim}` : undefined);
+    if (!key) continue;
+    const row = rows.get(key) ?? { ids: new Set<string>() };
+    rows.set(key, row);
+    for (const id of sentence.sourceRecordIds) row.ids.add(id);
+    if (claim) {
+      row.claim = claim;
+      row.about ??= yearClaimAbout(claim)!;
+      continue;
+    }
+    row.about ??= sentence.values.about ?? sentence.stand?.about;
+    row.to ??= sentence.values.to ?? sentence.stand?.to;
+    row.stance ??= sentence.facts.includes("stance-for")
+      ? "for"
+      : sentence.facts.includes("stance-against")
+        ? "against"
+        : sentence.stand?.stance;
+  }
+  return [...rows].flatMap(([question, row]): AddressPoint[] =>
+    row.claim && row.about
+      ? [
+          {
+            kind: "year",
+            question,
+            claim: row.claim,
+            about: row.about,
+            to: "",
+            sourceRecordIds: [...row.ids],
+          },
+        ]
+      : row.about && row.to && row.stance
+        ? [
+            {
+              kind: "policy",
+              question,
+              about: row.about,
+              to: row.to,
+              stance: row.stance,
+              sourceRecordIds: [...row.ids],
+            },
+          ]
+        : [],
+  );
+}
