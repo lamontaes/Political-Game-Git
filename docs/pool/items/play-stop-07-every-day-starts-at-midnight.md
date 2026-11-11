@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: merged
 claimed-by: claude/pool-play-stop-07-every-day-starts-at-midnight
 pr:
 after:
@@ -20,6 +20,7 @@ milestone: play-first
 claimed-at: 2026-11-11T08:41:36.888Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-07-every-day-starts-at-midnight
+merged-at: 2026-11-11T08:47:51.966Z
 ---
 
 **What.** On the v0.22.10 release, pressing Day on Monday January 20 at 8:30 PM went to Wednesday January 22 at 12:00 AM, every later Day and Week press landed at 12:00 AM alone in the bedroom, and a 3-hour action left the clock at midnight while the scene showed an afternoon. The item is a twin of integration-day-lands-on-morning-and-places-keep-hours, which is done, and both children are dropped. Days now start in the morning (commit c573027b70). What is left is a second session's replay of the finish line.
