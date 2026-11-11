@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:25:55.523Z
 branch: claude/pool-tests-law-wiring-labor-one-subject-per-test
 ---
 
