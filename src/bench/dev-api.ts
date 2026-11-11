@@ -350,6 +350,15 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET run-year-notice": {
+      send(200, { notDone: mode.skipNotice() });
+      return true;
+    }
+    case "POST run-year": {
+      await body(request);
+      send(200, mode.runYear());
+      return true;
+    }
     case "POST outlook": {
       const input = await body(request);
       send(

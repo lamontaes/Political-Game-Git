@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-dev-bills-and-bribe-panels-drawn-under-members
+pr: #8297
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:23:43.038Z
 ---
 
 **What.** With Dev mode on, the Government screen carries two dev panels, Bills and Bribe. Measured on screen by the Nov 9 audit in Ten Broeck, Kentucky (a helper drove the screens for five months of game time; no seed given): both panels are drawn underneath the Members cards, and their result lines show through in pieces, so neither can be read. These are the panels that introduce a bill, pass it at a margin, make the chair hear it and offer a bribe, so a tester cannot use the proving ground from the screen. Fix the class, not the one screen: every dev panel that is added to a sheet that does not scroll gets a place of its own in that sheet's layout, in the menu look, beside what it acts on, so no dev panel on any screen is drawn over or under the game's own cards.
