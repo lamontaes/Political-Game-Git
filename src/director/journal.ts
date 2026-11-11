@@ -500,7 +500,9 @@ function householdMoments(
         ...base(`${order}:${office.termId}`, lastDay),
         causeId: office.termId,
         causeFactId: office.termId,
-        causeKind: "household:livelihood",
+        causeKind: office.governmentName
+          ? "household:livelihood:at"
+          : "household:livelihood",
         counterpartIds: [earner.id],
         beat: "work",
         actFacts: {
@@ -551,11 +553,15 @@ function householdMoments(
       ...base(`${order}:${cause}`, lastDay),
       causeId: cause,
       causeFactId: cause,
+      // A job whose employer is on record is said with it; the plain words
+      // are for a job with no employer on record.
       causeKind: remembered
         ? moved
           ? "household:livelihood:moved"
           : "household:livelihood:since"
-        : "household:livelihood",
+        : employer
+          ? "household:livelihood:at"
+          : "household:livelihood",
       counterpartIds: [earner.id],
       beat: "work",
       actFacts: {

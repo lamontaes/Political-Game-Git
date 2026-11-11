@@ -6966,7 +6966,7 @@
           "choice": "livelihood",
           "journal": [
             {
-              "kindPrefix": "household:livelihood",
+              "kindPrefix": "household:livelihood:at",
               "field": "line"
             }
           ]
@@ -6992,7 +6992,7 @@
           "choice": "livelihood",
           "journal": [
             {
-              "kindPrefix": "household:livelihood",
+              "kindPrefix": "household:livelihood:at",
               "field": "line"
             }
           ]
@@ -10511,6 +10511,58 @@
           "journal": [
             {
               "kindPrefix": "household:livelihood:moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood.named-works-at-employer-as-job",
+      "move": "work-line-livelihood",
+      "kind": "spoken",
+      "text": "{named} works at {employer} as {job}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:at",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood.named-has-a-job-at-employer-as-job",
+      "move": "work-line-livelihood",
+      "kind": "spoken",
+      "text": "{named} has a job at {employer} as {job}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:at",
               "field": "line"
             }
           ]
