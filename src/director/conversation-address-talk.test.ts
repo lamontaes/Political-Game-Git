@@ -7,8 +7,11 @@
  *
  * - the relative's line names a point (`about`) that is in that world's
  *   address, with a stand and a reason the engine composes from parts;
- * - the replies are up to four, each a different move, each naming the point
- *   or the town, and each is answered in words that name it;
+ * - the relative's line names the point once; the replies are up to four,
+ *   each a different move with its own insert (the point, the town, the
+ *   President or the person), at most one naming the point, and each is
+ *   answered without naming it again; the answer to the town reply says one
+ *   thing the world keeps (the state's law, else the town's figure);
  * - what the player answered is kept by the relative, keyed by the question,
  *   and a later talk reads it: the point is behind them;
  * - two people with opposite views on the point take opposite stands;
@@ -58,6 +61,8 @@ const POINT = "address-point";
 const BACK = rules.addressPoint.back;
 const MOVES = ["agree", "disagree", "here", "instead"];
 const WEEKS = 26;
+const TOWN_TALKS = 20;
+const INSERTS = ["about", "place", "president", "name"];
 const DAYS_A_WEEK = 7;
 
 const BANK = JSON.parse(
@@ -107,6 +112,7 @@ const housematesOf = (core: CoreState, me: PersonId) =>
 it(`the relative raises a point of this world's address, with a stand and a reason, and four replies about it (seed ${seed})`, () => {
   const raised: string[] = [];
   const pointsRaised: string[] = [];
+  const townAnswers: string[] = [];
   const tried: string[] = [];
   for (let draw = 0; draw < ATTEMPTS && raised.length < OPENINGS; draw += 1) {
     const { core, director, me, where, points } = world(draw, "address-talk");
@@ -143,14 +149,30 @@ it(`the relative raises a point of this world's address, with a stand and a reas
       expect(new Set(talk.choices.map((row) => row.move)), here).toEqual(
         new Set(MOVES),
       );
-      const town = talk.last!.facts.place?.text ?? "";
+      // The relative's line names the point once in full (the lead's review,
+      // Nov 11: one screen said it six times).
+      expect(
+        line.text.split(about!).length - 1,
+        `${here}: "${line.text}"`,
+      ).toBe(1);
+      // Each reply carries its own insert: the point, the town, the President
+      // or the person; at most one names the point, and no two share one.
+      const inserts = talk.choices.map(
+        (row) =>
+          INSERTS.filter((key) => row.wording?.facts.includes(key))[0] ?? "",
+      );
+      expect(inserts.every(Boolean), `${here}: ${inserts.join(", ")}`).toBe(
+        true,
+      );
+      expect(new Set(inserts).size, `${here}: ${inserts.join(", ")}`).toBe(
+        inserts.length,
+      );
+      expect(
+        talk.choices.filter((row) => row.text.includes(about!)).length,
+        `${here}: ${talk.choices.map((row) => row.text).join(" / ")}`,
+      ).toBeLessThanOrEqual(1);
       for (const choice of talk.choices) {
-        expect(
-          choice.text.includes(about!) ||
-            (!!town && choice.text.includes(town)),
-          `${here}: "${choice.text}"`,
-        ).toBe(true);
-        // Each reply is answered, in words that name the point or the town.
+        // Each reply is answered, and the answer does not name the point again.
         const back = composedLine(
           core,
           otherId,
@@ -160,13 +182,28 @@ it(`the relative raises a point of this world's address, with a stand and a reas
           `${here}:${choice.key}`,
         );
         expect(back, `${here}: "${choice.text}"`).toBeTruthy();
-        expect(
-          back!.text.includes(about!) || (!!town && back!.text.includes(town)),
-          `${here}: "${choice.text}" / "${back!.text}"`,
-        ).toBe(true);
+        expect(back!.text, `${here}: "${choice.text}"`).not.toContain(about!);
         expect(wordsOf(back!.wording.parts), back!.text).toBeLessThanOrEqual(
           BANK.lineWords[BACK]!,
         );
+      }
+      // The answer to "what would it mean here?" says one thing this world
+      // keeps (the state's law on it, else the town's figure), over 20 talks
+      // in each place: a slot besides the town's name every time.
+      for (let talkAt = 0; talkAt < TOWN_TALKS; talkAt += 1) {
+        const back = composedLine(
+          core,
+          otherId,
+          BACK,
+          talk.last!.facts,
+          "here",
+          `${here}:town:${talkAt}`,
+        );
+        expect(
+          back?.wording.facts.some((key) => key !== "place"),
+          `${here}: "${back?.text}"`,
+        ).toBe(true);
+        townAnswers.push(back!.text);
       }
       // No line about the President says "they" for a President whose record gives a gender.
       if (gender === "female" || gender === "male")
@@ -202,6 +239,9 @@ it(`the relative raises a point of this world's address, with a stand and a reas
     if (!found) tried.push(`${where}: no housemate raised a point`);
   }
   process.stdout.write(`ADDRESS POINTS ${seed}: ${raised.join(" | ")}\n`);
+  process.stdout.write(
+    `TOWN ANSWERS ${seed}: ${townAnswers.length}, ${new Set(townAnswers).size} different: ${[...new Set(townAnswers)].slice(0, 6).join(" | ")}\n`,
+  );
   expect(raised.length, tried.join("; ")).toBe(OPENINGS);
   // The openings do not share a raise line.
   expect(new Set(raised).size, raised.join(" | ")).toBe(OPENINGS);

@@ -7,6 +7,7 @@
  */
 import data from "../../data/english/question-names.json" with { type: "json" };
 import yearData from "../../data/english/year-claims.json" with { type: "json" };
+import townData from "../../data/english/town-figures.json" with { type: "json" };
 
 const NAMES = data.names as Readonly<
   Record<string, { readonly about: string; readonly to: string }>
@@ -32,4 +33,11 @@ const YEAR = yearData.claims as Readonly<
 /** A claim the President's address made about the country's year, as a noun phrase ("prices still going up"); null for one with no name. */
 export function yearClaimAbout(claim: string): string | null {
   return YEAR[claim]?.about ?? null;
+}
+
+const TOWN = townData.figures as Readonly<Record<string, string>>;
+
+/** A town's figure as a resident says it in passing ("more people out of work than most places"); null for one with no words. */
+export function townFigureWords(figure: string): string | null {
+  return TOWN[figure] ?? null;
 }
