@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-county-sample-weight-below-one
-pr:
+pr: #8682
 after:
 blocked-on:
 lead: money
