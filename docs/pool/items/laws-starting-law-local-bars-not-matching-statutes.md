@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-starting-law-local-bars-not-matching-statutes
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:25:08.102Z
+claimed-at:
 branch: claude/pool-laws-starting-law-local-bars-not-matching-statutes
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-laws-starting-law-local-bars-not-matching-statutes
 Released (2026-11-11): Cause no longer holds on main: the rows were corrected after the Nov 8 finding. Tennessee fare-free transit (transportation-infrastructure.json line 1414) cites 7-56-101(b) and grants, the transit shift (line 1067-1070) cites 54-4-103(e) with the 22.22 percent cap, civilian oversight (justice-public-safety.json) cites Title 38 ch. 8 with preempts false, bottle deposit for Tennessee has preempts false with its weak-support note, and the Kansas pension row cites K.S.A. 12-5002(a) (fiscal.json line 3603). Not checked: the Tennessee minimum-reserve-balance row's wording (preempts false) and the Kansas bottle deposit row. Continue on branch claude/pool-laws-starting-law-local-bars-not-matching-statutes.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-laws-starting-law-local-bars-not-matching-statutes.
+
+Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-laws-starting-law-local-bars-not-matching-statutes.
