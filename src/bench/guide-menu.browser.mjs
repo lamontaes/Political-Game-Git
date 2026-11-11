@@ -72,7 +72,8 @@ try {
   // The Guide is its own entry on the rail and opens the Guide.
   const ring = page.locator('#rings .ring[data-tab="guide"]');
   assert.equal(await ring.count(), 1, "no Guide entry on the rail");
-  assert.equal(await ring.getAttribute("title"), "Guide");
+  // The rail names each entry for a reader and on hover (aria-label and data-name).
+  assert.equal(await ring.getAttribute("aria-label"), "Guide");
   await ring.click();
   await page.locator("#sheet-body .term-row").first().waitFor();
   const heading = (await page.locator("#sheet-title").innerText()).trim();
