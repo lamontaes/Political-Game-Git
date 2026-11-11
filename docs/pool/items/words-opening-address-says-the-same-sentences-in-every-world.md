@@ -39,7 +39,7 @@ branch: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds and reads each address through. No sentence is in more than one of the three; each address cites at least two figures or names from its own world (it checks one against the Metrics tab or the news); and each says what the President asks Congress for. tests/guards/english passes with the lowered count.
 
-**Waits on.** Nothing.
+**Waits on.** The CTO's answer to whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (Notes; PR #8717, same question as PR #8715); set back to Nothing once he rules.
 
 **Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
@@ -54,5 +54,9 @@ Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): opus-5251 released it unbuilt again: its steps 1 to 4 are pieces in data/english/parts/opening-speech.json, the Story session's to write (owner, Nov 10); a builder told never to write there cannot take it. Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:36 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Released (2026-11-11): The Fix is lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8717). Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:37 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
 
 Released (2026-11-11): The Fix is lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8717). Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
