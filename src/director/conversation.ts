@@ -1040,8 +1040,17 @@ function printedSubject(
         ...(about
           ? { about: { text: about, sourceRecordIds: [story.id] } }
           : {}),
-        headline: { text: said.headline, sourceRecordIds: cited },
+        // As a person says it: a bill by what it does, not its number.
+        headline: {
+          text: said.spoken ?? said.headline,
+          sourceRecordIds: cited,
+        },
         storyId: { text: "", sourceRecordIds: [story.id] },
+        // The day it ran, said in passing ("yesterday", "on Monday").
+        ran: {
+          text: spokenWhen(story.date, core.date),
+          sourceRecordIds: [story.id],
+        },
         ...carried,
         ...(outlet
           ? {
@@ -4095,10 +4104,19 @@ function answerNews(
     for (const hearerId of hearers)
       learnView(api, hearerId, playerId, [stance?.id ?? playerId], eventId);
   }
+  const theirs = newsStake(core, otherId, last.subject);
   const facts: Facts = {
     ...last.facts,
-    ...stakeMarks(newsStake(core, otherId, last.subject), "their-"),
+    ...stakeMarks(theirs, "their-"),
+    // No side of their own and no tie to the place: the answer says so.
+    ...(theirs.reason === "none"
+      ? { "their-none": { text: "yes", sourceRecordIds: [otherId] } }
+      : {}),
     [`said-${choice.move}`]: { text: "yes", sourceRecordIds: [eventId] },
+    // A stand either way, for the answers that fit both.
+    ...(NEWS_SIDES.includes(choice.move)
+      ? { "said-side": { text: "yes", sourceRecordIds: [eventId] } }
+      : {}),
   };
   // When they learned of it, said in passing, from their own record of it.
   const learned = last.subject.aboutId
