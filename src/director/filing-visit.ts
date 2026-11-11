@@ -366,9 +366,11 @@ export function counterNarration(
     // A title the record capitalizes only at its start ("County clerk") is said
     // in running text as a common noun; one with proper names stays as written.
     post: {
-      text: /^\S+( [a-z]+)*$/.test(clerk.title)
-        ? `${clerk.title.charAt(zero).toLowerCase()}${clerk.title.slice(one)}`
-        : clerk.title,
+      text: clerk.post
+        ? clerk.post
+        : /^\S+( [a-z]+)*$/.test(clerk.title)
+          ? `${clerk.title.charAt(zero).toLowerCase()}${clerk.title.slice(one)}`
+          : clerk.title,
       sourceRecordIds: [clerk.recordId],
     },
   };
