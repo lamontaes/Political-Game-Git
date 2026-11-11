@@ -2,7 +2,7 @@
 
 All at 1440 by 900, taken by `src/bench/campaign-ask.browser.mjs` on the bench at this branch's head, in a life made in the creator with a 1980 birthday (a working adult with savings).
 
-Philadelphia, Tennessee (drawn), seed `95faab28-2352-4e6e-9e46-292c8d22b7ed` (place key 4757900):
+Graymoor-Devondale, Kentucky (drawn), seed `d692bee4-d22e-44d1-9cce-dbc2b40ee7ef` (retaken after main was merged in):
 
 - `drawn/request.png`: Politics, Elections, "Asking you for money": the candidate, the race, when they asked, the sum the player would give, the cash they hold, and the amount with Give and Decline.
 - `drawn/after-gift.png`: after giving part of it; the request is gone and the player's cash dropped by exactly the gift.
