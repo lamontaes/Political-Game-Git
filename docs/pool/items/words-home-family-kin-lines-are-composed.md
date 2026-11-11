@@ -38,7 +38,7 @@ branch:
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. Ask why: a line that names an illness, a death or a move cites the record that set its stage. No dice. One rule, all 56 places: the tests draw their places.
+**Rules.** No hand-written player text in code. Ask why: a line that names an illness, a death or a move cites the record that set its stage. No dice. One rule, all 56 places: the tests draw their places. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds, and talks with neighbors and relatives until someone is asked after a relative and someone mentions one the player has not met. Each answer names the relative and what happened to them (a place, a job or a date) as the records say, and the replies are at most four different moves, each naming the relative. tests/guards/english passes with the lowered count.
 

@@ -38,7 +38,7 @@ branch:
 
 **Time box.** 6 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. No dice: which bill and why come from the donor's records. Ask why: the reason cites the donor's job or views record. One rule, all 56 places: the tests draw their places.
+**Rules.** No hand-written player text in code. No dice: which bill and why come from the donor's records. Ask why: the reason cites the donor's job or views record. One rule, all 56 places: the tests draw their places. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, plays three new lives in drawn places it writes down with their seeds through filing and the first weeks of a campaign, until a donor asks for something. Each ask names what the donor gave or the bill, and a reason from their own work or views; the replies are at most four different moves, each naming the bill, the gift or the question. It answers with an offer and finds the meeting on record. tests/guards/english passes with the lowered count.
 
