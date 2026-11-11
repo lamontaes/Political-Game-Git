@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/fable-b-news-briefs-fit
-pr: "#8813"
+pr: #8813
 after:
 blocked-on:
 lead: screens
@@ -18,6 +18,7 @@ root: rc10-screens-keep-own-facts
 source: Seen helper C's pictures of News in two drawn places on Nov 11, 2026 (pull request #8439), then the lead's reading of the news board
 checked:
 claimed-at: 2026-11-11
+merged-at: 2026-11-11T14:39:42.331Z
 ---
 
 **What.** The Briefs column in News gives every brief a row of one fixed height. A brief longer than three lines (a week of meetings, a police log, a home sale with its price) runs out of its row and is printed on top of the brief below, so neither can be read. A second session saw it on Nov 11 in Pine Creek, Montana and Mesquite, Nevada (seed 7ebba0a9-ae07-4014-8ea8-c4629e7e1c83), where the paper held several long briefs; Greenville, Rhode Island, with short ones, fit. Seen: News at 1440x900 on a day the local paper holds three or more long briefs, where each brief is whole and the column scrolls inside its own box.
