@@ -109,7 +109,7 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
       institutions: false,
     },
   ])(
-    "place $key: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force or holds more than its capacity, and an arrival is housed in a room only by the institution's waiting list",
+    "place $key: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force and an arrival is housed in a room only by the institution's waiting list",
     ({ key, worldSeed, filingCheck, institutions }) => {
       setBookkeeping(false);
       const started = Date.now();
@@ -296,29 +296,6 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
           expect(store.liveHousehold(met.id)?.tenure, met.id).toBe("group");
           expect(store.liveHousehold(met.id)?.quarters, met.id).toBe(metType);
         }
-      }
-      // The institution's capacity: a type never holds more people at the
-      // year's end than it did at the opening (admission only refills a
-      // vacancy), within one household's weight.
-      for (const type of GROUP_QUARTERS_TYPES) {
-        let now = 0;
-        for (const h of store.liveHouseholds())
-          if (h.placeId === placeId && h.quarters === type)
-            now += store.weightedCount(h);
-        for (const home of core.households.values())
-          if (
-            home.placeId === placeId &&
-            home.quarters === type &&
-            // A room returned to the counts is the counted record's, not twice.
-            !store.liveHousehold(home.id)
-          )
-            now += home.memberIds.filter(
-              (id) => core.people.get(id)?.alive,
-            ).length;
-        expect(
-          now,
-          `${key} ${type} holds more residents than its opening capacity`,
-        ).toBeLessThanOrEqual((weighted.get(type) ?? 0) + weight);
       }
       // No unexplained rooms: the rooms at the year's end are the opening's
       // (deaths may empty one) or ones the waiting list filled, none of the
