@@ -351,6 +351,8 @@ export interface CountryLaw {
   wageFloorYear(state: CountryState): number;
   /** What an insured person out of work is paid, dollars a year, by what they earned. */
   joblessBenefitYear(state: CountryState, payYear: number): number;
+  /** How many more people come from abroad than the opening's rate under the law in force (a federal law to admit more immigrants); one when none applies. */
+  abroadFactor?(state: CountryState): number;
 }
 
 export interface CountryStateOpening {
@@ -839,6 +841,7 @@ function moves(
 function people(
   tier: CountryTier,
   rules: CountryRules,
+  law?: CountryLaw,
 ): { births: number; deaths: number; arrived: number; fromAbroad: number[] } {
   const months = rules.monthsPerYear;
   let births = 0,
@@ -883,7 +886,11 @@ function people(
     const grown = state.children / rules.yearsAsChild / months;
     // People from abroad come from no state's leavers: the state grows by them. The adults
     // arrive looking for work at their age's rate, in every income fifth alike.
-    const abroad = (countryPeople(state) * state.abroadYear) / months;
+    const abroad =
+      (countryPeople(state) *
+        state.abroadYear *
+        (law?.abroadFactor?.(state) ?? 1)) /
+      months;
     state.children += born - grown + abroad * rules.abroadChildShare;
     births += born;
     arrived += abroad;
@@ -1142,7 +1149,7 @@ export function stepCountry(
   );
   // The month opens with who moved, was born, aged and died; then the economy's month.
   const moved = moves(tier, law, rules);
-  const lives = people(tier, rules);
+  const lives = people(tier, rules, law);
   const outsideDemand =
     tier.outsideDemand * (1 + rules.outsideGrowthYear / months);
   const outsidePrices =

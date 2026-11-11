@@ -126,6 +126,10 @@ const STATES = (
   }
 ).states;
 const MOVES = moveRows as unknown as Record<string, { value: number }>;
+/** Each state's FIPS code by its USPS code, from the regional data. */
+const FIPS_OF = new Map(
+  Object.entries(STATES).map(([fips, row]) => [row.usps, fips] as const),
+);
 
 /** One state's or territory's people at the coarse grain. */
 export interface CoarsePlace {
@@ -303,10 +307,7 @@ function netIncome(
   if (value === undefined) {
     value =
       Math.max(1, wages - stateIncomeTax(api, rt, usps, wages)) /
-      ((renter ? renterPriceLevel : priceLevel)(
-        rt.states.get(usps)?.fips ?? "",
-      ) /
-        100);
+      ((renter ? renterPriceLevel : priceLevel)(FIPS_OF.get(usps) ?? "") / 100);
     rt.netCache.set(key, value);
   }
   return value;
