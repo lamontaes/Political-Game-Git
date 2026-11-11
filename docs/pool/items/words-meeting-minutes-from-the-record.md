@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-meeting-minutes-from-the-record
 pr:
 blocked-on:
 lead: words
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at:
+claimed-at: 2026-11-11T05:47:38.879Z
 after:
 standard: 2
 model: sonnet
