@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-words-day-end-scene-opens-next-midnight
+pr: #8673
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,8 @@ effort: high
 root: rc2-done-from-records
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:04:22.599Z
+branch: claude/pool-words-day-end-scene-opens-next-midnight
 ---
 
 **What.** When a record that stops the player's day is made during that day, the story director's stop lands at the next midnight, not at the hour of the record. In the bench, the We the People chair asked the player to run on Saturday, January 3, 2026, and the scene opened on the second Day click with the clock at Sunday, January 4, 12:00 AM and a night window, while its narration said "It's a Saturday in January." The director rates the player's moment when its record is made only when the player's clock frontier is on the core's date (rateNow in src/director/ledger.ts), and otherwise the day-end measure registers the stop at the next midnight. Seen in White Sulphur Springs, Montana (3080050), place seed e6253d7d132141ef79226210a85a474e90a1d2bb2d5ea41a69c63b9bfdb96035, moment person_f20a24acaa8c0691:2026-01-03:party-asked:contest:seat:US-MT:lower:078:0:2026-11-03:party:US-MT:we-the-people:person_f20a24acaa8c0691.
@@ -42,3 +44,5 @@ Oct 27 (director lead): reproduces on clean main at 820801c06 in `src/director/p
 Oct 27, 11:05 UTC (director lead), root cause measured: the core writes a day's records after the player clock has already passed that day's midnight. In a played run on branch claude/director-scenes-from-circumstance (Wiscon, Florida, seed director-circ-1, 200 days through the player clock), all 371 records that could call a scene from circumstance were written with the player's frontier at the next day, 00:00. A stop may not be set before the frontier (`registerModuleStopV1`, src/core2/player-stops-v1.ts:276). So no director change can open such a scene on its record's own day, and the item's rule forbids a fixed hour. Two ways forward, both outside the director: the core runs the world's day before the player walks it (core2, lead m0-m2), or the stop lands at the player's next waking moment once `play-stop-07-every-day-starts-at-midnight-a` defines when the player's day begins (lane). Either way the narration must name the day the scene plays. The director side is ready to read whichever lands.
 
 **Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: The cause is found; it waits on a short ruling from the CTO on when the player's day begins, then it is a build against that ruling: Opus at high effort.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:04 UTC) on branch claude/pool-words-day-end-scene-opens-next-midnight.

@@ -33,6 +33,7 @@ import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
 import { devBillCard } from "./ui/dev-bill-card.mjs";
+import { traceBox } from "./ui/dev-trace-box.mjs";
 import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
@@ -53,14 +54,15 @@ import {
   setColorBlind,
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
-import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { roomPeople, clockLines } from "./ui/room.mjs";
+import { clockLines } from "./ui/room.mjs";
+import { bustStrip } from "./ui/bust-strip.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
   dateWords,
@@ -96,6 +98,7 @@ import {
 } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
+  bust,
   stripScreen,
   stripSection,
   perkList,
@@ -214,13 +217,61 @@ for (const box of document.querySelectorAll("#game .chat"))
   docking.observe(box);
 window.addEventListener("resize", clearDock);
 
-function drawPeople(people, onClick) {
-  $("people").replaceChildren(
-    ...roomPeople(people, {
-      selfId: me?.id,
-      backdropUrl: $("backdrop").src,
-      onClick,
-    }),
+/** How many people stand on the talk box's strip at most (the owner's sizes: one, two and four). */
+const TALK_STRIP_PEOPLE = 4;
+/** Who is in the room now: the people the strip names, how many more, and what a click on one does. */
+let here = { people: [], more: 0 };
+/**
+ * Who is here, along the foot of the room (ui/bust-strip.mjs): a room is its
+ * painting, and the people in it are a strip of busts. `scene` is anything
+ * with `people` and `more` (a scene, a visit, a story beat); none clears it.
+ * `onClick` makes each person with something to say a way into a talk.
+ */
+function drawHere(scene, onClick) {
+  here = { people: scene?.people ?? [], more: scene?.more ?? 0 };
+  $("here").replaceChildren(
+    ...(here.people.length
+      ? [
+          bustStrip({
+            people: here.people,
+            more: here.more,
+            words: controls.here,
+            onClick,
+          }),
+        ]
+      : []),
+  );
+  drawTalkStrip();
+}
+/**
+ * The same people on top of the talk box while a talk is open, whoever speaks
+ * lit and a little larger. A speaker who is not in the room (a caller, someone
+ * a scene brings in) stands first, by the face their card gave.
+ */
+let talkFace;
+/** Who you are talking to, when someone speaks; nobody while the narrator does. */
+let talkPersonId;
+function drawTalkStrip() {
+  const name = $("talk-name").textContent;
+  const inRoom = here.people.some((p) => p.personId === talkPersonId);
+  const speaker =
+    talkPersonId && !inRoom && talkFace
+      ? [{ personId: talkPersonId, name, face: talkFace }]
+      : [];
+  const others = here.people.filter((p) => p.personId !== talkPersonId);
+  const speaking = here.people.filter((p) => p.personId === talkPersonId);
+  // The speaker is always among those shown; the rest keep the room's order.
+  const shown = [...speaker, ...speaking, ...others]
+    .slice(0, TALK_STRIP_PEOPLE)
+    .sort(
+      (a, b) =>
+        (speaker.includes(a) ? -1 : here.people.indexOf(a)) -
+        (speaker.includes(b) ? -1 : here.people.indexOf(b)),
+    );
+  $("talk-strip").replaceChildren(
+    ...(shown.length
+      ? [bustStrip({ people: shown, speakingId: talkPersonId ?? undefined })]
+      : []),
   );
 }
 
@@ -319,7 +370,12 @@ function openNewsReader(news) {
   }`;
   $("news-reader-headline").textContent = storyHeadline(lead);
   $("news-reader-body").replaceChildren(
-    ...readerBody({ lead, address: news.address, photo: storyPhoto(lead) }),
+    ...readerBody({
+      lead,
+      address: news.address,
+      photo: storyPhoto(lead),
+      none: controls.news.noStoryText,
+    }),
   );
   $("news-reader-more").replaceChildren(...readerMore(rest.map(storyHeadline)));
   show("news-reader", true);
@@ -346,7 +402,7 @@ async function renderScene({ keepBackdrop = false } = {}) {
   if (!keepBackdrop) $("backdrop").src = scene.backdrop.url;
   // A person in the room is talked to by clicking them; their name in the talk
   // box opens their card (owner, Oct 27: the card has no Talk button).
-  drawPeople(scene.people, (p) => talkTo(p.personId));
+  drawHere(scene, (p) => talkTo(p.personId));
   me.scene = scene;
 }
 
@@ -717,7 +773,7 @@ function inMeeting() {
     const draw = (scene) => {
       if (!scene) return finish();
       $("backdrop").src = scene.backdrop.url;
-      drawPeople(scene.people);
+      drawHere(scene);
       $("card-place").textContent = scene.title;
       $("meeting-title").textContent = scene.title;
       $("meeting-items").replaceChildren(
@@ -1123,7 +1179,7 @@ function electionMorning(scene) {
       setClock(day.at);
       if (scene) {
         $("backdrop").src = scene.backdrop.url;
-        drawPeople(scene.people);
+        drawHere(scene);
       }
       $("election-day-lines").replaceChildren();
       say(day.lines);
@@ -1135,7 +1191,7 @@ function electionMorning(scene) {
               const done = await post("/api/election-day/canvass");
               if (done.scene) {
                 $("backdrop").src = done.scene.backdrop.url;
-                drawPeople(done.scene.people);
+                drawHere(done.scene);
               }
               if (done.line) say([done.line]);
               ask(day);
@@ -1159,7 +1215,7 @@ function electionNight(night) {
     const labels = controls.returns ?? {};
     if (night.scene) {
       $("backdrop").src = night.scene.backdrop.url;
-      drawPeople(night.scene.people);
+      drawHere(night.scene);
     }
     // The governor races elsewhere that night have their own page after the
     // call, two columns of rows, so all of them fit the panel at 1024x768
@@ -1211,7 +1267,7 @@ function atThePolls(scene) {
     const draw = (value) => {
       scene = value;
       $("backdrop").src = scene.backdrop.url;
-      drawPeople(scene.people);
+      drawHere(scene);
       $("ballot").replaceChildren(
         ballotPaper({
           contests: scene.contests,
@@ -1292,19 +1348,21 @@ $("continue").addEventListener("click", () => {
 // ---- Conversation (lower third: portraits top left, scales upper right) ----
 // The scales toggled on: the whole set of choices turns false, each a different move.
 let lying = false;
-/** Who you are talking to: their bust, name and what you know of their work. */
-let talkPersonId;
+/** Who you are talking to: their name on the box, and their bust lit on the strip above it. */
 async function setWho(personId, name) {
   talkPersonId = personId;
   $("talk-name").textContent = name ?? "";
-  setFace("talk-bust", null);
+  talkFace = undefined;
   show("talk-who", Boolean(name));
-  if (!personId) return;
+  drawTalkStrip();
+  // Someone in the room is already on the strip; anyone else stands there by their card's face.
+  if (!personId || here.people.some((p) => p.personId === personId)) return;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
   ).catch(() => undefined);
   if (!c || $("talk-name").textContent !== (name ?? "")) return;
-  setFace("talk-bust", c.face);
+  talkFace = c.face ?? undefined;
+  drawTalkStrip();
 }
 /** A talk's lines: what you said before, what they said before, and what is said now. */
 function spokenLines(lines) {
@@ -1468,7 +1526,7 @@ function renderFiling(value) {
   filing = value;
   if (!value) return;
   $("backdrop").src = value.backdrop.url;
-  drawPeople(value.people);
+  drawHere(value);
   show("talk", true);
   const clerkName = value.visit.clerkId
     ? value.names[value.visit.clerkId]
@@ -1668,8 +1726,8 @@ function playAsks({ asked, summary, scene }) {
   renderTalk(undefined);
   if (scene) {
     $("backdrop").src = scene.backdrop.url;
-    // Each person is heard by name and bust, not drawn in the room.
-    drawPeople(scene.people.filter((p) => p.personId === me.id));
+    // Each person is heard by name and bust as they answer.
+    drawHere();
   }
   show("talk", true);
   const step = (at) => {
@@ -1703,6 +1761,7 @@ async function campaignParts() {
     outings,
     standing,
     debates,
+    pictures,
   } of v.campaigns) {
     const goOut = async (outing, outletId) => {
       const kindOf = {
@@ -1753,7 +1812,7 @@ async function campaignParts() {
       if (result.scene || moment) closeSheet();
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
-        drawPeople(result.scene.people);
+        drawHere(result.scene);
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -1801,7 +1860,7 @@ async function campaignParts() {
       if (result.scene) {
         closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
-        drawPeople(result.scene.people);
+        drawHere(result.scene);
         return;
       }
       reopenTrail(filing.id);
@@ -1834,6 +1893,7 @@ async function campaignParts() {
         return {
           group: T.groupOut,
           title: controls.campaignOutings[choice.outing],
+          picture: choice.picture,
           load: async () => ({
             facts: [
               {
@@ -1856,6 +1916,7 @@ async function campaignParts() {
       ].map(([kind, extra]) => ({
         group: T.groupAsk,
         title: controls.campaignActs[kind],
+        picture: pictures?.[kind],
         load: async () => ({}),
         // stopgapId: SG-PLAY-campaign-acts-buttons
         go: go(() => act(kind, extra)),
@@ -1863,6 +1924,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignActs.mail,
+        picture: pictures?.mail,
         load: async () => {
           const dollarsOut = numberBox({
             value: 50,
@@ -1880,6 +1942,7 @@ async function campaignParts() {
       {
         group: T.groupMoney,
         title: controls.campaignContribute.give,
+        picture: pictures?.contribute,
         load: async () => {
           const dollarsIn = numberBox({
             value: 0,
@@ -1901,6 +1964,7 @@ async function campaignParts() {
       {
         group: T.groupSpeak,
         title: T.speech,
+        picture: pictures?.speech,
         load: async () => ({
           nodes: [
             speechCard({
@@ -1926,7 +1990,7 @@ async function campaignParts() {
                 // A speech is seen where it was given, with the people it reached.
                 closeSheet();
                 $("backdrop").src = result.scene.backdrop.url;
-                drawPeople(result.scene.people);
+                drawHere(result.scene);
               },
             }),
           ],
@@ -1936,6 +2000,7 @@ async function campaignParts() {
       ...(debates ?? []).map((debate) => ({
         group: T.groupSpeak,
         title: controls.debate.title ?? T.debate,
+        picture: pictures?.debate,
         load: async () => ({
           nodes: [
             debateCard({
@@ -1959,7 +2024,8 @@ async function campaignParts() {
     const trail = [
       ...travelScreen({
         entries,
-        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        // The only list under a trail tile is why the act is out of reach today.
+        labels: { whoIsThere: "", whatICanDo: T.notToday },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
@@ -2067,10 +2133,9 @@ async function showStory(momentId) {
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
-  drawPeople(story.people);
+  drawHere(story);
   show("talk", true);
-  show("talk-who", false);
-  $("talk-name").textContent = "";
+  setWho(null, null);
   // A scene with a purpose is its own exchange; any other opens a talk.
   // The narrator sets the scene alone; Continue, then the person speaks.
   const withId = story.talk?.askerId ?? story.talkToId;
@@ -2101,7 +2166,7 @@ async function showStory(momentId) {
       const beat = story.beats?.[at];
       if (beat) {
         $("backdrop").src = beat.backdrop.url;
-        drawPeople(beat.people);
+        drawHere(beat);
       }
       talkControls({ silent: false, leave: false });
       fillTalk({
@@ -2439,7 +2504,7 @@ async function visit(organizationId) {
   );
   me.names = { ...me.names, ...v.names };
   $("backdrop").src = v.backdrop.url;
-  drawPeople(v.people, (p) => talkTo(p.personId));
+  drawHere(v, (p) => talkTo(p.personId));
   $("card-place").textContent = v.name;
   // The visit's hour moved the clock: the card shows the new time.
   if (v.packet) renderPacket(v.packet);
@@ -2716,13 +2781,101 @@ async function openBillPaper(billId, show, back, backLabel) {
     })
     .catch(() => null);
   const floor = controls.floor ?? {};
-  const backButton = makeButton({
-    className: "action",
-    textContent: backLabel ?? words.back ?? "",
-  });
-  backButton.addEventListener("click", back);
+  // A bill opened inside the meeting or the desk returns to it; a menu has no Back
+  // (owner, Oct 29: "continue and back needs to be removed from every single menu"):
+  // a menu's bill closes with the menu's tabs and close control.
+  const backButton = backLabel
+    ? makeButton({ className: "action", textContent: backLabel })
+    : null;
+  backButton?.addEventListener("click", back);
+  // Where the bill is: the committee's record, what members told you, the floor and
+  // the override, each member by name (ui/bill-stage.mjs). They stand in the
+  // bill's own board, under Where it is.
+  const stageNodes = billStageSections(
+    stage,
+    controls.billStage ?? {},
+    (person) => showPerson({ personId: person.personId }),
+    async (how) => {
+      await api(
+        `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+        "POST",
+      );
+      await openBillPaper(billId, show, back, backLabel);
+    },
+    {
+      onMove: async (index, direction) => {
+        await api(
+          `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      onCall: async (item) => {
+        await api(
+          `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      estimate: (item) =>
+        [
+          item.estimateAfter.workersRaised > 0
+            ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+            : null,
+          item.estimateAfter.annualPayMinor > 0
+            ? moneyWords(item.estimateAfter.annualPayMinor)
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+    },
+    {
+      onDecide: async (how) => {
+        await api(`/api/desk?${new URLSearchParams({ billId, how })}`, "POST");
+        await openBillPaper(billId, show, back, backLabel);
+      },
+    },
+    {
+      onAsk: (index) =>
+        api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
+      onKeep: async (index) => {
+        await api(
+          `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      estimate: (redraft) =>
+        [
+          redraft.estimateAfter.workersRaised > 0
+            ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
+            : null,
+          redraft.estimateAfter.annualPayMinor > 0
+            ? moneyWords(redraft.estimateAfter.annualPayMinor)
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+    },
+    {
+      onVote: async (how) => {
+        await api(
+          `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      onCall: async () => {
+        await api(
+          `/api/bill/override-call?${new URLSearchParams({ billId })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+    },
+  );
   show(
-    backButton,
+    ...(backButton ? [backButton] : []),
     billPaper({
       spoken: paper.spoken,
       title: paper.title,
@@ -2732,6 +2885,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       billLabel: words.bill ?? "",
       voteLabel: words.vote ?? "",
       band,
+      stage: stageNodes,
       estimateLabel: words.estimate ?? "",
       // The budget lines the bill sets, this year beside last year's.
       extra: billFigures({
@@ -2784,14 +2938,21 @@ async function openBillPaper(billId, show, back, backLabel) {
             ...(tally?.notVoting
               ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
               : []),
-            // The player's own member in this chamber and the vote they cast (the page view's yourMembers).
-            ...(view.yourMembers ?? [])
-              .filter((m) => m.chamber === entry.chamber && m.vote)
-              .map((m) => ({
-                label: pageWords.yours,
-                value: `${m.name}, ${controls.billStage?.[m.vote] ?? ""}`,
-              })),
           ],
+          // The player's own members in this chamber and the vote each cast
+          // (the page view's yourMembers): a name, then the vote.
+          members: (() => {
+            const mine = (view.yourMembers ?? []).filter(
+              (m) => m.chamber === entry.chamber && m.vote,
+            );
+            return {
+              label: mine.length > 1 ? pageWords.yourMembers : pageWords.yours,
+              rows: mine.map((m) => ({
+                label: m.name,
+                value: controls.billStage?.[m.vote] ?? "",
+              })),
+            };
+          })(),
         };
       }),
       blank: billEstimate(paper, { estimate: {} }),
@@ -2813,94 +2974,6 @@ async function openBillPaper(billId, show, back, backLabel) {
           : null,
       ],
     }),
-    // Where the bill is: the committee's record, what members told you, the floor and
-    // the override, each member by name (ui/bill-stage.mjs).
-    ...billStageSections(
-      stage,
-      controls.billStage ?? {},
-      (person) => showPerson({ personId: person.personId }),
-      async (how) => {
-        await api(
-          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
-          "POST",
-        );
-        await openBillPaper(billId, show, back, backLabel);
-      },
-      {
-        onMove: async (index, direction) => {
-          await api(
-            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        onCall: async (item) => {
-          await api(
-            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        estimate: (item) =>
-          [
-            item.estimateAfter.workersRaised > 0
-              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
-              : null,
-            item.estimateAfter.annualPayMinor > 0
-              ? moneyWords(item.estimateAfter.annualPayMinor)
-              : null,
-          ]
-            .filter(Boolean)
-            .join(" · "),
-      },
-      {
-        onDecide: async (how) => {
-          await api(
-            `/api/desk?${new URLSearchParams({ billId, how })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-      },
-      {
-        onAsk: (index) =>
-          api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
-        onKeep: async (index) => {
-          await api(
-            `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        estimate: (redraft) =>
-          [
-            redraft.estimateAfter.workersRaised > 0
-              ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
-              : null,
-            redraft.estimateAfter.annualPayMinor > 0
-              ? moneyWords(redraft.estimateAfter.annualPayMinor)
-              : null,
-          ]
-            .filter(Boolean)
-            .join(" · "),
-      },
-      {
-        onVote: async (how) => {
-          await api(
-            `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-        onCall: async () => {
-          await api(
-            `/api/bill/override-call?${new URLSearchParams({ billId })}`,
-            "POST",
-          );
-          await openBillPaper(billId, show, back, backLabel);
-        },
-      },
-    ),
     // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
     ...(devModeOn()
       ? [
@@ -3023,12 +3096,24 @@ async function seatRows() {
         });
       },
     });
+    // The body's line on the board: who sits on it, and the way in to writing
+    // a bill, which takes the whole screen (a list of subjects beside the
+    // chosen one's page). A menu has no Back (owner, Oct 28 and 29): the Your
+    // office tab above it returns to the seat.
+    const write = makeButton({
+      className: "action",
+      textContent: seat.title ?? "",
+    });
+    write.dataset.act = "write-a-bill";
+    write.addEventListener("click", () =>
+      $("sheet-body").replaceChildren(draftBlock),
+    );
     draftNodes.push(
       stripSection(
         2,
         body.title,
         line(body.members.map((m) => m.name).join(" · ")),
-        draftBlock,
+        buttonRow(write),
       ),
     );
   }
@@ -3159,17 +3244,28 @@ async function ownHistory() {
   return card.history ?? [];
 }
 /** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
-function lifeParagraphs(lines) {
-  return lifeStory(lines, controls.lifeGroups);
+/**
+ * A tab of the You group as the approved strip screen: the player's name and
+ * the one bust every tab of the group shows (the card's own face record), with
+ * the tab's sections beside it. No whole figure stands beside a menu (owner,
+ * Nov 7).
+ */
+function ownStrip(columns) {
+  const c = me.card;
+  return stripScreen({
+    name: c.name,
+    role: c.job
+      ? [c.job.title, c.job.employer].filter(Boolean).join(", ")
+      : `${controls.who.age} ${c.age}`,
+    face: c.face ?? null,
+    columns,
+  });
 }
-function portraitUrl() {
-  // The created look when there is one; else the figure the scene draws you
-  // with, or the one your card's face is cut from (a life started anywhere
-  // but the creator, who is not standing in their own scene).
-  return me.portrait
-    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
-        me.card?.face?.url);
+function lifeParagraphs(lines) {
+  // Dev mode: each sentence opens its record in the one Trace box, drawn under the story.
+  if (!devModeOn()) return lifeStory(lines, controls.lifeGroups);
+  const { node, open } = traceBox(controls.devTrace.trace);
+  return [...lifeStory(lines, controls.lifeGroups, open), node];
 }
 /** A record image has no substitute when its producer has not supplied one. */
 
@@ -3418,7 +3514,8 @@ const sheets = {
     const job = me.card.job;
     const life = await ownHistory();
     const worked = life.filter((h) => h.kind === "work" || h.kind === "school");
-    const work = plate(
+    const work = stripSection(
+      1,
       labels.work,
       ...(job
         ? [
@@ -3449,16 +3546,22 @@ const sheets = {
     );
     work.classList.add("job-plate");
     return [
-      work,
-      ...(worked.length
-        ? [plate(labels.workAndSchool, ...lifeParagraphs(worked))]
-        : []),
+      ownStrip([
+        [work],
+        worked.length
+          ? [stripSection(2, labels.workAndSchool, ...lifeParagraphs(worked))]
+          : [],
+      ]),
     ];
   },
   // Your own life as sentences, the same lines a person's card tells of anyone you open.
   async history() {
     const life = await ownHistory();
-    return [plate(null, ...lifeParagraphs(life))];
+    return [
+      ownStrip([
+        [stripSection(1, controls.titles.history, ...lifeParagraphs(life))],
+      ]),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -3756,10 +3859,7 @@ const sheets = {
                       party: gov.executive.party,
                       post: gov.executive.title,
                       onOpen: () =>
-                        showPerson({
-                          personId: gov.executive.cardId,
-                          figureUrl: gov.executive.face?.url,
-                        }),
+                        showPerson({ personId: gov.executive.cardId }),
                     }),
                   ),
                 ]
@@ -4248,7 +4348,7 @@ const sheets = {
                 face: f.face,
                 onOpen: () => {
                   closeSheet();
-                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+                  showPerson({ personId: f.cardId });
                 },
               }),
               ...f.stances.map((st) =>
@@ -4411,57 +4511,27 @@ const sheets = {
     const words = controls.billFollow ?? {};
     const status = controls.floor?.status ?? {};
     const list = await api("/api/bills/following");
-    const body = (...nodes) => $("sheet-body").replaceChildren(...nodes);
-    const open = (item) =>
-      openBillPaper(item.id, body, () => openSheet("bills"), words.back);
-    return [
-      stripScreen({
-        name: controls.titles.bills,
-        role: "",
-        face: null,
-        columns: [
-          list.length
-            ? list.map((item, at) => {
-                const button = makeButton({
-                  className: "action",
-                  textContent: words.open,
-                });
-                button.addEventListener("click", () => open(item));
-                return stripSection(
-                  1 + (at % 5),
-                  `${item.number} · ${item.title}`,
-                  line(
-                    [
-                      status[item.status],
-                      ...item.floor.map(
-                        (f) => `${f.chamberTitle}: ${f.result}`,
-                      ),
-                      item.reachesYou ? words.reaches : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" · "),
-                  ),
-                  ...(item.mine.length
-                    ? [
-                        introText(
-                          `${words.yourMembers}: `,
-                          ...item.mine.flatMap((m, i) => [
-                            ...(i ? [", "] : []),
-                            nameLink(m.name, () =>
-                              showPerson({ personId: m.memberId }),
-                            ),
-                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
-                          ]),
-                        ),
-                      ]
-                    : []),
-                  button,
-                );
-              })
-            : [stripSection(1, controls.titles.bills, prose(words.empty))],
-        ],
-      }),
-    ];
+    if (!list.length)
+      return [stripSection(1, controls.titles.bills, prose(words.empty))];
+    // The bills a player follows, listed by where each stands, beside the
+    // chosen bill's own page (the one list-beside-page part): no button to
+    // read a bill and no Back from it.
+    const stages = [...new Set(list.map((item) => item.status))];
+    return rosterScreen({
+      title: controls.titles.bills,
+      className: "bills",
+      groups: stages.map((stage) => ({
+        title: status[stage] ?? "",
+        entries: list
+          .filter((item) => item.status === stage)
+          .map((item) => ({
+            key: item.id,
+            label: item.title,
+            aside: item.number,
+          })),
+      })),
+      render: (entry, show) => void openBillPaper(entry.key, show, () => {}),
+    });
   },
   async government() {
     const labels = controls.politics;
@@ -4475,14 +4545,10 @@ const sheets = {
         text ?? "",
       );
     const short = (iso) => dateWords(iso, { month: "short", year: today() });
-    const open = (cardId, face) => () => {
+    const open = (cardId) => () => {
       closeSheet();
-      showPerson({ personId: cardId, figureUrl: face?.url });
+      showPerson({ personId: cardId });
     };
-    const stateName = (key) =>
-      key === gov.homeState?.key
-        ? gov.homeState.name
-        : (states.find((st) => st.key === key)?.name ?? key);
     // A seat as a voter says it: a town's ward, a state's district, at large.
     const seatWords = (body, district) =>
       !district
@@ -4501,7 +4567,7 @@ const sheets = {
           line,
           party: m.party,
           face: m.face,
-          onOpen: open(m.cardId, m.face),
+          onOpen: open(m.cardId),
         },
         { large },
       );
@@ -4516,27 +4582,6 @@ const sheets = {
     // the panel never scrolls, so a short window pages sooner.
     const rowsFor = (taken, most) =>
       Math.max(1, Math.min(most, Math.floor((viewHeight() - taken) / 72)));
-    // When a body meets, as its rule says it: "every Tuesday", "the 1st and
-    // 3rd Tuesday of the month".
-    const scheduleWords = (rule) => {
-      if (!rule) return null;
-      const weekday = labels.weekdays?.[rule.weekday] ?? "";
-      const nth = (i) => labels.ordinals?.[i - 1] ?? String(i);
-      const schedule =
-        rule.weeksOfMonth.length === 0
-          ? fill(labels.meetsWeekly, { weekday })
-          : rule.weeksOfMonth.length > 1
-            ? fill(labels.meetsTwice, {
-                first: nth(rule.weeksOfMonth[0]),
-                second: nth(rule.weeksOfMonth[1]),
-                weekday,
-              })
-            : fill(labels.meetsMonthly, {
-                first: nth(rule.weeksOfMonth[0]),
-                weekday,
-              });
-      return fill(labels.meets, { schedule });
-    };
     const comingWords = (item) =>
       item.kind === "meeting"
         ? labels.regularMeeting
@@ -4570,7 +4615,6 @@ const sheets = {
                           (...nodes) =>
                             $("sheet-body").replaceChildren(...nodes),
                           () => openSheet("government"),
-                          labels.backToGovernment,
                         ),
                     }
                   : {}),
@@ -4605,23 +4649,13 @@ const sheets = {
           : null,
       );
     };
-    const lawmakingView = (body, executive, level, stateKey) => {
-      const election = body.comingUp.find((c) => c.kind === "election");
+    const lawmakingView = (body, executive) => {
+      // The body's name over its room, no line under it (owner, Nov 7: no
+      // subtitles on menus): its seats are in Seats, its meeting and election
+      // in Coming up.
       const header = chamberHeader({
         picture: body.picture,
         name: body.name,
-        line: [
-          level === "federal"
-            ? fill(labels.delegation, { state: stateName(stateKey) })
-            : null,
-          scheduleWords(body.meeting),
-          fill(labels.seatsTotal, { n: body.seats }),
-          election
-            ? fill(labels.nextElection, { date: dateWords(election.date) })
-            : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
       });
       const big = body.seats > 12;
       // A big chamber: your own members and its leaders first, then everyone
@@ -4695,10 +4729,7 @@ const sheets = {
                         party: chief.members[0].party,
                         post: chief.title,
                         line: sinceLine(chief.members[0]),
-                        onOpen: open(
-                          chief.members[0].cardId,
-                          chief.members[0].face,
-                        ),
+                        onOpen: open(chief.members[0].cardId),
                       }),
                     ),
                   ]
@@ -4710,7 +4741,7 @@ const sheets = {
     };
     // The executive branch: the chief executive's office on the left, the
     // level's other elected officers and what is coming up on the right.
-    const executiveView = (executive, level) => {
+    const executiveView = (executive) => {
       const chief = executive.find((e) => e.chief) ?? executive[0];
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
@@ -4719,7 +4750,7 @@ const sheets = {
           o.members.map((m) => ({
             name: m.name,
             relation: o.title,
-            onOpen: open(m.cardId, m.face),
+            onOpen: open(m.cardId),
           })),
         ),
       );
@@ -4729,10 +4760,6 @@ const sheets = {
               chamberHeader({
                 picture: chief.picture,
                 name: chief.title,
-                // A local office is named under its government ("Village of
-                // Mokena"); a state's or the nation's never repeats the state
-                // the filter names (owner, Oct 28, point 16).
-                line: level === "local" ? chief.government : null,
               }),
               ...(head
                 ? [
@@ -4745,7 +4772,7 @@ const sheets = {
                         party: head.party,
                         post: chief.title,
                         line: sinceLine(head),
-                        onOpen: open(head.cardId, head.face),
+                        onOpen: open(head.cardId),
                       }),
                     ),
                   ]
@@ -4896,8 +4923,8 @@ const sheets = {
             side: [],
           }
         : branch === "executive" || !body
-          ? executiveView(v.executive, level)
-          : lawmakingView(body, v.executive, level, v.state.key);
+          ? executiveView(v.executive)
+          : lawmakingView(body, v.executive);
       const screenNode = splitScreen({
         className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
@@ -4944,7 +4971,17 @@ const sheets = {
     const labels = controls.politics;
     const party = v.party;
     const mine = party?.member?.name;
-    const keys = v.parties.map((p) => p.party);
+    // Every party the player can read about: the ones that hold office here,
+    // the ones open to join, and the player's own, each once. A party with no
+    // one in office still has its page, so its member sees the membership and
+    // a newcomer can join it.
+    const keys = [
+      ...new Set([
+        ...v.parties.map((p) => p.party),
+        ...(party?.parties ?? []).map((p) => p.name),
+        ...(mine ? [mine] : []),
+      ]),
+    ];
     // One party's page: who holds office for it (cards, paged), and where the player stands
     // with it (registered, or Join).
     const partyPage = (name) => {
@@ -4975,10 +5012,7 @@ const sheets = {
                     face: s.face,
                     onOpen: () => {
                       closeSheet();
-                      showPerson({
-                        personId: s.cardId,
-                        figureUrl: s.face?.url,
-                      });
+                      showPerson({ personId: s.cardId });
                     },
                   }),
                 rows: Math.max(
@@ -5256,10 +5290,12 @@ async function openSheet(tab) {
     tab === "options" || !$("front").hidden,
   );
   const character = groupOf(tab) === "who";
-  // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
+  // You carries its own bust (the approved strip screen). Jobs and study and
+  // Your life are strip screens too: no full-body figure stands beside a menu
+  // (owner, Nov 7: "let's just do the busts"; Nov 10: "start removing the people").
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" ||
+    character ||
       tab === "budgets" ||
       tab === "metrics" ||
       tab === "journal" ||
@@ -5267,21 +5303,6 @@ async function openSheet(tab) {
       tab === "campaign" ||
       tab === "calendar" ||
       tab === "news",
-  );
-  $("sheet").classList.toggle("character-sheet", character && tab !== "who");
-  $("sheet-media").hidden = !character || tab === "who";
-  fillArtwork(
-    $("sheet-media"),
-    character
-      ? {
-          portraitUrl:
-            me.card.presentation?.portraitUrl !== undefined
-              ? me.card.presentation.portraitUrl
-              : portraitUrl(),
-          backgroundUrl: me.card.presentation?.backgroundUrl,
-          name: me.card.name,
-        }
-      : {},
   );
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.remove("place-view", "compact", "tight");
@@ -5295,8 +5316,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "news"].includes(tab) &&
-      (!character || tab === "who") &&
+    !["calendar", "people", "news", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
@@ -5441,6 +5461,14 @@ api("/api/title").then((title) => {
   });
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
+  // New game's two choices, each under its busts (the mock's fr-new): someone
+  // starting out, and three who hold office.
+  $("new-start-busts").replaceChildren(
+    ...(title.newGame?.start ? [bust(title.newGame.start, "", 210)] : []),
+  );
+  $("new-advanced-busts").replaceChildren(
+    ...(title.newGame?.advanced ?? []).map((face) => bust(face, "", 132)),
+  );
 });
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
@@ -5451,7 +5479,6 @@ $("front-continue").addEventListener("click", async () => {
     date: life.date,
     minuteOfDay: life.minuteOfDay,
     names: {},
-    portrait: life.portrait,
   };
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
@@ -5738,7 +5765,8 @@ async function openCreator() {
   await controlsReady;
   frontPanel("cr-screen");
   void showStates();
-  if (setup.gender) void openLook();
+  // A bust stands in the creator from its first frame, before a gender is chosen.
+  void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => {
@@ -5852,49 +5880,21 @@ $("cr-place-random").addEventListener("click", async () => {
   await showStates();
 });
 
-// A row of color swatches: each a button named for its color, the chosen one marked.
-async function pickColor(row, value) {
-  const view = await post(
-    `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe), row, value })}`,
-  );
-  setup.previous = [...setup.previous, setup.recipe].slice(-20);
-  showLook(view);
-}
-
-// Character appearance: the people engine's portrait and arrows.
+// Character appearance: the look's bust (the one every screen will draw) and
+// a row with arrows for each thing a bust shows.
 function showLook(view) {
   setup.recipe = view.recipe;
-  // Everyday clothes and, beside them, work clothes (owner, Oct 29).
-  const recipe = encodeURIComponent(JSON.stringify(view.recipe));
-  $("cr-portrait").src = `/api/portrait?recipe=${recipe}`;
-  $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
+  $("cr-bust").replaceChildren(bust(view.face, "", 250));
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
-      lookRow(
-        // A color steps with arrows like every other look (the Nov 8 creator mock: "arrows
-        // like The Political Process"); its swatch dot stays beside the name.
-        row.swatches
-          ? {
-              ...row,
-              swatches: undefined,
-              swatch: row.swatches.find((x) => x.chosen)?.color,
-            }
-          : row,
-        {
-          onMove: (id, by) => {
-            const colors = row.swatches;
-            if (!colors) return void moveLook(id, by);
-            const here = colors.findIndex((x) => x.chosen);
-            const next = colors[(here + by + colors.length) % colors.length];
-            void pickColor(id, next.id);
-          },
-          arrowLabel: (by, r) =>
-            controls.creator[by < 0 ? "previous" : "next"].replace(
-              "{row}",
-              r.label.toLowerCase(),
-            ),
-        },
-      ),
+      lookRow(row, {
+        onMove: (id, by) => void moveLook(id, by),
+        arrowLabel: (by, r) =>
+          controls.creator[by < 0 ? "previous" : "next"].replace(
+            "{row}",
+            r.label.toLowerCase(),
+          ),
+      }),
     ),
   );
   $("cr-reset").disabled =
@@ -6037,7 +6037,6 @@ async function enterAs(life, personId) {
     placeName: life.placeName,
     date: life.date,
     names: life.names,
-    portrait: false,
   };
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
@@ -6184,7 +6183,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       placeName: life.placeName,
       date: life.date,
       names: life.names,
-      portrait: Boolean(person?.recipe),
     };
     show("front", false);
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;

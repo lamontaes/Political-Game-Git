@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-school-names-abbreviated
+pr: #8557
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:05:40.670Z
 ---
 
 **What.** Who you are lists the player's schools with the school data's abbreviations as stored: in Dalmatia, Pennsylvania (place key 4218080, seed d5a7f4797e3756f8bdd69464f234cc3c2e3a0e91d0ef4b01ef56cfde097588e6) "Shamokin Area Intermediate Sch" and "Shamokin Area El Sch", and in Albion (playtest Oct 26) "Northwestern MS" and "Northwestern El Sch". A player reads these as cut-off names. The abbreviations should be expanded from a data table where a school's name is shown, not by typing names into a screen.

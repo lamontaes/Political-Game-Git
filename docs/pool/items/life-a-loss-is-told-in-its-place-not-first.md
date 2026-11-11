@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-life-a-loss-is-told-in-its-place-not-first
+pr: #8298
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,9 @@ effort: low
 root: design-life-record
 source: the life record's second session, Nov 10 (not seen; its note is on core-life-record); cause found by Fable
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:32:44.926Z
+branch: claude/pool-life-a-loss-is-told-in-its-place-not-first
+merged-at: 2026-11-11T02:56:40.020Z
 ---
 
 **What.** My life and a person's card group a life into paragraphs. The first paragraph holds partner, children and losses together, so "I lost my parent" is read before the school sentences even when the parent died last year. A loss should come late in the story, where it falls for nearly everyone.
@@ -34,3 +37,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/bench/data/controls.json, src/bench/card-life.test.ts
+
+**Notes.** Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:32 UTC) on branch claude/pool-life-a-loss-is-told-in-its-place-not-first.

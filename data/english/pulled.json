@@ -1,10 +1,6 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {
-    "conversation.news-ask-think.what-do-you-think": [
-      "question-names-its-subject"
-    ]
-  },
+  "pulled": {},
   "waiting": {
     "scene-talk.follow-answer.because-those-three-can-t-afford-a-yes-and-you-can": [
       "trade-not-bribe"
