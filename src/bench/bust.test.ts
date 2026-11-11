@@ -29,7 +29,7 @@ describe("the bust bank", () => {
       expect(a, person.id).not.toBeNull();
       expect(a).toEqual(b);
       // Head first, hair last, a top between.
-      expect(a!.layers[0]).toMatch(/\/head-[A-Z]\.png$/);
+      expect(a!.layers[0]).toMatch(/\/head-(light|medium|dark)-adult\.png$/);
       expect(a!.layers[1]).toMatch(/\/top-/);
       expect(a!.layers.at(-1)).toMatch(/\/hair-/);
       expect(a!.size).toBeGreaterThan(0);
@@ -46,8 +46,8 @@ describe("the bust bank", () => {
         sex,
       ).toEqual(alike.map((_, i) => i));
       const heads = alike.map((p) => bustFor(p, "work", 0)!.layers[0]);
-      expect(heads[0], sex).toMatch(/head-A\.png$/);
-      expect(heads.at(-1), sex).toMatch(/head-C\.png$/);
+      expect(heads[0], sex).toMatch(/head-light-adult\.png$/);
+      expect(heads.at(-1), sex).toMatch(/head-dark-adult\.png$/);
     }
     expect(bustFor({ id: "nobody" }, "work", 0)).toBeNull();
   });
@@ -92,19 +92,70 @@ describe("the bust bank", () => {
 
   it("draws a chosen look from its own pieces, and nothing for a piece the bank lacks", () => {
     const man = bustPeople().find((p) => p.sex === "man")!;
-    const { hair, face } = bustChoices("man");
-    const look = { person: man.id, hair: hair[1]!.file, face: face[0]!.file };
+    const { hair, hairColor, face } = bustChoices(man);
+    const look = {
+      person: man.id,
+      hair: hair[1]!.key,
+      hairColor: hairColor[0]!.key,
+      face: face[0]!.key,
+    };
     const drawn = bustOfLook(look, "work")!;
-    expect(drawn.layers.at(-1)!.endsWith(look.hair)).toBe(true);
-    expect(drawn.layers.some((url) => url.endsWith(look.face))).toBe(true);
+    expect(drawn.layers.at(-1)).toMatch(
+      new RegExp(`/hair-${look.hair}-${look.hairColor}\\.png$`),
+    );
+    expect(
+      drawn.layers.some((url) => url.includes(`/face-${look.face}-`)),
+    ).toBe(true);
     // No facial hair where the look names none.
-    const bare = bustOfLook({ person: man.id, hair: look.hair }, "work")!;
-    expect(bare.layers.some((url) => /\/face-/.test(url))).toBe(false);
-    expect(bustOfLook({ ...look, hair: "hair-none.png" }, "work")).toBeNull();
+    const bare = {
+      person: look.person,
+      hair: look.hair,
+      hairColor: look.hairColor,
+    };
+    expect(
+      bustOfLook(bare, "work")!.layers.some((url) => /\/face-/.test(url)),
+    ).toBe(false);
+    expect(bustOfLook({ ...look, hair: "none" }, "work")).toBeNull();
     expect(bustOfLook({ ...look, person: "nobody" }, "work")).toBeNull();
-    // Every piece the creator offers has a word for it.
-    for (const sex of ["woman", "man"])
-      for (const piece of [...bustChoices(sex).hair, ...bustChoices(sex).face])
-        expect(piece.label, piece.file).not.toBe("");
+    // Every choice the creator offers has a word for it.
+    for (const person of bustPeople()) {
+      const choices = bustChoices(person);
+      for (const choice of [
+        ...choices.hair,
+        ...choices.hairColor,
+        ...choices.face,
+      ])
+        expect(choice.label, choice.key).not.toBe("");
+    }
+  });
+
+  it("gives someone older the older face and gray hair, by seed or by look", () => {
+    for (const person of bustPeople()) {
+      const seeded = bustFor(person, "everyday", 12345, true, true)!;
+      expect(seeded.layers[0], person.id).toMatch(/-older\.png$/);
+      expect(seeded.layers.at(-1), person.id).toMatch(/-gray\.png$/);
+      const { hair, hairColor } = bustChoices(person);
+      const look = {
+        person: person.id,
+        hair: hair[0]!.key,
+        hairColor: hairColor[0]!.key,
+      };
+      const chosen = bustOfLook(look, "everyday", true)!;
+      expect(chosen.layers[0], person.id).toMatch(/-older\.png$/);
+      expect(chosen.layers.at(-1), person.id).toMatch(/-gray\.png$/);
+    }
+  });
+
+  it("spreads people of one sex and tone over hairstyles, colors and tops", () => {
+    const woman = bustPeople().find((p) => p.sex === "woman")!;
+    const looks = new Set(
+      Array.from({ length: 400 }, (_, n) =>
+        bustFor(woman, "everyday", bustPick(`seed-${n}:bust`))!.layers.join(
+          " ",
+        ),
+      ),
+    );
+    // Six hairstyles, at least two colors and two everyday tops.
+    expect(looks.size).toBeGreaterThanOrEqual(20);
   });
 });
