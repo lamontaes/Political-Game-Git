@@ -626,6 +626,17 @@ export function seatSaid(
 ): string {
   const first = options.first ?? true;
   const title = seat.title.replace(/\s*\([^)]*\)/g, "").trim();
+  // A seat for a district (a House or legislative seat) is said by its
+  // district, whatever body it sits in.
+  const district = (seat.district ?? "").trim().replace(/^0+(?=\w)/, "");
+  const districted =
+    !!district && !/^0+$/.test(district) && !/^at[- ]large$/i.test(district);
+  if (districted)
+    return first
+      ? seatWords.district
+          .replace("{office}", jobSaid(title))
+          .replace("{n}", district)
+      : seatWords.districtAgain;
   if ((seat.seats ?? one) > one) {
     // The body by its record's name, or the title without its member word or
     // seat number ("City Council, Seat 2" is a seat on the city council).
@@ -639,13 +650,7 @@ export function seatSaid(
     const last = body.split(/\s+/).at(-one) ?? body;
     return seatWords.body.replace("{body}", first ? named : jobSaid(last));
   }
-  const said = jobSaid(title);
-  const district = (seat.district ?? "").trim().replace(/^0+(?=\w)/, "");
-  if (!district || /^0+$/.test(district) || /^at[- ]large$/i.test(district))
-    return said;
-  return first
-    ? seatWords.district.replace("{office}", said).replace("{n}", district)
-    : seatWords.districtAgain;
+  return jobSaid(title);
 }
 
 /** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */

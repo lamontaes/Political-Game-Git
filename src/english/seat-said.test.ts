@@ -33,5 +33,14 @@ describe("seatSaid", () => {
     expect(seatSaid(seat)).toBe("U.S. representative in District 2");
     expect(seatSaid(seat, { first: false })).toBe("the seat");
     expect(seatSaid({ title: "Mayor", district: "at-large" })).toBe("mayor");
+    // A House seat sits in a body of many seats, and is still said by its district.
+    expect(
+      seatSaid({
+        title: "U.S. Representative",
+        seats: 435,
+        bodyName: "United States House of Representatives",
+        district: "2",
+      }),
+    ).toBe("U.S. representative in District 2");
   });
 });
