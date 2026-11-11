@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-world-counted-households-transfer-income
+claimed-by:
 pr:
 blocked-on:
 after:
@@ -16,7 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T06:28:15.290Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-world-counted-households-transfer-income
 ---
@@ -42,3 +42,5 @@ branch: claude/pool-world-counted-households-transfer-income
 Oct 21 (claude): not built. The Done-when starts from "the branch's whole unplaced workers merged" (claude/pr-renter-income), which is not on main, so the day-one no-income share cannot be measured from main. Take it after that lands. Claim released.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:28 UTC) on branch claude/pool-world-counted-households-transfer-income.
+
+Released (2026-11-11): Full households get no disability, survivor or baseline cash benefits either; findings on PR 8704. Continue on branch claude/pool-world-counted-households-transfer-income.
