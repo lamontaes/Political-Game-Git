@@ -1,8 +1,10 @@
 import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
+  answerDonationAsk,
   askForEndorsement,
   contributeOwnMoney,
+  donationAsksFor,
   askToVolunteer,
   campaignFor,
   commissionPoll,
@@ -779,5 +781,65 @@ export function speechGive(
     text: speechText(build),
     retold,
     scene: speechScene(core, personId, venue, causes),
+  };
+}
+
+/**
+ * Candidates' asks for money that reached the player and wait on their answer
+ * (play-campaign-ask-reaches-player): who asks, for which race, what they
+ * would give by their own reasons, and the cash they hold to give from.
+ */
+export function donationAsksView(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  const asks = core.modules.has("core2-campaigns-v1")
+    ? donationAsksFor(api, personId)
+    : [];
+  const person = core.people.get(personId);
+  return {
+    cashMinor: person?.liquidMinor ?? 0,
+    asks: asks.map((ask) => {
+      const candidate = core.people.get(ask.candidateId);
+      const filing = api
+        .moduleState(ELECTIONS)
+        .table("filings")
+        .get(ask.campaignId) as unknown as FilingRow | undefined;
+      const contest = filing
+        ? (api
+            .moduleState(ELECTIONS)
+            .table("contests")
+            .get(filing.contestId) as unknown as ContestRow | undefined)
+        : undefined;
+      return {
+        id: ask.id,
+        candidateId: ask.candidateId,
+        candidate: candidate
+          ? `${candidate.givenName} ${candidate.familyName}`
+          : "",
+        race: contest ? raceTitle(contest.title, contest.district) : "",
+        party: filing?.party ?? null,
+        suggestedMinor: ask.suggestedMinor,
+        askedOn: ask.askedOn,
+      };
+    }),
+  };
+}
+
+/** The player's answer to one of their own open asks: give a sum, or decline. */
+export function answerAsk(
+  core: CoreState,
+  personId: string,
+  input: { askId: string; answer: string; amountMinor?: number },
+) {
+  if (input.answer !== "give" && input.answer !== "decline")
+    throw new Error("Invalid answer.");
+  if (!donationAsksView(core, personId).asks.some((a) => a.id === input.askId))
+    throw new Error("This ask is not open for this person.");
+  return {
+    answered: answerDonationAsk(
+      coreAPI(core),
+      input.askId,
+      input.answer,
+      input.amountMinor,
+    ),
   };
 }
