@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-talk-reply-not-offered-after-one-engine
+claimed-by:
 pr:
 blocked-on:
 after:
@@ -17,7 +17,7 @@ effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T10:19:36.645Z
+claimed-at:
 branch: claude/pool-words-talk-reply-not-offered-after-one-engine
 ---
 
@@ -48,3 +48,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Cap is on (AGENTS.md, owner Nov 11: no new item while over 150 game PRs are open; 381 PRs open now); next handed it out when gh could not open the draft PR and probably could not count. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 10:14 UTC) on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Released (2026-11-11): Cap is on (260 game PRs open, cap 150); next prints the cap and still claims this bug item, which is not a red, rule, check or skill. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
