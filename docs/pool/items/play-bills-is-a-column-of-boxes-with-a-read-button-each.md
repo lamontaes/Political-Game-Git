@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/fable-b-bills-list-beside-page
-pr:
+pr: #8556
 after: play-bill-page-cuts-off-the-vote-and-play-as-offers-empty-offices
 blocked-on:
 lead: screens
