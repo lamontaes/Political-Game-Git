@@ -15,6 +15,7 @@ import { advanceCore } from "./life";
 import { buildMonth } from "./housing-construction";
 import { reviewHomeless } from "./housing-homeless";
 import { renewRentalLeases } from "./housing-occupancy";
+import { webFactorFor } from "./outcome-web-reach";
 import { townFigures } from "./modules/housing";
 import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { coreAPI } from "./state";
@@ -42,10 +43,15 @@ interface Run {
   rents: Map<string, { rent: number; tier: string; change: number }>;
   carryMulti: number;
   exited: boolean;
+  homelessFactor: number;
   homelessFactorRecord: string | null;
 }
 
-function play(shift: boolean, built?: PlayedWorld): Run {
+function play(
+  shift: boolean,
+  built?: PlayedWorld,
+  unshiftedFactor?: number,
+): Run {
   const opening = gameStartDate();
   const world =
     built ??
@@ -149,7 +155,15 @@ function play(shift: boolean, built?: PlayedWorld): Run {
     reasons: {},
     reasonRecordIds: [],
   } as never);
-  const multiple = api.parameter("housingRehouseIncomeMultiple");
+  // The multiple of the rent a landlord asks of income is the parameter times
+  // the web's factor on homelessness. The base run's web already stands
+  // wherever the draw's month left it (not always 1), so "pay is 0.8 of the
+  // ask" is read against the unshifted web's ask: the rent is fixed from the
+  // base run's factor and the shifted run asks the same rent.
+  const homelessFactor = webFactorFor(api, town, "housing.homelessness");
+  const multiple =
+    api.parameter("housingRehouseIncomeMultiple") *
+    (unshiftedFactor ?? homelessFactor);
   let exited = false;
   reviewHomeless(
     api,
@@ -164,6 +178,7 @@ function play(shift: boolean, built?: PlayedWorld): Run {
     rents,
     carryMulti,
     exited,
+    homelessFactor,
     homelessFactorRecord: latest.id,
   };
 }
@@ -171,7 +186,7 @@ function play(shift: boolean, built?: PlayedWorld): Run {
 describe(`housing follows the outcome web (${place.name}, seed ${seed})`, () => {
   it("renewed rents, apartment starts and a homeless household's way back move with the web's factors", () => {
     const base = play(false, first.world);
-    const moved = play(true);
+    const moved = play(true, undefined, base.homelessFactor);
     // Rents: every lease, full and counted, renews 5 percent higher in the shifted run.
     expect(moved.rents.size).toBeGreaterThan(0);
     expect(new Set([...moved.rents.values()].map((r) => r.tier))).toContain(
