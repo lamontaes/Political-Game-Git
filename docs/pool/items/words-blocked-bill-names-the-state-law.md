@@ -6,10 +6,10 @@ area: play
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-words-blocked-bill-names-the-state-law
-pr:
+pr: #8688
 after:
 blocked-on:
 model: sonnet

@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
-pr:
+pr: #8629
 blocked-on:
 source: added with npm run pool -- add
 after:
