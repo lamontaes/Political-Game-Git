@@ -8,7 +8,12 @@ import calendarJson from "../../data/english/parts/calendar.json" with { type: "
 import personSketchJson from "../../data/english/parts/person-sketch.json" with { type: "json" };
 import personHistoryJson from "../../data/english/parts/person-history.json" with { type: "json" };
 import billPaperJson from "../../data/english/parts/bill-paper.json" with { type: "json" };
-import { playable } from "./bank-parts";
+import { directorSlots, playable } from "./bank-parts";
+import {
+  renderGroundedEnglish,
+  type AuthoredEnglishBank,
+  type GroundedEnglishPacket,
+} from "./grounded-english";
 
 interface ScreenPart {
   key: string;
@@ -66,4 +71,62 @@ export function screenWays(bank: string, key: string): string[] {
 /** The words of part `key` of `bank` before its slots are filled, or "". */
 export function partText(bank: string, key: string): string {
   return BANKS[bank]?.get(key)?.text ?? "";
+}
+
+/**
+ * One of several wordings (`keys`) of `bank`, chosen by the English engine's
+ * own stable pick for this moment (`momentKey`, the record the line tells),
+ * among those whose slots the facts fill; null when none can be said. The
+ * facts cite `sourceIds`. A screen never picks a wording by a hash of its own.
+ */
+export function screenPick(
+  bank: string,
+  keys: readonly string[],
+  facts: Readonly<Record<string, string>>,
+  request: { momentKey: string; sourceIds: readonly string[] },
+): { key: string; text: string } | null {
+  const parts = keys.flatMap((key) => {
+    const part = BANKS[bank]?.get(key);
+    return part && playable(part) ? [part] : [];
+  });
+  if (!parts.length || !request.sourceIds.length) return null;
+  const grounded = Object.fromEntries(
+    Object.entries(facts)
+      .filter(([, value]) => value !== "")
+      .map(([key, value]) => [
+        key.replace(/_/g, "-"),
+        { text: value, sourceRecordIds: request.sourceIds },
+      ]),
+  );
+  const reader = `${bank}:reader`;
+  const result = renderGroundedEnglish(
+    {
+      surface: "menu",
+      momentKey: request.momentKey,
+      worldSeed: bank,
+      bankVersion: bank,
+      stage: bank,
+      sourceRecordIds: request.sourceIds,
+      facts: grounded,
+      viewer: { personId: reader, traits: {} },
+      knowledge: Object.keys(grounded).map((factKey) => ({
+        personId: reader,
+        factKey,
+        sourceRecordIds: request.sourceIds,
+      })),
+    } as unknown as GroundedEnglishPacket,
+    {
+      key: `screen:${bank}`,
+      version: bank,
+      surface: "menu",
+      variants: parts.map((part) => ({
+        key: part.key,
+        text: directorSlots(part.text),
+        kind: "template" as const,
+      })),
+    } as unknown as AuthoredEnglishBank,
+  );
+  return result.kind === "rendered"
+    ? { key: result.variantKey, text: result.text }
+    : null;
 }

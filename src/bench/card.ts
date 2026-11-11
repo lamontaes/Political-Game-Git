@@ -24,7 +24,12 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
-import { partText, screenLine, screenWays } from "../english/screen-words";
+import {
+  partText,
+  screenLine,
+  screenPick,
+  screenWays,
+} from "../english/screen-words";
 import { framedByAge } from "../english/journal-words";
 import controls from "./data/controls.json" with { type: "json" };
 import {
@@ -630,26 +635,24 @@ interface HistoryLine {
 const inSentence = officeInSentence;
 
 /**
- * One of a kind's wordings for a record: the record's own pick among them (the
- * same record reads the same each time the card opens), passing over any the
- * story has used and any whose slots the record cannot fill.
+ * One of a kind's wordings for a record, by the English engine's own stable
+ * pick for that record (the same record reads the same each time the card
+ * opens), passing over any the story has used and any whose slots the record
+ * cannot fill.
  */
 function pickWay(
   ways: readonly string[],
   used: ReadonlySet<string>,
   recordId: string,
-  say: (key: string) => string | null,
+  slots: Readonly<Record<string, string>>,
+  part = "",
 ): { key: string; text: string } | null {
-  if (!ways.length) return null;
-  let at = 0;
-  for (const char of recordId) at = (at * 31 + char.charCodeAt(0)) >>> 0;
-  for (let step = 0; step < ways.length; step += 1) {
-    const key = ways[(at + step) % ways.length]!;
-    if (used.has(key)) continue;
-    const text = say(key);
-    if (text) return { key, text };
-  }
-  return null;
+  return screenPick(
+    "person-history",
+    ways.filter((key) => !used.has(key)),
+    slots,
+    { momentKey: `${recordId}${part}`, sourceIds: [recordId] },
+  );
 }
 
 /** Who a card's story is about, and the form its sentences take. */
@@ -844,9 +847,7 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     };
     const second = kinds.has(again) ? waysOf(`${again}-second`) : [];
     const ways = second.length ? second : waysOf(again);
-    const wording = pickWay(ways, used, line.recordId, (key) =>
-      screenLine("person-history", key, slots),
-    );
+    const wording = pickWay(ways, used, line.recordId, slots);
     if (!wording) return [];
     used.add(wording.key);
     kinds.add(again);
@@ -891,8 +892,12 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
                 : []),
             ]
       ).filter((key) => key !== lastWhen);
-      const when = pickWay(whens, new Set(), line.recordId, (key) =>
-        screenLine("person-history", key, { year, age: String(age ?? "") }),
+      const when = pickWay(
+        whens,
+        new Set(),
+        line.recordId,
+        { year, age: String(age ?? "") },
+        ":when",
       );
       if (when) {
         // The engine's one joiner: the opening's stop becomes a comma and
