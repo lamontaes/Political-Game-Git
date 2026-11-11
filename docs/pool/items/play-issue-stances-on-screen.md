@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-issue-stances-on-screen
-pr:
+pr: #8452
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from people-views-opening-stance-per-question)
 lead: play-first

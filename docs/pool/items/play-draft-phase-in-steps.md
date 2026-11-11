@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-draft-phase-in-steps
-pr:
+pr: #8457
 blocked-on: gov-m3-01-phase-in-by-dated-steps
 source: "governing lead and the lane, Oct 30 (the screen half of gov-m3-01-phase-in-by-dated-steps)"
 lead: play-first

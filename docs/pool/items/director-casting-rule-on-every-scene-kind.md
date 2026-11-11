@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-director-casting-rule-on-every-scene-kind
-pr:
+pr: #8451
 after:
 blocked-on:
 model: opus

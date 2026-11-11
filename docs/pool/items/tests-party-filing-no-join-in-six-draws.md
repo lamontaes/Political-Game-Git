@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/party-filing.test.ts, src/core2/modules/parties.ts
 
 **Notes.** lead: elections. Found by the elections wire session on Oct 28 while running the tests for the petition line; the party engine is in the elections family, so it is this session's red under the Oct 28 14:40 ruling.
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/party-filing.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=pet-run-1: 2 of 2 passed (green on the item's own seed). Fresh draw GOLDEN_PATH_SEED=sweep-fresh-17136: red. Assertion as printed: `Error: no drawn place had a join as an act: Cayey, Puerto Rico (7215494), seed 240270723f333236f6d7047c08902fe007b8a33ba9eef7a689f4dfafd01eb92f: nobody joined a party as an act; Oak Ridge, Louisiana (2257205); Mooresville, Indiana (1850976); ...` at src/core2/party-filing.test.ts:171. Still red by draw.
