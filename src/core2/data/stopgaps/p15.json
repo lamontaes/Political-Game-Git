@@ -172,13 +172,14 @@
   {
     "id": "SG-P15-kin-light-past",
     "kind": "shared-past-generation-gap",
-    "file": "src/core2/past-school.ts",
-    "whatItFakes": "Relatives living outside the town (husk-tier kin) are not run through the years before the start: they keep only their family and move facts, with no school years or working life.",
-    "why": "They never act, and generating that history for every relative made the prepared town too large to serialize (La Homa: 861 MB of past facts with part 1).",
+    "file": "src/core2/modules/people.ts",
+    "whatItFakes": "A relative living outside the town (husk tier), once opened, has the day they left the household's town (the moves engine's rule) and their school years there, but no working life since: they keep only their family facts for work.",
+    "why": "The working-life run (src/core2/past-work.ts runPastWork) is run only for people living where the world keeps businesses; a relative elsewhere lives in a place with no firms on record. Running every relative's past at the opening made the prepared town too large to serialize (La Homa: 861 MB of past facts with part 1), so it is written only when they are opened.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Run a relative's years before the start when the game first simulates them (the school engine's later hook, src/core2/past-school.ts schoolHistoryFor, and the working life's pastWorkFor).",
-    "status": "open"
+    "replacement": "Their work since from the employers of the place they live, once the world keeps a coarse record of firms elsewhere (the working lives of people elsewhere, history-past-officials).",
+    "status": "open",
+    "line": 586
   },
   {
     "id": "SG-P15-views-first-version",

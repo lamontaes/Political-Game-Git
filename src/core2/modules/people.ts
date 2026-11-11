@@ -16,6 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
+import { stopgap } from "../stopgaps";
 import { REMEMBERED_RECORD_KINDS, rememberEvent } from "../person-life";
 import {
   addDays,
@@ -576,7 +577,15 @@ export function partneredForFilledIn(
  */
 export function openWholePast(core: CoreState, personId: PersonId): void {
   const person = core.people.get(personId);
-  if (!person || person.tier === "husk" || !preStartWindowOf(core)) return;
+  if (!person || !preStartWindowOf(core)) return;
+  // A relative living elsewhere (husk tier) gets the day they left the
+  // household's town and their school years there; the working-life run
+  // covers only people living where the world keeps businesses, so their
+  // work since waits for that place's records.
+  if (person.tier === "husk") {
+    // stopgapId: SG-P15-kin-light-past
+    stopgap("SG-P15-kin-light-past", core);
+  }
   pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
