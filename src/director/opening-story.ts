@@ -345,7 +345,16 @@ function worldFacts(
       )[P.zero];
   const subject = (key: string, row: ReturnType<typeof ranked>) => {
     if (!row) return;
-    const words = subjectWords(core, president.id, kind, voice, row.topic, key);
+    // Hard news and good news are worded apart ("lagging pay", "rising pay"),
+    // so a sentence that treats its subject as a problem gets a problem.
+    const words = subjectWords(
+      core,
+      president.id,
+      kind,
+      voice,
+      `${row.topic}:${key === "best" ? "good" : "hard"}`,
+      key,
+    );
     if (words)
       facts[key] = fact(
         words,
@@ -399,7 +408,7 @@ function worldFacts(
       president.id,
       kind,
       voice,
-      topic,
+      `${topic}:hard`,
       `say-${topic}`,
     );
     if (words)
@@ -446,6 +455,9 @@ const PERSON_NAMES: readonly string[] = [
   "prior-office",
 ];
 
+/** The times a lead-in may name, which its core then does not name again. */
+const TIME_WORDS: readonly string[] = ["year", "term", "today", "tonight"];
+
 /** What an address leads with after the greeting. */
 type Lead = "occasion" | "country" | "people" | "history" | "mission";
 
@@ -468,7 +480,8 @@ interface AddressData {
     | "storyTopics"
     | "asidesBase"
     | "asidesPerTalk"
-    | "namesSaid",
+    | "namesSaid"
+    | "subjectsSaid",
     { value: number }
   >;
 }
@@ -1302,29 +1315,67 @@ export function composeBlocks(
             }
           : planned;
       // A name is said at most `namesSaid` times (one fewer before the turn
-      // to the Vice President, which always names them); a subject in words
-      // may be said again where no other wording can say the move, and a
-      // required move says what it must.
+      // to the Vice President, which always names them), and a subject's
+      // words ("take-home pay") at most `subjectsSaid` times, counted by the
+      // words said; only a required move says one again.
+      const counted = (key: string) =>
+        WORLD_NAMES.includes(key) || key.startsWith("say-");
       const limit = (key: string) =>
-        SHAPE.parameters.namesSaid.value -
-        (key === "vice-president" && vpAhead && block.key !== "to-vp"
-          ? P.one
-          : P.zero);
-      const within = (keys: readonly string[]) =>
+        PERSON_NAMES.includes(key)
+          ? SHAPE.parameters.namesSaid.value -
+            (key === "vice-president" && vpAhead && block.key !== "to-vp"
+              ? P.one
+              : P.zero)
+          : // The greeting and the close keep one say in reserve.
+            SHAPE.parameters.subjectsSaid.value -
+            (move.required || block.required ? P.zero : P.one);
+      const within = (keys: (key: string) => boolean) =>
         Object.fromEntries(
           Object.entries(block.facts).filter(
-            ([key]) =>
-              !keys.includes(key) || (named.get(key) ?? P.zero) < limit(key),
+            ([key, row]) =>
+              !keys(key) || (named.get(row.text) ?? P.zero) < limit(key),
           ),
         );
-      const result =
-        [
-          sayMove(move, within(WORLD_NAMES)),
-          sayMove(move, within(PERSON_NAMES)),
-          ...(move.required || block.required || block.key === "to-vp"
-            ? [sayMove(move, block.facts)]
-            : []),
-        ].find((row) => row.kind === "rendered") ?? null;
+      // A lead-in that names a time is not joined to a core that names the
+      // same time ("In the year now behind us, this was a year when ...").
+      const timeTwice = (row: ReturnType<typeof sayMove>) =>
+        row.kind === "rendered" &&
+        row.moves.some((said) => {
+          const lead = said.parts.find((part) => part.part === "opener");
+          const rest = said.parts.filter((part) => part.part !== "opener");
+          return (
+            !!lead &&
+            TIME_WORDS.some(
+              (word) =>
+                new RegExp(`\\b${word}\\b`, "i").test(lead.text) &&
+                rest.some((part) =>
+                  new RegExp(`\\b${word}\\b`, "i").test(part.text),
+                ),
+            )
+          );
+        });
+      const bare: OpeningMove = {
+        ...move,
+        bank: {
+          ...move.bank,
+          parts: Object.fromEntries(
+            Object.entries(move.bank.parts).filter(
+              ([line]) => line !== "opener",
+            ),
+          ) as typeof move.bank.parts,
+        },
+      };
+      // A required move gives up a subject's limit before a name's.
+      const tries = [
+        within(counted),
+        ...(move.required || block.required || block.key === "to-vp"
+          ? [within((key) => PERSON_NAMES.includes(key)), block.facts]
+          : []),
+      ].flatMap((facts) => {
+        const said = sayMove(move, facts);
+        return timeTwice(said) ? [sayMove(bare, facts)] : [said];
+      });
+      const result = tries.find((row) => row.kind === "rendered") ?? null;
       if (result?.kind !== "rendered") {
         if (move.required || block.required) return null;
         continue;
@@ -1336,9 +1387,11 @@ export function composeBlocks(
           if (part.part === "opener") ledIn.add(part.text);
         for (const key of new Set(
           done.parts.flatMap((part) => part.usedFactKeys),
-        ))
-          if (WORLD_NAMES.includes(key))
-            named.set(key, (named.get(key) ?? P.zero) + P.one);
+        )) {
+          const text = block.facts[key]?.text;
+          if (counted(key) && text)
+            named.set(text, (named.get(text) ?? P.zero) + P.one);
+        }
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));
       }

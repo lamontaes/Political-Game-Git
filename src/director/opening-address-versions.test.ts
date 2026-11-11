@@ -27,12 +27,13 @@ import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
  *    it found and does not fail on the count.
  */
 const base =
-  process.env.OPENING_VERSIONS_SEED ?? randomBytes(8).toString("hex");
+  process.env.OPENING_VERSIONS_SEED || randomBytes(8).toString("hex");
 const WORLDS = 10;
 const MOST_ADDRESSES_PER_SENTENCE = 2;
 const LEAST_WORLD_NAMES = 2;
 const LEAST_POLICY_POINTS = 3;
 const MOST_NAMED = 2;
+const MOST_SUBJECT_WORDS = 3;
 /** The facts that name something from the world, not a subject in words. */
 const NAMES = new Set([
   "vice-president",
@@ -131,6 +132,52 @@ it(`the President's address says different sentences, with its own world's names
         points.filter((point, at) => points.indexOf(point) !== at),
         `${where} names a policy point in two sentences`,
       ).toEqual([]);
+    }
+
+    // An insert fits where it is put (the words lead's second read): a
+    // subject's words at most three times, a time named once in a sentence,
+    // hard news worded as a problem and good news as good.
+    const subjectWords = (end: string) =>
+      new Set(
+        OPENING_SPEECH_BANK.parts
+          .filter(
+            (part) => part.move === "subject" && part.topic?.endsWith(end),
+          )
+          .map((part) => part.text.toLowerCase()),
+      );
+    const hardWords = subjectWords(":hard");
+    const goodWords = subjectWords(":good");
+    for (const { where, address } of addresses) {
+      const said = new Map<string, number>();
+      for (const row of address.sentences)
+        for (const [key, value] of Object.entries(row.values)) {
+          if (!["hardest", "best"].includes(key) && !key.startsWith("say-"))
+            continue;
+          said.set(value, (said.get(value) ?? 0) + 1);
+          const words = key === "best" ? goodWords : hardWords;
+          expect(
+            words.has(value.toLowerCase()),
+            `${where}: ${key} said as "${value}"`,
+          ).toBe(true);
+        }
+      for (const [value, times] of said)
+        expect(
+          times,
+          `${where} says "${value}" ${times} times`,
+        ).toBeLessThanOrEqual(MOST_SUBJECT_WORDS);
+      for (const row of address.sentences) {
+        const lead = leadIns
+          .filter((text) => row.text.toLowerCase().startsWith(text))
+          .sort((a, b) => b.length - a.length)[0];
+        if (!lead) continue;
+        const rest = row.text.slice(lead.length);
+        for (const word of ["year", "term", "today", "tonight"])
+          expect(
+            new RegExp(`\\b${word}\\b`, "i").test(lead) &&
+              new RegExp(`\\b${word}\\b`, "i").test(rest),
+            `${where}: "${row.text}" names the ${word} twice`,
+          ).toBe(false);
+      }
     }
 
     // At least two names from each world.

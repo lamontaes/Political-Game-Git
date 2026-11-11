@@ -13,6 +13,9 @@
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
     ],
+    "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
+      "no-stock-phrases"
+    ],
     "scene-talk.close-accept.all-right-i-hear-you": ["no-stock-phrases"],
     "scene-talk.close-accept.all-right-i-ll-let-you-go": [
       "alright-in-dialogue"

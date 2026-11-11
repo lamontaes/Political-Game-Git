@@ -114,6 +114,27 @@ describe("the opening address's pieces", () => {
     expect(thin).toEqual([]);
   });
 
+  it("word hard news and good news apart, and send Congress a bill, not a subject", () => {
+    // The words lead's second read (Nov 11): "they'll beat pay" and "if
+    // Congress sends me legal cannabis sales".
+    const words = (end: string) =>
+      new Set(
+        OPENING_SPEECH_BANK.parts
+          .filter((part) => part.move === "subject")
+          .filter((part) => part.topic?.endsWith(end))
+          .map((part) => part.text),
+      );
+    const hard = words(":hard");
+    const good = words(":good");
+    expect(hard.size).toBeGreaterThan(10);
+    expect(good.size).toBeGreaterThan(10);
+    expect([...hard].filter((text) => good.has(text))).toEqual([]);
+    for (const part of OPENING_SPEECH_BANK.parts)
+      expect(part.text, part.key).not.toMatch(
+        /\b(?:sign|veto|sends? me|pass(?:es)?)\s+\{(?:about|first-about)\}/i,
+      );
+  });
+
   it("require, for every slot, the fact that fills it", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
       const slots = [...part.text.matchAll(/\{([\w-]+)\}/g)].map(
