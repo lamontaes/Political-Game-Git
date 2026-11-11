@@ -1,0 +1,156 @@
+{
+  "seed": "55957a2f6206fb43",
+  "place": {
+    "seed": "cb99dfa75270766e4b4fc6e03b3f8f7684aeac7648aa15336c03156f5ec41879",
+    "key": "0975065",
+    "name": "Taylor Corners, Connecticut",
+    "state": "US-CT"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-federal-positions:immigration.admit-more-immigrants",
+      "kind": "question",
+      "family": "immigration",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-02-26:law-wiring-b8da9dc9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 56,
+        "countedPeople": 4578,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 56,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:GA"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 56,
+        "countedPeople": 4578,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 56,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:GA"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 56,
+        "withAmount": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/counted-moves.ts:205": 112,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/outcome-web.ts:208": 4,
+        "src/core2/modules/counted-moves.ts:1179": 2,
+        "src/core2/modules/legislature.ts:4505": 2
+      },
+      "openingRow": "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 56,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "more-immigration-to-workforce",
+            "status": "size-not-set",
+            "to": "labor.workforce"
+          },
+          {
+            "key": "immigration-to-crime",
+            "status": "about-zero",
+            "to": "crime.rate-index"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 133,
+        "sample": [
+          "person_159f88364698405c:printed:outlet:newspaper:3:jurisdiction_e6b56b78fd71dc51:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_b32bf28c5d2a8d92:printed:outlet:newspaper:3:jurisdiction_e6b56b78fd71dc51:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_aea0da915c20695c:printed:outlet:newspaper:3:jurisdiction_e6b56b78fd71dc51:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 15
+    }
+  ]
+}

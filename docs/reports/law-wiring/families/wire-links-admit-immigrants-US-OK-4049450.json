@@ -1,0 +1,177 @@
+{
+  "seed": "6dafdf4f432b6193",
+  "place": {
+    "seed": "3510982722ac209dd5d487a84181866b845325ffc453791747affca625a59c92",
+    "key": "4049450",
+    "name": "Morrison, Oklahoma",
+    "state": "US-OK"
+  },
+  "window": 35,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-federal-positions:immigration.admit-more-immigrants",
+      "kind": "question",
+      "family": "immigration",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-02-26:law-wiring-b8da9dc9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 56,
+        "countedPeople": 4556,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 56,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:GA"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 56,
+        "countedPeople": 4556,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 56,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:GA"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 56,
+        "withAmount": 0,
+        "sample": [
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DE",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:DC",
+          "applied|us-federal-positions:immigration.admit-more-immigrants|core2-counted-moves-v1:from-abroad:FL"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/counted-moves.ts:205": 114,
+        "src/core2/modules/legislature.ts:4505": 7,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/outcome-web.ts:208": 4,
+        "src/core2/modules/counted-moves.ts:1179": 2
+      },
+      "openingRow": "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:557",
+            "treatment": 8037139,
+            "control": 8036738,
+            "ids": [
+              "journal:2025-01-21:736",
+              "journal:2025-01-21:737",
+              "journal:2025-01-21:738"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1588",
+            "treatment": 72,
+            "control": 68,
+            "ids": [
+              "journal:2025-02-12:6746",
+              "journal:2025-02-16:6918",
+              "journal:2025-02-17:6953"
+            ]
+          }
+        ],
+        "diffKinds": 2,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 56,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "more-immigration-to-workforce",
+            "status": "size-not-set",
+            "to": "labor.workforce"
+          },
+          {
+            "key": "immigration-to-crime",
+            "status": "about-zero",
+            "to": "crime.rate-index"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 35,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 109,
+        "sample": [
+          "person_60f18c9d9262776a:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_df2cc193c70ea50c:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_ce0ffc35ea989ce7:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 14
+    }
+  ]
+}
