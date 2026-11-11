@@ -36,6 +36,7 @@ import type { CountedHousehold } from "./counted-groups";
 import { withCountedQuarterPay } from "./pay-by-quarter";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreAPI, CoreState, PersonId, PlaceId, Source } from "./types";
+import { taxIndexNow } from "./tax-index";
 
 export const UNKEYED_STOPGAP = "SG-CORE-counted-unkeyed-money";
 
@@ -508,6 +509,7 @@ export function groupWithholding(
     incomeTax: law.incomeTax,
     socialSecurity: law.socialSecurity,
     medicare: law.medicare,
+    index: taxIndexNow(api),
   });
   rt.withholdingYtd.set(ytdKey, ytd + perWorker);
   const out: Withheld[] = [];

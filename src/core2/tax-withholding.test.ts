@@ -10,7 +10,12 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
-import { lawChain, lawInForce, openLaws } from "./modules/laws";
+import {
+  lawChain,
+  lawInForce,
+  openLaws,
+  stateOpeningLawRows,
+} from "./modules/laws";
 import { openBudgets, withholdingOf } from "./modules/budgets";
 import { scheduleTax, withholdingFor } from "./tax-withholding";
 import type { LawInForceAnswer } from "./laws-in-force";
@@ -236,5 +241,97 @@ describe("a state rate repealed to zero with its table kept", () => {
     expect(pay(table(4))[0]!.minor).toBe(4_000);
     expect(pay(table(4.4))[0]!.minor).toBe(4_400);
     expect(pay(table(0))).toEqual([]);
+  });
+});
+
+/**
+ * Indexed amounts (money-tax-brackets-and-benefits-not-indexed-to-prices):
+ * where the law row's terms say its brackets and standard deduction move with
+ * prices, a paycheck that doubles while prices double pays the same share; a
+ * schedule the law does not index takes more of it (bracket creep). Real
+ * starting-law rows: the nation's, a drawn state that indexes, a drawn state
+ * with graduated brackets that does not.
+ */
+describe(`indexed brackets keep the share when pay and prices double (seed ${seed})`, () => {
+  const incomeRow = (stateKey: string, level: "federal" | "state") =>
+    stateOpeningLawRows(stateKey, START).find(
+      (row) => row.series === "income-tax" && row.level === level,
+    );
+  const graduated = (row: { terms?: Record<string, unknown> } | undefined) =>
+    ((row?.terms?.schedules as { single?: { brackets: unknown[] } })?.single
+      ?.brackets.length ?? 0) > 1;
+  const states = corePlaceStateIdentities().map((s) => s.jurisdictionKey);
+  const indexedState = pick(
+    states.filter((key) => {
+      const row = incomeRow(key, "state");
+      return (
+        graduated(row) &&
+        (row!.terms?.indexed as Record<string, string> | undefined)?.brackets
+      );
+    }),
+    "indexed-state",
+  );
+  const fixedState = pick(
+    states.filter((key) => {
+      const row = incomeRow(key, "state");
+      return graduated(row) && !row!.terms?.indexed;
+    }),
+    "fixed-state",
+  );
+  const share = (
+    row: Record<string, unknown>,
+    level: string,
+    paidMinor: number,
+    index: { prices: number; wages: number },
+  ) =>
+    withholdingFor({
+      paidMinor,
+      periodDays: 14,
+      yearToDateMinor: 0,
+      incomeTax: income([{ level, row }]),
+      socialSecurity: none,
+      medicare: none,
+      index,
+    }).reduce((n, line) => n + line.minor, 0) / paidMinor;
+  const PAY = 250_000;
+  const same = { prices: 1, wages: 1 };
+  const doubled = { prices: 2, wages: 2 };
+  for (const [label, key, level] of [
+    ["the nation's", "US-CA", "federal"],
+    [`${indexedState}'s`, indexedState, "state"],
+  ] as const)
+    it(`${label} income tax, indexed by its law, takes the same share`, () => {
+      const row = incomeRow(key, level)!;
+      expect(row.terms?.indexed, `${label} row`).toBeTruthy();
+      const before = share(row, level, PAY, same);
+      const after = share(row, level, PAY * 2, doubled);
+      expect(before, label).toBeGreaterThan(0);
+      expect(after, `${label}: ${before} then ${after}`).toBeCloseTo(before, 4);
+    });
+  it(`${fixedState}'s income tax, not indexed, takes more`, () => {
+    const row = incomeRow(fixedState, "state")!;
+    const before = share(row, "state", PAY, same);
+    const after = share(row, "state", PAY * 2, doubled);
+    expect(after, `${fixedState}: ${before} then ${after}`).toBeGreaterThan(
+      before,
+    );
+  });
+  it("the Social Security wage base moves with pay", () => {
+    const row = stateOpeningLawRows("US-CA", START).find(
+      (r) => r.series === "social-security-tax",
+    )!;
+    expect(row.terms?.indexed).toEqual({ wageBase: "wages" });
+    const base = Number(row.terms?.wageBase);
+    const ss = (index: { prices: number; wages: number }) =>
+      withholdingFor({
+        paidMinor: Math.round(base * 2 * 100),
+        periodDays: 365,
+        yearToDateMinor: 0,
+        incomeTax: income([]),
+        socialSecurity: { governing: row } as unknown as LawInForceAnswer,
+        medicare: none,
+        index,
+      }).find((line) => line.tax === "social-security")!.minor;
+    expect(ss(doubled)).toBe(ss(same) * 2);
   });
 });

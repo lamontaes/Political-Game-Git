@@ -89,6 +89,7 @@ export {
   outsideAccountOf,
   townShareOf,
 } from "../budgets-treasury";
+import { taxIndexNow } from "../tax-index";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 
@@ -1899,6 +1900,7 @@ function withholdingDue(
     incomeTax: law("income-tax"),
     socialSecurity: law("social-security-tax"),
     medicare: law("medicare-tax"),
+    index: taxIndexNow(api),
   });
   return { lines, ytdId, ytd };
 }

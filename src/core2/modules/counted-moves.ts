@@ -55,6 +55,7 @@ import type {
   PlaceId,
   Source,
 } from "../types";
+import { taxIndexNow } from "../tax-index";
 
 export const COUNTED_MOVES_MODULE_ID = "core2-counted-moves-v1";
 
@@ -292,6 +293,7 @@ function stateIncomeTax(
     // Only the income tax is weighed here: no payroll lines.
     socialSecurity: { ...answer, governing: null },
     medicare: { ...answer, governing: null },
+    index: taxIndexNow(api),
   });
   let minor = 0;
   for (const line of lines)

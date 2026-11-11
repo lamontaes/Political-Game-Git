@@ -87,6 +87,7 @@ import {
   stepRegional,
 } from "./regional";
 import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
+import { taxIndexNow } from "../tax-index";
 
 /** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
 export const CUSTOM_ECONOMY_KEY = "customEconomy";
@@ -223,7 +224,7 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
     ? (stateKey: string, series: string) =>
         stateLawInForce(api, stateKey, series, date)
     : startingLawReader(date, api.state.startedAt);
-  return countryLaw(read, params(api), date);
+  return countryLaw(read, params(api), date, taxIndexNow(api));
 }
 
 /**

@@ -1,0 +1,65 @@
+{
+  "id": "tax-indexing-2026",
+  "about": "Which income-tax schedules, standard deductions and wage bases move with prices or pay each year, by jurisdiction (money-tax-brackets-and-benefits-not-indexed-to-prices). Read into each starting law row's terms as `indexed` by src/core2/laws-starting.ts; the paycheck rule (src/core2/tax-withholding.ts) scales the row's dollar amounts by it.",
+  "retrieved": "2026-11-11",
+  "federal": {
+    "income-tax": {
+      "brackets": "prices",
+      "standardDeduction": "prices",
+      "source": "26 U.S.C. 1(f) (brackets adjusted each year for the cost of living) and 63(c)(4) (standard deduction); IRS Rev. Proc. 2025-32 states the 2026 amounts."
+    },
+    "social-security-tax": {
+      "wageBase": "wages",
+      "source": "42 U.S.C. 430(b): the contribution and benefit base rises each year with the national average wage index."
+    },
+    "medicare-tax": {
+      "source": "26 U.S.C. 3101(b)(2): the additional Medicare tax threshold ($200,000 single) is not indexed."
+    }
+  },
+  "states": {
+    "source": "Tax Foundation, 2026 State Individual Income Tax Rates and Brackets (taxfoundation.org/data/all/state/state-income-tax-rates-2026/), footnotes d, j, n and bb: 'Bracket levels adjusted for inflation each year' and 'Standard deduction and/or personal exemption is adjusted annually for inflation.' Footnote u (deductions tied to the federal amounts, which are indexed) adds AZ, ID, ME, MO, MT, NM, ND, SC and DC to the deductions.",
+    "brackets": [
+      "US-AR",
+      "US-CA",
+      "US-ID",
+      "US-MA",
+      "US-ME",
+      "US-MN",
+      "US-MO",
+      "US-MT",
+      "US-ND",
+      "US-NE",
+      "US-OH",
+      "US-OR",
+      "US-RI",
+      "US-SC",
+      "US-VT",
+      "US-WI"
+    ],
+    "standardDeduction": [
+      "US-AR",
+      "US-AZ",
+      "US-CA",
+      "US-DC",
+      "US-ID",
+      "US-IL",
+      "US-KY",
+      "US-LA",
+      "US-ME",
+      "US-MI",
+      "US-MN",
+      "US-MO",
+      "US-MT",
+      "US-ND",
+      "US-NE",
+      "US-NM",
+      "US-OR",
+      "US-RI",
+      "US-SC",
+      "US-UT",
+      "US-VT",
+      "US-WA",
+      "US-WI"
+    ]
+  }
+}

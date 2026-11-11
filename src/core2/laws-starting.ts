@@ -9,6 +9,7 @@
  */
 import type { GovernmentLevelWithTownship } from "./government-level";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
+import TAX_INDEXING from "../../data/research/money/tax-indexing-2026.json" with { type: "json" };
 import { placeCounty, placeRow, placeStateKey } from "./place-map";
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
@@ -149,9 +150,47 @@ export function startingCalibrationRows(
 export function startingLawRows(chain: LawChain): readonly LawRowInput[] {
   const rows: LawRowInput[] = [];
   for (const { jurisdiction } of chain.levels)
-    for (const row of data.jurisdictions[jurisdiction] ?? [])
-      rows.push({ ...row, jurisdiction, id: lawRowId(jurisdiction, row) });
+    for (const row of data.jurisdictions[jurisdiction] ?? []) {
+      const indexed = indexingOf(jurisdiction, row.level, row.series);
+      rows.push({
+        ...row,
+        ...(indexed ? { terms: { ...row.terms, indexed } } : {}),
+        jurisdiction,
+        id: lawRowId(jurisdiction, row),
+      });
+    }
   return rows;
+}
+
+/**
+ * Which of a starting row's dollar amounts move each year, and with what
+ * (data/research/money/tax-indexing-2026.json): the federal brackets and
+ * standard deduction with prices, the Social Security wage base with pay,
+ * and each state's brackets or standard deduction where its law indexes them.
+ * Undefined where nothing is indexed.
+ */
+function indexingOf(
+  jurisdiction: string,
+  level: string,
+  series: string,
+): Readonly<Record<string, string>> | undefined {
+  if (level === "federal") {
+    const row = (
+      TAX_INDEXING.federal as Record<string, Record<string, string>>
+    )[series];
+    if (!row) return undefined;
+    const out = Object.fromEntries(
+      Object.entries(row).filter(([key]) => key !== "source"),
+    );
+    return Object.keys(out).length ? out : undefined;
+  }
+  if (level !== "state" || series !== "income-tax") return undefined;
+  const out: Record<string, string> = {};
+  if (TAX_INDEXING.states.brackets.includes(jurisdiction))
+    out.brackets = "prices";
+  if (TAX_INDEXING.states.standardDeduction.includes(jurisdiction))
+    out.standardDeduction = "prices";
+  return Object.keys(out).length ? out : undefined;
 }
 
 /**

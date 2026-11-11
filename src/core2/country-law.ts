@@ -11,6 +11,7 @@ import type {
 } from "./country-model";
 import { unemploymentTermsOf } from "./jobs-benefits";
 import { withholdingFor } from "./budgets-treasury";
+import { NO_INDEX, type TaxIndex } from "./tax-index";
 import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
 import { stateOpeningLawRows } from "./modules/laws";
 
@@ -31,6 +32,8 @@ export function countryLaw(
   read: (stateKey: string, series: string) => LawInForceAnswer,
   parameter: (key: string) => number,
   asOf: string,
+  /** Prices and pay since the opening, for the amounts the law indexes (`taxIndexNow`). */
+  index: TaxIndex = NO_INDEX,
 ): CountryLaw {
   const answers = new Map<string, LawInForceAnswer>();
   const law = (state: CountryState, series: string) => {
@@ -55,6 +58,7 @@ export function countryLaw(
         incomeTax: income,
         socialSecurity: law(state, "social-security-tax"),
         medicare: law(state, "medicare-tax"),
+        index,
       });
       let toState = 0,
         toNation = 0;
