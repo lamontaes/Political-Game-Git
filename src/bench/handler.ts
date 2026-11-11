@@ -18,7 +18,7 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
-import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
+import { openingArrivalMinute, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { nationStories } from "./nation-news";
 import {
@@ -202,7 +202,7 @@ function sceneNow(current: CoreState, id: string) {
     current,
     id,
     playing ? state.player!.packet : undefined,
-    openingDay ? OPENING_EVENING_MINUTE : undefined,
+    openingDay ? openingArrivalMinute(current, id) : undefined,
   );
   // Who has something to say: the director's own answer (a talk that opens with
   // no lines is no talk), read without writing anything. The room leaves the
@@ -1562,7 +1562,7 @@ const ROUTES: readonly Route[] = [
           // The opening day's scene is that evening at home (as /api/scene).
           state.player.packet?.at.minuteOfDay ??
             (state.director.ledger.opening?.date === requireCore().date
-              ? OPENING_EVENING_MINUTE
+              ? openingArrivalMinute(requireCore(), state.player.personId)
               : 12 * 60),
           // ?held=1 on the play page: the grading view, held lines marked.
           { held: url.searchParams.get("held") === "1" },
@@ -1748,7 +1748,7 @@ const ROUTES: readonly Route[] = [
           date: current.date,
           minuteOfDay:
             state.director?.ledger.opening?.date === current.date
-              ? OPENING_EVENING_MINUTE
+              ? openingArrivalMinute(current, state.player?.personId ?? "")
               : 12 * 60,
         },
       );
@@ -1770,7 +1770,7 @@ const ROUTES: readonly Route[] = [
         date: current.date,
         minuteOfDay:
           state.director?.ledger.opening?.date === current.date
-            ? OPENING_EVENING_MINUTE
+            ? openingArrivalMinute(current, state.player.personId)
             : 12 * 60,
       };
       const opens = counterOpening(current, filedWith, now);
