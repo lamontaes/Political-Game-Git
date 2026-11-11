@@ -114,6 +114,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `lives`: lives outside the played town run through the town's engines
 - `look-first`: the search before building, fixing, filing or asking
 - `merge-audit`: auditing merged PRs
+- `merge-trains`: merging game pull requests in trains by area, with the heavy checks run once
 - `merger`: merging and validating PRs
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
