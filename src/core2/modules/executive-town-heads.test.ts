@@ -23,7 +23,7 @@ import { lawChain } from "./laws";
 setBookkeeping(false);
 
 const base = process.env.TOWN_HEADS_SEED ?? randomBytes(8).toString("hex");
-const PLACES = 10;
+const PLACES = Number(process.env.TOWN_HEADS_PLACES ?? 10);
 
 describe(`a town's department heads over ${PLACES} drawn places (seed ${base})`, () => {
   it("come from the whole town, no more from the player's household than its share of adults", () => {

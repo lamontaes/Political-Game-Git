@@ -1253,7 +1253,7 @@
     "townPostCountedCandidates": {
       "value": 3,
       "tag": "TUNABLE",
-      "source": "How many of the town's counted adults, best suited by the shared seat reader, are filled in and weighed beside the full people when a department head is appointed (gov-appointments-weigh-counted-adults). The three drawn adults it replaces were the same count; a search committee's short list is commonly three to five finalists (ICMA, Recruitment Guidelines Handbook).",
+      "source": "How many of the town's counted adults, best suited by the shared seat reader, are weighed beside the full people when a department head is appointed (the one named is filled in) (gov-appointments-weigh-counted-adults). The three drawn adults it replaces were the same count; a search committee's short list is commonly three to five finalists (ICMA, Recruitment Guidelines Handbook).",
       "spread": [2, 5]
     },
     "cabinetQualificationBase": {
