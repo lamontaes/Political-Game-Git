@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 8171
+pr: #8171
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,7 @@ effort: high
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+merged-at: 2026-11-11T04:52:18.324Z
 ---
 
 **What.** The world has one speed: every day runs every engine's day and every person due to act. This part adds a second way to advance, for time nobody is watching: each engine's dated work runs, the daily loops and people's own days do not, and play picks up day by day afterward without an error. It is the base the other parts of the fast clock add their monthly steps to.
