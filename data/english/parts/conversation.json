@@ -29511,7 +29511,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -29529,7 +29532,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -29547,7 +29553,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -29565,7 +29574,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -29583,7 +29595,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -29601,7 +29616,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -29619,7 +29637,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30404,7 +30425,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30422,7 +30446,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30440,7 +30467,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30458,7 +30488,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30476,7 +30509,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "for",
-          "requiresFacts": ["my-for"]
+          "requiresFacts": [
+            "my-for",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30494,7 +30530,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30512,7 +30551,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30530,7 +30572,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -30548,7 +30593,10 @@
           "subject": "news",
           "role": "answer",
           "choice": "against",
-          "requiresFacts": ["my-against"]
+          "requiresFacts": [
+            "my-against",
+            "about-unsaid"
+          ]
         }
       ],
       "origin": "authored",
@@ -31142,6 +31190,216 @@
             "said-no",
             "about",
             "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-m-for-it-myself-first",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I'm for it myself, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": [
+            "my-for",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-d-vote-for-it-first",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I'd vote for it, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": [
+            "my-for",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.count-me-in-on-that-first",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "Count me in on that, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": [
+            "my-for",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.about-time-if-you-ask-me-first",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "About time, if you ask me, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": [
+            "my-for",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-for.i-ve-wanted-that-a-while-first",
+      "move": "news-answer-for",
+      "kind": "spoken",
+      "text": "I've wanted that a while, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-for",
+          "subject": "news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": [
+            "my-for",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-m-against-it-myself-first",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I'm against it myself, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": [
+            "my-against",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-d-vote-against-it-first",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I'd vote against it, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": [
+            "my-against",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.count-me-out-on-that-first",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "Count me out on that, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": [
+            "my-against",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.that-s-a-mistake-if-you-ask-me-first",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "That's a mistake, if you ask me, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": [
+            "my-against",
+            "about-said"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-answer-against.i-ve-never-liked-that-idea-first",
+      "move": "news-answer-against",
+      "kind": "spoken",
+      "text": "I've never liked that idea, {first}.",
+      "uses": [
+        {
+          "move": "news-answer-against",
+          "subject": "news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": [
+            "my-against",
+            "about-said"
           ]
         }
       ],
