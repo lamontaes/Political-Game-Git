@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-elections-puerto-rico-legislature-election-year
-pr:
+pr: #8619
 blocked-on:
 source: governing lead, Nov 1 (elections-past-race-votes-from-electorate)
 lead: governing
