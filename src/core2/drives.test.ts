@@ -486,7 +486,7 @@ describe("P10 drives and causes", () => {
       for (const drive of drivesReport(world.core).drives)
         for (const act of drive.acts)
           if (act.actionId === "share-cause" && act.targetId) {
-            const key = `${drive.id}->${act.targetId}`;
+            const key = `${drive.personId}:${drive.id}->${act.targetId}`;
             told.set(key, (told.get(key) ?? p("zero")) + p("one"));
           }
       const where = `${w.name} (${w.key}), seed ${w.seed}`;
