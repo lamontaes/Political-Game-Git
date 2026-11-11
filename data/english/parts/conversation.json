@@ -29757,10 +29757,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.family-answer-well.name-is-doing-all-right",
+      "key": "conversation.family-answer-well.name-is-doing-okay",
       "move": "family-answer-well",
       "kind": "spoken",
-      "text": "{name} is doing all right.",
+      "text": "{name} is doing okay.",
       "uses": [
         {
           "move": "family-answer-well",
