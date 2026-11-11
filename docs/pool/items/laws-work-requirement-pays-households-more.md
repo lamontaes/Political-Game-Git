@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-work-requirement-pays-households-more
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:40:50.829Z
+branch: claude/pool-laws-work-requirement-pays-households-more
 ---
 
 **What.** A work requirement for assistance is meant to limit who draws a benefit, and in the game it pays households more. Measured in Marion, Mississippi (seed 7df73e53cd67): a county work requirement for assistance, passed with no rider and compared with a twin world with no bill, left households $94,000 higher. A further twin run traced the money to its payer: the United States treasury, $134,000 lower. The state version did the same. The sweep ran 120 days for local bodies and 180 for the state. In LaGrange, Wyoming (seed 63355aee286d) the county work requirement moved almost nothing, so the wrong-way result is not everywhere. The audit traced the result to the treasury that pays and no further; the code behind it is not traced. Find why turning the requirement on raises what the treasury pays out, and fix it at the cause for every assistance program the requirement touches, so that while it is law the adults it reaches draw only for its time limit and nobody draws more than they did without it.
@@ -40,3 +42,5 @@ checked: fable 2026-11-10
 **Notes (Fable's check, Nov 10).** When the payment is found, the fix is made there, so turning the requirement on never raises benefits. Check on the way whether a month is drawn twice against the time limit when the law changes mid-month, and file it as its own item if it is.
 
 **Notes (cause finder, Nov 10).** Ran on main at 3d74e9179b: a scratchpad twin script built `buildBenchWorld("7df73e53cd67", gameStartDate(), { twoLevel: true, placeKey: "2845160" })` twice. In one world it passed the county work requirement through `draftBill`, every member's yes vote and the executive's signature (enacted, no added section). It ran 120 days in 30-day steps and logged every federal treasury journal entry whose source id starts `reach-b` from 2025-02-10 to 2025-03-25. The same run at the state body for 180 days gave the same result. The seed alone, without the place key, draws Trilla, Illinois, so the item's repro needs the key. Trilla also starts with the federal requirement in force, and there the county law moved $833, which is drift. `law-run.ts 7df73e53cd67 county` draws a third place (Lake Eliza, Indiana), because it hashes the seed again. A temporary print in `runFoodAid` showed its calls: in the twin, 01-20 (opening), 02-01, 03-01, 04-01, 05-01; in the law world, the same plus 02-19 from `runPolicy`. Ruled out: a month counted twice against the time limit. `recordDraws` (group-b-money.ts, line 576) skips a month already in a person's draw row, so the change-day rerun adds no month. Ruled out: food aid paid twice by one run. Still unknown: why LaGrange, Wyoming moved almost nothing (perhaps its counted amount had not changed since the 1st when the law took effect, so `reconcileObligations` kept the payment). Also unknown: how much of the other wrong-way results in the audit's sweep come from this same reopening. Any law that reruns a group B benefit mid-month should show it. Related: `laws-federal-benefits-on-a-line-the-federal-budget-lacks` (the same payments, on a line the federal budget lacks).
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:40 UTC) on branch claude/pool-laws-work-requirement-pays-households-more.
