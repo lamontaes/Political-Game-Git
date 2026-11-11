@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-words-civic-clerk-fill-seed-red
-pr:
+pr: #8607
 after:
 blocked-on:
 lead: words
