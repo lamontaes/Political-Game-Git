@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: high
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine": "a ton of different speech versions ... this is a demonstration of the game")
 checked: fable 2026-11-11
+claimed-at: 2026-11-11T06:35:34.190Z
+branch: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
 ---
 
 **What.** The President's address is the first thing a new player hears. In two drawn worlds on Nov 11 (Duneland Beach, Indiana and Riverside, Washington) the two addresses shared five whole sentences ("To Congress: we're in this together whether we like it or not. I'll be knocking on your door.", "Governors, state lawmakers: I need you, and I'll act like it. My door's open.", "If you've been up at night this year doing the math on your bills, I hear you.") and made the same single policy point, with nothing in those sentences from either world. Seen: the President's address that opens a new life.
@@ -42,3 +44,5 @@ checked: fable 2026-11-11
 **Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423 and two addresses played in the running game that night. How many policy points an address has depends on the President holding views on federal questions, which pull requests 8589 (the cause) and 8380 (the build) cover; this item does not wait on them, and step 5 says how its test treats the count. The pieces under data/english/parts are drafted by the builder in the pull request with `Review: words` unless the CTO says the Story session writes them.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:35 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
