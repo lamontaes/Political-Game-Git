@@ -17,6 +17,8 @@ effort: high
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026, on the first evening's talk in the strip pull request's picture (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine")
 checked: fable 2026-11-11
+claimed-at:
+branch: claude/pool-words-opening-evening-talk-raises-what-the-president-said
 ---
 
 **What.** A new life opens on the President's address, and that evening a relative talks about it. Today the relative says one of 23 fixed sentences ("I've heard those promises too many times.") and the player picks from four fixed replies, the same in every town and whatever the President said. The owner ruled that this is the demonstration of the game: the relative raises a real thing the President said in this world's address, and where they stand on it from their own views, job and town, composed by the English engine in many versions with inserts from the records. Seen: the first evening at home, in the talk box, after the President's address.
@@ -43,8 +45,14 @@ checked: fable 2026-11-11
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds. In each, on the first evening it talks to a relative and sees them name something the President said that is in that life's address (it reads the address in the journal or the news to confirm), with a stand and a reason from their own job, money or town; the three talks do not share a sentence. The replies are at most four, each a different move, each naming the point. It answers, opens the same person's card or a later talk, and finds the answer on record. `git grep -n "address-view" -- src data` returns nothing, and tests/guards/english passes with the lowered counts.
 
-**Waits on.** Nothing.
+**Waits on.** The CTO's answer to whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (Notes; PR #8715); set back to Nothing once he rules.
 
 **Files.** src/director/conversation.ts, src/director/opening-facts.ts, src/director/opening-story.ts, src/director/data/conversation-rules.json, src/director/conversation-address-talk.test.ts, src/director/household-talk.test.ts, src/director/reply-set-check.ts, src/english/conversation-words.ts, src/english/english-composition.ts, src/core2/modules/views.ts, src/core2/trait-decisions.ts, data/english/parts/conversation.json, data/english/parts/scene-talk.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423. The words split of Nov 10 gives the lines under data/english/parts to the Story session; the CTO was told on issue 7365 that the builder drafts these parts in the pull request with `Review: words` unless he says the Story session writes them. Twenty-five of the President's named federal questions have no axis, so `personStance` reads 0 on them (the cause is in pull request 8589); where the raised point is one of those, the stand falls to `unsure` and the reason carries the line. That night's news about the address is its own item, words-opening-night-news-names-what-the-president-said. Before pictures of today's talk are in docs/seen/strip-of-busts/after-talk.png.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:35 UTC) on branch claude/pool-words-opening-evening-talk-raises-what-the-president-said.
+
+Released (2026-11-11): The Fix writes and deletes lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8715). Continue on branch claude/pool-words-opening-evening-talk-raises-what-the-president-said.
+
+In pull request #8736 on branch claude/words-opening-evening-talk (2026-11-11), built from Fable B's copy of this item; steps 1 and 11 carry Fable B's amendment of that day (the address's year as points).
