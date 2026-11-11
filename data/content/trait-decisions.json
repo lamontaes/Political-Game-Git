@@ -800,6 +800,23 @@
       ]
     },
     {
+      "id": "voting.ask-recount",
+      "site": "src/core2/modules/voting.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightVotingAskRecount",
+      "options": [
+        {
+          "id": "concede",
+          "actKinds": ["concede", "cooperate", "trust"]
+        },
+        {
+          "id": "ask",
+          "actKinds": ["confront", "distrust", "take-risk"]
+        }
+      ]
+    },
+    {
       "id": "ballot-measures.vote",
       "site": "src/core2/modules/ballot-measures.ts",
       "owner": "OPUS-GOV",
