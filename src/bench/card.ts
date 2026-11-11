@@ -253,11 +253,14 @@ function historyLines(
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
 ) {
   const lines: HistoryLine[] = [];
+  // A person met or opened for the first time has their whole past written now,
+  // before their schools are read: read first, the school they attend stands
+  // on a record the written past replaces (Holt, Minnesota, seed
+  // f602ba0f9501e66f: "school.started:<person>:2007", a year no record holds).
+  openWholePast(core, other.id);
   const schools = new Map(
     schoolsOf(core, other.id).map((school) => [school.recordId, school]),
   );
-  // A person met or opened for the first time has their whole past written now.
-  openWholePast(core, other.id);
   const life = lifeOf(core, other.id);
   const firstSchool = life.find(
     (event) => event.life === "school" && event.what === "started",

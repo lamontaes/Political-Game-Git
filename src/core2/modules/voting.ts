@@ -39,6 +39,7 @@ import {
   countedResidents,
   countedShareRule,
   customPolitics,
+  liftHeldPledges,
   partyStrength,
   engagementOf,
   type CountedAppeal,
@@ -1037,6 +1038,14 @@ function appealFor(
       pledge: parts.pledge,
     };
   }
+  // A held door yes keeps its candidate ahead, in proportion to how far it
+  // holds: the one rule a counted voter's appeal reads too (`liftHeldPledges`).
+  liftHeldPledges(
+    appeal as unknown as Record<
+      string,
+      { total: number; pledge?: number; pledgeLift?: number }
+    >,
+  );
   const basis: "platform" | "party-name-incumbency" = heardPlatform
     ? "platform"
     : "party-name-incumbency";

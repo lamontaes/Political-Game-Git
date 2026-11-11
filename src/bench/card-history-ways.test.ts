@@ -14,8 +14,10 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { knownCard } from "./card";
+// The world loads before the card (an import cycle otherwise, as in
+// card-history.test.ts).
 import { buildBenchWorld } from "./world";
+import { knownCard } from "./card";
 // After the world, whose modules it reads (an import cycle otherwise).
 import { lifeOf } from "../core2/person-life";
 
