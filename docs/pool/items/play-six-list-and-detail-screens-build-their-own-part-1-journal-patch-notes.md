@@ -19,7 +19,7 @@ source: split from play-six-list-and-detail-screens-build-their-own in the pool 
 checked: fable 2026-11-10
 ---
 
-**What.** Patch notes and the Journal each build their own list-beside-detail layout. Move both onto `rosterScreen`, the part Campaign, Elections, Parties and Issues already call, so a player sees the same list at the left and the chosen entry at the right on all of them. Nothing a player can do or read changes.
+**What.** Patch notes and the Journal each build their own list-beside-detail layout. Move both onto `rosterScreen`, the part Campaign, Elections, Parties and Issues already call, so a player sees the same list at the left and the chosen entry at the right on all of them. Nothing a player can do or read changes. Feeds: play-six-list-and-detail-screens-build-their-own.
 
 **Cause.** Found in code: `patchNotesScreen` and `journalScreen` in src/bench/ui/strips.mjs (lines 365 and 423) build their own chapter list and page, while `rosterScreen` in src/bench/ui/roster-screen.mjs is the shared part; Patch notes and Journal are not among its callers in src/bench/play.mjs.
 

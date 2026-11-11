@@ -19,7 +19,7 @@ source: split from play-six-list-and-detail-screens-build-their-own in the pool 
 checked: fable 2026-11-10
 ---
 
-**What.** Campaign's debate card builds its own tab nav by hand beside the shared `tabBar`, and the sheet's tabs are built with `makeTab` straight into the sheet. Put them on `tabBar`, and add a guard that fails when a second list-and-detail part or a hand-built tab nav is added, so the duplicates cannot come back. The tabs look and work as they do today. The guard sits beside the existing kit-only-ui guard.
+**What.** Campaign's debate card builds its own tab nav by hand beside the shared `tabBar`, and the sheet's tabs are built with `makeTab` straight into the sheet. Put them on `tabBar`, and add a guard that fails when a second list-and-detail part or a hand-built tab nav is added, so the duplicates cannot come back. The tabs look and work as they do today. The guard sits beside the existing kit-only-ui guard. Feeds: play-six-list-and-detail-screens-build-their-own.
 
 **Cause.** Found in code: `debateCard` in src/bench/ui/campaign-acts.mjs (line 15) builds `el("nav", { className: "tabs tab-rail" })` by hand, `openSheet` in src/bench/play.mjs builds the sheet's tabs with `makeTab`, and `tabBar` is in src/bench/ui/tab.mjs (line 40). The existing guard tests/guards/kit-only-ui.test.ts checks markup outside the kit, not a second part inside it.
 

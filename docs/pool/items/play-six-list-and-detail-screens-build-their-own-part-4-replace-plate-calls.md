@@ -19,7 +19,7 @@ source: split from play-six-list-and-detail-screens-build-their-own in the pool 
 checked: fable 2026-11-10
 ---
 
-**What.** The play screen still calls the older framed plate 8 times beside the newer strip section 47 times, so two generations of panel sit side by side. Replace each `plate(` call with the strip section part and delete the plate part and its styles. The words, rows and order on each screen stay exactly as they are. Two of the eight calls hold a timeline that another item deletes.
+**What.** The play screen still calls the older framed plate 8 times beside the newer strip section 47 times, so two generations of panel sit side by side. Replace each `plate(` call with the strip section part and delete the plate part and its styles. The words, rows and order on each screen stay exactly as they are. Two of the eight calls hold a timeline that another item deletes. Feeds: play-six-list-and-detail-screens-build-their-own.
 
 **Cause.** Found in code: `plate(` is called 8 times in src/bench/play.mjs (lines 883, 1004, 3065, 3408, 3441, 3450, 3925 and 4879 on Nov 10) and defined in src/bench/ui/plate.mjs; `stripSection(` is called 47 times. Two of the calls (3441 and 3450) hold the timeline that play-timeline-still-drawn-on-your-life-and-the-person-card deletes.
 
