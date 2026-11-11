@@ -27,6 +27,8 @@ export interface PersonOffice {
   readonly governmentName: string | null;
   /** The body the seat belongs to ("Nelson City Council"), when it is one of several seats. */
   readonly bodyName: string | null;
+  /** How many seats the office has: more than one is a seat on a body. */
+  readonly seats: number;
   /** The organization that pays the seat where the seat is also a job. */
   readonly organizationId: string | null;
 }
@@ -65,7 +67,12 @@ export function personWorkOf(
     )
     .flatMap((term): PersonOffice[] => {
       const office = table?.get(term.officeId) as
-        | { title?: string; governmentName?: string; bodyName?: string }
+        | {
+            title?: string;
+            governmentName?: string;
+            bodyName?: string;
+            seats?: number;
+          }
         | undefined;
       if (!office?.title) return [];
       const seatJob =
@@ -78,7 +85,8 @@ export function personWorkOf(
           officeId: term.officeId,
           title: office.title,
           governmentName: office.governmentName ?? null,
-          bodyName: office.bodyName ?? null,
+          bodyName: (office.seats ?? 1) > 1 ? (office.bodyName ?? null) : null,
+          seats: office.seats ?? 1,
           organizationId: seatJob?.organizationId ?? null,
         },
       ];

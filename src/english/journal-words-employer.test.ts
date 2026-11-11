@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
   articleFor,
-  bodySaid,
   employerSaid,
   jobSaid,
+  seatSaid,
   withArticle,
 } from "./journal-words";
 
@@ -73,8 +73,18 @@ describe("the article and the body", () => {
     expect(articleFor("one-time")).toBe("a");
     expect(articleFor("cashier")).toBe("a");
   });
-  it("says a body with 'the'", () => {
-    expect(bodySaid("Nelson City Council")).toBe("the Nelson City Council");
-    expect(bodySaid("The Board")).toBe("The Board");
+  it("says a body's seat with 'the', once (the one seat reader, #8750)", () => {
+    const seat = (bodyName: string) => ({
+      title: "Council member",
+      seats: 5,
+      bodyName,
+    });
+    expect(seatSaid(seat("Nelson City Council"))).toBe(
+      "the Nelson City Council",
+    );
+    expect(seatSaid(seat("The Board of Trustees"))).toBe(
+      "the Board of Trustees",
+    );
+    expect(seatSaid({ title: "County Clerk" })).toBe("county clerk");
   });
 });

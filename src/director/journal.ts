@@ -7,7 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { officeInSentence, personWorkOf } from "../core2/person-work";
+import { personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -38,7 +38,7 @@ import {
   possessivePronoun,
   relationPhrase,
   saysOffice,
-  bodySaid,
+  seatSaid,
   employerSaid,
   withArticle,
   wordJournalLine,
@@ -530,13 +530,17 @@ function householdMoments(
           ...(office.bodyName
             ? {
                 body: {
-                  text: bodySaid(properName(office.bodyName)),
+                  text: seatSaid({
+                    title: office.title,
+                    seats: office.seats,
+                    bodyName: properName(office.bodyName),
+                  }),
                   sourceRecordIds: ids,
                 },
               }
             : {
                 office: {
-                  text: officeInSentence(office.title),
+                  text: seatSaid({ title: office.title }),
                   sourceRecordIds: ids,
                 },
                 ...(office.governmentName
