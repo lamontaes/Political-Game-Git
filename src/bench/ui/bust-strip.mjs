@@ -18,6 +18,10 @@ function stripPerson(person, { speakingId, onClick }) {
     { className: "busts-person" },
     el("div", { className: "busts-face" }, stack),
     el("span", { className: "busts-name", textContent: person.name }),
+    // The office a scene names them by (an address cutting to officials).
+    ...(person.role
+      ? [el("span", { className: "busts-role", textContent: person.role })]
+      : []),
   );
   cell.dataset.person = person.personId ?? "";
   if (speakingId !== undefined)
@@ -40,7 +44,7 @@ function stripPerson(person, { speakingId, onClick }) {
 }
 
 /**
- * `people`: [{ personId, name, face: { bust }, talkable? }]. `more`: how many
+ * `people`: [{ personId, name, face: { bust }, talkable?, role? }]. `more`: how many
  * others are there, said after the busts in `words.more` ("and {count} more").
  * `words.label` names the strip at its left end. `speakingId` lights one person
  * and quiets the rest (a talk); left out, everyone is lit alike. `onClick`
