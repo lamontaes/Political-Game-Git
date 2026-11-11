@@ -22,6 +22,7 @@ import { corePlaceByKey } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The Pendergast approach (owner, Oct 14 and Oct 25): a party with no one
 // filed for a partisan seat asks one of its members to run. In a drawn town,
@@ -195,7 +196,10 @@ it(`a party with no one filed for a seat asks a member to run, seed ${seed}`, ()
           expect(talk.askerId, said).toBe(ask.chairId);
           expect(result.scene.cause.id, said).toBe(ask.recordId);
           expect(talk.state.text, said).toContain(ask.office);
-          expect(talk.tree.replies, said).toHaveLength(4);
+          expectUpToFourDifferent(
+            talk.tree.replies.map((reply) => reply.line),
+            said,
+          );
           told.push(
             `${said} (${ask.partyName}, ${decision?.run ? "ran" : "stayed out"}): "${talk.state.text}" / ${talk.tree.replies.map((reply) => `"${reply.line.text}"`).join(", ")}`,
           );

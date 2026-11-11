@@ -31,8 +31,8 @@ import { REGISTER_CARDS } from "../english/speech-registers";
 import { kinAddress, relationPhrase } from "../english/journal-words";
 import type { PersonId } from "../core2/types";
 
-// M4-02, conversations (audit 1, Oct 12): at least four distinct choices
-// every turn, each answering the last line from real records; talking is
+// M4-02, conversations (audit 1, Oct 12; the count is up to four since Nov 10,
+// "So just up to 4"): one to four distinct choices every turn, each answering the last line from real records; talking is
 // time together and passes news; a lie is believed by everyone present whose
 // traits give it the benefit of the doubt, and
 // is found out when someone who knows the truth talks to them.
@@ -242,7 +242,7 @@ const opening = (talk: Conversation) =>
   talk.lines.find((row) => row.kind !== "greet")!;
 
 describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
-  it("offers four distinct replies every turn, each answering the last line and only following on from it", () => {
+  it("offers up to four distinct replies every turn (one to four, the scene sets it), each answering the last line and only following on from it", () => {
     const four = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
     let turns = 0;
     for (const otherId of others.slice(0, 15)) {
@@ -276,8 +276,8 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         if (questioned) {
           for (const choice of talk.choices)
             expect(choice.move, choice.text).not.toMatch(/^ack:/);
-          expect(texts.length).toBeGreaterThanOrEqual(P.two);
-        } else expect(texts.length).toBeGreaterThanOrEqual(P.two);
+          expect(texts.length).toBeGreaterThanOrEqual(1);
+        } else expect(texts.length).toBeGreaterThanOrEqual(1);
         expect(texts.length).toBeLessThanOrEqual(four);
         expect(new Set(texts).size).toBe(texts.length);
         // A second move only follows from the first (owner, batch 6): the

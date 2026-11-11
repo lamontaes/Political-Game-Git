@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-nov8-thirteen-points-need-a-played-check
-pr:
+pr: #8594
 after:
 blocked-on:
 standard: 2

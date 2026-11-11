@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** In src/core2/modules/disasters.ts, give federal disaster aid its own account and pay each applicant kind on its obligation dates through the accounts API.
 
-**Time box.** 6 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-disasters-from-conditions (which waits on it); the aid a town's budget receives after a disaster.
 
 **Rules.** Wire to the world: aid moves between named accounts by journal record id and every dollar balances. One rule, all 56 places: dates and amounts come from data. No dice. An effect is a read: the receiving governments' and households' books read the aid.
 
