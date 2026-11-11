@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-bill-page-keeps-back-to-the-bills-and-government-keeps-a-caption
 pr: #8494
