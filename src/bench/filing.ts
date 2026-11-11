@@ -194,6 +194,13 @@ export function openBenchFilingVisit(
       termYears: office?.termYears ?? null,
       kind: `${row.family}-${(office?.seats ?? 1) > 1 ? "body" : "single"}`,
       body: bodyOf(office),
+      // The seat as its records hold it, for how the talk says it.
+      seat: {
+        title: row.title,
+        seats: office?.seats ?? 1,
+        bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
+        district: row.district,
+      },
       sourceIds: [...row.sources, row.officeId],
     };
   });

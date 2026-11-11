@@ -16,6 +16,7 @@ import {
   type GroundedEnglishPacket,
 } from "./grounded-english";
 import { journalDataFromBank } from "./mined/journal-bank";
+import seatWords from "../../data/english/seat-words.json" with { type: "json" };
 
 const zero = P.zero;
 const one = P.one;
@@ -596,6 +597,55 @@ export function jobSaid(title: string): string {
         : word.toLowerCase(),
     )
     .join("");
+}
+
+/** What an office's record says about its seat, enough to say it in a sentence. */
+export interface SeatRecord {
+  /** The office's title as its record spells it ("Council member", "Mayor"). */
+  readonly title: string;
+  /** How many seats the office has: more than one is a seat on a body. */
+  readonly seats?: number;
+  /** The body the seat sits on, by its record's name ("Mutual Village Council"). */
+  readonly bodyName?: string | null;
+  /** The district the seat is for, as its record codes it ("2", "038"). */
+  readonly district?: string | null;
+}
+
+/**
+ * A seat as people say it in a sentence (words in `data/english/seat-words.json`):
+ * a seat on a body by the body, "the Mutual Village Council" the first time a
+ * screen says it and "the council" after (`first: false`); a single office by
+ * its title in lower case, "mayor"; a district's seat with its district,
+ * "state representative in District 38", then "the seat". The title's
+ * parenthesis (a form's note) is never said. Nothing here names an office or
+ * a place: each comes from the record.
+ */
+export function seatSaid(
+  seat: SeatRecord,
+  options: { first?: boolean } = {},
+): string {
+  const first = options.first ?? true;
+  const title = seat.title.replace(/\s*\([^)]*\)/g, "").trim();
+  if ((seat.seats ?? one) > one) {
+    // The body by its record's name, or the title without its member word or
+    // seat number ("City Council, Seat 2" is a seat on the city council).
+    const body =
+      seat.bodyName?.trim() ||
+      title
+        .replace(/,.*$/, "")
+        .replace(/\s+(?:member|seat)$/i, "")
+        .trim();
+    const named = seat.bodyName?.trim() ? body : jobSaid(body);
+    const last = body.split(/\s+/).at(-one) ?? body;
+    return seatWords.body.replace("{body}", first ? named : jobSaid(last));
+  }
+  const said = jobSaid(title);
+  const district = (seat.district ?? "").trim().replace(/^0+(?=\w)/, "");
+  if (!district || /^0+$/.test(district) || /^at[- ]large$/i.test(district))
+    return said;
+  return first
+    ? seatWords.district.replace("{office}", said).replace("{n}", district)
+    : seatWords.districtAgain;
 }
 
 /** A job title as a sentence says it after "works as": "a county clerk", "an electrician". */
