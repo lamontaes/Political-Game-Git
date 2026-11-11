@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** Once no engine calls the accounts layer's obligation functions, the code that remains is dead: the schedule, settleObligations, the due map and its tests, about 200 lines of src/core2/accounts.ts. Delete it in one change with its tests and the accounts.due journal kind. Show the year did not slow.
+**What.** Once no engine calls the accounts layer's obligation functions, the code that remains is dead: the schedule, settleObligations, the due map and its tests, about 200 lines of src/core2/accounts.ts. Delete it in one change with its tests and the accounts.due journal kind. Show the year did not slow. Feeds: core-finance-contracts-vs-obligations
 
 **Cause.** Found in code: src/core2/accounts.ts `addObligation` and its schedule, settle and due-map code, and src/core2/accounts.test.ts, have no caller once parts 2 and 3 land.
 

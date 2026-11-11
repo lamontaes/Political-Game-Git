@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T23:00:07.542Z
+claimed-at: 2026-11-11T03:25:19.732Z
 branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 ---
 
@@ -45,3 +45,23 @@ branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:57; screenshots 24, 26. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was laws. Split Oct 24 into play-stop-05-politics-lists-wrong-officials-a and play-stop-05-politics-lists-wrong-officials-b, each four hours or less; the CTO sets this item done when the last part is done.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:00 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-05-politics-lists-wrong-officials since 2026-11-10 23:00 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:03 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Replay-only item; partial replay posted on its child PR (mayor and council seen in Abbott TX; Federal lists the whole state delegation); pool seen refuses non-merged items; not complete. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:08 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Claimed by my own next loop but not worked: see my earlier release notes (replay-only or heavy-run items); words-director part 2 is a six-hour refactor of presence deciders across bench and english pickers that I did not start. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:17 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Replayed by API on main (no browser screenshots). Tiverton, RI (4470700, place seed 7c584d33d780): key people = 2 U.S. senators, 1 U.S. representative (own district), own state representative; bodies local: Town council (5), no executive (no mayor row); state: 75+38, governor etc.; federal 2 reps + 2 senators of the state, president, VP. Stockett, MT (3071350): 3 county commissioners and county sheriff/attorney/clerk/treasurer/coroner, 2 senators, 1 own representative; state 100+50. Faga'itua, American Samoa: no local bodies at all. Not checked: council term lengths, every party holding seats (only the first party printed). Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:20 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Same replay note as before. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:25 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.

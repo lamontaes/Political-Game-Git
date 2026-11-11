@@ -19,7 +19,7 @@ lead: laws
 checked: fable 2026-11-10
 ---
 
-**What.** The estate tax settles nothing in any place it ran. Every full person holds at most about $504,000, below every state estate tax exemption and the federal one. The only people above an exemption are state cabinet members ($11M to $60M each), who have no kin, so their estates escheat and are assessed at 0. The Survey of Consumer Finances puts about one household in ten at a net worth above $1 million (recalled, not checked), and a few states' estate taxes start near there, so some deaths in a larger town should owe it.
+**What.** The estate tax settles nothing in any place it ran. Every full person holds at most about $504,000, below every state estate tax exemption and the federal one. The only people above an exemption are state cabinet members ($11M to $60M each), who have no kin, so their estates escheat and are assessed at 0. The Survey of Consumer Finances puts about one household in ten at a net worth above $1 million (recalled, not checked), and a few states' estate taxes start near there, so some deaths in a larger town should owe it. Seen: the estate-tax line in the budget, which collects nothing today because no resident is rich enough.
 
 **Cause.** Measured: Scissors, Texas, seed c887792099075f8c, 640 days: the revenue cabinet member died on 2026-01-04 and probate closed on 2026-10-01 with an estate assessed at 0; no full person holds more than about $504,000 (taxes family money pass, 30 full-year places and 60 more draws). Code: src/core2/estates.ts.
 

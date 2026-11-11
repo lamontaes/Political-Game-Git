@@ -5,13 +5,14 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: merged
+status: open
 claimed-by:
 pr: #8225
 blocked-on:
 lead: words
 source: third rerun of scripts/words/one-line-spots.ts after words-one-line-spots-2 (Brewster, Massachusetts; Weekapaug, Rhode Island; Castle Hill, California)
-merged-at: 2026-11-10T21:48:49.985Z
+merged-at:
+claimed-at:
 ---
 
 **What.** The thirty most-played spots that still held a single line after batch 2 (the letter-ask close "I'll write again soon, {first}. Take care of yourself." heard 43 times, then the letter-ask follow-up and the school last-day farewell replies) now hold two or three lines each. Each of 61 new pieces sits in the same spot as the line it varies (same subject, step, move, role, purpose, key and after), says the same fact in other words and carries a bearing where the original does. The existing lines stay.
@@ -23,3 +24,5 @@ merged-at: 2026-11-10T21:48:49.985Z
 **Time box.** 3 hours for one Sonnet session.
 
 **Files.** data/english/parts/scene-talk.json, data/english/parts/scene-words.json
+
+**Notes.** Not seen in the game (2026-11-11, second-session-2): Sedgwick CO, Hopkinton RI, Middlebury VT (drawn by one-line-spots.ts), seed ols-mwbhjuoq-0-txhb, -1-jban, -2-i4np, main 5103f744: rerun of one-line-spots.ts still lists 6 of rows 61 to 90 as one-line spots, among them 'Did you hear?' and 'Eight thirty at the corner by the school.'

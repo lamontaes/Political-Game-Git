@@ -19,7 +19,7 @@ root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
 ---
 
-**What.** The approved Budgets screen shows each line with "Asked" and "Last year" on one small line. Last year comes from the prior budget, which the game keeps. What a department asked for is computed (`departmentRequests` in the budgets module) but not kept beside the adopted line, so the screen's "Asked" is a figure derived from the line before the bill, not the recorded request. Keep the request and the adopted figure together per line and per fiscal year, and who wrote the adopted budget, so the screen can answer "since last year" (the Nov 8 budget screen ruling) from a record.
+**What.** The approved Budgets screen shows each line with "Asked" and "Last year" on one small line. Last year comes from the prior budget, which the game keeps. What a department asked for is computed (`departmentRequests` in the budgets module) but not kept beside the adopted line, so the screen's "Asked" is a figure derived from the line before the bill, not the recorded request. Keep the request and the adopted figure together per line and per fiscal year, and who wrote the adopted budget, so the screen can answer "since last year" (the Nov 8 budget screen ruling) from a record. Seen: the Budgets screen's Asked and Last year figures beside each adopted line.
 
 **Cause.** Found in code: `src/core2/modules/budgets.ts` `departmentRequests` (line 1460) computes the request; `src/bench/budget.ts` `totaled` takes an optional `askedMinor` callback (line 151) that is fed from `lineBeforeBill` (line 265), not from a kept request.
 
