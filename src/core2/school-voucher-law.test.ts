@@ -14,6 +14,8 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { rowsOf } from "./law-reach/group-b-store";
 import { voucherShare } from "./law-reach/group-b-money";
+import { appliedOn } from "./law-reach/applied";
+import { peopleInGroup } from "./counted-money";
 import { advanceCore } from "./life";
 import { enactLaw, lawChain } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
@@ -124,6 +126,22 @@ it("pays the state's share of town private tuition while the law stands, and sto
         paid += obligation.paidMinor;
       }
       expect(paid, where).toBeGreaterThan(0);
+      // A counted group's applied record counts the people the group stands for (its size), never
+      // the group's dollar weight in the tuition flow.
+      const rt = residentsRuntime(core);
+      const groupRows = appliedOn(api, question).filter(
+        (row) => row.what === "private-tuition-voucher-paid",
+      );
+      for (const row of groupRows) {
+        const group = Number(row.targetId.split(":private-tuition-group:")[1]);
+        // The group's size when the record was written, which moves a little with later moves:
+        // within a factor of two of its size now, where a dollar weight is orders of magnitude off.
+        const size = peopleInGroup(rt!, group);
+        expect(row.count, `${where} ${row.targetId}`).toBeGreaterThan(size / 2);
+        expect(row.count, `${where} ${row.targetId}`).toBeLessThan(
+          size * 2 + 1,
+        );
+      }
       if (process.env.VOUCHER_PROOF)
         writeFileSync(
           process.env.VOUCHER_PROOF,

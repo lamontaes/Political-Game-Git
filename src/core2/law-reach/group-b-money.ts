@@ -41,7 +41,7 @@ import {
   type ResidentFacts,
   type TownFacts,
 } from "./group-b-people";
-import { flowWeights, fundOf } from "../counted-money";
+import { flowWeights, fundOf, peopleInGroup } from "../counted-money";
 import {
   getRow,
   putRow,
@@ -1518,7 +1518,8 @@ export function payVouchers(
             targetId: `${town}:private-tuition-group:${group}`,
             target: "group",
             what: "private-tuition-voucher-paid",
-            count: Math.max(1, Math.round(weight)),
+            // The people the group stands for, never its dollar weight in the flow.
+            count: Math.max(1, Math.round(peopleInGroup(rt, group))),
             amountMinor: amount,
           });
           paidGroups += 1;
