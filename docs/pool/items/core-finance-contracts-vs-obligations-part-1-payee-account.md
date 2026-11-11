@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 claimed-by: claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account
-pr:
+pr: #8501
 after:
 blocked-on:
 lead: money
