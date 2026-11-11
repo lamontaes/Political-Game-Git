@@ -306,7 +306,12 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
           if (h.placeId === placeId && h.quarters === type)
             now += store.weightedCount(h);
         for (const home of core.households.values())
-          if (home.placeId === placeId && home.quarters === type)
+          if (
+            home.placeId === placeId &&
+            home.quarters === type &&
+            // A room returned to the counts is the counted record's, not twice.
+            !store.liveHousehold(home.id)
+          )
             now += home.memberIds.filter(
               (id) => core.people.get(id)?.alive,
             ).length;
