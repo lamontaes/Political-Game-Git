@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-civic-clerk-fill-seed-red
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:58:41.040Z
 ---
 
 **What.** On Plandome Heights, New York (place 3658486, GOLDEN_PATH_SEED=f38fd92f521cda30), src/director/civic-roles.test.ts 'fills the clerk with the person the filing office's records name' fails on clean main. The clerk the fill returns carries an end date of 2025-02-19, where the test expects a sitting clerk with no end date. Find whether the fill reads an ended clerk term or the test reads the wrong field. Fix it at the root, not in the test.
