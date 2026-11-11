@@ -1496,7 +1496,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1508,7 +1508,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -1697,7 +1697,7 @@
     "id": "SG-GOV-territory-budget-mix",
     "kind": "assumed-data",
     "file": "src/core2/modules/budgets.ts",
-    "line": 0,
+    "line": 1615,
     "whatItFakes": "An island area's state-level government has no spending or revenue by function in the data (Census state finances cover the states and D.C.). Its budget takes the states' residents-weighted function mix, scaled to the area's own all-funds spending a resident where published (Guam, the Virgin Islands, Puerto Rico) and to the median of those where not (American Samoa, the Northern Marianas), with revenue equal to spending.",
     "why": "public-budget-bases.json holds an all-funds total for three island areas and no breakdown for any; without a budget its treasury is empty and its officials and agencies cannot be paid.",
     "addedBy": "claude/territory-admin-line",
@@ -2129,7 +2129,7 @@
     "id": "SG-GOV-outside-session-result-only",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/world-legislating.ts",
-    "line": 0,
+    "line": 1615,
     "whatItFakes": "Another government's legislature session (a state the player is not in) is simulated once, when it convenes, from its members' opening views and its executive's: a change passes when every chamber has more members for it than against it and the executive agrees (or both chambers hold two thirds); it writes one law row with the chambers' counts on a day inside the session, and no filing, bill, committee, per-member vote or event. No settledness, reluctance, sponsor, deal, lobby or press term decides it, and a member's views do not move during the session.",
     "why": "The owner's Nov 5 ruling (OWNER-DECISIONS.md): simulate other places from the people there, keep only the result, generate the detail on demand; running every bill of 55 legislatures through the full pipeline was what slowed every year.",
     "addedBy": "State Sessions session",
@@ -2141,7 +2141,7 @@
     "id": "SG-GOV-outside-officials-counted",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/official-pay.ts",
-    "line": 0,
+    "line": 1615,
     "whatItFakes": "An official of another state (not federal, not the player's own state) has no pay row, post, living cost or paycheck until the player knows them or they are in focus (the people keepsWhy keeps a why for); they are paid from the payday after, with no back pay, so their account starts at the savings a family at their pay keeps, not at what a year of paychecks would have left.",
     "why": "The CTO's Nov 7 ruling for the owner's Nov 5 rule (simulate from the people there, keep only the result, build detail on demand): paying 7,500 other-state officials person by person cost 10.9 percent of a country's first year and about 90,000 records, with nobody asking about them.",
     "addedBy": "State Sessions session",
@@ -2177,7 +2177,7 @@
     "id": "SG-GOV-reserve-sweep",
     "kind": "faked-mechanic",
     "file": "src/core2/data/outside-flows.json",
-    "line": 0,
+    "line": 1615,
     "whatItFakes": "At each monthly close a state or local treasury sends what it holds above its reserve (reserveMonthsOfSpending of yearly spending) to the town's outside account, as investment in trust funds and securities elsewhere.",
     "why": "The Census year the budget lines come from ran surpluses (pension and reserve deposits, federal relief) and nothing in the game spends or invests them, so the treasury piled up about $10 billion a year in a state and the outside account ran the same amount negative.",
     "addedBy": "Money",
@@ -2237,12 +2237,24 @@
     "id": "SG-GOV-territory-municipal-mix",
     "kind": "assumed-data",
     "file": "scripts/research/export-public-budget-bases.py",
-    "line": 0,
+    "line": 1615,
     "whatItFakes": "A Puerto Rico municipio's budget takes the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line (the island's mix), scaled to the municipio's own approved total over its own residents (OGP, all 78), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; each municipio's own revenue lines, spending by function and federal grants are not read; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
     "why": "The OGP publishes each municipio's revenue lines and spending by function in files that were not read (only the island's revenue lines and each municipio's total were); the budgets engine reads one row per territory, scaled here by each municipio's total.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
     "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
+    "status": "open"
+  },
+  {
+    "id": "SG-JUSTICE-visiting-access-record-only",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/justice.ts",
+    "line": 1615,
+    "whatItFakes": "An official's referral for a relative of someone in custody earns a visiting-access record the next day, but no other engine reads it yet: a visit does not change the relative's tie to the person in custody, the person's conduct or their release.",
+    "why": "The justice engine keeps custody as a term served, with no model of visits; what a visit changes is a design call the item gov-constituent-case-family-in-custody did not settle.",
+    "addedBy": "sonnet-95c2",
+    "addedAt": "2026-11-11",
+    "replacement": "A reader of `justice.visiting-access` (relationship contact, conduct and release timing) in the engines that own them.",
     "status": "open"
   }
 ]
