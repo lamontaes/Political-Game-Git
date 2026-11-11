@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-elected-official-seated-without-money
-pr:
+pr: #8537
 blocked-on:
 source: added with npm run pool -- add
 after:

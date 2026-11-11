@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-core-light-opening-kin-households
+pr: #8622
 after:
 blocked-on:
 source: split from core-light-opening (M, really L) by the claiming session, Oct 19
-claimed-at:
+claimed-at: 2026-11-11T05:19:55.224Z
 lead: m0-m2
 standard: 2
 model: sonnet
