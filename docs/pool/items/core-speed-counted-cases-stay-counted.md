@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: speed-lead
-pr:
+pr: #8738
 after:
 blocked-on:
 model: opus
