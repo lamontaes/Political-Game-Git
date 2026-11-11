@@ -8,6 +8,12 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Nov 11: every line goes through the English engine; work-list notes bundled; the repo slimmed (owner)
 
+- **Overnight: visible first; every line verified and touched; merge in batches (owner, about 2:03 a.m., going to bed):** "Remember, the visible stuff first. The game should look different. The words and all that. The words and scenes ... it should be markedly improved. No lines should not be verified and touched. By verified, I mean you shouldn't, what just happened should not happen again. I've made it very clear. You have all the batches, you have the way I talk, you have the entire internet, etc. ... Remember to proactively create, make, and update skills." On merging he left the shape open ("maybe at 7 a.m. or something, you merge them all, or maybe you merge them at different points in the night. I don't know. ... just be a problem solver").
+  - **Merging:** game code merges in trains by area, about 3, 5 and 7 a.m. Each train's heavy checks run once on the combined result. Reds, rules, checks and skills merge at once.
+  - **Every line is touched,** meaning rewritten through the engine with inserts, except the call 12 kinds.
+  - **Every line is verified** against his grades, the line rules, his own words and real speech, and on screen. A words PR shows its scenes before and after in three drawn places, and names the complaint it answers.
+  - **Skills** are updated in the same hour an error repeats (CTO line on #7365).
+
 - **Work-list notes merge as one bundle an hour (owner, about 1:30 a.m.):** he asked "I feel like it's only worth merging things in the game, right? Can't everything that has access to GitHub just look at branches and stuff? It's causing a lot of unnecessary problems, aren't they?" In the three hours before, 77 of 184 new PRs touched only docs, the pool or skills. The CTO proposed bundling, and he answered: "Yes, and update everything that needs to be updated."
   - The pool stays on main, because sessions on both accounts read it.
   - Cause write-ups, status notes and pool-only changes go to one rolling branch with one PR, merged once an hour, not one PR each.
