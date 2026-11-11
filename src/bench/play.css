@@ -398,9 +398,8 @@ ol {
   display: none;
 }
 /* A panel at the side of the room (the meeting, the desk) never covers the
-   people: they stand in the room it leaves, smaller, and whoever does not fit
-   whole is left out, never cut in half (owner, Nov 11: "it's being covered up
-   by the menu"). A bill read there takes the whole frame, and the foot with it. */
+   people: they stand in the room it leaves, smaller, and nobody is cut in
+   half (owner, Nov 11: "it's being covered up by the menu"). A bill read there takes the whole frame, and the foot with it. */
 #game:has(#meeting:not([hidden])) #here,
 #game:has(#desk:not([hidden])) #here {
   right: calc(
@@ -413,12 +412,22 @@ ol {
 }
 #game:has(#meeting:not([hidden])) #here .busts-row,
 #game:has(#desk:not([hidden])) #here .busts-row {
-  flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: flex-start;
-  overflow: hidden;
-  max-height: calc(var(--bust) + 34px);
   padding: 0 8px;
+}
+/* Three stand in the room the panel leaves; the rest are the faces on it. */
+#game:has(#meeting:not([hidden]))
+  #here
+  .busts-person
+  ~ .busts-person
+  ~ .busts-person
+  ~ .busts-person,
+#game:has(#desk:not([hidden]))
+  #here
+  .busts-person
+  ~ .busts-person
+  ~ .busts-person
+  ~ .busts-person {
+  display: none;
 }
 #game:has(#meeting .bill-board) #here,
 #game:has(#desk .bill-board) #here {
