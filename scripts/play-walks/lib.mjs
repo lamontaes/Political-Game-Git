@@ -147,19 +147,30 @@ export async function playTalk(walk, label, { most = 5, picture = true } = {}) {
   }
 }
 
-/** Press Day and wait for the morning; a scene that opens on it is played. */
+/**
+ * Press Day and play whatever the day brings until the clock is free again:
+ * a stop is continued, a scene's talk is played and written down. A stop
+ * holds Day until it is answered, so waiting on Day alone would wait forever.
+ */
 export async function pressDay(walk) {
   const { page } = walk;
   walk.say(`=== Day pressed at [${await clockOf(page)}]`);
   await page.locator("#day").click();
-  await page.waitForFunction(
-    () => !document.getElementById("day").disabled,
-    undefined,
-    { timeout: 240000 },
-  );
-  await page.waitForTimeout(1500);
-  if (await shown(page, "continue")) await page.locator("#continue").click();
-  if (await shown(page, "talk")) await playTalk(walk, "scene");
+  const free = () =>
+    page.evaluate(() => !document.getElementById("day").disabled);
+  for (let step = 0; step < 400; step += 1) {
+    await page.waitForTimeout(600);
+    if (await shown(page, "talk")) await playTalk(walk, "scene");
+    else if (await shown(page, "continue")) {
+      walk.say(`    (a stop at [${await clockOf(page)}]: Continue)`);
+      await page.locator("#continue").click();
+    } else if (await free()) break;
+  }
+  if (!(await free()))
+    walk.say(
+      `    DAY NEVER CAME BACK: the clock is still held at [${await clockOf(page)}]`,
+    );
+  await page.waitForTimeout(1200);
   const toasts = await toastsOf(page);
   if (toasts.journal) walk.say(`    JOURNAL NOTE: ${toasts.journal}`);
   if (toasts.news) walk.say(`    NEWS: ${toasts.news}`);
