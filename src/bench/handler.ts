@@ -639,8 +639,12 @@ const ROUTES: readonly Route[] = [
         : 0;
       state.conversation = undefined;
       const parameters = requireCore().data.parameters;
+      // The opening evening comes before the player's first morning, and the
+      // clock has not started: a talk then is part of that evening and holds
+      // it. Spent, its minutes would run from tomorrow morning, and the next
+      // Day would land a day late.
       const spent =
-        lines > 0 && state.player?.personId
+        lines > 0 && state.player?.personId && state.player.packet
           ? state.player.spend(
               (lines * parameter("talkMinutesPerLine", parameters)) /
                 parameter("minutesPerHour", parameters),
