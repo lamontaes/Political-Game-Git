@@ -12,8 +12,6 @@
     "scene-talk.close-thank.thank-you-for-hearing-us-out": "Thank you for hearing us out.",
     "scene-talk.follow-accept.a-hearing-then-schedule-it": "A hearing, then. Schedule it.",
     "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors": "That's a big claim. I'll check it with your neighbors.",
-    "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest": "{pay} an hour to start. We'd train you on the rest.",
-    "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day": "We'd go over all of it on your first day.",
     "scene-talk.follow-bargain.my-name-on-your-next-bill-as-a-co-sponsor-that-s-real": "My name on your next bill, as a co-sponsor. That's real.",
     "scene-talk.follow-bargain.your-amendment-gets-a-vote-next-week-that-s-what-s-on-the-table": "Your amendment gets a vote next week. That's what's on the table.",
     "scene-talk.follow-bargain.your-district-s-money-stays-in-the-budget-that-s-what-i-ve-got": "Your district's money stays in the budget. That's what I've got.",
@@ -23,6 +21,8 @@
   "deleted": [
     "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
     "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
-    "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer"
+    "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer",
+    "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest",
+    "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day"
   ]
 }
