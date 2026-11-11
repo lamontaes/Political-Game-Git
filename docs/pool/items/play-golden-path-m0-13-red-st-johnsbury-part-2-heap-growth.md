@@ -12,8 +12,8 @@ pr: #8253
 after: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split
 blocked-on:
 lead: play-first
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc2-done-from-records
 source: split from play-golden-path-m0-13-red-st-johnsbury in the pool redo, Nov 10, 2026
 checked: fable 2026-11-11
@@ -30,7 +30,7 @@ branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
 - **What a full person costs.** By estimated JSON bytes at month 12: about 29 KB of knowledge (`core.knowledgeByPerson`, 42 MB for 1,451 people at month 9), 8 KB in `core.people`, 4.8 KB of trait scores (the trait-change part's `scores`), and for one who works about 36 KB of payroll (`core.work.payrollCashSources`, 24 KB a row, 0 rows at the opening and 459 at month 12; `latestPayrollByJob`, 12 KB a row). They also add act counters (`core.actCounters`, 577 rows at month 1 and 14,955 at month 12), name and "met" facts (651 name facts at the opening, 8,260 at month 6) and drive decisions. Those rows are the first-half growth the earlier measurement called "the regional fill".
 - **They do not leave.** By month 12, 306 of them are husks, but a husk stays in `core.people` and keeps its rows.
 
-**Fix.**
+**Fix.** Steps 1 to 3 are already built: pull request #8738 (core-speed-counted-cases-stay-counted, the Speed lead, Nov 11) keeps a counted seeker counted unless the player holds the office or watches the official, and keys the case by the resident's id so a later fill-in finds it. The lead wrote this item before finding that pull request; the steps stay here as the record of what the fix is. What is left for this item is step 4 and the second measurement.
 
 1. **A counted seeker stays counted.** In `bringCases`, the loop over `countedOutOfWork` no longer calls `fillInPerson`. `bringCase` takes what it reads from a person (id, traits, place, the problem and its facts) as a small input both tiers can give, and writes the same case row for a counted seeker, keyed by their id.
 2. **One rule decides both.** The office's decision on a case (at office hours, or by the office's staff or habit past the deadline) reads the case row and the same inputs for a counted seeker as for a full person, and records the same reasons. Where it writes the resident's view of the official, a counted seeker's goes through the views module's counted writer (the table `countedStances`), never a second store.
@@ -38,15 +38,15 @@ branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
 4. **The check says what grew.** In tests/golden-path/played-world.node-test.ts, when the month's growth is over the ceiling, the failure line names the five tables or parts that grew most between month 1 and the end, with rows, read from table sizes only (no digests). Today it says only that the durable log grows most, which the measurement above shows is not so.
 5. **Not daily, no new store.** Nothing new runs on an ordinary day; no table is added.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, once #8738 is on main. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
 **Rules.** Two-level population (owner, Oct 11): full people exist only where they matter, and a filled-in person must match what the records already say. One model, two tiers (owner, Oct 14): a counted seeker's case is decided by the same rule as a full person's; a rule that works only on full people is an unregistered placeholder, and filling people in to make it work is the same fault. Speed (owner, Oct 29): memory and records kept must hold over a long save. No dice: who brings a case is still decided by their own leaning, as now. One rule, all 56 places: the tests draw their places and name them with their seeds.
 
-**Done when.** A second session runs the played-world check on main with GOLDEN_PATH_SEED=f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4 GOLDEN_PATH_PLACE_KEY=5062125 and sees: no fill-in from `bringCases` in a year with no player in office; fewer than 1,200 full people at the end of the year, against 1,558 today; and the month's heap growth reported beside 19.6 MiB with the five largest growers named. A test in src/core2/modules draws three places, runs each for a year and checks that every case a counted resident brought has a decision with recorded reasons, that the same case decided for a filled-in copy of that resident gives the same decision, and names each place and seed it passed over. In the running game on main at 1440x900, in a drawn place written down with its seed, a player who holds a local office holds office hours with dev mode off, hears a case from a resident they had not met, and finds that resident on the People screen afterward with a card whose job, home and household agree with the town's records. `npm run speed:year` on the same base and machine shows no year more than 20% slower.
+**Done when.** With #8738 on main, a second session runs the played-world check on main with GOLDEN_PATH_SEED=f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4 GOLDEN_PATH_PLACE_KEY=5062125 and sees fewer than 1,200 full people at the end of the year, against 1,558 on Nov 11, and the month's heap growth reported beside 19.6 MiB. When the growth is over the ceiling, the failure line names the five tables or parts that grew most between month 1 and the end, with their rows, and that list is written into this item's Notes with the next part's id for the largest of them. In a drawn place written down with its seed, the same check's line names its growers too. The seen check of the office hours themselves (a counted resident's case on the player's own desk) belongs to core-speed-counted-cases-stay-counted.
 
-**Waits on.** Nothing. The first part's re-run is done (Nov 10, main cb25bfa5c8).
+**Waits on.** core-speed-counted-cases-stay-counted (pull request #8738) on main. The first part's re-run is done (Nov 10, main cb25bfa5c8).
 
-**Files.** src/core2/modules/constituent-cases.ts, src/core2/modules/views.ts, src/core2/state.ts, src/core2/modules/constituent-cases-counted.test.ts (new), tests/golden-path/played-world.node-test.ts
+**Files.** tests/golden-path/played-world.node-test.ts
 
 **Notes (Fable B, Nov 11, 15:45 UTC: the measurement).** The lead ran three probes in the repro town on main c9cfd369eb: every table's rows and estimated bytes each month, the fields inside the largest parts at months 0, 1, 6 and 12, and a count at `fillInPerson` of who called it. This part will not bring the check under 5 MiB by itself. What else grows, largest first by estimated JSON bytes, each needing its own item with its readers mapped before any fold (skill `cadence-and-summaries`):
 
