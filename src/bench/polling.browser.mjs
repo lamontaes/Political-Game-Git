@@ -276,6 +276,36 @@ try {
     year: "numeric",
   });
   console.log("Target election:", targetDate, targetMonth, targetClock);
+  // A race months away: dev mode runs the world to the week before it (the
+  // same run that opened the filing), so the calendar's legs walk only the
+  // last week, where every stop on the way still plays.
+  const today = (await (await page.request.get(`${BASE}/api/title`)).json())
+    .life?.date;
+  const daysAway = today
+    ? Math.round((Date.parse(targetDate) - Date.parse(today)) / 86400000)
+    : 0;
+  if (daysAway > 14) {
+    await finishTalk(page);
+    const ran = await page.request.post(`${BASE}/api/dev/run-until`, {
+      data: { days: daysAway - 7 },
+      timeout: 1800000,
+    });
+    assert.equal(ran.status(), 200, await ran.text());
+    await page.reload();
+    await page
+      .locator("#front-continue")
+      .click()
+      .catch(() => {});
+    await page.waitForFunction(() =>
+      document.getElementById("card-name").textContent.trim(),
+    );
+    console.log(
+      "Dev run:",
+      daysAway - 7,
+      "days to",
+      (await page.locator("#card-clock").innerText()).replace(/\s+/g, " "),
+    );
+  }
   // Run the clock to election day with the calendar's skip-forward.
   await page
     .locator('[data-tab="calendar"]')
