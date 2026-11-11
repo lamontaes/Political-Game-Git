@@ -55,7 +55,12 @@ import {
 } from "../core2/modules/news";
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
-import { withArticle } from "../english/journal-words";
+import {
+  seatSaid,
+  withArticle,
+  type SeatRecord,
+} from "../english/journal-words";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
   JOBS_MODULE_ID,
   JOB_OFFERED_EVENT,
@@ -1017,6 +1022,19 @@ function composeBinding(
         ...(said.contestId ? [said.contestId] : []),
       ],
     };
+  // The seat as people say it, from the contest's office record (`seatSaid`):
+  // short (`seat`: "the council", "mayor") for any line that names it again,
+  // and in full for the talk at home ("the Mutual Village Council").
+  const seat = said.contestId ? seatRecordOf(core, said.contestId) : null;
+  if (seat) {
+    const cited = [moment.causeId, said.contestId!];
+    facts.seat = {
+      text: seatSaid(seat, { first: false }),
+      sourceRecordIds: cited,
+    };
+    if (type.purpose === "family-filing")
+      facts.office = { text: seatSaid(seat), sourceRecordIds: cited };
+  }
   // A rival in the race the record names, by name.
   const rival = said.rivalId
     ? core.people.get(said.rivalId as PersonId)
@@ -1502,6 +1520,35 @@ function askStanding(
   return {
     lean: memberPosition(api, said.billId, colleagueId).total,
     favor: favorWorth(api, colleagueId, playerId),
+  };
+}
+
+/** A contest's seat as its records hold it: its title, its seats, its body and its district. */
+function seatRecordOf(
+  core: Readonly<CoreState>,
+  contestId: string,
+): SeatRecord | null {
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return null;
+  const api = coreAPI(core as CoreState);
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as
+    { title: string; officeId: string; district: string | null } | undefined;
+  if (!contest) return null;
+  const office = core.modules.has(OFFICES_MODULE_ID)
+    ? (api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(contest.officeId) as unknown as
+        { seats?: number; bodyName?: string } | undefined)
+    : undefined;
+  const seats = office?.seats ?? P.one;
+  return {
+    title: contest.title,
+    seats,
+    bodyName: seats > P.one ? (office?.bodyName ?? null) : null,
+    district: contest.district,
   };
 }
 

@@ -634,7 +634,7 @@
     },
     "family-filing": {
       "state": "ask",
-      "replies": ["tell", "request", "deflect", "comfort"],
+      "replies": ["tell", "request", "promise", "deflect"],
       "follow": {
         "tell": ["comfort", "ask", "disagree"],
         "request": ["promise", "decline"],

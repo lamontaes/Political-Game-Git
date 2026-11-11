@@ -1,0 +1,8 @@
+Seed w5f-12; place: East Bank, West Virginia
+File: I'm in. Give me the papers.
+Petition answered: 200
+step 0: [] PAT CANDIDATE / I'm in. Give me the papers. / COLLECTING SIGNATURES / Continue
+step 1: [] First thing on January 21st, Julia Candidate is at your door. / Julia Candidate has the bank statement out on the kitchen table. The savings cover one month of what the pay doesn't, and the race runs two months. / Continue
+step 2: [Julia Candidate] Julia Candidate / So. You did it. / Can we even afford this? It's not like we have a ton of savings, right? How much does this even cost? / I've thought about council member for a long time. I'm ready. / I can't do this alone. I need help with phones and door knocking. And honestly, I need someone t
+Relative: Julia Candidate / So. You did it. / Can we even afford this? It's not like we have a ton of savings, right? How much does this even cost? / I've thought about council member for a long time. I'm ready. / I can't do this alone. I need help with phones and door knocking. And honestly, I need someone to keep me honest. / Give me tonight. Sunday we sit down with the bills and count it all. / There's a line I won't cross with our savings. I'll name it with you tonight.
+After the request: Julia Candidate / PAT CANDIDATE / I can't do this alone. I need help with phones and door knocking. And honestly, I need someone to keep me honest. / I'll work the phones. I won't touch the money. / That makes it easier. Thank you. / Good. I can plan around that. / I need some air. We'll talk later.
