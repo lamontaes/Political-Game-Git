@@ -164,7 +164,7 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **When a builder or lead pushes to a branch you hold, gate the newest head and say so.** Fetch before every comment; a lead's push mid-gate (as on #7032 and #7082) means rechecking only what that commit touches.
 - **A builder whose PR touches types runs `npm run typecheck` once before opening it** (Nov 8: three typecheck reds in one day, one from a `flatMap` whose callback returned two shapes; name the element type with `flatMap<{...}>`). The builder rule is to run only its own tests, but one typecheck at the end is the exception, because a red typecheck blocks every other session.
 - **When the CTO asks for a queue comment,** post on each waiting PR: gate started or not, the head, what is done and what is left, so another checker can pick it up from the record.
-- **The pool notes bundle (owner, Nov 11).** Pool-only changes no longer come one pull request each: they are commits on `pool/notes`, with one pull request open. Desk B gates it at the top of each hour, the CTO merges it, and Desk B cuts the next. The skill `pool-notes` has the steps. A pool-only pull request that is not the bundle is sent back to be committed to it.
+- **The pool notes bundle (owner, Nov 11).** Pool-only changes no longer come one pull request each: they are commits on the hour's branch, `pool/notes-<date>-<hour>`, with one pull request open. Desk B gates it at the top of each hour, the CTO merges it, and Desk B cuts the next. The skill `pool-notes` has the steps. A pool-only pull request that is not the bundle is sent back to be committed to it.
 
 ## Stop condition
 
