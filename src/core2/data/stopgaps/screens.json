@@ -58,5 +58,17 @@
     "addedAt": "2026-11-09",
     "replacement": "The world-metrics module keeping the town's monthly numbers from the opening, and the regional engine keeping the month a year before each month it shows, so every figure has last year beside it; the Metrics screen already reads this year and last as two columns.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-news-opens-on-town-paper",
+    "kind": "partial-model",
+    "file": "src/bench/archive-words.ts",
+    "line": 164,
+    "whatItFakes": "News opens on the outlets of the place the player lives in, as if every household read its town's press, newspapers first; the press engine keeps readers only as an outlet's expected subscriptions (press.ts), not which outlet a household follows.",
+    "why": "play-nov8-news-opens-on-a-different-paper-each-time asks News to open on the paper the household follows, and no record holds that; the town's own paper first is the item's smallest version.",
+    "addedBy": "play-nov8-news-opens-on-a-different-paper-each-time",
+    "addedAt": "2026-11-11",
+    "replacement": "A press-engine record of the outlets each household reads (subscriptions by household, set by its own habits and money), which News reads to choose the paper in front.",
+    "status": "open"
   }
 ]

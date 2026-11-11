@@ -134,6 +134,8 @@ mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+/** The News tab the player last chose, kept while the game is open. */
+let newsTab = null;
 // The game's date is the clock's, the packet's; me.date is only the day the
 // screen loaded (P15, C10: the News kept the opening day).
 const today = () => packet?.at?.date ?? me.date;
@@ -3843,6 +3845,11 @@ const sheets = {
     // news engine's same stories through storyHeadline.
     const { stories } = await nightsNews(me.id);
     const outlets = new Map();
+    // The player's own outlets have a tab from the first day, before they print.
+    for (const paper of await api(
+      `/api/news/home?id=${encodeURIComponent(me.id)}`,
+    ))
+      outlets.set(paper.id, { ...paper, stories: [] });
     for (const story of stories) {
       const outlet = story.outlet ?? {
         id: "news",
@@ -3853,15 +3860,46 @@ const sheets = {
       if (!outlets.has(key)) outlets.set(key, { ...outlet, stories: [] });
       outlets.get(key).stories.push(story);
     }
-    if (!outlets.size)
+    // A place with no press of its own opens on the desk of stories no outlet
+    // printed, there every day.
+    if (
+      ![...outlets.values()].some((outlet) => outlet.home) &&
+      !outlets.has("news")
+    )
       outlets.set("news", {
+        id: "news",
         name: labels.title,
         layout: "broadsheet",
         stories: [],
       });
+    // One tab order, whatever came in last (play-nov8-news-opens-on-a-different-paper-each-time):
+    // the player's own paper first (an outlet of the place they live in), then the
+    // desk of stories no outlet printed (there from day one), the other papers by
+    // name, the Nation's last; News opens on the tab the player last chose, else
+    // the first.
+    const rank = (outlet) =>
+      outlet.home || outlet.stories.some((st) => st.outlet?.home)
+        ? 0
+        : outlet.id === "news"
+          ? 1
+          : outlet.id === "nation"
+            ? 3
+            : 2;
+    const ordered = new Map(
+      [...outlets].sort(
+        ([, a], [, b]) =>
+          rank(a) - rank(b) ||
+          // The player's own outlets keep the order the press record gives them.
+          (rank(a) ? String(a.name).localeCompare(String(b.name)) : 0),
+      ),
+    );
     return [
       newsBoard({
-        outlets,
+        outlets: ordered,
+        chosenKey: newsTab,
+        onChoose: (key) => {
+          newsTab = key;
+        },
         labels,
         date: today(),
         headlineOf: storyHeadline,

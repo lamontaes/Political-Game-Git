@@ -137,22 +137,54 @@ export function wordPrintedStory(
     read.facts,
   );
   if (!text) return null;
-  const organization = story.outletId
-    ? core.organizations.get(story.outletId as EntityId)
-    : undefined;
-  const kind = story.outletId?.split(":")[2] ?? "";
+  const outlet = story.outletId ? outletOf(core, story.outletId) : undefined;
+  return { ...text, ...(outlet ? { outlet } : {}) };
+}
+
+/** An outlet as News draws it: its record id, name and the layout of its kind. */
+export function outletOf(
+  core: CoreState,
+  outletId: string,
+): { id: string; name: string; layout: string } | undefined {
+  const organization = core.organizations.get(outletId as EntityId);
+  if (!organization) return undefined;
+  const kind = outletId.split(":")[2] ?? "";
   return {
-    ...text,
-    ...(organization
-      ? {
-          outlet: {
-            id: organization.id,
-            name: organization.name,
-            layout: LAYOUTS[kind] ?? "broadsheet",
-          },
-        }
-      : {}),
+    id: organization.id,
+    name: organization.name,
+    layout: LAYOUTS[kind] ?? "broadsheet",
   };
+}
+
+/**
+ * The player's own outlets: the press of the place they live in, newspapers
+ * first, which News shows from the first day, before they print: the town's
+ * press, not the outlets the household follows.
+ */
+// stopgapId: SG-SCREENS-news-opens-on-town-paper
+export function homePapers(
+  core: CoreState,
+  personId: string,
+): { id: string; name: string; layout: string; home: true }[] {
+  const placeId = core.people.get(personId as EntityId)?.placeId;
+  if (!placeId) return [];
+  const paperFirst = (id: string) =>
+    id.startsWith("organization:press:newspaper:") ? 0 : 1;
+  return [...core.organizations.values()]
+    .filter(
+      (org) =>
+        org.placeId === placeId &&
+        String(org.id).startsWith("organization:press:"),
+    )
+    .sort(
+      (a, b) =>
+        paperFirst(a.id) - paperFirst(b.id) ||
+        String(a.name).localeCompare(String(b.name)),
+    )
+    .flatMap((org) => {
+      const outlet = outletOf(core, org.id);
+      return outlet ? [{ ...outlet, home: true as const }] : [];
+    });
 }
 
 type StoryFact = { text: string; sourceRecordIds: EntityId[] };
