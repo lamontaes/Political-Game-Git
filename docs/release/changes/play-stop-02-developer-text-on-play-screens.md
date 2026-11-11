@@ -3,4 +3,4 @@ id: play-stop-02-developer-text-on-play-screens
 impact: none
 ---
 
-The plain-text browser check now runs end to end; no player-facing change.
+The state house and state senate campaign contribution limit laws read as words in News, and the plain-text browser check now runs end to end.
