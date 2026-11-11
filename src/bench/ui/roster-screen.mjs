@@ -7,8 +7,9 @@ import { pickGroup, pickHead, pickRow } from "./list-row.mjs";
 import { pager } from "./pager.mjs";
 
 /**
- * `groups`: [{ title?, entries: [{ key, label, aside?, onSelect?, data? }] }]; `render(entry)`
- * gives the page nodes (or a promise of them); `className`
+ * `groups`: [{ title?, entries: [{ key, label, aside?, onSelect?, data? }] }]; `render(entry, show)`
+ * gives the page nodes (or a promise of them), or calls `show(...nodes)` itself, now and
+ * whenever the page changes; `className`
  * names the screen for its checks. An entry with `onSelect` runs it instead of opening a page.
  */
 export function rosterScreen({
@@ -28,13 +29,30 @@ export function rosterScreen({
     ...(g.title ? [{ heading: g.title }] : []),
     ...g.entries.map((entry) => ({ entry })),
   ]);
+  // The key of the entry whose page is on screen or on its way.
+  let opened = null;
   const open = async (entry) => {
+    // The entry already open is not opened twice. A second open would strand
+    // the first page's controls: their redraws belong to a draw this list no
+    // longer shows, so a vote cast there would never appear on the page.
+    if (entry.key === opened) return;
+    opened = entry.key;
     chosen = entry;
     const mine = ++request;
     for (const b of roster.querySelectorAll(".roster-row"))
       b.setAttribute("aria-pressed", String(b.dataset.key === entry.key));
-    const nodes = await render(entry);
-    if (mine === request) page.replaceChildren(...nodes);
+    // A page that redraws itself later (a bill after a vote) is handed `show`
+    // and returns nothing; one drawn once returns its nodes.
+    // The page names the entry it shows, so a reader (a browser check) can
+    // tell the chosen entry's page from the one before it, still on screen
+    // while the new one loads.
+    const show = (...nodes) => {
+      if (mine !== request) return;
+      page.dataset.key = entry.key;
+      page.replaceChildren(...nodes);
+    };
+    const nodes = await render(entry, show);
+    if (nodes) show(...nodes);
   };
   const rowOf = ({ heading, entry }) => {
     if (heading) return pickGroup(heading, "roster-group");

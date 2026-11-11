@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-world-community-calendar-part-1-research-event-table
+pr: #8623
 after:
 blocked-on:
 lead: lives
@@ -17,6 +17,8 @@ effort: medium
 root: design-life-record
 source: split from world-community-calendar in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:21:33.168Z
+branch: claude/pool-world-community-calendar-part-1-research-event-table
 ---
 
 **What.** A played town has no community events at all: no county fair, Fourth of July parade, harvest or heritage festival, homecoming game, school play, church supper or club meeting. Before any engine work, build the table the rest of the calendar reads: for each kind of place and size, which annual community events happen, in which season or on which date rule, and how large they are. Every row is tagged SOURCED with a citation or ESTIMATED with its source and spread, and the table must resolve every one of the 56 places to a place type so no town is named in logic. Feeds: world-community-calendar
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes (Fable B, Nov 10, the owner's answer).** Owner, Nov 10, 2026, about 7:16 p.m.: "I've ruled on these community events. I've talked about ham days once, you know, just doing some basic research. But there can also be some general events as well." The size he picked is the small one: each town's own real festivals from one research pass, a few general events a year, the paper reports them and a candidate can campaign at one. A system that decides who attends, person by person, is not part of it.
 
 Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it. Its text is the owner's Nov 10 size for town events (each town's own real festival from one research pass, plus a few general events), from the borderline list in #8367.
+
+**Notes.** Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:21 UTC) on branch claude/pool-world-community-calendar-part-1-research-event-table.

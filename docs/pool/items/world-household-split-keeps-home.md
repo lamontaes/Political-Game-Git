@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -42,3 +42,5 @@ branch: claude/pool-world-household-split-keeps-home
 Released (2026-11-11): 6-hour change: a recorded who-keeps-the-home decision in moves.ts plus changing the mortgage payer on the credit engine and counted households; moves.ts decide() line 1323 returns null for a mortgaged split; not started. Continue on branch claude/pool-world-household-split-keeps-home.
 
 Released (2026-11-11): second read: leave() in moves.ts already keeps the home when stayers remain; the missing piece is a core API to change a standing mortgage contract's payerIds (none exists in finance/credit: grep for set/replace payer finds nothing) plus the who-keeps-it decision and counted households; needs the credit/finance owner to add the API first. Continue on branch claude/pool-world-household-split-keeps-home.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded who keeps the mortgaged home when members leave; the player's own family is ruled to stay and nobody else's split is shown.
