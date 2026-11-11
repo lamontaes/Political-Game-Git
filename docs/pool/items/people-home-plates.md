@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-people-home-plates
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T01:43:32.790Z
 after:
 standard: 2
 model: sonnet
