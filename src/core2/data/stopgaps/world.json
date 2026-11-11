@@ -605,7 +605,7 @@
     "why": "The town's income is recorded only from the opening, so a year-over-year growth needs a year of records first.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month. Deleted the invented neutral growth input and its published observation. Until comparable paid-income records exist, the national model omits local feedback. Actual observed growth still enters the same model; missing pre-start income history remains explicitly registered as SG-WORLD-macro-income-history.",
+    "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month. Deleted the invented neutral growth input and its published observation. Until comparable paid-income records exist, the national model omits local feedback. Actual observed growth still enters the same model; missing pre-start income history remains explicitly registered as SG-WORLD-macro-income-history. Resolved Nov 10, 2026: the town-growth feed is deleted with the national formula it fed; the national row is now the sum of every state kept as counts and stepped by the month (src/core2/country-model.ts), so no stand-in or local feedback input exists.",
     "status": "resolved"
   },
   {
@@ -713,7 +713,7 @@
     "why": "The played world records paid town income only from opening and does not have comparable pre-start income receipts.",
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
-    "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately. Done Oct 16 (world-stopgap-macro-missing-record): the national step hears the nation's payroll-income growth over the same twelve months as the estimate of the town's growth (townGrowthEstimatePct on each simulated month), and the town's own paid-income growth takes over by a twelfth of the weight for each comparable month it covers (townGrowthOwnWeight). No month omits local feedback.",
+    "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately. Done Oct 16 (world-stopgap-macro-missing-record): the national step hears the nation's payroll-income growth over the same twelve months as the estimate of the town's growth (townGrowthEstimatePct on each simulated month), and the town's own paid-income growth takes over by a twelfth of the weight for each comparable month it covers (townGrowthOwnWeight). No month omits local feedback. Resolved Nov 10, 2026: the town-growth feed (townGrowthEstimatePct, townGrowthOwnWeight) is deleted; the national row is now the sum of the country tier's states (src/core2/country-model.ts), which the town does not feed, so no income history is needed for it.",
     "status": "resolved"
   },
   {
@@ -980,6 +980,30 @@
     "addedBy": "lane-2/opening-treasuries",
     "addedAt": "2026-11-04",
     "replacement": "Replace the sampled state and local proxies in treasury-opening-cash.json with available operating cash by government/type/place and a measured spread, preserving separate restricted funds. The existing budget and transfer engines must remain the readers. Complete world-government-opening-fund-balance with named payments, fixture removal, New Game and relative timing.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-grievance-ownerless-landlord",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/grievance.ts",
+    "line": 184,
+    "whatItFakes": "An eviction's grievance is held against the landlord business itself where the landlord has no recorded owner, which today is every town's one landlord, so the evicted household's head has a business, not a named person, on the other side.",
+    "why": "The town's rentals belong to one ownerless landlord business (SG-WORLD-housing-landlord); there is no person who decided the eviction to name.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "When rentals are owned by the town's own landlords (SG-WORLD-housing-landlord's replacement), the grievance names the owner who served notice, as a layoff's names the owner who decided it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-grievance-no-fold",
+    "kind": "partial-model",
+    "file": "src/core2/modules/grievance.ts",
+    "line": 246,
+    "whatItFakes": "Grievance rows (disputes with a full person on a side) stay open until their cause is undone and are never folded into summaries, so the open rows the monthly rehire check reads grow over a long save; a grievance does not fade with time or end when either person dies or leaves. The counted population's monthly counts are kept for every month.",
+    "why": "Part 3's readers have not yet said how long a grievance is read, so its window is not agreed (speed-work: fold once the readers' windows are agreed).",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Once part 3's readers set their window, old grievances fold into a per-place summary and a grievance ends when either person dies or leaves for good.",
     "status": "open"
   }
 ]

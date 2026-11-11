@@ -1,7 +1,7 @@
-/** State and metro economies as pure math: each region moves with the nation by its own industries plus a gap that fades. */
+/** State and metro figures: the opening from the published series moved by the world's draw; each month since from the region's state in the country tier. */
 import regions from "./data/regional/regions.json" with { type: "json" };
 import type { MacroMonth, MacroParameter } from "./macro-model";
-import { publishedMonths, shiftMonth } from "./macro-model";
+import { publishedMonths } from "./macro-model";
 import { worldOffsetUnit } from "./world-draw";
 import { stopgap } from "./stopgaps";
 import territoryData from "./data/regional/territories.json" with { type: "json" };
@@ -62,30 +62,10 @@ const DATA = regions as unknown as {
   source: { citation: string };
 };
 export const REGIONS = DATA.regions;
+/** Every state and territory by FIPS code, with its people at the opening. */
+export const REGION_STATES = DATA.states;
 export const REGION_SOURCE = DATA.source;
 export const COUNTY_REGION = DATA.countyRegion;
-
-const SECTOR_KEYS: Record<string, string> = Object.fromEntries(
-  [
-    "mining-logging",
-    "construction",
-    "manufacturing",
-    "trade-transport-utilities",
-    "information",
-    "financial",
-    "professional-business",
-    "education-health",
-    "leisure-hospitality",
-    "other-services",
-    "government",
-  ].map((name) => [
-    name,
-    name
-      .split("-")
-      .map((word) => word[0]!.toUpperCase() + word.slice(1))
-      .join(""),
-  ]),
-);
 
 function latest(series: Record<string, number> | undefined, month: string) {
   if (!series) return undefined;
@@ -94,21 +74,6 @@ function latest(series: Record<string, number> | undefined, month: string) {
     if (at <= month) found = value;
   return found;
 }
-
-/** The nation's mix: every region's mix weighted by its population. */
-export function nationalMix(): Record<string, number> {
-  const out: Record<string, number> = {};
-  let total = 0;
-  for (const row of REGIONS) {
-    if (!Object.keys(row.mix).length) continue;
-    total += row.population;
-    for (const [sector, share] of Object.entries(row.mix))
-      out[sector] = (out[sector] ?? 0) + share * row.population;
-  }
-  for (const sector of Object.keys(out)) out[sector]! /= total;
-  return out;
-}
-const NATIONAL_MIX = nationalMix();
 
 function rppAt(
   table: Record<string, number>,
@@ -286,82 +251,41 @@ export function openingRegionMonths(
   });
 }
 
-function sectorGrowth(
-  sector: string,
-  nationalGrowth: number,
-  p: MacroParameter,
-) {
-  const key = SECTOR_KEYS[sector]!;
-  return (
-    p(`regionalSector${key}TrendMonthlyPct`) +
-    p(`regionalSector${key}Beta`) * nationalGrowth
-  );
+/** A state's figures in the country tier, now and at the opening (modules/macro.ts keeps both). */
+export interface StateMove {
+  unemploymentPct: number;
+  /** The state's share out of work at the opening, in the tier. */
+  unemploymentAtStartPct: number;
+  /** How far the state's jobs, pay, people and prices (against the nation's) have moved since the opening: 1 is no change. */
+  jobs: number;
+  pay: number;
+  people: number;
+  prices: number;
 }
 
-/** One month for one region, after the nation's month. */
-export function stepRegionMonth(
-  previous: Readonly<RegionMonth>,
-  region: Readonly<RegionRow>,
-  nationalBefore: Readonly<MacroMonth>,
-  nationalNow: Readonly<MacroMonth>,
-  p: MacroParameter,
+/**
+ * One month for one region, from its state's month in the country tier. A
+ * region inside a state has no cells of its own yet
+ * (SG-NATION-regions-read-their-state): it keeps the difference from its
+ * state it opened with, and its jobs, pay, people and prices move as its
+ * state's do.
+ */
+export function regionMonthFromState(
+  first: Readonly<RegionMonth>,
+  state: Readonly<StateMove>,
+  month: string,
 ): RegionMonth {
-  const hundred = p("macroHundred"),
-    one = p("one");
-  const growth =
-    Math.log(
-      nationalNow.payrollJobsThousands / nationalBefore.payrollJobsThousands,
-    ) * hundred;
-  const cycle = growth - p("regionalNationalMeanMonthlyJobGrowthPct");
-  let mixGrowth = p("zero"),
-    mixCycle = p("zero");
-  for (const sector of Object.keys(NATIONAL_MIX)) {
-    const difference =
-      (region.mix[sector] ?? NATIONAL_MIX[sector]!) - NATIONAL_MIX[sector]!;
-    mixGrowth += difference * sectorGrowth(sector, growth, p);
-    mixCycle +=
-      difference * p(`regionalSector${SECTOR_KEYS[sector]}Beta`) * cycle;
-  }
-  const gapBefore = previous.unemploymentPct - nationalBefore.unemploymentPct;
-  const unemploymentPct =
-    nationalNow.unemploymentPct +
-    p("regionalUnemploymentGapPersistence") * gapBefore -
-    mixCycle / p("macroJobsPerUnemploymentPoint");
-  const gapNow = unemploymentPct - nationalNow.unemploymentPct;
-  // People leave where unemployment runs above the nation's and come where it runs below.
-  const migration =
-    (-p("regionalMigrationPerUnemploymentPoint") * gapNow) /
-    hundred /
-    p("macroMonthsPerYear");
-  const month = shiftMonth(previous.month, one, p);
-  const nationalPayGrowth =
-    nationalNow.hourlyEarnings / nationalBefore.hourlyEarnings;
-  // A tight labor market (unemployment under the nation's) runs pay ahead of the nation's, a slack one behind, by the pooled state fit.
-  const hourlyEarnings =
-    previous.hourlyEarnings *
-    nationalPayGrowth *
-    (one +
-      (p("macroWageGrowthPerUnemployment") *
-        (gapNow - previous.openingGapPct)) /
-        hundred /
-        p("macroMonthsPerYear") +
-      (p("regionalPayGrowthPerGapPoint") * gapNow) /
-        hundred /
-        p("macroMonthsPerYear"));
+  // What the region's share out of work was above its state's on day one.
+  const aboveState = first.unemploymentPct - state.unemploymentAtStartPct;
   return {
-    ...previous,
-    id: `${region.id}:${month}`,
+    ...first,
+    id: `${first.regionId}:${month}`,
     month,
-    unemploymentPct,
-    population: previous.population * (one + migration),
-    jobsThousands:
-      previous.jobsThousands * Math.exp((growth + mixGrowth) / hundred),
-    hourlyEarnings,
-    // The price level against the nation's (nation = 100) follows the region's pay against the nation's: dearer places are the ones whose pay runs ahead.
-    priceLevelPct:
-      previous.priceLevelPct *
-      (hourlyEarnings / previous.hourlyEarnings / nationalPayGrowth) **
-        p("regionalPriceLevelPayElasticity"),
+    unemploymentPct: Math.max(0, state.unemploymentPct + aboveState),
+    jobsThousands: first.jobsThousands * state.jobs,
+    hourlyEarnings: first.hourlyEarnings * state.pay,
+    priceLevelPct: first.priceLevelPct * state.prices,
+    population: first.population * state.people,
   };
 }
 
@@ -369,7 +293,12 @@ export function stepRegionMonth(
 export function stateFigures(
   months: readonly RegionMonth[],
   stateFips: string,
-): { jobsThousands: number; unemploymentPct: number; hourlyEarnings: number } {
+): {
+  jobsThousands: number;
+  unemploymentPct: number;
+  hourlyEarnings: number;
+  priceLevelPct: number;
+} {
   const rows = months.filter((row) => row.stateFips === stateFips);
   const weights = rows.map(
     (row) =>
@@ -383,6 +312,9 @@ export function stateFigures(
       total,
     hourlyEarnings:
       rows.reduce((sum, row, i) => sum + row.hourlyEarnings * weights[i]!, 0) /
+      total,
+    priceLevelPct:
+      rows.reduce((sum, row, i) => sum + row.priceLevelPct * weights[i]!, 0) /
       total,
   };
 }

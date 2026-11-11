@@ -29,6 +29,6 @@ for (let y = 1; y <= years; y++) {
   ) as any[];
   const last = months.at(-1);
   console.log(
-    `year ${y} ${world.core.date}: U ${last.unemploymentPct.toFixed(1)} gap ${last.outputGapPct.toFixed(2)} infl ${last.inflationPct.toFixed(1)} rate ${last.policyRatePct.toFixed(2)} period ${last.cyclePeriodYears?.toFixed(1)}`,
+    `year ${y} ${world.core.date}: U ${last.unemploymentPct.toFixed(1)} gap ${last.outputGapPct.toFixed(2)} infl ${last.inflationPct.toFixed(1)} rate ${last.policyRatePct.toFixed(2)}`,
   );
 }

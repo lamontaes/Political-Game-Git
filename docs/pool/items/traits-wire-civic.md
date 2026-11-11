@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -31,3 +31,7 @@ Oct 25 (traits lead): PR #5657's completed slice (believing a story, party meeti
 Claim released Oct 25: branch never pushed (`claude/traits-wire-civic-rest`).
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/traits-wire-civic` is kept; claiming this item takes it over.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into traits-civic-calibrations-studies. This family wrapper has been open since Oct 24 on a dead PR; its calls-above-zero acceptance is met by traits-decisions-never-run (done) and traits-decisions-fire-in-play (#6681, #6684, #6688: 85 of 89 decisions fire), and what is left is fitting weights to studies, which the kept item asks for. The kept item should take this item's unfinished list: ballot-measure vote, back-incumbent (now campaign-incumbency-calibrated), telling an exit pollster, holding a town hall, joining a party, a lobbyist speaking up, accepting an interview and taking part at a meeting.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `traits-civic-calibrations-studies`, which carries this item's remaining work.

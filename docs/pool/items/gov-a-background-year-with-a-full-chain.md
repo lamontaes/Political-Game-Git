@@ -11,15 +11,31 @@ blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 195 (unchecked checklist line)"
 claimed-at:
+after:
+lead: governing
+standard: 2
+model: sonnet
+effort: medium
+root: rc8-law-judged-by-paperwork
+size: M
+checked: fable 2026-11-10
 ---
 
-**What.** In 11 played years (4 plain, 7 where the player proposed a minimum-wage raise) the background world made one bribe offer and zero reports, because the only bribe route is the employers' lobby on a minimum-wage bill and only the player proposes one. Make background bodies propose bills with money at stake (a minimum wage where local authority allows it, budget lines with vendors, permits) so interest groups, offers, reports and cases arise from causes with no player push. The player would notice corruption stories, complaints and trials in the news that no one in the room started.
+**What.** The item asks for a background year with a full chain: background bodies propose bills with money at stake so interest groups, offers, reports and cases arise from causes with no player push. Its premise (11 played years, 4 plain, with one bribe offer and zero reports, because only the player proposes a minimum-wage bill) is out of date. The Oct 20 plain-year table (Hickory Ridge AR `ch1`, Tryon NE `ch2`, Bethany Beach DE `ch3`, Williamsburg KS `ch4`) showed 58 to 78 background bills a year, employers' groups forming on their own and 11 to 93 lobbying meetings, but zero bribe offers, and a refusal left no record. Later measures found hundreds of offers in two years (434 in Davie, Florida, seed 694f68f1f5df5250). Which link of the chain is missing in a plain year today is not known.
 
-**Rules.** No dice: who proposes and who offers a bribe follows traits, money and the law in force, with no fixed percentage; The chain is the acceptance: follow one background bill to an offer, a decision, a report, a case and the news line; Wire to the world: it moves money and people in a generated world and applies to every body that legislates; Ask why: each proposal and offer keeps its reasons by record id; One rule, all 56 places: no place named in code; Speed: background proposals act on the day something changes, with no new daily world scan.
+**Cause.** Needs cause. Read the item's Oct 20 table against `gov-bribe-offer-reads-known-money-trouble` (434 offers in Davie, FL, seed 694f68f1f5df5250); `considerBribe` in `src/core2/modules/corruption.ts` changed in between. No replay of a plain year on main has been taken since.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): a plain year (the player proposes nothing) shows background bills with money at stake, at least one interest-group offer or refusal with reasons, and any report or case that follows, all by record id. A test in `src/core2/world-legislating.test.ts` runs the plain year and reads the offers. The owner plays it: skips a year without proposing anything and reads a corruption story in the news that started on its own.
+**Fix.** None until the cause is found.
 
-**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/interest-groups.ts, src/core2/modules/corruption.ts, src/core2/modules/legislature.ts
+**Time box.** 4 hours for one Sonnet session, to replay four plain years on main and name which link of the chain (bills, groups, meetings, offers or refusals, reports, cases, news) is missing. When it runs out, write what was counted in the item and stop.
+
+**Rules.** No dice: who proposes and who offers a bribe follows traits, money and the law in force, with no fixed percentage. The chain is the acceptance: follow one background bill to an offer, a decision, a report, a case and the news line. Ask why: each proposal and offer keeps its reasons by record id. One rule, all 56 places. Speed: background proposals act on the day something changes, with no new daily world scan.
+
+**Done when.** A second session replays a plain year (the player proposes nothing) in four places drawn from all 56 (names and seeds printed) with `scripts/research/bribe-chain-years.ts` and sees the item rewritten with `Measured:` counts per link (bills, groups, meetings, offers, refusals kept with reasons, taken, reported, cases, news lines) and a Fix naming the missing link, or the item dropped with that evidence if every link is present. Whether the offer count is the realistic rate is reported, not a pass or fail.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/world-legislating.ts, src/core2/modules/interest-groups.ts, src/core2/modules/corruption.ts, src/core2/modules/legislature.ts, src/core2/world-legislating.test.ts, scripts/research/bribe-chain-years.ts
 
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
 

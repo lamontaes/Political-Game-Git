@@ -939,7 +939,8 @@ export function billMedicalCare(
       debtId: debtId ?? prior.get(h.householdId)?.debtId ?? null,
       source,
     };
-    table(api, input.module).put(row as never);
+    // Built fresh for this write and never touched again: frozen in place, not copied.
+    table(api, input.module).putOwned(row as never);
   }
   if (medicaidBySeller.size) {
     const { paidBySeller } = payMedicaidCare(api, {

@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,7 @@ source: added by EFFECT-WEB-WIRING
 **Files.** src/core2/corruption.test.ts, src/core2/modules/corruption.ts
 
 **Notes.** Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The M3-09 corruption test now passes over places that cannot give two taken bribes and draws three that can (`src/core2/corruption.test.ts`, lines 355 to 366, "finds three drawn places with at least two taken bribes"); the twin item gov-corruption-test-two-taken-bribes is done.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -34,7 +34,7 @@ advanceCore(core, end.toISOString().slice(0, 10));
 const api = coreAPI(core);
 const months = [...api.moduleState("macro").table("months").rows()].sort(
   (a, b) => String(a.month).localeCompare(String(b.month)),
-) as unknown as (MacroMonth & { townIncomeGrowthPct?: number })[];
+) as unknown as MacroMonth[];
 const byMonth = new Map(months.map((row) => [row.month, row]));
 const bands = checkBands(months, p).filter((row) => !row.baseIsHistory);
 const exits = bands
@@ -58,10 +58,6 @@ const exits = bands
         inflationPct: Number(m.inflationPct.toFixed(2)),
         outputGapPct: Number(m.outputGapPct.toFixed(2)),
         policyRatePct: Number(m.policyRatePct.toFixed(2)),
-        townIncomeGrowthPct:
-          m.townIncomeGrowthPct === undefined
-            ? null
-            : Number(m.townIncomeGrowthPct.toFixed(2)),
       },
     };
   });
@@ -74,10 +70,6 @@ const yearly = months
     outputGapPct: Number(row.outputGapPct.toFixed(2)),
     policyRatePct: Number(row.policyRatePct.toFixed(2)),
     mortgage30Pct: Number(row.mortgage30Pct.toFixed(2)),
-    townIncomeGrowthPct:
-      row.townIncomeGrowthPct === undefined
-        ? null
-        : Number(row.townIncomeGrowthPct.toFixed(2)),
   }));
 let cash = 0,
   outside = 0;

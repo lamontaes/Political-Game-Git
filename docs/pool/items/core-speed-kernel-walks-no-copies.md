@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,7 @@ Defect found on the branch, Oct 24 (speed lead): `counted-demotion.test.ts` ("de
 Bisected, Oct 24 (speed lead), on base 185d76d7ce: with only the household walk change (`counted-groups.ts` and `residents.ts` from #5433's commit 2aa343dbea) `counted-demotion.test.ts` fails (a demoted member no longer found among the counted residents); with only the row-list cache (`module-state.ts`) all 3 of its tests pass. The walk differs from the generator it replaced in two ways a caller can see: it reads the household list when the walk is asked for, not when it starts, and it can be walked again from the start, where a generator, once partly read, continues; the failing reader is not yet found (it may also be one of the two readers that commit rewrote). The row-list cache can ship on its own once it is measured clear of the noise.
 
 Claim released by the Oct 25 audit: no push in 72 hours (branch claude/speed-live-households last pushed Oct 21).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-speed-module-table-play-path. Measured Oct 24 inside the noise (Long Hill m7b 0.941 then 1.005; Stanardsville 0.964, 0.985, 1.015) and its module-table list-cache half was replaced by the branch behind core-speed-module-table-play-path, which says "whose part it replaces". The kept item now takes the one-result-object counted-household walk and its defect in counted-demotion (src/core2/counted-demotion.test.ts failing on Lawrence, New York, seed 69fb54d718cc69e358245405c6c5c465).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-speed-module-table-play-path`, which carries this item's remaining work.

@@ -210,9 +210,33 @@ function residentsOf(c: CoreState, placeId: string): number {
   for (const person of c.people.values())
     if (person.alive && person.placeId === placeId) n += 1;
   const counted = residentsRuntime(c)?.store;
-  for (const h of counted?.liveHouseholds() ?? [])
-    if (h.placeId === placeId) n += counted!.countedCount(h);
+  if (counted) n += countedByPlace(counted).get(placeId) ?? 0;
   return n;
+}
+
+/**
+ * The counted people by place, summed once for each change to the counts (the
+ * store's `version` and `membersVersion` move with every change to who is
+ * counted or grouped), not walked again for every place built in.
+ */
+const countedPlaces = new WeakMap<
+  object,
+  { key: string; byPlace: Map<string, number> }
+>();
+function countedByPlace(
+  store: NonNullable<ReturnType<typeof residentsRuntime>>["store"],
+): ReadonlyMap<string, number> {
+  const key = `${store.version}|${store.membersVersion}`;
+  const held = countedPlaces.get(store);
+  if (held?.key === key) return held.byPlace;
+  const byPlace = new Map<string, number>();
+  for (const h of store.liveHouseholds())
+    byPlace.set(
+      h.placeId,
+      (byPlace.get(h.placeId) ?? 0) + store.countedCount(h),
+    );
+  countedPlaces.set(store, { key, byPlace });
+  return byPlace;
 }
 
 /**

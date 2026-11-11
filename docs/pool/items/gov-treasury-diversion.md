@@ -1,27 +1,42 @@
 ---
 id: gov-treasury-diversion
-title: "An official can divert a budget line's money, recorded on the treasury's books"
+title: "An official can move budget money outside the law, and it is found out through audits, the press or complaints"
 area: gov
 kind: feature
 priority: 3
-size: M
-status: open
+size: S
+status: blocked
+standard: 2
 claimed-by:
-pr: #4587
+pr:
+after:
 blocked-on:
+lead: governing
+model: sonnet
+effort: low
+root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** An official can divert a budget line's money, recorded on the treasury's books. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/budgets-treasury.ts, src/core2/data/corruption/parameters.json (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-treasury-diversion, after merging main into it with a plain merge.
+**What.** The owner ruled on Nov 10, 2026: "Yes, keep it." An official can move money from one budget line to another outside the law, and it is found out the way bribery is, through audits, the press or complaints. The design is docs/design/treasury-diversion.md: a second kind of act in the corruption engine that exists, with its money on the treasury's books and its discovery through people who learn of it. It is built in four parts and one research item, and this parent is the closing check.
 
-**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
+**Cause.** Design: docs/design/treasury-diversion.md, written from the owner's Nov 10, 2026 ruling in docs/coordination/OWNER-DECISIONS.md. In code today the corruption engine (src/core2/modules/corruption.ts) records only bribes (`CrimeRecord`, line 62), nothing but a lawful measure moves a line (`amendBudget`, src/core2/modules/budgets.ts line 2105), and no module audits a government's books.
 
-**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
+**Fix.** Build the parts in order: gov-treasury-diversion-part-1-the-act-and-its-money, then gov-treasury-diversion-part-2-the-shorted-line-and-the-complaint, then gov-treasury-diversion-part-3-the-yearly-audit, with gov-treasury-diversion-part-4-the-players-seat after part 1, gov-treasury-diversion-part-5-the-justice-path-takes-the-kind after part 2, and research-local-government-audit-rules at any time. This parent's own work is the closing check below, after the parts merge.
 
-**Files.** docs/pool/items/gov-treasury-diversion.md and the files that pull request #4587 changes on claude/gov-treasury-diversion
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
-**Notes.** TODO
+**Rules.** The chain is the acceptance: one diverted dollar is followed from the line it left to where it went, to the person shorted, to who learned of it and how, to the story in the paper and the voter who weighed it, by record id. No dice. Ask why. Follow .agents/skills/seen-in-game/SKILL.md.
+
+**Done when.** A second session, not a builder of any part, plays a drawn place (place and seed named) on main and follows one diversion end to end by record id: the cause, the official's choice with its reasons, the journal entries, the shorted line's smaller payment, the department head or auditor who learned of it, their decision, the scandal in News, the case on the one justice path through to its sentence and the money paid back to the treasury, and one voter's ballot reasons that cite it. It also plays an executive, takes the quiet move in the scene, and sees the same chain start from the player's own choice.
+
+**Waits on.** gov-treasury-diversion-part-1-the-act-and-its-money, gov-treasury-diversion-part-2-the-shorted-line-and-the-complaint, gov-treasury-diversion-part-3-the-yearly-audit, gov-treasury-diversion-part-4-the-players-seat and gov-treasury-diversion-part-5-the-justice-path-takes-the-kind.
+
+**Files.** docs/design/treasury-diversion.md, src/core2/modules/corruption.ts
+
+**Notes.** The send-backs below are from the old branch claude/gov-treasury-diversion (pull request #4587), kept as the record of what went wrong there: a table nobody read, a test that could pass with no diversion, and a positive case funded by hand. Nothing is built on that branch.
 
 Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): merging main conflicts in src/core2/budgets-treasury.ts, src/core2/data/corruption/parameters.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 

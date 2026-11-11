@@ -48,15 +48,21 @@ type Part = {
 export function provenanceProblems(part: Part): string[] {
   const problems: string[] = [];
   // An owner-voice part is authored from wording the owner said or chose in a
-  // voice note (docs/english/owner-voice.md): it names the note file it draws
-  // on, so a reader can open it. Nothing else about it differs.
+  // voice note (docs/english/owner-voice.md): it names the note it draws on,
+  // so a reader can find his words. A note on main is named by its file. His
+  // notes since Nov 10 stay off main (his ruling), so such a note is cited by
+  // its date, its batch and the branch that keeps it (CTO ruling, Nov 10, on
+  // pull request 8114): "owner voice note, Nov 9, batch 2 (kept off main,
+  // branch cto/voice-batch-2-part-1)". Nothing else about the part differs.
   if (part.origin === "owner-voice") {
+    const document = part.source?.document ?? "";
     if (
-      !/^docs\/coordination\/voice-notes\/[\w.-]+\.md$/.test(
-        part.source?.document ?? "",
+      !/^docs\/coordination\/voice-notes\/[\w.-]+\.md$/.test(document) &&
+      !/^owner voice note, [A-Z][a-z]{2} \d{1,2}, batch \d+ \(kept off main, branch [\w./-]+\)$/.test(
+        document,
       )
     )
-      problems.push("an owner-voice part names its voice-note file");
+      problems.push("an owner-voice part names its voice note");
     if (!part.author?.trim())
       problems.push("an owner-voice part names its author");
     if (!/^\d{4}-\d{2}-\d{2}$/.test(part.date ?? ""))
@@ -174,7 +180,12 @@ describe("English part banks", () => {
 
       it("gives every part a move type, a kind and its provenance", () => {
         for (const part of bank.parts) {
-          if (part.origin === "owner-voice")
+          // A note named by its file is on main; one kept off main is cited
+          // by date, batch and branch (provenanceProblems checks its shape).
+          if (
+            part.origin === "owner-voice" &&
+            part.source!.document.startsWith("docs/")
+          )
             expect(
               existsSync(path.resolve(__dirname, "..", part.source!.document)),
               part.key,

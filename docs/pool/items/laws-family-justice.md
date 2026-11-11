@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,7 @@ source: "split of laws-remaining-families (Oct 15)"
 **Notes.** Owner: police and the war design are 1.0.
 
 Oct 20: Switched from blocked to the automatic after: gate on laws-justice-pretrial-release, so it opens by itself the moment those items are done.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-justice-pretrial-release. This is an umbrella with nothing unique left: pretrial release, firearm storage and citizenship cooperation each have their own open item (laws-justice-pretrial-release, laws-justice-firearm-storage, laws-justice-citizenship-cooperation), voting restoration is already read by the voting mechanic (`RESTORE_VOTE` and `barredFromVoting` in src/core2/law-reach/group-a-voting.ts), and counted convictions have laws-convictions-counted-reach. Its `after:` is laws-justice-pretrial-release, so the kept item is the one it waits on.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `laws-justice-pretrial-release`, which carries this item's remaining work.
