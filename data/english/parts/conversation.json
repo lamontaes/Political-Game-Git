@@ -24853,6 +24853,494 @@
       "tag": {
         "move": "answer"
       }
+    },
+    {
+      "key": "conversation.greet-answer-detail.good-i-m-at-my-employer-these-days",
+      "move": "greet-answer-detail",
+      "kind": "spoken",
+      "text": "Good. I'm at {my_employer} these days.",
+      "uses": [
+        {
+          "move": "greet-answer-detail",
+          "subject": "greet",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.greet-answer-detail.fine-still-living-in-my-place",
+      "move": "greet-answer-detail",
+      "kind": "spoken",
+      "text": "Fine. Still living in {my_place}.",
+      "uses": [
+        {
+          "move": "greet-answer-detail",
+          "subject": "greet",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.greet-answer-deflect.long-story-ask-me-again-later",
+      "move": "greet-answer-deflect",
+      "kind": "spoken",
+      "text": "Long story. Ask me again later.",
+      "uses": [
+        {
+          "move": "greet-answer-deflect",
+          "subject": "greet",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.greet-answer-deflect.i-d-rather-not-say-another-time",
+      "move": "greet-answer-deflect",
+      "kind": "spoken",
+      "text": "I'd rather not say. Another time.",
+      "uses": [
+        {
+          "move": "greet-answer-deflect",
+          "subject": "greet",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.greet-answer-change.fine-where-do-you-work-these-days",
+      "move": "greet-answer-change",
+      "kind": "spoken",
+      "text": "Fine. Where do you work these days?",
+      "uses": [
+        {
+          "move": "greet-answer-change",
+          "subject": "greet",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.greet-answer-change.good-what-have-you-been-doing-for-work",
+      "move": "greet-answer-change",
+      "kind": "spoken",
+      "text": "Good. What have you been doing for work?",
+      "uses": [
+        {
+          "move": "greet-answer-change",
+          "subject": "greet",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.farewell-answer-later.i-have-to-run-talk-later",
+      "move": "farewell-answer-later",
+      "kind": "spoken",
+      "text": "I have to run. Talk later.",
+      "uses": [
+        {
+          "move": "farewell-answer-later",
+          "subject": "farewell",
+          "role": "answer",
+          "choice": "later"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.farewell-answer-later.sorry-i-ve-got-to-go-catch-you-later",
+      "move": "farewell-answer-later",
+      "kind": "spoken",
+      "text": "Sorry, I've got to go. Catch you later.",
+      "uses": [
+        {
+          "move": "farewell-answer-later",
+          "subject": "farewell",
+          "role": "answer",
+          "choice": "later"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.farewell-answer-wish.good-luck-with-everything",
+      "move": "farewell-answer-wish",
+      "kind": "spoken",
+      "text": "Good luck with everything.",
+      "uses": [
+        {
+          "move": "farewell-answer-wish",
+          "subject": "farewell",
+          "role": "answer",
+          "choice": "wish"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.farewell-answer-wish.i-hope-it-all-goes-well",
+      "move": "farewell-answer-wish",
+      "kind": "spoken",
+      "text": "I hope it all goes well.",
+      "uses": [
+        {
+          "move": "farewell-answer-wish",
+          "subject": "farewell",
+          "role": "answer",
+          "choice": "wish"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.school-answer-detail.i-went-to-school-now-i-m-at-my-employer",
+      "move": "school-answer-detail",
+      "kind": "spoken",
+      "text": "I went to {school}. Now I'm at {my_employer}.",
+      "uses": [
+        {
+          "move": "school-answer-detail",
+          "subject": "school",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.school-answer-detail.school-and-now-i-live-in-my-place",
+      "move": "school-answer-detail",
+      "kind": "spoken",
+      "text": "{school}, and now I live in {my_place}.",
+      "uses": [
+        {
+          "move": "school-answer-detail",
+          "subject": "school",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.school-answer-deflect.school-s-school-ask-me-another-time",
+      "move": "school-answer-deflect",
+      "kind": "spoken",
+      "text": "School's school. Ask me another time.",
+      "uses": [
+        {
+          "move": "school-answer-deflect",
+          "subject": "school",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.school-answer-deflect.it-s-a-long-story-ask-me-another-day",
+      "move": "school-answer-deflect",
+      "kind": "spoken",
+      "text": "It's a long story. Ask me another day.",
+      "uses": [
+        {
+          "move": "school-answer-deflect",
+          "subject": "school",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.school-answer-change.fine-where-did-you-go-to-school",
+      "move": "school-answer-change",
+      "kind": "spoken",
+      "text": "Fine. Where did you go to school?",
+      "uses": [
+        {
+          "move": "school-answer-change",
+          "subject": "school",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-school"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.school-answer-change.okay-and-where-did-you-go",
+      "move": "school-answer-change",
+      "kind": "spoken",
+      "text": "Okay. And where did you go?",
+      "uses": [
+        {
+          "move": "school-answer-change",
+          "subject": "school",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-school"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-reply-answer-detail.oh-place-i-work-at-my-employer",
+      "move": "home-reply-answer-detail",
+      "kind": "spoken",
+      "text": "Oh, {place}. I work at {my_employer}.",
+      "uses": [
+        {
+          "move": "home-reply-answer-detail",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-reply-answer-detail.place-right-i-m-at-my-employer-these-days",
+      "move": "home-reply-answer-detail",
+      "kind": "spoken",
+      "text": "{place}, right. I'm at {my_employer} these days.",
+      "uses": [
+        {
+          "move": "home-reply-answer-detail",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-reply-answer-change.place-right-where-do-you-work",
+      "move": "home-reply-answer-change",
+      "kind": "spoken",
+      "text": "{place}, right. Where do you work?",
+      "uses": [
+        {
+          "move": "home-reply-answer-change",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-reply-answer-change.oh-nice-what-do-you-do-for-work",
+      "move": "home-reply-answer-change",
+      "kind": "spoken",
+      "text": "Oh, nice. What do you do for work?",
+      "uses": [
+        {
+          "move": "home-reply-answer-change",
+          "subject": "home-reply",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.tenure-reply-answer-deflect.mine-s-a-long-story-ask-me-another-time",
+      "move": "tenure-reply-answer-deflect",
+      "kind": "spoken",
+      "text": "Mine's a long story. Ask me another time.",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-deflect",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.tenure-reply-answer-deflect.maybe-i-ll-tell-you-mine-sometime",
+      "move": "tenure-reply-answer-deflect",
+      "kind": "spoken",
+      "text": "Maybe I'll tell you mine sometime.",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-deflect",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.tenure-reply-answer-change.that-s-a-long-time-where-are-you-from",
+      "move": "tenure-reply-answer-change",
+      "kind": "spoken",
+      "text": "That's a long time. Where are you from?",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-change",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.tenure-reply-answer-change.wow-where-did-you-grow-up",
+      "move": "tenure-reply-answer-change",
+      "kind": "spoken",
+      "text": "Wow. Where did you grow up?",
+      "uses": [
+        {
+          "move": "tenure-reply-answer-change",
+          "subject": "tenure-reply",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, conversation four answers more)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
     }
   ]
 }
