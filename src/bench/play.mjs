@@ -2162,7 +2162,7 @@ async function showStory(momentId) {
       show("talk-skip", true);
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
       // The part's picture and cast: the desk, the town, the colonnade, the
-      // officials named by office as the camera passes, and home.
+      // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
       if (beat) {
         $("backdrop").src = beat.backdrop.url;
@@ -2170,12 +2170,7 @@ async function showStory(momentId) {
       }
       talkControls({ silent: false, leave: false });
       fillTalk({
-        lines: [
-          talkLine({ kind: "speech", text: parts[at] }),
-          ...(beat?.caption
-            ? [talkLine({ kind: "label", text: beat.caption })]
-            : []),
-        ],
+        lines: [talkLine({ kind: "speech", text: parts[at] })],
         replies: [],
       });
       setScales({ available: false });
