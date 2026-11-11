@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/law-wiring-housing.test.ts, src/core2/modules/credit.ts
 
 **Notes.** lead: laws-effects. Filed Oct 28 by the laws-and-effects lead. Related stopgap: the cap binds only the bank's consumer loan (world-small-dollar-lenders).
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/law-wiring-housing.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=c443c640669c9f2eb72d974b0cf926a6305a74b0 and, separately, 7fba587294c64f3fe78585f25bdf6a254161c880. Neither run finished inside the 30-minute limit (exit 124, no assertion printed), so neither is called red or green; the whole file is slow. Next: run only the cap case with `-t` and a longer limit.

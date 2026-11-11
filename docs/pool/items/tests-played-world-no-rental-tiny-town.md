@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/housing.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** `node --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts` with GOLDEN_PATH_SEED=fab4a016e500e2d54ef9dd438fd9575efa4a0053bb25048fd4df627589dcc0aa (also with GOLDEN_PATH_PLACE_KEY=5466460): "homes have values and rents" passed (823 homes priced, 226 rented, 107 renter households expected). The seed and place key did not give Rachel's 19 homes, so the item's town was not reproduced. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-rental-1 (place not printed): passed (838 homes, 232 rented). Green on both, but the item's tiny town is not proven; no drop proposed.

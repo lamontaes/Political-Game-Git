@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/law-wiring-government.test.ts, src/core2/law-reach/group-a-staffing.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/law-wiring-government.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=446eaae155bdacc270446225a696c32454dda4b0. Still red. First failing assertion as printed: `AssertionError: seed 446eaae155bdacc270446225a696c32454dda4b0, ward charter 3050200 (3050200), attempt 4: someone hired on the raised administration line: expected 0 to be greater than 0` at src/core2/law-wiring-government.test.ts:334.

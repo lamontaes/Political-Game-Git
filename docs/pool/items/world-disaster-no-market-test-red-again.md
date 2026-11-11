@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Oct 28: the earlier item world-disaster-repairs-no-outside-market is done; this is its test turning red again.
 
 **Notes (Fable's check, Nov 10).** When the cause is found, the fix plays the path in a place that reaches it, found by the test's own bounded draws and named in the failure message, and never loosens the assertion.
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/disasters-no-market.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=35f504a41ec4764f52666b6c5ccd1992aa077e83. Still red, 1 of 2. First failing assertion as printed: `AssertionError: Guthrie, Oklahoma (4031700), seed 35f504a41ec4764f52666b6c5ccd1992aa077e83: a town with nobody to pay: expected undefined to be defined` at src/core2/disasters-no-market.test.ts:153.
