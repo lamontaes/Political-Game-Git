@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-words-job-offer-answer-repeats-title-and-pay
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:15:53.593Z
+claimed-at:
 branch: claude/pool-words-job-offer-answer-repeats-title-and-pay
 ---
 
@@ -46,3 +46,5 @@ The audit did not verify how often the repeat comes up; it reported the one exch
 Related: words-job-offer-scene-lines (done; wrote the scene's first lines), director-cap-on-scene-repeats (the same call coming 15 times), words-everyday-talk-one-engine (claimed; replies that fit the question in everyday talk).
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:15 UTC) on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.
+
+Released (2026-11-11): needs Story's answer lines under data/english/parts; see draft PR. Continue on branch claude/pool-words-job-offer-answer-repeats-title-and-pay.
