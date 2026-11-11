@@ -125,6 +125,7 @@ import {
   sayNothing,
   type Conversation,
 } from "../director/conversation";
+import { chapterPicture } from "./journal-pictures";
 import { composeJournal } from "../director/journal";
 import {
   fileForOffice,
@@ -664,19 +665,25 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/journal",
     run: async ({ url, send }) => {
       if (!state.director) throw new Error("Generate a town first.");
+      const who = url.searchParams.get("id") ?? "";
+      const chapters = composeJournal(
+        requireCore(),
+        state.director,
+        who,
+        // The player's own journal reads to their clock, which stands at
+        // the start of a day the core has yet to run (a birthday morning).
+        state.player?.packet && state.player.personId === who
+          ? { through: state.player.packet.at.date }
+          : {},
+      );
+      // A chapter carries the picture of the place its lines were written from;
+      // with no place on record it carries none.
       send(
         200,
-        composeJournal(
-          requireCore(),
-          state.director,
-          url.searchParams.get("id") ?? "",
-          // The player's own journal reads to their clock, which stands at
-          // the start of a day the core has yet to run (a birthday morning).
-          state.player?.packet &&
-            state.player.personId === url.searchParams.get("id")
-            ? { through: state.player.packet.at.date }
-            : {},
-        ),
+        chapters.map((chapter) => {
+          const picture = chapterPicture(requireCore(), who, chapter);
+          return picture ? { ...chapter, picture } : chapter;
+        }),
       );
       return;
     },

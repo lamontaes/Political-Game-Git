@@ -505,6 +505,16 @@ export function journalScreen({ chapters, labels, yearOf, rows }) {
                 stripSection(
                   2,
                   chosen.title,
+                  // The picture of the place the chapter's lines happened in; none on record, no slot.
+                  ...(chosen.picture
+                    ? [
+                        el("img", {
+                          className: "journal-picture",
+                          src: chosen.picture.url,
+                          alt: "",
+                        }),
+                      ]
+                    : []),
                   // Two columns and a drop cap only where the words fill them: a short
                   // chapter is one column and a one-line first paragraph has no drop cap.
                   el(
