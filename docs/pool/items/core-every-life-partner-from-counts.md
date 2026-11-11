@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 claimed-by: claude/pool-core-every-life-partner-from-counts
-pr:
+pr: #8491
 after:
 blocked-on:
 source: added with npm run pool -- add
