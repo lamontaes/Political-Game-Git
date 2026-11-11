@@ -7,6 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -437,8 +438,10 @@ function householdMoments(
       counterpartIds: [],
       selfNamed: true,
     });
-  // A parent's new job, from the working-life run, in the years the person
-  // was old enough to remember and still a child at home.
+  // The working-life run's spells the person was old enough to remember and
+  // still a child at home for: a relative's start or move is told inside the
+  // one sentence about that relative's work (lead, Nov 11: "one sentence per
+  // person").
   const remembers = addDays(
     bornOn,
     Math.round(
@@ -446,31 +449,6 @@ function householdMoments(
     ),
   );
   const grown = addDays(bornOn, Math.round(P.votingAge * P.daysPerMeanYear));
-  // The line names the employer from the spell's own record and the
-  // person's age then; a spell with no employer on record is not told.
-  for (const id of parents)
-    for (const row of pastWorkOf(core as CoreState, id as PersonId)) {
-      if (row.kind !== PAST_WORK_SPELL) continue;
-      const startedAt = String(row.facts.startedAt);
-      if (startedAt < remembers || startedAt >= grown) continue;
-      const employer = employerName(
-        core,
-        row.facts.organizationId ? String(row.facts.organizationId) : undefined,
-        row.id,
-      );
-      if (!employer) continue;
-      const age = ageOnDate(bornOn, makeIsoDate(startedAt));
-      moments.push({
-        ...base(row.id, startedAt),
-        causeKind: "household:moment:parent-new-job",
-        counterpartIds: [id as PersonId],
-        beat: "work",
-        actFacts: {
-          employer,
-          age: { text: String(age), sourceRecordIds: [row.id, person.id] },
-        },
-      });
-    }
   // The first school they attended, and the high school when it was another
   // school, told by the school's own record ("When I was 5, I started at
   // ..."); a school with no record of its own goes unnamed and untold.
@@ -492,31 +470,112 @@ function householdMoments(
           },
         },
       });
-  // What each earner in the household does for work now, by the record of
-  // the job they held on day one: the family's livelihood the person grew up
-  // inside. The parents first, then the brothers, sisters and partner.
+  // What each earner in the household does for work now: the job they held
+  // on day one and each office they serve in, from the one reader the card
+  // and Travel tell it from (`personWorkOf`), so the journal never says a
+  // sales job where the card says commissioner. The parents first, then the
+  // brothers, sisters and partner.
   const household = core.households.get(person.householdId);
   const earners = [...(household?.memberIds ?? [])].sort(
-    (a, b) => Number(!parentIds.has(a)) - Number(!parentIds.has(b)),
+    (a, b) =>
+      Number(!parentIds.has(a)) - Number(!parentIds.has(b)) ||
+      String(core.people.get(a)?.birthDate ?? "").localeCompare(
+        String(core.people.get(b)?.birthDate ?? ""),
+      ),
   );
   const lastDay = addDays(makeIsoDate(core.startedAt), -one);
   for (const [at, id] of earners.entries()) {
     const earner = core.people.get(id);
-    const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
-    if (!earner?.alive || !job || id === person.id) continue;
+    if (!earner?.alive || id === person.id) continue;
+    const work = personWorkOf(core, earner.id);
+    // One sentence per person, in the household's order (parents first,
+    // then by age): the id leads with that place so the entry keeps it.
+    const order = `livelihood:${String(at).padStart(P.two, "0")}:${person.id}`;
+    // An office first, told with the livelihood words: the office as the
+    // work and its government as the employer, on the term's record. Someone
+    // who holds an office is told by it alone (lead, Nov 11: one sentence per
+    // person).
+    for (const office of work.offices.slice(zero, one))
+      moments.push({
+        ...base(`${order}:${office.termId}`, lastDay),
+        causeId: office.termId,
+        causeFactId: office.termId,
+        causeKind: office.governmentName
+          ? "household:livelihood:at"
+          : "household:livelihood",
+        counterpartIds: [earner.id],
+        beat: "work",
+        actFacts: {
+          job: {
+            text: withArticle(officeInSentence(office.title)),
+            sourceRecordIds: [office.termId, office.officeId],
+          },
+          ...(office.governmentName
+            ? {
+                employer: {
+                  // The government itself ("the County of Nuckolls").
+                  text: employerSaid(properName(office.governmentName), {
+                    kind: "government-treasury",
+                  }),
+                  sourceRecordIds: [office.termId, office.officeId],
+                },
+              }
+            : {}),
+        },
+      });
+    const job = work.job ? core.jobs.get(work.job.id) : undefined;
+    if (!job || work.offices.length) continue;
     const held = heldSinceRecord(core as CoreState, earner.id, job.id);
-    const org = core.organizations.get(job.organizationId);
+    const employer = employerName(core, job.organizationId, job.id);
     const cause = held?.id ?? job.id;
+    // The last spell they started while the person was a child at home who
+    // remembers it: the start of the job they hold ("started at ... when I
+    // was 15 and still works there"), or the move to it from the one before.
+    const spells = pastWorkOf(core as CoreState, earner.id)
+      .filter((row) => row.kind === PAST_WORK_SPELL)
+      .sort((a, b) =>
+        String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+      );
+    const last = spells.at(-one);
+    const startedAt = String(last?.facts.startedAt ?? "");
+    const remembered =
+      !!last &&
+      !!employer &&
+      startedAt >= remembers &&
+      startedAt < grown &&
+      String(last.facts.organizationId) === job.organizationId;
+    const before = remembered ? spells.at(-P.two) : undefined;
+    const from = before?.facts.organizationId
+      ? employerName(core, String(before.facts.organizationId), before.id)
+      : undefined;
+    const moved = !!from && from.text !== employer?.text;
     moments.push({
-      ...base(`${cause}:livelihood:${person.id}:${at}`, lastDay),
+      ...base(`${order}:${cause}`, lastDay),
       causeId: cause,
       causeFactId: cause,
-      causeKind: "household:livelihood",
+      // A job whose employer is on record is said with it; the plain words
+      // are for a job with no employer on record.
+      causeKind: remembered
+        ? moved
+          ? "household:livelihood:moved"
+          : "household:livelihood:since"
+        : employer
+          ? "household:livelihood:at"
+          : "household:livelihood",
       counterpartIds: [earner.id],
       beat: "work",
       actFacts: {
         job: { text: withArticle(job.title), sourceRecordIds: [job.id] },
-        ...(org ? { employer: employerName(core, org.id, job.id)! } : {}),
+        ...(employer ? { employer } : {}),
+        ...(remembered
+          ? {
+              age: {
+                text: String(ageOnDate(bornOn, makeIsoDate(startedAt))),
+                sourceRecordIds: [last!.id, person.id],
+              },
+            }
+          : {}),
+        ...(moved ? { from: from! } : {}),
       },
     });
   }
@@ -1326,10 +1385,16 @@ export function composeJournal(
   const through = options.through ?? core.date;
   // Moments of one day are told in the order the rows give: where the family
   // came from, then who raised the person, then their brothers and sisters.
+  // A moment ranks with the most general row it matches, so the kinds of one
+  // story ("household:livelihood", ":since", ":moved") keep their own order.
   const rank = (moment: JournalMoment) => {
-    const at = rows.findIndex((entry) =>
-      moment.causeKind.startsWith(entry.kindPrefix),
-    );
+    let at = -one;
+    for (const [index, entry] of rows.entries())
+      if (
+        moment.causeKind.startsWith(entry.kindPrefix) &&
+        (at < zero || entry.kindPrefix.length < rows[at]!.kindPrefix.length)
+      )
+        at = index;
     return at < zero ? rows.length : at;
   };
   const moments: JournalMoment[] = [
@@ -1847,11 +1912,9 @@ export function composeJournal(
     // A line that says its own time ("Today I turned eighteen.") opens on
     // no other.
     if (row.ownTime) framed.add(moment.id);
-    // Nor does a line that says the person's age then ("I was 7 when my
-    // father went to work for ..."): "Five years later, I was 4 when ...".
-    const toldAge = moment.actFacts?.age?.text;
-    if (toldAge && new RegExp(`\\b${toldAge}\\b`).test(event.text))
-      framed.add(moment.id);
+    // The note on the family's work is one sentence per person, each standing
+    // on its own: it never opens on the time since the line before.
+    if (moment.beat === "work") framed.add(moment.id);
     const entry = {
       id: moment.id,
       date: moment.date,

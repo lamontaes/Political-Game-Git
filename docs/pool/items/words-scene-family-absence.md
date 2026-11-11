@@ -73,3 +73,7 @@ Released (2026-11-10): Needs the kin lines under data/english/parts (Story sessi
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:55 UTC) on branch claude/pool-words-scene-family-absence.
 
 Released by next (2026-11-11): no push to claude/pool-words-scene-family-absence since 2026-11-10 23:52 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-words-scene-family-absence.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:06 UTC) on branch claude/pool-words-scene-family-absence.
+
+Released (2026-11-11): The move case is already told (circumstance moved-away-farewell, src/director/moving-goodbye-scene.test.ts); the hospital, custody and death scenes need new kin lines under data/english/parts, which builders other than the Words session may not write, so this item needs the Words session. Continue on branch claude/pool-words-scene-family-absence.
