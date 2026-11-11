@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-words-meeting-minutes-from-the-record
+status: open
+claimed-by:
 pr:
 blocked-on:
 lead: words
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at: 2026-11-11T05:37:12.072Z
+claimed-at:
 after:
 standard: 2
 model: sonnet
@@ -56,3 +56,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Not built: its Files include data/english/parts/minutes.json (Story only) and it needs a new past-meeting detail screen in Politics built to the mocks; already released twice for the same reasons. Continue on branch claude/pool-words-meeting-minutes-from-the-record.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:37 UTC) on branch claude/pool-words-meeting-minutes-from-the-record.
+
+Released (2026-11-11): Needs a new past-meeting screen and Words-reviewed wording; not built. Continue on branch claude/pool-words-meeting-minutes-from-the-record.
