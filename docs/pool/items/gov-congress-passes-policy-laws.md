@@ -6,12 +6,12 @@ lead: laws
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-congress-passes-policy-laws
 pr:
 blocked-on: gov-congress-passes-policy-laws-part-1-question-list-from-data, gov-congress-passes-policy-laws-part-2-stances-on-questions, gov-congress-passes-policy-laws-part-3-law-reaches-resident
 source: owner, Oct 29 voice note on the governing brief
-claimed-at:
+claimed-at: 2026-11-11T01:43:17.049Z
 after:
 standard: 2
 model: sonnet
