@@ -11,7 +11,6 @@
     "restored-liked-lines",
     "voice-notes-batches-11-19",
     "voice-notes-oct15-28",
-    "2026-11-10-nov8-playtest-rejected",
     "2026-11-09-batch-2:voice",
     "2026-11-09-batch-3:voice"
   ],
@@ -216,41 +215,9 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
-    "conversation.address-ask-seen.did-you-catch-the-president-s-speech": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
     "conversation.address-ask-seen.did-you-see-the-president-s-speech": {
       "good": 1,
       "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "conversation.address-ask-seen.did-you-watch-the-president-s-speech": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "conversation.address-view-answer-agree.you-and-me-both": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "conversation.address-view-raise-for.i-liked-what-the-president-had-to-say": {
-      "good": 0,
-      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -273,14 +240,6 @@
       "sharedFix": 0
     },
     "conversation.farewell-leave-bye.talk-to-you-soon": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "conversation.farewell-leave-home.i-ll-let-you-get-back-to-it": {
       "good": 0,
       "bad": 1,
       "fix": 0,
@@ -1153,14 +1112,6 @@
       "sharedFix": 0
     },
     "scene-talk.follow-accept.then-it-says-you-were-asked-and-didn-t-say": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "scene-talk.follow-agree.then-we-agree-on-something-for-once": {
       "good": 0,
       "bad": 1,
       "fix": 0,

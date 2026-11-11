@@ -17,6 +17,8 @@ effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-words-talk-reply-not-offered-after-one-engine
 ---
 
 **What.** A talk rejects a reply the screen offered. Confirmer replay of Lane 3 path 4 on main 516a0f9070 (includes #7267, everyday talk on one engine): New Game in Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5), the player answering each talk with its first reply, played week by week from January 2025 to November 2026. The page threw three errors from /api/talk/say: 'Not an offered line: 4:ack:right.conversation.greet-answer-fine.all-right' twice and 'Not an offered line: 2:well'. The same script and town ran with no page errors before #7267 (main 21830c5ce8). The replies were on screen when pressed; whether a press during the next line's load causes it is not known.
@@ -40,3 +42,11 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** Skipped: the item names no command, only a replay script and town that are not in the repository (the replay of Lane 3 path 4 in Murray, Nebraska, replay 1d3f0e18ca4ba7e5). Nothing was run.
 
 Nov 11 (cause finder for Fable B): traced in code. The reply key carries its turn, the screen keeps replies live while a press is in flight, and nothing disables them, so a second press is the turn before. The Lane 3 replay script is not in the repository, so I could not replay it. Whether #7267 made the window longer (a slower `say`) is not known.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:10 UTC) on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Released (2026-11-11): Cap is on (AGENTS.md, owner Nov 11: no new item while over 150 game PRs are open; 381 PRs open now); next handed it out when gh could not open the draft PR and probably could not count. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 10:14 UTC) on branch claude/pool-words-talk-reply-not-offered-after-one-engine.
+
+Released (2026-11-11): Cap is on (260 game PRs open, cap 150); next prints the cap and still claims this bug item, which is not a red, rule, check or skill. Not started. Continue on branch claude/pool-words-talk-reply-not-offered-after-one-engine.

@@ -52,7 +52,7 @@ export function personName(core: CoreState, key: string): string {
 }
 
 /** The bodies the person sits on (more than one seat), with their colleagues. */
-function bodiesOf(core: CoreState, personId: string) {
+export function bodiesOf(core: CoreState, personId: string) {
   const api = coreAPI(core);
   const offices = api.moduleState(OFFICES);
   const mine = (
@@ -349,6 +349,53 @@ export function seatAct(
     floorDate: floor.floorDate,
     whip: floor.whip,
   };
+}
+
+/**
+ * A repeal from this seat: the player's own body that can repeal the law at
+ * this level (the body's bill catalog allows the series), or, for an
+ * officeholder whose bodies lack the power, the legislature bodies that hold
+ * it, named from the record. A resident with no office gets neither, and the
+ * law page shows no Repeal action. Single-seat executives sit on no body, so
+ * the action appears for them only with the mayors' and governors' bill menu.
+ */
+export function repealFor(
+  core: CoreState,
+  personId: string,
+  series: string,
+  level: string,
+): { officeId: string | null; body: string | null } {
+  const api = coreAPI(core);
+  const mine = bodiesOf(core, personId)
+    .filter((body) => body.level === level)
+    .sort((a, b) => a.officeId.localeCompare(b.officeId));
+  for (const body of mine) {
+    const hit = menusFor(api, body.level, body.officeId)
+      .flatMap((menu) => menu.items)
+      .find(
+        (item) =>
+          (item.kind === "law-amount" && item.series === series) ||
+          (item.kind === "policy-question" && item.question === series),
+      );
+    // A repeal is a draft with the value 0 (an amount zeroed, a yes-or-no
+    // law answered No): the same value dev mode's Repeal button sends, and
+    // the seat's draft marks it blocked where the catalog does not allow it.
+    if (hit?.allowed) return { officeId: body.officeId, body: null };
+  }
+  const serving = (
+    terms(core).query("byPerson", [personId]) as unknown as TermRow[]
+  ).some((row) => row.status === "serving");
+  if (!serving) return { officeId: null, body: null };
+  const names = [
+    ...new Set(
+      townSeats(api)
+        .filter(
+          (seat) => seat.office.level === level && bodyRow(seat.office.kind),
+        )
+        .map((seat) => seat.office.bodyName ?? seat.office.title),
+    ),
+  ].sort();
+  return { officeId: null, body: names.length ? names.join(" or ") : null };
 }
 
 /**
