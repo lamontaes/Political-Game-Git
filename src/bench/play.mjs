@@ -2377,7 +2377,10 @@ async function showStory(momentId) {
     );
     return;
   }
-  // The narrator alone is a Continue.
+  // The narrator alone is a Continue; when it is over, the moment's next scene plays, if it has one.
+  onContinue = async () => {
+    if (!(await endExchange(story))) $("talk-next").click();
+  };
   talkControls({ silent: false, leave: false });
   fillTalk({
     lines: [
@@ -2409,9 +2412,14 @@ function playExchange(story) {
   // The path is the index of each reply chosen, from the first.
   // The asker follows up: no walking away mid-exchange, no silence as a reply.
   talkControls({ silent: false, leave: false });
-  const play = (node, path) => {
+  const play = (node, path, kept) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
     fillTalk({ lines: shown() });
+    // The other person had the last line: the exchange is over all the same.
+    if (!node.replies.length) {
+      endExchange(story, kept);
+      return;
+    }
     fillTalk({
       replies: replies(
         node.replies.map((reply, index) => ({
@@ -2429,11 +2437,10 @@ function playExchange(story) {
             "POST",
           );
           said.push(reply.line);
-          if (reply.next) play(reply.next, chosen);
+          if (reply.next) play(reply.next, chosen, kept);
           else {
             fillTalk({ lines: shown(), replies: [] });
-            // A moment that staged another scene plays it next.
-            kept.then(() => nextScene(story));
+            endExchange(story, kept);
           }
         },
       ),
@@ -2441,13 +2448,26 @@ function playExchange(story) {
   };
   play(talk.tree, []);
 }
-/** The moment's next staged scene with a purpose, once one ends; none, and the talk stays closed. */
+/**
+ * An exchange is over, whatever its last line was (the player's reply, the other person's closing
+ * line, or the narrator's alone): the game keeps the player's last reply, if there was one, and
+ * the moment's next staged scene plays. One call for every way a scene ends.
+ */
+function endExchange(story, kept) {
+  return Promise.resolve(kept)
+    .catch(() => {})
+    .then(() => nextScene(story));
+}
+/** The moment's next staged scene with a purpose, once one ends; none, and the talk stays closed. True when one plays. */
 async function nextScene(story) {
   const next = await api(
     `/api/story?momentId=${encodeURIComponent(story.momentId)}${HELD_VIEW ? "&held=1" : ""}`,
   );
-  if (next.talk && next.talk.typeKey !== story.talk.typeKey)
+  if (next.talk && next.talk.typeKey !== story.talk?.typeKey) {
     showStory(story.momentId);
+    return true;
+  }
+  return false;
 }
 function storyStop(value) {
   return value?.kind === "stop"
