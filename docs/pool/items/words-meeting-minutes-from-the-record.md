@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-words-meeting-minutes-from-the-record
+pr: #8671
 blocked-on:
 lead: words
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at:
+claimed-at: 2026-11-11T05:47:38.879Z
 after:
 standard: 2
 model: sonnet
@@ -58,3 +58,7 @@ Released (2026-11-11): Not built: its Files include data/english/parts/minutes.j
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:37 UTC) on branch claude/pool-words-meeting-minutes-from-the-record.
 
 Released (2026-11-11): Needs a new past-meeting screen and Words-reviewed wording; not built. Continue on branch claude/pool-words-meeting-minutes-from-the-record.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:46 UTC) on branch claude/pool-words-meeting-minutes-from-the-record.
+
+Released (2026-11-11): Not built: released by four sessions before me for the same reason. It needs a new past-meeting detail screen on a body's page in Politics (no screen shows a past meeting; office.ts has only the live meeting) built to the mocks, and the Files list includes data/english/parts/minutes.json, which only Story edits. The four pieces exist; wording them from agenda and roll-call records is buildable, but the screen needs a design decision (which meetings are listed, what the list and detail hold) from the lane or Fable. Continue on branch claude/pool-words-meeting-minutes-from-the-record.
