@@ -1066,6 +1066,56 @@ describe("relocating a household with a member who has died", () => {
   });
 });
 
+describe("a refused relocation says which condition failed, for whom", () => {
+  const move = (personIds: string[], householdId = `household:${player}`) => ({
+    personIds,
+    placeId: away,
+    countyId: county,
+    householdId,
+    source,
+  });
+  const refusal = (run: () => void): string => {
+    try {
+      run();
+    } catch (error) {
+      return (error as Error).message;
+    }
+    return "";
+  };
+
+  it("names the missing household, a person listed twice, a dead mover and a held job each under its own message", () => {
+    const core = createCore(input());
+    const api = coreAPI(core);
+    const job = core.people.get(player)!.jobId;
+    core.people.get(player)!.jobId = undefined;
+    // An id that is no one: the household cannot be found.
+    expect(
+      refusal(() => api.relocatePeopleV1(move(["person:nobody"]))),
+    ).toMatch(/Invalid relocation: the household is missing: person:nobody/);
+    // The same person twice.
+    expect(refusal(() => api.relocatePeopleV1(move([player, player])))).toMatch(
+      /Invalid relocation: a person is listed twice/,
+    );
+    // A mover who is dead.
+    core.people.get(player)!.alive = false;
+    expect(refusal(() => api.relocatePeopleV1(move([player])))).toMatch(
+      new RegExp(`Invalid relocation: ${player} is dead or missing`),
+    );
+    core.people.get(player)!.alive = true;
+    // A mover who holds a live job outside the destination names the job.
+    core.people.get(player)!.jobId = job;
+    const held = refusal(() => api.relocatePeopleV1(move([player])));
+    expect(held).toMatch(
+      new RegExp(
+        `Invalid relocation: ${player} holds the live job ${job} outside`,
+      ),
+    );
+    // Every message carries the household and the move's source.
+    expect(held).toContain(`household ${core.people.get(player)!.householdId}`);
+    expect(held).toContain(source.citation);
+  });
+});
+
 describe("relocating a person who holds a job", () => {
   const moveInput = (placeId: string) => ({
     personIds: [player],
