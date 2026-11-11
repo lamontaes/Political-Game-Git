@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-19-turning-eighteen-and-journal-silent
 pr:
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T00:42:55.448Z
 branch: claude/pool-play-stop-19-turning-eighteen-and-journal-silent
 ---
 
@@ -47,3 +47,5 @@ branch: claude/pool-play-stop-19-turning-eighteen-and-journal-silent
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 00:41 UTC) on branch claude/pool-play-stop-19-turning-eighteen-and-journal-silent.
 
 Released (2026-11-11): Replay-only item (nothing to build); pool seen refuses items that are not merged, so the check can't be recorded; needs a second session started as a checker after the CTO sets its status. Continue on branch claude/pool-play-stop-19-turning-eighteen-and-journal-silent.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 00:42 UTC) on branch claude/pool-play-stop-19-turning-eighteen-and-journal-silent.
