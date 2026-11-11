@@ -3,4 +3,4 @@ id: words-scene-web-the-campaign
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Two more campaign scenes, the first door of the day and the party asking you to run, now have real-life episode notes behind them.
