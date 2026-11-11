@@ -773,14 +773,25 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
         // today in its place (struck), for a screen to strike and insert; null where the law in
         // force gives no value to put back.
         inserted: clauseOf(bill.provisions, index),
+        // A yes-or-no section strikes only a rule in force (its value above
+        // 0): with none in force there is nothing to strike, and wording the
+        // 0 would read as a repeal ("the rules now in force ... are repealed").
         struck:
-          before && typeof before.value === "number" && !budgetLine
+          before &&
+          typeof before.value === "number" &&
+          !budgetLine &&
+          (provision.kind !== "policy-question" || before.value > 0)
             ? clauseOf(
-                bill.provisions.map((p, i) =>
-                  i === index
-                    ? ({ ...p, value: before.value } as Provision)
-                    : p,
-                ),
+                bill.provisions.map((p, i) => {
+                  if (i !== index) return p;
+                  if (p.kind !== "policy-question")
+                    return { ...p, value: before.value } as Provision;
+                  // A rule in force worded by its own value: a catalog
+                  // operation ("repeal") is the bill's, not the law's.
+                  const { operation: _bills, ...law } = p;
+                  void _bills;
+                  return { ...law, value: before.value } as Provision;
+                }),
                 index,
               )
             : null,
