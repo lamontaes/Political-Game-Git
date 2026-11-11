@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-nov8-news-opens-on-a-different-paper-each-time
+pr: #8521
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point P16, partly fixed)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:50:41.712Z
 ---
 
 **What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut): "if you notice, all like the things are changing, like the news outlets, and now it's something about New York bottle deposit. What is going on?" News puts the stories into a map of outlets in the order they arrive, newest first, and opens on the first key, so the paper in front is the outlet of the newest story and the tabs reorder with it. Nothing remembers which paper the player was reading. News should open on the player's own local paper, keep the tabs in one order, and keep the tab the player last chose while the game is open.
