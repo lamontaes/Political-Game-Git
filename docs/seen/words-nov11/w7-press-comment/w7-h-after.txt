@@ -3,17 +3,18 @@ FILED w7-press-h: {"me":"person_740fc20c61b6f628","body":"office:gus2025:134417:
 VOTE-MOMENT w7-press-h: {"id":"person_740fc20c61b6f628:2025-01-28:bill-vote:bill:office:gus2025:134417:board:2025-01-20:person_740fc20c61b6f628:5:office:gus2025:134417:board","kinds":["floor-vote","press-interview"]}
 TALK w7-press-h (asked):
 Evelyn Fernandez
+Evelyn Fernandez
 Have you got thirty seconds for Lesslie Times?
-You voted for Ordinance 2025-1. What should people know about why?
+You voted for the Free Fares for Riders Ordinance. What should people know about why?
 A second reporter drifts over, and Evelyn Fernandez steps in closer.
-I was a yes on Ordinance 2025-1, and I'd cast that vote again. It failed 2 to 5, and the roll is public. Use my name.
+I was a yes on the Free Fares for Riders Ordinance, and I'd cast that vote again. It failed 2 to 5, and the roll is public. Use my name.
 I'm not doing this in a hallway. If Lesslie Times wants a comment, call my office.
-It's about free fares on public transit, and you're making it sound like something else.
+--
 TALK w7-press-h (answered):
 Evelyn Fernandez
+Evelyn Fernandez
 AMIR CHAN
-I was a yes on Ordinance 2025-1, and I'd cast that vote again. It failed 2 to 5, and the roll is public. Use my name.
-The vote on Ordinance 2025-1 was 2 to 5. Did you have it counted that way going in?
+I was a yes on the Free Fares for Riders Ordinance, and I'd cast that vote again. It failed 2 to 5, and the roll is public. Use my name.
+So, 2 to 5. Is that how you had it counted?
 About there. I'd talked it through with half of Lesslie the week before.
 When this comes up in Lesslie, people already know where I stand. Print that.
-I'm not doing this in a hallway. Set up a time with my office, and Lesslie Times can have its interview.
