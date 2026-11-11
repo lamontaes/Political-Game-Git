@@ -566,12 +566,23 @@ const ROUTES: readonly Route[] = [
         throw new Error("Talk to a living resident.");
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
+      // The minute the talk is had at, as the scene shows it: the opening
+      // day is that evening at home (as /api/scene), else the player's clock.
+      const minuteOfDay =
+        state.player.packet?.at.minuteOfDay ??
+        (state.director?.ledger.opening?.date === requireCore().date
+          ? OPENING_EVENING_MINUTE
+          : undefined);
       state.conversation = openConversation(
         requireCore(),
         state.player.personId,
         otherId,
         state.director
-          ? { director: state.director, ...(occasionId ? { occasionId } : {}) }
+          ? {
+              director: state.director,
+              ...(occasionId ? { occasionId } : {}),
+              ...(minuteOfDay !== undefined ? { minuteOfDay } : {}),
+            }
           : {},
       );
       send(200, talkView(state.conversation));
