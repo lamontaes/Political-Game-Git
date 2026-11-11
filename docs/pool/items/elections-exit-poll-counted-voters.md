@@ -5,9 +5,9 @@ area: elections
 kind: wiring
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-elections-exit-poll-counted-voters
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T05:38:47.289Z
 ---
 
 **What.** The election's exit poll tally (exitPoll in src/core2/modules/voting.ts holdElection) counts only named voters: the counted residents vote in their own loop and never weigh voting.exit-poll, so a town where most voters are counted reports an exit poll of a few dozen people. The rule One model, two tiers says a counted group is read by every engine with the same rule as a full person, times its count. A counted voter's engagement is its survey cell's (engagementOf) and its interest is the turnout decision's, so the same case and lean apply.
