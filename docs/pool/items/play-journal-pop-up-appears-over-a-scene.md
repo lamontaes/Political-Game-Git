@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-journal-pop-up-appears-over-a-scene
-pr:
+pr: #8504
 after:
 blocked-on:
 lead: play-first
