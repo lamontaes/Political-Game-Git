@@ -61,6 +61,7 @@
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
     "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
     "about": "What a bill a donor named is about, from the bill's first provision as the bill catalog words its question (question-names).",
+    "donor-first": "A donor's given name, as the candidate says it to them, from the person record.",
     "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
     "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
     "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
@@ -203116,10 +203117,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.come-by-the-office-name-and-we-ll-go-through-it-properly",
+      "key": "scene-talk.reply-offer.come-by-the-office-donor-first-and-we-ll-go-through-it-properly",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Come by the office, {name}, and we'll go through it properly.",
+      "text": "Come by the office, {donor-first}, and we'll go through it properly.",
       "uses": [
         {
           "subject": "scene",
@@ -203127,7 +203128,8 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -203145,10 +203147,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.let-s-sit-down-somewhere-we-can-actually-talk-name",
+      "key": "scene-talk.reply-offer.let-s-sit-down-somewhere-we-can-actually-talk-donor-first",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Let's sit down somewhere we can actually talk, {name}.",
+      "text": "Let's sit down somewhere we can actually talk, {donor-first}.",
       "uses": [
         {
           "subject": "scene",
@@ -203156,7 +203158,8 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -203174,10 +203177,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.my-door-is-open-name-call-and-set-a-time",
+      "key": "scene-talk.reply-offer.my-door-is-open-donor-first-call-and-set-a-time",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "My door is open, {name}. Call and set a time.",
+      "text": "My door is open, {donor-first}. Call and set a time.",
       "uses": [
         {
           "subject": "scene",
@@ -203185,7 +203188,8 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -203203,10 +203207,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.i-d-rather-do-this-properly-come-see-me-at-the-office-name",
+      "key": "scene-talk.reply-offer.i-d-rather-do-this-properly-come-see-me-at-the-office-donor-first",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "I'd rather do this properly. Come see me at the office, {name}.",
+      "text": "I'd rather do this properly. Come see me at the office, {donor-first}.",
       "uses": [
         {
           "subject": "scene",
@@ -203214,7 +203218,8 @@
           "move": "offer",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "calm",
@@ -203292,10 +203297,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-decline.i-respect-that-but-my-answer-on-about-is-no",
+      "key": "scene-talk.reply-decline.i-know-what-you-want-but-my-answer-on-about-is-no",
       "move": "reply-decline",
       "kind": "spoken",
-      "text": "I respect that, but my answer on {about} is no.",
+      "text": "I know what you want, but my answer on {about} is no.",
       "uses": [
         {
           "subject": "scene",
@@ -203770,10 +203775,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.let-me-get-back-to-you-on-that-name-there-s-a-lot-going-on",
+      "key": "scene-talk.reply-deflect.let-me-get-back-to-you-on-that-donor-first-there-s-a-lot-going-on",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Let me get back to you on that, {name}. There's a lot going on.",
+      "text": "Let me get back to you on that, {donor-first}. There's a lot going on.",
       "uses": [
         {
           "subject": "scene",
@@ -203781,7 +203786,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "donor-ask",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "requiresFacts": ["donor-first"]
         }
       ],
       "bearing": "guarded",

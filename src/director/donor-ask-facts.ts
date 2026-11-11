@@ -28,7 +28,7 @@ import { properName } from "./words";
 export const DONOR_ASK_TYPE = "donor-ask";
 
 /**
- * The facts for `donorId`'s ask: `employer` (their job's organization),
+ * The facts for `donorId`'s ask: `donor-first` (their given name), `employer` (their job's organization),
  * `about` (the question of the bill `billId` names), and `side-for` or
  * `side-against` (where the donor stands on that bill), each with the
  * records behind it. `causeId` is the gift's record.
@@ -42,6 +42,8 @@ export function donorAskFacts(
   const facts: Record<string, Fact> = {};
   const donor = core.people.get(donorId);
   if (!donor) return facts;
+  // The donor's first name, as the candidate says it to them.
+  facts["donor-first"] = { text: donor.givenName, sourceRecordIds: [donorId] };
   const job = donor.jobId ? core.jobs.get(donor.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   if (job && org && !job.endsAt)
