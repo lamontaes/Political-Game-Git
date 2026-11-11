@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-meeting-minutes-from-the-record
-pr:
+pr: #8671
 blocked-on:
 lead: words
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
