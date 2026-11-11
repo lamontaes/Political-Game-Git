@@ -22,6 +22,7 @@ import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
+import { LETTER_TYPE, letterFacts } from "./letter-facts";
 
 const zero = P.zero;
 const one = P.one;
@@ -882,10 +883,48 @@ export function scheduleMoment(
     )
       for (const typeKey of new Set(entry.bindings.map((row) => row.typeKey)))
         inSeason.set(typeKey, (inSeason.get(typeKey) ?? zero) + one);
+  // A letter from a writer whose earlier letter was already staged plays
+  // again only with something on record since: news of the writer's life, a
+  // birthday they missed at the reader's table or their own birthday near
+  // (letter-facts.ts). The same ask with nothing changed goes to the journal.
+  const lettered = new Set(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date <= moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) =>
+        entry.bindings
+          .filter((row) => row.typeKey === LETTER_TYPE)
+          .map((row) => castOf(row)),
+      ),
+  );
+  const sameLetter = (row: SceneBinding) => {
+    if (row.typeKey !== LETTER_TYPE || !lettered.has(castOf(row))) return false;
+    const writer = row.roles.find((role) => role.role === "writer")?.personIds[
+      zero
+    ];
+    const reader = row.roles.find((role) => role.role === "reader")?.personIds[
+      zero
+    ];
+    if (!writer || !reader) return false;
+    const said = letterFacts(
+      core,
+      LETTER_TYPE,
+      moment.causeId,
+      writer,
+      reader,
+      () => null,
+    );
+    return Object.keys(said).length === zero;
+  };
   const bindings = wanted.filter(
     (row) =>
       (inSeason.get(row.typeKey) ?? zero) <
         library.scheduling.seasonCap.value &&
+      !sameLetter(row) &&
       (eachCause(row) ||
         (!sittingToday.has(castOf(row)) &&
           !sittingToday.has(windowKey(row, moment.id)))),

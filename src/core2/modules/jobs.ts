@@ -4395,10 +4395,14 @@ function offerChanged(
   );
   if (!same.length) return true;
   const pay = hirePay(api, position, personId);
-  // Better pay is a raise beyond what pay everywhere has moved since the
-  // earlier offer (the economy's hourly earnings), not the month's drift.
+  // Better pay is a real raise: beyond what pay everywhere has moved since
+  // the earlier offer (the economy's hourly earnings), by as much as makes it
+  // a new offer rather than the same call (jobsReofferRealRaiseShare).
+  const raise =
+    api.parameter("one") + api.parameter("jobsReofferRealRaiseShare");
   return same.every(
-    (row) => pay > row.hourlyMinor * earningsMovedSince(api, row.offeredAt),
+    (row) =>
+      pay >= row.hourlyMinor * earningsMovedSince(api, row.offeredAt) * raise,
   );
 }
 
