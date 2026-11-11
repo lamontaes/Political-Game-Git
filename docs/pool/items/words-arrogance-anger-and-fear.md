@@ -4,9 +4,9 @@ title: "Arrogance, anger and fear:"
 area: words
 kind: feature
 priority: 2
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-arrogance-anger-and-fear
 pr: #5219
 after:
 blocked-on:
@@ -16,9 +16,10 @@ effort: medium
 root: design-words-machine
 milestone:
 source: "docs/coordination/words.md line 50 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-11-11T02:33:54.734Z
 size: M
 checked: fable 2026-11-10
+branch: claude/pool-words-arrogance-anger-and-fear
 ---
 
 **What.** The English engine has plain and polite registers but no boasts, threats or alarms, so every angry, frightened or proud moment in a scene sounds the same. Mine boasts, threats and alarms from public-domain speech, in plain and rude versions, as bank parts with move tags, and have the director choose who says them from the speaker's traits and the situation. The player would notice a rival boasting after a win, a neighbor threatening over a bad law, and a worried person raising an alarm, each sounding like that person.
@@ -41,3 +42,5 @@ checked: fable 2026-11-10
 Sent back 2026-10-20 from PR #5219 (branch claude/political-game-pool-a4tcd1): Parts in data/english/parts/stance.json have origin: authored and shippable: true; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5219 (branch claude/political-game-pool-a4tcd1): The body claims live boasts/threats while the stance parts are held; Words ownership and the dated notes remain unaddressed. Rechecked unchanged head 1238a06b0a; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5219#issuecomment-6308136856; finish on that branch, merge main into it first.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:33 UTC) on branch claude/pool-words-arrogance-anger-and-fear.
