@@ -1125,8 +1125,9 @@ describe("hellos and goodbyes are composed from the records", () => {
       [];
     let second = 0;
     for (const round of [0, 1]) {
-      // The second talk is on another day: the greeting names the first.
-      if (round) advanceCore(core, addDays(makeIsoDate(core.date), 9));
+      // The second talk is the next day: the greeting names the first, and
+      // nobody is unsure about yesterday (Fable B's review of #8758).
+      if (round) advanceCore(core, addDays(makeIsoDate(core.date), 1));
       for (const otherId of people) {
         const talk = play(otherId);
         const greet = talk.lines.find((line) => line.kind === "greet");
@@ -1141,6 +1142,9 @@ describe("hellos and goodbyes are composed from the records", () => {
             SPOKEN_GAPS.some((gap) => greet.text.includes(gap)),
             greet.text,
           ).toBe(true);
+          expect(greet.text).not.toMatch(
+            /I think|if I remember right|I don't think|a while|ages/,
+          );
         }
         const employerFact = talk.topicFacts?.employer;
         if (employerFact) employers.push(employerFact);
