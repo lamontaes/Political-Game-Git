@@ -124,6 +124,7 @@ import {
   repeatSpecialElection,
   type TermRow,
   termById,
+  seatHistoryOf,
 } from "./offices";
 import {
   holderOf,
@@ -4929,12 +4930,8 @@ function seatRace(
   // keeps the seat there instead of naming no winner.
   const lastHolder = holder
     ? undefined
-    : (
-        offices
-          .table("terms")
-          .query("bySeatStatus", [seat.id, "ended"]) as unknown as TermRow[]
-      )
-        .filter((term) => term.party)
+    : seatHistoryOf(api, seat.id)
+        .filter((term) => term.status === "ended" && term.party)
         .sort((a, b) => String(a.endDate).localeCompare(String(b.endDate)))
         .at(-1);
   return {

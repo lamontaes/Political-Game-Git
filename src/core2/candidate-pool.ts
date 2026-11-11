@@ -32,6 +32,7 @@ import {
   type TermRow,
   termById,
   careerOf,
+  seatHistoryOf,
 } from "./modules/offices";
 import { holderOf, type OfficialRow } from "./modules/officials";
 import type { PartyRow, TieRow } from "./modules/parties";
@@ -164,7 +165,6 @@ export function seatParty(
   api: CoreAPI,
   contest: Pick<ContestRow, "seatId" | "incumbentTermId">,
 ): string | null {
-  const terms = offices(api).table("terms");
   const incumbent = contest.incumbentTermId
     ? termById(api, contest.incumbentTermId)
     : undefined;
@@ -172,13 +172,8 @@ export function seatParty(
   const seat = offices(api).table("seats").get(contest.seatId) as unknown as
     { party?: string | null } | undefined;
   if (seat?.party) return seat.party;
-  const last = (
-    terms.query("bySeatStatus", [
-      contest.seatId,
-      "ended",
-    ]) as unknown as TermRow[]
-  )
-    .slice()
+  const last = seatHistoryOf(api, contest.seatId)
+    .filter((term) => term.status === "ended")
     .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
   return last?.party ?? null;
 }
