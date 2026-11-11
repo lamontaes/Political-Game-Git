@@ -26538,7 +26538,7 @@
       "key": "conversation.address-point-back-instead.something-smaller-on-about-that-place-could-actually-see",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "Something smaller on {about}, that {place} could actually see.",
+      "text": "Something smaller on {about} that {place} could actually see.",
       "uses": [
         {
           "move": "address-point-back-instead",
