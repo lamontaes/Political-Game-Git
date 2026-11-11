@@ -6,7 +6,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { playOpening } from "./start-life.mjs";
-import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
+import { devModeOff, devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -165,12 +165,27 @@ try {
     await page.waitForTimeout(600);
     await read(`Talk box, race picked (${who})`, "#talk");
   };
+  // The clerk's talk ends on a reply (I see.) or a Leave: answered as a player would.
+  const leaveTalk = async () => {
+    for (let turn = 0; turn < 8; turn += 1) {
+      if (await page.locator("#talk[hidden]").count()) return;
+      if (await page.locator("#talk-leave").isVisible())
+        return page.locator("#talk-leave").click();
+      const reply = page.locator("#talk-choices button");
+      if (await reply.count()) await reply.first().click();
+      else if (await page.locator("#talk-next").isVisible())
+        await page.locator("#talk-next").click();
+      await page.waitForTimeout(400);
+    }
+  };
   // A seat the player may file for has its window open: the world runs until one does (dev mode, on the Calendar).
   await devModeOn(page);
   const opened = await devRunUntilMayFile(page);
   assert.equal(opened.reason, "event", "no seat opened its filing window");
+  // The screens are read as a player sees them: dev mode off.
+  await devModeOff(page);
   await counter("seventeen");
-  await page.locator("#talk-leave").click();
+  await leaveTalk();
   // A grown resident of the same world files, so the clerk's reply and
   // Campaigns are read too.
   const person = JSON.stringify({
@@ -194,10 +209,13 @@ try {
   console.log("Place:", await page.locator("#card-place").innerText());
   await devModeOn(page);
   await devRunUntilMayFile(page);
+  await devModeOff(page);
   await counter("grown");
   const choices = page.locator("#talk-choices button");
   const labels = await choices.allInnerTexts();
-  const fileAt = labels.findIndex((l) => /^File\b/i.test(l.trim()));
+  const fileAt = labels.findIndex((l) =>
+    /^File\b|take the papers/i.test(l.trim()),
+  );
   assert.ok(fileAt >= 0, `no File choice: ${labels.join(" | ")}`);
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
@@ -206,7 +224,7 @@ try {
   await filed;
   await page.waitForTimeout(800);
   await read("After filing", "#talk");
-  await page.locator("#talk-leave").click();
+  await leaveTalk();
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
