@@ -3543,25 +3543,27 @@ const sheets = {
     const shared = (me.card.home?.members ?? []).length > 0;
     const homeValue = bank?.assets?.find((a) => a.kind === "home")?.valueMinor;
     const owned = (bank?.assets ?? []).filter((a) => a.kind !== "home");
+    // The home has its own strip, named for whose it is (the household's when
+    // you share it): what kind of home, how it is held, and the figure the
+    // records put on it (its value when owned, the rent when rented). A rented
+    // home is never listed under what you own.
+    const held = dwelling?.tenure === "own" ? labels.owned : labels.rented;
     const homeRow = dwelling && {
-      label: dwelling.tenure === "own" ? labels.owned : labels.rented,
+      label: words(dwelling.kind ?? "") || labels.home,
       value:
         dwelling.tenure === "own" && homeValue
-          ? roundedMoney(homeValue)
-          : dwelling.rentMinor !== undefined
-            ? `${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
-            : words(dwelling.kind ?? ""),
+          ? `${held} · ${roundedMoney(homeValue)}`
+          : dwelling.tenure !== "own" && dwelling.rentMinor !== undefined
+            ? `${held} · ${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
+            : held,
     };
-    const ownRows = [
-      ...(homeRow ? [homeRow] : []),
-      ...owned.map((asset) => ({
-        label:
-          asset.kind === "savings" && bank.name
-            ? `${labels.assetKinds.savings} · ${bank.name}`
-            : labels.assetKinds[asset.kind],
-        value: roundedMoney(asset.valueMinor),
-      })),
-    ];
+    const ownRows = owned.map((asset) => ({
+      label:
+        asset.kind === "savings" && bank.name
+          ? `${labels.assetKinds.savings} · ${bank.name}`
+          : labels.assetKinds[asset.kind],
+      value: roundedMoney(asset.valueMinor),
+    }));
     const debtRows = (bank?.debts ?? []).map((debt) => ({
       label: named(labels.debtKinds, debt.kind),
       value:
@@ -3610,6 +3612,14 @@ const sheets = {
               : []),
           ],
           [
+            ...(homeRow
+              ? [
+                  {
+                    title: shared ? labels.householdHome : labels.home,
+                    rows: [homeRow],
+                  },
+                ]
+              : []),
             ...(ownRows.length
               ? [{ title: labels.assets, rows: ownRows }]
               : []),
