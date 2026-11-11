@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/words-w4-work
-pr: 8767
+pr: #8767
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -19,6 +19,7 @@ source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: ever
 checked:
 claimed-at:
 branch: claude/words-w4-work
+merged-at: 2026-11-11T13:57:42.997Z
 ---
 
 **What.** Meeting people, the talk most often turns to work. The raise already names the employer ("I work at {employer}."), but the questions and answers around it are fixed: "What do you do?", "Have you been there long?", "Is it busy there?", "Let's not talk shop. Maybe another time." 23 of the 90 lines under the bank's four work subjects (`own-work`, `other-work`, `heard-work`, `shared-work`) have no insert, and some ask what no record answers ("Is it busy?"). Seen: a first meeting away from home, when either person names where they work, and the player's replies to it.
