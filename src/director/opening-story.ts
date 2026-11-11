@@ -415,6 +415,16 @@ const WORLD_NAMES: readonly string[] = [
   "best",
 ];
 
+/** The facts that name something of this world alone: its people and the President's own state and office. */
+const OWN_WORLD: readonly string[] = [
+  "vice-president",
+  "speaker",
+  "home-state",
+  "prior-office",
+  "place",
+  "name",
+];
+
 /** What an address leads with after the greeting. */
 type Lead = "occasion" | "country" | "people" | "history" | "mission";
 
@@ -1217,6 +1227,8 @@ export function composeBlocks(
   const said: string[] = [];
   // How often each of the world's names has been said in the address.
   const named = new Map<string, number>();
+  // Whether the last sentence said began with a lead-in.
+  let ledIn = false;
   for (const block of blocks) {
     const moves = block.moves.filter((row): row is OpeningMove => !!row);
     // stopgapId: SG-PEOPLE-address-register
@@ -1245,7 +1257,22 @@ export function composeBlocks(
         },
       );
     const address = { moves: [] as ComposedMove[] };
-    for (const move of moves) {
+    for (const planned of moves) {
+      // A sentence leads in ("Here's the thing:") only when the one before
+      // it did not, so the address does not open every line alike.
+      const move: OpeningMove = ledIn
+        ? {
+            ...planned,
+            bank: {
+              ...planned.bank,
+              parts: Object.fromEntries(
+                Object.entries(planned.bank.parts).filter(
+                  ([line]) => line !== "opener",
+                ),
+              ) as typeof planned.bank.parts,
+            },
+          }
+        : planned;
       const fresh = Object.fromEntries(
         Object.entries(block.facts).filter(
           ([key]) =>
@@ -1253,16 +1280,29 @@ export function composeBlocks(
             (named.get(key) ?? P.zero) < SHAPE.parameters.namesSaid.value,
         ),
       );
+      // A sentence without its lead-in still names something of this world
+      // (a person, a state, a priority), or it keeps the lead-in.
+      const ownWorld = (row: ReturnType<typeof sayMove>) =>
+        row.kind === "rendered" &&
+        row.moves.some((said) =>
+          said.parts.some((part) =>
+            part.usedFactKeys.some((key) => OWN_WORLD.includes(key)),
+          ),
+        );
+      const bare = move === planned ? null : sayMove(move, fresh);
       const result =
-        [sayMove(move, fresh), sayMove(move, block.facts)].find(
+        (bare && ownWorld(bare) ? bare : null) ??
+        [sayMove(planned, fresh), sayMove(planned, block.facts)].find(
           (row) => row.kind === "rendered",
-        ) ?? null;
+        ) ??
+        null;
       if (result?.kind !== "rendered") {
         if (move.required || block.required) return null;
         continue;
       }
       for (const done of result.moves) {
         address.moves.push(done);
+        ledIn = done.parts.some((part) => part.part === "opener");
         for (const key of new Set(
           done.parts.flatMap((part) => part.usedFactKeys),
         ))

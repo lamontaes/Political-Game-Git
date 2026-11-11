@@ -34278,10 +34278,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.pledge.plain-ina-sta-all-unemployment-core-i-m-putting-vice-president-vice-president-in-charge",
+      "key": "opening-speech.pledge.plain-ina-sta-all-unemployment-core-vice-president-vice-president-and-i-are-going-to",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'm putting Vice President {vice-president} in charge of getting people back to work, and I'll hold us both to it.",
+      "text": "Vice President {vice-president} and I are going to work every day on getting people back to work, and you can hold us both to it.",
       "uses": [
         {
           "move": "pledge",
@@ -35070,10 +35070,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.pledge.plain-ina-sta-all-rent-core-i-m-putting-vice-president-vice-president-on-rent",
+      "key": "opening-speech.pledge.plain-ina-sta-all-rent-core-vice-president-vice-president-and-i-are-going-to",
       "move": "pledge",
       "kind": "spoken",
-      "text": "I'm putting Vice President {vice-president} on rent, and I want real answers fast.",
+      "text": "Vice President {vice-president} and I are going to work on rent, and I want real answers fast.",
       "uses": [
         {
           "move": "pledge",
@@ -35862,10 +35862,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.pledge.plain-ina-sta-all-health-core-vice-president-vice-president-is-going-to-lead-our",
+      "key": "opening-speech.pledge.plain-ina-sta-all-health-core-i-m-going-to-ask-vice-president-vice-president",
       "move": "pledge",
       "kind": "spoken",
-      "text": "Vice President {vice-president} is going to lead our work on health care, and I'll make sure it gets done.",
+      "text": "I'm going to ask Vice President {vice-president} to help me on health care, and I'll make sure it gets done.",
       "uses": [
         {
           "move": "pledge",
@@ -36126,10 +36126,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.pledge.plain-ina-sta-all-roads-core-vice-president-vice-president-is-going-to-run-point",
+      "key": "opening-speech.pledge.plain-ina-sta-all-roads-core-i-m-going-to-ask-vice-president-vice-president",
       "move": "pledge",
       "kind": "spoken",
-      "text": "Vice President {vice-president} is going to run point on the roads, and I want work crews out there.",
+      "text": "I'm going to ask Vice President {vice-president} to help me on the roads, and I want work crews out there.",
       "uses": [
         {
           "move": "pledge",
@@ -36390,10 +36390,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.pledge.plain-ina-sta-all-environment-core-vice-president-vice-president-is-going-to-lead-our",
+      "key": "opening-speech.pledge.plain-ina-sta-all-environment-core-i-m-going-to-ask-vice-president-vice-president",
       "move": "pledge",
       "kind": "spoken",
-      "text": "Vice President {vice-president} is going to lead our work on clean air and water, and I'll back it all the way.",
+      "text": "I'm going to ask Vice President {vice-president} to help me on clean air and water, and I'll back it all the way.",
       "uses": [
         {
           "move": "pledge",
