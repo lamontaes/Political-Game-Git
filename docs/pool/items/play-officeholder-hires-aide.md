@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-officeholder-hires-aide
 pr: #8376
 after:
