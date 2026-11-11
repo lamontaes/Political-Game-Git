@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-core-stopgap-never-hit-audit
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ effort: medium
 root: design-guards
 lead: cto
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T06:19:52.267Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-core-stopgap-never-hit-audit
 ---
@@ -42,3 +42,5 @@ branch: claude/pool-core-stopgap-never-hit-audit
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:19 UTC) on branch claude/pool-core-stopgap-never-hit-audit.
+
+Released (2026-11-11): Not built: it needs three drawn towns run two played years (about 80 rows with a .ts marker to check), then each never-firing fake deleted with its marker and row resolved; each deletion is a code change that needs its own proof, and a never-hit result in three towns is not proof a fake is unreachable. Better split one family file per item (src/core2/data/stopgaps/), each with its own replay. Continue on branch claude/pool-core-stopgap-never-hit-audit.
