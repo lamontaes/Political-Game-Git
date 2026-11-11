@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
+claimed-by:
 pr: #8390
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: design-country-tier
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 3, "The legislators are built at the opening anyway", and Pillar 7)
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:04:54.533Z
+claimed-at:
 branch: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
 ---
 
@@ -44,3 +44,5 @@ Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): Part 1 (other states' earlier terms written when the holder is opened) is core-officials-elsewhere-part-1-past-terms-on-demand on PR 8390; the rest (no named holder or term record for other states on day one, the Watch counts, Play as building the person, the player's chain walked daily) is still this item's, its branch reused by part 1. Continue on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening and pull request #8390.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:04 UTC) on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening.
+
+Released (2026-11-11): Waits on its part 1, core-officials-elsewhere-part-1-past-terms-on-demand (PR 8390), now named in after:. Continue on branch claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening and pull request #8390.
