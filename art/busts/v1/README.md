@@ -1,5 +1,7 @@
 # People as busts: the proof pieces (Nov 7 to 9, 2026)
 
+**In the game since Nov 10, 2026.** This folder is the game's bust bank, `art/busts/v1/` (it was first copied to `docs/art/busts-2026-11-07/`). `manifest.json` lists the pieces the game draws: the front views of the women and the men. `src/bench/bust.ts` is the only code that reads it, and `src/bench/ui/bust.mjs` is the only part that draws a bust. A new piece is a new file here and a new row in the manifest; no code changes.
+
 The owner's call, Nov 7, 2026: "at least for early access, i am thinking about adjust my people goals. still having generation, but maybe just busts for most things and full body for certain scenes." Then: "modular busts shouldnt be that hard right?"
 
 On Nov 10, about 7:30 p.m., he started the move: "Make sure it has the bust too. It can start removing the people, and we need to start transitioning to the bust system." See OWNER-DECISIONS, Nov 10.
