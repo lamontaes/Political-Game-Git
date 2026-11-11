@@ -2162,7 +2162,7 @@ async function showStory(momentId) {
       show("talk-skip", true);
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
       // The part's picture and cast: the desk, the town, the colonnade, the
-      // officials named by office as the camera passes, and home.
+      // officials on the strip with their office under their name, and home.
       const beat = story.beats?.[at];
       if (beat) {
         $("backdrop").src = beat.backdrop.url;
@@ -2170,12 +2170,7 @@ async function showStory(momentId) {
       }
       talkControls({ silent: false, leave: false });
       fillTalk({
-        lines: [
-          talkLine({ kind: "speech", text: parts[at] }),
-          ...(beat?.caption
-            ? [talkLine({ kind: "label", text: beat.caption })]
-            : []),
-        ],
+        lines: [talkLine({ kind: "speech", text: parts[at] })],
         replies: [],
       });
       setScales({ available: false });
@@ -2743,7 +2738,14 @@ function billEstimate(paper, section) {
       .filter(Boolean)
       .join(" · "),
   );
-  return { prose: section.text ?? paper.title, lines, compare };
+  // The estimate says what the records give, never the section's own words
+  // again; a section that changes a rule and no amount says so.
+  const shown = lines.filter(Boolean);
+  return {
+    prose: shown.length || compare ? "" : (words.noFigure ?? ""),
+    lines: shown,
+    compare,
+  };
 }
 /**
  * Open a bill as one paper document: designation, title, sponsor, each
@@ -2752,6 +2754,10 @@ function billEstimate(paper, section) {
  * beside it. `show` draws the nodes, `back` returns to the rows.
  */
 async function openBillPaper(billId, show, back, backLabel) {
+  // Only the newest draw of a page is shown. Two acts close together (a vote,
+  // then calling the question) each redraw the page; the earlier redraw can
+  // finish its reads last, and must not put its older page over the newer one.
+  const mine = (show.draws = (show.draws ?? 0) + 1);
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
   const stage = await api(
     `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
@@ -2874,6 +2880,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       },
     },
   );
+  if (show.draws !== mine) return;
   show(
     ...(backButton ? [backButton] : []),
     billPaper({
@@ -3903,14 +3910,6 @@ const sheets = {
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
       ...(devModeOn()
         ? [
-            await devWatchSections({
-              labels: controls.devWatch,
-              playerId: me.id,
-            }),
-          ]
-        : []),
-      ...(devModeOn()
-        ? [
             await devScenePanel({
               labels: controls.devScene,
               wordOf: keyWords,
@@ -4532,6 +4531,12 @@ const sheets = {
       })),
       render: (entry, show) => void openBillPaper(entry.key, show, () => {}),
     });
+  },
+  /** Dev mode's Watch: what moved since the first dev change, month by month, and the golden path's steps. */
+  async watch() {
+    return [
+      await devWatchSections({ labels: controls.devWatch, playerId: me.id }),
+    ];
   },
   async government() {
     const labels = controls.politics;
@@ -5233,6 +5238,8 @@ const groups = {
     "metrics",
   ],
   who: ["who", "jobs", "history"],
+  // Dev mode's Watch has the Calendar's sheet to itself, as a second tab.
+  calendar: ["calendar", "watch"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
@@ -5259,27 +5266,29 @@ async function openSheet(tab) {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = controls.titles[group];
+  // The tabs of the sheet's group that are the player's business today; a
+  // group with one tab left (the Calendar outside dev mode) shows no tab row.
+  const tabNames = (groups[group] ?? []).filter(
+    (name) =>
+      (name !== "office" || holdsOffice) &&
+      (name !== "watch" || devModeOn()) &&
+      // Budgets wait until they are the player's business: an office, a
+      // filing, or the age to vote.
+      (name !== "campaign" || politics.filings.length > 0) &&
+      (name !== "budgets" ||
+        holdsOffice ||
+        politics.filings.length > 0 ||
+        politics.ofVotingAge),
+  );
   $("sheet-tabs").replaceChildren(
-    ...(groups[group] ?? [])
-      .filter(
-        (name) =>
-          (name !== "office" || holdsOffice) &&
-          // Budgets wait until they are the player's business: an office, a
-          // filing, or the age to vote.
-          (name !== "campaign" || politics.filings.length > 0) &&
-          (name !== "budgets" ||
-            holdsOffice ||
-            politics.filings.length > 0 ||
-            politics.ofVotingAge),
-      )
-      .map((name) =>
-        makeTab({
-          key: name,
-          label: controls.titles[name],
-          active: name === tab,
-          onSelect: () => openSheet(name),
-        }),
-      ),
+    ...(tabNames.length > 1 ? tabNames : []).map((name) =>
+      makeTab({
+        key: name,
+        label: controls.titles[name],
+        active: name === tab,
+        onSelect: () => openSheet(name),
+      }),
+    ),
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
@@ -5302,6 +5311,7 @@ async function openSheet(tab) {
       tab === "money" ||
       tab === "campaign" ||
       tab === "calendar" ||
+      tab === "watch" ||
       tab === "news",
   );
   $("sheet-body").replaceChildren(...body);
@@ -5316,7 +5326,7 @@ async function openSheet(tab) {
   // lays its sections out in a grid (Politics, Budgets) takes the window.
   $("sheet").classList.toggle(
     "fits",
-    !["calendar", "people", "news", "bills"].includes(tab) &&
+    !["calendar", "people", "news", "watch", "bills"].includes(tab) &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
