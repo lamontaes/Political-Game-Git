@@ -18,7 +18,7 @@
 import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
-import { groundedPacket, renderLine, type Fact } from "./bank-line";
+import { conversationPacket, renderLine, type Fact } from "./bank-line";
 import {
   composeJoinedLine,
   LINE_PARTS,
@@ -565,11 +565,12 @@ function joinedMove(
   const facts = Object.fromEntries(
     Object.entries(input.facts).filter(([, fact]) => fact.text !== ""),
   );
-  const packet = groundedPacket({
-    seed: input.seed,
+  const packet = conversationPacket({
+    worldSeed: input.seed,
     surface: "dialogue",
     holderId: input.speakerId,
-    version: "scene-talk-v1",
+    bankVersion: "scene-talk-v1",
+    stage: "default",
     facts,
     momentKey: `${input.momentKey}/${sentence.of}`,
     fallbackSourceId: input.speakerId,
