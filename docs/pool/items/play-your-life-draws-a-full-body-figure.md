@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-your-life-draws-a-full-body-figure
-pr:
+pr: #8609
 after:
 blocked-on:
 standard: 2
