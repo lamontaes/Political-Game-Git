@@ -23,6 +23,12 @@
     ]
   },
   "parameters": {
+    "sameRunWords": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "spread": "3 to 5",
+      "note": "How many words in a row make two sentences of one address say the same thing, so the second is worded again (the words lead's third read, Nov 11: the Vice President praised twice in the same words). Three catches ordinary phrases such as \"of the country\"; five lets a repeated praise through."
+    },
     "prioritiesMax": {
       "value": 3,
       "tag": "TUNABLE",

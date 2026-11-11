@@ -101,3 +101,7 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
 
 - **Before you take a new item, read whether the cap is on (owner, Nov 11).** While more than 150 game pull requests are open, take none: fix your send-backs, bring your open pull requests up to main, then stop and say so. A change that touches only the pool goes to the hour's bundle, not a pull request of its own. Skill `pool-notes`.
+
+## If you were started as a merger
+
+A session started with the merger's paragraph does not use this loop. It follows `docs/pool/START-A-MERGER.md`: it takes no pool item, builds nothing, and gates and merges what others built.

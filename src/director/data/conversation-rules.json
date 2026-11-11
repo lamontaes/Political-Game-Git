@@ -20,6 +20,7 @@
     "their-work": "other-work",
     "home": "home-reply",
     "their-tenure": "tenure-reply",
+    "their-position": "position-reply",
     "their-school": "school-reply",
     "their-family": "family-reply",
     "news": "news-reply"
@@ -122,7 +123,7 @@
     "own-work": ["their-work"],
     "heard-work": ["their-work"],
     "shared-work": ["their-work"],
-    "other-work": ["their-tenure"],
+    "other-work": ["their-tenure", "their-position"],
     "home": ["home"],
     "family": ["their-family"],
     "address": ["address"]
@@ -152,7 +153,27 @@
   },
   "answersTo": {
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
-    "news-ask-think": ["opinion"]
+    "news-ask-core": ["for", "against", "worked-there", "opinion"]
+  },
+  "answeredBy": {
+    "about": "Owner, Nov 11, 2026 (work talk names the employer, the job and how long): a question raised as a subject is answered by this fact of the other person's record. A reply that asks it is not offered when the line before already said it. Subject kinds and fact names only; no sentence.",
+    "their-tenure": "years",
+    "their-position": "position"
+  },
+  "namesOnce": {
+    "about": "Lead, Nov 11, 2026, from the reviews of PR 8736 and PR 8750: one screen names a thing once. For these kinds of line, no two of the player's replies say the same record's words (the employer, the job, a name); the reply ranked first keeps it. Kinds only; no sentence.",
+    "kinds": [
+      "own-work",
+      "own-work-new",
+      "other-work",
+      "heard-work",
+      "shared-work",
+      "tenure-reply",
+      "position-reply",
+      "family",
+      "asked-kin",
+      "kin"
+    ]
   },
   "tells": {
     "about": "Owner, Oct 14, 2026, night (Q10: one 'listen' and one 'ask more'): when the player answers the other person's line with a choice that asks for more, the other person tells this subject of their own, from their records, as a side remark on the same topic. By the line's kind, then the choice.",
@@ -214,7 +235,11 @@
       "react": "react",
       "yes": "answer",
       "no": "answer",
-      "opinion": "answer"
+      "opinion": "answer",
+      "for": "agree",
+      "against": "disagree",
+      "worked-there": "tell",
+      "why": "request"
     },
     "family": {
       "ill": "tell",
@@ -270,12 +295,19 @@
       "growth-up": { "area": "work", "says": "better" }
     }
   },
+  "greetAndPart": {
+    "about": "Owner, Nov 11, 2026: every line through the English engine, with inserts from the world's records. A greeting away from home is composed under `greet` from a plain opener and a core that names the listener or when the two last met; a goodbye under `farewell` from a core that names what the talk was about or someone of the player's they know, and a short closer. `aboutFacts` lists, in order, the facts of the talk's first topic a goodbye may name as {about-said}; the first the topic carries is said, with the mark `about-<fact>` so its wordings fit it. Names only; no sentence.",
+    "greet": "greet",
+    "farewell": "farewell",
+    "aboutFacts": ["employer", "school", "place", "topic", "relation"]
+  },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",
     "dropped": [
       "own-work",
       "their-work",
       "their-tenure",
+      "their-position",
       "shared-work",
       "shared-school",
       "school",
@@ -293,7 +325,8 @@
       "home:moved": "moved",
       "money:job-started": "job",
       "money:job-changed": "job",
-      "feeling:event:person-birth": "baby"
+      "feeling:event:person-birth": "baby",
+      "feeling:event:life.death": "died"
     }
   },
   "happenings": {

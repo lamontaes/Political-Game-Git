@@ -82,3 +82,7 @@ While more than **150 game pull requests are open**, `npm run pool -- next` hand
 ## Stop condition
 
 A note is delivered when its commit is on the hour's branch and its line is on the crew's issue. The hour is done when its pull request is merged.
+
+## A merger on any tool (Nov 11)
+
+A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with the pool check alone and merges it pinned to the head in the cut line. A bundle that touches a file outside `docs/pool/` and `docs/release/changes/` is sent back.
