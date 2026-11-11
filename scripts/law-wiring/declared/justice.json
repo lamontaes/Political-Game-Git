@@ -6,6 +6,13 @@
         "status": "n/a",
         "why": "the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it. What it changes is who may vote, read by the board of elections when it builds the roll"
       }
+    },
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
+      "money": {
+        "status": "stopgap",
+        "id": "SG-JUSTICE-federal-prison-cost-flat",
+        "why": "the law shortens federal sentences and lowers the federal prison stock, but no engine pays the Bureau of Prisons per person held, so the smaller stock saves the Treasury nothing"
+      }
     }
   }
 }

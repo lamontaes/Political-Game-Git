@@ -498,10 +498,10 @@
       "kind": "question",
       "family": "justice",
       "inForceAtOpening": false,
-      "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
       "lawIds": [
         "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
-        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2026-01-22:law-wiring-c08da077-b"
+        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-02-26:law-wiring-c08da077-b"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -517,169 +517,62 @@
       },
       "reach": {
         "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 5161,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 4,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Weapons",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:SexOffenses",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Fraud"
+        ]
       },
       "reachAtEnd": {
         "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 5161,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 4,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Weapons",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:SexOffenses",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Fraud"
+        ]
       },
       "inPlay": [],
       "applied": {
-        "rows": 0,
+        "rows": 4,
         "withAmount": 0,
-        "sample": []
+        "sample": [
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Weapons",
+          "applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:SexOffenses"
+        ]
       },
       "readers": {
-        "src/core2/modules/outcome-web.ts:207": 300,
-        "src/core2/life.ts:573": 5,
-        "src/core2/modules/legislature.ts:4224": 3
+        "src/core2/modules/outcome-web.ts:208": 12,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/federal-courts.ts:165": 4
       },
       "openingRow": "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
       "money": {
         "direct": [],
-        "diff": [
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
-            "treatment": 49601715831,
-            "control": 49602439179,
-            "ids": [
-              "journal:2025-01-21:748",
-              "journal:2025-01-23:765",
-              "journal:2025-01-23:766"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
-            "treatment": 40260275,
-            "control": 40891373,
-            "ids": [
-              "journal:2025-09-01:68459",
-              "journal:2025-09-01:68461",
-              "journal:2025-09-01:68463"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
-            "treatment": 597414514,
-            "control": 598001049,
-            "ids": [
-              "journal:2025-02-01:1107",
-              "journal:2025-02-01:1108",
-              "journal:2025-02-01:1109"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-            "treatment": 764524045,
-            "control": 764836995,
-            "ids": [
-              "journal:2025-01-27:816",
-              "journal:2025-01-27:819",
-              "journal:2025-01-29:852"
-            ]
-          },
-          {
-            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
-            "treatment": 3494485,
-            "control": 3768849,
-            "ids": [
-              "journal:2025-05-17:36613",
-              "journal:2025-05-17:36635",
-              "journal:2025-05-17:36642"
-            ]
-          },
-          {
-            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
-            "treatment": 4469500,
-            "control": 4736200,
-            "ids": [
-              "journal:2025-05-17:36608",
-              "journal:2025-05-17:36609",
-              "journal:2025-05-17:36610"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
-            "treatment": 11817920760,
-            "control": 11817675310,
-            "ids": [
-              "journal:2025-01-21:704",
-              "journal:2025-01-21:705",
-              "journal:2025-01-21:706"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
-            "treatment": 170295616,
-            "control": 170057169,
-            "ids": [
-              "journal:2025-02-01:1377",
-              "journal:2025-02-01:1379",
-              "journal:2025-02-01:1381"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
-            "treatment": 94907855201621,
-            "control": 94907855008702,
-            "ids": [
-              "journal:2025-07-01:46514",
-              "journal:2025-07-01:46515",
-              "journal:2025-07-01:46516"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
-            "treatment": 5895164633,
-            "control": 5895349322,
-            "ids": [
-              "journal:2025-02-01:3178",
-              "journal:2025-02-01:3179",
-              "journal:2025-02-01:3180"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/life.ts:578",
-            "treatment": 266983788,
-            "control": 266863388,
-            "ids": [
-              "journal:2025-01-21:691",
-              "journal:2025-01-21:692",
-              "journal:2025-01-21:693"
-            ]
-          },
-          {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
-            "treatment": 3845974329,
-            "control": 3845856048,
-            "ids": [
-              "journal:2025-02-01:1125",
-              "journal:2025-02-01:1126",
-              "journal:2025-02-01:1127"
-            ]
-          }
-        ],
-        "diffKinds": 38,
+        "diff": [],
+        "diffKinds": 0,
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 0,
+          "targets": 4,
           "among": "reached",
           "pairs": [],
           "paid": 0,
@@ -703,7 +596,7 @@
         ],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [
           {
             "id": "web:jurisdiction_ffa1a12974173cce:2025-01",
@@ -722,106 +615,16 @@
             "lagMonths": 12,
             "treated": 1,
             "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-03",
-            "month": "2025-03",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-04",
-            "month": "2025-04",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-05",
-            "month": "2025-05",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-06",
-            "month": "2025-06",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-07",
-            "month": "2025-07",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-08",
-            "month": "2025-08",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-09",
-            "month": "2025-09",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-10",
-            "month": "2025-10",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-11",
-            "month": "2025-11",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
-          },
-          {
-            "id": "web:jurisdiction_ffa1a12974173cce:2025-12",
-            "month": "2025-12",
-            "link": "mandatory-minimum-cut-to-federal-prisoners",
-            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
-            "lagMonths": 12,
-            "treated": 1,
-            "control": 0
           }
         ],
         "reenacted": null
       },
       "heard": {
-        "people": 145,
+        "people": 108,
         "sample": [
           "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
-          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
-          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077"
+          "person_02352023b68716b3:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
+          "person_36eb45b694f405d5:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077"
         ]
       },
       "afterUndo": {
@@ -848,7 +651,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 134
+      "seconds": 33
     },
     {
       "key": "us-federal-positions:emergencies.states-share-disaster-costs",

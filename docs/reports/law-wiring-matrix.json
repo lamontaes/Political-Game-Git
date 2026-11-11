@@ -128,6 +128,18 @@
       "state": "US-RI"
     },
     {
+      "seed": "b728aa92efd914f5932d1dd77cbc7aa8fc7ad6863f5e9826312849d2685e6a91",
+      "key": "2044375",
+      "name": "Manter, Kansas",
+      "state": "US-KS"
+    },
+    {
+      "seed": "d3d37e45b6341a5a7c548d2e5a3e6e27a3d5787351607c40268c634485a277cf",
+      "key": "3684187",
+      "name": "Zena, New York",
+      "state": "US-NY"
+    },
+    {
       "seed": "393f73ee1c08140503117d6af7eea026ada4377080860846258968a73c13b710",
       "key": "0834960",
       "name": "Haxtun, Colorado",
@@ -153,10 +165,10 @@
     }
   ],
   "summary": {
-    "laws": 178,
+    "laws": 187,
     "wired": 147,
-    "partly": 31,
-    "stopgapped": 0,
+    "partly": 39,
+    "stopgapped": 1,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -181,65 +193,65 @@
     ],
     "byLink": {
       "exists": {
-        "wired": 113,
-        "partial": 4,
-        "missing": 3,
+        "wired": 119,
+        "partial": 5,
+        "missing": 5,
         "stopgap": 0,
         "n/a": 58
       },
       "change": {
-        "wired": 178,
+        "wired": 187,
         "partial": 0,
         "missing": 0,
         "stopgap": 0,
         "n/a": 0
       },
       "reach": {
-        "wired": 99,
+        "wired": 100,
         "partial": 0,
-        "missing": 19,
-        "stopgap": 0,
+        "missing": 23,
+        "stopgap": 4,
         "n/a": 60
       },
       "systems": {
-        "wired": 113,
+        "wired": 114,
         "partial": 0,
-        "missing": 15,
-        "stopgap": 0,
+        "missing": 19,
+        "stopgap": 4,
         "n/a": 50
       },
       "money": {
         "wired": 94,
-        "partial": 10,
-        "missing": 8,
-        "stopgap": 0,
+        "partial": 9,
+        "missing": 13,
+        "stopgap": 5,
         "n/a": 66
       },
       "web": {
-        "wired": 75,
+        "wired": 76,
         "partial": 0,
-        "missing": 28,
-        "stopgap": 0,
+        "missing": 32,
+        "stopgap": 4,
         "n/a": 75
       },
       "knowing": {
         "wired": 128,
         "partial": 0,
-        "missing": 0,
+        "missing": 9,
         "stopgap": 0,
         "n/a": 50
       },
       "repeal": {
-        "wired": 100,
+        "wired": 101,
         "partial": 0,
-        "missing": 19,
+        "missing": 27,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 101,
+        "wired": 102,
         "partial": 0,
-        "missing": 19,
+        "missing": 27,
         "stopgap": 0,
         "n/a": 58
       }
@@ -1605,7 +1617,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: health and hospitals",
+      "name": "Spending: healthAndHospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -2336,7 +2348,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higher education",
+      "name": "Spending: higherEducation",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -4312,7 +4324,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfare and Medicaid",
+      "name": "Spending: welfareAndMedicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4456,6 +4468,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "child-care-income-limit",
+      "name": "Child care income limit (family of three)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "child-care-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:child-care-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "ssi-federal-benefit-rate",
+      "name": "SSI federal benefit rate (individual)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "ssi-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:ssi-federal-benefit-rate: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -5113,6 +5243,65 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "energy-assistance-income-limit",
+      "name": "Home energy assistance income limit (percent of the poverty line)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "energy-assistance-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:energy-assistance-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -6085,6 +6274,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "ban the box public hiring",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "hiring-record",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.ban-the-box-public-hiring: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "Local power: ban the box public hiring",
+      "kind": "amount",
+      "family": "labor",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:ban-the-box-public-hiring: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -7374,6 +7681,124 @@
       "errors": []
     },
     {
+      "key": "us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "allow retail electric choice",
+      "kind": "question",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:environment-energy.allow-retail-electric-choice: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "Local power: allow retail electric choice",
+      "kind": "amount",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:allow-retail-electric-choice: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-federal-positions:energy-environment.limit-power-plant-carbon",
       "name": "limit power plant carbon",
       "kind": "question",
@@ -7591,7 +8016,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: natural resources",
+      "name": "Spending: naturalResources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -8487,7 +8912,7 @@
       "family": "justice",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -8500,47 +8925,56 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2026-01-22",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug; Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug; Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 open (full 0, counted groups 4/5161 people, households 0, orgs 0, govts 0) e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "table trace: no engine read the law's rows in the run",
-          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+          "status": "wired",
+          "evidence": "src/core2/modules/federal-courts.ts:165",
+          "why": ""
         },
         "money": {
-          "status": "partial",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
-          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
-          "untraced": true
+          "status": "stopgap",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug); Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 applied rows, none with an amount owed, paid or held (e.g. applied|us-federal-positions:justice-rights.reduce-mandatory-minimums|federal-courts:Drug)",
+          "why": "the law shortens federal sentences and lowers the federal prison stock, but no engine pays the Bureau of Prisons per person held, so the smaller stock saves the Treasury nothing (SG-JUSTICE-federal-prison-cost-flat)"
         },
         "web": {
-          "status": "missing",
-          "evidence": "mandatory-minimum-cut-to-federal-prisoners",
-          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-01 (2025-01); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_ffa1a12974173cce:2025-02 (2025-02); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): mandatory-minimum-cut-to-federal-prisoners lags 12 months, past the run's window; the web read law:us-federal-positions:justice-rights.reduce-mandatory-minimums as 1 (control 0) in web:jurisdiction_44fab3be4f9d7e06:2025-01 (2025-01)",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077)",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 108 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077); Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 58 people heard (person_a1102e737c21b117:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 4 open -> after repeal 0 open, 0 ended; Manter, Kansas, US-KS (seed 695c51eb1a2094e3): 4 open -> after repeal 0 open, 0 ended; Zena, New York, US-NY (seed 7927c0ac3a4701a3): 4 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "why": "reaches nobody anywhere"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6); Manter, Kansas, US-KS (seed 695c51eb1a2094e3); Zena, New York, US-NY (seed 7927c0ac3a4701a3)",
+          "why": ""
         }
       },
       "screens": [],
       "runs": [
         {
           "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
-          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Manter, Kansas, US-KS (seed 695c51eb1a2094e3)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Zena, New York, US-NY (seed 7927c0ac3a4701a3)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2025-02-26",
           "inForceAtOpening": false
         }
       ],
@@ -9635,6 +10069,65 @@
       "errors": []
     },
     {
+      "key": "executive-term-limit",
+      "name": "Governor term limit (terms; 0 for none)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "partial",
+          "evidence": "55/56 places (state 55); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-DC"
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:executive-term-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-policy-positions:government-operations.all-mail-voting",
       "name": "all mail voting",
       "kind": "question",
@@ -10346,7 +10839,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit for governor",
+      "name": "State campaign contribution limit: governor",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10411,7 +10904,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit for state senate",
+      "name": "State campaign contribution limit: stateSenate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10476,7 +10969,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit for state house",
+      "name": "State campaign contribution limit: stateHouse",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10541,7 +11034,7 @@
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit for local office",
+      "name": "State campaign contribution limit: local",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10877,6 +11370,65 @@
           "status": "n/a",
           "evidence": "",
           "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "meeting-notice-hours",
+      "name": "Public notice before a regular meeting (hours)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:meeting-notice-hours: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
         }
       },
       "screens": [],
