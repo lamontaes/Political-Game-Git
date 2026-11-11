@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: merged
 claimed-by: claude/pool-elections-past-race-votes-from-electorate
 pr: #7088
 blocked-on:
@@ -20,6 +20,7 @@ effort: low
 root: rc2-done-from-records
 checked: fable 2026-11-10
 branch: claude/pool-elections-past-race-votes-from-electorate
+merged-at: 2026-11-11T07:06:40.008Z
 ---
 
 **What.** A past race's printed vote count was the count of full people, not the simulated electorate's, and the headline said "Legislator" instead of the office and district. Owner, Nov 1 playtest of v0.73.0, on the opening's front page: "All 54 votes were cast. No, I can tell that's the generated number of people, not the simulated amount of votes. You see all of these are race for legislator." Each state legislative race printed 52 to 55 votes. The fix merged in PR #7088 (governing/past-race-votes), and the Nov 1 Puerto Rico note says the totals are right. What is left is the second-session check this item never got.
