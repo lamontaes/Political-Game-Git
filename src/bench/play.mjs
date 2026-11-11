@@ -2947,6 +2947,18 @@ async function openBillPaper(billId, show, back, backLabel) {
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
 // body's next agenda.
 let seatResult = "";
+/**
+ * Why a bill is barred, in words: the reason's control name, and the law that
+ * bars it as the bill paper cites a law, where the record names one.
+ */
+const barredWords = (row) => {
+  const reason = controls.authority?.[row.reason] ?? "";
+  return row.citedAs && controls.authorityCites
+    ? controls.authorityCites
+        .replace("{reason}", reason)
+        .replace("{law}", row.citedAs)
+    : reason;
+};
 let seatText = [];
 // The tab of Your office the player last used.
 async function seatRows() {
@@ -2961,7 +2973,7 @@ async function seatRows() {
           r.authority?.some((a) => !a.allowed)
             ? ` · ${r.authority
                 .filter((a) => !a.allowed)
-                .map((a) => controls.authority?.[a.reason] ?? "")
+                .map((a) => barredWords(a))
                 .join("; ")}`
             : ""
         }`
@@ -2998,7 +3010,7 @@ async function seatRows() {
               : item.question
                 ? policyLabel(item.question)
                 : item.name
-          }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
+          }${item.allowed === false ? ` · ${barredWords(item)}` : ""}`,
           // What the law in force holds, as the bill's paper cites it.
           today:
             item.today?.value != null
@@ -3007,10 +3019,7 @@ async function seatRows() {
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
           blocked: item.allowed === false,
-          note:
-            item.allowed === false
-              ? (controls.authority?.[item.reason] ?? "")
-              : "",
+          note: item.allowed === false ? barredWords(item) : "",
         })),
       })),
       onDraft: (item, typed) => {
