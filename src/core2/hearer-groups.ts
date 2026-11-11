@@ -22,6 +22,7 @@ import { currentCloseness } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import { keepsWhy } from "./why-kept";
 import {
+  agreementInputsMoved,
   ageBand,
   stanceAfterCase,
   standingWith,
@@ -190,6 +191,7 @@ export function hearAsGroups(
       memberCount: group.count,
       heardCount: sums.n,
     } as unknown as { id: string });
+    agreementInputsMoved(api, groupId);
   }
   return out;
 }

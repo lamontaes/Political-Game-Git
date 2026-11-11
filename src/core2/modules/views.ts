@@ -20,7 +20,9 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { bookkeeping } from "../bookkeeping";
 import { isDemoted } from "../counted-groups";
+import { registerDerivedCache } from "../snapshot";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -736,10 +738,115 @@ export function agreementWith(
   platform: readonly { question: string; position: number }[],
 ): number {
   if (!platform.length) return v("zero");
+  const kept = bookkeeping() ? undefined : keptAgreements(api);
+  const key = kept && platformKey(platform);
+  const group = kept && groupOf(api, personId);
+  const held = kept?.byPerson.get(personId)?.get(key!);
+  if (
+    held &&
+    held.lean === lean &&
+    held.month === kept!.month &&
+    held.version === (kept!.versions.get(personId) ?? 0) &&
+    held.groupId === group &&
+    held.groupVersion === (group ? (kept!.versions.get(group) ?? 0) : 0)
+  )
+    return held.value;
   let sum = v("zero");
   for (const stance of platform)
     sum += viewOn(api, personId, stance.question, lean) * stance.position;
-  return Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
+  const value = Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
+  if (kept) {
+    let byKey = kept.byPerson.get(personId);
+    if (!byKey) kept.byPerson.set(personId, (byKey = new Map()));
+    byKey.set(key!, {
+      lean,
+      month: kept.month,
+      version: kept.versions.get(personId) ?? 0,
+      groupId: group,
+      groupVersion: group ? (kept.versions.get(group) ?? 0) : 0,
+      value,
+    });
+  }
+  return value;
+}
+
+/**
+ * A person's agreement with a platform, kept until something it reads
+ * changes (Speed, Nov 11: each campaign event weighed every guest's stance
+ * on every plank again, about 21 million stance reads in South Hooksett, New
+ * Hampshire's election year, though most guests' stances had not moved since
+ * the last event). An entry holds while the person's stance rows, their
+ * hearer group's stances and their lean are as they were: every writer of
+ * those bumps its version (`agreementInputsMoved`). The opening records a
+ * first read writes (`openingRecord`) stay written, so a later read finds
+ * them as it would. Kept in play only (with bookkeeping on, tests edit
+ * parameters in place), dropped at each month's turn so entries for closed
+ * races go, and cleared on a restore (`registerDerivedCache`).
+ */
+interface KeptAgreements {
+  month: string;
+  readonly versions: Map<string, number>;
+  readonly byPerson: Map<
+    string,
+    Map<
+      string,
+      {
+        readonly lean: number;
+        readonly month: string;
+        readonly version: number;
+        readonly groupId: string | undefined;
+        readonly groupVersion: number;
+        readonly value: number;
+      }
+    >
+  >;
+}
+const agreementsKept = new WeakMap<object, KeptAgreements>();
+registerDerivedCache(agreementsKept as WeakMap<CoreState, unknown>);
+const platformKeys = new WeakMap<object, string>();
+
+function keptAgreements(api: CoreAPI): KeptAgreements {
+  const month = api.state.date.slice(0, 7);
+  let kept = agreementsKept.get(api.state);
+  if (!kept || kept.month !== month) {
+    kept = {
+      month,
+      versions: kept?.versions ?? new Map(),
+      byPerson: new Map(),
+    };
+    agreementsKept.set(api.state, kept);
+  }
+  return kept;
+}
+
+function platformKey(
+  platform: readonly { question: string; position: number }[],
+): string {
+  let key = platformKeys.get(platform);
+  if (key === undefined) {
+    key = platform.map((s) => `${s.question}=${s.position}`).join("|");
+    platformKeys.set(platform, key);
+  }
+  return key;
+}
+
+function groupOf(api: CoreAPI, personId: PersonId): string | undefined {
+  return (
+    api
+      .moduleState(VIEWS_MODULE_ID)
+      .table("groupHearers")
+      .get(personId) as unknown as { groupId: string } | undefined
+  )?.groupId;
+}
+
+/**
+ * A person's stance rows, or a hearer group's stances, have just changed: a
+ * kept agreement that read them is stale (`agreementWith`). `key` is the
+ * person's id or the group's id.
+ */
+export function agreementInputsMoved(api: CoreAPI, key: string): void {
+  const kept = agreementsKept.get(api.state);
+  if (kept) kept.versions.set(key, (kept.versions.get(key) ?? 0) + 1);
 }
 
 // Engines that act on the day a stance moves register in a file of their own
@@ -1004,6 +1111,7 @@ export const viewsModule: CoreModule = {
       if (!stance) continue;
       // Built fresh here and never touched again: frozen in place, not copied.
       stancesTable(api).putOwned(stance as unknown as { id: string });
+      agreementInputsMoved(api, personId);
       stanceMoved(api, personId, topic);
     }
   },

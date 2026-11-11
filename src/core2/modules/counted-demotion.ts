@@ -25,7 +25,7 @@ import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { VIEWS_MODULE_ID } from "./views";
+import { agreementInputsMoved, VIEWS_MODULE_ID } from "./views";
 import { ELECTIONS_MODULE_ID } from "./elections";
 import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
@@ -436,6 +436,7 @@ function forgetOnReturn(api: CoreAPI, personId: PersonId): void {
     const stances = api.moduleState(VIEWS_MODULE_ID).table("stances");
     for (const row of stances.query("byPerson", [personId]))
       stances.remove(row.id);
+    agreementInputsMoved(api, personId);
   }
   const known = core.knowledgeByPerson.get(personId);
   if (!known?.size) return;
