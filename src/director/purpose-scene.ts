@@ -1335,11 +1335,17 @@ function composeBinding(
         sourceRecordIds: about.sourceRecordIds,
       };
   }
-  if (type.purpose === "press-comment")
+  if (type.purpose === "press-comment") {
     Object.assign(
       facts,
       pressBillFacts(core, record, said, moment.causeId, askedId, facts),
     );
+    // The player speaks to the reporter by first name, from the cast.
+    facts["reporter-first"] = {
+      text: asker.givenName,
+      sourceRecordIds: [askerId],
+    };
+  }
   // The kind's own arc, or the variant of it the records give this cause. A
   // scene where the player asks plays the kind's own arc: its variants are
   // the colleague's ask of the player.

@@ -110,6 +110,7 @@
     "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
     "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
     "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
+    "reporter-first": "The reporter's first name, from the scene's cast record.",
     "about": "A bill's policy question as the catalog names it (question-names.json), from the bill record."
   },
   "maxWords": 70,
@@ -3912,10 +3913,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-filed-bill-because-people-in-place-asked-me-to",
+      "key": "scene-talk.reply-answer.i-filed-bill-because-people-asked-me-to",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I filed {bill} because people in {place} asked me to.",
+      "text": "I filed {bill} because people asked me to.",
       "uses": [
         {
           "subject": "scene",
@@ -3972,10 +3973,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-story-i-ll-say-it-plainly-i-ve-read-it-and-i-know-where-i-stand",
+      "key": "scene-talk.reply-answer.i-ve-read-up-on-story-and-i-know-where-i-stand",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "On {story}, I'll say it plainly: I've read it, and I know where I stand.",
+      "text": "I've read up on {story}, and I know where I stand.",
       "uses": [
         {
           "subject": "scene",
@@ -4230,38 +4231,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.put-that-in-outlet",
+      "key": "scene-talk.reply-answer.people-have-waited-long-enough-for-bill",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Put that in {outlet}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine"
-        }
-      ],
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Words builder W7",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "press.answer.plain",
-        "part": "closer"
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.people-in-place-have-waited-long-enough-for-bill",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "People in {place} have waited long enough for {bill}.",
+      "text": "People have waited long enough for {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -4289,10 +4262,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-think-bill-is-the-right-call-for-place",
+      "key": "scene-talk.reply-answer.i-think-bill-is-the-right-call",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I think {bill} is the right call for {place}.",
+      "text": "I think {bill} is the right call.",
       "uses": [
         {
           "subject": "scene",
@@ -4351,10 +4324,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-m-with-bill-i-think-it-s-right-for-place",
+      "key": "scene-talk.reply-answer.i-m-with-bill-i-think-it-s-the-right-call",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'm with {bill}. I think it's right for {place}.",
+      "text": "I'm with {bill}. I think it's the right call.",
       "uses": [
         {
           "subject": "scene",
@@ -4475,10 +4448,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-don-t-think-bill-is-right-for-place-and-i-ll-vote-that-way",
+      "key": "scene-talk.reply-answer.i-don-t-think-bill-is-the-right-call-and-i-ll-vote-that-way",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I don't think {bill} is right for {place}, and I'll vote that way.",
+      "text": "I don't think {bill} is the right call, and I'll vote that way.",
       "uses": [
         {
           "subject": "scene",
@@ -4567,10 +4540,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-cast-a-yes-on-bill-and-i-d-explain-it-to-anyone-in-place",
+      "key": "scene-talk.reply-answer.i-cast-a-yes-on-bill-and-i-d-explain-it-to-anyone",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I cast a yes on {bill}, and I'd explain it to anyone in {place}.",
+      "text": "I cast a yes on {bill}, and I'd explain it to anyone.",
       "uses": [
         {
           "subject": "scene",
@@ -4627,10 +4600,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-cast-a-no-on-bill-and-i-d-explain-it-to-anyone-in-place",
+      "key": "scene-talk.reply-answer.i-cast-a-no-on-bill-and-i-d-explain-it-to-anyone",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I cast a no on {bill}, and I'd explain it to anyone in {place}.",
+      "text": "I cast a no on {bill}, and I'd explain it to anyone.",
       "uses": [
         {
           "subject": "scene",
@@ -4869,10 +4842,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.here-s-where-i-am-on-story-i-want-it-done-right-and-i-ll-say-so-in-public",
+      "key": "scene-talk.reply-answer.i-want-story-done-right-and-i-ll-say-so-in-public",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Here's where I am on {story}: I want it done right, and I'll say so in public.",
+      "text": "I want {story} done right, and I'll say so in public.",
       "uses": [
         {
           "subject": "scene",
@@ -7048,10 +7021,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.that-s-not-what-bill-does-and-you-know-it",
+      "key": "scene-talk.reply-confront.that-s-not-what-bill-does-and-you-know-it-reporter-first",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That's not what {bill} does, and you know it.",
+      "text": "That's not what {bill} does, and you know it, {reporter-first}.",
       "uses": [
         {
           "subject": "scene",
@@ -7077,10 +7050,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.whoever-told-you-that-about-story-hasn-t-read-it",
+      "key": "scene-talk.reply-confront.come-on-reporter-first-whoever-told-you-that-hasn-t-read-it",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Whoever told you that about {story} hasn't read it.",
+      "text": "Come on, {reporter-first}. Whoever told you that hasn't read it.",
       "uses": [
         {
           "subject": "scene",
@@ -7106,10 +7079,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.you-re-writing-about-story-before-you-ve-read-it",
+      "key": "scene-talk.reply-confront.reporter-first-you-re-writing-it-up-before-you-ve-read-it",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "You're writing about {story} before you've read it.",
+      "text": "{reporter-first}, you're writing it up before you've read it.",
       "uses": [
         {
           "subject": "scene",
@@ -7135,10 +7108,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.if-outlet-prints-that-about-story-it-ll-be-wrong",
+      "key": "scene-talk.reply-confront.you-ve-got-it-backward-reporter-first-and-i-can-show-you",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "If {outlet} prints that about {story}, it'll be wrong.",
+      "text": "You've got it backward, {reporter-first}, and I can show you.",
       "uses": [
         {
           "subject": "scene",
@@ -7164,10 +7137,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.i-don-t-accept-the-way-outlet-is-telling-story",
+      "key": "scene-talk.reply-confront.who-s-telling-you-that-reporter-first-they-re-wrong",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "I don't accept the way {outlet} is telling {story}.",
+      "text": "Who's telling you that, {reporter-first}? They're wrong.",
       "uses": [
         {
           "subject": "scene",
@@ -7193,10 +7166,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.you-ve-got-story-backward-and-i-can-show-you",
+      "key": "scene-talk.reply-confront.nobody-who-s-read-it-thinks-it-s-about-anything-but-about",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "You've got {story} backward, and I can show you.",
+      "text": "Nobody who's read it thinks it's about anything but {about}.",
       "uses": [
         {
           "subject": "scene",
@@ -7222,10 +7195,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.read-bill-again-before-you-write-a-word-about-it",
+      "key": "scene-talk.reply-confront.it-s-about-about-and-you-re-making-it-sound-like-something-else",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Read {bill} again before you write a word about it.",
+      "text": "It's about {about}, and you're making it sound like something else.",
       "uses": [
         {
           "subject": "scene",
@@ -7251,10 +7224,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.who-s-telling-you-that-about-story-they-re-wrong",
+      "key": "scene-talk.reply-confront.if-you-print-that-you-ll-have-about-wrong",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "Who's telling you that about {story}? They're wrong.",
+      "text": "If you print that, you'll have {about} wrong.",
       "uses": [
         {
           "subject": "scene",
@@ -7280,10 +7253,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.the-vote-on-bill-was-count-write-that-not-a-guess",
+      "key": "scene-talk.reply-confront.the-vote-was-count-reporter-first-write-that-not-a-guess",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "The vote on {bill} was {count}. Write that, not a guess.",
+      "text": "The vote was {count}, {reporter-first}. Write that, not a guess.",
       "uses": [
         {
           "subject": "scene",
@@ -7602,10 +7575,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-m-late-and-story-will-keep",
+      "key": "scene-talk.reply-leave.i-m-late-reporter-first-it-ll-keep",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm late, and {story} will keep.",
+      "text": "I'm late, {reporter-first}. It'll keep.",
       "uses": [
         {
           "subject": "scene",
@@ -7631,10 +7604,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.call-my-office-about-story-i-have-to-go",
+      "key": "scene-talk.reply-leave.call-my-office-reporter-first-i-have-to-go",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Call my office about {story}. I have to go.",
+      "text": "Call my office, {reporter-first}. I have to go.",
       "uses": [
         {
           "subject": "scene",
@@ -7660,10 +7633,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-have-to-go-you-can-call-my-office-about-bill",
+      "key": "scene-talk.reply-leave.i-have-to-go-reporter-first-you-can-call-my-office",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I have to go. You can call my office about {bill}.",
+      "text": "I have to go, {reporter-first}. You can call my office.",
       "uses": [
         {
           "subject": "scene",
@@ -7689,10 +7662,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.not-now-i-ll-talk-about-story-another-day",
+      "key": "scene-talk.reply-leave.not-now-reporter-first-another-day",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Not now. I'll talk about {story} another day.",
+      "text": "Not now, {reporter-first}. Another day.",
       "uses": [
         {
           "subject": "scene",
@@ -7718,10 +7691,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-m-walking-to-my-car-and-i-m-done-talking-about-story",
+      "key": "scene-talk.reply-leave.i-m-walking-to-my-car-reporter-first-and-i-m-done-talking-about-it",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I'm walking to my car, and I'm done talking about {story}.",
+      "text": "I'm walking to my car, {reporter-first}, and I'm done talking about it.",
       "uses": [
         {
           "subject": "scene",
@@ -7747,10 +7720,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.excuse-me-i-ve-said-all-i-m-saying-about-bill",
+      "key": "scene-talk.reply-leave.excuse-me-reporter-first-i-ve-said-all-i-m-saying",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Excuse me. I've said all I'm saying about {bill}.",
+      "text": "Excuse me, {reporter-first}. I've said all I'm saying.",
       "uses": [
         {
           "subject": "scene",
@@ -7776,10 +7749,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.i-don-t-have-time-for-story-right-now",
+      "key": "scene-talk.reply-leave.i-don-t-have-time-for-this-right-now-reporter-first",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "I don't have time for {story} right now.",
+      "text": "I don't have time for this right now, {reporter-first}.",
       "uses": [
         {
           "subject": "scene",
@@ -7805,10 +7778,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.print-what-you-like-about-story-i-m-leaving",
+      "key": "scene-talk.reply-leave.print-what-you-like-reporter-first-i-m-leaving",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Print what you like about {story}. I'm leaving.",
+      "text": "Print what you like, {reporter-first}. I'm leaving.",
       "uses": [
         {
           "subject": "scene",
@@ -8134,10 +8107,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.if-you-want-something-on-story-call-my-office",
+      "key": "scene-talk.reply-refuse.if-outlet-wants-a-comment-call-my-office",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "If you want something on {story}, call my office.",
+      "text": "If {outlet} wants a comment, call my office.",
       "uses": [
         {
           "subject": "scene",
@@ -8163,10 +8136,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.set-up-a-time-and-we-ll-talk-about-bill-properly",
+      "key": "scene-talk.reply-refuse.set-up-a-time-with-my-office-and-outlet-can-have-its-interview",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Set up a time, and we'll talk about {bill} properly.",
+      "text": "Set up a time with my office, and {outlet} can have its interview.",
       "uses": [
         {
           "subject": "scene",
@@ -8192,10 +8165,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-m-not-commenting-on-story",
+      "key": "scene-talk.reply-refuse.i-m-not-commenting-for-outlet",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I'm not commenting on {story}.",
+      "text": "I'm not commenting for {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -8221,10 +8194,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.no-comment-on-bill",
+      "key": "scene-talk.reply-refuse.no-comment-for-outlet",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "No comment on {bill}.",
+      "text": "No comment for {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -8250,10 +8223,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.you-won-t-get-a-comment-from-me-on-story",
+      "key": "scene-talk.reply-refuse.you-won-t-get-a-comment-from-me-for-outlet",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "You won't get a comment from me on {story}.",
+      "text": "You won't get a comment from me for {outlet}.",
       "uses": [
         {
           "subject": "scene",
@@ -8279,10 +8252,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-ve-got-nothing-for-outlet-on-story",
+      "key": "scene-talk.reply-refuse.i-ve-got-nothing-for-outlet-on-this",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I've got nothing for {outlet} on {story}.",
+      "text": "I've got nothing for {outlet} on this.",
       "uses": [
         {
           "subject": "scene",
@@ -8308,10 +8281,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-m-not-going-to-talk-about-bill-with-you",
+      "key": "scene-talk.reply-refuse.outlet-can-have-a-statement-from-my-office-not-from-me-here",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I'm not going to talk about {bill} with you.",
+      "text": "{outlet} can have a statement from my office, not from me here.",
       "uses": [
         {
           "subject": "scene",
@@ -8337,10 +8310,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.put-me-down-as-no-comment-on-story",
+      "key": "scene-talk.reply-refuse.put-me-down-in-outlet-as-no-comment",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Put me down as no comment on {story}.",
+      "text": "Put me down in {outlet} as no comment.",
       "uses": [
         {
           "subject": "scene",
@@ -8366,10 +8339,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.i-m-not-answering-questions-about-story",
+      "key": "scene-talk.reply-refuse.i-m-not-answering-questions-for-outlet-right-now",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "I'm not answering questions about {story}.",
+      "text": "I'm not answering questions for {outlet} right now.",
       "uses": [
         {
           "subject": "scene",
@@ -8395,10 +8368,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.you-can-run-story-without-a-quote-from-me",
+      "key": "scene-talk.reply-refuse.outlet-can-run-it-without-a-quote-from-me",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "You can run {story} without a quote from me.",
+      "text": "{outlet} can run it without a quote from me.",
       "uses": [
         {
           "subject": "scene",
@@ -8424,10 +8397,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-haven-t-decided-on-bill-yet",
+      "key": "scene-talk.reply-stall.i-want-to-hear-from-people-in-place-before-i-decide",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I haven't decided on {bill} yet.",
+      "text": "I want to hear from people in {place} before I decide.",
       "uses": [
         {
           "subject": "scene",
@@ -8454,10 +8427,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-m-still-reading-bill-ask-me-before-the-vote",
+      "key": "scene-talk.reply-stall.i-m-still-talking-to-people-in-place-about-it",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'm still reading {bill}. Ask me before the vote.",
+      "text": "I'm still talking to people in {place} about it.",
       "uses": [
         {
           "subject": "scene",
@@ -8484,10 +8457,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-want-to-hear-from-people-in-place-before-i-decide-on-bill",
+      "key": "scene-talk.reply-stall.ask-me-after-i-ve-heard-from-place-i-m-not-there-yet",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I want to hear from people in {place} before I decide on {bill}.",
+      "text": "Ask me after I've heard from {place}. I'm not there yet.",
       "uses": [
         {
           "subject": "scene",
@@ -8514,10 +8487,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-ll-say-where-i-am-on-bill-before-the-vote-not-before-i-ve-read-it",
+      "key": "scene-talk.reply-stall.people-in-place-are-still-calling-me-about-it-i-ll-decide-once-i-ve-heard-them",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'll say where I am on {bill} before the vote, not before I've read it.",
+      "text": "People in {place} are still calling me about it. I'll decide once I've heard them.",
       "uses": [
         {
           "subject": "scene",
@@ -8544,10 +8517,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.give-me-a-few-days-on-story",
+      "key": "scene-talk.reply-stall.i-ll-say-where-i-am-before-the-vote-once-place-has-had-its-say",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Give me a few days on {story}.",
+      "text": "I'll say where I am before the vote, once {place} has had its say.",
       "uses": [
         {
           "subject": "scene",
@@ -8574,10 +8547,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-m-still-working-through-story-i-m-not-there-yet",
+      "key": "scene-talk.reply-stall.give-me-a-few-days-i-ve-got-calls-from-place-to-return",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'm still working through {story}. I'm not there yet.",
+      "text": "Give me a few days. I've got calls from {place} to return.",
       "uses": [
         {
           "subject": "scene",
@@ -8634,10 +8607,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.ask-me-again-about-bill-when-it-s-closer-to-a-vote",
+      "key": "scene-talk.reply-stall.i-haven-t-decided-something-as-big-as-about-takes-reading",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Ask me again about {bill} when it's closer to a vote.",
+      "text": "I haven't decided. Something as big as {about} takes reading.",
       "uses": [
         {
           "subject": "scene",
@@ -8664,10 +8637,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.i-m-not-ready-to-say-where-i-am-on-story",
+      "key": "scene-talk.reply-stall.i-m-not-ready-to-say-i-m-still-working-through-what-about-would-cost",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "I'm not ready to say where I am on {story}.",
+      "text": "I'm not ready to say. I'm still working through what {about} would cost.",
       "uses": [
         {
           "subject": "scene",
