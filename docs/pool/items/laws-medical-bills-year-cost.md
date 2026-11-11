@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-medical-bills-year-cost
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:40:26.502Z
+claimed-at:
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -44,3 +44,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Needs repeated npm run speed:year country-year runs (over 100 s each, several GB) alternating base and head plus a records proof; this 15 GB cloud container has already had a worker killed for memory on a 150-day run, so a speed claim could not be measured reliably here. Needs a session with a dedicated machine (skill heavy-runs). Continue on branch claude/pool-laws-medical-bills-year-cost.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:40 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Read src/core2/medical-bills.ts billMedicalCare on main 2026-11-11: the monthly row put already uses table.putOwned (a fresh row frozen in place, not copied), so the plainCopy cut the item names is partly done; what remains is the per-household payCounted/payFull journal postings and recordMedicalDebt, which cannot be shown faster or records-proof-equal without repeated speed:year runs this container cannot hold (a worker was killed for memory earlier). Needs a dedicated machine (skill heavy-runs, speed-work). Continue on branch claude/pool-laws-medical-bills-year-cost.
