@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-nation-other-states-change-laws-in-year-one-then-almost-never
-pr:
+pr: #8482
 after:
 blocked-on:
 lead: nation
