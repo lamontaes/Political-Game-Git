@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-election-notice-printed
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at: 2026-11-11T05:34:19.827Z
+claimed-at:
 checked: fable 2026-11-11
 branch: claude/pool-words-election-notice-printed
 ---
@@ -50,3 +50,5 @@ Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story
 Released (2026-11-11): Read the paper's word path: archived stories reach print through wordArchiveStory/worded in src/bench/archive-words.ts -> composeNewsStory(packet, kind) over the newscast bank, and live stories through printedFacts in src/bench/printed-words.ts; the notice piece sits in its own 'notice' register (data/english/parts/notice.json, move election) that neither path loads, and nothing publishes a notice story per contest. Printing it needs (1) a press/news record written when a contest is posted, (2) the notice register read by the composer, (3) the story on the News tab, in three modules (press, english, bench); not a one-pass change. No lines were written. Continue on branch claude/pool-words-election-notice-printed.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:34 UTC) on branch claude/pool-words-election-notice-printed.
+
+Released (2026-11-11): Cause matches, but no record exists for the paper to print a notice from (no upcoming-election event in press, no notice story kind in english-newscast), so it needs an elections-side record and a Words-reviewed story kind first; not built. Continue on branch claude/pool-words-election-notice-printed.
