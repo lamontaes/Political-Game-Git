@@ -5,10 +5,10 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-medicaid-expansion-federal-share-is-the-regular-match
-pr:
+pr: #8529
 after:
 blocked-on:
 lead: laws
