@@ -113,7 +113,8 @@ export function composeScene(
       ? relationPhrase(kin.relation, row.looks?.gender ?? "other", "scene")
       : undefined;
     if (kin && phrase) return { text: phrase, sourceRecordIds: [kin.factId] };
-    if (!person.knownIds.has(id)) return null;
+    // A stranger the arrival line already named is known by now.
+    if (!person.knownIds.has(id) && !named.has(id)) return null;
     const first = !named.has(id);
     named.add(id);
     return {

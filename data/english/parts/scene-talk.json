@@ -23459,10 +23459,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.that-s-not-mine-to-give",
+      "key": "scene-talk.follow-refuse.i-don-t-trade-votes-not-on-bill-and-not-on-anything-else",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "That's not mine to give.",
+      "text": "I don't trade votes, not on {bill} and not on anything else.",
       "uses": [
         {
           "subject": "scene",
