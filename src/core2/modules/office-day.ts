@@ -27,7 +27,13 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { signUpToSpeak } from "./meetings";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+  termById,
+  termRecordCount,
+} from "./offices";
 import { governments } from "./budgets";
 import { payOfficialPaycheck } from "./official-pay";
 import { startPublicJob } from "../public-payroll";
@@ -161,7 +167,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     // A job starts or ends before a day's work, so the roster is read here
     // and the office jobs change in the next day's calendar work: when the
     // roster grows, and on the 1st for terms that ended.
-    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").size;
+    const terms = termRecordCount(api);
     const payday = api.state.date.endsWith("-01");
     if (payday || seenTerms.get(api.state as CoreState) !== terms) {
       seenTerms.set(api.state as CoreState, terms);
@@ -946,11 +952,10 @@ export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
     (table(api, "world").get("seed") as unknown as { seed: string } | undefined)
       ?.seed ?? "";
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   for (const raw of table(api, "officeJobs").rows()) {
     const row = raw as unknown as OfficeJobRow;
     if (row.endedOn) continue;
-    const term = terms.get(row.id) as unknown as TermRow | undefined;
+    const term = termById(api, row.id);
     if (term?.status === "serving") continue;
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {

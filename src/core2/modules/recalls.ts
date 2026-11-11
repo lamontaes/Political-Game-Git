@@ -32,7 +32,12 @@ import { campaignParameter } from "../campaign-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  vacateSeat,
+  type TermRow,
+  termById,
+} from "./offices";
 import { VOTING_MODULE_ID, turnoutOn, type ResultRow } from "./voting";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { countedResidents } from "../electorate";
@@ -203,7 +208,7 @@ function grievance(
 function termOf(api: CoreAPI, memberId: string): TermRow | undefined {
   const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   if (memberId.startsWith("official:"))
-    return terms.get(memberId.slice("official:".length)) as unknown as
+    return termById(api, memberId.slice("official:".length)) as unknown as
       TermRow | undefined;
   return (terms.rows() as unknown as TermRow[]).find(
     (t) => t.personId === memberId && t.status === "serving",

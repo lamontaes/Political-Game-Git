@@ -1,4 +1,4 @@
-import { servingTermsOf } from "../core2/modules/offices";
+import { servingTermsOf, termById } from "../core2/modules/offices";
 import { hash as fnv } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
@@ -678,7 +678,7 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       ...(look ? { look } : {}),
     };
   }
-  const term = coreAPI(core).moduleState(OFFICES).table("terms").get(id) as
+  const term = termById(coreAPI(core), id) as
     | {
         identity?: { birthDate: string; gender: string };
       }
@@ -697,7 +697,7 @@ function isOfficial(core: CoreState, id: string): boolean {
 function officeKinds(core: CoreState, id: string): string[] {
   if (!core.modules.has(OFFICES)) return [];
   const state = coreAPI(core).moduleState(OFFICES);
-  const own = state.table("terms").get(id) as { officeId: string } | undefined;
+  const own = termById(coreAPI(core), id);
   if (!own) return servingOfficeKinds(core, id);
   const office = state.table("offices").get(own.officeId) as
     { kind: string } | undefined;

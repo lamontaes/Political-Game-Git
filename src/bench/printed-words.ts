@@ -33,6 +33,7 @@ import {
   stateOffices,
   type TermRow,
   type VacancyRow,
+  termById,
 } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
@@ -326,9 +327,7 @@ class Reader {
       : undefined;
   }
   term(id: string) {
-    return this.table(OFFICES_MODULE_ID, "terms")?.get(
-      id.replace(/^official:/, ""),
-    ) as unknown as
+    return termById(this.api, id.replace(/^official:/, "")) as unknown as
       | {
           officeId: string;
           identity: { givenName: string; familyName: string };

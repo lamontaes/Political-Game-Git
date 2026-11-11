@@ -123,6 +123,7 @@ import {
   unfilledTerm,
   repeatSpecialElection,
   type TermRow,
+  termById,
 } from "./offices";
 import {
   holderOf,
@@ -1871,10 +1872,8 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
       .query("bySeatStatus", [contest.seatId, "serving"])[0] as unknown as
       TermRow | undefined) ??
     (contest.incumbentTermId
-      ? (api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      ? (termById(api, contest.incumbentTermId) as unknown as
+          TermRow | undefined)
       : undefined);
   // Each nominee stands where the place's records say filings go, on the
   // same rules any candidate meets, and the filing is announced. A full
@@ -2842,10 +2841,7 @@ export function winningPersonId(api: CoreAPI, candidateId: string): string {
   const key = candidateId.startsWith("official:")
     ? candidateId.slice("official:".length)
     : candidateId;
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(key) as unknown as TermRow | undefined;
+  const term = termById(api, key) as unknown as TermRow | undefined;
   return term ? (holderOf(api, term).personId ?? candidateId) : candidateId;
 }
 
@@ -3216,10 +3212,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       )
     : null;
   const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
   // A special election's winner takes the vacant seat at once; otherwise
   // the new term starts on the office's own start day after the regular
@@ -3626,10 +3619,7 @@ function publicReasons(
     ? places.reduce((s, p) => s + p.votes2024 * p.rightShare, 0) / votes
     : (1 + townLean(api)) / 2;
   const seat = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow | undefined)
     : undefined;
   const conditions = raceConditions(api, {
     federal: contest.level === "federal",
@@ -3958,9 +3948,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
   );
   // The incumbent who stood again: the seat's holder when filing closed.
   const previous = result.winnerId.startsWith(officialCandidateId(""))
-    ? (terms.get(
-        result.winnerId.slice(officialCandidateId("").length),
-      ) as unknown as TermRow | undefined)
+    ? termById(api, result.winnerId.slice(officialCandidateId("").length))
     : undefined;
   // A named official who isn't a full person yet keeps (or gets) an identity;
   // a person keeps the identity their earlier terms recorded (a drawn

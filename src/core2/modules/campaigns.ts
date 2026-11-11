@@ -115,7 +115,7 @@ import { promisesOf, recordAppeal, votesOf } from "./record";
 import { withholdingOnPay } from "./budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow, termById } from "./offices";
 import {
   ACCEPTING_MOVES,
   REFUSING_MOVES,
@@ -6288,10 +6288,8 @@ function holdsTheSeat(
     : undefined;
   if (!contest?.incumbentTermId || !api.state.modules.has(OFFICES_MODULE_ID))
     return false;
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  const term = termById(api, contest.incumbentTermId) as unknown as
+    TermRow | undefined;
   return term?.status === "serving" && term.personId === personId;
 }
 

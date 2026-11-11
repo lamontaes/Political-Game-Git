@@ -58,6 +58,7 @@ import {
   termStartInYear,
 } from "../elections-calendar";
 import { MOVED_AWAY_EVENT } from "./moves";
+import { townPlaceOf } from "./residents";
 import { localOfficesForPlace, type OfficeInput } from "../offices-local";
 import {
   federalOffices,
@@ -210,6 +211,11 @@ export const OFFICES_MODULE: PreStartModule = {
       vacancies: { indexes: { byStatus: { fields: ["status"] } } },
       incompatibilities: {},
       loaded: {},
+      // Ended terms folded out of `terms` (one row per seat) and the folded
+      // service of each filled-in official (one row per person and office):
+      // read through `termById` and `careerOf`, never directly.
+      seatPasts: {},
+      careers: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
   eventKinds: ["life.death", MOVED_AWAY_EVENT, "took-office"],
@@ -468,9 +474,255 @@ function suitedResidents(
 function freshTermId(api: CoreAPI, seatId: string, date: string): string {
   const base = `term:${seatId}:${date}`;
   let id = base;
-  for (let n = 2; table(api, "terms").get(id); n += 1) id = `${base}:${n}`;
+  for (let n = 2; termById(api, id); n += 1) id = `${base}:${n}`;
   return id;
 }
+
+/** One folded term inside its seat's past: every field a reader reads, the holder's identity by index. */
+interface FoldedTerm {
+  readonly id: string;
+  readonly officeId: string;
+  readonly personId: string | null;
+  /** Index into the seat past's `holders`. */
+  readonly holder: number;
+  readonly party: string | null;
+  readonly partySource?: string;
+  readonly startDate: string;
+  readonly serviceStart?: string;
+  readonly endDate: string | null;
+  readonly endEstimated: boolean;
+  readonly reached: string;
+  readonly endedBy?: string;
+  readonly elected?: TermRow["elected"];
+}
+
+/** A seat's folded past: each holder's identity once, then every folded term, oldest first. */
+interface SeatPastRow {
+  readonly id: string;
+  readonly holders: readonly TermRow["identity"][];
+  readonly terms: readonly FoldedTerm[];
+}
+
+/** A filled-in official's folded service in one office: the terms, their days and their parties. */
+export interface CareerRow {
+  readonly id: string;
+  readonly personId: string;
+  readonly officeId: string;
+  /** The folded terms' ids, oldest first: each resolves through `termById`. */
+  readonly termIds: readonly string[];
+  /** Days served in those terms (start to end), whole days. */
+  readonly days: number;
+  /** Each folded term's party as its row kept it (null where none). */
+  readonly parties: readonly (string | null)[];
+  readonly firstStart: string;
+}
+
+/** The count of terms folded so far, so a reader that watched the table's size sees every write. */
+const FOLDED_COUNT = "folded-terms";
+
+/** The seat a term id names: `term:<seat id>:<date>...`. */
+function seatOfTermId(id: string): string | undefined {
+  return /^term:(.+?):\d{4}-\d{2}-\d{2}(?::|$)/.exec(id)?.[1];
+}
+
+/**
+ * A term by its id, serving, ended or folded into its seat's past: the one
+ * resolver for every reader that holds a term id. A folded term comes back
+ * as the whole ended row it was.
+ */
+export function termById(api: CoreAPI, id: string): TermRow | undefined {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  const live = table(api, "terms").get(id) as unknown as TermRow | undefined;
+  if (live) return live;
+  const seatId = seatOfTermId(id);
+  const past = seatId
+    ? (table(api, "seatPasts").get(seatId) as unknown as
+        SeatPastRow | undefined)
+    : undefined;
+  const folded = past?.terms.find((term) => term.id === id);
+  if (!past || !folded) return undefined;
+  const { holder, ...rest } = folded;
+  return {
+    ...rest,
+    seatId: past.id,
+    identity: past.holders[holder]!,
+    status: "ended",
+  };
+}
+
+/**
+ * Every term a person has held or holds, folded ones included, oldest folded
+ * first and then the table's own: the one reader of a person's history in
+ * office (term limits, past parties, whether they ever held office).
+ */
+export function careerOf(api: CoreAPI, personId: string): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  const live = table(api, "terms").query("byPerson", [
+    personId,
+  ]) as unknown as TermRow[];
+  const careers = table(api, "careers").query("byPerson", [
+    personId,
+  ]) as unknown as CareerRow[];
+  if (!careers.length) return live;
+  const folded = careers
+    .flatMap((row) => row.termIds)
+    .flatMap((id) => termById(api, id) ?? []);
+  return [...folded, ...live];
+}
+
+/** Every term of one seat, folded ones first (oldest first), then the serving and kept ended rows. */
+export function seatHistoryOf(
+  api: CoreAPI,
+  seatId: string,
+): readonly TermRow[] {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+  const past = table(api, "seatPasts").get(seatId) as unknown as
+    SeatPastRow | undefined;
+  const folded = (past?.terms ?? []).flatMap(
+    (term) => termById(api, term.id) ?? [],
+  );
+  const terms = table(api, "terms");
+  return [
+    ...folded,
+    ...(terms.query("bySeatStatus", [seatId, "ended"]) as unknown as TermRow[]),
+    ...(terms.query("bySeatStatus", [
+      seatId,
+      "serving",
+    ]) as unknown as TermRow[]),
+  ];
+}
+
+/** How many term records the offices engine has written: the table's rows and the folded ones. */
+export function termRecordCount(api: CoreAPI): number {
+  const folded = table(api, "loaded").get(FOLDED_COUNT) as unknown as
+    { count: number } | undefined;
+  return table(api, "terms").size + (folded?.count ?? 0);
+}
+
+/**
+ * The people whose terms always stay rows: the player, their household and
+ * everyone they know, the people the game follows, and the town's residents.
+ */
+function keptHolder(api: CoreAPI, personId: string | null): boolean {
+  if (!personId) return false;
+  const core = api.state as CoreState;
+  if (
+    personId === core.playerId ||
+    core.focusPersonIds.has(personId as PersonId)
+  )
+    return true;
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (player?.knownIds.has(personId as PersonId)) return true;
+  const person = core.people.get(personId as PersonId);
+  if (!person) return false;
+  if (player && person.householdId === player.householdId) return true;
+  return person.placeId === townPlaceOf(core);
+}
+
+/**
+ * At a seat's seating, its older ended terms fold into the seat's past (the
+ * Speed rule, OWNER-DECISIONS Oct 30 01:55; the CTO's ruling of Nov 1, 23:40:
+ * a folded term is found by its id inside its seat's summary). The serving
+ * term and the seat's newest ended term stay rows. Never folded: a seat that
+ * covers the town, the President's and the Vice President's, a seat the
+ * player, their household or circle or a resident holds, and any such
+ * person's term. A filled-in official's folded terms join their career.
+ */
+function foldSeatPast(api: CoreAPI, seatId: string): void {
+  if (FOLD_NEVER_SEATS.has(seatId)) return;
+  const terms = table(api, "terms");
+  const seat = table(api, "seats").get(seatId) as unknown as
+    { officeId?: string; coversTown?: boolean } | undefined;
+  const office = seat?.officeId
+    ? (table(api, "offices").get(seat.officeId) as unknown as
+        { coversTown?: boolean } | undefined)
+    : undefined;
+  if (!seat || seat.coversTown || office?.coversTown) return;
+  const serving = terms.query("bySeatStatus", [
+    seatId,
+    "serving",
+  ]) as unknown as TermRow[];
+  if (serving.some((term) => keptHolder(api, term.personId))) return;
+  const ended = (
+    terms.query("bySeatStatus", [seatId, "ended"]) as unknown as TermRow[]
+  )
+    .slice()
+    .sort(
+      (a, b) =>
+        String(a.endDate ?? "").localeCompare(String(b.endDate ?? "")) ||
+        a.startDate.localeCompare(b.startDate) ||
+        a.id.localeCompare(b.id),
+    );
+  if (ended.some((term) => keptHolder(api, term.personId))) return;
+  const fold = ended
+    .slice(0, -1)
+    .filter((term) => seatOfTermId(term.id) === seatId);
+  if (!fold.length) return;
+  const pasts = table(api, "seatPasts");
+  const past = (pasts.get(seatId) as unknown as SeatPastRow | undefined) ?? {
+    id: seatId,
+    holders: [],
+    terms: [],
+  };
+  const holders = [...past.holders];
+  const holderKey = holders.map((identity) => JSON.stringify(identity));
+  const folded = [...past.terms];
+  const careers = table(api, "careers");
+  const days = (from: string, to: string | null) =>
+    to ? Math.round((Date.parse(to) - Date.parse(from)) / 86_400_000) : 0;
+  for (const term of fold) {
+    const key = JSON.stringify(term.identity);
+    let holder = holderKey.indexOf(key);
+    if (holder < 0) {
+      holder = holders.push(term.identity) - 1;
+      holderKey.push(key);
+    }
+    folded.push({
+      id: term.id,
+      officeId: term.officeId,
+      personId: term.personId,
+      holder,
+      party: term.party,
+      ...(term.partySource ? { partySource: term.partySource } : {}),
+      startDate: term.startDate,
+      ...(term.serviceStart ? { serviceStart: term.serviceStart } : {}),
+      endDate: term.endDate,
+      endEstimated: term.endEstimated,
+      reached: term.reached,
+      ...(term.endedBy ? { endedBy: term.endedBy } : {}),
+      ...(term.elected ? { elected: term.elected } : {}),
+    });
+    terms.remove(term.id);
+    if (!term.personId) continue;
+    const id = `${term.personId}|${term.officeId}`;
+    const was = careers.get(id) as unknown as CareerRow | undefined;
+    careers.put({
+      id,
+      personId: term.personId,
+      officeId: term.officeId,
+      termIds: [...(was?.termIds ?? []), term.id],
+      days: (was?.days ?? 0) + days(term.startDate, term.endDate),
+      parties: [...(was?.parties ?? []), term.party],
+      firstStart:
+        was && was.firstStart < term.startDate
+          ? was.firstStart
+          : term.startDate,
+    } as unknown as ModuleRow);
+  }
+  pasts.put({ id: seatId, holders, terms: folded } as unknown as ModuleRow);
+  const count = table(api, "loaded").get(FOLDED_COUNT) as unknown as
+    { count: number } | undefined;
+  table(api, "loaded").put({
+    id: FOLDED_COUNT,
+    count: (count?.count ?? 0) + fold.length,
+  } as unknown as ModuleRow);
+}
+
+/** Seats whose terms always stay rows, whatever covers the town: the President's and the Vice President's. */
+const FOLD_NEVER_SEATS = new Set([
+  "seat:US:president",
+  "seat:US:vice-president",
+]);
 
 /** What `seatTerm` writes: the new term, what happens to the terms it replaces, and the record of taking office. */
 export interface SeatTermInput {
@@ -531,6 +783,7 @@ export function seatTerm(api: CoreAPI, input: SeatTermInput): TermRow {
     status: "serving",
   };
   terms.put(term as unknown as ModuleRow);
+  foldSeatPast(api, input.seatId);
   if (input.tookOffice)
     api.emit({
       id: `took-office:${input.seatId}:${input.startDate}`,
@@ -1780,6 +2033,7 @@ export function seatWinner(
     reached: winner.reached,
     status: "serving",
   } as unknown as ModuleRow);
+  foldSeatPast(api, winner.seatId);
   if (winner.vacancyId) vacancyFilled(api, winner.vacancyId, termId);
   api.emit({
     id: `took-office:${winner.seatId}:${date}`,
