@@ -222,6 +222,7 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         continue;
       }
       let found = 0;
+      const skipped: string[] = [];
       playThrough(
         core,
         director,
@@ -241,6 +242,9 @@ describe("the political asks: a bribe in the press and a party that asks you to 
           const result = purposeScene(core, director, me, entry, {
             typeKey: "accusation",
           });
+          // A scene the director staged but could not word is named, never
+          // passed over in silence.
+          if (result?.kind === "skipped") skipped.push(result.reason);
           if (result?.kind !== "composed") return false;
           const here = `${where}: ${moment.causeId}`;
           const { scene } = result;
@@ -279,7 +283,9 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         },
       );
       if (found) return;
-      tried.push(`${where}: no accusation scene after ${reported}`);
+      tried.push(
+        `${where}: no accusation scene after ${reported}${skipped.length ? ` (${skipped.join("; ")})` : ""}`,
+      );
     }
     throw new Error(`no accusation scene: ${tried.join("; ")} (seed ${seed})`);
   }, 3_600_000);
