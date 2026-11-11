@@ -130,8 +130,10 @@ it(
             ?.id ?? null,
         );
         const decision = (plan.decisions as unknown as Decision[])[0]!;
+        // A trip her cash cannot pay is not taken.
         expect(decision.continues, `${label} ${plan.id}`).toBe(
-          decision.scores.continue >= decision.scores.end,
+          decision.scores.continue >= decision.scores.end ||
+            decision.cashMinor < decision.travelMinor,
         );
         // The trip is the miles recorded for her state, before or after a restriction.
         expectDistance(api, plan, decision, draw.state, `${label} ${plan.id}`);
@@ -473,7 +475,10 @@ it(
       for (const found of rows) {
         const label = `${draw.key} seed ${draw.seed} ${found.id}`;
         const scores = found.scores as { continue: number; end: number };
-        expect(found.continues, label).toBe(scores.continue >= scores.end);
+        expect(found.continues, label).toBe(
+          scores.continue >= scores.end ||
+            Number(found.cashMinor) < Number(found.travelMinor),
+        );
         expect(found.miles, label).toBe(
           found.restricted ? miles.milesNow.miles : miles.milesBefore.miles,
         );
