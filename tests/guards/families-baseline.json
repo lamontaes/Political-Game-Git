@@ -194,7 +194,7 @@
     "src/core2/world-poverty.ts": 3,
     "src/core2/world-transfer.ts": 2,
     "src/director/civic-roles.ts": 6,
-    "src/director/conversation.ts": 4,
+    "src/director/conversation.ts": 5,
     "src/director/journal.ts": 2,
     "src/director/ledger.ts": 3,
     "src/director/opening-story.ts": 6,
