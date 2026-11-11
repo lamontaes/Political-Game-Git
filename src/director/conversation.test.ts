@@ -248,8 +248,15 @@ const opening = (talk: Conversation) =>
 // nothing is asked that no record answers (words-home-work-lines-are-composed).
 describe(`work talk names the employer and the job (${base.placeMetadata?.placeName}, seed ${seed})`, () => {
   it("names both employers and a job, asks how long only when the years are on record, and offers up to four different replies", () => {
+    // Work for the outside buyers that stand in for work out of town has no
+    // employer to name.
     const fresh = strangers
       .filter((row) => !me.knownIds.has(row.id))
+      .filter(
+        (row) =>
+          !core.organizations.get(core.jobs.get(row.jobId!)!.organizationId)
+            ?.outsideFlow,
+      )
       .slice(0, 8);
     expect(fresh.length).toBeGreaterThan(0);
     const myJob = core.people.get(player.id)!.jobId;
@@ -270,9 +277,12 @@ describe(`work talk names the employer and the job (${base.placeMetadata?.placeN
       });
       const talk = openConversation(core, player.id, row.id);
       const job = core.jobs.get(row.jobId!)!;
+      // A government's payroll is said as the government.
       const theirs = properName(
         core.organizations.get(job.organizationId)!.name,
-      ).toLowerCase();
+      )
+        .replace(/\s+treasury$/i, "")
+        .toLowerCase();
       for (let turn = 0; turn < 5 && talk.choices.length; turn += 1) {
         expectUpToFourDifferent(talk.choices, `${row.givenName}, turn ${turn}`);
         const pick =
