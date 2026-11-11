@@ -30136,7 +30136,10 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-for"]
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
         }
       ],
       "origin": "authored",
@@ -30158,7 +30161,10 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-against"]
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
         }
       ],
       "origin": "authored",
@@ -30224,29 +30230,10 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-why"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.they-didn-t-say-it-only-ran-when",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "They didn't say. It only ran {when}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-why", "headline"]
+          "requiresFacts": [
+            "said-why",
+            "closed"
+          ]
         }
       ],
       "origin": "authored",
@@ -30269,28 +30256,6 @@
           "subject": "news-back",
           "role": "core",
           "requiresFacts": ["said-yes"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.it-came-on-the-news-when",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "It came on the news {when}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-no", "headline"]
         }
       ],
       "origin": "authored",
@@ -32096,6 +32061,416 @@
       ],
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.you-might-be-right-i-only-caught-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "You might be right. I only caught it {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.i-haven-t-decided-i-heard-it-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I haven't decided. I heard it {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.i-m-still-thinking-on-it-it-was-when-i-heard",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'm still thinking on it. It was {when} I heard.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.i-don-t-know-yet-i-only-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I don't know yet. I only heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.i-ll-have-to-think-about-it-i-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "I'll have to think about it. I heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.not-sure-where-i-land-i-only-heard-when",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not sure where I land. I only heard {when}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-side",
+            "their-none"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.they-want-about-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "They want {about}. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-s-about-they-re-after-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It's {about} they're after. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.from-what-i-read-it-s-for-about",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "From what I read, it's for {about}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.the-story-said-it-s-about-about",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The story said it's about {about}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-comes-down-to-about-the-way-they-told-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It comes down to {about}, the way they told it.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.they-said-it-s-for-about-that-s-the-gist",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "They said it's for {about}. That's the gist.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-why",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-s-about-about-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It's about {about}. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-ran-ran-the-whole-thing-is-about-about",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It ran {ran}. The whole thing is about {about}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.they-re-on-about-about-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "They're on about {about}. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-back-core.it-s-about-mostly-it-ran-ran",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "It's {about}, mostly. It ran {ran}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": [
+            "said-no",
+            "about",
+            "ran"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W3 (words-home-news-lines-are-composed)",
       "date": "2026-11-11"
     }
   ]

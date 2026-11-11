@@ -104,11 +104,8 @@ import { questionSubject } from "../english/policy-names";
 import { questionAbout, townFigureWords } from "../english/question-names";
 import { lawInForce } from "../core2/modules/laws";
 import {
-  composeGroundedLine,
-  LINE_PARTS,
-} from "../english/english-composition";
-import {
   asksQuestion,
+  composeConversationLine,
   composedConversationBank,
   conversationHas,
   conversationMoves,
@@ -1048,8 +1045,17 @@ function printedSubject(
         ...(about
           ? { about: { text: about, sourceRecordIds: [story.id] } }
           : {}),
-        headline: { text: said.headline, sourceRecordIds: cited },
+        // As a person says it: a bill by what it does, not its number.
+        headline: {
+          text: said.spoken ?? said.headline,
+          sourceRecordIds: cited,
+        },
         storyId: { text: "", sourceRecordIds: [story.id] },
+        // The day it ran, said in passing ("yesterday", "on Monday").
+        ran: {
+          text: spokenWhen(story.date, core.date),
+          sourceRecordIds: [story.id],
+        },
         ...carried,
         ...(outlet
           ? {
@@ -2007,46 +2013,21 @@ export function composedLine(
   momentKey: string,
   recentPartKeys: readonly string[] = [],
 ): Said | null {
-  const bank = composedConversationBank(subject);
-  if (!bank) return null;
-  const traits = core.people.get(speakerId)?.traits ?? {};
-  const line = composeGroundedLine(
-    {
-      surface: "dialogue",
-      momentKey,
-      worldSeed: core.seed,
-      bankVersion: bank.version,
-      stage,
-      sourceRecordIds: [speakerId as EntityId],
-      facts,
-      speaker: { personId: speakerId as EntityId, traits: {} },
-      knowledge: Object.entries(facts).map(([factKey, row]) => ({
-        personId: speakerId as EntityId,
-        factKey,
-        sourceRecordIds: row.sourceRecordIds as EntityId[],
-      })),
-      voice: { traits, register: "conversation" },
-    },
-    bank,
-    {
-      speakerTraits: traits,
-      // What they said before, in every part it could be said in.
-      recentPartKeys: recentPartKeys.flatMap((key) =>
-        LINE_PARTS.map((part) => `${bank.key}:${part}:${key}`),
-      ),
-    },
-  );
-  if (line.kind !== "rendered") return null;
-  return {
-    text: line.text,
-    sourceRecordIds: line.sourceRecordIds,
-    wording: {
-      bank: `conversation:${subject}:composed`,
-      parts: line.parts.map((part) => part.variantKey),
-      stage,
-      facts: [...new Set(line.parts.flatMap((part) => part.usedFactKeys))],
-    },
-  };
+  const line = composeConversationLine({
+    seed: core.seed,
+    subject,
+    speakerId,
+    traits: core.people.get(speakerId)?.traits ?? {},
+    facts,
+    stage,
+    momentKey,
+    said: recentPartKeys,
+  });
+  if (!line) return null;
+  const { asks, afterPlain, ...said } = line;
+  void asks;
+  void afterPlain;
+  return said;
 }
 
 /** The parts this speaker said earlier in the talk, so the next composed line says the point in other words. */
@@ -4248,10 +4229,19 @@ function answerNews(
     for (const hearerId of hearers)
       learnView(api, hearerId, playerId, [stance?.id ?? playerId], eventId);
   }
+  const theirs = newsStake(core, otherId, last.subject);
   const facts: Facts = {
     ...last.facts,
-    ...stakeMarks(newsStake(core, otherId, last.subject), "their-"),
+    ...stakeMarks(theirs, "their-"),
+    // No side of their own and no tie to the place: the answer says so.
+    ...(theirs.reason === "none"
+      ? { "their-none": { text: "yes", sourceRecordIds: [otherId] } }
+      : {}),
     [`said-${choice.move}`]: { text: "yes", sourceRecordIds: [eventId] },
+    // A stand either way, for the answers that fit both.
+    ...(NEWS_SIDES.includes(choice.move)
+      ? { "said-side": { text: "yes", sourceRecordIds: [eventId] } }
+      : {}),
   };
   // When they learned of it, said in passing, from their own record of it.
   const learned = last.subject.aboutId

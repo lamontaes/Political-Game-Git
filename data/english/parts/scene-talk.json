@@ -204390,6 +204390,150 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
       "date": "2026-11-10"
+    },
+    {
+      "key": "scene-talk.state-request.friend.tell-me-it-s-wrong-first-i-d-rather-hear-it-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Tell me it's wrong, {first}. I'd rather hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.friend.i-read-every-word-of-it-first-did-you-take-the-money",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I read every word of it, {first}. Did you take the money?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.friend.is-any-of-it-true-first-you-can-tell-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Is any of it true, {first}? You can tell me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.witness.that-story-is-about-the-money-you-offered-me-first",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "That story is about the money you offered me, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.hearsay.i-d-only-heard-it-until-now-first-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'd only heard it until now, {first}. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.taken.it-says-the-money-changed-hands-first-did-you-take-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "It says the money changed hands, {first}. Did you take it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
     }
   ]
 }

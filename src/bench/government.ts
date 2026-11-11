@@ -19,6 +19,7 @@ import { choosesPresident } from "../core2/electorate-places";
 import { federalOffices } from "../core2/offices-state";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { lawChain } from "../core2/modules/laws";
+import { repealFor } from "./legislature";
 import { LAW_SERIES } from "../core2/laws-in-force";
 import {
   checkEligibility,
@@ -261,6 +262,11 @@ export function governmentView(core: CoreState, personId: string) {
       levels: row.levels.map((level) => ({
         ...level,
         government: governmentOf.get(level.level) ?? null,
+        // The Repeal action the law page shows: the player's own office
+        // that can repeal at this level, or the bodies that hold the power.
+        repeal: level.row
+          ? repealFor(core, personId, row.series, level.level)
+          : null,
       })),
       pending: row.pending,
     })),

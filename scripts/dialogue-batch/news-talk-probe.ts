@@ -3,13 +3,16 @@
  * between the player and the people they know whose first topic is a news
  * story or a change in town (words-home-news-lines-are-composed): each line,
  * who said it, and the replies offered at each turn. Usage:
- *   node --import tsx scripts/dialogue-batch/news-talk-probe.ts --seed <seed> [--days 60] [--talks 6]
+ *   node --import tsx scripts/dialogue-batch/news-talk-probe.ts --seed <seed> [--days 60] [--talks 6] [--bench] [--pick <pattern>]
+ * With --bench the world is the one `POST /api/newlife?seed=<seed>` builds;
+ * with --pick the player's first reply is the first one matching the pattern.
  */
 import { buildBenchWorld } from "../../src/bench/world";
 import { drawPlace } from "../core2-year/place";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
+import { gameStartDate } from "../../src/core2/game-start";
 import { openConversation, say } from "../../src/director/conversation";
 import type { PersonId } from "../../src/core2/types";
 
@@ -23,11 +26,19 @@ const wanted = Number(arg("talks", "6"));
 const out = (line: string) => process.stdout.write(`${line}\n`);
 
 setBookkeeping(false);
-const place = drawPlace(seed, "news-talk-probe");
-const world = buildBenchWorld(place.seed, "2025-01-20", {
-  twoLevel: true,
-  placeKey: place.key,
-});
+const bench = process.argv.includes("--bench");
+const pick = process.argv.includes("--pick")
+  ? new RegExp(arg("pick", ""), "i")
+  : null;
+const place = bench
+  ? { seed, key: "bench", name: "the bench's place" }
+  : drawPlace(seed, "news-talk-probe");
+const world = bench
+  ? buildBenchWorld(seed, gameStartDate(), { twoLevel: true })
+  : buildBenchWorld(place.seed, "2025-01-20", {
+      twoLevel: true,
+      placeKey: place.key,
+    });
 const { core, director } = world;
 const playerId = world.playerId! as PersonId;
 out(`${place.name} (${place.key}), seed ${seed}, player ${playerId}`);
@@ -55,7 +66,15 @@ for (let day = 0; day < days && shown < wanted; day += 1) {
     for (let turn = 0; turn < 8; turn += 1) {
       if (!talk.choices.length) break;
       out(`    replies: ${talk.choices.map((c) => c.text).join(" | ")}`);
-      say(core, talk, talk.choices[(turn + shown) % talk.choices.length]!.key);
+      const picked =
+        turn === 0 && pick
+          ? talk.choices.find((choice) => pick.test(choice.text))
+          : undefined;
+      say(
+        core,
+        talk,
+        (picked ?? talk.choices[(turn + shown) % talk.choices.length]!).key,
+      );
     }
     for (const line of talk.lines)
       out(
