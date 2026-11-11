@@ -5115,9 +5115,52 @@ const sheets = {
       const votes = (law.votes ?? []).map((vote) =>
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
       );
+      // Repeal from the player's seat: an officeholder whose body has the
+      // power drafts the repeal through the one bill engine (a draft with
+      // the value 0, an amount zeroed or a yes-or-no law answered No, the
+      // same call dev mode's Repeal button makes) and opens its paper; where
+      // the player's bodies lack the power the page names the bodies that
+      // have it. A resident with no office sees neither.
+      const repealButtons = [];
+      const repealLines = [];
+      for (const level of law.levels) {
+        if (!level.row || !level.repeal) continue;
+        if (level.repeal.officeId) {
+          const officeId = level.repeal.officeId;
+          const params = { kind: "draft", officeId, value: "0" };
+          if (law.yesNo) params.question = law.series;
+          else params.series = law.series;
+          const button = makeButton({
+            className: "action",
+            textContent: `${labels.repeal} · ${setBy(level.level)}`,
+          });
+          button.addEventListener("click", async () => {
+            const out = await post(
+              `/api/seat/act?${new URLSearchParams(params)}`,
+            );
+            openBillPaper(
+              out.id,
+              (...nodes) => $("sheet-body").replaceChildren(...nodes),
+              () => openSheet("issues"),
+            );
+          });
+          repealButtons.push(button);
+        } else if (level.repeal.body) {
+          repealLines.push(
+            row(
+              setBy(level.level),
+              labels.repealElsewhere.replace("{body}", level.repeal.body),
+            ),
+          );
+        }
+      }
       return [
         rosterTitle(policyLabel(law.series)),
         stripSection(1, labels.inForce, ...inForce, ...statutes),
+        ...(repealButtons.length ? [buttonTray(...repealButtons)] : []),
+        ...(repealLines.length
+          ? [stripSection(5, labels.repeal, ...repealLines)]
+          : []),
         ...(measures.length ? [buttonTray(...measures)] : []),
         ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
         ...(changed.length
