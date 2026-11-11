@@ -1,8 +1,11 @@
 /**
  * A counted resident out of work brings their problem to an official from the
- * same records a full person's would come from, and the case that reaches
- * the official fills them in: the case, the relationship and the view of the
- * official land on a full person (pool item gov-cases-never-open-in-played-world).
+ * same records a full person's would come from (pool item
+ * gov-cases-never-open-in-played-world). A case to an official the player
+ * does not watch leaves them counted (owner, Oct 11, "Keep it simple": a
+ * counted person is filled in when the player meets them; Speed, Nov 11,
+ * core-speed-counted-cases-stay-counted): the case row is theirs, the office
+ * keeps the visit, and nothing makes a full person of them.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -13,14 +16,14 @@ import { govReport } from "./gov-test-report";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { impressionOf } from "./modules/campaigns";
 import { allCases } from "./modules/constituent-cases";
 import { countedSinceOpening } from "./modules/residents";
 import { coreAPI } from "./state";
+import { keepsWhy } from "./why-kept";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-it(`a counted resident out of work brings a case, is filled in, and the official is seen differently, seed ${seed}`, () => {
+it(`a counted resident out of work brings a case and stays counted when the player does not watch the official, seed ${seed}`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
   for (let attempt = 0; attempt < 4; attempt += 1) {
@@ -41,18 +44,15 @@ it(`a counted resident out of work brings a case, is filled in, and the official
         countedSinceOpening(core, row.personId),
     );
     if (!fromCounted.length) continue;
-    const row = fromCounted[0]!;
-    // They were counted at the opening; the case filled them in.
-    expect(core.people.has(row.personId), `${where}: ${row.id}`).toBe(true);
-    expect(core.people.get(row.personId)!.alive, where).toBe(true);
+    const row = fromCounted.find((c) => !keepsWhy(core, c.officialId));
+    if (!row) continue;
+    // Counted at the opening, and the case did not fill them in.
+    expect(core.people.has(row.personId), `${where}: ${row.id}`).toBe(false);
     expect(row.severity, where).toBeGreaterThan(0);
     expect(row.facts.cushionMonths, where).toBeDefined();
-    // The case moved their view of the official, and only the official in it.
-    if (row.status !== "open")
-      expect(
-        impressionOf(api, row.personId, row.officialId),
-        `${where}: view of ${row.officialId} after ${row.id}`,
-      ).toBeDefined();
+    // The office took the case: it is on the official's record and was handled or is open.
+    expect(core.people.has(row.officialId), where).toBe(true);
+    expect(["open", "helped", "declined"]).toContain(row.status);
     govReport(
       "constituent-cases-counted",
       JSON.stringify({

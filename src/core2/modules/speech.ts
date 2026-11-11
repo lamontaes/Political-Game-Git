@@ -366,24 +366,36 @@ export function makeCase(
     readonly topic: string;
     readonly desiredChange: string;
     readonly citation: string;
+    /** A speaker still in the wider population: their lean on the views scale (`countedLean`), as a speech carries it. */
+    readonly countedSpeakerLean?: number;
   },
 ): void {
   const listeners = input.listenerIds.filter(
     (id) => id !== input.speakerId && api.state.people.get(id)?.alive,
   );
-  if (!listeners.length || !api.state.people.get(input.speakerId)?.alive)
+  const counted = input.countedSpeakerLean !== undefined;
+  if (
+    !listeners.length ||
+    (!counted && !api.state.people.get(input.speakerId)?.alive)
+  )
     return;
   api.emit({
     id: input.id,
     date: api.state.date,
     kind: CASE_MADE,
-    personIds: [input.speakerId],
+    // A speaker still in the wider population is named by the event's speaker fact, not as a person.
+    personIds: counted ? [] : [input.speakerId],
     witnessIds: listeners,
     placeId: input.placeId,
     topic: input.topic,
     desiredChange: input.desiredChange,
     moodImpulse: s(api, "speechImpulse"),
-    facts: { [VIEWS_SPEAKER_KEY]: input.speakerId },
+    facts: {
+      [VIEWS_SPEAKER_KEY]: input.speakerId,
+      ...(counted
+        ? { [VIEWS_SPEAKER_LEAN_KEY]: String(input.countedSpeakerLean) }
+        : {}),
+    },
     source: { tag: "SOURCED", citation: input.citation, asOf: api.state.date },
   });
 }

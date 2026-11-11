@@ -35,6 +35,8 @@ import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
 import { residentsRuntime } from "./residents";
 import { makeCase, SPEECH_MODULE_ID } from "./speech";
+import { countedLean } from "./views";
+import { keepsWhy } from "../why-kept";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 
 export const CASES_MODULE_ID = "core2-constituent-cases-v1";
@@ -266,7 +268,7 @@ export function bringCases(api: CoreAPI): void {
       )
     )
       continue;
-    bringCase(api, person, problem, pool, town);
+    bringCase(api, person.id, problem, pool, town);
   }
   // The wider population brings problems from the same records: a counted
   // resident out of work, with the cushion their group's fund leaves them. A
@@ -288,8 +290,20 @@ export function bringCases(api: CoreAPI): void {
         )
       )
         continue;
-      const person = fillInPerson(api.state as CoreState, seeker.personId);
-      bringCase(api, person, seeker.problem, local, town);
+      // A case to an official the player watches fills the resident in, so
+      // the case, the tie and the view land on a full person the player can
+      // meet. A case to any other official stays with the counted resident
+      // (owner, Oct 11, "Keep it simple": a counted person is filled in when
+      // the player meets them): the same case row and the same case made to
+      // the official, by the counted resident's own lean.
+      const official = officialFor(api, seeker.personId, local);
+      if (keepsWhy(api.state as CoreState, official.personId!)) {
+        const person = fillInPerson(api.state as CoreState, seeker.personId);
+        bringCase(api, person.id, seeker.problem, local, town);
+      } else
+        bringCase(api, seeker.personId, seeker.problem, local, town, {
+          lean: countedLean(api, seeker.voter),
+        });
     }
 }
 
@@ -308,6 +322,8 @@ function countedOutOfWork(
   traits: Readonly<Record<string, number>>;
   /** How closely they follow politics: their survey cell's (state and age). */
   engagement: number;
+  /** Their record as the views engine reads a counted resident (`countedLean`). */
+  voter: Parameters<typeof countedLean>[1];
   problem: {
     problem: Problem;
     severity: number;
@@ -361,6 +377,13 @@ function countedOutOfWork(
     out.push({
       personId: seeker.personId,
       traits: store.packedTraits(m),
+      voter: {
+        id: seeker.personId,
+        householdId: h.id,
+        birthDate: store.born[m]!,
+        placeId: town,
+        traits: store.packedTraits(m),
+      },
       engagement:
         engagementOf(state, {
           id: seeker.personId,
@@ -377,31 +400,23 @@ function countedOutOfWork(
   return out;
 }
 
-/** A resident brings a problem to the official they know best: the case, their standing with them, their argument. */
-function bringCase(
+/**
+ * The official a resident takes a problem to: the one they know best;
+ * knowing none, the office with the fewest cases open, then the senior one.
+ */
+function officialFor(
   api: CoreAPI,
-  person: Readonly<PersonState>,
-  problem: {
-    problem: Problem;
-    severity: number;
-    facts: Record<string, string | number>;
-  },
+  askerId: string,
   officials: readonly TermRow[],
-  town: string,
-): void {
+): TermRow {
   const state = api.state as CoreState;
-  // They go to the official they know best; knowing none, to the office
-  // with the fewest cases open, then the senior one.
   const level = new Map(
-    officials.map((t) => [
-      t.id,
-      closenessBetween(state, person.id, t.personId!),
-    ]),
+    officials.map((t) => [t.id, closenessBetween(state, askerId, t.personId!)]),
   );
   const open = new Map(
     officials.map((t) => [t.id, openCasesOf(api, t.personId!)]),
   );
-  const official = [...officials].sort(
+  return [...officials].sort(
     (a, b) =>
       level.get(b.id)! - level.get(a.id)! ||
       open.get(a.id)! - open.get(b.id)! ||
@@ -410,9 +425,26 @@ function bringCase(
       ) ||
       a.id.localeCompare(b.id),
   )[0]!;
+}
+
+/** A resident brings a problem to the official they know best: the case, their standing with them, their argument. */
+function bringCase(
+  api: CoreAPI,
+  askerId: string,
+  problem: {
+    problem: Problem;
+    severity: number;
+    facts: Record<string, string | number>;
+  },
+  officials: readonly TermRow[],
+  town: string,
+  /** A counted resident's case: their lean on the views scale; no tie is kept. */
+  counted?: { readonly lean: number },
+): void {
+  const official = officialFor(api, askerId, officials);
   const row: CaseRow = {
-    id: `case:${person.id}:${api.state.date}`,
-    personId: person.id,
+    id: `case:${askerId}:${api.state.date}`,
+    personId: askerId,
     officialId: official.personId!,
     problem: problem.problem,
     severity: problem.severity,
@@ -430,12 +462,13 @@ function bringCase(
     id: `office-approached:${row.id}`,
     date: api.state.date,
     kind: "office.approached",
-    personIds: [row.officialId, person.id],
+    // A counted resident is named by the case, not as a person.
+    personIds: counted ? [row.officialId] : [row.officialId, askerId],
     placeId: town,
     facts: {
       caseId: row.id,
       officialId: row.officialId,
-      constituentId: person.id,
+      constituentId: askerId,
       problem: row.problem,
       officeId: official.officeId,
     },
@@ -445,15 +478,16 @@ function bringCase(
       asOf: api.state.date,
     },
   });
-  api.relationship(person.id, official.personId!, "contact", 0.05);
+  if (!counted) api.relationship(askerId, official.personId!, "contact", 0.05);
   // Bringing the problem makes the resident's case on its question to the
   // official, who is moved by the resident's standing with them.
   const argues = PROBLEM_QUESTIONS[row.problem];
   if (argues && api.state.modules.has(SPEECH_MODULE_ID))
     makeCase(api, {
       id: `case-made:${row.id}`,
-      speakerId: person.id,
+      speakerId: askerId,
       listenerIds: [row.officialId],
+      ...(counted ? { countedSpeakerLean: counted.lean } : {}),
       placeId: town,
       topic: argues.question,
       desiredChange: argues.desiredChange,
