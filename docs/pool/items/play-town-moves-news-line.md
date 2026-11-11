@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-town-moves-news-line
-pr:
+pr: #8674
 after:
 blocked-on:
 standard: 2

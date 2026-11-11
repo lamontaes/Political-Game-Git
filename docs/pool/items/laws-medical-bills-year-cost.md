@@ -5,10 +5,10 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-medical-bills-year-cost
+pr: #8719
 after:
 blocked-on:
 model: sonnet
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:38:59.370Z
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -62,3 +62,29 @@ Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:37 UTC) on branch claude/pool-laws-medical-bills-year-cost.
 
 Released (2026-11-11): Needs profiled alternating speed:year runs (about two minutes a year, several runs) to prove each cut; too long for this session; not built. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:03 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Needs a dedicated machine for npm run speed:year (four-year timed runs); not buildable in a shared cloud container. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:04 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Only item left for tier mid; needs a dedicated machine for repeated speed:year runs (skill heavy-runs). Handoff: remaining cost is payCounted/payFull journal postings and recordMedicalDebt in src/core2/medical-bills.ts. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Re-read billMedicalCare/payCounted on the branch: no cut I can prove unchanged or faster without speed:year runs and a records proof this container cannot hold. Needs a dedicated machine. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:15 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Cause no longer holds on main (2026-11-11): one-year profile, Long Hill CT seed m7b, 115 s: billMedicalCare is 4.8 s of 147 s sampled (3%): payCounted 1.0, householdsToBill 0.7, putOwned 0.6, recordMedicalDebt 0.45, self 0.9. Rows are already putOwned; no 10 percent cut remains there. Close or rewrite against another hot spot (postCashJournal 6.5 s all callers, credit review 2.6 s). Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:15 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Four-year profile on main 2026-11-11 (Long Hill CT, seed m7b, profiled years 116/216/185/230 s): billMedicalCare is 24.7 s of 831 s (3%), payCounted 4.3 s, so no 10 percent cut exists in the medical pass; the year is over 120 s from elsewhere (campaignWork 91 s, press 58 s, recordProof 51 s under profiling, postCashJournal 45 s all callers). Close this item and open ones for those. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:37 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): opus-5251: the code differs from the Cause (rows are now written with putOwned, not copied, and settled rows are dropped each month); the +19.5% predates that, so re-measure on main before cutting. PR #8719 comment has the detail. Continue on branch claude/pool-laws-medical-bills-year-cost and pull request #8719.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:38 UTC) on branch claude/pool-laws-medical-bills-year-cost.

@@ -69,10 +69,11 @@ A session can end at any moment. Nothing may live only in your conversation.
 
 `next` sorts by the order in `docs/pool/order.json`, and nothing else decides it:
 
-1. **Priority.** 1 before 2 before 3. Priority 1 is a red on main or what the owner asked for now.
-2. **Class.** Rules, checks and skills first. Then the critical path: the country tier and its clock, the life record, the words machine. Then what stops play. Then the rest.
-3. **What it unblocks.** The item more items wait on comes first.
-4. **Effort,** low before high, then **size,** small before large.
+1. **What the player sees** (owner, Nov 11: "prioritize all of the visible changes"). Reds on main and rules, checks and skills still come before everything. Then play and screens work. Then every other item whose What says `Seen:`. Then `Feeds:`, then `Guards:`, then the rest.
+2. **Priority.** 1 before 2 before 3. Priority 1 is a red on main or what the owner asked for now.
+3. **Class.** Rules, checks and skills first. Then the critical path: the country tier and its clock, the life record, the words machine. Then what stops play. Then the rest.
+4. **What it unblocks.** The item more items wait on comes first.
+5. **Effort,** low before high, then **size,** small before large.
 
 An item is offered only when it is open, carries `checked: fable`, has a known cause, has every `after:` item on main, and has a Waits on that says "Nothing" or names only items already on main. A Waits on that names anything else (an owner decision, the Story session's lines, early-access preparation) is not offered.
 
