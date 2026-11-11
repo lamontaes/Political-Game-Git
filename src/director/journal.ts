@@ -78,6 +78,8 @@ const SCHOOL_FINISHED = "event:school.finished";
 /** The id prefix of the past-work engine's records (src/core2/past-work.ts). */
 const PAST_WORK_PREFIX = "past-work:";
 /** The facts that say when, not what: two tellings differing only in these are one. */
+/** The facts that say how old the person was, which an age frame has already said. */
+const AGE_FACTS = new Set(["age", "age-then"]);
 const TIME_FACTS = new Set(["age", "span", "when", "held"]);
 /** How many other wordings a repeated sentence may try before it is not told. */
 const rewordings = P.two * P.two * P.two;
@@ -1783,11 +1785,20 @@ export function composeJournal(
     // A field may name alternatives ("a|b|c"): the first that the facts let
     // be worded is told, so one sentence that names two facts is not followed
     // by two that name the same person again.
+    // A moment the age framed has said the age: what follows is told
+    // without it, so the age is said once ("When I was 15 years old, we moved
+    // back to Highland, Kansas." and never "I was 15 that year." after it;
+    // Highland, Kansas, seed aa73e37ebdc41b538771fe51249d8514cb45eea4).
+    const followFacts = framed.has(moment.id)
+      ? Object.fromEntries(
+          Object.entries(facts).filter(([key]) => !AGE_FACTS.has(key)),
+        )
+      : facts;
     for (const named of row.follow ?? []) {
       for (const field of named.split("|")) {
         const told = render(
           { part: "memoir", field: field as MemoirField },
-          facts,
+          followFacts,
           `${moment.id}:${field}`,
           sourceIds,
         );

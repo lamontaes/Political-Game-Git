@@ -107,6 +107,16 @@ it(`a relative's recorded move is the player's answer when someone asks after th
       (subject) => subject.kind === "family" && subject.aboutId === relative.id,
     );
     expect(row, `${where}: ${relative.id} is not asked after`).toBeTruthy();
+    // The news is the newest staged happening that names them: a move the
+    // moves engine wrote after this one (a household member's, naming them)
+    // is the news instead. Such a draw is passed over, by name.
+    const newsId = row!.facts.happened?.sourceRecordIds[0];
+    if (newsId !== moveId) {
+      tried.push(
+        `${where}: ${relative.id} has newer news on record (${newsId})`,
+      );
+      continue;
+    }
     expect(row!.stage, where).toBe("moved");
     expect(row!.facts.place?.text, where).toBe(spoken(destination));
     expect(row!.facts.place?.sourceRecordIds, where).toContain(moveId);
