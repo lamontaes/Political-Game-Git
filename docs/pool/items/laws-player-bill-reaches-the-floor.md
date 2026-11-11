@@ -6,10 +6,10 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-player-bill-reaches-the-floor
-pr:
+pr: #8348
 blocked-on: play-legislature-floor-date-and-whip
 source: CTO's relay of the owner's Oct 26 playtest (MERGE-FIRST.md, Oct 26, 23:05 UTC)
 claimed-at: 2026-11-10T23:42:03.712Z

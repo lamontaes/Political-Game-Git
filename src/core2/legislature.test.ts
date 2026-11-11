@@ -12,6 +12,8 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
+import { gameStartDate } from "./game-start";
+import type { CoreAPI, CoreState } from "./types";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, registerModule } from "./state";
@@ -20,7 +22,7 @@ import {
   considerBribe,
   corruptionModule,
 } from "./modules/corruption";
-import { LAWS_MODULE_ID, lawInForce, openLaws } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, openLaws } from "./modules/laws";
 import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
@@ -71,6 +73,8 @@ import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { billCatalog, provisionFor } from "./bill-catalog";
+import { buildBenchWorld } from "../bench/world";
+import { seatAct, seatView } from "../bench/legislature";
 
 const START = "2026-01-05";
 const seed =
@@ -932,6 +936,93 @@ describe(
       ]).toContain(bill.authority[0]!.reason);
       expect(holdVote(api, bill.id).status).toBe("blocked");
     });
+
+    it("a ban from the state blocks the seat's draft with its reason and never reaches a vote", () => {
+      // The seat route (seatAct, seatView, holdVote) for the same preemption
+      // ban: the place is drawn by data from the places whose state preempts
+      // the town, never a named state, and the checks read the bill by id
+      // where the seat view and the vote read it.
+      const preempting = Object.keys(authority)
+        .filter((s) => authority[s]!.preempts === true)
+        .sort();
+      let found:
+        | {
+            core: CoreState;
+            api: CoreAPI;
+            placeName: string;
+            worldSeed: string;
+            officeId: string;
+            sponsor: string;
+          }
+        | undefined;
+      for (let attempt = 0; attempt < 8 && !found; attempt += 1) {
+        const state = pick(preempting, `seat-ban:state:${attempt}`);
+        const places = [
+          ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+            stateJurisdictionKey: state,
+            scope: "locality",
+          }),
+        ].sort((a, b) => a.key.localeCompare(b.key));
+        if (!places.length) continue;
+        const picked = pick(places, `seat-ban:place:${attempt}`);
+        const worldSeed = `${seed}:seat-ban:${attempt}`;
+        const core = buildBenchWorld(worldSeed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: picked.key,
+        }).core;
+        const api = coreAPI(core);
+        if (authority[lawChain(api).stateKey]?.preempts !== true) continue;
+        const seat = townSeats(api).find(
+          (s) => s.office.kind === "council" && s.holder?.personId,
+        );
+        if (!seat) continue;
+        found = {
+          core,
+          api,
+          placeName: picked.displayName,
+          worldSeed,
+          officeId: seat.office.id,
+          sponsor: seat.holder!.personId!,
+        };
+      }
+      expect(
+        found,
+        `a preempting place with a seated council (seed ${seed})`,
+      ).toBeDefined();
+      const { core, api, placeName, worldSeed, officeId, sponsor } = found!;
+      const where = `${placeName}; seed ${worldSeed}`;
+      process.stdout.write(
+        `SEAT-BAN ${JSON.stringify({ place: placeName, seed: worldSeed })}\n`,
+      );
+      const floor = lawInForce(api, "minimum-wage").value;
+      expect(floor, where).toBeDefined();
+      const acted = seatAct(core, sponsor, {
+        kind: "draft",
+        officeId,
+        series: "minimum-wage",
+        value: floor! + 200,
+      });
+      const tag = `${where}; bill ${acted.id}`;
+      expect(acted.status, tag).toBe("blocked");
+      expect(acted.authority[0]!.warning, tag).toBe("preempted");
+      expect(
+        [
+          "state-preempts-local-minimum-wage",
+          "state-gives-no-local-minimum-wage",
+        ],
+        tag,
+      ).toContain(acted.authority[0]!.reason);
+      const entry = seatView(core, sponsor).bills.find(
+        (b) => b.bill.id === acted.id,
+      );
+      expect(entry, `${tag} in the seat view`).toBeDefined();
+      expect(entry!.bill.status, tag).toBe("blocked");
+      expect(entry!.bill.authority[0]!.reason, tag).toBe(
+        acted.authority[0]!.reason,
+      );
+      expect(holdVote(api, acted.id).status, tag).toBe("blocked");
+      expect(votesOn(api, acted.id), `${tag} has no vote row`).toHaveLength(0);
+    }, 600_000);
 
     it("a body may only set the amounts the law gives its level (no council sets SNAP or the Medicare tax)", () => {
       const states = Object.keys(authority).sort();

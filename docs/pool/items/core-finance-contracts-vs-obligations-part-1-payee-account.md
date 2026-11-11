@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account
+pr: #8501
 after:
 blocked-on:
 lead: money
@@ -17,6 +17,8 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:56:35.041Z
+branch: claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account
 ---
 
 **What.** Finance contracts pay between a person or organization and another, resolved through core.people or core.organizations, while group B law reach pays benefits into a counted group's fund account, which is not an owner's main account. Before group B can move onto finance contracts, a contract needs a payee account (or the fund's owner id with the fund as its settlement account). This part adds that, with its own settlement and journal source kind, and tests it on a fund payee.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/finance-types.ts, src/core2/finance-state.ts, src/core2/finance-cash.test.ts
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:56 UTC) on branch claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account.

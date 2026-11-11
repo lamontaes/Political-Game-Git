@@ -17,6 +17,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 
 ## Before the run
 
+- **Cost a daily step before you add one** (`cadence-and-summaries`): a long run's growth is mostly what runs every day and what is never folded, and the daily register says which steps and tables those are.
 - **One heavy run at a time** on a 15 to 16 GB container. A second one, or a long save beside it, gets killed for memory.
 - **Give node 8,000 MB:** `NODE_OPTIONS=--max-old-space-size=8000` (or 8192). At 6,500, two of the three heaviest rows died with exit 134 (heap out of memory).
 - **The heavy lock serializes heavy runs only.** Start no light test run, matrix regeneration or typecheck in another copy while an 8 GB run holds it: on Nov 1 the lenders test was killed with "Worker exited unexpectedly" and no heap message while such runs shared the container.

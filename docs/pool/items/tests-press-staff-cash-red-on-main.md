@@ -37,4 +37,6 @@ checked: fable 2026-11-10
 
 **Notes.** lead: red-main. Found by the elections wire session while running the petition line's tests; it fails identically on clean main, so it is not the petition branch's.
 
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/press-staff-cash.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741: 1 of 1 passed. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-<random> (number not kept): 1 of 1 passed. Green on both. Proposed for the CTO: drop as fixed on main.
+
 Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed a test that expects a national cable head's opening cash at the survey value instead of the per-world spread; it protects only an unseen test.

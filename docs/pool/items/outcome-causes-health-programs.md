@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: outcome-causes-health-programs-part-1-coverage-links, outcome-causes-health-programs-part-2-earned-income-credit-link, outcome-causes-health-programs-part-3-lead-and-abortion-links
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/modules/health.ts
 
 **Notes.** No engine pays an earned income credit yet (no module mentions it), so that link also needs the credit built in the government area first. Split from core-outcome-causes-recorded, which was really three bounded pieces (found building it: engine measures are read from world-metrics month fields, government measures from `gov-measures.ts`, and a wired link also needs a kept outcome, so no link is a one-line change). The links' sizes and anchors are in data/research/outcome-web/links.json.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A roll-up of three parts; the coverage links are kept in part 1 and the rest is dropped or borderline on its own part, and no player sees the roll-up.
