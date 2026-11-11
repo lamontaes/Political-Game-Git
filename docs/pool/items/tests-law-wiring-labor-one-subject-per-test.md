@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
-pr:
+pr: #8425
 blocked-on:
 source: added with npm run pool -- add
 after:
