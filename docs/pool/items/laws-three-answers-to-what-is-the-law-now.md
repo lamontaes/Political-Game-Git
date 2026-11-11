@@ -5,10 +5,10 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-three-answers-to-what-is-the-law-now
-pr:
+pr: #8582
 after:
 blocked-on:
 lead: laws-effects
