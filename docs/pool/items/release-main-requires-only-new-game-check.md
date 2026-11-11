@@ -19,7 +19,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** Confirmer replay of Lane 5 path 12 on Nov 4, 2026: GET repos/lamontaes/Political-Game-Git/branches/main/protection returns required_status_checks contexts validate and golden-path, and every push to main prints '2 of 2 required status checks are expected'. The owner's Nov 3 ruling 2 (OWNER-DECISIONS.md) makes the new game job (.github/workflows/new-game.yml, #7141) the one check before a merge, and path 12 asks to see it as the only required one. The merge desk lists the setting under 'Owner, one click' in docs/lanes/state/merge-desk.md. Changing branch settings needs the owner or a session he authorizes for it.
+**What.** Confirmer replay of Lane 5 path 12 on Nov 4, 2026: GET repos/lamontaes/Political-Game-Git/branches/main/protection returns required_status_checks contexts validate and golden-path, and every push to main prints '2 of 2 required status checks are expected'. The owner's Nov 3 ruling 2 (OWNER-DECISIONS.md) makes the new game job (.github/workflows/new-game.yml, #7141) the one check before a merge, and path 12 asks to see it as the only required one. The merge desk lists the setting under 'Owner, one click' in docs/lanes/state/merge-desk.md. Changing branch settings needs the owner or a session he authorizes for it. Guards: a change merges when a new game still opens, which is what the owner plays (owner, Nov 3 ruling 2).
 
 **Cause.** Design: the owner ruled on Nov 3 (docs/coordination/OWNER-DECISIONS.md ruling 2) that the new game job in .github/workflows/new-game.yml is the one check before a merge. The Nov 4 replay of Lane 5 path 12 measured GET repos/lamontaes/Political-Game-Git/branches/main/protection returning required contexts validate and golden-path.
 
