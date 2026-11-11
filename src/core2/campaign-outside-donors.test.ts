@@ -119,6 +119,8 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
     }
     const filedOn = world.core.date;
     const contest = wider.find((c) => c.id === filed!.contestId)!;
+    // This campaign's own polls and gifts, not every campaign's in the world.
+    const campaignId = campaignFor(api, filed.id).id;
     const polls = new Map<string, PollRow>();
     for (let turn = 0; turn < 120; turn += 1) {
       advanceCore(world.core, addDays(makeIsoDate(world.core.date), 3));
@@ -127,7 +129,7 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
         .moduleState(CAMPAIGNS_MODULE_ID)
         .table("polls")
         .rows() as unknown as PollRow[])
-        polls.set(row.id, row);
+        if (row.campaignId === campaignId) polls.set(row.id, row);
     }
     const campaign = campaignFor(api, filed.id);
     const gifts = (
@@ -135,7 +137,9 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
         .moduleState(CAMPAIGNS_MODULE_ID)
         .table("gifts")
         .rows() as unknown as GiftRow[]
-    ).filter((g) => g.donorId.startsWith("outside:"));
+    ).filter(
+      (g) => g.campaignId === campaignId && g.donorId.startsWith("outside:"),
+    );
     process.stderr.write(
       `outside-donors ${where}: filed ${filed.id} on ${filedOn} for ${contest.title}, ${gifts.length} outside gifts, raised ${campaign.raisedMinor}, ${polls.size} polls (${[...polls.keys()].slice(0, 3).join(", ")})\n`,
     );
