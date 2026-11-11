@@ -372,6 +372,8 @@ export function openingEmploymentFromRecordedRoles(
   outsideLaborForce: ReadonlySet<string> = new Set(),
 ): OpeningEmploymentAllocation {
   stopgap("SG-P8-opening-employment");
+  // stopgapId: SG-JOBS-opening-recorded-jobs-not-trimmed (jobs are added up to a cohort target, never trimmed above it; the records win)
+  stopgap("SG-JOBS-opening-recorded-jobs-not-trimmed");
   if (data.stopgapId !== "SG-P8-opening-employment") stopgap(data.stopgapId);
   // No one is serving a sentence when the opening is built: sentences are written by play.
   const residents = townResidents(world, town);
