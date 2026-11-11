@@ -340,6 +340,7 @@
     "fallIll": "Falls seriously ill",
     "layOff": "Laid off by their employer",
     "laidOff": "Laid off",
+    "layoffBooked": "Laid off on {date}, before their shift",
     "runUntilDies": "Run until they die",
     "ill": "Seriously ill",
     "picked": "Picked for their next decision",

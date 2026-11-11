@@ -69,8 +69,22 @@ export async function devPersonSection({ personId, labels, onDone }) {
         return labels.ill;
       }),
       button(labels.layOff, "dev-layoff", async () => {
-        await post("layoff", { personId });
-        return labels.laidOff;
+        const out = await post("layoff", { personId });
+        // A worker who played today is booked for the next day before their shift.
+        return out.bookedFor
+          ? labels.layoffBooked.replace(
+              "{date}",
+              new Date(`${out.bookedFor}T00:00:00Z`).toLocaleDateString(
+                "en-US",
+                {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                  timeZone: "UTC",
+                },
+              ),
+            )
+          : labels.laidOff;
       }),
       button(labels.runUntilDies, "dev-until-dies", async () => {
         const ran = await post("run-until", {

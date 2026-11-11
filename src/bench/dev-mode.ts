@@ -88,7 +88,7 @@ import {
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { EntityId } from "../core2/kernel/brands";
 import { isDemoted, residentsRuntime } from "../core2/modules/residents";
-import { layOffWorker } from "../core2/modules/jobs";
+import { bookLayoff, layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
   HEALTH_MODULE,
@@ -1228,7 +1228,7 @@ export class DevMode {
   /**
    * A named person's job ends through their employer's own layoff (the jobs engine's separation): the
    * record of why, the work.job-lost event, the state claim and the news follow as for any layoff. A
-   * worker who played today's day is let go the next day, which this says.
+   * worker who played today's day is booked for the next day before their shift (`bookedFor`).
    */
   forceLayoff(personId: string) {
     const person = personOrFillIn(this.core, personId);
@@ -1238,8 +1238,13 @@ export class DevMode {
     const out = layOffWorker(this.api, jobId);
     if (out === null)
       throw new Error("Their job is not on a business's staff.");
+    // A worker who played today's day is booked for tomorrow, before their
+    // shift, through the engine's own layoff: one press is enough.
     if (out === "worked-today")
-      throw new Error("They worked today: lay them off tomorrow.");
+      return {
+        mark: this.mark("layoff", [personId], { personId, jobId }),
+        bookedFor: bookLayoff(this.api, jobId),
+      };
     if (out === "over")
       throw new Error("The job stands for more than one: a counted worker.");
     return {

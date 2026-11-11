@@ -4842,6 +4842,27 @@ export function layOffWorker(
   );
 }
 
+/**
+ * A named worker who played today's day is laid off by their employer's own
+ * layoff on the next day, before their shift: booked on the jobs calendar,
+ * which runs first on the world's clock (`onCalendarWork`), so nothing asks
+ * anyone to try again. Returns the day it will happen.
+ */
+export function bookLayoff(api: CoreAPI, jobId: string): string {
+  const date = addDays(makeIsoDate(api.state.date), 1);
+  api.moduleCalendar(JOBS_MODULE_ID).schedule({
+    key: `layoff:${jobId}`,
+    date,
+    kind: "jobs-layoff",
+    source: source(
+      api,
+      "A forced layoff of a worker who had worked that day, carried to their next day before their shift.",
+    ),
+    sourceRecordIds: [jobId],
+  });
+  return date;
+}
+
 export const JOBS_MODULE: CoreModule = {
   id: JOBS_MODULE_ID,
   state: {
@@ -5014,6 +5035,11 @@ export const JOBS_MODULE: CoreModule = {
       const job = core(api).jobs.get(work.sourceRecordIds[0] ?? "");
       if (job && job.endsAt === undefined)
         api.endJob(job.id, work.sourceRecordIds[1] ?? work.key);
+    } else if (work.kind === "jobs-layoff") {
+      // The same named pick the control made, carried to the day before the shift.
+      const jobId = work.sourceRecordIds[0] ?? "";
+      if (core(api).jobs.get(jobId)?.endsAt === undefined)
+        layOffWorker(api, jobId);
     } else if (work.kind === "jobs-review") {
       noteCountedLeavers(api);
       reviewEmployers(api);

@@ -38,7 +38,9 @@ describe(`dev layoff: ${where}`, () => {
       let laidOff: string | undefined;
       for (const worker of workers) {
         try {
-          dev.forceLayoff(worker.id);
+          const out = dev.forceLayoff(worker.id);
+          // A worker who played today is booked for tomorrow (the next test); look for one let go now.
+          if ("bookedFor" in out) continue;
           laidOff = worker.id;
           break;
         } catch (error) {
@@ -69,6 +71,44 @@ describe(`dev layoff: ${where}`, () => {
       expect(changes[0]!.values?.picked, where).toBe(1);
       expect(changes[0]!.decidedBy, where).toBeTruthy();
       expect(world.core.people.get(laidOff!)!.jobId, where).toBeFalsy();
+    },
+  );
+
+  it(
+    "a worker who played today is booked for tomorrow, before their shift, and is out of work by then with no second press",
+    { timeout: 300_000 },
+    () => {
+      // Run until someone holds a job they have worked today.
+      let booked: { personId: string; on: string } | undefined;
+      for (let day = 0; day < 30 && !booked; day += 1) {
+        dev.advance(addDays(makeIsoDate(world.core.date), 1));
+        for (const worker of [...world.core.people.values()].filter(
+          (p) => p.alive && p.jobId && p.id !== world.core.playerId,
+        )) {
+          try {
+            const out = dev.forceLayoff(worker.id);
+            if ("bookedFor" in out && out.bookedFor)
+              booked = { personId: worker.id, on: out.bookedFor };
+            if (booked) break;
+          } catch {
+            /* not on a staff: try the next */
+          }
+        }
+      }
+      expect(booked, `${where}: no worker had worked today`).toBeDefined();
+      // One day on, with no second call: the job has ended and the layoff is on record.
+      expect(booked!.on, where).toBe(addDays(makeIsoDate(world.core.date), 1));
+      dev.advance(booked!.on);
+      expect(world.core.people.get(booked!.personId)!.jobId, where).toBeFalsy();
+      const changes = (
+        coreAPI(world.core)
+          .moduleState(JOBS_MODULE_ID)
+          .table("changes")
+          .rows() as unknown as { personId: string; kind: string }[]
+      ).filter(
+        (row) => row.personId === booked!.personId && row.kind === "layoff",
+      );
+      expect(changes.length, `${where}: the layoff is on record`).toBe(1);
     },
   );
 });
