@@ -1973,7 +1973,8 @@ async function campaignParts() {
     const trail = [
       ...travelScreen({
         entries,
-        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        // The only list under a trail tile is why the act is out of reach today.
+        labels: { whoIsThere: "", whatICanDo: T.notToday },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
