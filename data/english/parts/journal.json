@@ -5992,10 +5992,10 @@
       }
     },
     {
-      "key": "journal.work-line-parent-job.other-started-a-new-job",
+      "key": "journal.work-line-parent-job.other-took-a-job-at-employer",
       "move": "work-line-parent-job",
       "kind": "spoken",
-      "text": "{other} started a new job.",
+      "text": "{other} took a job at {employer}.",
       "uses": [
         {
           "move": "work-line-parent-job",
@@ -6011,17 +6011,17 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.work-line-parent-job.other-got-a-new-job",
+      "key": "journal.work-line-parent-job.other-went-to-work-for-employer",
       "move": "work-line-parent-job",
       "kind": "spoken",
-      "text": "{other} got a new job.",
+      "text": "{other} went to work for {employer}.",
       "uses": [
         {
           "move": "work-line-parent-job",
@@ -6037,17 +6037,17 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.work-line-parent-job.other-went-to-work-somewhere-new",
+      "key": "journal.work-line-parent-job.other-started-at-employer",
       "move": "work-line-parent-job",
       "kind": "spoken",
-      "text": "{other} went to work somewhere new.",
+      "text": "{other} started at {employer}.",
       "uses": [
         {
           "move": "work-line-parent-job",
@@ -6063,8 +6063,242 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
-      "date": "2026-10-19",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-got-hired-on-at-employer",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} got hired on at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-landed-a-job-with-employer",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} landed a job with {employer}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-found-work-at-employer",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} found work at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-signed-on-with-employer",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} signed on with {employer}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-moved-over-to-employer",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} moved over to {employer}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.when-i-was-age-other-took-a-job-at-employer",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "When I was {age}, {other} took a job at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-started-at-employer-when-i-was-age",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} started at {employer} when I was {age}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.i-was-age-when-other-went-to-work-for-employer",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "I was {age} when {other} went to work for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-parent-job.other-got-on-at-employer-the-year-i-turned-age",
+      "move": "work-line-parent-job",
+      "kind": "spoken",
+      "text": "{other} got on at {employer} the year I turned {age}.",
+      "uses": [
+        {
+          "move": "work-line-parent-job",
+          "subject": "work",
+          "role": "parent-job",
+          "choice": "parent-job",
+          "journal": [
+            {
+              "kindPrefix": "household:moment:parent-new-job",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W8 (pool item words-first-journal-note-says-the-same-sentence-twice)",
+      "date": "2026-11-11",
       "tag": {
         "move": "tell"
       }

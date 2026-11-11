@@ -37,6 +37,7 @@ import {
   possessivePronoun,
   relationPhrase,
   saysOffice,
+  employerSaid,
   withArticle,
   wordJournalLine,
   type Fact,
@@ -75,6 +76,10 @@ import {
 const SCHOOL_FINISHED = "event:school.finished";
 /** The id prefix of the past-work engine's records (src/core2/past-work.ts). */
 const PAST_WORK_PREFIX = "past-work:";
+/** The facts that say when, not what: two tellings differing only in these are one. */
+const TIME_FACTS = new Set(["age", "span", "when", "held"]);
+/** How many other wordings a repeated sentence may try before it is not told. */
+const rewordings = P.two * P.two * P.two;
 const zero = P.zero;
 const one = P.one;
 
@@ -229,6 +234,27 @@ function raceMargin(
   if (lead <= journalRaceCloseMargin!.value) return "close";
   if (lead >= journalRaceWideMargin!.value) return "wide";
   return "middle";
+}
+
+/**
+ * An employer's name as the person says it in a sentence, by the kind of its
+ * record ("the Town of Island Falls", "Neal's Market"), citing the records
+ * that name it.
+ */
+function employerName(
+  core: Readonly<CoreState>,
+  organizationId: string | undefined,
+  ...recordIds: string[]
+): Fact | undefined {
+  const org = organizationId
+    ? core.organizations.get(organizationId)
+    : undefined;
+  return org
+    ? {
+        text: employerSaid(properName(org.name), org),
+        sourceRecordIds: [...recordIds, org.id],
+      }
+    : undefined;
 }
 
 function listOf(items: readonly string[]): string {
@@ -418,16 +444,29 @@ function householdMoments(
     ),
   );
   const grown = addDays(bornOn, Math.round(P.votingAge * P.daysPerMeanYear));
+  // The line names the employer from the spell's own record and the
+  // person's age then; a spell with no employer on record is not told.
   for (const id of parents)
     for (const row of pastWorkOf(core as CoreState, id as PersonId)) {
       if (row.kind !== PAST_WORK_SPELL) continue;
       const startedAt = String(row.facts.startedAt);
       if (startedAt < remembers || startedAt >= grown) continue;
+      const employer = employerName(
+        core,
+        row.facts.organizationId ? String(row.facts.organizationId) : undefined,
+        row.id,
+      );
+      if (!employer) continue;
+      const age = ageOnDate(bornOn, makeIsoDate(startedAt));
       moments.push({
         ...base(row.id, startedAt),
         causeKind: "household:moment:parent-new-job",
         counterpartIds: [id as PersonId],
         beat: "work",
+        actFacts: {
+          employer,
+          age: { text: String(age), sourceRecordIds: [row.id, person.id] },
+        },
       });
     }
   // The first school they attended, and the high school when it was another
@@ -475,14 +514,7 @@ function householdMoments(
       beat: "work",
       actFacts: {
         job: { text: withArticle(job.title), sourceRecordIds: [job.id] },
-        ...(org
-          ? {
-              employer: {
-                text: properName(org.name),
-                sourceRecordIds: [job.id, org.id],
-              },
-            }
-          : {}),
+        ...(org ? { employer: employerName(core, org.id, job.id)! } : {}),
       },
     });
   }
@@ -502,11 +534,8 @@ function pastWorkMoments(
 ): JournalMoment[] {
   const records = pastWorkOf(core as CoreState, person.id);
   const employer = (row: (typeof records)[number] | undefined) => {
-    const org = row?.facts.organizationId
-      ? core.organizations.get(String(row.facts.organizationId))
-      : undefined;
-    return org && row
-      ? { text: properName(org.name), sourceRecordIds: [row.id, org.id] }
+    return row?.facts.organizationId
+      ? employerName(core, String(row.facts.organizationId), row.id)
       : undefined;
   };
   const spells = records
@@ -820,7 +849,6 @@ export function composeJournal(
   if (!person || !book) return [];
   const kin = familyFactsOf(person);
   const named = new Set<PersonId>();
-  const saidAs = new Map<string, PersonId>();
   // Whose moment it is, when it is someone else's: a relative first, then
   // someone the person knows, else the first on record. A moment's people
   // are kept sorted by id, so a rival a relative lost to can come first
@@ -849,15 +877,29 @@ export function composeJournal(
         words,
       );
       if (text) {
-        // Two relatives with one relation (two daughters) are not both "my
-        // daughter": the first keeps it, the next is said by their given name
-        // (batch 11: "My daughter was born." twice in one chapter).
-        const holder = saidAs.get(text);
-        if (!holder || holder === id) {
-          saidAs.set(text, id);
-          return { text, sourceRecordIds: [relation.factId] };
-        }
-        return { text: row.givenName, sourceRecordIds: [relation.factId, id] };
+        // Two relatives with one relation (two daughters, a father and a
+        // stepfather both "my father") are each named: "my father Ray", "my
+        // father Matthew" (batch 11: "My daughter was born." twice in one
+        // chapter; Nov 11: "My father went to work somewhere new." twice).
+        const shared = [...kin].some(([otherId, fact]) => {
+          if (otherId === id) return false;
+          const twin = core.people.get(otherId as PersonId);
+          return (
+            !!twin &&
+            relationPhrase(
+              fact.relation,
+              twin.looks?.gender ?? "other",
+              "journal",
+              words,
+            ) === text
+          );
+        });
+        return shared
+          ? {
+              text: `${text} ${row.givenName}`,
+              sourceRecordIds: [relation.factId, id],
+            }
+          : { text, sourceRecordIds: [relation.factId] };
       }
     }
     const known = person.knownIdSources?.[id];
@@ -871,10 +913,7 @@ export function composeJournal(
   };
   const employerOf = (jobId: string | undefined) => {
     const job = jobId ? core.jobs.get(jobId) : undefined;
-    const org = job ? core.organizations.get(job.organizationId) : undefined;
-    return org
-      ? { text: properName(org.name), sourceRecordIds: [job!.id, org.id] }
-      : null;
+    return (job && employerName(core, job.organizationId, job.id)) ?? null;
   };
   const placeName = (placeId: string | undefined) => {
     const text = placeLabel(placeId);
@@ -1168,7 +1207,7 @@ export function composeJournal(
       facts.other =
         moment.causeKind === "family:child" &&
         row &&
-        said.text !== row.givenName
+        !said.text.endsWith(row.givenName)
           ? {
               text: `${said.text} ${row.givenName}`,
               sourceRecordIds: [...said.sourceRecordIds, otherId],
@@ -1359,6 +1398,9 @@ export function composeJournal(
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
   const beatEntries = new Map<string, JournalLine>();
+  // What each beat has told already, by its facts: the same parent going to
+  // the same employer is told once.
+  const beatTold = new Map<string, Set<string>>();
   // Each told line's facts, and the lines an age frame already opens, for
   // the words that join a line to the one before it.
   const lineFacts = new Map<string, Facts>();
@@ -1568,27 +1610,60 @@ export function composeJournal(
           moment.id,
           sourceIds,
         );
-    else
-      event = render(
-        {
-          part: "line",
-          kindPrefix: row.kindPrefix,
-          whose: own ? "own" : "other",
-          together,
-          named: !!facts.other,
-        },
-        facts,
-        moment.id,
-        sourceIds,
-        // Someone else's race is told by the record's result for them; a
-        // line worded by an event fact (a vote's yes or no) by that fact.
-        !own && row.hasOwnLine
-          ? facts.winner?.text === subjectOf(moment)
-            ? "won"
-            : "lost"
-          : stageOf(row, moment, facts),
-      );
+    else {
+      const wordLine = (key: string) =>
+        render(
+          {
+            part: "line",
+            kindPrefix: row.kindPrefix,
+            whose: own ? "own" : "other",
+            together,
+            named: !!facts.other,
+          },
+          facts,
+          key,
+          sourceIds,
+          // Someone else's race is told by the record's result for them; a
+          // line worded by an event fact (a vote's yes or no) by that fact.
+          !own && row.hasOwnLine
+            ? facts.winner?.text === subjectOf(moment)
+              ? "won"
+              : "lost"
+            : stageOf(row, moment, facts),
+        );
+      event = wordLine(moment.id);
+      // Two tellings in one entry never read the same: a sentence the beat
+      // has said already takes another wording.
+      const said = moment.beat
+        ? beatEntries.get(moment.beat)?.text.toLowerCase()
+        : undefined;
+      for (
+        let again = one;
+        event &&
+        said?.includes(event.text.toLowerCase()) &&
+        again <= rewordings;
+        again += one
+      )
+        event = wordLine(`${moment.id}:again:${again}`);
+      if (event && said?.includes(event.text.toLowerCase())) event = null;
+    }
     if (!event) continue;
+    // The same thing is told once in a beat: the same kind, the same people
+    // and the same facts, whenever it happened.
+    if (moment.beat) {
+      const told = beatTold.get(moment.beat) ?? new Set<string>();
+      beatTold.set(moment.beat, told);
+      const sign = [
+        moment.causeKind,
+        moment.counterpartIds.join(","),
+        ...Object.entries(facts)
+          .filter(([key]) => !TIME_FACTS.has(key))
+          .map(([key, fact]) => `${key}=${fact.text}`)
+          .sort(),
+      ].join("|");
+      if (told.has(sign)) continue;
+      told.add(sign);
+    }
     const parts = [event];
     // When they were young, the age frames it: "When I was 7, my father died."
     // Only what happened around a young person (a death, a move, an
@@ -1770,6 +1845,11 @@ export function composeJournal(
     // A line that says its own time ("Today I turned eighteen.") opens on
     // no other.
     if (row.ownTime) framed.add(moment.id);
+    // Nor does a line that says the person's age then ("I was 7 when my
+    // father went to work for ..."): "Five years later, I was 4 when ...".
+    const toldAge = moment.actFacts?.age?.text;
+    if (toldAge && new RegExp(`\\b${toldAge}\\b`).test(event.text))
+      framed.add(moment.id);
     const entry = {
       id: moment.id,
       date: moment.date,

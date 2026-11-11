@@ -9,6 +9,11 @@ import { gameStartDate } from "../core2/game-start";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
+import { PAST_WORK_SPELL, pastWorkOf } from "../core2/past";
+import type { CoreState } from "../core2/types";
+import { employerSaid, jobSaid } from "../english/journal-words";
+import { properName } from "./words";
+import { writeFileSync } from "node:fs";
 
 // The journal from day one (play-first-10-journal-from-day-one). On the first
 // evening the journal's opening chapter tells where the family came from,
@@ -127,3 +132,79 @@ it(`the first evening's journal names the family from their records (seed ${seed
     `no parent and sibling on record in ${tried.join("; ")} (seed ${seed})`,
   );
 }, 1_800_000);
+
+// The first note of a new life (words-first-journal-note-says-the-same-
+// sentence-twice; Athens, Michigan, Nov 11: "My father went to work somewhere
+// new." twice, no employer, "a chief Administrative Officer at Village of
+// Athens treasury"). In ten new lives in drawn places: no sentence of the
+// opening chapter is said twice; each parent's job change names the employer
+// on that parent's own work record, as people say it; no job title carries a
+// capital inside a sentence.
+const LIVES = 10;
+it(`the first note says each thing once and names each parent's employer (seed ${seed})`, () => {
+  const evidence: string[] = [];
+  let parentJobs = 0;
+  for (let life = 0; life < LIVES; life += 1) {
+    const place = drawPlace(`${seed}:work:${life}`, "journal-opening-work");
+    const where = `${place.name} (${place.key}), seed ${seed}:work:${life}`;
+    setBookkeeping(false);
+    const { core, director, playerId } = buildBenchWorld(
+      place.seed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: place.key },
+    );
+    const player = core.people.get(playerId!)!;
+    director.watch(core, player.id);
+    for (const id of core.households.get(player.householdId)?.memberIds ?? [])
+      if (id !== player.id) director.watch(core, id as PersonId);
+    const [opening] = composeJournal(core, director, player.id);
+    expect(opening, `${where}: no opening chapter`).toBeDefined();
+    const lines = opening!.lines;
+    // No sentence twice, in the note or across its entries.
+    const sentences = lines.flatMap((row) =>
+      row.text.split(/(?<=[.!?])\s+/).map((said) => said.toLowerCase()),
+    );
+    const twice = sentences.filter(
+      (said, at) => sentences.indexOf(said) !== at,
+    );
+    expect(twice, `${where}: said twice`).toEqual([]);
+    // Each parent's job change names the employer of that parent's spell.
+    for (const fact of player.pastFacts ?? []) {
+      if (!["family:parent", "family:other-parent"].includes(fact.kind))
+        continue;
+      const parentId = fact.facts!.otherPersonId! as PersonId;
+      for (const spell of pastWorkOf(core as CoreState, parentId)) {
+        if (spell.kind !== PAST_WORK_SPELL) continue;
+        // The job-change line is the spell's own moment (the line of what
+        // they do now cites the spell too, by the job held on day one).
+        const line = lines.find((row) => row.momentIds.includes(spell.id));
+        if (!line) continue;
+        const org = core.organizations.get(String(spell.facts.organizationId));
+        expect(
+          org,
+          `${where}: ${spell.id} told with no employer`,
+        ).toBeDefined();
+        const name = employerSaid(properName(org!.name), org!);
+        expect(line.sourceRecordIds, `${where}: ${spell.id}`).toContain(
+          org!.id,
+        );
+        expect(line.text, `${where}: ${spell.id}`).toContain(name);
+        parentJobs += 1;
+      }
+    }
+    // A job title is said in lower case inside a sentence.
+    for (const id of core.households.get(player.householdId)?.memberIds ?? []) {
+      const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
+      if (!job || jobSaid(job.title) === job.title) continue;
+      for (const row of lines)
+        expect(row.text, `${where}: "${job.title}"`).not.toContain(job.title);
+    }
+    evidence.push(`${where}: ${lines.map((row) => `"${row.text}"`).join(" ")}`);
+  }
+  if (process.env.JOURNAL_EVIDENCE)
+    writeFileSync(process.env.JOURNAL_EVIDENCE, evidence.join("\n") + "\n");
+  expect(
+    parentJobs,
+    `no parent's job change told in ${LIVES} lives`,
+  ).toBeGreaterThan(0);
+}, 3_600_000);
