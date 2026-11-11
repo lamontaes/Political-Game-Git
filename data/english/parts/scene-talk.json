@@ -155220,7 +155220,8 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "calm",
@@ -155416,7 +155417,8 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "calm",
@@ -155638,7 +155640,8 @@
           "role": "asker",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "warm",
@@ -155808,7 +155811,8 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "braced",
@@ -205509,6 +205513,122 @@
       },
       "piece": {
         "of": "donor-ask-reply-stall",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-on-this",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not on this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline-short",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.later-maybe",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Later, maybe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-deflect-short",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.sorry-i-can-t",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "Sorry. I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "apologize",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-apologize-short",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ve-got-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You've got it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-agree-short",
         "part": "core",
         "required": true
       }
