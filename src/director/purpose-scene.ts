@@ -59,7 +59,12 @@ import {
 import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
-import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
+import {
+  JOBS_MODULE_ID,
+  JOB_OFFERED_EVENT,
+  jobById,
+  staffCount,
+} from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
 import { petitionAtDoor } from "./doors";
@@ -464,6 +469,57 @@ function composeBinding(
         text: spokenDate(said.deadline, core.date),
         sourceRecordIds: ids,
       };
+    // What the work is beyond the title and pay, from the opening's own row
+    // (words-job-offer-answer-repeats-title-and-pay): the weekly hours of the job
+    // it was modeled on, who held it before when it replaces someone, and how
+    // many people work there now. Each is said only when the record holds it.
+    const jobs = core.modules.has(JOBS_MODULE_ID)
+      ? coreAPI(core as CoreState).moduleState(JOBS_MODULE_ID)
+      : undefined;
+    const offer = said.offerId
+      ? (jobs?.table("offers").get(said.offerId) as
+          { positionId?: string } | undefined)
+      : undefined;
+    const position = offer?.positionId
+      ? (jobs?.table("positions").get(offer.positionId) as
+          | {
+              id: string;
+              templateJobId?: string;
+              replacesPersonId?: string;
+            }
+          | undefined)
+      : undefined;
+    if (position) {
+      const at = [moment.causeId, position.id];
+      const api = coreAPI(core as CoreState);
+      // Full people's jobs and counted workers' by one rule (two tiers).
+      const template = position.templateJobId
+        ? jobById(api, position.templateJobId)
+        : undefined;
+      // A job's hours are kept as a calendar day's share of the week; people
+      // say the week ("40 hours a week").
+      if (template && template.hoursDaily > P.zero)
+        facts.hours = {
+          text: String(
+            Math.round(template.hoursDaily * api.parameter("daysPerWeek")),
+          ),
+          sourceRecordIds: [...at, template.id],
+        };
+      const before = position.replacesPersonId
+        ? core.people.get(position.replacesPersonId as PersonId)
+        : undefined;
+      if (before)
+        facts.replaced = {
+          text: `${before.givenName} ${before.familyName}`,
+          sourceRecordIds: [...at, before.id],
+        };
+      const crew = Math.round(staffCount(api, said.organizationId));
+      if (crew > P.one)
+        facts.crew = {
+          text: String(crew),
+          sourceRecordIds: [...at, said.organizationId],
+        };
+    }
   }
   // A notice to pay or leave (housing.ts): what the household owes as people
   // say it ("about $400"), how long it has gone unpaid, whether the shortfall
