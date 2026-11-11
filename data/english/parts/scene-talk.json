@@ -5972,10 +5972,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-had-bill-at-about-count-going-in",
+      "key": "scene-talk.reply-answer.about-there-i-d-talked-it-through-with-half-of-place-the-week-before",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I had {bill} at about {count} going in.",
+      "text": "About there. I'd talked it through with half of {place} the week before.",
       "uses": [
         {
           "subject": "scene",
@@ -5984,7 +5984,6 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["count"],
           "after": "scene-talk.follow-ask.the-vote-on-bill-was-count-did-you-have-it-counted-that-way-going-in"
         },
         {
@@ -5994,7 +5993,6 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["count"],
           "after": "scene-talk.follow-ask.it-was-count-on-bill-who-did-you-think-would-vote-the-other-way"
         }
       ],
@@ -6013,10 +6011,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-counted-count-the-night-before-and-that-s-how-it-came-out",
+      "key": "scene-talk.reply-answer.about-what-i-expected-people-in-place-had-been-telling-me-for-weeks",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I counted {count} the night before, and that's how it came out.",
+      "text": "About what I expected. People in {place} had been telling me for weeks.",
       "uses": [
         {
           "subject": "scene",
@@ -6025,7 +6023,6 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["count"],
           "after": "scene-talk.follow-ask.the-vote-on-bill-was-count-did-you-have-it-counted-that-way-going-in"
         },
         {
@@ -6035,7 +6032,6 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["count"],
           "after": "scene-talk.follow-ask.it-was-count-on-bill-who-did-you-think-would-vote-the-other-way"
         }
       ],
@@ -6054,10 +6050,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.i-thought-bill-would-be-closer-than-count",
+      "key": "scene-talk.reply-answer.closer-than-i-thought-i-expected-about-to-draw-more-fire",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I thought {bill} would be closer than {count}.",
+      "text": "Closer than I thought. I expected {about} to draw more fire.",
       "uses": [
         {
           "subject": "scene",
@@ -6066,7 +6062,6 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["count"],
           "after": "scene-talk.follow-ask.the-vote-on-bill-was-count-did-you-have-it-counted-that-way-going-in"
         },
         {
@@ -6076,7 +6071,6 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "requiresFacts": ["count"],
           "after": "scene-talk.follow-ask.it-was-count-on-bill-who-did-you-think-would-vote-the-other-way"
         }
       ],
@@ -6500,10 +6494,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.nobody-in-place-has-worked-harder-on-story-than-i-have",
+      "key": "scene-talk.reply-boast.nobody-in-place-has-worked-harder-on-this-than-i-have",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Nobody in {place} has worked harder on {story} than I have.",
+      "text": "Nobody in {place} has worked harder on this than I have.",
       "uses": [
         {
           "subject": "scene",
@@ -6529,10 +6523,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.i-ve-been-right-about-story-from-the-start-and-you-can-check",
+      "key": "scene-talk.reply-boast.i-ve-been-right-about-this-from-the-start-and-place-knows-it",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "I've been right about {story} from the start, and you can check.",
+      "text": "I've been right about this from the start, and {place} knows it.",
       "uses": [
         {
           "subject": "scene",
@@ -6558,10 +6552,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.write-that-i-called-story-before-anyone-else-did",
+      "key": "scene-talk.reply-boast.ask-around-place-i-called-this-before-anyone-else-did",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Write that I called {story} before anyone else did.",
+      "text": "Ask around {place}. I called this before anyone else did.",
       "uses": [
         {
           "subject": "scene",
@@ -6587,10 +6581,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.put-it-in-outlet-i-got-bill-done-when-nobody-else-would",
+      "key": "scene-talk.reply-boast.i-got-it-done-for-place-when-nobody-else-would",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Put it in {outlet}: I got {bill} done when nobody else would.",
+      "text": "I got it done for {place} when nobody else would.",
       "uses": [
         {
           "subject": "scene",
@@ -6616,10 +6610,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.i-knew-where-i-stood-on-story-before-anyone-asked",
+      "key": "scene-talk.reply-boast.i-knew-where-i-stood-on-this-before-anyone-in-place-asked",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "I knew where I stood on {story} before anyone asked.",
+      "text": "I knew where I stood on this before anyone in {place} asked.",
       "uses": [
         {
           "subject": "scene",
@@ -6645,10 +6639,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.check-my-record-on-story-nobody-s-comes-close",
+      "key": "scene-talk.reply-boast.check-my-record-in-place-nobody-s-comes-close",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Check my record on {story}. Nobody's comes close.",
+      "text": "Check my record in {place}. Nobody's comes close.",
       "uses": [
         {
           "subject": "scene",
@@ -6674,10 +6668,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.when-story-comes-up-people-already-know-where-i-stand",
+      "key": "scene-talk.reply-boast.when-this-comes-up-in-place-people-already-know-where-i-stand",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "When {story} comes up, people already know where I stand.",
+      "text": "When this comes up in {place}, people already know where I stand.",
       "uses": [
         {
           "subject": "scene",
@@ -6703,10 +6697,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.ask-anyone-in-place-who-s-been-fighting-for-story-they-ll-say-my-name",
+      "key": "scene-talk.reply-boast.ask-anyone-in-place-who-s-been-fighting-for-this-they-ll-say-my-name",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Ask anyone in {place} who's been fighting for {story}. They'll say my name.",
+      "text": "Ask anyone in {place} who's been fighting for this. They'll say my name.",
       "uses": [
         {
           "subject": "scene",
@@ -6729,35 +6723,6 @@
         "of": "press.boast",
         "part": "core",
         "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-boast.it-passed-count-and-i-counted-those-votes-myself",
-      "move": "reply-boast",
-      "kind": "spoken",
-      "text": "It passed {count}, and I counted those votes myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "boast",
-          "role": "asked",
-          "purpose": "press-comment",
-          "key": "routine",
-          "requiresFacts": ["count", "vote-carried", "voted-yes"]
-        }
-      ],
-      "bearing": "proud",
-      "origin": "authored",
-      "author": "Words builder W7",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "boast",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "press.boast",
-        "part": "reason"
       }
     },
     {
@@ -7023,10 +6988,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.that-s-not-what-bill-does-and-you-know-it-reporter-first",
+      "key": "scene-talk.reply-confront.that-s-not-what-it-does-and-you-know-it-reporter-first",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That's not what {bill} does, and you know it, {reporter-first}.",
+      "text": "That's not what it does, and you know it, {reporter-first}.",
       "uses": [
         {
           "subject": "scene",
