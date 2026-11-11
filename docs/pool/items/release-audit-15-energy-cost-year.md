@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-release-audit-15-energy-cost-year
-pr:
+pr: #8705
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T06:25:54.141Z
