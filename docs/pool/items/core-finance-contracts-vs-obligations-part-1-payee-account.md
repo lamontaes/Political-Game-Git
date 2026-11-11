@@ -5,8 +5,8 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:59:45.105Z
+claimed-at:
+branch: claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account
 ---
 
 **What.** Finance contracts pay between a person or organization and another, resolved through core.people or core.organizations, while group B law reach pays benefits into a counted group's fund account, which is not an owner's main account. Before group B can move onto finance contracts, a contract needs a payee account (or the fund's owner id with the fund as its settlement account). This part adds that, with its own settlement and journal source kind, and tests it on a fund payee. Feeds: core-finance-contracts-vs-obligations
@@ -39,3 +40,5 @@ claimed-at: 2026-11-11T05:59:45.105Z
 **Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:56 UTC) on branch claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account.
 
 Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
+
+Released (2026-11-11): Read and scoped, not built: the payee is resolved as an owner's main account in 62 places across finance-cash.ts (guarded plan reads), finance-plan.ts (session.cash.balance(payeeId), leg checks, payee books), finance-state.ts and finance-sales-budgets.ts; a payee account that is a fund account needs the plan session, the receipt readers and the settlement journal kind to carry it together, which is more than admitFinanceContract. First step for a builder: add the optional payeeAccountId to FinanceContractInput and thread it through finance-plan.ts's leg construction (line ~925) with a fund-payee test, before touching the cash readers. Continue on branch claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account.
