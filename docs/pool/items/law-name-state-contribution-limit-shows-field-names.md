@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-law-name-state-contribution-limit-shows-field-names
 pr:
 after: 
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T05:59:38.248Z
 ---
 
 **What.** With dev mode off, News prints "State campaign contribution limit: stateHouse took effect on January 1, 2025." and the same with stateSenate. Found by src/bench/plain-text.browser.mjs in Poplar, Montana (seed e3056f1a-ed8b-448f-8d00-2e902f96abf7) and Herman, Minnesota (no seed printed), both on main; the governor and local limits read fine. Guards: the plain-text check of play-stop-02-developer-text-on-play-screens in any drawn place
