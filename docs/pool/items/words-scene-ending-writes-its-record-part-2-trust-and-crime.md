@@ -5,8 +5,8 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/pool-words-scene-ending-writes-its-record-part-2-trust-and-crime
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: design-story-director
 source: split from words-scene-ending-writes-its-record in the pool redo, Nov 10, 2026
 standard: 2
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:51:13.102Z
+claimed-at:
 branch: claude/pool-words-scene-ending-writes-its-record-part-2-trust-and-crime
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-words-scene-ending-writes-its-record-part-2-trust-and-crime
 **Files.** src/director/purpose-scene.ts, src/director/scene-talk.ts, src/director/data/purpose-arcs.json, src/core2/modules/corruption.ts, src/core2/modules/crime.ts
 
 **Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:51 UTC) on branch claude/pool-words-scene-ending-writes-its-record-part-2-trust-and-crime.
+
+Released (2026-11-11): Not built: the favor endings need an ObligationRow (legislature.ts: owedBy, owedTo, kind, billId, measure, date, settled) but a scene favor has no bill, and the promise endings (79) need a campaigns promise record the engine reads; neither shape is settled and guessing would add a second record. Read purpose-scene.ts line ~1880 (the one writer of scene.reply, which carries ending and keeps). Needs the legislature/campaigns lead to say where a bill-less favor and a scene promise live. Continue on branch claude/pool-words-scene-ending-writes-its-record-part-2-trust-and-crime.
