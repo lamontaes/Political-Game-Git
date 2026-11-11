@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-plain-text-check-developer-text-findings
 pr:
 after: 
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T03:58:22.422Z
 ---
 
 **What.** With the filing counter no longer stopping it, src/bench/plain-text.browser.mjs runs to its end in Erin, Tennessee (seed 0a9662a1-9a9e-4061-a9a1-b3015a791d9a) and fails on its own assertion: developer text on the player's screens. Some of what it flags is a real defect and some looks like the check's own false positives, so each flagged string has to be judged and either fixed on the screen or the check's pattern corrected for what it should not flag. Seen: the News line for the state campaign contribution limit. Seen: the News line for the state campaign contribution limit.
