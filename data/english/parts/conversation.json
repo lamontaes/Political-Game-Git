@@ -31,6 +31,7 @@
     "state": "The speaker's state as a sentence says it, from the place record, where the state's own law on the question is on record.",
     "town_figure": "The town's own figure as a resident says it in passing (data/english/town-figures.json), from the economy engines' records against the country's.",
     "about-said": "What the talk just had was about, from its first topic's record: an employer, a school, a town, a news story or a relative, as that topic said it.",
+    "ran": "The day a printed story ran, said in passing (\"yesterday\", \"a few days ago\"), from the story's own date.",
     "daypart": "The part of the day as said in passing (\"this morning\", \"tonight\"), from the player's clock as the scene plays (data/english/day-words.json).",
     "player-first": "The player's first name, from their person record, said in a goodbye when the talk already named its topic.",
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
