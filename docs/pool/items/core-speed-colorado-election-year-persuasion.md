@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-speed-colorado-election-year-persuasion
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:13:27.894Z
+branch: claude/pool-core-speed-colorado-election-year-persuasion
 ---
 
 **What.** Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), year 4 with the profiler on: 182 s, of which 146 s is the day loop. Campaign work is 50 s (campaignTurn 37 s; takeCampaignDayChoice 21 s, nearly all holdEvent 17 s), applying each event to listeners costs 20 s (the views engine's onEvent 9 s: stanceAfterCase 4.1 s, standingWith 1.4 s, putOwned 1.6 s; drives onEvent 4.3 s; life onEvent 2.3 s) and the collector 36 s. Unprofiled, main's year 4 is within noise of the 120 s bar (121.1 s on Nov 8; Gunnison's Nov 9 profile puts it near 117 s). This item also takes two finished leads from items now merged here: monthlyIncome (src/core2/modules/credit.ts line 1179) shows 5.6 s of self time and 3.2 s in its callback though a person-to-jobs index changed nothing, and the door contacts' weighed rows (Montpelier, Vermont, 5046000, same seed) were cut from 106,628 to 41,904 at day 100 without shortening year 4, but campaign-turn and the donor meeting read a guest's kept weighed record, so any cut must keep it one day.
@@ -46,3 +48,5 @@ The separate unprofiled four-year run took 86.3, 166.3, 103.9 and 191.0 s agains
 Nov 8 (State Sessions): where the year stands and what did not help. Clean runs of `npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 --years 4 --exclusive` on main: year 1 47.1 s, year 2 95.9 s, year 3 56.7 s, year 4 121.1 s (a run an hour earlier on the same code gave 123.5 s and another 128.4 s, so the machine moves it by about 5 percent: the bar is within the noise today). Tried and measured, no gain: a person-to-jobs index for monthlyIncome (124.1 s against 123.5 s), and a date index on the causes table so the weekly fold reads only the days that aged out (126.3 s against 121.1 s, records identical). Both reverted. The records-identical comparison works: pass `--exclusive` to the baseline run (`--out base.json --proof-out base-proof.json`) and to the candidate (`--baseline base.json --same-records`); without it the compare refuses with "coordinator-approved timing window". The profile (Montpelier year 4: garbage collection 49 percent of the time) says the large remaining cost is how much the world keeps, not one function.
 
 Nov 8 (State Sessions), rally listeners as a group (CTO order 1): measured, and there is nothing to group. A CPU profile of Upper Witter Gulch year 4 on main (profile run 192 s, which is the profiler's overhead) puts a speech's audience at 9.1% of the year (`makeStatements`), of which 6.7% is the speech step and 0.9% the campaign engine's own retelling. Inside the speech step 5.0% is the shared event path that each witness runs on their own (views 0.7% at most for any one call, drives, observations, table writes), and 0.4% each listener's own keep-or-retell choice. No call is above 0.7% of the year, and each listener's cost comes from their own stance, traits and household, so no two listeners share an input. Grouping them would need a result cache keyed on every one of those inputs, which saves under a second and puts the rule ("each person gets exactly the result they'd get alone") at risk. Not built. The year's biggest single cost is memory work: the garbage collector is 25% of the profile, which is the same cause as Montpelier's year 4 (`core-speed-montpelier-snap-scope-memory`).
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:13 UTC) on branch claude/pool-core-speed-colorado-election-year-persuasion.
