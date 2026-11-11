@@ -2274,7 +2274,15 @@ export function createDirector(
       return true;
     },
     waitingScenes(personId, date) {
-      return waitingFor(personId, date).map(({ entry: _entry, ...row }) => row);
+      return waitingFor(personId, date).map((row) => ({
+        momentId: row.momentId,
+        typeKey: row.typeKey,
+        rank: row.rank,
+        pace: row.pace,
+        date: row.date,
+        openUntil: row.openUntil,
+        due: row.due,
+      }));
     },
     fading(personId, otherId, date) {
       const book = ledger.people.get(personId);
