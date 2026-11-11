@@ -27,6 +27,7 @@ import {
 
 export type { Fact };
 
+const zero = P.zero;
 const one = P.one;
 
 export interface Move {
@@ -44,6 +45,9 @@ export interface Move {
   afterPlain?: boolean;
   /** The manner the wording carries (tender, guarded, ...), from the bank. */
   bearing?: string;
+  /** A reason piece: the role of the lines it follows, and the one choice it follows when it names one. */
+  for?: ConversationPart;
+  forChoice?: string;
 }
 export interface SubjectBank {
   ask?: Move[];
@@ -53,9 +57,11 @@ export interface SubjectBank {
   lie?: Move[];
   open?: Move[];
   leave?: Move[];
+  /** Reasons the engine joins after a line of another role, when their facts are on record. */
+  reasons?: Move[];
 }
 /** A move's role in a subject's bank. */
-export type ConversationPart = keyof SubjectBank;
+export type ConversationPart = Exclude<keyof SubjectBank, "reasons">;
 
 /** The words a conversation is said with, by subject and role. */
 export interface ConversationWords {
@@ -169,6 +175,20 @@ export function wordConversationMove(request: {
     facts: request.facts,
   });
   const bank = `conversation:${request.subject}:${request.part}`;
+  // A line with reasons on record is composed: one of its wordings as the
+  // core, then a reason the engine joins after it when the facts it names are
+  // on record (owner, Nov 11: "a ton of different speech versions").
+  const reasons = words.subjects[from.subject]?.reasons?.filter(
+    (row) =>
+      row.for === from.part &&
+      (!row.forChoice ||
+        !request.keys ||
+        request.keys.some(
+          (key) => key === row.forChoice || key.startsWith(`${row.forChoice}.`),
+        )),
+  );
+  if (usable?.length && reasons?.length)
+    return composedMove(request, bank, words.version, stage, usable, reasons);
   const line = renderLine({
     seed: request.seed,
     surface: "dialogue",
@@ -205,6 +225,81 @@ export function wordConversationMove(request: {
     },
     asks: asks(line.text),
     afterPlain: !!moves?.find((row) => row.part === part)?.afterPlain,
+  };
+}
+
+/** A move's wordings and the reasons after them, as parts of one line. */
+function linePartVariant(row: Move): LinePartVariant {
+  return {
+    key: moveVariantKey(row),
+    kind: "template",
+    text: row.text,
+    ...(row.part ? { pieceKey: row.part } : {}),
+    ...(row.stages ? { stages: row.stages } : {}),
+    ...(row.requiresFacts ? { requiresFacts: row.requiresFacts } : {}),
+    ...(row.bearing ? { bearing: row.bearing } : {}),
+  };
+}
+
+/**
+ * A line the English engine composes from the move's wordings (the core,
+ * always said) and the reasons that may follow it (said when the facts they
+ * name are on record), with `composeGroundedLine`, the opening's composer.
+ */
+function composedMove(
+  request: Parameters<typeof wordConversationMove>[0],
+  bankKey: string,
+  version: string,
+  stage: string,
+  usable: readonly Move[],
+  reasons: readonly Move[],
+): Said | null {
+  const facts = request.facts;
+  const line = composeGroundedLine(
+    conversationPacket({
+      surface: "dialogue",
+      momentKey: request.momentKey,
+      worldSeed: request.seed,
+      bankVersion: version,
+      stage,
+      holderId: request.speakerId,
+      facts,
+      fallbackSourceId: request.speakerId,
+      voice: { traits: request.traits, register: "conversation" },
+    }),
+    {
+      key: bankKey,
+      version,
+      surface: "dialogue",
+      act: "tell",
+      parts: {
+        core: { required: true, variants: usable.map(linePartVariant) },
+        reason: { variants: reasons.map(linePartVariant) },
+      },
+    },
+    { speakerTraits: request.traits },
+  );
+  if (line.kind !== "rendered") return null;
+  const pieces = line.parts.map(
+    (part) =>
+      [...usable, ...reasons].find(
+        (row) => moveVariantKey(row) === part.variantKey,
+      )?.part ?? part.variantKey,
+  );
+  const core = usable.find(
+    (row) => moveVariantKey(row) === line.parts[zero]?.variantKey,
+  );
+  return {
+    text: line.text,
+    sourceRecordIds: line.sourceRecordIds,
+    wording: {
+      bank: bankKey,
+      parts: pieces,
+      stage,
+      facts: [...new Set(line.parts.flatMap((part) => part.usedFactKeys))],
+    },
+    asks: asks(line.text),
+    afterPlain: !!core?.afterPlain,
   };
 }
 
