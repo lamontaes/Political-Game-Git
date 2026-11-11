@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-core-drive-reinforced-from-unlearned-event
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:15:50.415Z
+claimed-at:
 branch: claude/pool-core-drive-reinforced-from-unlearned-event
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-core-drive-reinforced-from-unlearned-event
 Dev Mode, Nov 8: the same throw (via jobs.ts reviewTurnover -> layOff -> emit work.job-lost -> drives respond) in Deenwood, Georgia (seed abc123), a world run roughly a year past its start by src/bench/dev-scene.test.ts with bookkeeping on; reproduces from the natural layoff review, not from a dev control.
 
 Released (2026-11-11): Cause does not reproduce on main 25369c9bac: Londonderry VT (5040150, run seed 8debd635...) advanced 60 weeks from 2025-01-20 with bookkeeping on, and the dev-scene world with DEV_MODE_SEED=abc123 (Deenwood case), both ran with no throw; fresh 110-week draws were killed by memory, so not proven beyond that. Needs a repro that still fails before it is built. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
+
+Released (2026-11-11): not reproduced on main 2026-11-11: Londonderry VT (run seed 8debd635...) advanced 60 weeks with bookkeeping on, no throw; a different world (seed sc1, civic-played test) threw the same error once in the test but not in 700 daily steps; needs a fresh trace. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
