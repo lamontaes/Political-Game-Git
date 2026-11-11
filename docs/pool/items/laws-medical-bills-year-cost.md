@@ -11,8 +11,8 @@ claimed-by:
 pr: #8719
 after:
 blocked-on:
-model: sonnet
-effort: high
+model: haiku
+effort: low
 root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
@@ -23,15 +23,15 @@ branch: claude/pool-laws-medical-bills-year-cost
 
 **What.** After the quadratic cut already on main, the monthly bill pass still adds up to 19.5% to a year (the speed lead's alternating four-year Ringgold, Louisiana runs: +3% and +19.5% in year 4). Three of four head runs put year 3 or 4 past 120 s, against 103 to 116 s on base. In a profiled Long Hill, Connecticut year (seed m7b) what is left is the put of about 21,300 bill rows a month (module-state put, plainCopy of each row with its members, webLinks and ownRecordsFor arrays), the cash journal postings the payments make (postCashJournal, projectCashJournal), and recordMedicalDebt. Cut the row copies and journal postings it makes for counted households without changing what the simulation decides. Seen: the length of a country's year, which the speed bar of two minutes limits.
 
-**Cause.** Needs cause. The measured cause predates today's code: `billMedicalCare` (src/core2/medical-bills.ts, line 794) now writes each row with `putOwned` (frozen in place, not copied) and drops settled rows each month, so the +19.5 percent of Ringgold, Louisiana year 4 and the Long Hill, Connecticut profile (seed m7b) no longer name what costs the time. Re-measure with `npm run speed:year`, base against head, in Ringgold and one drawn place, and profile one year, to find what in the pass is left (the counted households' payments through `payCounted`, `recordMedicalDebt`, or the why fields kept for counted households). Checked by opus-5251 on Nov 11, 2026; see pull request 8719.
+**Cause.** Measured: the medical bill pass no longer costs a year's time worth cutting. The item's own Nov 11 notes (sonnet-fd29, 06:15 UTC) profiled four years on main in Long Hill, Connecticut (seed m7b): `billMedicalCare` (`src/core2/medical-bills.ts`, line 794) took 24.7 s of 831 s sampled, 3 percent, with `payCounted` 4.3 s. A one-year profile gave 4.8 s of 147 s (`payCounted` 1.0, `householdsToBill` 0.7, `putOwned` 0.6, `recordMedicalDebt` 0.45). Rows are already written with `putOwned` and settled rows are dropped each month, so the +19.5 percent the item measured predates that change. Where a year's time now goes, by the same profile: campaign work 91 s, the press 58 s, the records proof 51 s (under profiling) and cash journal posting 45 s across all callers. `core-m7-01-speed-and-memory` and `core-speed-colorado-election-year-persuasion` are the open speed items that hold those.
 
-**Fix.** None until the cause is found.
+**Fix.** Nothing to build here. Proposed: the CTO drops the item (`npm run pool -- status laws-medical-bills-year-cost dropped --by=cto`): no cut of 10 percent of a year is left in the medical pass. If the speed lead wants the campaign-work and press costs cut, those belong in `core-m7-01-speed-and-memory`, not here.
 
-**Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 0.5 hours for one Haiku session, only if the CTO keeps the item.
 
 **Rules.** Speed: a country's year runs in under two minutes and no change may make a year more than 20% slower than its base. A speed cut changes nothing the simulation decides: the records proof (speed:year --proof-out) is identical, or differs only in fields dropped from the bills' own rows, named. Keep why fields only for full households and the people the player deals with (AGENTS.md, Keep it simple). One rule, all 56 places: time it in places drawn from all 56.
 
-**Done when.** A second session, not the builder, runs four years of `npm run speed:year` alternating base and head twice in Ringgold, Louisiana and one other drawn place (names and seeds given) and every year is within 10% of base. The records proof matches (or names only the dropped bill-row fields), and src/core2/law-wiring-medical-debt.test.ts passes with MEDICAL_DEBT_SEED=wf-med-1 and one fresh seed.
+**Done when.** The CTO drops the item. If it is kept, a second session profiles one year of `npm run speed:year` in a drawn place (named with its seed) and sees `billMedicalCare` under 5 percent of the year's sampled time.
 
 **Waits on.** Nothing.
 
@@ -90,3 +90,5 @@ Released (2026-11-11): opus-5251: the code differs from the Cause (rows are now 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:38 UTC) on branch claude/pool-laws-medical-bills-year-cost.
 
 Released (2026-11-11): opus-5251: set to Needs cause (the measured cause predates putOwned and the settled-row drop); see PR #8719. Continue on branch claude/pool-laws-medical-bills-year-cost and pull request #8719.
+
+Nov 11 (cause finder for Fable B): the item's own profiles on main (Long Hill, Connecticut, seed m7b) put the medical bill pass at 3 percent of a year, after rows moved to `putOwned`. The year's time is in campaign work, the press and journal posting. I propose the CTO drops this item.
