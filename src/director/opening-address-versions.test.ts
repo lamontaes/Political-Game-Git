@@ -4,6 +4,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import * as worldLegislating from "../core2/modules/world-legislating";
+import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 
 /**
  * The President's address is the first thing a new player hears, and it
@@ -16,6 +17,10 @@ import * as worldLegislating from "../core2/modules/world-legislating";
  *  - every address names at least two things from its own world (the Vice
  *    President, the Speaker, the President's home state or last office, what
  *    the President asks Congress for);
+ *  - it speaks like a person (the words lead's read, Nov 11): at most one
+ *    sentence has a colon in its first eight words, no lead-in is said twice,
+ *    no subject's movement is told in two sentences, no person or state is
+ *    named more than twice, and a policy point is named in one sentence;
  *  - between them the addresses name at least three different policy points,
  *    once Congress files on the research list's questions (pull request 8380,
  *    which adds `federalQuestionAdmitted`); before that the test says how many
@@ -27,6 +32,7 @@ const WORLDS = 10;
 const MOST_ADDRESSES_PER_SENTENCE = 2;
 const LEAST_WORLD_NAMES = 2;
 const LEAST_POLICY_POINTS = 3;
+const MOST_NAMED = 2;
 /** The facts that name something from the world, not a subject in words. */
 const NAMES = new Set([
   "vice-president",
@@ -75,6 +81,57 @@ it(`the President's address says different sentences, with its own world's names
       .filter(([, wheres]) => wheres.length > MOST_ADDRESSES_PER_SENTENCE)
       .map(([sentence, wheres]) => `"${sentence}" in ${wheres.join("; ")}`);
     expect(shared, `seed ${base}`).toEqual([]);
+
+    // It speaks like a person: few colon lead-ins, none twice, each fact once.
+    const leadIns = OPENING_SPEECH_BANK.parts
+      .filter((part) => part.piece?.part === "opener")
+      .map((part) => part.text.toLowerCase());
+    for (const { where, address } of addresses) {
+      const said = address.sentences.map((row) => row.text);
+      const colons = said.filter((text) =>
+        text.split(/\s+/).slice(0, 8).join(" ").includes(":"),
+      );
+      expect(
+        colons.length,
+        `${where}: ${colons.join(" | ")}`,
+      ).toBeLessThanOrEqual(1);
+      const opened = said.flatMap((text) =>
+        leadIns
+          .filter((lead) => text.toLowerCase().startsWith(lead))
+          .sort((a, b) => b.length - a.length)
+          .slice(0, 1),
+      );
+      expect(
+        opened.filter((lead, at) => opened.indexOf(lead) !== at),
+        `${where} says a lead-in twice`,
+      ).toEqual([]);
+      const moved = address.sentences.flatMap((row) =>
+        row.facts.filter((key) => key.startsWith("change-")),
+      );
+      expect(
+        moved.filter((key, at) => moved.indexOf(key) !== at),
+        `${where} tells a subject's movement twice`,
+      ).toEqual([]);
+      const names = new Set(
+        address.sentences.flatMap((row) =>
+          ["vice-president", "speaker", "home-state"]
+            .map((key) => row.values[key])
+            .filter((value): value is string => !!value),
+        ),
+      );
+      for (const name of names)
+        expect(
+          address.text.split(name).length - 1,
+          `${where} names ${name} too often`,
+        ).toBeLessThanOrEqual(MOST_NAMED);
+      const points = address.sentences.flatMap((row) =>
+        row.values.about ? [row.values.about] : [],
+      );
+      expect(
+        points.filter((point, at) => points.indexOf(point) !== at),
+        `${where} names a policy point in two sentences`,
+      ).toEqual([]);
+    }
 
     // At least two names from each world.
     for (const { where, address } of addresses) {

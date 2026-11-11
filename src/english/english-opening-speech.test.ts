@@ -82,6 +82,38 @@ describe("the opening address's pieces", () => {
     }
   });
 
+  it("keep short sentences: a third of each move's cores in the President's address are twelve words or fewer, each with its insert", () => {
+    // The words lead's read (Nov 11): the old address had lines like "If you
+    // want a job, you ought to be able to get one."; the new cores were all long.
+    const groups = new Map<string, string[]>();
+    for (const part of OPENING_SPEECH_BANK.parts) {
+      if (part.piece?.part !== "core") continue;
+      for (const use of part.uses) {
+        if (!KINDS.includes(use.subject as OpeningSpeechKind)) continue;
+        const key = [
+          use.subject,
+          use.role,
+          part.addressKind ?? "",
+          part.voice,
+          part.topic ?? "",
+          (use.requiresFacts ?? [])
+            .filter((fact) => !part.text.includes(`{${fact}}`))
+            .sort()
+            .join("+"),
+        ].join(" ");
+        groups.set(key, [...(groups.get(key) ?? []), part.text]);
+      }
+    }
+    const thin = [...groups]
+      .filter(
+        ([, texts]) =>
+          texts.filter((text) => text.split(/\s+/).length <= 12).length * 3 <
+          texts.length,
+      )
+      .map(([key]) => key);
+    expect(thin).toEqual([]);
+  });
+
   it("require, for every slot, the fact that fills it", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
       const slots = [...part.text.matchAll(/\{([\w-]+)\}/g)].map(
@@ -131,8 +163,8 @@ describe("the opening address's pieces", () => {
       const plain = said(kind, "plain", "story-says", facts, {
         topic: "inflation",
       });
-      expect(polished).toMatch(/price|cost/i);
-      expect(plain).toMatch(/price|cost/i);
+      expect(polished).toMatch(/price|cost|inflation|pay for/i);
+      expect(plain).toMatch(/price|cost|inflation|pay for/i);
       expect(polished).not.toMatch(/\d/);
       expect(polished).not.toBe(plain);
     }
@@ -143,18 +175,20 @@ describe("the opening address's pieces", () => {
     expect(
       said("inaugural", "plain", "story-says", {}, { topic: "unemployment" }),
     ).toBeNull();
-    // A law that is not in force is never said to be.
-    // The address is national only (owner, Oct 27): federal law.
+    // A priority is asked of Congress only where federal law does not have
+    // it yet (owner, Oct 27: national only), in one sentence that names it.
     const base = {
       about: "rent stabilization",
-      "federal-level": "yes",
+      to: "stabilize rents",
+      "stance-against": "yes",
+      "rank-line": "yes",
     };
-    const out = said("inaugural", "polished", "law", {
+    const out = said("inaugural", "polished", "ask", {
       ...base,
       "law-not-in-force": "yes",
     })!;
     expect(out).toContain("rent stabilization");
-    expect(out).not.toMatch(/already|yes/);
-    expect(said("inaugural", "polished", "law", base)).toBeNull();
+    expect(out.split("rent stabilization").length - 1).toBe(1);
+    expect(said("inaugural", "polished", "ask", base)).toBeNull();
   });
 });

@@ -387,6 +387,29 @@ function worldFacts(
         ),
       );
   }
+  // Each subject the year holds a claim on, in words, for a pledge to name
+  // what it will do about without saying the figure again.
+  for (const topic of Object.keys(TOPIC_CLAIMS)) {
+    const held = (TOPIC_CLAIMS[topic] ?? []).filter(
+      (key) => country.facts[key],
+    );
+    if (!held.length) continue;
+    const words = subjectWords(
+      core,
+      president.id,
+      kind,
+      voice,
+      topic,
+      `say-${topic}`,
+    );
+    if (words)
+      facts[`say-${topic}`] = fact(
+        words,
+        ...new Set(
+          held.flatMap((claim) => country.facts[claim]!.sourceRecordIds),
+        ),
+      );
+  }
   subject("hardest", ranked(hardClaims));
   subject(
     "best",
@@ -415,14 +438,12 @@ const WORLD_NAMES: readonly string[] = [
   "best",
 ];
 
-/** The facts that name something of this world alone: its people and the President's own state and office. */
-const OWN_WORLD: readonly string[] = [
+/** The world's names that are never said more than `namesSaid` times unless a required move needs them: its people and the President's own state and office. */
+const PERSON_NAMES: readonly string[] = [
   "vice-president",
   "speaker",
   "home-state",
   "prior-office",
-  "place",
-  "name",
 ];
 
 /** What an address leads with after the greeting. */
@@ -846,7 +867,7 @@ function planAddress(
     const topic = (
       SHAPE.numbersBySubject[questionSubject(stand.question) ?? ""] ?? []
     ).filter((row) => held(row) && !taken.has(row))[P.zero];
-    if (topic) taken.add(topic);
+    // The story still tells the subject: the ask does not argue from it.
     return topic;
   };
 
@@ -909,7 +930,6 @@ function planAddress(
   const standBlock = (
     stand: Stand,
     rank: (typeof RANKS)[number] | "rank-line",
-    topic: string | undefined,
   ): Draft => ({
     key: `${rank}-${stand.question}`,
     level: "congress",
@@ -917,12 +937,9 @@ function planAddress(
       ...country.facts,
       ...standFacts(stand, official, rank),
     },
-    moves: [
-      move("lead-in"),
-      ...(topic ? [move("stake", { topic })] : []),
-      move("law"),
-      move("ask"),
-    ],
+    // One sentence a priority (sent back by the words lead, Nov 11: "the
+    // policy point is named once"): its rank leads in, and the ask names it.
+    moves: [move("ask")],
   });
   // The world's names and subjects, which every part may say.
   const world = worldFacts(
@@ -937,9 +954,9 @@ function planAddress(
   const priorityTopics = priorities.map(topicOf);
   const firstBears = !!priorityTopics[P.zero];
   const priorityBlocks = priorities.map((stand, at) =>
-    standBlock(stand, RANKS[at]!, priorityTopics[at]),
+    standBlock(stand, RANKS[at]!),
   );
-  const lineBlock = line ? standBlock(line, "rank-line", undefined) : undefined;
+  const lineBlock = line ? standBlock(line, "rank-line") : undefined;
 
   // The story of the country: whether work is easier or harder to find,
   // and the subjects that moved most, apart from the ones the priorities
@@ -1074,15 +1091,19 @@ function planAddress(
   };
   // The turn to Congress, then what the President will ask of it. A
   // President with nothing to ask says what they will bring instead.
+  // With priorities, the first ask turns to Congress itself ("To Congress,
+  // first thing, ..."); without, the turn says what the President brings.
   const congress: Draft[] = [
-    {
-      key: "to-congress",
-      level: "congress",
-      facts: priorities.length
-        ? { "has-priorities": fact("yes", official.id) }
-        : {},
-      moves: [move("to-congress")],
-    },
+    ...(priorities.length
+      ? []
+      : [
+          {
+            key: "to-congress",
+            level: "congress" as const,
+            facts: {},
+            moves: [move("to-congress")],
+          },
+        ]),
     ...priorityBlocks,
     ...(lineBlock ? [lineBlock] : []),
   ];
@@ -1227,8 +1248,10 @@ export function composeBlocks(
   const said: string[] = [];
   // How often each of the world's names has been said in the address.
   const named = new Map<string, number>();
-  // Whether the last sentence said began with a lead-in.
-  let ledIn = false;
+  // The lead-ins said so far, by their words.
+  const ledIn = new Set<string>();
+  // Whether the turn to the Vice President, which always names them, is still to come.
+  let vpAhead = blocks.some((block) => block.key === "to-vp");
   for (const block of blocks) {
     const moves = block.moves.filter((row): row is OpeningMove => !!row);
     // stopgapId: SG-PEOPLE-address-register
@@ -1258,51 +1281,59 @@ export function composeBlocks(
       );
     const address = { moves: [] as ComposedMove[] };
     for (const planned of moves) {
-      // A sentence leads in ("Here's the thing:") only when the one before
-      // it did not, so the address does not open every line alike.
-      const move: OpeningMove = ledIn
-        ? {
-            ...planned,
-            bank: {
-              ...planned.bank,
-              parts: Object.fromEntries(
-                Object.entries(planned.bank.parts).filter(
-                  ([line]) => line !== "opener",
-                ),
-              ) as typeof planned.bank.parts,
-            },
-          }
-        : planned;
-      const fresh = Object.fromEntries(
-        Object.entries(block.facts).filter(
-          ([key]) =>
-            !WORLD_NAMES.includes(key) ||
-            (named.get(key) ?? P.zero) < SHAPE.parameters.namesSaid.value,
-        ),
+      // No lead-in ("To Congress,", "Across the country,") is said twice in
+      // an address; a move whose lead-ins are all said goes without one.
+      const opener = planned.bank.parts.opener;
+      const unsaid = opener?.variants.filter(
+        (variant) =>
+          !ledIn.has(variant.kind === "template" ? variant.text : variant.key),
       );
-      // A sentence without its lead-in still names something of this world
-      // (a person, a state, a priority), or it keeps the lead-in.
-      const ownWorld = (row: ReturnType<typeof sayMove>) =>
-        row.kind === "rendered" &&
-        row.moves.some((said) =>
-          said.parts.some((part) =>
-            part.usedFactKeys.some((key) => OWN_WORLD.includes(key)),
+      const move: OpeningMove =
+        opener && unsaid!.length < opener.variants.length
+          ? {
+              ...planned,
+              bank: {
+                ...planned.bank,
+                parts: {
+                  ...planned.bank.parts,
+                  opener: { ...opener, variants: unsaid! },
+                },
+              },
+            }
+          : planned;
+      // A name is said at most `namesSaid` times (one fewer before the turn
+      // to the Vice President, which always names them); a subject in words
+      // may be said again where no other wording can say the move, and a
+      // required move says what it must.
+      const limit = (key: string) =>
+        SHAPE.parameters.namesSaid.value -
+        (key === "vice-president" && vpAhead && block.key !== "to-vp"
+          ? P.one
+          : P.zero);
+      const within = (keys: readonly string[]) =>
+        Object.fromEntries(
+          Object.entries(block.facts).filter(
+            ([key]) =>
+              !keys.includes(key) || (named.get(key) ?? P.zero) < limit(key),
           ),
         );
-      const bare = move === planned ? null : sayMove(move, fresh);
       const result =
-        (bare && ownWorld(bare) ? bare : null) ??
-        [sayMove(planned, fresh), sayMove(planned, block.facts)].find(
-          (row) => row.kind === "rendered",
-        ) ??
-        null;
+        [
+          sayMove(move, within(WORLD_NAMES)),
+          sayMove(move, within(PERSON_NAMES)),
+          ...(move.required || block.required || block.key === "to-vp"
+            ? [sayMove(move, block.facts)]
+            : []),
+        ].find((row) => row.kind === "rendered") ?? null;
       if (result?.kind !== "rendered") {
         if (move.required || block.required) return null;
         continue;
       }
       for (const done of result.moves) {
         address.moves.push(done);
-        ledIn = done.parts.some((part) => part.part === "opener");
+        if (block.key === "to-vp") vpAhead = false;
+        for (const part of done.parts)
+          if (part.part === "opener") ledIn.add(part.text);
         for (const key of new Set(
           done.parts.flatMap((part) => part.usedFactKeys),
         ))
