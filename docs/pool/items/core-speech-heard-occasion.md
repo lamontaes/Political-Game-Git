@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-speech-heard-occasion
-pr:
+pr: #8497
 after:
 blocked-on:
 model: sonnet
