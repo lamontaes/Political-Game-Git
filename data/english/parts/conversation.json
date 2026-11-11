@@ -30548,10 +30548,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-say-core.about-is-the-one-i-d-go-to-the-mat-for",
+      "key": "conversation.own-view-say-core.the-one-i-d-go-to-the-mat-for-is-about",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "{about} is the one I'd go to the mat for.",
+      "text": "The one I'd go to the mat for is {about}.",
       "piece": {
         "of": "own-view-say",
         "part": "core",
@@ -30724,10 +30724,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-say-core.about-is-where-i-put-my-vote",
+      "key": "conversation.own-view-say-core.where-i-put-my-vote-is-about",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "{about} is where I put my vote.",
+      "text": "Where I put my vote is {about}.",
       "piece": {
         "of": "own-view-say",
         "part": "core",
@@ -30768,10 +30768,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-say-core.about-is-the-one-i-d-fight-hardest",
+      "key": "conversation.own-view-say-core.the-one-i-d-fight-hardest-is-about",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "{about} is the one I'd fight hardest.",
+      "text": "The one I'd fight hardest is {about}.",
       "piece": {
         "of": "own-view-say",
         "part": "core",
@@ -30944,10 +30944,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-say-core.about-is-where-i-d-draw-the-line",
+      "key": "conversation.own-view-say-core.where-i-d-draw-the-line-is-about",
       "move": "own-view-say-core",
       "kind": "spoken",
-      "text": "{about} is where I'd draw the line.",
+      "text": "Where I'd draw the line is {about}.",
       "piece": {
         "of": "own-view-say",
         "part": "core",
