@@ -14,7 +14,9 @@ rulings screen by screen under `docs/mocks/2026-11-07-approved/specs/`.
 ## The three layers
 
 1. **Names** (`:root` at the top of `src/bench/play.css`). Sizes, corners,
-   fonts and colors, each with a name: `--control-h`, `--control-pad`,
+   fonts and colors, each with a name: the type scale (`--t-label` 14px,
+   `--t-ui` 15px, `--t-read` 17px, `--t-h3` 20px, `--t-h2` 26px, `--t-h1`
+   34px, `--t-name` 40px, `--t-display` 58px), `--control-h`, `--control-pad`,
    `--control-radius`, `--control-font`, `--pick-*` for list rows, `--head-*`
    for heading strips, `--cream`, `--gold` and the rest. A rule reads a name
    with `var(--name)`. It never types its own pixel size, corner or color.
@@ -29,15 +31,17 @@ rulings screen by screen under `docs/mocks/2026-11-07-approved/specs/`.
 
 ## How to change something
 
-| You want to                             | Change                                                      |
-| --------------------------------------- | ----------------------------------------------------------- |
-| Make every button taller, or rounder    | `--control-h`, `--control-radius` in `:root`                |
-| Change the type on every button and tab | `--control-font`                                            |
-| Change how a chosen list row lights     | `--pick-on`, `--pick-hover`                                 |
-| Change every heading strip              | `--head-font`, `--head-wash`                                |
-| Change a color everywhere               | its name in `:root`                                         |
-| Change how one kind of control is built | its part in this folder, and its one block in `play.css`    |
-| Change what a screen shows              | the screen's function; it only chooses parts and hands data |
+| You want to                              | Change                                                       |
+| ---------------------------------------- | ------------------------------------------------------------ |
+| Make every button taller, or rounder     | `--control-h`, `--control-radius` in `:root`                 |
+| Change the type on every button and tab  | `--control-font`                                             |
+| Make every small label bigger or smaller | `--t-label` (he ruled labels about 14px, small text 15px up) |
+| Make all reading text bigger or smaller  | `--t-read`                                                   |
+| Change how a chosen list row lights      | `--pick-on`, `--pick-hover`                                  |
+| Change every heading strip               | `--head-font`, `--head-wash`                                 |
+| Change a color everywhere                | its name in `:root`                                          |
+| Change how one kind of control is built  | its part in this folder, and its one block in `play.css`     |
+| Change what a screen shows               | the screen's function; it only chooses parts and hands data  |
 
 ## How to add a screen
 
@@ -76,7 +80,7 @@ carries a second look.
 
 ## What is not unified yet (Nov 10, 2026)
 
-- 174 font sizes are still typed by hand, in 32 different pixel sizes. The
-  next step gives the type a scale of named steps and moves them onto it.
+- 11 font sizes are still typed by hand: titles that grow with the window
+  (`clamp(...)`), which need a scale step that grows too.
 - 61 hex colors and 12 corners are still typed by hand.
 - The Journal, patch notes and Travel lists do not use the pick list yet.
