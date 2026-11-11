@@ -26,12 +26,20 @@ Across ten worlds drawn with the probe (places drawn by `drawPlace` on seeds e1 
 
 ## What each address now names from its own world
 
-- Gold Hill: the home state (Pennsylvania) twice, the Vice President (Thomas Houston) twice, the President's line on legal cannabis sales once, and how far the economy, prices and work moved, each once, in words.
-- Orchard Mesa: the home state (Montana), the Vice President (Allison Molina) and the Speaker (Cindy Chambers), each twice at most.
-- Lyons: the Speaker (Carol Lee), the Vice President (Patricia Parker) and the home state (South Carolina), each twice at most.
+- Gold Hill: the home state (Pennsylvania), the Vice President (Thomas Houston) and the Speaker (Lois Fuller), each at most twice; the President's line on legal cannabis sales once; the economy, prices and work each moved once, in words.
+- Orchard Mesa: the home state (Montana), the Vice President (Allison Molina) and the Speaker (Cindy Chambers), each at most twice.
+- Lyons: the home state (South Carolina), the Vice President (Patricia Parker) and the Speaker (Carol Lee), each at most twice.
 
-## Retaken after the words lead's read (Nov 11, #8743)
+## Retaken after the words lead's two reads (Nov 11, #8743)
 
-The "after" texts and pictures were retaken on the same seeds after four changes: lead-ins only say who is spoken to, when or where, and none is said twice; a priority is one sentence, led in by its rank; a subject's movement is told once, and a pledge says what the President will do; no name is said more than twice. None of the three has a colon lead-in. The addresses are shorter (13 to 15 sentences against 25 to 31), because each priority is now one sentence instead of four.
+The "after" texts and pictures were retaken on the same seeds after both reads:
+
+- Lead-ins only say who is spoken to, when or where. None is said twice, and a time lead-in is never joined to a core that names the same time.
+- A priority is one sentence, led in by its rank. Congress is sent "a bill on" a priority.
+- A subject's movement is told once. A pledge says what the President will do, naming its subject plainly.
+- The year's hard news and good news are worded apart ("a shrinking paycheck", "rising pay").
+- No name is said more than twice, and no subject's words more than three times.
+
+The addresses are shorter than before (13 to 16 sentences against 25 to 31), because each priority is now one sentence instead of four.
 
 The test `src/director/opening-address-versions.test.ts` checks all of this on ten drawn worlds every run.
