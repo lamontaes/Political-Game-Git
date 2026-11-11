@@ -2,7 +2,7 @@
  * Travel lists where the player has political business
  * (play-travel-in-a-village-lists-no-town-office), in played worlds: the
  * town's (or county's) office is listed with the seat reason for a player who
- * holds a seat on its body, and for anyone else only in a week its body
+ * holds a seat on its body, and for anyone else only on the day its body
  * meets, with the meeting reason; on other days it stays out, as an office
  * listed only for being an office does (owner, Oct 26).
  */
@@ -25,7 +25,7 @@ const DRAWS = 8;
 const LOCAL = new Set(["city", "town", "village", "township", "borough"]);
 
 describe(`Travel and political business (seed ${seed})`, () => {
-  it("lists the town office for a seat holder and in a meeting week, with the reason", () => {
+  it("lists the town office for a seat holder and on the day its body meets, with the reason", () => {
     setBookkeeping(false);
     const proved: string[] = [];
     for (let at = 0; at < DRAWS && proved.length < PLACES; at += 1) {
@@ -72,30 +72,28 @@ describe(`Travel and political business (seed ${seed})`, () => {
           ? (Date.parse(next.date) - Date.parse(core.date)) / 86400000
           : Infinity;
       };
-      if (meetingIn() <= 7) {
-        // Step past this week's meeting first, to see it out.
-        advanceCore(core, addDays(makeIsoDate(core.date), 8));
-      }
-      if (meetingIn() > 7)
-        expect(
-          officeCard(resident)?.reasons.some((r) => r.kind === "meeting") ??
-            false,
-          `${where}: not listed for a meeting more than a week off`,
-        ).toBe(false);
+      const listed = () =>
+        officeCard(resident)?.reasons.some((r) => r.kind === "meeting") ??
+        false;
+      // On a day the body does not meet, a resident does not see its office.
+      if (meetingIn() > 0)
+        expect(listed(), `${where}: not listed on a day with no meeting`).toBe(
+          false,
+        );
       let steps = 0;
-      while (meetingIn() > 7 && steps < 60) {
+      while (meetingIn() > 0 && steps < 60) {
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
         steps += 1;
       }
-      if (meetingIn() > 7) continue;
+      if (meetingIn() > 0) continue;
       const card = officeCard(resident);
-      expect(card, `${where}: listed in the meeting week`).toBeTruthy();
+      expect(card, `${where}: listed on the meeting day`).toBeTruthy();
       expect(
         card!.reasons.some((r) => r.kind === "meeting"),
         `${where}: with the meeting reason`,
       ).toBe(true);
       console.log(
-        `travel-civic: ${where}: ${office.name} for seat ${council.seat.id}; meeting week on ${core.date}`,
+        `travel-civic: ${where}: ${office.name} for seat ${council.seat.id}; meeting day ${core.date}`,
       );
       proved.push(where);
     }

@@ -5,7 +5,6 @@ import { ageOnDate } from "../core2/kernel/dates";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
 import { upcomingMeeting } from "../core2/modules/office-day";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName } from "../director/words";
 import { backdropStaging } from "./staging";
@@ -69,8 +68,6 @@ const SCHOOL_AGE_UNDER = 19;
  * organization with a picture (owner, Oct 13: "Why would you need to visit
  * the market?").
  */
-/** The days ahead a body's meeting counts as this week (the Government screen's own window). */
-const MEETING_WEEK_DAYS = 7;
 /** The levels of a body that meets at its town's or county's own office. */
 const LOCAL_BODIES = new Set([
   "city",
@@ -87,14 +84,13 @@ const LOCAL_BODIES = new Set([
  * the same name, and may sit in the town's own jurisdiction rather than the
  * census place the player lives in, as a New England town does), each with
  * the record that is the reason: the seat they hold on its body, or the
- * body's meeting this week.
+ * body's meeting today.
  */
 function civicBusiness(
   core: CoreState,
   playerId: string,
 ): Map<string, { kind: "seat" | "meeting"; recordId: string }> {
   const api = coreAPI(core);
-  const through = addDays(makeIsoDate(core.date), MEETING_WEEK_DAYS);
   const business = new Map<
     string,
     { kind: "seat" | "meeting"; recordId: string }
@@ -108,7 +104,7 @@ function civicBusiness(
     }
     if (business.has(government)) continue;
     const meeting = office.seats > 1 ? upcomingMeeting(api, office.id) : null;
-    if (meeting && meeting.date <= through)
+    if (meeting && meeting.date === core.date)
       business.set(government, {
         kind: "meeting",
         recordId: `${office.id}:${meeting.date}`,
@@ -153,7 +149,7 @@ export function townPlaces(
   });
   // Where the player has political business by the records
   // (play-travel-in-a-village-lists-no-town-office): the town's or county's
-  // office, while they hold a seat on its body or its body meets this week.
+  // office, while they hold a seat on its body or its body meets today.
   // An office listed only for being an office stays out (owner, Oct 26).
   const civic = civicBusiness(core, playerId);
   const official = coreAPI(core)
