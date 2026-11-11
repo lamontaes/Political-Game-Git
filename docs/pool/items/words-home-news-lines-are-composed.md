@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: claude/words-w3-news
-pr:
+pr: 8786
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words

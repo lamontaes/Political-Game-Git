@@ -1190,6 +1190,29 @@ describe("hellos and goodbyes are composed from the records", () => {
     expect(composed.size).toBeGreaterThanOrEqual(30);
   });
 
+  it("at home, a talk given the evening's minute (the opening night) never says goodbye for the morning", () => {
+    const housemates = [
+      ...(core.households.get(me.householdId)?.memberIds ?? []),
+    ]
+      .filter((id) => id !== me.id && core.people.get(id)?.alive)
+      .map((id) => id as PersonId);
+    let byes = 0;
+    for (const otherId of housemates)
+      for (const minute of [20 * 60 + 30, 21 * 60]) {
+        const talk = openConversation(core, player.id, otherId, {
+          director,
+          minuteOfDay: minute,
+        });
+        for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+          say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+        const bye = talk.lines.find((line) => line.kind === "farewell");
+        if (!bye) continue;
+        byes += 1;
+        expect(bye.text, bye.text).not.toMatch(/morning|afternoon/);
+      }
+    process.stdout.write(`evening goodbyes at home: ${byes}\n`);
+  });
+
   it("at home, says the hour the clock gives: an evening goodbye never names the morning", () => {
     for (const [mark, said, never] of [
       ["evening", "tonight", /morning|afternoon/],

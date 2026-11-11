@@ -329,6 +329,8 @@ export interface Conversation {
   topics: string[];
   /** The main topic's facts, which the goodbye may name (internal). */
   topicFacts?: Facts;
+  /** The minute of the day the talk is had at, when the caller gave it (internal). */
+  minuteOfDay?: number;
   /** The director's ledger, read for what happened to whom (internal). */
   director?: Director;
   /** The moment the talk is the occasion of (a scene's), from the player's ledger. */
@@ -2783,6 +2785,8 @@ export function openConversation(
     director?: Director;
     /** The id of the player's moment the talk is the occasion of (a scene's). */
     occasionId?: string;
+    /** The minute of the day the talk is had at, where the screen knows it better than the clock (the opening evening). */
+    minuteOfDay?: number;
   } = {},
 ): Conversation {
   const data = options.data ?? CONVERSATION_DATA;
@@ -2799,6 +2803,9 @@ export function openConversation(
     recorded: [],
     topics: [],
     ...(options.director ? { director: options.director } : {}),
+    ...(options.minuteOfDay !== undefined
+      ? { minuteOfDay: options.minuteOfDay }
+      : {}),
   };
   const occasion = options.occasionId
     ? options.director?.ledger.people
@@ -3717,7 +3724,9 @@ function partingLine(
   // Someone of the player's they know, when the talk named nothing else.
   if (family && !key) facts.name = family;
   if (housemate)
-    for (const mark of dayParts(sceneMinute(core, conversation.playerId))) {
+    for (const mark of dayParts(
+      conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
+    )) {
       const said = dayPartSaid(mark);
       facts[mark] = { text: "yes", sourceRecordIds: [conversation.playerId] };
       if (said)
