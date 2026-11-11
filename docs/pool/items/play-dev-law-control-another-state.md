@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-dev-law-control-another-state
-pr:
+pr: #8614
 after:
 blocked-on:
 lead: play-first

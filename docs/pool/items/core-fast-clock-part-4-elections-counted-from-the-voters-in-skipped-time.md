@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-fast-clock-part-4-elections-counted-from-the-voters-in-skipped-time
 pr: #8606

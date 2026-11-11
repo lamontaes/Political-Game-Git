@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-stop-19-turning-eighteen-and-journal-silent
-pr:
+pr: #8612
 after:
 blocked-on:
 standard: 2

@@ -6,10 +6,10 @@ area: play
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-words-blocked-bill-names-the-state-law
+pr: #8688
 after:
 blocked-on:
 model: sonnet
@@ -17,6 +17,7 @@ effort: low
 root: rc10-screens-keep-own-facts
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:05:58.088Z
 ---
 
 **What.** When a town's income-tax, sales-tax or minimum-wage bill is barred by the state's law, the bill's screen says only that the state lets towns levy no such tax (src/bench/data/controls.json), and never which law says so. The bill's authority check already records that law's record id as its source (src/core2/modules/legislature.ts), and a state can now change the grant by bill. A player who sees their bill blocked should read the law's designation (the starting statute, or the bill that changed it, such as AB 54) beside the reason.
