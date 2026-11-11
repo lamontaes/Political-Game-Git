@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/macro-model.ts, src/core2/data/business-books.json, src/core2/data/business/parameters.json, src/core2/data/stopgaps/world.json, src/core2/data/stopgaps/p8.json
 
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given opening businesses owners and per-industry compliance cost and classified books; no player sees any of them.
