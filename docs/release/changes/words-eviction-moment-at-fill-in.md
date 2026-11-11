@@ -3,4 +3,4 @@ id: words-eviction-moment-at-fill-in
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Someone from a household that was evicted can now bring up the eviction and where they are staying, even when the household had been counted until you met them.
