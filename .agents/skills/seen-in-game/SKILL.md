@@ -84,6 +84,8 @@ Turn it on from the game's options (the "On" button under dev mode). What each c
 - **Someone the player talks to is kept for good.** The game never sends the player's household, family or anyone the player knows back to the counts, nor officials, public workers, business owners and candidates. To watch a household go back, have the player look in on a workplace without talking to anyone (the staff are filled in and not known), run past the wait of 180 to 240 days and the next first of the month, and read those people with dev mode.
 - **A change made on the first day can be taken as the starting point.** An engine that fits its opening on day one may absorb a law set that morning (Nov 10, Willow River, Minnesota: ending the income tax on day one moved the nation's unemployment a tenth of a point until the opening read the law of the day before). When a first-day change does almost nothing, repeat it after a month has run before calling the law weak, and report both.
 
+- **"Could not reach it" is a finding, not a failed check.** When a second session cannot get the game to play the scene a change is about, in several drawn places and with dev mode staging the cause, the player cannot reach it either. Say what was tried, what did arrive (the records) and what never did (the scene), and the lead files the missing step as its own item. On Nov 11 a helper asked to show an office-hours reply found that a played official is never visited at all: the case records came and no resident did, while the change's own test reached a visit only by watching every official and calling the scene directly. A test that stages its own scene proves the scene's code, not that play reaches it.
+
 ## Recording what you saw
 
 When it passes:

@@ -47,4 +47,5 @@ branch: claude/words-w4-family
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/family-news-talk.test.ts, src/english/conversation-words.ts, src/core2/closeness.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 50 lines, 13 with no insert and not excused (family 33 and 8, kin 17 and 5). Three today: "He's in the hospital.", "My father passed away.", "I don't think so." The relatives' own lives outside the town come from the `lives` skill's engines; this item only reads them.
+
 - 2026-11-11, Words builder W4: built on claude/words-w4-family, stacked on claude/words-w4-work. No line raised a relative the listener had not met before this (the `kin` subject had no raise line), so it never played; it now does, with a husk relative's town too. The `where they live now` reply is not built: the raise already names the town or the work.
