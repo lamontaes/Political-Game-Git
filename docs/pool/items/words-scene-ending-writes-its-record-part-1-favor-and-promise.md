@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/pool-words-scene-ending-writes-its-record-part-1-favor-and-promise
-pr:
+pr: #8505
 after:
 blocked-on:
 lead: director
