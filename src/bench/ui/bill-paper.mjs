@@ -7,6 +7,7 @@ import { makeButton } from "./button.mjs";
 import { makeCard } from "./card.mjs";
 import { bold, line, prose, heading } from "./text.mjs";
 import { stripSection, typedRow } from "./strips.mjs";
+import { noteLine } from "./list-row.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
 
 /**
@@ -144,6 +145,13 @@ export function billPaper(paper) {
     el("p", { className: "lbig", textContent: vote.big }),
     ...(vote.text ? [line(vote.text)] : []),
     ...(vote.rows ?? []).map((row) => typedRow(row.label, row.value)),
+    // The player's own members: a small label, then each name with their vote.
+    ...(vote.members?.rows.length
+      ? [
+          noteLine(vote.members.label),
+          ...vote.members.rows.map((row) => typedRow(row.label, row.value)),
+        ]
+      : []),
   ]);
   return el(
     "div",
@@ -166,6 +174,9 @@ export function billPaper(paper) {
         "div",
         { className: "mx3col" },
         stripSection(1, paper.whereLabel, ...where),
+        // Where the bill stands and what the player may do about it (the
+        // committee, the floor, staff, their vote), under where it is.
+        ...(paper.stage ?? []),
       ),
       el(
         "div",

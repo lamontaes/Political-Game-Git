@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts").
 
-**Files.** art/people-engine/v4/manifest.json, src/core2/data/stopgaps/play.json, src/bench/people-pack.test.ts
+**Files.** art/people-engine/v4/manifest.json, src/core2/data/stopgaps/play.json
 
 **Notes.**
 
