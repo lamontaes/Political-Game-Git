@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: speed/counted-appeal-reuse
 pr: #8092
 blocked-on:

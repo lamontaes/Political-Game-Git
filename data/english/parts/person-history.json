@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "person-history",
-  "description": "A person's history on their card, told as a short biography from the records the player would know of: born, school, a move, a partner, a child, work, a parent's death, the offices they won (owner, Nov 1: \"Elected legislator, it needs to be told like a story. How many times do I have to say that?\"). Each sentence of the story (person-history.story.<key>) has three forms: said of someone in the third person (the first sentence names them, the rest use their recorded pronouns), in the they form, and to the player about their own life. A run of terms in one office is one sentence. The card shows the year beside each sentence, so a sentence leaves it out. person-history.summary.<key> are the lines under the name: who they are now, and where they come from.",
+  "description": "A person's history on their card, told as a short biography from the records the player would know of: born, school, a move, a partner, a child, work, a parent's death, what happened to them in play (a job lost, a move, an illness, the law, a home, a business), the offices they won (owner, Nov 1: \"Elected legislator, it needs to be told like a story. How many times do I have to say that?\"). Each sentence of the story (person-history.story.<key>) has three forms: said of someone in the third person (the first sentence names them, the rest use their recorded pronouns), in the they form, and in the first person (.i) for the player's own life on the You screen. A run of terms in one office is one sentence. The card shows the year beside each sentence, so a sentence leaves it out. person-history.summary.<key> are the lines under the name: who they are now, and where they come from.",
   "slots": {
     "place": "A place's name from the place records.",
     "year": "The record's year.",
@@ -17,64 +17,13 @@
     "their": "Their possessive pronoun from their record (her, his).",
     "years": "The later years they won the same office again, joined as a list: 2013 and 2015.",
     "state": "A state's name from the place records: Ohio.",
-    "whom": "The person the story is about, as the object of a sentence: their full name the first time, then their pronoun (her, him)."
+    "whom": "The person the story is about, as the object of a sentence: their full name the first time, then their pronoun (her, him).",
+    "employers": "The earlier employers as a spoken list: A, B and C.",
+    "span": "How long a stretch of work lasted, as people say it: nine years.",
+    "here": "The town or county the person lives in now, from the place records."
   },
   "maxWords": 24,
   "parts": [
-    {
-      "key": "person-history.story.born.place.third",
-      "move": "story",
-      "text": "{who} was born in {place}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.born.place.they",
-      "move": "story",
-      "text": "They were born in {place}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.born.place.you",
-      "move": "story",
-      "text": "You were born in {place}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.born.year.third",
-      "move": "story",
-      "text": "{who} was born.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.born.year.they",
-      "move": "story",
-      "text": "They were born.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.born.year.you",
-      "move": "story",
-      "text": "You were born.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
     {
       "key": "person-history.story.school.started.third",
       "move": "story",
@@ -88,15 +37,6 @@
       "key": "person-history.story.school.started.they",
       "move": "story",
       "text": "They started school at {school}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.school.started.you",
-      "move": "story",
-      "text": "You started school at {school}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -121,15 +61,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.school.joined.you",
-      "move": "story",
-      "text": "You went to {stage} school at {school}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.school.stage.third",
       "move": "story",
       "text": "{who} went on to {stage} school.",
@@ -142,15 +73,6 @@
       "key": "person-history.story.school.stage.they",
       "move": "story",
       "text": "They went on to {stage} school.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.school.stage.you",
-      "move": "story",
-      "text": "You went on to {stage} school.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -175,15 +97,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.moved.in.you",
-      "move": "story",
-      "text": "You moved to the county.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.moved.away.third",
       "move": "story",
       "text": "{who} moved away.",
@@ -202,15 +115,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.moved.away.you",
-      "move": "story",
-      "text": "You moved away.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.partner.met.third",
       "move": "story",
       "text": "{who} met {name} in {place}.",
@@ -223,15 +127,6 @@
       "key": "person-history.story.partner.met.they",
       "move": "story",
       "text": "They met {name} in {place}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.partner.met.you",
-      "move": "story",
-      "text": "You met {name} in {place}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -274,15 +169,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.partner.home.you",
-      "move": "story",
-      "text": "You made a home with {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.partner.home-you.third",
       "move": "story",
       "text": "{who} made a home with you.",
@@ -313,15 +199,6 @@
       "key": "person-history.story.child.born.they",
       "move": "story",
       "text": "They had a child, {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.child.born.you",
-      "move": "story",
-      "text": "You had a child, {name}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -364,15 +241,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.work.started.you",
-      "move": "story",
-      "text": "You started as {title} at {employer}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.work.spell.third",
       "move": "story",
       "text": "{who} went to work at {employer}.",
@@ -385,15 +253,6 @@
       "key": "person-history.story.work.spell.they",
       "move": "story",
       "text": "They went to work at {employer}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.work.spell.you",
-      "move": "story",
-      "text": "You went to work at {employer}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -418,15 +277,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.work.spell-again.you",
-      "move": "story",
-      "text": "You went to work at {employer}, and went back in {years}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.work.spell-always.third",
       "move": "story",
       "text": "{who} went to work at {employer}, and kept going back.",
@@ -439,15 +289,6 @@
       "key": "person-history.story.work.spell-always.they",
       "move": "story",
       "text": "They went to work at {employer}, and kept going back.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.work.spell-always.you",
-      "move": "story",
-      "text": "You went to work at {employer}, and kept going back.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -472,15 +313,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.loss.parent.you",
-      "move": "story",
-      "text": "You lost your {relation}, {name}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.office.elected.third",
       "move": "story",
       "text": "{who} won election as {office}.",
@@ -493,15 +325,6 @@
       "key": "person-history.story.office.elected.they",
       "move": "story",
       "text": "They won election as {office}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.office.elected.you",
-      "move": "story",
-      "text": "You won election as {office}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -526,15 +349,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.office.elected-again.you",
-      "move": "story",
-      "text": "You won election as {office}, and won it again in {years}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.office.appointed.third",
       "move": "story",
       "text": "{who} was appointed {office}.",
@@ -547,15 +361,6 @@
       "key": "person-history.story.office.appointed.they",
       "move": "story",
       "text": "They were appointed {office}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.office.appointed.you",
-      "move": "story",
-      "text": "You were appointed {office}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -580,15 +385,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.office.appointed-again.you",
-      "move": "story",
-      "text": "You were appointed {office}, and won the seat in {years}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.office.entered.third",
       "move": "story",
       "text": "{who} took office as {office}.",
@@ -607,15 +403,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.office.entered.you",
-      "move": "story",
-      "text": "You took office as {office}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.office.entered-again.third",
       "move": "story",
       "text": "{who} took office as {office}, and was returned in {years}.",
@@ -628,15 +415,6 @@
       "key": "person-history.story.office.entered-again.they",
       "move": "story",
       "text": "They took office as {office}, and were returned in {years}.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.office.entered-again.you",
-      "move": "story",
-      "text": "You took office as {office}, and were returned in {years}.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -859,15 +637,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.office.elected-always.you",
-      "move": "story",
-      "text": "You won election as {office}, and won every race for the seat after that.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.office.appointed-always.third",
       "move": "story",
       "text": "{who} was appointed {office}, and won every race for the seat after that.",
@@ -886,15 +655,6 @@
       "kind": "written"
     },
     {
-      "key": "person-history.story.office.appointed-always.you",
-      "move": "story",
-      "text": "You were appointed {office}, and won every race for the seat after that.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
       "key": "person-history.story.office.entered-always.third",
       "move": "story",
       "text": "{who} took office as {office}, and was returned at every election after that.",
@@ -907,15 +667,6 @@
       "key": "person-history.story.office.entered-always.they",
       "move": "story",
       "text": "They took office as {office}, and were returned at every election after that.",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
-      "date": "2026-11-01",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.story.office.entered-always.you",
-      "move": "story",
-      "text": "You took office as {office}, and were returned at every election after that.",
       "origin": "authored",
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
@@ -991,6 +742,1248 @@
       "origin": "authored",
       "author": "Claude Sonnet (Fixer, the approved You screen)",
       "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.third",
+      "move": "story",
+      "text": "{who} moved in with {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.they",
+      "move": "story",
+      "text": "They moved in with {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in-you.third",
+      "move": "story",
+      "text": "{who} moved in with you in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in-you.they",
+      "move": "story",
+      "text": "They moved in with you in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.engaged.third",
+      "move": "story",
+      "text": "{who} got engaged to {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.engaged.they",
+      "move": "story",
+      "text": "They got engaged to {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.third",
+      "move": "story",
+      "text": "{who} married {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.they",
+      "move": "story",
+      "text": "They married {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.third",
+      "move": "story",
+      "text": "{who} separated from {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.they",
+      "move": "story",
+      "text": "They separated from {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.third",
+      "move": "story",
+      "text": "{who} lost {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.they",
+      "move": "story",
+      "text": "They lost {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.ill.third",
+      "move": "story",
+      "text": "{who} fell seriously ill in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.ill.they",
+      "move": "story",
+      "text": "They fell seriously ill in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.victim.third",
+      "move": "story",
+      "text": "{who} was the victim of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.victim.they",
+      "move": "story",
+      "text": "They were the victim of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.accused.third",
+      "move": "story",
+      "text": "{who} was accused of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.accused.they",
+      "move": "story",
+      "text": "They were accused of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.charged.third",
+      "move": "story",
+      "text": "{who} was charged with a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.charged.they",
+      "move": "story",
+      "text": "They were charged with a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.convicted.third",
+      "move": "story",
+      "text": "{who} was convicted of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.convicted.they",
+      "move": "story",
+      "text": "They were convicted of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.imprisoned.third",
+      "move": "story",
+      "text": "{who} went to prison in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.imprisoned.they",
+      "move": "story",
+      "text": "They went to prison in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.released.third",
+      "move": "story",
+      "text": "{who} was released from prison in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.released.they",
+      "move": "story",
+      "text": "They were released from prison in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.third",
+      "move": "story",
+      "text": "{who} lost the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.they",
+      "move": "story",
+      "text": "They lost the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.third",
+      "move": "story",
+      "text": "{who} lost {their} job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.they",
+      "move": "story",
+      "text": "They lost their job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.third",
+      "move": "story",
+      "text": "{who} was out of work in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.they",
+      "move": "story",
+      "text": "They were out of work in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.third",
+      "move": "story",
+      "text": "{who} moved to a new home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.they",
+      "move": "story",
+      "text": "They moved to a new home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.third",
+      "move": "story",
+      "text": "{who} moved away to {place} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.they",
+      "move": "story",
+      "text": "They moved away to {place} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.bought.third",
+      "move": "story",
+      "text": "{who} bought a home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.bought.they",
+      "move": "story",
+      "text": "They bought a home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.evicted.third",
+      "move": "story",
+      "text": "{who} was evicted from {their} home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.evicted.they",
+      "move": "story",
+      "text": "They were evicted from their home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.damaged.third",
+      "move": "story",
+      "text": "{who} had {their} home damaged in a disaster in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.damaged.they",
+      "move": "story",
+      "text": "They had their home damaged in a disaster in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.third",
+      "move": "story",
+      "text": "{who} graduated from {school} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.they",
+      "move": "story",
+      "text": "They graduated from {school} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.filed.third",
+      "move": "story",
+      "text": "{who} filed to run for {office} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.filed.they",
+      "move": "story",
+      "text": "They filed to run for {office} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.left.third",
+      "move": "story",
+      "text": "{who} left office as {office} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.left.they",
+      "move": "story",
+      "text": "They left office as {office} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.business.founded.third",
+      "move": "story",
+      "text": "{who} started {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.business.founded.they",
+      "move": "story",
+      "text": "They started {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.business.closed.third",
+      "move": "story",
+      "text": "{who} closed {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.business.closed.they",
+      "move": "story",
+      "text": "They closed {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.started.i",
+      "move": "story",
+      "text": "I started school at {school}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.joined.i",
+      "move": "story",
+      "text": "I went to {stage} school at {school}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.stage.i",
+      "move": "story",
+      "text": "I went on to {stage} school.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.i",
+      "move": "story",
+      "text": "I moved to the county.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.i",
+      "move": "story",
+      "text": "I moved away.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.i",
+      "move": "story",
+      "text": "I met {name} in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.i",
+      "move": "story",
+      "text": "I made a home with {name}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.i",
+      "move": "story",
+      "text": "I had a child, {name}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.started.i",
+      "move": "story",
+      "text": "I started as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.i",
+      "move": "story",
+      "text": "I went to work at {employer}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-again.i",
+      "move": "story",
+      "text": "I went to work at {employer}, and went back in {years}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-always.i",
+      "move": "story",
+      "text": "I went to work at {employer}, and kept going back.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.i",
+      "move": "story",
+      "text": "I lost my {relation}, {name}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.i",
+      "move": "story",
+      "text": "I won election as {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-again.i",
+      "move": "story",
+      "text": "I won election as {office}, and won it again in {years}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.i",
+      "move": "story",
+      "text": "I was appointed {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-again.i",
+      "move": "story",
+      "text": "I was appointed {office}, and won the seat in {years}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.i",
+      "move": "story",
+      "text": "I took office as {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-again.i",
+      "move": "story",
+      "text": "I took office as {office}, and were returned in {years}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-always.i",
+      "move": "story",
+      "text": "I won election as {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-always.i",
+      "move": "story",
+      "text": "I was appointed {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-always.i",
+      "move": "story",
+      "text": "I took office as {office}, and were returned at every election after that.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.moved-in.i",
+      "move": "story",
+      "text": "I moved in with {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.engaged.i",
+      "move": "story",
+      "text": "I got engaged to {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.married.i",
+      "move": "story",
+      "text": "I married {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.separated.i",
+      "move": "story",
+      "text": "I separated from {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.died.i",
+      "move": "story",
+      "text": "I lost {name} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.ill.i",
+      "move": "story",
+      "text": "I fell seriously ill in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.victim.i",
+      "move": "story",
+      "text": "I was the victim of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.accused.i",
+      "move": "story",
+      "text": "I was accused of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.charged.i",
+      "move": "story",
+      "text": "I was charged with a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.convicted.i",
+      "move": "story",
+      "text": "I was convicted of a crime in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.imprisoned.i",
+      "move": "story",
+      "text": "I went to prison in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.law.released.i",
+      "move": "story",
+      "text": "I was released from prison in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost.i",
+      "move": "story",
+      "text": "I lost the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.job-lost-plain.i",
+      "move": "story",
+      "text": "I lost my job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.out.i",
+      "move": "story",
+      "text": "I was out of work in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.home.i",
+      "move": "story",
+      "text": "I moved to a new home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away-to.i",
+      "move": "story",
+      "text": "I moved away to {place} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.bought.i",
+      "move": "story",
+      "text": "I bought a home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.evicted.i",
+      "move": "story",
+      "text": "I was evicted from my home in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.home.damaged.i",
+      "move": "story",
+      "text": "I had my home damaged in a disaster in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.finished.i",
+      "move": "story",
+      "text": "I graduated from {school} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.filed.i",
+      "move": "story",
+      "text": "I filed to run for {office} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.left.i",
+      "move": "story",
+      "text": "I left office as {office} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.business.founded.i",
+      "move": "story",
+      "text": "I started {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.business.closed.i",
+      "move": "story",
+      "text": "I closed {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.third",
+      "move": "story",
+      "text": "{who} worked at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.they",
+      "move": "story",
+      "text": "They worked at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.history.i",
+      "move": "story",
+      "text": "I worked at {employers} before {employer}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.third",
+      "move": "story",
+      "text": "{who} worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.third",
+      "move": "story",
+      "text": "{who} worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.third",
+      "move": "story",
+      "text": "{who} went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.they",
+      "move": "story",
+      "text": "They worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.they",
+      "move": "story",
+      "text": "They worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.they",
+      "move": "story",
+      "text": "They went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.i",
+      "move": "story",
+      "text": "I worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.i",
+      "move": "story",
+      "text": "I worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.i",
+      "move": "story",
+      "text": "I went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.third",
+      "move": "story",
+      "text": "{who} lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.they",
+      "move": "story",
+      "text": "They lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.i",
+      "move": "story",
+      "text": "I lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.third",
+      "move": "story",
+      "text": "{who} left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.they",
+      "move": "story",
+      "text": "They left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.i",
+      "move": "story",
+      "text": "I left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.third",
+      "move": "story",
+      "text": "{who} retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.they",
+      "move": "story",
+      "text": "They retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.i",
+      "move": "story",
+      "text": "I retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.third",
+      "move": "story",
+      "text": "{employer} closed in {year}, and {who} lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.they",
+      "move": "story",
+      "text": "{employer} closed in {year}, and they lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.i",
+      "move": "story",
+      "text": "{employer} closed in {year}, and I lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.third",
+      "move": "story",
+      "text": "{who} took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.they",
+      "move": "story",
+      "text": "They took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.i",
+      "move": "story",
+      "text": "I took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.third",
+      "move": "story",
+      "text": "{who} retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.they",
+      "move": "story",
+      "text": "They retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.i",
+      "move": "story",
+      "text": "I retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.third",
+      "move": "story",
+      "text": "{who} lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.they",
+      "move": "story",
+      "text": "They lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.i",
+      "move": "story",
+      "text": "I lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.third",
+      "move": "story",
+      "text": "{who} got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.they",
+      "move": "story",
+      "text": "They got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.i",
+      "move": "story",
+      "text": "I got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.third",
+      "move": "story",
+      "text": "{who} won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.they",
+      "move": "story",
+      "text": "They won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.i",
+      "move": "story",
+      "text": "I won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
       "kind": "written"
     }
   ]

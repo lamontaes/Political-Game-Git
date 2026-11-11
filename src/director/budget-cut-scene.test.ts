@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { lineForPost } from "../core2/budgets-treasury";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -21,6 +22,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { SITUATION_LIBRARY } from "./scheduling";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The department head argues a cut (episode budget-cut-department-head,
 // docs/design/scenes/from-life/budget-cut-department-head.md). When the
@@ -155,7 +157,13 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
     const binding = schedule(record.id);
     expect(binding, `${where}: no scene from the cut`).toBeTruthy();
     const chair = binding!.roles.find((row) => row.role === "head")!.personIds;
-    expect(chair, where).toEqual([head.holderId]);
+    // The post can change hands during the year (seed 394907bd…, Enigma,
+    // Georgia: a new fire chief), so the head is whoever holds the
+    // appointment on the day of the cut.
+    const holder =
+      appointmentsIn(api, town).find((row) => row.id === head.id)?.holderId ??
+      head.holderId;
+    expect(chair, where).toEqual([holder]);
     const entry = book.schedule.find((row) =>
       row.momentId.includes(record.id),
     )!;
@@ -173,6 +181,13 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
     expect(said("cut")?.recordIds, where).toContain(record.id);
     expect(said("post")?.text, where).toBe(head.title.toLowerCase());
     expect(said("post")?.recordIds, where).toContain(head.id);
+    // What the line pays for, in the words the budget screen names it.
+    const named = (lineNames.lines as Record<string, { name: string }>)[line]!
+      .name;
+    expect(said("line")?.text, where).toBe(
+      named.charAt(0).toLowerCase() + named.slice(1),
+    );
+    expect(said("line")?.recordIds, where).toContain(record.id);
     if (spending)
       expect(said("percent")?.recordIds, where).toContain(budget!.id);
 
@@ -191,16 +206,21 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
         }
       })(scene.talk.tree),
     ];
+    // No line leans on something nobody said.
+    for (const line_ of lines)
+      expect(line_.text, `${where}: ${line_.text}`).not.toMatch(
+        /has the page|send me the list/i,
+      );
     for (const line_ of lines)
       expect(line_.text, where).not.toMatch(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
       );
 
-    // Four replies, four stances: four different moves, four different lines.
+    // Up to four replies, all different stances: different moves, different lines (owner, Nov 10).
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["agree", "refuse", "bargain", "ask"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["agree", "refuse", "bargain", "ask"], where).toContain(row.move);
     expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
 
     // A different speaker says it differently: across trait profiles the
@@ -252,7 +272,7 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
     expect(schedule(admin.id), `${where}: no post draws on it`).toBeFalsy();
 
     console.log(
-      `BUDGET-CUT ${where}: ${head.title} ${head.holderId} on ${line}, cut ${said("cut")?.text}${said("percent") ? ` (${said("percent")!.text} percent)` : ""}${said("years") ? `, ${said("years")!.text} years in post` : ""}\n${scene.talk.lines.map((row) => `  ${row.text}`).join("\n")}`,
+      `BUDGET-CUT ${where}: ${head.title} ${head.holderId} on ${line}, cut ${said("cut")?.text}${said("percent") ? ` (${said("percent")!.text} percent)` : ""}${said("years") ? `, ${said("years")!.text} years in post` : ""}\n${lines.map((row) => `  ${row.text}`).join("\n")}\n  records: ${record.id}, ${head.id}${budget ? `, ${budget.id}` : ""}`,
     );
     return;
   }

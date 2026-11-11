@@ -10,7 +10,8 @@
  * or a transcript of a voice message); the batch is
  * docs/coordination/batches/2026-11-09-batch-2.json. The output is a grade
  * file for data/english/grades/ whose rows carry the line's `key`, its
- * `spans` and the `note`, which `grade-map.ts` reads.
+ * `spans` and the `note`; `apply-grades.ts` counts a whole-line verdict in
+ * the ledger.
  *
  * How a note is read, from how the owner grades in the voice notes
  * (docs/coordination/voice-notes/, the batch rulings in OWNER-DECISIONS.md):
@@ -46,7 +47,7 @@ const WORDS: readonly [RegExp, number][] = [
     -1,
   ],
   [
-    /\b(don'?t (really )?like|didn'?t like|not (a )?(huge |big )?fan|can'?t say i'?m a (huge |big )?fan|not good|no good|bad|awkward|weird|cheesy|stiff|clunky|unnatural|fragment|filler|no context|missing (a little )?context|robotic|sounds like ai|generic|vague|wrong|creepy|jargon|dev language|dev talky|doesn'?t (really |necessarily )?(fit|make sense|work)|out of place|too much|how would (they|he|she|you|anyone) know|(don'?t|do not) have any context)\b|\bthat doesn'?t\s*\.{2,}/,
+    /\b(don'?t (really )?like|didn'?t like|not (a )?(huge |big )?fan|can'?t say i'?m a (huge |big )?fan|not good|no good|bad|awkward|weird|cheesy|stiff|clunky|unnatural|fragment|filler|no context|missing (a little )?context|robotic|sounds like ai|generic|vague|wrong|creepy|jargon|dev language|dev talky|doesn'?t (really |necessarily )?(fit|make sense|work)|out of place|too much|how would (they|he|she|you|anyone) know|(don'?t|do not) have any context|not (quite |really )?sure what (that|this|it) means|(don'?t|do not) (really |quite |even )?(know|understand) what (that|this|it) means|(don'?t|do not) (really |quite )?understand (that|this|it)\b)\b|\bthat doesn'?t\s*\.{2,}/,
     -0.75,
   ],
   [

@@ -483,7 +483,8 @@ function payCountedPremiums(api: CoreAPI): void {
       reasonKey: "health.premium",
       source: { ...row.source, asOf: today },
     });
-    countedTable(api).put({
+    // A fresh row over the stored one's frozen parts: frozen in place, not copied.
+    countedTable(api).putOwned({
       ...row,
       lastDueMinor: row.premiumMonthlyMinor,
       lastPaidMinor: paid,

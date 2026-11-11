@@ -5,15 +5,22 @@ area: people
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model"
 claimed-at:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: researcher
+after:
+checked: fable 2026-11-10
 ---
 
-**What.** Source the numbers behind births, drives, kin and views. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 4 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
+**What.** Source the numbers behind births, drives, kin and views. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The Oct 24 slice delivered the birth age, spacing, gestation and income-fallback rows, volunteer hours and two personality correlations, with nine research files. Seven rows remain open because each still fakes something its replacement names: the 14 behavior weights and pulls have no convertible source, renewalReviewDays is a fixed step (bug people-renewal-renewalReviewDays-as-cause), no appraisal study with an effect that converts to a perception-channel weight was found, and norms on the five personality dimensions themselves remain.
 
 - `SG-M1-births-circumstances` in src/core2/births-plan.ts: Old smooth family-plan coefficients; living-cost and household-size housing proxies, recorded affect health proxy, identity gender carrier proxy, successful planned singleton pregnancy with fixed conception-relative duration, infant inactive discretionary tier until future development work. Replacement: Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant development producer. (parameter rows: src/core2/data/renewal/parameters.json:renewalReviewDays, src/core2/data/renewal/parameters.json:renewalGestationDays, src/core2/data/renewal/parameters.json:renewalAgeCenter, src/core2/data/renewal/parameters.json:renewalAgeSpread, src/core2/data/renewal/parameters.json:renewalAgeWeight, src/core2/data/renewal/parameters.json:renewalChildWeight, src/core2/data/renewal/parameters.json:renewalNoChildPull, src/core2/data/renewal/parameters.json:renewalPerChildPull, src/core2/data/renewal/parameters.json:renewalTimingWeight, src/core2/data/renewal/parameters.json:renewalTimingPeakYears, src/core2/data/renewal/parameters.json:renewalIncomeWeight, src/core2/data/renewal/parameters.json:renewalMedianAnnualIncomeMinor, src/core2/data/renewal/parameters.json:renewalHousingWeight, src/core2/data/renewal/parameters.json:renewalHealthWeight, src/core2/data/renewal/parameters.json:renewalWaitPull, src/core2/data/renewal/parameters.json:renewalJobWeight, src/core2/data/renewal/parameters.json:renewalRoomWeight, src/core2/data/renewal/parameters.json:renewalConditionWeight, src/core2/data/renewal/parameters.json:renewalClosenessWeight, src/core2/data/renewal/parameters.json:renewalRecoveryWeight)
 - `SG-P10-response-model` in src/core2/data/drives.json: Drive formation as one scored choice among response rows (carry on, take up a cause, hold a grudge, guard family, prove oneself, answer a calling), using the shared chooser and trait-act table; the response set and goal pressures are prototype assumptions. Replacement: Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies).
@@ -23,11 +30,19 @@ claimed-at:
 - `SG-P15-personality-mapping` in src/core2/data/opening-kin.json: The five temperament dimensions are read from five NEO facets (CTO-approved October 10, 2026) with BLSA age curves, IPIP-NEO sex differences and NEO-PI-R manual facet correlations; the A4 compliance age curve's quadratic term is held at zero because it is not legible in the source manuscript, and each dimension uses one facet rather than its own norms. Replacement: The A4 quadratic term from a legible copy of Terracciano and others (2005) Table 2, and norms measured on the five dimensions themselves. (parameter rows: src/core2/data/parameters.json:personalitySociabilityRiskCorrelation, src/core2/data/parameters.json:personalityReliabilityImpulseCorrelation)
 - `SG-P15-views-first-version` in src/core2/modules/views.ts: Opening views read the person's state and age band (the CES cell), their education and faith profile (opening-profile.ts, itself a stopgap) and a household heritage; the 14 values and issue stances at the opening are not formed. Replacement: Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).
 
+**Cause.** Design: each stopgap row named below is still open in its family file under src/core2/data/stopgaps/ and waits on sourced data. The rule is AGENTS.md "Placeholders" (every shortcut registered, every number tagged SOURCED, ESTIMATED or TUNABLE), and the research is in docs/research/pool-feeder-oct20/research-people-sourced-parameters.md.
+
+**Fix.** Source what can be sourced. The fourteen behavior weights have no convertible source (keep them TUNABLE with the reason), and renewalReviewDays is a fixed step, filed as a bug.
+
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** A second session reads the parameter tables for every behavior weight that has a convertible source and finds each SOURCED or ESTIMATED with a citation (publisher, year, URL) and a spread (low, high, unit, citation). In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) it sees the engine read each new value by record id, with where the town landed reported next to the real figure; the real figure is reported only and is not a pass mark. Each stopgap row this item takes is resolved in its family file under src/core2/data/stopgaps/ with the source named, or stays open with its replacement naming the research file, the estimate's source and spread, and the item that would close it. tests/guards/research-data-has-reader.test.ts and the tripwire and calibration-guard tests pass.
 
-**Files.** src/core2/births-plan.ts, src/core2/data/drives.json, src/core2/data/opening-kin.json, src/core2/modules/views.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, docs/research/pool-feeder-oct20/research-people-sourced-parameters.md
+**Waits on.** Nothing.
+
+**Files.** src/core2/births-plan.ts, src/core2/data/drives.json, src/core2/data/opening-kin.json, src/core2/modules/views.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/m1.json, src/core2/data/stopgaps/p10.json, src/core2/data/stopgaps/p15.json, docs/research/pool-feeder-oct20/research-people-sourced-parameters.md
 
 **Notes.** Folded from: people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-people-sourced-parameters.md (7 rows: 3 sourced, 3 estimated, 1 mechanic).
 
@@ -36,3 +51,5 @@ Oct 24, 2026: split. PR 5868 (item research-people-births-volunteer-rows) delive
 Sent back 2026-10-23 from PR #5868 (branch claude/dreamy-tesla-bgi3ui-people): The table leaves renewalReviewDays, fourteen weights and all seven stopgap resolutions unmet; route the completed parameter subset to bounded acceptance while retaining unidentified and mechanic work open; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced the births, drives, kin and views numbers; they may stay estimates with their spreads.

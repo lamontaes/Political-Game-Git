@@ -24,6 +24,7 @@ import {
 import { lawChain } from "../core2/modules/laws";
 import {
   candidateIdentity,
+  pollingPlaceOf,
   resultOf,
   returnsOf,
 } from "../core2/modules/voting";
@@ -153,6 +154,28 @@ export function electionDay(
         : {}),
     });
   }
+  // Where the voter votes, from the voting engine's polling place record: the
+  // building (the town government's own), the precinct where the town has
+  // more than one, and one of the people who work it that day.
+  const polls = visit?.pollingPlaceId
+    ? pollingPlaceOf(api, personId, date)
+    : null;
+  const building = polls?.buildingId
+    ? core.organizations.get(polls.buildingId as EntityId)
+    : undefined;
+  if (polls) {
+    const cited = [polls.id, ...(polls.buildingId ? [polls.buildingId] : [])];
+    say("polls", {
+      ...(building ? { building: fact(building.name, ...cited) } : {}),
+      ...(polls.precincts > 1
+        ? { precinct: fact(polls.precinct, ...cited) }
+        : {}),
+    });
+  }
+  const workerId = polls?.pollWorkers?.ids.find((id) => id !== personId);
+  const worker = workerId ? nameOf(api, workerId) : null;
+  if (polls && workerId && worker)
+    say("poll-worker", { worker: fact(worker, polls.id, workerId) });
   const helper = own ? canvasser(api, own.filing.id, personId) : null;
   if (own && !canvassed)
     say("canvass", {

@@ -41,6 +41,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
+import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
   questionName,
   storyTopicName,
@@ -87,6 +88,7 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { newsFacts } from "./news-facts";
+import { constituentFacts } from "./constituent-help-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -102,6 +104,7 @@ const HOME_DAMAGED_EVENT = "disaster.home-damaged";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
+  incumbentOf,
   petitionOf,
 } from "../core2/modules/elections";
 import {
@@ -117,6 +120,7 @@ import {
   PRESS_STORY_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
 import { properName, spoken, spokenDate, stateInSentence } from "./words";
@@ -269,9 +273,11 @@ export function destinationSaid(
 /**
  * The type as its cause plays it: a cause may name its own `sceneKey`, which
  * tags the exchange's pieces in place of the type's key, so one purpose speaks
- * for each cause's own reason (the cause is matched by the moment's label).
+ * for each cause's own reason (the cause is matched by the moment's label),
+ * and may name the purpose it plays when the type's other causes have none.
+ * The caller's own fields (a type's `repeatsBy`) come back with it.
  */
-export function typeForCause(type: PurposeType, label: string): PurposeType {
+export function typeForCause<T extends PurposeType>(type: T, label: string): T {
   const causes = (type as { causes?: SituationType["causes"] }).causes;
   const cause = causes?.find((row) => row.match?.label === label);
   return {
@@ -972,7 +978,7 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: said.office,
+      text: titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -999,6 +1005,68 @@ function composeBinding(
         text: theirs,
         sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
       };
+  }
+  // A player who filed after others (the circumstance rival-known-late): the
+  // candidates already on the contest's ballot, each said by what their
+  // candidacy shows, the incumbent or the party they run under, cited to the
+  // filings and the count of them.
+  if (
+    record?.kind === "candidate-filed" &&
+    said.contestId &&
+    core.modules.has(ELECTIONS_MODULE_ID)
+  ) {
+    const elections = coreAPI(core as CoreState);
+    const incumbent = incumbentOf(elections, said.contestId);
+    const earlier = ballot(elections, said.contestId)
+      .filter((row) => row.personId !== askedId)
+      .sort(
+        (a, b) =>
+          a.filedOn.localeCompare(b.filedOn) || a.id.localeCompare(b.id),
+      );
+    const said_ = earlier.flatMap((row) => {
+      const person = core.people.get(row.personId as PersonId);
+      if (!person) return [];
+      const name = `${person.givenName} ${person.familyName}`;
+      return [
+        {
+          row,
+          name,
+          text:
+            incumbent?.personId === row.personId
+              ? `incumbent ${name}`
+              : row.party && row.party !== "party"
+                ? `${row.party} candidate ${name}`
+                : name,
+        },
+      ];
+    });
+    if (said_.length) {
+      const cited = [moment.causeId, ...said_.map((row) => row.row.id)];
+      const list =
+        said_.length === P.one
+          ? said_[P.zero]!.text
+          : `${said_
+              .slice(P.zero, -P.one)
+              .map((row) => row.text)
+              .join(", ")} and ${said_.at(-P.one)!.text}`;
+      facts["already-filed"] = {
+        text: String(said_.length),
+        sourceRecordIds: cited,
+      };
+      facts.rivals = { text: list, sourceRecordIds: cited };
+      facts.opponent = {
+        text: said_[P.zero]!.name,
+        sourceRecordIds: [moment.causeId, said_[P.zero]!.row.id],
+      };
+      if (
+        incumbent &&
+        said_.some((row) => row.row.personId === incumbent.personId)
+      )
+        facts["rival-incumbent"] = {
+          text: "yes",
+          sourceRecordIds: [moment.causeId, incumbent.id],
+        };
+    }
   }
   // What the relative has at stake in the run or the lost race, from the
   // household's and the campaign's records (the cast rule chose them for it):
@@ -1057,6 +1125,11 @@ function composeBinding(
     resultFacts(facts, record.personIds, winner, askerId, askedId, {
       id: moment.causeId,
     });
+  // Who turned out, from the count's own rows: the winner's share of the
+  // ballots, the share of the eligible who voted and the place that gave the
+  // winner the biggest share.
+  if (record?.kind === "election-result" && said.contestId)
+    Object.assign(facts, raceTurnoutFacts(core, said.contestId));
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {
@@ -1199,7 +1272,7 @@ function composeBinding(
     };
     facts.self = { text: asked.givenName, sourceRecordIds: [askedId] };
     facts.office = {
-      text: door.office,
+      text: titleInSentence(door.office),
       sourceRecordIds: [moment.causeId, door.contestId],
     };
   }
@@ -1210,6 +1283,17 @@ function composeBinding(
       sourceRecordIds: [askedId],
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
+  }
+  // A reporter's call is about something: the bill the record names, else the
+  // topic it is about. The lines that follow (what the reporter will print,
+  // check or hold) name it through `story`, cited to the records it came from.
+  if (type.purpose === "press-comment" && !facts.story) {
+    const about = facts.bill ?? facts.cause;
+    if (about)
+      facts.story = {
+        text: about.text,
+        sourceRecordIds: about.sourceRecordIds,
+      };
   }
   // The kind's own arc, or the variant of it the records give this cause. A
   // scene where the player asks plays the kind's own arc: its variants are
@@ -1239,6 +1323,22 @@ function composeBinding(
           text: "yes",
           sourceRecordIds: [...variant.recordIds],
         };
+  // A constituent's own records, worded: the job they lost, the notice on
+  // their rent, the pay under the floor, the relative who is ill.
+  if (variant && type.purpose === "constituent-help")
+    Object.assign(
+      facts,
+      constituentFacts(
+        core,
+        askerId,
+        {
+          id: moment.causeId,
+          date: record?.date ?? moment.date,
+          facts: said,
+        },
+        variant,
+      ),
+    );
   // A trade names the bill the asker already voted for, the asked person's own:
   // the most recent, from the asker's vote record.
   if (variant && (variant.reads["favor-given"] ?? P.zero) > P.zero) {
@@ -1445,6 +1545,16 @@ function cutFacts(
         sourceRecordIds: [causeId, budget.id],
       };
   }
+  // What the line pays for, as the budget screen names it ("police
+  // protection"), from the line the record names.
+  const lineName = (
+    lineNames.lines as Record<string, { readonly name: string } | undefined>
+  )[said.line ?? ""]?.name;
+  if (lineName)
+    facts.line = {
+      text: lineName.charAt(P.zero).toLowerCase() + lineName.slice(P.one),
+      sourceRecordIds: [causeId, ...(budget ? [budget.id] : [])],
+    };
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
     (row) => row.holderId === headId,
   );

@@ -417,6 +417,21 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "rival-known-late",
+      "recordKinds": ["candidate-filed"],
+      "playerNamed": true,
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "filed-late",
+      "cast": "the day after the player files in a race others filed for first, someone who lives with them, telling who is already on the ballot; scored on tie and sociability",
+      "typeKey": "rival-filed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceRaceImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "race-result-known",
       "recordKinds": ["election-result"],
       "afterDays": 1,
@@ -425,6 +440,21 @@
       "where": "known",
       "player": "anyone",
       "cast": "the day after the count, someone the player knows who ran in the race or is tied to a candidate in it (their family, household or the people they knew), telling who won; scored on tie and sociability",
+      "typeKey": "race-told",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceRaceImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
+      "id": "race-result-known-after-ran",
+      "recordKinds": ["election-result"],
+      "playerNamed": true,
+      "afterDays": 2,
+      "place": "public",
+      "pool": ["ties-of-each-named"],
+      "where": "known",
+      "player": "ran-in-it",
+      "cast": "two days after the count, for a player who ran in it (the morning after took the day before), someone the player knows who ran in the race or is tied to a candidate in it (their family, household or the people they knew), telling who won; scored on tie and sociability",
       "typeKey": "race-told",
       "outcome": "conversation.told",
       "impactParameter": "directorCircumstanceRaceImpact",

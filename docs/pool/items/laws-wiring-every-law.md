@@ -4,22 +4,37 @@ title: "Every law wired on all nine links, with a checker and matrix"
 area: laws
 kind: wiring
 priority: 1
-size: L
+size: S
 status: open
+standard: 2
 claimed-by:
 pr: #5547
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: laws-effects
+model: sonnet
+effort: low
+root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
-**What.** Laws take effect and most reach nobody, move no money and move no outcome measure. Build a checker that changes every law in drawn places and grades nine links, publish the matrix, then wire every family of laws on its own pull request. Each family's engine records whom it applied a law to through lawApplied.
+**What.** This is the umbrella for the law-wiring work: every law wired on all nine links, with a checker (scripts/law-wiring/check.ts) and a published matrix (docs/reports/law-wiring-matrix.json). Laws take effect and most reached nobody, moved no money and moved no outcome measure; the family items fixed that family by family. It is closed only by its five family items (laws-nine-links-health-schools, laws-nine-links-housing-credit, laws-nine-links-justice, laws-nine-links-rights-env, laws-nine-links-taxes), never by a PR that names it on line 1, and laws-remaining-families is proposed to merge into it. The matrix is paperwork (root cause rc8), so each family must also be seen in the running game.
+
+**Cause.** Design: scripts/law-wiring/check.ts, docs/reports/law-wiring-matrix.json and .agents/skills/wiring-audit/SKILL.md; root cause rc8 (docs/pool/roots.md).
+
+**Fix.** Do not build directly. It closes when the five open family items are done and a second session sees one law per family move a dollar in dev mode.
+
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** An effect is a read: the engine that pays or decides reads the law and records whom it applied it to. One model, two tiers: counted groups take the same rule as full people. Wire to the world: every law moves money or people in a played world.
 
-**Done when.** In two places drawn from all 56, the checker scripts/law-wiring/check.ts on buildBenchWorld shows every law wired on all nine links or carrying a specific stopgap row, docs/reports/law-wiring-matrix.json shows it, and each family test names record ids. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session, not the builder, plays dev mode in a drawn place on a seed nobody chose, after the five family items are done, and sees one law from each family move a dollar to a named person or household, by `lawApplied` record id and journal entry. The checker scripts/law-wiring/check.ts on buildBenchWorld shows every law wired on all nine links or carrying a specific stopgap row in docs/reports/law-wiring-matrix.json.
 
-**Files.** scripts/law-wiring/check.ts, src/core2/law-reach/applied.ts, src/core2/law-reach/host.ts, docs/reports/law-wiring-2026-10-20.md
+**Waits on.** laws-nine-links-health-schools, laws-nine-links-housing-credit, laws-nine-links-justice, laws-nine-links-rights-env, laws-nine-links-taxes (the CTO sets after: when these are the gate).
+
+**Files.** scripts/law-wiring/check.ts, src/core2/law-reach/applied.ts, src/core2/law-reach/host.ts, docs/reports/law-wiring-matrix.json, docs/reports/law-wiring-2026-10-20.md
 
 **Notes.** TODO
 
@@ -42,3 +57,5 @@ Merger 0: Sent back 2026-10-26 from status-report PR #6164 (branch claude/law-wi
 Merger 0: Sent back 2026-10-26 from report-only PR #6164 (branch claude/law-wiring-report-oct26), checked head 2b921be19ed566bf2472f10e21e04f108b4bb019: report lines 3, 18 and 24-32 claim current main but retain the old 45/89 matrix counts; merged main records 55/89 fully wired with different link counts. Refresh from merged main or label all old counts historical, then finish on that branch, merge main into it first. This factual source return supersedes the earlier resolved authentication blocker. No pool acceptance completed; this umbrella stays open and keeps PR #5547.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of the nine-links family items (bare umbrella id on line 1 closes it on merge per its own Note); the children carry the work.
+
+**Notes (pool redo, Nov 10).** The brief's five "parts" for this item are the five family items themselves, which already exist, so no part files were created; they are listed in Waits on.

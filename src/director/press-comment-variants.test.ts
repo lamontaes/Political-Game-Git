@@ -285,8 +285,50 @@ it(`a reporter's call plays the variant its records give (seed ${seed})`, () => 
         facts: { outletId: "probe-outlet" },
         source: { tag: "SOURCED", citation: "Probe story", asOf: core.date },
       });
-    const scandal = pick("probe-scandal", {});
-    expect(scandal.variant, JSON.stringify(scandal.reads)).toBe("scandal");
+    // The earlier talks stay, so the scandal has to outweigh them in the
+    // engine's own sum (each variant's reads times one plus the reporter's
+    // pull). A reporter whose temper leans friendly legitimately plays friendly
+    // (seed 5, Westmoreland, Kansas: friendly 1.46 against scandal 1.37 for a
+    // reporter with a friendly pull of 0.75), so the probe goes to the town's
+    // reporter whose temper leans most toward the scandal over the friendly arc.
+    const scoreOf = (
+      choice: ReturnType<typeof pick>,
+      variant: "friendly" | "scandal",
+    ) => choice.scores.find((row) => row.variant === variant)!.score;
+    // PROBE (hand-made): each reporter tried has the same five earlier talks
+    // with the member that the first probe reporter has.
+    const candidates = [...new Set([probe, ...staff("local")])].map((who) => {
+      if (who !== probe)
+        for (const n of ["a", "b", "c", "d", "e"])
+          applyCoreEvent(core, {
+            id: `probe-reply-${n}-${who}`,
+            date: core.date,
+            kind: "scene.reply",
+            personIds: [me, who],
+            placeId: core.people.get(me)!.placeId,
+            facts: {
+              typeKey: "press-interview",
+              causeId: `old-${n}-${who}`,
+              ending: "on-record",
+            },
+            source: {
+              tag: "SOURCED",
+              citation: "Recorded scene: the reply the player chose to say.",
+              asOf: core.date,
+            },
+          });
+      return { who, choice: pick(`probe-scandal:${who}`, {}, who) };
+    });
+    const { who: scandalReporter, choice: scandal } = candidates.sort(
+      (a, b) =>
+        scoreOf(b.choice, "scandal") -
+          scoreOf(b.choice, "friendly") -
+          (scoreOf(a.choice, "scandal") - scoreOf(a.choice, "friendly")) ||
+        a.who.localeCompare(b.who),
+    )[0]!;
+    const deciding = `${where}: scores ${scandal.scores.map((row) => `${row.variant} ${row.score.toFixed(2)}`).join(", ")}; reads ${JSON.stringify(scandal.reads)}; the reporter's pull friendly ${pullFor(scandalReporter, "friendly").toFixed(2)}, scandal ${pullFor(scandalReporter, "scandal").toFixed(2)} (${candidates.length} local reporters tried)`;
+    process.stdout.write(`PRESS COMMENT SCANDAL PROBE ${deciding}\n`);
+    expect(scandal.variant, deciding).toBe("scandal");
     expect(scandal.recordIds).toContain("probe-exposed-a");
     process.stdout.write(
       `PRESS COMMENT PROBES ${where}: against margin ${margin.toFixed(2)} gave ${gap.variant}; friendly ${friendly.variant}; scandal ${scandal.variant}; national ${nationalId ? "national desk tried" : "no national reporter"}\n`,

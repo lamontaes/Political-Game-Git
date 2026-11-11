@@ -12,15 +12,29 @@ blocked-on:
 after: office-cut-a-ribbon-needs-a-record-of
 source: added with npm run pool -- add
 claimed-at:
+standard: 2
+model: sonnet
+effort: medium
+root: design-story-director
+lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** TODO
 
-**Rules.** TODO
+**Cause.** Found in code: the ribbon-cut event is written by src/core2/modules/projects.ts (line 147, kind "ribbon-cut", with the project id, line, government, contractor, owner and amount paid) and worded for the paper (data/english/parts/news.json, line 7278, news.ribbon-cut.a-new-purpose-project-is-finished; data/english/parts/headlines.json), but nothing in src/director names ribbon-cut, so no scene plays it.
 
-**Done when.** TODO
+**Fix.** Add a ribbon-cut situation type to src/director/data/situation-types.json (its arc in src/director/data/purpose-arcs.json) fired by the ribbon-cut event, casting the officeholder who cut it and carrying the project record id, the purpose and the amount paid as facts. The builder ships the type, its cast, its facts and the test; the scene's lines in data/english/parts/ are Story's under the Nov 10 split of words work, so name the moves the scene needs in the pull request body for Story. The news line is already done.
 
-**Files.** TODO
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** No hand-written player text: every word comes from the English engine's banks, authored as not shippable until graded, with the batch that grades them named. Ask why: each line cites the project record id that earns it. Wire to the world: the scene is cast from the event's own facts (the government, contractor and owner).
+
+**Done when.** A second session, not the builder, plays a year in a drawn place from all 56 (buildBenchWorld, place and seed named) where a public project finishes, and sees the ribbon-cutting scene play for the officeholder with lines naming the project, citing its project record id, beside the news line; a test in src/director names the scene and the record.
+
+**Waits on.** Nothing. The item named in `after:`, office-cut-a-ribbon-needs-a-record-of, is done, and the ribbon-cut event it wrote exists on main.
+
+**Files.** src/core2/modules/projects.ts, src/director/data/situation-types.json, data/english/parts/scene-words.json, data/english/parts/news.json
 
 **Notes.** From PR for office-cut-a-ribbon-needs-a-record-of (claude/political-game-pool-yucp92-yy). The ribbon-cut event (src/core2/modules/projects.ts, kind ribbon-cut, news: true) carries the project id, line, government, contractor, owner and amount paid, and no English bank has words for it. Build one scene and one news line from those facts through the English engine, each line citing the project record id. No hand-written player text.
 
