@@ -20421,10 +20421,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.whoever-wins-seat-needs-to-show-up-i-think-that-s-me",
+      "key": "scene-talk.reply-tell.whoever-runs-for-seat-has-to-show-up-i-think-that-s-me",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Whoever wins {seat} needs to show up. I think that's me.",
+      "text": "Whoever runs for {seat} has to show up. I think that's me.",
       "uses": [
         {
           "key": "news-received",
@@ -202765,10 +202765,10 @@
       }
     },
     {
-      "key": "scene-talk.state-ask.running-for-office-takes-remaining-can-we-even-afford-that",
+      "key": "scene-talk.state-ask.running-for-office-takes-remaining-and-that-s-on-our-savings",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "running for {office} takes {remaining}. Can we even afford that?",
+      "text": "running for {office} takes {remaining}, and that's on our savings.",
       "uses": [
         {
           "subject": "scene",
@@ -203200,10 +203200,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-want-seat-because-i-think-i-can-fix-things",
+      "key": "scene-talk.reply-tell.i-m-running-for-seat-because-i-think-i-can-fix-things",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "I want {seat} because I think I can fix things.",
+      "text": "I'm running for {seat} because I think I can fix things.",
       "uses": [
         {
           "subject": "scene",
