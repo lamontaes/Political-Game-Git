@@ -1,4 +1,4 @@
-import { servingTermsOf } from "../core2/modules/offices";
+import { openPastTerms, servingTermsOf } from "../core2/modules/offices";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
@@ -1118,6 +1118,8 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
       (row) => row.personId === id,
     )) as TermLike | undefined;
   if (!term?.identity) return null;
+  // Opened for the first time: their earlier terms of the seat are written now.
+  openPastTerms(api, term.id);
   const office = api
     .moduleState(OFFICES)
     .table("offices")
