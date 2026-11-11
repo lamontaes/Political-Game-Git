@@ -1,0 +1,63 @@
+---
+name: play-walks
+description: How to play Our Civic Duty the way a player does, with scripts that start a new life on the bench, click what a player clicks (the people at home each day, the places Travel lists, the filing office, every menu) and write down every line on screen, so a lead or a second session reads the game and not only the tests. Use before a build goes to the owner, after a train of screen or words pull requests, when reading a words or screen pull request on screen, and when someone says the game says nothing or nothing happens. Not for one item's finish line (seen-in-game), not for proving a simulation change in a played year (played-world-proof), and not a check that passes or fails.
+---
+
+# Play walks
+
+**A walk plays the game and writes down what it saw. It asserts nothing; a person or a session reads it.** The tests say whether a rule holds. A walk says what the player gets.
+
+On Nov 11, three walks before the morning's Mac build found what no test had:
+
+- **A talk on the first evening cost the player a day.** After two talks at home, Day landed on Wednesday.
+- **A visit did not last.** After any talk at a place the player was back in their own kitchen, with the person they had just left standing in it.
+- **The talk a player has most was written for another hour.** At 7:00 AM, to a 17-year-old with no job: "Busy one at work today?", answered only with "I'm beat. Just glad to be home."
+- **A parent was in two rooms at once:** at the factory at 8:25 AM and at home at 8:42 AM.
+
+Each was one or two presses from the opening. Each would have been the first thing the owner saw.
+
+## The walks
+
+They live in `scripts/play-walks/` and share `scripts/play-walks/lib.mjs`. Each takes a folder for its pictures and log, starts a new life through the one helper every browser check uses (`src/bench/start-life.mjs`), and prints the log at the end.
+
+| Walk          | What it plays                                                                                                                    | Run                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `at-home.mjs` | Each day for a few days: a talk with everyone at home who has something to say, then Day                                         | `node scripts/play-walks/at-home.mjs <out-dir> [days]` |
+| `meet.mjs`    | The first morning, then the places Travel lists one after another: who is there, a talk with up to two of them, and the way home | `node scripts/play-walks/meet.mjs <out-dir> [places]`  |
+| `menus.mjs`   | The office that takes filings (what the counter says and offers), then the first screenful of words on every menu                | `node scripts/play-walks/menus.mjs <out-dir>`          |
+
+The log has one block per thing said: the clock, who spoke, the last lines of the talk box, and the replies offered. A reply is taken in turn (first, then second, and so on), so a walk hears more than the first answer.
+
+## How to run one
+
+1. Start a fresh bench on the tree you want to read: `npm run bench` (port 3000; `BENCH_PORT` changes it). The bench serves the checkout it was started in. After a change to server code (`src/bench/*.ts`), stop it and start it again; a change to the page (`play.mjs`, `play.css`) needs only a new life.
+2. Run the walk. The world draws its own place; the log's first line names the place and the seed.
+3. To play the same life again, on another tree or after a fix, set `BENCH_SEED` to that seed. Use it for before and after. Never use a seed you chose to say something is seen: the place is drawn (skill `seen-in-game`).
+4. Read the log top to bottom, as the player would hear it. Open a picture when a line makes you doubt the screen.
+
+One bench and one walk at a time. A walk takes two to five minutes, most of it the world being built.
+
+## What to read for
+
+The review rules in the skill `words-engine` (its lessons of Nov 11), and these, which only show in play:
+
+- **The hour.** Is what is said right for the time on the card and for where the player is standing?
+- **The person.** Is the question one this person could be asked (a job, a school, a town they do not have)?
+- **The same thing again.** The same opener two days running; two strangers with the same four lines; a name said in full three times in one short talk.
+- **The clock and the room.** After each press: did the clock move by what the act took, and is the player still where they went?
+- **Who is here.** Does the strip name people who are somewhere else at this hour?
+- **Nothing.** A day, a place or a menu with nothing in it is a finding too. Say which.
+
+## What to do with a finding
+
+1. **Look first** (skill `look-first`): the pool and the open pull requests. A built fix may be waiting for a desk; then replay it and send it to one.
+2. **If it is small and yours, fix it** on its own pull request, with the walk's place and seed, the line before and after, and a test that fails without the fix.
+3. **Otherwise write the item with its cause** on the hour's notes branch (skill `pool-notes`), quoting the lines as played, and name a builder for it.
+4. **Post it** on the crew's issue with the place, the seed and the lines. A finding nobody can replay is a rumor.
+
+## Traps
+
+- **A walk that continues a saved life reads someone else's day.** The walks always start a new life. A browser check run on the same bench afterward may continue the walk's life, wherever the walk left it.
+- **Some browser checks write pictures into tracked folders.** After running one in your own tree, look at `git status` and put back what it changed.
+- **A walk is not a pass.** "The walk ran with no page errors" says nothing about what was said. Quote lines.
+- **Do not turn a walk into a test by adding asserts.** When a walk finds a rule worth holding, the rule goes into a test or a guard in the area that owns it, and the walk stays a walk.
