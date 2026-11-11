@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-officials-elsewhere-built-as-full-people-at-the-opening
-pr:
+pr: #8390
 after:
 blocked-on:
 lead: fable
