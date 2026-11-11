@@ -123,6 +123,8 @@ export type StoryWords = (
   },
 ) => {
   readonly headline?: string;
+  /** The headline as a person says it in talk (a bill by what it does). */
+  readonly spoken?: string;
   readonly sourceRecordIds: readonly string[];
 } | null;
 
