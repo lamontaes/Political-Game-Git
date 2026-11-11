@@ -68,6 +68,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   colleagueDeal,
+  hireAide,
   nameHeadPick,
   nominationDecide,
   nominationsView,
@@ -1438,6 +1439,22 @@ const ROUTES: readonly Route[] = [
           state.player.personId,
           url.searchParams.get("post") ?? "",
           url.searchParams.get("nomineeId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/office/hire-aide",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        hireAide(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("personId") ?? "",
         ),
       );
       return;

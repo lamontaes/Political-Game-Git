@@ -2536,6 +2536,61 @@ async function officeParts() {
           ),
         ]
       : []),
+    // Your staff: the aides who serve now, and the people the staff engine would weigh for the
+    // post with its reasons; Hire runs the engine's own hire, paid from the post's budget line.
+    ...(v.aides?.serving.length || v.aides?.candidates.length
+      ? [
+          stripSection(
+            2,
+            labels.aides,
+            ...v.aides.serving.map((a) => row(a.name, labels.aideRole ?? "")),
+            ...(v.aides.candidates.length
+              ? [
+                  paged(
+                    v.aides.candidates.map((c) => {
+                      const hire = makeButton({ textContent: labels.hire });
+                      hire.addEventListener("click", async () => {
+                        await post(
+                          `/api/office/hire-aide?${new URLSearchParams({ personId: c.id })}`,
+                        );
+                        openSheet("office");
+                      });
+                      const why = Object.entries(c.reasons)
+                        .filter(([, value]) => value > 0)
+                        .map(([key, value]) =>
+                          key === "family"
+                            ? labels.reasons?.family
+                            : `${labels.reasons?.[key] ?? ""} ${Math.round(value * 100)}%`,
+                        )
+                        .join(" · ");
+                      return deskBill(
+                        peopleSentence([
+                          {
+                            name: c.name,
+                            onOpen: () => {
+                              closeSheet();
+                              showPerson({ personId: c.id });
+                            },
+                          },
+                        ]),
+                        line(
+                          `${c.from === "known" ? labels.fromKnown : labels.fromApplicant} · ${why}`,
+                        ),
+                        buttonRow(hire),
+                      );
+                    }),
+                    {
+                      rows: 3,
+                      columns: 1,
+                      rowHeight: 96,
+                      className: "office-paged",
+                    },
+                  ),
+                ]
+              : []),
+          ),
+        ]
+      : []),
     ...(v.acts.length
       ? [
           stripSection(

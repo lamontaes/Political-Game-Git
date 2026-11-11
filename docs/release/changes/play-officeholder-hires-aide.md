@@ -3,4 +3,4 @@ id: play-officeholder-hires-aide
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Your office screen now lists the people your staff would weigh and lets you hire one as an aide, so scenes with your staff can include them.
