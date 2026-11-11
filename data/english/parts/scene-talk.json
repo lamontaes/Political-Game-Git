@@ -100,7 +100,7 @@
     "floor": "The minimum wage in force by the hour (\"$7.25\"), from the law record.",
     "married": "The name of the spouse the guest married since the two last talked, from the marriage record.",
     "age": "The age a person turned on their birthday, from the birth record and the day of the gathering.",
-    "partner": "The name of a new child's other parent, from the birth record.",
+    "partner": "A partner, by first name: a new child's other parent (the birth record) or a seriously ill person's partner (the household record).",
     "absent": "The name of the relative who missed the gathering, from the gathering's record.",
     "honoree": "The name of the housemate the occasion is for, from the occasion's record.",
     "new-employer": "The employer the guest started work at since the two last talked, from the job record.",
@@ -111,7 +111,9 @@
     "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
     "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
     "subject": "The person a piece of news is about, by first name, from the death, pairing or parting record.",
-    "other": "The other person in a pairing or parting, by first name, from the same record."
+    "other": "The other person in a pairing or parting, by first name, from the same record.",
+    "ill": "The seriously ill person, by first name, from the health engine's illness record.",
+    "sick-for": "How long the person has been seriously ill, as people say a span of time, from the illness record's onset."
   },
   "maxWords": 70,
   "parts": [
@@ -206821,10 +206823,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-visit-ill-who-is-seriously-ill-and-has-something-to-ask-you-partner-is-close-by",
+      "key": "scene-talk.narrate-narrate.you-visit-ill-who-is-seriously-ill-and-has-something-to-ask-you-their-partner-is-close-by",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You visit {ill}, who is seriously ill and has something to ask you. {partner} is close by.",
+      "text": "You visit {ill}, who is seriously ill and has something to ask you. Their partner is close by.",
       "uses": [
         {
           "subject": "scene",
@@ -207206,10 +207208,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-promise-don-t-worry",
+      "key": "scene-talk.reply-promise.don-t-worry-promise",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I promise. Don't worry.",
+      "text": "Don't worry. Promise.",
       "uses": [
         {
           "subject": "scene",
@@ -207252,10 +207254,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-would-help-most",
+      "key": "scene-talk.reply-ask.need-anything-else",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What would help most?",
+      "text": "Need anything else?",
       "uses": [
         {
           "subject": "scene",
