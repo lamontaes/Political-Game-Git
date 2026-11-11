@@ -17,6 +17,8 @@ effort: high
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine": "a ton of different speech versions ... this is a demonstration of the game")
 checked: fable 2026-11-11
+claimed-at:
+branch: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
 ---
 
 **What.** The President's address is the first thing a new player hears. In two drawn worlds on Nov 11 (Duneland Beach, Indiana and Riverside, Washington) the two addresses shared five whole sentences ("To Congress: we're in this together whether we like it or not. I'll be knocking on your door.", "Governors, state lawmakers: I need you, and I'll act like it. My door's open.", "If you've been up at night this year doing the math on your bills, I hear you.") and made the same single policy point, with nothing in those sentences from either world. Seen: the President's address that opens a new life.
@@ -37,8 +39,24 @@ checked: fable 2026-11-11
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds and reads each address through. No sentence is in more than one of the three; each address cites at least two figures or names from its own world (it checks one against the Metrics tab or the news); and each says what the President asks Congress for. tests/guards/english passes with the lowered count.
 
-**Waits on.** Nothing.
+**Waits on.** The CTO's answer to whether the builder drafts the `data/english/parts` lines with `Review: words` or the Story session writes them (Notes; PR #8717, same question as PR #8715); set back to Nothing once he rules.
 
 **Files.** src/director/opening-story.ts, src/english/english-composition.ts, src/english/english-opening-speech.ts, src/english/english-opening-speech.test.ts, src/director/data/opening-address.json, data/english/parts/opening-speech.json, data/english/part-grades.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423 and two addresses played in the running game that night. How many policy points an address has depends on the President holding views on federal questions, which pull requests 8589 (the cause) and 8380 (the build) cover; this item does not wait on them, and step 5 says how its test treats the count. The pieces under data/english/parts are drafted by the builder in the pull request with `Review: words` unless the CTO says the Story session writes them.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:35 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Released (2026-11-11): opus-5251 (a builder told never to write lines under data/english/parts/) released it unbuilt: steps 1 to 4 are new and deleted pieces in data/english/parts/opening-speech.json, which are the Story session's to write (owner, Nov 10). Cause checked against main and it holds; a Story or Words session should take it. Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:36 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Released (2026-11-11): opus-5251 released it unbuilt again: its steps 1 to 4 are pieces in data/english/parts/opening-speech.json, the Story session's to write (owner, Nov 10); a builder told never to write there cannot take it. Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:36 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Released (2026-11-11): The Fix is lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8717). Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:37 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Released (2026-11-11): The Fix is lines under data/english/parts, which this builder may not touch; it waits on the CTO's ruling on who writes them (PR #8717). Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
