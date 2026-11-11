@@ -26,7 +26,10 @@
     "position": "The speaker's new job, with its article (\"a server\"), from the job record's title.",
     "about": "The policy question the reporter asks about, as a noun phrase that reads after 'on' or 'about', from the question's spoken name (data/english/question-names.json).",
     "to": "The same question as a verb phrase that reads after 'to', from the question's spoken name (data/english/question-names.json).",
-    "rival": "A rival on the same ballot, by name, from their filing."
+    "rival": "A rival on the same ballot, by name, from their filing.",
+    "term": "A prison sentence's length as people say it (\"three years\"), from the justice record's sentence.",
+    "diagnosis": "What the doctors found, in plain words (\"cancer\", \"heart failure\"), from the health record's diagnosis.",
+    "destination": "Where someone moved, as a town and state, from the departure record."
   },
   "maxWords": 10,
   "mining": {
@@ -2474,6 +2477,12 @@
           "subject": "heard-work",
           "role": "answer",
           "choice": "since"
+        },
+        {
+          "move": "illness-since-raise",
+          "subject": "illness-since",
+          "role": "raise",
+          "choice": "raise"
         }
       ],
       "transcriptsUsing": 159,
@@ -25078,6 +25087,506 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, home-new four answers)",
       "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.prison-term-raise.term",
+      "move": "prison-term-raise",
+      "kind": "spoken",
+      "text": "{term}.",
+      "uses": [
+        {
+          "move": "prison-term-raise",
+          "subject": "prison-term",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.prison-term-raise.term-the-judge-said",
+      "move": "prison-term-raise",
+      "kind": "spoken",
+      "text": "{term}, the judge said.",
+      "uses": [
+        {
+          "move": "prison-term-raise",
+          "subject": "prison-term",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.prison-term-raise.the-judge-gave-relation-term",
+      "move": "prison-term-raise",
+      "kind": "spoken",
+      "text": "The judge gave {relation} {term}.",
+      "uses": [
+        {
+          "move": "prison-term-raise",
+          "subject": "prison-term",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.prison-term-raise.it-s-term-that-s-the-sentence",
+      "move": "prison-term-raise",
+      "kind": "spoken",
+      "text": "It's {term}. That's the sentence.",
+      "uses": [
+        {
+          "move": "prison-term-raise",
+          "subject": "prison-term",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.prison-term-reply-answer-comfort.that-s-a-long-time-i-m-sorry",
+      "move": "prison-term-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's a long time. I'm sorry.",
+      "uses": [
+        {
+          "move": "prison-term-reply-answer-comfort",
+          "subject": "prison-term-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.prison-term-reply-answer-promise.we-ll-write-we-ll-be-here-when-they-re-out",
+      "move": "prison-term-reply-answer-promise",
+      "kind": "spoken",
+      "text": "We'll write. We'll be here when they're out.",
+      "uses": [
+        {
+          "move": "prison-term-reply-answer-promise",
+          "subject": "prison-term-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.prison-term-reply-answer-help.if-you-need-anything-while-they-re-gone-call-me",
+      "move": "prison-term-reply-answer-help",
+      "kind": "spoken",
+      "text": "If you need anything while they're gone, call me.",
+      "uses": [
+        {
+          "move": "prison-term-reply-answer-help",
+          "subject": "prison-term-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.prison-term-reply-answer-brief.okay-thanks-for-telling-me",
+      "move": "prison-term-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Okay. Thanks for telling me.",
+      "uses": [
+        {
+          "move": "prison-term-reply-answer-brief",
+          "subject": "prison-term-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.illness-diagnosis-raise.it-s-diagnosis",
+      "move": "illness-diagnosis-raise",
+      "kind": "spoken",
+      "text": "It's {diagnosis}.",
+      "uses": [
+        {
+          "move": "illness-diagnosis-raise",
+          "subject": "illness-diagnosis",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.illness-diagnosis-raise.they-said-it-s-diagnosis",
+      "move": "illness-diagnosis-raise",
+      "kind": "spoken",
+      "text": "They said it's {diagnosis}.",
+      "uses": [
+        {
+          "move": "illness-diagnosis-raise",
+          "subject": "illness-diagnosis",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.illness-diagnosis-raise.the-doctors-said-diagnosis",
+      "move": "illness-diagnosis-raise",
+      "kind": "spoken",
+      "text": "The doctors said {diagnosis}.",
+      "uses": [
+        {
+          "move": "illness-diagnosis-raise",
+          "subject": "illness-diagnosis",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.illness-diagnosis-reply-answer-comfort.i-m-so-sorry-that-s-hard-news",
+      "move": "illness-diagnosis-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I'm so sorry. That's hard news.",
+      "uses": [
+        {
+          "move": "illness-diagnosis-reply-answer-comfort",
+          "subject": "illness-diagnosis-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.illness-diagnosis-reply-answer-help.if-you-need-a-ride-to-appointments-call-me",
+      "move": "illness-diagnosis-reply-answer-help",
+      "kind": "spoken",
+      "text": "If you need a ride to appointments, call me.",
+      "uses": [
+        {
+          "move": "illness-diagnosis-reply-answer-help",
+          "subject": "illness-diagnosis-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.illness-diagnosis-reply-answer-brief.thank-you-for-telling-me",
+      "move": "illness-diagnosis-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Thank you for telling me.",
+      "uses": [
+        {
+          "move": "illness-diagnosis-reply-answer-brief",
+          "subject": "illness-diagnosis-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.illness-since-raise.since-about-since",
+      "move": "illness-since-raise",
+      "kind": "spoken",
+      "text": "Since about {since}.",
+      "uses": [
+        {
+          "move": "illness-since-raise",
+          "subject": "illness-since",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.illness-since-raise.relation-got-sick-in-since",
+      "move": "illness-since-raise",
+      "kind": "spoken",
+      "text": "{relation} got sick in {since}.",
+      "uses": [
+        {
+          "move": "illness-since-raise",
+          "subject": "illness-since",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.illness-since-reply-answer-comfort.that-s-a-long-time-to-carry-this",
+      "move": "illness-since-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "That's a long time to carry this.",
+      "uses": [
+        {
+          "move": "illness-since-reply-answer-comfort",
+          "subject": "illness-since-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.illness-since-reply-answer-help.if-there-s-anything-i-can-bring-by-tell-me",
+      "move": "illness-since-reply-answer-help",
+      "kind": "spoken",
+      "text": "If there's anything I can bring by, tell me.",
+      "uses": [
+        {
+          "move": "illness-since-reply-answer-help",
+          "subject": "illness-since-reply",
+          "role": "answer",
+          "choice": "help"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.illness-since-reply-answer-brief.i-didn-t-know-thank-you-for-telling-me",
+      "move": "illness-since-reply-answer-brief",
+      "kind": "spoken",
+      "text": "I didn't know. Thank you for telling me.",
+      "uses": [
+        {
+          "move": "illness-since-reply-answer-brief",
+          "subject": "illness-since-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.departure-where-raise.destination",
+      "move": "departure-where-raise",
+      "kind": "spoken",
+      "text": "{destination}.",
+      "uses": [
+        {
+          "move": "departure-where-raise",
+          "subject": "departure-where",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.departure-where-raise.they-went-to-destination",
+      "move": "departure-where-raise",
+      "kind": "spoken",
+      "text": "They went to {destination}.",
+      "uses": [
+        {
+          "move": "departure-where-raise",
+          "subject": "departure-where",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.departure-where-raise.they-moved-to-destination",
+      "move": "departure-where-raise",
+      "kind": "spoken",
+      "text": "They moved to {destination}.",
+      "uses": [
+        {
+          "move": "departure-where-raise",
+          "subject": "departure-where",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.departure-where-reply-answer-hope.i-hope-they-like-it-there",
+      "move": "departure-where-reply-answer-hope",
+      "kind": "spoken",
+      "text": "I hope they like it there.",
+      "uses": [
+        {
+          "move": "departure-where-reply-answer-hope",
+          "subject": "departure-where-reply",
+          "role": "answer",
+          "choice": "hope"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.departure-where-reply-answer-promise.maybe-we-can-visit-them-there-sometime",
+      "move": "departure-where-reply-answer-promise",
+      "kind": "spoken",
+      "text": "Maybe we can visit them there sometime.",
+      "uses": [
+        {
+          "move": "departure-where-reply-answer-promise",
+          "subject": "departure-where-reply",
+          "role": "answer",
+          "choice": "promise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.departure-where-reply-answer-brief.okay-tell-them-i-said-hello",
+      "move": "departure-where-reply-answer-brief",
+      "kind": "spoken",
+      "text": "Okay. Tell them I said hello.",
+      "uses": [
+        {
+          "move": "departure-where-reply-answer-brief",
+          "subject": "departure-where-reply",
+          "role": "answer",
+          "choice": "brief"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (news asks get answers)",
+      "date": "2026-11-11",
       "tag": {
         "move": "answer"
       }
