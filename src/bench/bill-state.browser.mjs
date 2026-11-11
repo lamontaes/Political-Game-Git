@@ -162,6 +162,12 @@ try {
       `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
     )
     .click();
+  // The page of that bill, not the one that was on screen before the click.
+  await page
+    .locator(
+      `.roster-screen.bills .roster-page[data-key=${JSON.stringify(result.billId)}]`,
+    )
+    .waitFor();
   await page.locator(".stage-chamber").first().waitFor();
   const floor = await page.evaluate(() =>
     [...document.querySelectorAll(".stage-chamber")].map((n) => n.innerText),

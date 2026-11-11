@@ -180,6 +180,12 @@ try {
       `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
     )
     .click();
+  // The page of that bill, not the one that was on screen before the click.
+  await page
+    .locator(
+      `.roster-screen.bills .roster-page[data-key=${JSON.stringify(result.billId)}]`,
+    )
+    .waitFor();
   // The veto message waits for the player's own vote on overriding it.
   await page.getByText("Override the veto", { exact: true }).waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/override-waiting.png` });

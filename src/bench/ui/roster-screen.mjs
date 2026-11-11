@@ -36,8 +36,13 @@ export function rosterScreen({
       b.setAttribute("aria-pressed", String(b.dataset.key === entry.key));
     // A page that redraws itself later (a bill after a vote) is handed `show`
     // and returns nothing; one drawn once returns its nodes.
+    // The page names the entry it shows, so a reader (a browser check) can
+    // tell the chosen entry's page from the one before it, still on screen
+    // while the new one loads.
     const show = (...nodes) => {
-      if (mine === request) page.replaceChildren(...nodes);
+      if (mine !== request) return;
+      page.dataset.key = entry.key;
+      page.replaceChildren(...nodes);
     };
     const nodes = await render(entry, show);
     if (nodes) show(...nodes);
