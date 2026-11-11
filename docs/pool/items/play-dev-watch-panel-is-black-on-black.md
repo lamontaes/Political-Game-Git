@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-dev-watch-panel-is-black-on-black
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ model: opus
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-11
-claimed-at:
+claimed-at: 2026-11-11T03:45:36.284Z
+branch: claude/pool-play-dev-watch-panel-is-black-on-black
 ---
 
 **What.** With Dev mode on, the Calendar carries a Watch panel: the town's pay by month since the first dev change, its metrics, the nation's figures, each budget, the price rules and the recent news, then the Golden path steps. The Nov 9 audit saw it as black text on a black sheet in Ten Broeck, Kentucky. Two builders have since measured it on main: the text is light on the dark sheet and reads, but the whole Watch section is squeezed into a sliver at the foot of the Calendar sheet, one table header line and then record lines cut off. Watch is where a tester sees whether a law moved pay, prices or a budget month by month, so today that proof still cannot be read from the screen. Fix the class: every dev table and record tree (Watch, Golden path, small-dollar loans, the person card's Records tree) is drawn with one shared look for a table on a sheet and has room to be read. Seen: dev mode's Watch panel on the Calendar, which the owner and every second session use to check that a law reached pay, prices and budgets.
@@ -43,3 +44,5 @@ Released (2026-11-10): Cause differs from main 94969ad22a: in Addington, Oklahom
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:10 UTC) on branch claude/pool-play-dev-watch-panel-is-black-on-black.
 
 **Notes (Nov 11, 2026, cause rewritten).** Two builders (the Nov 10 release and #8371) found the text readable and the panel squeezed. Fable B rewrote the cause and fix around the layout. Screens are Fable B's since the owner's Nov 10 order, so Fable B builds this one; a builder that draws it with `next` leaves it.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:45 UTC) on branch claude/pool-play-dev-watch-panel-is-black-on-black.
