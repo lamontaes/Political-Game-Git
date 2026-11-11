@@ -1,6 +1,8 @@
 ---
 id: play-no-vote-moment-when-cannot-vote
-impact: none
+impact: patch
+section: Fixed
+title: Election day no longer offers a vote to someone who cannot vote there.
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+If you live outside the town whose race is counted, election day no longer narrates a missing ballot; it goes straight on to the count.
