@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-talk-no-say-nothing-when-nothing-left
-pr:
+pr: #8517
 after: 
 blocked-on:
 lead: play-first
