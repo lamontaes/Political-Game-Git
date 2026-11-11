@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-stop-01-talk-says-nothing
 pr: #8258
 after:

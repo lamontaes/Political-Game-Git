@@ -111,6 +111,13 @@ When a session builds work that runs for many people (relatives elsewhere, the c
   - To find which one, patch `globalThis.WeakMap` in the probe before anything else is imported. Record where each map was made and which keys it set before the restore, clear chosen ones after, and halve the set. Clearing every map breaks the world, because module state and the cash host live in maps too.
   - When the split is a record that exists in only one world, wrap that world's Map `set` to print the stack that first writes the key.
 
+## Full people that grow (Nov 11, Speed)
+
+- **When later years slow, count full people per year first** (`core.people` in `speed:year --out`). In South Hooksett, New Hampshire (3371220, seed s8333) they went 1,961, 2,921, 3,525, 4,109 while husks held, and every per-person engine (a campaign event's guest list, people acting, news, coverage, the collector) slowed with them.
+- **Then count fill-ins by caller.** A temporary counter in `fillInPerson` keyed by the two stack frames above it found three in four were `bringCases` (constituent cases at an official's office hours the player never saw). An ablation (no such cases) took year 1 from 184 to 121 s. Fix such a filler under "Keep it simple": a counted person stays counted unless the player meets them (`keepsWhy`), and the engine's record keys on their id so a later fill-in finds it (#8738).
+- **Many small exact cuts do not add up to the bar.** Two caches of stance reads gave 3 to 4% each, inside one run's noise, and one was inexact (a writer was missed; the records digest differed in year 2). Count the volume (events, guests, reads) before caching a read.
+- **This container's own noise is 10 to 20%.** Main's year 1 read 168, 184 and 203 s on the same 4-core container on Nov 11. A cut under about 10% needs alternating pairs before it is quoted; one under 5% is dropped unless its records proof and a profile both show it.
+
 ## Memory: find the cause before the fold
 
 - Count the growing table by kind and by the cause of its latest change in the world `speed:year` plays, before believing a brief's cause or building a fold. On Nov 8 the brief blamed "coworker" ties made when a hire meets every coworker; Montpelier, Vermont (key 5046000, seed mont1) showed the `coworker` kind flat at about 18,300 and year 2's growth in `met-in-group` ties (22,978), made by `meetAtJoin` meeting every member of every group joined. `met-at-work` made 114.

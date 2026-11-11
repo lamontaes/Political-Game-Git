@@ -98,12 +98,8 @@ import { questionSubject } from "../english/policy-names";
 import { townFigureWords } from "../english/question-names";
 import { lawInForce } from "../core2/modules/laws";
 import {
-  composeGroundedLine,
-  LINE_PARTS,
-} from "../english/english-composition";
-import {
   asksQuestion,
-  composedConversationBank,
+  composeConversationLine,
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
@@ -1419,6 +1415,8 @@ export function subjectsBetween(
         ? corePlaceByJurisdictionId(relative.placeId as never)
         : undefined;
     const work = person ? namedJobOf(core, person) : null;
+    // Mentioned only with something of their life to tell.
+    if (!home && !work) continue;
     out.push({
       id: `kin:${id}`,
       kind: "kin",
@@ -2054,46 +2052,21 @@ export function composedLine(
   momentKey: string,
   recentPartKeys: readonly string[] = [],
 ): Said | null {
-  const bank = composedConversationBank(subject);
-  if (!bank) return null;
-  const traits = core.people.get(speakerId)?.traits ?? {};
-  const line = composeGroundedLine(
-    {
-      surface: "dialogue",
-      momentKey,
-      worldSeed: core.seed,
-      bankVersion: bank.version,
-      stage,
-      sourceRecordIds: [speakerId as EntityId],
-      facts,
-      speaker: { personId: speakerId as EntityId, traits: {} },
-      knowledge: Object.entries(facts).map(([factKey, row]) => ({
-        personId: speakerId as EntityId,
-        factKey,
-        sourceRecordIds: row.sourceRecordIds as EntityId[],
-      })),
-      voice: { traits, register: "conversation" },
-    },
-    bank,
-    {
-      speakerTraits: traits,
-      // What they said before, in every part it could be said in.
-      recentPartKeys: recentPartKeys.flatMap((key) =>
-        LINE_PARTS.map((part) => `${bank.key}:${part}:${key}`),
-      ),
-    },
-  );
-  if (line.kind !== "rendered") return null;
-  return {
-    text: line.text,
-    sourceRecordIds: line.sourceRecordIds,
-    wording: {
-      bank: `conversation:${subject}:composed`,
-      parts: line.parts.map((part) => part.variantKey),
-      stage,
-      facts: [...new Set(line.parts.flatMap((part) => part.usedFactKeys))],
-    },
-  };
+  const line = composeConversationLine({
+    seed: core.seed,
+    subject,
+    speakerId,
+    traits: core.people.get(speakerId)?.traits ?? {},
+    facts,
+    stage,
+    momentKey,
+    said: recentPartKeys,
+  });
+  if (!line) return null;
+  const { asks, afterPlain, ...said } = line;
+  void asks;
+  void afterPlain;
+  return said;
 }
 
 /** The parts this speaker said earlier in the talk, so the next composed line says the point in other words. */
@@ -2704,6 +2677,9 @@ const OPENING_ORDER = [
   "shared-work",
   "own-work",
   "home",
+  // A relative the listener has not met, by name, with their town or work
+  // (owner, Nov 11: "This introduces people to their world").
+  "kin",
   "address",
   "quiet",
 ];

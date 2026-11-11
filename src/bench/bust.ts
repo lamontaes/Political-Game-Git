@@ -13,25 +13,37 @@ const PACK_DIR = new URL(`../../art/busts/${BUST_PACK}/`, import.meta.url);
 /** How someone is dressed where they are seen: the top a bust wears. */
 export type BustDress = "everyday" | "work" | "official";
 
+/** A hair or facial hair piece: one painted file for each color it comes in. */
+interface BustStyle {
+  style: string;
+  files: Readonly<Record<string, string>>;
+}
 interface BustSet {
   /** The folder of this set's pieces, under the pack. */
   dir: string;
   /** Where the head sits on the canvas: its top, its middle and its width, in canvas pixels. */
   head: { top: number; middle: number; width: number };
-  /** The heads, lightest skin first. */
-  heads: readonly string[];
-  tops: Readonly<Record<BustDress, string>>;
-  /** Facial hair pieces; a person may wear none. */
-  face: readonly string[];
-  hair: readonly string[];
-  /** The creator's words for a head (its skin), a hair piece and a facial hair piece, by file. */
-  names: Readonly<Record<string, string>>;
+  /** The skin tones the set paints, lightest first. */
+  tones: readonly string[];
+  /** A tone's heads: as an adult and as an older face. */
+  heads: Readonly<Record<string, { adult: string; older: string }>>;
+  /** The tops for each way the game dresses someone. */
+  tops: Readonly<Record<BustDress, readonly string[]>>;
+  /** Facial hair styles; a person may wear none. */
+  face: readonly BustStyle[];
+  hair: readonly BustStyle[];
 }
 interface Manifest {
   pack: number;
   canvas: number;
   order: readonly string[];
-  people: readonly { id: string; sex: string; head: string }[];
+  people: readonly { id: string; sex: string; tone: string }[];
+  /** The painted hair colors an adult of each tone may have. */
+  hairColors: Readonly<Record<string, readonly string[]>>;
+  /** The hair color an older head wears. */
+  olderHair: string;
+  /** The creator's words for a tone, a style and a color. */
+  names: Readonly<Record<string, string>>;
   sets: Readonly<Record<string, BustSet>>;
 }
 const MANIFEST = JSON.parse(
@@ -69,12 +81,14 @@ export interface BustPerson {
   /** The bank's word: woman or man. */
   readonly sex: string;
   readonly tone: number;
-  /** The file of their head, in their set's folder. */
-  readonly head: string;
+  /** The tone's own name in the manifest: light, medium or dark. */
+  readonly toneName: string;
 }
 const PEOPLE: readonly BustPerson[] = MANIFEST.people.map((row) => ({
-  ...row,
-  tone: Math.max(0, MANIFEST.sets[row.sex]?.heads.indexOf(row.head) ?? 0),
+  id: row.id,
+  sex: row.sex,
+  toneName: row.tone,
+  tone: Math.max(0, MANIFEST.sets[row.sex]?.tones.indexOf(row.tone) ?? 0),
 }));
 const BY_ID = new Map(PEOPLE.map((row) => [row.id, row]));
 /** Every person the bank paints, in the manifest's order. */
@@ -87,15 +101,17 @@ const url = (set: BustSet, file: string) =>
 
 /**
  * A look chosen in the creator: one of the bank's people (their sex and
- * skin), a hair piece and, where they wear it, a facial hair piece. The same
- * record draws the creator, the title's Continue and every screen in play.
+ * skin), a hairstyle in a color and, where they wear it, facial hair. The
+ * same record draws the creator, the title's Continue and every screen in play.
  */
 export interface BustLook {
   /** One of the bank's people (`bustPerson`). */
   person: string;
-  /** The hair piece's file, one of the person's set's. */
+  /** The hairstyle, one of the person's set's. */
   hair: string;
-  /** The facial hair piece's file; absent for none. */
+  /** The hair's color, one the style is painted in. */
+  hairColor: string;
+  /** The facial hair's style; absent for none. */
   face?: string;
 }
 
@@ -113,33 +129,47 @@ function stack(
   };
 }
 
+/** The colors an adult of a tone may have, or the one an older head wears. */
+const hairColorsOf = (person: BustPerson, older: boolean) =>
+  older ? [MANIFEST.olderHair] : (MANIFEST.hairColors[person.toneName] ?? []);
+/** Facial hair in the hair's color where it is painted so, else in its first painted color. */
+const faceFile = (style: BustStyle, color: string) =>
+  style.files[color] ?? Object.values(style.files)[0];
+
 /**
  * The bust of one of the bank's people, dressed as `dress`. `pick` is a
  * number set once from the person's own appearance seed: it decides which
- * hair and facial hair they have, so the same person is the same bust
- * everywhere. It decides who someone looks like, never what anyone does.
- * `facialHair` is false for someone who wears none (a teenager).
- * Null for someone the bank does not paint.
+ * hairstyle, hair color, facial hair and which of the dress's tops they
+ * have, so the same person is the same bust everywhere. It decides who
+ * someone looks like, never what anyone does. `facialHair` is false for
+ * someone who wears none (a teenager); `older` gives the older face and its
+ * hair color. Null for someone the bank does not paint.
  */
 export function bustFor(
   who: { readonly id: string },
   dress: BustDress,
   pick: number,
   facialHair = true,
+  older = false,
 ): PersonBust | null {
   const person = BY_ID.get(who.id);
   const set = person && MANIFEST.sets[person.sex];
   if (!set) return null;
   const n = Math.abs(Math.trunc(pick));
+  const colors = hairColorsOf(person, older);
+  const color = colors[Math.floor(n / 11) % colors.length]!;
+  const hair = set.hair[n % set.hair.length]!;
+  // One person in each (styles + 1) wears no facial hair.
+  const face =
+    facialHair && set.face.length
+      ? set.face[Math.floor(n / 7) % (set.face.length + 1)]
+      : undefined;
+  const tops = set.tops[dress];
   return stack(set, {
-    head: person.head,
-    top: set.tops[dress],
-    // One person in each (pieces + 1) wears no facial hair.
-    face:
-      facialHair && set.face.length
-        ? set.face[Math.floor(n / 7) % (set.face.length + 1)]
-        : undefined,
-    hair: set.hair[n % set.hair.length]!,
+    head: set.heads[person.toneName]![older ? "older" : "adult"],
+    top: tops[Math.floor(n / 13) % tops.length],
+    face: face && faceFile(face, color),
+    hair: hair.files[color] ?? Object.values(hair.files)[0],
   });
 }
 
@@ -147,46 +177,63 @@ export function bustFor(
 export function bustOfLook(
   look: BustLook,
   dress: BustDress,
+  older = false,
 ): PersonBust | null {
   const person = BY_ID.get(look.person);
   const set = person && MANIFEST.sets[person.sex];
-  if (!set || !set.hair.includes(look.hair)) return null;
-  if (look.face !== undefined && !set.face.includes(look.face)) return null;
+  if (!set) return null;
+  const hair = set.hair.find((row) => row.style === look.hair);
+  const color = older ? MANIFEST.olderHair : look.hairColor;
+  if (!hair?.files[color]) return null;
+  const face =
+    look.face === undefined
+      ? undefined
+      : set.face.find((row) => row.style === look.face);
+  if (look.face !== undefined && !face) return null;
   return stack(set, {
-    head: person.head,
-    top: set.tops[dress],
-    face: look.face,
-    hair: look.hair,
+    head: set.heads[person.toneName]![older ? "older" : "adult"],
+    // The first top of the dress, until clothes are layers a look chooses (docs/art/busts-spec.md, spec 2).
+    top: set.tops[dress][0],
+    face: face && faceFile(face, color),
+    hair: hair.files[color],
   });
 }
 
-/** A piece the creator offers, with its worded name. */
-export interface BustPiece {
-  readonly file: string;
+/** A choice the creator offers, with its worded name. */
+export interface BustChoice {
+  /** The style or the color, as the manifest names it. */
+  readonly key: string;
   readonly label: string;
 }
-/** What a person of this sex may choose in the creator: hair and facial hair, in the manifest's order. */
-export function bustChoices(sex: string): {
-  hair: readonly BustPiece[];
-  face: readonly BustPiece[];
+const named = (key: string): BustChoice => ({
+  key,
+  label: MANIFEST.names[key] ?? "",
+});
+/** What a person may choose in the creator: hairstyles, the hair colors of their tone, and facial hair, in the manifest's order. */
+export function bustChoices(person: BustPerson): {
+  hair: readonly BustChoice[];
+  hairColor: readonly BustChoice[];
+  face: readonly BustChoice[];
 } {
-  const set = MANIFEST.sets[sex];
-  const named = (file: string) => ({ file, label: set?.names[file] ?? "" });
+  const set = MANIFEST.sets[person.sex];
   return {
-    hair: (set?.hair ?? []).map(named),
-    face: (set?.face ?? []).map(named),
+    hair: (set?.hair ?? []).map((row) => named(row.style)),
+    hairColor: hairColorsOf(person, false).map(named),
+    face: (set?.face ?? []).map((row) => named(row.style)),
   };
 }
-/** The creator's word for a person's skin: their head's name in their set. */
+/** The creator's word for a person's skin. */
 export const skinLabel = (person: BustPerson) =>
-  MANIFEST.sets[person.sex]?.names[person.head] ?? "";
+  MANIFEST.names[person.toneName] ?? "";
 
 /** Every piece the manifest names, as the urls a bust may carry. */
 export function bustPieces(): readonly string[] {
   return Object.values(MANIFEST.sets).flatMap((set) =>
-    [...set.heads, ...Object.values(set.tops), ...set.face, ...set.hair].map(
-      (file) => url(set, file),
-    ),
+    [
+      ...Object.values(set.heads).flatMap((head) => [head.adult, head.older]),
+      ...Object.values(set.tops).flat(),
+      ...[...set.face, ...set.hair].flatMap((row) => Object.values(row.files)),
+    ].map((file) => url(set, file)),
   );
 }
 const KNOWN = new Set(bustPieces());
