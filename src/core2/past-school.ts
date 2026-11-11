@@ -23,6 +23,7 @@ import {
 } from "./pre-start";
 import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
+import { elsewhereSchoolName } from "./places-elsewhere";
 import { hasModuleState } from "./module-state";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
@@ -66,7 +67,9 @@ export function schoolName(
   core: Readonly<CoreState>,
   schoolId: string,
 ): string | undefined {
-  const name = core.organizations.get(schoolId)?.name;
+  // A place the world keeps no district for: its schools named from the place.
+  const name =
+    core.organizations.get(schoolId)?.name ?? elsewhereSchoolName(schoolId);
   if (!name) stopgap("SG-HIST-school-elsewhere-unnamed");
   return name;
 }

@@ -41,6 +41,7 @@ import {
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { viewKey } from "../director/view-learned";
 import { preStartHistory, sharedHistory } from "../core2/past";
+import { organizationName } from "../core2/places-elsewhere";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -263,6 +264,8 @@ function historyLines(
       event.life === "school" &&
       event.what === "started" &&
       !schools.has(event.id) &&
+      // A school the records name is told by its name, not as "elsewhere".
+      !organizationName(core, String(event.facts?.schoolId ?? "")) &&
       event.placeId &&
       event.placeId !== other.placeId &&
       !awayPlaces.has(event.placeId)
@@ -338,8 +341,10 @@ function lineOf(
     const row = typeof id === "string" ? core.people.get(id) : undefined;
     return row ? `${row.givenName} ${row.familyName}` : "";
   };
+  // An organization's own record, else the school or employer of a place the
+  // world keeps none for (a person's years before they came to town).
   const orgName = (id: unknown) =>
-    core.organizations.get(String(id ?? ""))?.name ?? "";
+    organizationName(core, String(id ?? "")) ?? "";
   const placeName = (id: unknown) =>
     typeof id === "string" && corePlaceByJurisdictionId(id as never)
       ? corePlaceByJurisdictionId(id as never)!.displayName

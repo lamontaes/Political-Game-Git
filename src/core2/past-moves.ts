@@ -38,6 +38,7 @@ import type {
   PersonId,
   PersonState,
 } from "./types";
+import { townWithin } from "./places-elsewhere";
 
 export const PERSON_MOVED_IN = ownPastKind("person.moved-in");
 
@@ -253,7 +254,13 @@ export function residenceOn(
     kind: PERSON_MOVED_IN,
     personId: person.id,
   })[0];
+  // Where the record says only a state, they lived in one of its towns,
+  // the same every time (`townWithin`).
+  const from = String(moved?.facts.fromPlaceId ?? "");
   return moved && date < moved.date
-    ? { placeId: String(moved.facts.fromPlaceId), recordId: moved.id }
+    ? {
+        placeId: townWithin(core, person.id, from) ?? from,
+        recordId: moved.id,
+      }
     : { placeId: person.placeId, recordId: moved?.id ?? person.id };
 }
