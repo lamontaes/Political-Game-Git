@@ -5,8 +5,8 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
 pr: #8357
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T08:02:52.698Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-06-texas-shows-local-income-tax
 ---
@@ -85,3 +85,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Replayed headlessly in drawn places; evidence is on the item's PR; not a played check with screens. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #8357.
 
 Released (2026-11-11): Replayed on main 0dacfab: Anson TX (seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213) shows Federal 37% and State 0% with no local row; Burlington VT (seed income-tax-seed-1) shows Federal 37% and State 8.75%; the cause no longer holds and the item needs status merged before seen. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #8357.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 08:02 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
