@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-voter-household-weight-below-one
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: CTO, from the golden-path failure (M0-09) on PR 8060, Nov 9, 2026
-claimed-at:
+claimed-at: 2026-11-11T01:53:13.697Z
 checked: fable 2026-11-10
 ---
 
