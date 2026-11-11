@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: claimed
 claimed-by: claude/pool-people-housemates-named-to-each-other
-pr:
+pr: #8456
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
