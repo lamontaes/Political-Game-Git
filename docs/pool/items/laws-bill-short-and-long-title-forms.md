@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-bill-short-and-long-title-forms
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: low
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at:
+claimed-at: 2026-11-11T01:44:57.743Z
 checked: fable 2026-11-10
 branch: claude/pool-laws-bill-short-and-long-title-forms
 ---
