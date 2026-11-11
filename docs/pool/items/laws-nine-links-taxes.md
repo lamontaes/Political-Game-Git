@@ -6,9 +6,9 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-nine-links-taxes
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T00:16:09.560Z
 branch: claude/pool-laws-nine-links-taxes
 ---
 
@@ -46,3 +46,5 @@ Laws lead, Oct 26: PR #5649 now lands ten as `laws-nine-links-taxes-ten`. This i
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:05 UTC) on branch claude/pool-laws-nine-links-taxes.
 
 Released (2026-11-11): local income tax authority already graded wired in the matrix; only the estate half (people-estate-wealth-top-tail, open) remains. Continue on branch claude/pool-laws-nine-links-taxes.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:16 UTC) on branch claude/pool-laws-nine-links-taxes.
