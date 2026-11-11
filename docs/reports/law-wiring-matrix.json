@@ -153,10 +153,10 @@
     }
   ],
   "summary": {
-    "laws": 178,
+    "laws": 187,
     "wired": 147,
-    "partly": 31,
-    "stopgapped": 0,
+    "partly": 28,
+    "stopgapped": 12,
     "researchLinks": {
       "links": 246,
       "reaching": 175,
@@ -181,14 +181,14 @@
     ],
     "byLink": {
       "exists": {
-        "wired": 113,
-        "partial": 4,
-        "missing": 3,
+        "wired": 119,
+        "partial": 5,
+        "missing": 5,
         "stopgap": 0,
         "n/a": 58
       },
       "change": {
-        "wired": 178,
+        "wired": 187,
         "partial": 0,
         "missing": 0,
         "stopgap": 0,
@@ -197,49 +197,49 @@
       "reach": {
         "wired": 99,
         "partial": 0,
-        "missing": 19,
-        "stopgap": 0,
+        "missing": 24,
+        "stopgap": 4,
         "n/a": 60
       },
       "systems": {
         "wired": 113,
         "partial": 0,
-        "missing": 15,
-        "stopgap": 0,
+        "missing": 20,
+        "stopgap": 4,
         "n/a": 50
       },
       "money": {
         "wired": 94,
         "partial": 10,
-        "missing": 8,
-        "stopgap": 0,
+        "missing": 13,
+        "stopgap": 4,
         "n/a": 66
       },
       "web": {
         "wired": 75,
         "partial": 0,
-        "missing": 28,
-        "stopgap": 0,
+        "missing": 21,
+        "stopgap": 16,
         "n/a": 75
       },
       "knowing": {
         "wired": 128,
         "partial": 0,
-        "missing": 0,
+        "missing": 9,
         "stopgap": 0,
         "n/a": 50
       },
       "repeal": {
         "wired": 100,
         "partial": 0,
-        "missing": 19,
+        "missing": 28,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
         "wired": 101,
         "partial": 0,
-        "missing": 19,
+        "missing": 28,
         "stopgap": 0,
         "n/a": 58
       }
@@ -336,7 +336,7 @@
       "family": "infrastructure",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -364,9 +364,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure road condition, transit service and commute times in the places the federal transportation line pays for (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -1127,7 +1127,7 @@
       "family": "healthcare",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -1155,9 +1155,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure older adults' out-of-pocket medical costs, care used and mortality as federal Medicare spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -1605,7 +1605,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: health and hospitals",
+      "name": "Spending: healthAndHospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1693,7 +1693,7 @@
       "family": "healthcare",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -1721,9 +1721,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure coverage, care used and health outcomes as federal health spending (Medicaid, public health) moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -2336,7 +2336,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higher education",
+      "name": "Spending: higherEducation",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -2424,7 +2424,7 @@
       "family": "education",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -2452,9 +2452,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure school spending, attainment and earnings as federal education spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -4312,7 +4312,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfare and Medicaid",
+      "name": "Spending: welfareAndMedicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4400,7 +4400,7 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -4428,9 +4428,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure household poverty and food insecurity as federal income-security spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -4456,6 +4456,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "child-care-income-limit",
+      "name": "Child care income limit (family of three)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "child-care-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:child-care-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-child-care-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "ssi-federal-benefit-rate",
+      "name": "SSI federal benefit rate (individual)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "ssi-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:ssi-federal-benefit-rate: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-ssi-eligibility)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -5057,7 +5175,7 @@
       "family": "assistance",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -5085,9 +5203,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure older adults' poverty and income as federal Social Security spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -5113,6 +5231,65 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "energy-assistance-income-limit",
+      "name": "Home energy assistance income limit (percent of the poverty line)",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": "B",
+      "mechanic": "energy-assistance-payment",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:energy-assistance-income-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-GOV-REACH-B-energy-assistance-enrollment)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -5863,7 +6040,7 @@
       "family": "housing",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -5891,9 +6068,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure local employment and income in the places federal community and regional development spending reaches (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -6085,6 +6262,124 @@
           "inForceAtOpening": false
         }
       ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "ban the box public hiring",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "hiring-record",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.ban-the-box-public-hiring: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "money": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "",
+          "why": "not run (registered SG-LABOR-record-bias-public-only)"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+      "name": "Local power: ban the box public hiring",
+      "kind": "amount",
+      "family": "labor",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:ban-the-box-public-hiring: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
       "errors": []
     },
     {
@@ -7374,6 +7669,124 @@
       "errors": []
     },
     {
+      "key": "us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "allow retail electric choice",
+      "kind": "question",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026)",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:environment-energy.allow-retail-electric-choice: enact/repeal at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "local-power:us-policy-positions:environment-energy.allow-retail-electric-choice",
+      "name": "Local power: allow retail electric choice",
+      "kind": "amount",
+      "family": "energy-environment",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:local-power:allow-retail-electric-choice: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-federal-positions:energy-environment.limit-power-plant-carbon",
       "name": "limit power plant carbon",
       "kind": "question",
@@ -7591,7 +8004,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: natural resources",
+      "name": "Spending: naturalResources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -9635,6 +10048,65 @@
       "errors": []
     },
     {
+      "key": "executive-term-limit",
+      "name": "Governor term limit (terms; 0 for none)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "partial",
+          "evidence": "55/56 places (state 55); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-DC"
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:executive-term-limit: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
       "key": "us-policy-positions:government-operations.all-mail-voting",
       "name": "all mail voting",
       "kind": "question",
@@ -10346,7 +10818,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit for governor",
+      "name": "State campaign contribution limit: governor",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10411,7 +10883,7 @@
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit for state senate",
+      "name": "State campaign contribution limit: stateSenate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10476,7 +10948,7 @@
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit for state house",
+      "name": "State campaign contribution limit: stateHouse",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10541,7 +11013,7 @@
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit for local office",
+      "name": "State campaign contribution limit: local",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10877,6 +11349,65 @@
           "status": "n/a",
           "evidence": "",
           "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+        }
+      },
+      "screens": [],
+      "runs": [],
+      "errors": []
+    },
+    {
+      "key": "meeting-notice-hours",
+      "name": "Public notice before a regular meeting (hours)",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:meeting-notice-hours: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "knowing": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "",
+          "why": "not run"
         }
       },
       "screens": [],
@@ -12125,7 +12656,7 @@
       "family": "technology",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -12153,9 +12684,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure data breaches and identity theft per person under a national data privacy law (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -12336,7 +12867,7 @@
       "family": "agriculture",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -12364,9 +12895,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure farm income and farmland use as federal agriculture spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -12873,7 +13404,7 @@
       "family": "defense-veterans",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -12901,9 +13432,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employment and income in places with defense contracts and bases as federal defense spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -12938,7 +13469,7 @@
       "family": "defense-veterans",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -12966,9 +13497,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure veterans' health, employment and income as federal veterans' spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
@@ -13003,7 +13534,7 @@
       "family": "foreign-trade",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "stopgapped",
       "links": {
         "exists": {
           "status": "wired",
@@ -13031,9 +13562,9 @@
           "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "data/research/outcome-web/links.json",
-          "why": "no researched outcome-web link starts from this law"
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure prices and employment in export industries as federal international-affairs spending moves (SG-LAW-outcome-link-unresearched)"
         },
         "knowing": {
           "status": "wired",
