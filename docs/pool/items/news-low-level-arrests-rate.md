@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-news-low-level-arrests-rate
-pr:
+pr: #8438
 blocked-on: justice-low-level-offenses
 source: added with npm run pool -- add
 after:

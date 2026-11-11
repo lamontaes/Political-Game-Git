@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/pool-core-long-run-controlled-sources-required-forever
+pr: #8440
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc5-full-detail-every-day
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:46:08.992Z
+branch: claude/pool-core-long-run-controlled-sources-required-forever
 ---
 
 **What.** prunePriorSource (src/core2/work-cash.ts, line 556) returns early for a source in retainedControlledSources, and the payroll path (src/core2/work-payroll-cash.ts:1916, :2212, :2383) never releases a controlled source at all, so every payroll and cash-act source paid to the person under explicit control (the player on the player clock, or anyone dev mode controls) stays required. Each such receipt keeps `retention.requiredBySource`, core.cashJournal.requiredBySource gains a row every payday, and the monthly fold of itemized receipts (foldOldCashJournalDetail in src/core2/decision-detail.ts) must keep them all and walks them again on every 1st. speed:year cannot show it, because advanceCore refuses to run while a person is controlled (src/core2/life.ts:605). In dev mode, dropOldPayrollSources (src/core2/decision-detail.ts, line 446) also deletes a controlled non-player's payroll source rows after 7 days while requiredBySource still names them, so those receipts can never be released.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/work-cash.ts, src/core2/work-payroll-cash.ts, src/core2/decision-detail.ts
 
 **Notes.** lead: speed (work and payroll have no lead of their own in CREW.md). Found by the round-four reader check (correction 2) and confirmed by the review of speed/fold-cash-receipts (e017d21aab).
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:46 UTC) on branch claude/pool-core-long-run-controlled-sources-required-forever.

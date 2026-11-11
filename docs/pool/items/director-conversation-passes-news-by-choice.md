@@ -17,6 +17,8 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-director-conversation-passes-news-by-choice
 ---
 
 **What.** `src/director/conversation.test.ts` ('records talking as time together, and passes news the other hasn't heard') takes `talk.choices[0]` and then expects the other person to know fixture-story as 'told'. In Moscow, Tennessee (seed cvd4) and Galateo, Puerto Rico (seed cvd5) the first choice is an answer that tells no news, so `api.knows(...).access` is undefined. It fails the same on clean main.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/director/conversation.test.ts, src/director/conversation.ts
 
 **Notes.** Found while fixing director-conversation-drawn-fixture-lacks-subjects.
+
+Released (2026-11-11): Cause not reproducible on main 076daae15d: 'records talking as time together, and passes news the other hasn't heard' passes at GOLDEN_PATH_SEED=cvd4 (Moscow, Tennessee) and cvd5 (Galateo, Puerto Rico), whole file at cvd5 21/21. At cvd4 two other tests in src/director/conversation.test.ts fail instead: 'leaves a lie as a belief in everyone present, until someone who knows the truth tells them' (expected '2021-01-04' to be '2021-01-05') and 'the answers to a question fit it > never parts with a word the talk already said'; those are different defects and need their own items. Continue on branch claude/pool-director-conversation-passes-news-by-choice.

@@ -15,9 +15,9 @@ claimed-at:
 merged-at:
 ---
 
-**What.** The `follow` fields of words-journal-as-stories now follow five more rows, each only when the record gives the facts its sentences name: a move (where they came from, from the moves engine's record; the children born before it who came with them; their age), a child's birth (their age; the first child, by name), a partnership (how long they have been together), a death in the family (the age of the person; whether the record's topic names a serious illness), and a school year's end (how long they had been at the school; their age).
+**What.** The `follow` fields of words-journal-as-stories now follow five more rows, each only when the record gives the facts its sentences name: a move (where they came from, from the moves engine's record; the children born before it who came with them; their age), a child's birth (their age; the first child, by name), a partnership (how long they have been together), a death in the family (the age of the person; whether the record's topic names a serious illness), and a school year's end (how long they had been at the school; their age). The voice is read from the 1936-39 diary of an upstate New York woman and a veteran's oral history, plain and short and naming who helped. A marriage row does not exist in the journal, so no marriage story is written. Seen: in the player's journal, a move, a birth or a death in the family reads as a small story, not a bare statement.
 
-**Rules.** No new engine. Sentences are at most ten words, require their facts by their slots, and claim no feeling the records lack. Lines join by the time between them.
+**Rules.** An effect is a read, not a record: each story's sentences read facts from the records the journal row names, and claim no feeling the records lack. No new engine; sentences are at most ten words; lines join by the time between them.
 
 **Done when.** src/director/journal-life-stories.test.ts plays a drawn world for a year and prints the life-event entries written with their record ids; journal.test.ts, journal-story.test.ts, the English and families guards pass.
 

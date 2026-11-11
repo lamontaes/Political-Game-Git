@@ -25,7 +25,7 @@ branch: claude/pool-core-speed-colorado-election-year-persuasion
 
 **Cause.** Needs cause. No longer over the bar on main 0afb9a2262 (opus-5251, Nov 11, PR #8418): `npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 --years 4 --exclusive` gave years of 39.5, 61.0, 41.9 and 63.4 s. For the CTO to drop or re-aim. The earlier measurement: Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), `npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1`, year 4: 182 s profiled, campaign work 50 s (campaignTurn 37, takeCampaignDayChoice 21, holdEvent 17), applying events to listeners 20 s (views onEvent 9, drives onEvent 4.3, life onEvent 2.3), collector 36 s; also monthlyIncome (src/core2/modules/credit.ts line 1179) 5.6 s self time though a person-to-jobs index changed nothing, and Montpelier's weighed-row cut (106,628 to 41,904 rows) did not shorten year 4.
 
-**Fix.** Re-measure year 4 on current main first. Then cut by profile only: read a person's persuasion lean (`decisionLean` in `stanceAfterCase`, src/core2/modules/views.ts line 831) once per event, apply a rally to its listeners as one counted group, and find from where and how often `monthlyIncome` is called (src/core2/modules/credit.ts line 1302 builds it lazily per household) and what its 3.2 s callback is before indexing jobs. Any cut that drops a door-only contact's kept weighed record must keep it for one day, because campaign-turn and the donor meeting read it. Every cut keeps `--same-records`.
+**Fix.** None until the cause is found.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -52,3 +52,5 @@ Nov 8 (State Sessions), rally listeners as a group (CTO order 1): measured, and 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 01:13 UTC) on branch claude/pool-core-speed-colorado-election-year-persuasion.
 
 Released (2026-11-11): Year 4 is 63.4 s on main 0afb9a2262 (bar 120 s); nothing to cut (PR #8418). Continue on branch claude/pool-core-speed-colorado-election-year-persuasion and pull request #8418.
+
+Nov 11 (CTO): the Fix above is set to the standard text because the Cause now reads "Needs cause." The fix written before the cause stopped reproducing, kept for whoever finds the new cause: Re-measure year 4 on current main first. Then cut by profile only: read a person's persuasion lean (`decisionLean` in `stanceAfterCase`, src/core2/modules/views.ts line 831) once per event, apply a rally to its listeners as one counted group, and find from where and how often `monthlyIncome` is called (src/core2/modules/credit.ts line 1302 builds it lazily per household) and what its 3.2 s callback is before indexing jobs. Any cut that drops a door-only contact's kept weighed record must keep it for one day, because campaign-turn and the donor meeting read it. Every cut keeps `--same-records`.

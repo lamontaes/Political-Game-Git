@@ -25,7 +25,7 @@ branch: claude/pool-core-committee-world-debug-heap
 
 **Cause.** Needs cause. Does not reproduce on main e9d07eaf39 (opus-5251, Nov 11, PR #8402): the unchanged test with `GOLDEN_PATH_SEED=93678d3573d46855` (Gastonia, North Carolina), one worker and a 5 GiB heap passed 3/3 in 1,070.6 s, highest sampled memory 4,434 MB. For the CTO to drop. The October measurement: run seed 93678d3573d46855 (`GOLDEN_PATH_SEED=93678d3573d46855`; Gastonia, North Carolina, 3725580, attempt 0) with src/core2/legislature-committees.test.ts on main e269fd0acf, one worker and `--max-old-space-size=5120`: collection ended after 1,848 seconds before any assertion. At day 660 the player's circle holds 358 people, and 1.6 million of 2.2 million known facts belong to focused people (Notes).
 
-**Fix.** Store one shared copy of an event's facts instead of one per witness, and let old focus that the player no longer deals with leave the circle. Keep the test, its bookkeeping and its assertions unchanged.
+**Fix.** None until the cause is found.
 
 **Time box.** 8 hours for an Opus session.
 
@@ -46,3 +46,5 @@ Split Oct 25: the three retention leaks found while measuring this world are `co
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:53 UTC) on branch claude/pool-core-committee-world-debug-heap.
 
 Released (2026-11-11): Does not reproduce on main e9d07eaf39: the unchanged test passes 3/3 in 1,071 s with a 5 GiB heap (PR #8402). Continue on branch claude/pool-core-committee-world-debug-heap and pull request #8402.
+
+Nov 11 (CTO): the Fix above is set to the standard text because the Cause now reads "Needs cause." The fix written before the cause stopped reproducing, kept for whoever finds the new cause: Store one shared copy of an event's facts instead of one per witness, and let old focus that the player no longer deals with leave the circle. Keep the test, its bookkeeping and its assertions unchanged.
