@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by:
 pr: #8866
 after:
@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+merged-at: 2026-11-11T23:08:22.586Z
 ---
 
 **What.** In Sunset, Louisiana (bench seed `bill-words-1`), the player stepped in as a council member (Advanced) and drafted a budget bill on the highways line from Your office. The bill's page shows three figures that do not agree: "In force today $265,000", "The bill makes it $557,000", and in its section "Highways: about $292,000 for the year". The $292,000 is about 1.1 times the $265,000; the $557,000 is the two added together. Shots: docs/seen/play-bill-numbers-and-dates-said-in-words/bill-page-after-sunset-la.png. Seen: the bill's page, opened from Bills or Your office, in the two cells at its top and its section.
