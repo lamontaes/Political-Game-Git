@@ -5,6 +5,7 @@
  * GOLDEN_PATH_SEED pins one.
  */
 import { randomBytes } from "node:crypto";
+import { buildBenchWorld } from "./world";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -14,7 +15,6 @@ import { servingStaffOf, staffOf } from "../core2/modules/staff";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { hireAide, officeView } from "./office";
-import { buildBenchWorld } from "./world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
