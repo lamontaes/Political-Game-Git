@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ root: rc9-place-facts-one-default
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point C11, partly fixed)
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:57:38.027Z
+claimed-at:
+branch: claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county
 ---
 
 **What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut), on the filing clerk's lines: "It's just a bunch of garbled mess." The CTO's note (point C11): the clerk says "in the county where you live" though Connecticut has no county government. Most of it is fixed: the residency refusal now names the place the office serves and the place the player's records put them. The sister refusal for a player who is not registered still says "You have to be a registered voter in the county where you want to serve." in every place, including places with no county government and territories with no counties. Every refusal the clerk gives should name the place from the rule's own record, and no clerk line should carry a fixed word for a kind of place.
@@ -37,3 +38,5 @@ claimed-at: 2026-11-11T05:57:38.027Z
 **Files.** data/english/parts/scene-talk.json, src/director/filing-visit.ts, src/core2/modules/elections.ts, src/bench/filing.ts
 
 **Notes.** From the Nov 8 playtest, point C11 (docs/coordination/playtest/2026-11-08-1.md), its row in `2026-11-08-1-check.md` (Check C) and that file's "Also wrong" line: "The other refusal lines say 'county' too: 'registered voter in the county where you want to serve.'" The third part of C11, "There's no primary for this one" where the state's law holds a town primary, is elections-town-races-have-primaries-where-law-says (open; evidence added to it on Nov 10 by another audit helper), not this item. This is a words fix: the Words lead owns the bank, so the PR carries `Review: words`. A second piece for the same move has no place word ("You have to be a registered voter.", line 130560) and may be all that is needed; which piece plays is the engine's pick. Related open: words-filing-clerk-scene-where, words-filing-clerk-line-after-filing. Not verified: nothing here was measured in the running game on Nov 10; whether a not-registered player can reach the counter in play was not checked, so the Done when uses dev mode to set it up through the game's own records.
+
+Released (2026-11-11): Blocked on Story: the fix is a new bank piece with a place slot in data/english/parts/scene-talk.json (move state-rule-registered-voter, lines 130288-130291 and 130744), which only the Story session writes. Slot needed: the place word the rule's record names, filled by src/director/filing-visit.ts as the residency line does. The test that fails a clerk piece naming a kind of place outside a slot would be red on main until that piece exists, so it cannot land first. Continue on branch claude/pool-play-nov8-clerk-tells-every-voter-to-register-in-the-county.
