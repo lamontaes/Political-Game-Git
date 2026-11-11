@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-housing-web-lease-renews-without-town-factor
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,8 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T01:18:37.449Z
+claimed-at:
+branch: claude/pool-housing-web-lease-renews-without-town-factor
 ---
 
 **What.** The housing-web test is red on main by draw. src/core2/housing-web.test.ts failed on clean main (31ad11a8c6, Oct 28) with WEB_HOUSING_SEED=d36f407e7c697a43 (Macon, Georgia): 'lease:household_5a537cd7cd145512: expected 1 to be close to 1.05'. The test shifts the town's outcome-web month (property-tax-to-rent 0.05) and expects every renewed lease to record a web change of 1.05; this lease records 1. A second seed fails the same way (WEB_HOUSING_SEED=38096aba2bd718a2, Felton, Delaware, lease:household_469542be0d124e00). Other seeds pass. Guards: the rent a renewed lease charges on a household's card, which the housing-web test keeps from being charged twice.
@@ -37,3 +38,5 @@ claimed-at: 2026-11-11T01:18:37.449Z
 **Files.** src/core2/housing-web.test.ts, src/core2/housing-occupancy.ts (`renewRentalLeases`), src/core2/modules/housing.ts
 
 **Notes.** Nov 1, 20:45 UTC (speed lead): a second seed, the same failure on clean main 8712646f8f: WEB_HOUSING_SEED=38096aba2bd718a2 draws Felton, Delaware, and fails with 'lease:household_469542be0d124e00: expected 1 to be close to 1.05'. It fails the same way on speed/evicted-stay-counted before and after its merge of main, so it is not that PR's. Probable cause, from renewRentalLeases (src/core2/housing-occupancy.ts): webChange is the town's factor over the factor stored on the lease's first renewals row, so a lease first recorded after the web shift (a lease signed during the run) reads 1.05 over 1.05.
+
+Released (2026-11-11): Cause differs on main 37bf82a661: with WEB_HOUSING_SEED=d36f407e7c697a43 (Macon, Georgia) and 38096aba2bd718a2 (Felton, Delaware) the renewed-lease checks in src/core2/housing-web.test.ts now PASS (every lease records 1.05, the loop at lines 181-188); both seeds instead fail at line 193, expect(moved.exited).toBe(true): the homeless household's way back does not exit in the shifted run. That is a different defect (housing-homeless review with the vouchers factor) and needs its own item; the lease item as written is not reproducible. Continue on branch claude/pool-housing-web-lease-renews-without-town-factor.
