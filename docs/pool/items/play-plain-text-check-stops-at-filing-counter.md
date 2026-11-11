@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-plain-text-check-stops-at-filing-counter
-pr:
+pr: #8545
 after: 
 blocked-on:
 lead: play-first
