@@ -54,8 +54,15 @@ describe(`dev bribe: ${where}`, () => {
 
   it("a picked answer decides at the engine's own point and is kept beside what the engine said", () => {
     const [offerer] = dev.wealthiest(1);
+    // The player's own seat is passed over: an offer made to it is put to the player to answer in a
+    // scene (a pending record, nothing taken), so a picked "takes" cannot decide it. In a new life
+    // the player is often the first person with little money, so the draw would land on them.
     const official = [...world.core.people.values()].find(
-      (p) => p.alive && p.id !== offerer!.personId && p.liquidMinor < 100_000,
+      (p) =>
+        p.alive &&
+        p.id !== offerer!.personId &&
+        p.id !== world.core.playerId &&
+        p.liquidMinor < 100_000,
     )!;
     const base = {
       offererId: offerer!.personId,
