@@ -3,4 +3,4 @@ id: campaigns-volunteer-joined-and-lapsed-records
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The campaigns engine now writes a record when a volunteer joins a campaign and when one's reasons weaken past giving evenings; nothing on screen reads them yet.

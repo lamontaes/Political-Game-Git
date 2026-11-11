@@ -73,6 +73,10 @@ import {
   rivalFiling,
   VOLUNTEER_OFFERED_EVENT,
   volunteerReason,
+  volunteerShifts,
+  volunteerLapseReason,
+  VOLUNTEER_JOINED_EVENT,
+  VOLUNTEER_LAPSED_EVENT,
   whoComes,
   type CampaignRow,
   type EndorsementRow,
@@ -674,6 +678,57 @@ describe("a candidate never helps a rival in their own race", () => {
       rivalFilingId: fa.id,
     });
   });
+
+  it(
+    "a volunteer who joins writes a record naming the ask, and one whose reasons have weakened writes a lapse naming the cause",
+    () => {
+      const { core, api, where, first, helper, askFor } = findRace();
+      // The log keeps what happens outside the player's circle only for an observer.
+      core.observer = true;
+      const fa = first.filing;
+      expect(
+        askToVolunteer(api, fa.id, helper.id, askFor(first.person.id)),
+        `${where}: ${helper.id} asked for ${fa.id}`,
+      ).toBe(true);
+      const joined = api.state.durableLog.get(
+        `${VOLUNTEER_JOINED_EVENT}:${fa.id}:${helper.id}` as never,
+      );
+      expect(joined, `${where}: no join record for ${helper.id}`).toBeDefined();
+      expect(joined!.facts.causeId, where).toBe(first.person.id);
+      expect(joined!.facts.how, where).toBe("group-ask");
+      // Someone whose reasons are already weak, enlisted at home: the evening's
+      // weighing writes one lapse naming the cause that weakened them.
+      const campaign = campaignFor(api, fa.id);
+      const weak = [...api.state.people.values()].find(
+        (p) =>
+          p.alive &&
+          p.id !== api.state.playerId &&
+          p.id !== first.person.id &&
+          !campaign.volunteerIds.includes(p.id) &&
+          volunteerLapseReason(api, campaign, p) !== null &&
+          enlistVolunteer(api, fa.id, p.id),
+      );
+      expect(
+        weak,
+        `${where}: nobody with weak reasons to enlist`,
+      ).toBeDefined();
+      volunteerShifts(api, fa.id);
+      const lapsed = api.state.durableLog.get(
+        `${VOLUNTEER_LAPSED_EVENT}:${fa.id}:${weak!.id}` as never,
+      );
+      expect(lapsed, `${where}: no lapse record for ${weak!.id}`).toBeDefined();
+      expect(["work-hours", "cooled", "distant"], where).toContain(
+        lapsed!.facts.reason,
+      );
+      expect(lapsed!.facts.joinedId, where).toBe(
+        `${VOLUNTEER_JOINED_EVENT}:${fa.id}:${weak!.id}`,
+      );
+      expect(
+        api.state.durableLog.get(String(lapsed!.facts.joinedId) as never),
+      ).toBeDefined();
+    },
+    TWIN_TIMEOUT,
+  );
 
   it("a volunteer who then files in the same race leaves the campaign that day, kept with the filing, and does not come to its events", () => {
     const { core, api, where, first, helper, askFor } = findRace();
