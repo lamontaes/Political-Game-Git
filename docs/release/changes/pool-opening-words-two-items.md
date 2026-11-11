@@ -3,4 +3,4 @@ id: pool-opening-words-two-items
 impact: none
 ---
 
-Two pool items for the opening: the first evening talk and the first night news name what the President said.
+Three pool items for the opening: the address, the first evening talk and the first night news each say what happened in this world.
