@@ -171,3 +171,8 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 A pass ends when every PR in your share is checked at its current head or sent back with one comment. Then take the oldest unchecked PR in another share. When nothing is open, message the CTO one line and wait for the next message.
 
 - **A `minor` or `major` declaration needs `section:` and `title:` (Nov 2, Checker 1; #7101, #7106).** A bank change no longer needs `grade-reach.json` rebuilt: that file and the script that wrote it are gone (Nov 10 sweep).
+
+## Lessons of Nov 11 (mechanical misses a builder should not leave for the desk)
+
+- **A deleted file is still named by pool items.** A pull request that deletes a file fails the pool check on every item whose Files line names it. After a deletion, run `git grep -n "<the file's path>" -- docs/pool/items` and fix each line in the same pull request (now also: add the path to the replaced list, skill `current-pointers`).
+- **Prettier runs on every changed file, pictures' pages and release notes included,** not only on the code.

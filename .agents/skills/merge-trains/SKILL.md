@@ -103,3 +103,10 @@ When the CTO posts a build window (on Nov 11: the last train lands by 12:45 UTC,
 - **Later riders are checked on top of earlier ones only in the posted order.** Merging out of order voids the check.
 - **A rider that changed after its light gate** (a new head) leaves the train unless the light gate is run again on the new head first.
 - **Do not hold a ready red-main fix for a train.** It merges alone.
+
+## Lessons of the first night of trains (Nov 11)
+
+- **A train post is final once posted.** The merger merges the list as written. To pull a rider, post the corrected train before the first post, or post `Train <area> <time>: hold` and then the corrected one. The merger waits two minutes after any train post so a correction can land (CTO, Nov 11, after a rider was merged while its send-back was still being read).
+- **A rider sent back by any desk is off every train until its new head is posted.** Before you post a train, read each rider's newest comments, not only your own gate line: the other desk may have sent it back on a check you did not run.
+- **Walk the combined train in the bench once, as a player would.** The lead merged the six screen riders in its own tree and opened every menu at 1440x900. The checks were green and the walk still found the Journal note covering a face in the new strip, and a bill's page saying one sentence three times. Ten minutes; do it for every screens train.
+- **A rider that holds another rider** conflicts with nothing only in the posted order. When the held one merges first and main moves, the holder needs main merged in again before it can merge; the desk does that merge, it is mechanical.
