@@ -5,8 +5,8 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-elections-recall-reads-ended-term
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:07:26.628Z
 ---
 
 **What.** Recall and misconduct checks read the term an official's id was minted from, so a re-elected named official drops out of them. `termOf` in the recalls module finds an official's term by the term named in their own id (`official:<termId>`), and its callers at about lines 456, 533 and 630 use it for recall and misconduct checks. A town seat's named official filled in at the opening keeps the id `official:<opening term>` after a re-election, so this lookup returns the ended opening term and the official drops out of those checks. The laws lead confirmed it on main on Nov 2 while checking the speed lead's office-terms fold proposal.
