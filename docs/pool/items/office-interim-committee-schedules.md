@@ -5,13 +5,13 @@ area: office
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-office-interim-committee-schedules
 pr:
 blocked-on:
 after:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T05:05:57.743Z
 standard: 2
 model: sonnet
 effort: medium
