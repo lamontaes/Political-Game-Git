@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T05:26:58.105Z
+claimed-at:
 branch: claude/pool-tests-law-wiring-labor-one-subject-per-test
 ---
 
@@ -50,3 +50,5 @@ Released (2026-11-11): Reproduced on main 2026-11-11 (one run, 249 s, seed 2804b
 Released (2026-11-11): Read src/core2/law-wiring-labor.test.ts again: run(specId) (line 140 to about 690) is one 550-line flow that sets every labor law in the same world (repeals on day 0, grant on day 2, drafts and claims on day 5, a claim above the weekly maximum, teacher re-rate, council draft) and reads their effects together in one pass, so a per-law split is a rewrite of that function with each law's setup and read separated, not a search change. Not started; needs a six-hour session with the labor lead. Continue on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:26 UTC) on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
+
+Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story-session lines under data/english/parts, a dedicated machine for speed runs, or a rewrite beyond one pass (see my earlier release notes on this item). Continue on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
