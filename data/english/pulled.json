@@ -1,7 +1,11 @@
 {
   "schema": "english-pulled/1",
   "pulled": {},
-  "waiting": {},
+  "waiting": {
+    "scene-talk.follow-answer.because-those-three-can-t-afford-a-yes-and-you-can": [
+      "trade-not-bribe"
+    ]
+  },
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"

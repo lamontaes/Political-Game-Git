@@ -7,6 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -451,9 +452,11 @@ function householdMoments(
           },
         },
       });
-  // What each earner in the household does for work now, by the record of
-  // the job they held on day one: the family's livelihood the person grew up
-  // inside. The parents first, then the brothers, sisters and partner.
+  // What each earner in the household does for work now: the job they held
+  // on day one and each office they serve in, from the one reader the card
+  // and Travel tell it from (`personWorkOf`), so the journal never says a
+  // sales job where the card says commissioner. The parents first, then the
+  // brothers, sisters and partner.
   const household = core.households.get(person.householdId);
   const earners = [...(household?.memberIds ?? [])].sort(
     (a, b) => Number(!parentIds.has(a)) - Number(!parentIds.has(b)),
@@ -461,8 +464,35 @@ function householdMoments(
   const lastDay = addDays(makeIsoDate(core.startedAt), -one);
   for (const [at, id] of earners.entries()) {
     const earner = core.people.get(id);
-    const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
-    if (!earner?.alive || !job || id === person.id) continue;
+    if (!earner?.alive || id === person.id) continue;
+    const work = personWorkOf(core, earner.id);
+    // Each office first, told with the existing livelihood words: the office
+    // as the work and its government as the employer, on the term's record.
+    for (const office of work.offices)
+      moments.push({
+        ...base(`${office.termId}:livelihood:${person.id}:${at}`, lastDay),
+        causeId: office.termId,
+        causeFactId: office.termId,
+        causeKind: "household:livelihood",
+        counterpartIds: [earner.id],
+        beat: "work",
+        actFacts: {
+          job: {
+            text: withArticle(officeInSentence(office.title)),
+            sourceRecordIds: [office.termId, office.officeId],
+          },
+          ...(office.governmentName
+            ? {
+                employer: {
+                  text: properName(office.governmentName),
+                  sourceRecordIds: [office.termId, office.officeId],
+                },
+              }
+            : {}),
+        },
+      });
+    const job = work.job ? core.jobs.get(work.job.id) : undefined;
+    if (!job) continue;
     const held = heldSinceRecord(core as CoreState, earner.id, job.id);
     const org = core.organizations.get(job.organizationId);
     const cause = held?.id ?? job.id;
