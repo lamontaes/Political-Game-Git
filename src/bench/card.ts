@@ -64,6 +64,10 @@ export function whatPeopleSay(core: CoreState, subjectId: string) {
   const subject = core.people.get(subjectId as PersonId);
   if (!subject) return [];
   const kin = familyFactsOf(subject);
+  // The subject's pronouns, for what the speakers say about them.
+  const subjectWords = pronounWords(
+    subject.looks?.pronouns ?? pronounSetOfGender(subject.looks?.gender),
+  );
   // Family first, then ties by how close they are now.
   const ties = [...(core.relationshipsByPerson.get(subjectId) ?? [])]
     .map((id) => core.relationships.get(id))
@@ -100,14 +104,35 @@ export function whatPeopleSay(core: CoreState, subjectId: string) {
       );
       return line ? [line] : [];
     });
-    // Said by them, of themselves: the bank's first-person story pieces.
-    const said = tellHistory(lines, {
+    // Said by them about the subject: the bank's `said` piece for the event
+    // (person-history.said.<kind>, in the speaker's voice about the subject,
+    // with the subject's name and pronouns), else their first-person story
+    // piece naming the subject.
+    // stopgapId: SG-SCREENS-said-awaits-words
+    const teller: Teller = {
       form: "you",
       name: `${speaker.givenName} ${speaker.familyName}`,
       words: null,
-    })
+    };
+    const said = lines
+      .flatMap((line) => {
+        const voiced = screenLine(
+          "person-history",
+          `person-history.said.${line.key}`,
+          {
+            ...line.slots,
+            given: subject.givenName,
+            they: subjectWords?.subject ?? "they",
+            them: subjectWords?.object ?? "them",
+            their: subjectWords?.possessive ?? "their",
+          },
+        );
+        const text = voiced ?? tellHistory([line], teller)[0]?.text;
+        return text ? [{ date: line.date, text, recordId: line.recordId }] : [];
+      })
+      .sort((a, b) => a.date.localeCompare(b.date))
       .slice(-SAID_EACH)
-      .map((row) => ({ text: row.text, recordId: row.recordId }));
+      .map(({ text, recordId }) => ({ text, recordId }));
     if (!said.length) continue;
     out.push({
       personId: speaker.id,
