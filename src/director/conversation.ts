@@ -28,7 +28,7 @@
  * and the President's address weighs by how closely they follow politics.
  * The listener remembers the last talk's topic and doesn't open with it again.
  */
-import { familyFactsOf } from "../core2/modules/people";
+import { familyFactsOf, meetInTalk } from "../core2/modules/people";
 import {
   PERSON_MOVED_IN,
   heldSinceRecord,
@@ -501,6 +501,7 @@ function recentMoments(
  * the moments a book would hold: the event is the cause, its other people
  * the counterparts.
  */
+// stopgapId: SG-JOBS-job-start-not-a-person-event
 function recordedMoments(
   core: Readonly<CoreState>,
   personId: PersonId,
@@ -2857,6 +2858,18 @@ export function openConversation(
     }
     endConversation(core, conversation, data);
   }
+  // A talk that really opened (a line was said) is how two people meet: the
+  // encounters engine's own meeting, once per pair, the talk's time together
+  // as its hours. Nobody else in the room is met by it.
+  if (conversation.lines.some((line) => line.speakerId === otherId))
+    meetInTalk(
+      coreAPI(core as CoreState),
+      playerId,
+      otherId,
+      player.placeId,
+      (data.minutesPerExchange * conversation.lines.length) / P.minutesPerHour,
+      `conversation:${playerId}:${otherId}:${core.date}:met`,
+    );
   return conversation;
 }
 
