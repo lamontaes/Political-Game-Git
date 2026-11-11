@@ -4,8 +4,8 @@ title: "A reunion over a shared cause talks about the cause, not the old school"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-reunion-talks-the-shared-cause
 pr:
 blocked-on:
 milestone:
@@ -18,7 +18,7 @@ effort: medium
 root: rc6-scenes-repeat
 size: S
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T02:22:39.654Z
 branch: claude/pool-words-reunion-talks-the-shared-cause
 ---
 
@@ -43,3 +43,5 @@ branch: claude/pool-words-reunion-talks-the-shared-cause
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:21 UTC) on branch claude/pool-words-reunion-talks-the-shared-cause.
 
 Released (2026-11-11): Needs a new conversation subject kind for the shared cause plus its bank lines under data/english/parts (Story session only): src/director/conversation.ts has only the generic own-view subject (their lean, weight-gated) and SHARED_KINDS = shared-school/shared-work, which wins for a reunion occasion; no subject cites the cause.shared record or the stance. The wiring (rank a cause-citing subject above SHARED_KINDS when the occasion's cause is cause.shared) is small once those lines exist. Continue on branch claude/pool-words-reunion-talks-the-shared-cause.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:22 UTC) on branch claude/pool-words-reunion-talks-the-shared-cause.
