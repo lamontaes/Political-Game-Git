@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-tests-government-staffing-ward-charter-no-employer
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T09:21:39.429Z
+claimed-at:
 branch: claude/pool-tests-government-staffing-ward-charter-no-employer
 ---
 
@@ -56,3 +56,5 @@ Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Cause does not hold (see earlier release note: no hire after 63 days on three seeds); needs a new cause find, not another build attempt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
 
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:21 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): The Cause does not hold (three releases say so); rewritten as Needs cause on pool/notes-2026-11-11-10 (31523b368aa9), not rebuilt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
