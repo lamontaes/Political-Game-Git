@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-roadmap-m0-08-closures-check-opening-timing
-pr:
+pr: #8657
 blocked-on:
 source: added with npm run pool -- add
 standard: 2
