@@ -47,3 +47,5 @@ branch: claude/pool-words-scene-web-the-campaign
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-campaign`; last push Oct 27, 16:01 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:02 UTC) on branch claude/pool-words-scene-web-the-campaign.
+
+**Notes (builder sonnet-a266, pass 1, Nov 11).** Pull request 8369 wrote the episode packets and lists for door-ask and party-recruit (docs/design/scenes/from-life/the-first-door-of-the-day.md and the-party-asks-you-to-run.md) and regenerated the report. Left: three lines per speaker role, which are the words writer's, and the door-ask fired count (scene-web-door-ask-never-fires-in-the-report). Line 1 of that pull request is `Touches pool item:`.
