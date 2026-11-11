@@ -1517,6 +1517,8 @@ interface AgendaCause {
   readonly moved: Readonly<Record<string, number>>;
   readonly newMembers: number;
   readonly agendaId: string;
+  /** The state's first session in the world: the year before the opening carried it. */
+  readonly opening: boolean;
 }
 
 /** A state's figures today from the country tier: people out of work, prices, pay, and revenue against budget. */
@@ -1599,6 +1601,7 @@ function sessionAgenda(
         ),
         newMembers,
         agendaId: id,
+        opening: !kept,
       });
       pull -= 1;
     }
@@ -1677,6 +1680,9 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
               .map(([key, size]) => `${key}:${size.toFixed(3)}`)
               .join(","),
             newMembers: Number(cause.newMembers.toFixed(3)),
+            ...(cause.opening
+              ? { carried: "the year before the opening" }
+              : {}),
           }
         : {}),
     },
