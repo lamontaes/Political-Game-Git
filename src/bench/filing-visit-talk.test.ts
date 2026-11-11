@@ -134,7 +134,7 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     expect(answer.text.split(/(?<=[.?!]) /).length, where).toBeGreaterThan(1);
     if (contest.body && /^municipalOffice/.test(contest.kind ?? ""))
       expect(answer.text, where).toContain(contest.body.name);
-    // Up to four replies, each a different move, each naming the office.
+    // Up to four replies, each a different move about the race.
     const moveOf: Record<string, string> = {
       file: "agree",
       "ask-filed": "ask",
@@ -148,8 +148,12 @@ it(`a first visit asks for the papers, the player says only what they chose, and
       })),
       where,
     );
+    // Filing names the office; no other reply names it again (one screen
+    // names a thing once).
     for (const row of state.visit.choices)
-      expect(row.text, where).toContain(contest.title);
+      if (row.control === "file")
+        expect(row.text, where).toContain(contest.title);
+      else expect(row.text, where).not.toContain(contest.title);
     // Who else has filed, from the filings: named when there is someone.
     state = chooseAtCounter(core, state, "ask-filed");
     for (const row of state.visit.choices) offered.add(shown(row));

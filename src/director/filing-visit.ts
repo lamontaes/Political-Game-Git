@@ -456,6 +456,8 @@ function clerkFact(
           text: `${clerk.givenName} ${clerk.familyName}`,
           sourceRecordIds: [clerk.id],
         },
+        // Spoken to, the clerk is called by first name.
+        clerk: { text: clerk.givenName, sourceRecordIds: [clerk.id] },
       }
     : {};
 }

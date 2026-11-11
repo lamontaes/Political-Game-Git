@@ -78,9 +78,14 @@ describe("the filing visit", () => {
       "ask",
       "leave",
     ]);
-    // Four replies, each a different move, each naming the race.
-    for (const choice of visit.choices)
-      expect(choice.text).toContain("City Council, Seat 2");
+    // Four replies, each a different move about the race, and no two
+    // carrying the same insert: filing names the office, asking who filed
+    // names the town, asking the dates names the deadline.
+    expect(visit.choices[0]!.text).toContain("City Council, Seat 2");
+    expect(visit.choices[1]!.text).toContain(town);
+    expect(visit.choices[2]!.text).toMatch(/March 5/);
+    for (const choice of visit.choices.slice(1))
+      expect(choice.text).not.toContain("City Council, Seat 2");
     for (const line of visit.lines)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
   });
