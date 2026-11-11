@@ -43,7 +43,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-data";
-import { backdropFor, homeOf, stagePeople } from "./scene";
+import { backdropFor, homeOf, peopleHere } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -459,7 +459,7 @@ function askScene(core: CoreState, personId: string, place: string) {
   return {
     place,
     backdrop,
-    ...stagePeople(core, backdrop.file, [
+    ...peopleHere(core, backdrop.file, [
       {
         id: personId,
         name: row ? `${row.givenName} ${row.familyName}` : "",
@@ -486,7 +486,7 @@ function speechScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
@@ -569,7 +569,7 @@ function outingScene(
   return {
     place,
     backdrop,
-    ...stagePeople(
+    ...peopleHere(
       core,
       backdrop.file,
       ids.map((id) => {
