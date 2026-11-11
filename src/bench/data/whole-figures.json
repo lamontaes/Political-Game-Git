@@ -37,21 +37,17 @@
     "governor": ["governor"]
   },
   "creator": {
-    "about": "The creator's worded labels for the pack's values (src/bench/appearance.ts). A value not listed is shown in sentence case: a build as itself, an outfit by its manifest outfitLabel, a part as '<Part> color'.",
+    "about": "The creator's worded labels (src/bench/appearance.ts). The words for a skin, a hair piece and a facial hair piece are in the bust bank's manifest (art/busts/v1/manifest.json, `names`).",
     "sex": {
       "woman": "Woman",
       "man": "Man"
     },
-    "everyday": "Everyday clothes",
-    "parts": {
-      "top": "Top color",
-      "trousers": "Pants color",
-      "shoes": "Shoes color",
-      "hair": "Hair color"
-    },
+    "none": "None",
     "rows": {
-      "everyday": "Everyday clothes",
-      "work": "Work clothes"
+      "body": "Body",
+      "skin": "Skin",
+      "hair": "Hair",
+      "face": "Facial hair"
     }
   },
   "propPlaces": {
