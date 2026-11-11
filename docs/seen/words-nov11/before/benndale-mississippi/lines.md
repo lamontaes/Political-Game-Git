@@ -1,6 +1,6 @@
 # Benndale, Mississippi (seed `39970a24-63c3-423f-9ab4-a00bfcb93701`) — words on screen, before
 
-Played from January 20, 2025, 653 days. Scenes the life did not reach in the play time are marked not reached.
+Played from January 20, 2025, 900 days. Scenes the life did not reach in the play time are marked not reached.
 
 ## 01 address
 
