@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-printed-news-check-open-choice
-pr:
+pr: #8404
 blocked-on:
 source: added with npm run pool -- add
 after:
