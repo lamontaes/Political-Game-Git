@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/office-day-state.ts, src/core2/modules/justice.ts, src/core2/data/stopgaps/gov.json, src/core2/office-day-clemency.test.ts
 
-**Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-clemency-boards.
+**Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-clemency-boards. Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A clemency board in the few states that have one; governor-alone clemency exists and courts come after early access.

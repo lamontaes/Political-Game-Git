@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-talk-opens-with-no-line-after-a-year
-pr:
+pr: #8401
 after:
 blocked-on:
 lead: words

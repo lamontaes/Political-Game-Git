@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/recalls.test.ts, src/core2/modules/recalls.ts
 
 **Notes.** Reproduced on main at d3ee6986bc and on the wire-office row 42 branch with the same seed (both 2 failed, 4 passed).
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/recalls.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=1b251a8aaa0f7710143adc4ff3cd45fa37ae0151be5cce350c171993b62555da. Still red, 2 of 6. First failing assertion as printed: `AssertionError: no recall started in US-WA 5327960 seed 1b251a8aaa0f7710143adc4ff3cd45fa37ae0151be5cce350c171993b62555da:0, US-KS 2029600 ...:1, US-MT 3060450 ...:2, US-WA 5322115 ...:3, US-FL 1253850 ..., US-ND 3813020` ("counts the town's counted residents as signers and voters by the same rule" and "counts them the same when their weights are fractions").

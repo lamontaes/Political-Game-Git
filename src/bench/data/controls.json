@@ -73,7 +73,7 @@
   "campaignUnavailable": {
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
-    "eventMoney": "Hall {price} \u00b7 campaign {cash}",
+    "eventMoney": "The hall costs {price}. The campaign has {cash}.",
     "forumHeld": "You hosted a forum today",
     "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
@@ -673,13 +673,14 @@
     "notSure": "Not sure yet"
   },
   "lifeGroups": [
-    ["partner", "child", "loss"],
+    ["partner", "child"],
     ["school"],
     ["work", "business"],
     ["moved", "home"],
     ["health"],
     ["law"],
-    ["office"]
+    ["office"],
+    ["loss"]
   ],
   "who": {
     "age": "Age",
@@ -1217,6 +1218,7 @@
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
+    "notToday": "Not today",
     "groupOut": "Out and about",
     "groupAsk": "Ask",
     "groupMoney": "Money",

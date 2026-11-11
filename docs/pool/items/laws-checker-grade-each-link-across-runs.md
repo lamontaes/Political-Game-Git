@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,7 +35,7 @@ checked: fable 2026-11-10
 
 **Files.** scripts/law-wiring/matrix.ts, docs/reports/law-wiring/families, scripts/law-wiring/check.ts
 
-**Notes.** From the laws lead, Oct 24 (rights-env, PR #5669).
+**Notes.** From the laws lead, Oct 24 (rights-env, PR #5669). Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10): it changes how the matrix files its runs, a crew report no player sees.
 
 Folded in Oct 25 from laws-checker-empty-group-counts-as-reach. Its done when: `scripts/law-wiring/matrix.ts` ignores applied records whose count is 0 when grading reach and all-places, a unit test covers it, and the rebuilt matrix from the health-schools year runs in Prescott, Michigan (seed a91c03e7d2b84f10) and Uehling, Nebraska (seed 5e27b0c4196fd3a8) grades the voucher's reach from Uehling's records alone, naming Prescott as a place with no subject.
 
