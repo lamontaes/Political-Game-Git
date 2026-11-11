@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-hold-record-names-the-sponsor
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,8 +16,9 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T01:00:05.539Z
+claimed-at:
 checked: fable 2026-11-10
+branch: claude/pool-laws-hold-record-names-the-sponsor
 ---
 
 **What.** The committee record bill-held-in-committee lists the committee's members and chair but not the bill's sponsor, so the sponsor never meets the hold as a moment and no scene can be theirs. It also carries news false, so the paper never says a bill died without a hearing, and nothing reads the scene.reply that the sponsor-asks-chair scene writes, so a chair who says yes in the scene does not set a hearing. Add the sponsor to the record's personIds with a sponsorId fact, set news so the press engine can run a held-bill line, and have the chair's hold decision read a scene.reply of type bill-held-chair that agreed. Found by scene builder C in docs/design/scenes/from-life/bill-held-in-committee.md. Seen: the paper's line that a bill died in committee and the sponsor's scene with the chair.
@@ -39,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** lead: laws-effects. Time box 3 h, Sonnet. Found by scene builder C in docs/design/scenes/from-life/bill-held-in-committee.md. Producers already on PR scenes-c-bill-held.
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/held-bill-names-sponsor` is kept; claiming this item takes it over.
+
+Released by next (2026-11-11): no push to claude/pool-laws-hold-record-names-the-sponsor since 2026-11-11 01:52 UTC, more than twice its 3-hour time box. Continue on branch claude/pool-laws-hold-record-names-the-sponsor.
