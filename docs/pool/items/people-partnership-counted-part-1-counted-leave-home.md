@@ -19,7 +19,7 @@ source: split from people-partnership-counted in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** A counted group's young adults never leave a parent's home, so the town's counted households keep their opening shape. Full people leave by weighing work, pay and the rents on offer (people-leave-parents-home). Give the counted tier the same weighing times its count, with a counted-store call that moves one member of a counted household into a new household record of its own (the weight and the household's cash share follow), the counterpart of changeHouseholdV1 for full people.
+**What.** A counted group's young adults never leave a parent's home, so the town's counted households keep their opening shape. Full people leave by weighing work, pay and the rents on offer (people-leave-parents-home). Give the counted tier the same weighing times its count, with a counted-store call that moves one member of a counted household into a new household record of its own (the weight and the household's cash share follow), the counterpart of changeHouseholdV1 for full people. Seen: new renter households forming in town as counted young adults move out.
 
 **Cause.** Found in code: src/core2/modules/partnerships.ts (header, line 33, and COUNTED_STOPGAP at line 88) leaves the counted population's partnerships as their own unit; the stopgap row SG-LIVES-partner-counted is in src/core2/data/stopgaps/lives.json (line 75): the counted population's household types never change by partnering or parting.
 

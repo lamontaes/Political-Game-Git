@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: a Guam town's unemployment rate on the Metrics tab, 25.76 percent, and the assault factor it raises.
 
 **Rules.** Estimate, never UNKNOWN: a place the source lacks takes the median of the sourced places, marked as an estimate. One rule, all 56 places: the fix lives in data or in the shared rule, never in a branch for Guam. Real rates check totals; they never pick one worker's outcome (owner, Nov 8: ranges are not targets).
 

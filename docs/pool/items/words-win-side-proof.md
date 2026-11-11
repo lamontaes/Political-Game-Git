@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: merged
+status: done
 claimed-by: story/director-win-side
 pr: #8122
 blocked-on:
@@ -14,6 +14,8 @@ milestone: play-first
 source: "the lost candidate years could not show race-won or swearing-in; swearing-in-scene.test.ts was red on seed 72 when the officiant was the player's mother"
 claimed-at: 2026-11-10T08:00:00.000Z
 merged-at: 2026-11-10T07:36:09.733Z
+seen-by: second-session-2
+seen-at: 2026-11-11T01:32:30.926Z
 ---
 
 **What.** Proof, plus one test fix. A player who files, campaigns on the real campaign actions (canvass, raise-money, event, forum, donor-meeting, as src/bench/path-check.ts does) and wins plays the whole win side. Bear Creek, Alaska (seed w3:13): the player, person_b5d3c7657bd8b93f, filed for election-result:contest:seat:gus2025:160739:board:3:2025-10-07 with no rival and won. The director staged, on the player's clock: race-won and family-win (2025-10-07, that count), morning-after (10-08), race-told (10-10, for the count of board:6, through the original row), swearing-in (took-office:seat:gus2025:160739:board:3:2025-10-13), celebration, first-day, first-meeting and advice. race-won, swearing-in and race-told compose. Nothing needed wiring.
@@ -29,3 +31,5 @@ The test fix: swearing-in-scene.test.ts expected the journal to print the offici
 **Time box.** 1 hour.
 
 **You will see.** Nothing changes in play.
+
+**Notes.** Seen in the game (2026-11-11, second-session-2): named seeds 72 (swearing-in) and 71 (victory night, Charlottesville VA), seed 72, 71, main 32a6683b: swearing-in-scene.test.ts at seed 72 and victory-night.test.ts at seed 71 both passed, one test each

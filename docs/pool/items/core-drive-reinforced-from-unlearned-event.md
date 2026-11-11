@@ -17,6 +17,8 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-core-drive-reinforced-from-unlearned-event
 ---
 
 **What.** With bookkeeping on (tests and the bench), the bench world for Londonderry, Vermont (5040150), drawn from run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0 with drawPlace(seed, 'filing-intro'), advanced a week at a time from January 20, 2025, throws 'Drive requires a learned source event and a finite strength.' on 2025-10-01 on main da7ec81210. The stack is src/core2/state.ts updateDrive (line 2128) from src/core2/modules/drives.ts writeDrive, reinforce (line 397), respond (line 764) and onEvent (line 1930): the drives engine reinforces a drive for a person from an event that person has no experienced knowledge of, or an event id that is not recorded. Play does not check, so a drive can form from something the person never lived through. Found by Lane 1 while checking the one-council-race branch, whose filing-intro test now advances weeks.
@@ -38,3 +40,15 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Dev Mode, Nov 8: the same throw (via jobs.ts reviewTurnover -> layOff -> emit work.job-lost -> drives respond) in Deenwood, Georgia (seed abc123), a world run roughly a year past its start by src/bench/dev-scene.test.ts with bookkeeping on; reproduces from the natural layoff review, not from a dev control.
+
+Released (2026-11-11): Cause does not reproduce on main 25369c9bac: Londonderry VT (5040150, run seed 8debd635...) advanced 60 weeks from 2025-01-20 with bookkeeping on, and the dev-scene world with DEV_MODE_SEED=abc123 (Deenwood case), both ran with no throw; fresh 110-week draws were killed by memory, so not proven beyond that. Needs a repro that still fails before it is built. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
+
+Released (2026-11-11): not reproduced on main 2026-11-11: Londonderry VT (run seed 8debd635...) advanced 60 weeks with bookkeeping on, no throw; a different world (seed sc1, civic-played test) threw the same error once in the test but not in 700 daily steps; needs a fresh trace. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
+
+Released (2026-11-11): Not reproduced on main (Nov 11): the Londonderry, Vermont world (5040150, run seed 8debd635...79e0, drawPlace 'filing-intro') advanced weekly from 2025-01-20 with bookkeeping on ran 60 weeks to 2026-03-16 with no throw, past the item's 2025-10-01; the Deenwood, GA case (seed abc123) was not run. The cause may be already fixed; needs the exact repro revision. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
+
+Released (2026-11-11): Already released as not reproducing on main (Londonderry run passes the 2025-10-01 throw date); no failing repro to build against. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
+
+Released (2026-11-11): Not reproducible on main 52934ae1c9: Londonderry, Vermont (5040150, place seed b4fb5e9b..., drawn with drawPlace(8debd635..., 'filing-intro')) built with buildBenchWorld and advanced a week at a time from 2025-01-20 to 2025-11-03 with CORE2_BOOKKEEPING=1 (and with it off) never throws 'Drive requires a learned source event and a finite strength.', through the 2025-10-01 date the item names. The updateDrive guard (state.ts line ~2138) is intact; no change was made. Needs a second place (Deenwood, Georgia, seed abc123 via jobs reviewTurnover/layOff, the item's other case) before it can be called gone. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
+
+Released (2026-11-11): Does not reproduce on main (Nov 11, bookkeeping on): Londonderry VT (5040150, run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0, drawPlace 'filing-intro') advanced weekly from 2025-01-20 for 60 weeks to 2026-03-16 with no throw, past the 2025-10-01 crash date; Deenwood GA (1322080, world seed abc123) advanced weekly for 54 weeks to 2026-02-02 with no throw. I did not find which change fixed it. Close as fixed or keep a guard test; nothing built. Continue on branch claude/pool-core-drive-reinforced-from-unlearned-event.
