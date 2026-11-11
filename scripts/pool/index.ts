@@ -43,6 +43,7 @@ import {
   feedsId,
   section,
   standardProblems,
+  seenLine,
 } from "./standard";
 
 export { section };
@@ -464,6 +465,7 @@ export function run(
         ...(needsCause(fm, text) ? { "needs-cause": "1" } : {}),
         "waits-on": section(text, "Waits on"),
         "time-box": section(text, "Time box"),
+        shown: seenLine(section(text, "What"))?.kind ?? "",
       };
       items.push(row as Item);
     }
