@@ -6,6 +6,7 @@
 import { legislativeSessionsOf } from "../core2/modules/world-panels";
 import { coreAPI } from "../core2/state";
 import { composeBill } from "../english/bill-sections";
+import { spokenDesignation } from "../english/bill-names";
 import {
   amendmentsOn,
   billForm,
@@ -363,7 +364,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
 
   return {
     id: bill.id,
-    number: bill.number,
+    number: spokenDesignation(bill.number, bill.form.kind),
     status: bill.status,
     stage,
     desk,
@@ -566,7 +567,7 @@ export function followedBills(core: CoreState, asId?: string) {
         const stage = billStage(core, bill.id, asId);
         return {
           id: bill.id,
-          number: bill.number,
+          number: spokenDesignation(bill.number, bill.form.kind),
           title: billPaper(core, bill.id).title,
           sponsor: stage.sponsor,
           stage: stage.stage,
@@ -882,7 +883,7 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
   ];
   return {
     id: bill.id,
-    number: bill.number,
+    number: spokenDesignation(bill.number, bill.form.kind),
     name: paper.title,
     level: reach.level,
     stage: stage.stage,
