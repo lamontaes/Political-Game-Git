@@ -5,8 +5,8 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-outside-revenue-fees
 pr: #8399
 blocked-on:
 standard: 2
@@ -15,7 +15,7 @@ effort: high
 lead: governing
 root: rc1-world-outside-town
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T00:52:50.862Z
 after:
 checked: fable 2026-11-10
 branch: claude/pool-gov-outside-revenue-fees
@@ -46,3 +46,5 @@ Sent back 2026-10-24 UTC from PR #5926 (branch claude/outside-revenue-fees): cou
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:51 UTC) on branch claude/pool-gov-outside-revenue-fees.
 
 Released (2026-11-11): Cause no longer matches main: chargesAndFees already has named payers (treasury-charges) and is skipped by the monthly plug; the permit fee is levied on named payers; see PR #8399. Continue on branch claude/pool-gov-outside-revenue-fees and pull request #8399.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:52 UTC) on branch claude/pool-gov-outside-revenue-fees.
