@@ -24,7 +24,7 @@ Each person names the question they care most about and their side. Their card t
 
 - Canaan: "I should tell you, I lean conservative. I'd vote against a clean electricity standard every time." The replies are "Good to know." / "Mine's private." / "I'd vote the other way, Sean.". Picking the last: "I still think I'm right."
 - Bonanza: "I should tell you, I lean liberal. I've always backed a ban on discrimination in housing and work." The replies are "Good to know." / "Rather not say." / "No argument from me, Annette.". Picking the last: "Good. I thought it was just me."
-- Sunrise: "I'm a conservative, and I don't mind who knows it. If it's a ban on discrimination in housing and work, count me out." The replies are "Good to know." / "I'll keep mine." / "I'd vote your way, John.". Picking the last: "Good. I thought it was just me."
+- Sunrise, retaken at 129f6fe3: "I'm a conservative, and I don't mind who knows it. If it's paying for a higher debt limit, count me in." The replies are "Good to know." / "I'll keep mine." / "I'd vote your way, Dad.": the player is John Figueroa's child, so a reply calls him "Dad", as the greetings do (Fable B's check, Nov 11). Picking the last: "Good. I thought it was just me." His card: "Cares most about paying for a higher debt limit."
 
 Asking why ("Why that one?", "How come?") is offered only when the person has a reason on record, their employer or money. None of these three had one.
 
