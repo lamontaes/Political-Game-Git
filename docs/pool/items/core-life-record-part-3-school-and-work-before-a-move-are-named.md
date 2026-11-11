@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-3-school-and-work-before-a-move-are-named
-pr:
+pr: #8648
 after:
 blocked-on:
 lead: lives
