@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-docs-roadmap-spec-commands
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: none
 milestone:
 source: "found by docs-roadmap-m2-m3-passes (Oct 15, 2026)"
-claimed-at:
+claimed-at: 2026-11-11T02:20:29.660Z
 checked: fable 2026-11-10
 ---
 
