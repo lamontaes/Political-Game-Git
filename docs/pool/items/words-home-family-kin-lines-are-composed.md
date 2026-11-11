@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/words-w4-family
-pr: 8801
+pr: #8801
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -19,6 +19,7 @@ source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: ever
 checked:
 claimed-at:
 branch: claude/words-w4-family
+merged-at: 2026-11-11T16:20:49.717Z
 ---
 
 **What.** In the first days at home and with neighbors, people ask after each other's relatives ("How's your mother?") and mention relatives the player has not met. The question already names the person, but the answers are often fixed: "He's in the hospital.", "My father passed away.", "She's doing well. I'll tell her you asked.", "I don't think so." 13 of the 50 lines under the bank's `family` and `kin` subjects have no insert. Seen: the talk box when someone asks after a relative or brings up one of their own, and the player's replies.
