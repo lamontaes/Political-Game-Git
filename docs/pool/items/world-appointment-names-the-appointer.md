@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-appointment-names-the-appointer
 pr: #8509
