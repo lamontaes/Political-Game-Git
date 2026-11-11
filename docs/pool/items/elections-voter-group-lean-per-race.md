@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: words helper, race-told turnout (Nov 10)
 **Files.** src/core2/modules/voting.ts, src/director/race-turnout-facts.ts
 
 **Notes.** Evidence: src/director/race-told-scene.test.ts (Branchville, Virginia and Cleveland, Utah, Nov 10).
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a neighbor say which voter groups went for a candidate after a race; no ruling asks for it. The owner can ask for it back.

@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-filing-petition-on-screen
+pr: #8466
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:54:18.288Z
+branch: claude/pool-play-filing-petition-on-screen
 ---
 
 **What.** Filing is a petition (owner, Oct 28): the elections engine keeps the petition record (`petitionOf`: the rule read, the signatures needed, the signers with the day and how they were asked, and the clerk's check). The bench shows none of it: the filing result shows only its status label, and the campaign screen shows doors knocked but not signatures. The counter should say how many signatures the clerk will count and by what day, the campaign screen should show the signatures held against those needed, and the morning after the deadline the player should see the clerk's verdict (the petition-checked record). The filing route already spends the afternoon on the clock.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/filing.ts, src/bench/campaign.ts, src/bench/play.mjs, src/bench/data/controls.json, src/core2/modules/elections.ts
 
 **Notes.** lead: play-first. Filed by the elections wire session, Oct 28, for the petition line of wire-elections-and-campaigns; blocked on that PR landing.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:54 UTC) on branch claude/pool-play-filing-petition-on-screen.
