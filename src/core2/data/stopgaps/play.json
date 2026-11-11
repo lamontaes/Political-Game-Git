@@ -351,12 +351,12 @@
     "id": "SG-PLAY-creator-bust-choices",
     "kind": "placeholder-art",
     "file": "src/bench/appearance.ts",
-    "line": 22,
-    "whatItFakes": "The creator offers what the bust bank paints today (round 3): three skins, six hairstyles in the two or three colors painted for that skin and, for a man, a beard or a mustache. The approved creator mock (docs/mocks/2026-11-08-front, fr-creator) also shows Face, Shirt, Jacket and Tie, which the bank has no separate pieces for; a bust wears the first top its person would wear where they are seen, so clothes are not chosen.",
-    "why": "Owner, Nov 7 and Nov 10, 2026: busts, never full figures; full bodies come back after early access. The bank (art/busts/v1) holds rounds 1 and 2 of the painting.",
+    "line": 24,
+    "whatItFakes": "The creator offers what the bust bank paints today (rounds 3 and 4): three skins, six hairstyles in the two or three colors painted for that skin, a beard or a mustache for a man, and the clothes a person dresses up in, a shirt, a tie and a jacket, each in its painted colors. The approved creator mock (docs/mocks/2026-11-08-front, fr-creator) also shows a Face row, which the bank has no pieces for, and everyday clothes are not chosen: away from work a bust wears one of the bank's everyday tops, set from the look itself.",
+    "why": "Owner, Nov 7 and Nov 10, 2026: busts, never full figures; full bodies come back after early access. The bank (art/busts/v1) holds rounds 3 and 4 of the painting; round 4 (clothes as layers in colors) went in on Nov 11 on his word, \"put these in the morning build.\"",
     "addedBy": "claude/fable-b-creator-on-busts",
     "addedAt": "2026-11-11",
-    "replacement": "The layered clothes of docs/art/busts-spec.md, spec 2 (shirt, tie and jacket pieces in painted colors), as rows in art/busts/v1/manifest.json, with a Shirt, a Tie and a Jacket row in the creator.",
+    "replacement": "Face pieces in the bank with a Face row in the creator, and an Everyday row when the owner asks to choose everyday clothes; each is rows in art/busts/v1/manifest.json and no code.",
     "status": "open"
   }
 ]

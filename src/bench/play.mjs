@@ -384,15 +384,32 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-// Escape opens only options and quit (M6 work order), the opening included.
+// Escape closes the top thing that is open and restores focus; only when nothing is open does it
+// open Options (owner, Sept 20: "Escape dismisses the top applicable transient context and
+// restores focus; when none is open, it opens the session menu"). In order: a person's card, the
+// news reader, a term's card, the open menu. A talk or a scene is not one of them.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!$("person").hidden) {
     closePerson();
     return;
   }
-  if (openTab === "options" || (openTab && !$("front").hidden)) closeSheet();
-  else if ($("front").hidden) openSheet("options");
+  if (!$("news-reader").hidden) {
+    show("news-reader", false);
+    return;
+  }
+  if (!$("tip").hidden) {
+    show("tip", false);
+    return;
+  }
+  if (openTab) {
+    // Focus goes back to the rail button that opened the menu.
+    const opener = document.querySelector("#rings [data-tab].active");
+    closeSheet();
+    opener?.focus();
+    return;
+  }
+  if ($("front").hidden) openSheet("options");
 });
 
 async function renderScene({ keepBackdrop = false } = {}) {
