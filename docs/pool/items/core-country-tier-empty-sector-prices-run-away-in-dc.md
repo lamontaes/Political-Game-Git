@@ -4,7 +4,7 @@ title: "A played world in Washington, D.C. stops within three months: an empty s
 area: core
 kind: bug
 priority: 1
-size: S
+size: M
 status: open
 standard: 2
 claimed-by:
@@ -12,8 +12,8 @@ pr:
 after:
 blocked-on:
 lead: speed
-model: sonnet
-effort: low
+model: opus
+effort: high
 root: none
 source: found Nov 11, 2026 by the cause finder for Fable B, running tests-loan-cap-case-red-by-draw
 ---
@@ -29,9 +29,16 @@ source: found Nov 11, 2026 by the cause finder for Fable B, running tests-loan-c
 
 The rest of the country is untouched; the national month stays normal (output gap -0.15%).
 
-**Fix.** In src/core2/country-model.ts, let a sector's staffing pressure on its price fade with how few jobs it holds, on a sliding scale with no cutoff. Multiply the busy term by `row.jobs / (row.jobs + 1)`, so a sector with a billionth of a job has no pressure and a sector with thousands is unchanged to a fraction of a percent. Keep the cost term as it is. Add a case to src/core2/country-model.test.ts: a state whose sectors hold 1e-12 jobs with positive staff needed keeps its price within one month's normal rise. Nothing in jobs.ts, finance-state.ts or macro.ts changes: once the tier's prices hold, their numbers stay bounded. Related, not needed for this fix: core-country-tier-more-jobs-than-workers-in-outcome-web-tests is why a played part can take more of its state's jobs than the state can spare.
+Second cause (R2 for Fable B, Nov 11, 10:20 UTC, same seed, measured on main 32c2d605 with the first fix applied; probes since undone). The first fix alone holds D.C.'s state prices at 1.03 on Feb 19 (2.02 without it), but the world still stops with the same `Map maximum size exceeded`. Both causes come from one place: when the played town is D.C., `takeOutPart` (src/core2/country-model.ts) leaves the rest of D.C.'s state with its people (44,000, of whom 18,100 are looking) and no jobs, so every sector is scaled by `scaleWithJobs` to a floating-point leftover (0, or 4.5e-13 in education-health) with its expected sales scaled to match. In month 1 the empty sectors hire back from nothing (education-health 780 jobs, government 15,000). The sales-expectation update in `stepCountry` (`grew = plan.sold / row.expectedSales - 1`, then `row.expectedGrowth += (grew - row.expectedGrowth) / rules.salesViewMonths`) reads that as growth against a base of almost nothing. In month 2 `demands` multiplies the expected growth into investment: D.C.'s `invested` is 7.13e20 (1.86e5 in month 1). D.C.'s demand for manufacturing is then 2.14e20 (California's is 1.9e10), so the nation's traded manufacturing demand is 1.93e20 against a supply of 3.8e11. Because a traded sector's `busy` is the nation's traded demand over the nation's supply, every state's manufacturing price reaches 2.33 and information 2.29 by Mar 21 (Wisconsin, Indiana and Michigan alike), the mean of the states' prices goes from 1.006 to 1.48, and the jobs engine's openings overflow in April as before. In Zillah, Washington (5380500, world seed probe-zillah-1) the same months stay normal: traded manufacturing demand 1.33e11 to 1.35e11, states' prices up about 0.2 percent a month.
 
-**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Fix.** Two parts, both one rule for every place.
+
+1. Done on branch `claude/red-country-tier-empty-sector` (0b9001b4): in the sector price step, the busy term is multiplied by `row.jobs / (row.jobs + ONE_JOB)`, so a sector with a fraction of one job has no staffing pressure and one with thousands is unchanged to a fraction of a percent.
+2. Still to build, a design choice inside the country tier, which the builder makes and records: a sector's expected growth must not be read from a base the part left nearly empty. Fading the growth update by the same `jobs / (jobs + ONE_JOB)` is not enough. The fade times the growth comes to the sales sold measured in jobs' worth of the old base, about 780 for education-health here, which is still runaway. Choose one of these and prove it: (a) read the month's growth per job (sales per job against expected sales per job at the month's opening), so a sector that regrows its staff reads the change in what each job sells, not the hiring; or (b) stop `takeOutPart` from shrinking a sector's books to a floating-point leftover: when the part takes all but a fraction of a job, keep the rest's per-job figures (expected sales, cash, other buyers per job) and let its jobs start from what the rest's own people can staff. Whichever is chosen, the expectedGrowth line keeps its `// perception:` comment, and no number is typed into a clamp (no-steering guard).
+
+Keep the cost term and `countryProblems` as they are. Nothing in jobs.ts, finance-state.ts or macro.ts changes. A test in src/core2/country-model.test.ts holds both: a state whose sectors are left with 1e-12 jobs and its people, stepped three months, keeps its prices, its investment and the nation's traded prices within one month's normal rise.
+
+**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One rule, all 56 places: the guard reads the sector's own jobs, and no state or place is named in code. Sliding scales and causes: the pressure fades smoothly with the jobs, with no threshold. Never weaken a check: the tier's own bookkeeping check (`countryProblems`) stays as it is.
 
@@ -42,3 +49,5 @@ The rest of the country is untouched; the national month stays normal (output ga
 **Files.** src/core2/country-model.ts, src/core2/country-model.test.ts
 
 **Notes.** Found while running tests-loan-cap-case-red-by-draw. With `HOUSING_DAYS=240` and GOLDEN_PATH_SEED=c443c640669c9f2eb72d974b0cf926a6305a74b0, the housing file's draw passed over ten worlds; six of the eleven it built were in Washington, D.C. The eleventh, D.C. with seed c2ff1910…e925, crashed after 1,854 seconds of the run. The housing file therefore meets D.C. often, and a crash there fails the whole file.
+
+**Notes (R2 for Fable B, Nov 11, 10:25 UTC).** The second cause above was found after the first fix was built; the first fix is on its branch and was not opened as a pull request, because alone it does not stop the crash. Done when stands: no pull request until a whole played year in D.C. on this seed runs to the end with prices in a sane range and a drawn state is unchanged.
