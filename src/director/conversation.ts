@@ -137,6 +137,9 @@ const one = P.one;
 /** The slots a person's own work detail is said under. */
 const WORK_SLOTS = { position: "position", place: "work-place" };
 
+/** The organization kind of a government's payroll. */
+const GOVERNMENT_TREASURY = "government-treasury";
+
 const LONG_AGO_YEARS = (
   rulesFile as unknown as { sharedPast: { longAgoYears: { value: number } } }
 ).sharedPast.longAgoYears.value;
@@ -360,13 +363,25 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
 }
 
 /**
- * An employer said the way people say it: a government named for its place
- * ("Village of Jackson Center") takes "the", as in "I work for the Village of
- * Jackson Center".
+ * An employer said the way people say it. A government's payroll is the
+ * government ("the City of Alexandria", never "City of Alexandria
+ * treasury"), and a government named for its place takes "the", as in "I
+ * work for the Village of Jackson Center".
  */
-function employerText(name: string): string {
-  const said = properName(name);
+function employerText(org: { name: string; kind: string }): string {
+  const name = properName(org.name);
+  const said =
+    org.kind === GOVERNMENT_TREASURY ? name.replace(/\s+treasury$/i, "") : name;
   return /^\p{Lu}\p{Ll}+ of /u.test(said) ? `the ${said}` : said;
+}
+
+/**
+ * A person's job, when its employer can be named: never the outside
+ * buyers and sellers that stand in for work out of town.
+ */
+function namedJobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
+  const held = jobOf(core, person);
+  return held && !held.org.outsideFlow ? held : null;
 }
 
 /**
@@ -563,6 +578,12 @@ function latestMoment(
   );
 }
 
+/** The knowledge key that says who a relative is to someone, learned when they are mentioned. */
+const knowsOfKey = (relativeId: PersonId) => `person:${relativeId}:relation`;
+
+/** The stage a relative's death is told in (`familyNews.stages`). */
+const DIED = "died";
+
 /**
  * What a relative's latest recorded happening gives a talk about them (the
  * owner, Nov 1: every life is simulated, and under Q7 what happened to them
@@ -575,17 +596,39 @@ function familyNews(
   speakerId: PersonId,
   relativeId: PersonId,
 ): { stage: string; facts: Facts } {
-  const moment = latestMoment(core, director, speakerId, relativeId);
   const stages = CONVERSATION_RULES.familyNews?.stages ?? {};
-  const prefix = moment
-    ? Object.keys(stages).find((row) => moment.label.startsWith(row))
-    : undefined;
+  const stageOf = (moment: Moment) =>
+    Object.keys(stages).find((row) => moment.label.startsWith(row));
+  // The newest happening that is news (a stage), theirs or the speaker's
+  // that names them; else their latest happening of any kind.
+  const staged = [
+    ...recentMoments(core, director, relativeId).filter(
+      (row) => !!stageOf(row),
+    ),
+    ...recentMoments(core, director, speakerId).filter(
+      (row) => !!stageOf(row) && row.counterpartIds.includes(relativeId),
+    ),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+  // A death is the news once it is recorded, whatever its records say after
+  // (a job's end, an estate).
+  const moment =
+    staged.find((row) => stages[stageOf(row)!] === DIED) ??
+    staged[zero] ??
+    latestMoment(core, director, speakerId, relativeId);
+  const prefix = moment ? stageOf(moment) : undefined;
   if (!moment || !prefix) return { stage: "default", facts: {} };
   const stage = stages[prefix]!;
   const cited = [moment.causeId];
   // Whatever the line says, it cites the record of what happened, even a
   // line that names no place or employer ("Dana moved away.").
   const facts: Facts = { happened: { text: stage, sourceRecordIds: cited } };
+  // An illness or a death is told with when it happened, as people say it
+  // ("last week"), from the moment's own date.
+  if (stage === "ill" || stage === "died")
+    facts.when = {
+      text: spokenWhen(moment.date, core.date),
+      sourceRecordIds: cited,
+    };
   if (stage === "moved") {
     const move = core.durableLog.get(moment.causeId);
     const place = move?.topic
@@ -1047,16 +1090,19 @@ export function subjectsBetween(
   // happened to them lately.
   const happened = (id: PersonId) =>
     !!latestMoment(core, director, speakerId, id);
+  // Someone told who a relative is (in an earlier talk) knows of them.
+  const knowsOf = (personId: PersonId, id: PersonId) =>
+    !!core.knowledgeByPerson.get(personId)?.has(knowsOfKey(id));
   const listener = core.people.get(listenerId)!;
   const out: Subject[] = [];
-  const mine = jobOf(core, speaker);
+  const mine = namedJobOf(core, speaker);
   if (mine)
     out.push({
       id: `own-work:${speakerId}`,
       kind: "own-work",
       facts: {
         employer: {
-          text: employerText(mine.org.name),
+          text: employerText(mine.org),
           sourceRecordIds: [mine.job.id, mine.org.id],
         },
         ...workDetail(core, speaker, mine, WORK_SLOTS),
@@ -1234,13 +1280,13 @@ export function subjectsBetween(
     });
   // What they do there, asked right after they name their work: answered
   // from the job record's title.
-  if (sayableTitle(theirs?.job.title))
+  if (theirs && !theirs.org.outsideFlow && sayableTitle(theirs.job.title))
     out.push({
       id: `their-position:${listenerId}`,
       kind: "their-position",
       facts: {
         employer: {
-          text: employerText(theirs.org.name),
+          text: employerText(theirs.org),
           sourceRecordIds: [theirs.job.id, theirs.org.id],
         },
       },
@@ -1329,12 +1375,18 @@ export function subjectsBetween(
   // relative the two share is never introduced; they ask after them below.
   const relationOf = familyFactsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
-    const relative = core.people.get(id);
+    // A relative who lives out of town is kept as a husk: named, with their
+    // town, and never filled in for being mentioned.
+    const person = core.people.get(id);
+    const husk = person ? undefined : core.husks.get(id);
+    const relative = person ?? husk;
     const row = relationOf.get(id);
     if (
-      !relative?.alive ||
+      !relative ||
+      (person ? !person.alive : !!husk?.diedOn) ||
       !row ||
       listener.knownIds.has(id) ||
+      knowsOf(listenerId, id) ||
       listener.familyIds.has(id) ||
       id === listenerId
     )
@@ -1345,6 +1397,15 @@ export function subjectsBetween(
       "journal",
     );
     if (!phrase) continue;
+    // Where they live, when it is not the speaker's town, and where they
+    // work, each from its record: what the speaker says of them.
+    const home =
+      relative.placeId !== speaker.placeId
+        ? corePlaceByJurisdictionId(relative.placeId as never)
+        : undefined;
+    const work = person ? namedJobOf(core, person) : null;
+    // Mentioned only with something of their life to tell.
+    if (!home && !work) continue;
     out.push({
       id: `kin:${id}`,
       kind: "kin",
@@ -1355,7 +1416,25 @@ export function subjectsBetween(
           sourceRecordIds: [row.factId],
         },
         name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+        ...(home
+          ? {
+              place: {
+                text: spoken(home),
+                sourceRecordIds: [person?.householdId ?? id],
+              },
+            }
+          : {}),
+        ...(work
+          ? {
+              employer: {
+                text: employerText(work.org),
+                sourceRecordIds: [work.job.id, work.org.id],
+              },
+            }
+          : {}),
       },
+      // Once said, the listener knows who they are to the speaker.
+      own: { key: knowsOfKey(id), value: row.relation },
     });
   }
   // The speaker's relatives the listener knows, asked after by name. One the
@@ -1366,8 +1445,16 @@ export function subjectsBetween(
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
-    if (!relative?.alive || !row || !listener.knownIds.has(id)) continue;
+    if (!relative || !row) continue;
+    if (!listener.knownIds.has(id) && !knowsOf(listenerId, id)) continue;
     if (id === listenerId || !happened(id)) continue;
+    // A relative who died is asked after only by someone who has not heard,
+    // and answered with the death (its moment sets the stage).
+    if (
+      !relative.alive &&
+      familyNews(core, director, speakerId, id).stage !== DIED
+    )
+      continue;
     const gender = relative.looks?.gender ?? "other";
     let phrase: string | undefined;
     let sourceRecordIds = [row.factId];
@@ -2003,11 +2090,13 @@ function replyFacts(
       return { facts: subject.facts, stage: "default" };
     case "their-work": {
       const theirs = jobOf(core, listener);
+      // Work out of town for outside buyers has no employer to name.
+      if (theirs?.org.outsideFlow) return null;
       if (theirs)
         return {
           facts: {
             employer: {
-              text: employerText(theirs.org.name),
+              text: employerText(theirs.org),
               sourceRecordIds: [theirs.job.id, theirs.org.id],
             },
             ...workDetail(core, listener, theirs, WORK_SLOTS),
@@ -2020,24 +2109,25 @@ function replyFacts(
         ? core.organizations.get(ended.organizationId)
         : undefined;
       return {
-        facts: was
-          ? {
-              employer: {
-                text: employerText(was.name),
-                sourceRecordIds: [ended!.id, was.id],
-              },
-            }
-          : {},
+        facts:
+          was && !was.outsideFlow
+            ? {
+                employer: {
+                  text: employerText(was),
+                  sourceRecordIds: [ended!.id, was.id],
+                },
+              }
+            : {},
         stage: "none",
       };
     }
     case "their-position": {
-      const theirs = jobOf(core, listener);
+      const theirs = namedJobOf(core, listener);
       return theirs && sayableTitle(theirs.job.title)
         ? {
             facts: {
               employer: {
-                text: employerText(theirs.org.name),
+                text: employerText(theirs.org),
                 sourceRecordIds: [theirs.job.id, theirs.org.id],
               },
               ...workDetail(core, listener, theirs, WORK_SLOTS),
@@ -2119,10 +2209,10 @@ function playerFacts(
 ): { facts: Facts; stage?: string } {
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
-  const mine = jobOf(core, player);
+  const mine = namedJobOf(core, player);
   if (mine) {
     facts["my-employer"] = {
-      text: employerText(mine.org.name),
+      text: employerText(mine.org),
       sourceRecordIds: [mine.job.id, mine.org.id],
     };
     Object.assign(
@@ -2403,6 +2493,27 @@ function raiseSubject(
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
+  // Who a relative of theirs is, the player now knows (and so does anyone
+  // else in the room), told the way a true answer is: the next talk asks
+  // after them by name instead of introducing them again.
+  if (subject.kind === "kin" && subject.own) {
+    const toldId = `conversation:${otherId}:${playerId}:${core.date}:${conversation.lines.length}:${subject.id}`;
+    applyCoreEvent(core as CoreState, {
+      id: toldId,
+      date: core.date,
+      kind: data.toldEvent,
+      personIds: [playerId, ...conversation.presentIds],
+      witnessIds: [otherId],
+      placeId: core.people.get(playerId)!.placeId,
+      facts: { [subject.own.key]: subject.own.value },
+      source: {
+        tag: "SOURCED",
+        citation: "Recorded conversation: the relative the speaker named.",
+        asOf: core.date,
+      },
+    });
+    conversation.recorded.push(toldId);
+  }
   // What they said they stand for, the player now knows (and so does anyone
   // else in the room): the card reads this key.
   if (subject.learned) {
@@ -2540,6 +2651,9 @@ const OPENING_ORDER = [
   "shared-work",
   "own-work",
   "home",
+  // A relative the listener has not met, by name, with their town or work
+  // (owner, Nov 11: "This introduces people to their world").
+  "kin",
   "address",
   "quiet",
 ];

@@ -241,8 +241,9 @@ export type BribeScope = (
   officialId: string,
 ) => string | null;
 const scopes: BribeScope[] = [];
+/** Registered by the module's opening, once however often it opens. */
 export function registerBribeScope(scope: BribeScope): void {
-  scopes.push(scope);
+  if (!scopes.includes(scope)) scopes.push(scope);
 }
 /** In words, why this official cannot be bribed for this subject; null when they can (or nothing knows the subject). */
 export function bribeRefusal(

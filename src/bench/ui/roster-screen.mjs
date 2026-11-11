@@ -1,6 +1,6 @@
 // The roster screen: a titled list at the left, grouped under small headings, and the chosen
 // entry's page at the right (the People, Guide and Elections look of the Nov 8 play mocks).
-// A screen hands it the groups and a `render(entry)` that returns the page's nodes; the
+// A screen hands it the groups and a `render(entry, show, shows)` that returns the page's nodes; the
 // list pages inside its box, never a scroll.
 import { el, viewHeight } from "./dom.mjs";
 import { pickGroup, pickHead, pickRow } from "./list-row.mjs";
@@ -9,7 +9,8 @@ import { pager } from "./pager.mjs";
 /**
  * `groups`: [{ title?, entries: [{ key, label, aside?, onSelect?, data? }] }]; `render(entry, show)`
  * gives the page nodes (or a promise of them), or calls `show(...nodes)` itself, now and
- * whenever the page changes; `className`
+ * whenever the page changes, and `shows(key)` when the page moves on to another entry's
+ * subject (`null` for one not in the list); `className`
  * names the screen for its checks. An entry with `onSelect` runs it instead of opening a page.
  */
 export function rosterScreen({
@@ -31,6 +32,10 @@ export function rosterScreen({
   ]);
   // The key of the entry whose page is on screen or on its way.
   let opened = null;
+  const mark = (key) => {
+    for (const b of roster.querySelectorAll(".roster-row"))
+      b.setAttribute("aria-pressed", String(b.dataset.key === key));
+  };
   const open = async (entry) => {
     // The entry already open is not opened twice. A second open would strand
     // the first page's controls: their redraws belong to a draw this list no
@@ -39,8 +44,7 @@ export function rosterScreen({
     opened = entry.key;
     chosen = entry;
     const mine = ++request;
-    for (const b of roster.querySelectorAll(".roster-row"))
-      b.setAttribute("aria-pressed", String(b.dataset.key === entry.key));
+    mark(entry.key);
     // A page that redraws itself later (a bill after a vote) is handed `show`
     // and returns nothing; one drawn once returns its nodes.
     // The page names the entry it shows, so a reader (a browser check) can
@@ -51,7 +55,17 @@ export function rosterScreen({
       page.dataset.key = entry.key;
       page.replaceChildren(...nodes);
     };
-    const nodes = await render(entry, show);
+    // A page that moves on to another subject (a name on a person's card)
+    // says whose page it now is: that row is marked, or none when the subject
+    // is not in the list, and the row left behind opens again on a click.
+    const shows = (key) => {
+      if (mine !== request) return;
+      opened = key ?? null;
+      chosen = entries.find((e) => e.key === key);
+      page.dataset.key = key ?? "";
+      mark(key);
+    };
+    const nodes = await render(entry, show, shows);
     if (nodes) show(...nodes);
   };
   const rowOf = ({ heading, entry }) => {

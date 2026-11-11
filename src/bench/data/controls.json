@@ -494,7 +494,9 @@
     "sign": "Signed",
     "veto": "Vetoed",
     "speakFor": "Speak for",
-    "speakAgainst": "Speak against"
+    "speakAgainst": "Speak against",
+    "spokeFor": "Spoke for",
+    "spokeAgainst": "Spoke against"
   },
   "filing": {
     "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
@@ -907,7 +909,18 @@
     "fiscalYear": "fiscal year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
-    "subjects": "Subjects"
+    "subjects": "Subjects",
+    "lawDid": {
+      "title": "What this did",
+      "from": "from {date}",
+      "until": "until {date}",
+      "repealed": "Repealed",
+      "noOneYet": "It has reached no one yet.",
+      "fullHere": "{n} people here",
+      "fullElsewhere": "{n} people elsewhere",
+      "counted": "{n} more in households here",
+      "stopped": "stopped {date}"
+    }
   },
   "results": {
     "you": "You",
