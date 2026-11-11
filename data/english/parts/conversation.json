@@ -27625,10 +27625,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.about-said-is-waiting-on-me-so-i-should-go",
+      "key": "conversation.farewell-core.it-s-a-busy-day-at-about-said-so-i-ll-let-you-go",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "{about-said} is waiting on me, so I should go.",
+      "text": "It's a busy day at {about-said}, so I'll let you go.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27648,10 +27648,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.i-d-better-get-back-to-about-said",
+      "key": "conversation.farewell-core.back-to-it-about-said-doesn-t-run-itself",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "I'd better get back to {about-said}.",
+      "text": "Back to it. {about-said} doesn't run itself.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
@@ -27671,10 +27671,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.farewell-core.they-ll-be-missing-me-at-about-said",
+      "key": "conversation.farewell-core.they-keep-us-busy-at-about-said",
       "move": "farewell-core",
       "kind": "spoken",
-      "text": "They'll be missing me at {about-said}.",
+      "text": "They keep us busy at {about-said}.",
       "piece": {
         "of": "farewell-leave",
         "part": "core",
