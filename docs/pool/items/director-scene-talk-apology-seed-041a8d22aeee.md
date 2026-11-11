@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/director/scene-talk.test.ts, src/director/data/situation-types.json
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_SEED=041a8d22aeee npx vitest run src/director/scene-talk.test.ts`: green, exit 0. Fresh draw `GOLDEN_PATH_SEED=760f630ebaa03cea`: green, exit 0. The place is not printed on a pass. Proposed for the CTO: drop as fixed on main.

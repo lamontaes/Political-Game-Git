@@ -17,6 +17,8 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-laws-medical-bills-year-cost
 ---
 
 **What.** After the quadratic cut already on main, the monthly bill pass still adds up to 19.5% to a year (the speed lead's alternating four-year Ringgold, Louisiana runs: +3% and +19.5% in year 4). Three of four head runs put year 3 or 4 past 120 s, against 103 to 116 s on base. In a profiled Long Hill, Connecticut year (seed m7b) what is left is the put of about 21,300 bill rows a month (module-state put, plainCopy of each row with its members, webLinks and ownRecordsFor arrays), the cash journal postings the payments make (postCashJournal, projectCashJournal), and recordMedicalDebt. Cut the row copies and journal postings it makes for counted households without changing what the simulation decides. Seen: the length of a country's year, which the speed bar of two minutes limits.
@@ -36,3 +38,19 @@ checked: fable 2026-11-10
 **Files.** src/core2/medical-bills.ts, src/core2/modules/credit.ts, src/core2/law-wiring-medical-debt.test.ts
 
 **Notes.** TODO
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:39 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Needs repeated npm run speed:year country-year runs (over 100 s each, several GB) alternating base and head plus a records proof; this 15 GB cloud container has already had a worker killed for memory on a 150-day run, so a speed claim could not be measured reliably here. Needs a session with a dedicated machine (skill heavy-runs). Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:40 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Read src/core2/medical-bills.ts billMedicalCare on main 2026-11-11: the monthly row put already uses table.putOwned (a fresh row frozen in place, not copied), so the plainCopy cut the item names is partly done; what remains is the per-household payCounted/payFull journal postings and recordMedicalDebt, which cannot be shown faster or records-proof-equal without repeated speed:year runs this container cannot hold (a worker was killed for memory earlier). Needs a dedicated machine (skill heavy-runs, speed-work). Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:09 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Claimed by my own next loop but not worked: see my earlier release notes (replay-only or heavy-run items); words-director part 2 is a six-hour refactor of presence deciders across bench and english pickers that I did not start. Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:19 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Claimed by my own next loop, not worked; see earlier notes (needs dedicated machine / six-hour presence-decider refactor). Continue on branch claude/pool-laws-medical-bills-year-cost.

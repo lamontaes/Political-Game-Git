@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-ui-base-period-played-proof
-pr:
+pr: #8415
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add

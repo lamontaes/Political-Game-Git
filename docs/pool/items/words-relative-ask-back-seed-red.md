@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/director/conversation.ts, src/director/conversation.test.ts, src/director/data/conversation-rules.json
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=3678454 GOLDEN_PATH_SEED=e2ddb122b8bfe482 npx vitest run src/director/conversation.test.ts` (Washington Mills, New York): green, 21 of 21. Fresh draw `GOLDEN_PATH_SEED=fbd20867a28a0e8b`: green. The place is not printed on a pass. Proposed for the CTO: drop as fixed on main.

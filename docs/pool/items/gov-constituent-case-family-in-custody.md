@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-gov-constituent-case-family-in-custody
+pr: #8475
 blocked-on:
 lead: effects
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:21:55.841Z
+branch: claude/pool-gov-constituent-case-family-in-custody
 ---
 
 **What.** A relative of someone in custody cannot bring a case, and the official's call does not reach the jail. The constituent-cases module knows only two problems, a wage under the floor and being out of work, so no resident ever brings the office a relative in custody. The justice engine already writes `justice.charged`, `justice.bail-set` and `justice.imprisoned` for a named person. This item adds a family-in-custody problem for a living relative in the official's district, and a referral that reaches the justice engine on a later day. The scene packet is `docs/design/scenes/from-life/constituent-family-in-custody.md`.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/constituent-cases.ts, src/core2/modules/justice.ts, docs/design/scenes/from-life/constituent-family-in-custody.md
 
 **Notes.** Filed by Helper E. lead: effects. Packet: docs/design/scenes/from-life/constituent-family-in-custody.md.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:21 UTC) on branch claude/pool-gov-constituent-case-family-in-custody.

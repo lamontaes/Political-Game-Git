@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
-pr:
+pr: #8414
 blocked-on:
 source: added with npm run pool -- add
 after:

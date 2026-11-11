@@ -25,7 +25,7 @@ branch: claude/pool-gov-outside-revenue-fees
 
 **Cause.** Needs cause. Checked Nov 11 by opus-5251 (PR #8399): the cause below no longer holds on main. `outsideRevenueMonthly` (src/core2/budgets-treasury.ts) skips lines with named payers, `chargesAndFees` is paid by `service-users` as `treasury-charges` (src/core2/data/budgets/revenue-payers.json, outside-flows.json), and the permit fee is levied on named payers (src/core2/public-safety.ts `levy`). What may remain (per-use charges for town households, any unmatched fee dollars in closures.mjs check 6) needs a measured run. The earlier text: Found in code: src/core2/modules/budgets.ts function closeMonth (line 1006, marker at line 1010) credits each treasury an even twelfth of Census revenue from the outside account, and src/core2/data/outside-flows.json marks those rows plug; the public-safety permit-fee transfers (src/core2/public-safety.ts, near line 1648) match no row in check 6 of scripts/core2-year/closures.mjs.
 
-**Fix.** Charge each fee to the households and businesses that use the service, on the day of use at the price the law and budget set, into the issuing government's treasury. Include the public-safety permit fee (taken from the dropped gov-permit-fee-to-treasury). Delete the fee share of the monthly plug.
+**Fix.** None until the cause is found.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
@@ -50,3 +50,5 @@ Released (2026-11-11): Cause no longer matches main: chargesAndFees already has 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:52 UTC) on branch claude/pool-gov-outside-revenue-fees.
 
 Released (2026-11-11): Cause no longer matches main (see PR #8399); set to Needs cause. Continue on branch claude/pool-gov-outside-revenue-fees and pull request #8399.
+
+Nov 11 (CTO): the Fix above is set to the standard text because the Cause now reads "Needs cause." The fix written before the cause stopped reproducing, kept for whoever finds the new cause: Charge each fee to the households and businesses that use the service, on the day of use at the price the law and budget set, into the issuing government's treasury. Include the public-safety permit fee (taken from the dropped gov-permit-fee-to-treasury). Delete the fee share of the monthly plug.

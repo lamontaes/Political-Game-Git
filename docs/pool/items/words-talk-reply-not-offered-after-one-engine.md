@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/director/conversation.ts, src/bench/play.mjs
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** Skipped: the item names no command, only a replay script and town that are not in the repository (the replay of Lane 3 path 4 in Murray, Nebraska, replay 1d3f0e18ca4ba7e5). Nothing was run.
