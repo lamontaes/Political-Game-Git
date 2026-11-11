@@ -202,19 +202,22 @@ try {
   );
   console.log("Filed:", filed.id, "election", filed.electionDate);
   // A race's debate is set about two weeks before its general election
-  // (meetings' debate week): the world runs to ten days before it.
+  // (meetings' debate week), and an invitation left unanswered is held on its
+  // eve: the world runs until the outlet's invitation to the player is on the
+  // record (dev mode's run-until, stopping on that record's kind).
   const today = (await (await page.request.get(`${base}/api/title`)).json())
     .life.date;
-  const toDebate =
-    Math.round(
-      (Date.parse(filed.electionDate) - Date.parse(today)) / 86400000,
-    ) - 10;
+  const toDebate = Math.round(
+    (Date.parse(filed.electionDate) - Date.parse(today)) / 86400000,
+  );
   if (toDebate > 0) {
     const ran = await page.request.post(`${base}/api/dev/run-until`, {
-      data: { days: toDebate, cap: toDebate },
+      data: { kind: "debate-invited", days: toDebate, cap: toDebate },
       timeout: 1800000,
     });
     assert.equal(ran.status(), 200, await ran.text());
+    const stopped = await ran.json();
+    console.log("Run to the debate:", stopped.reason ?? "", stopped.date ?? "");
     await page.reload();
     await page
       .locator("#front-continue")
