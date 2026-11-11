@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/fable-b-bill-page-fits
-pr:
+pr: #8542
 after:
 blocked-on:
 lead: screens
