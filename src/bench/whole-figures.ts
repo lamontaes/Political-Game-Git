@@ -29,6 +29,7 @@ import {
   type PersonBust,
 } from "./bust";
 import { frontUrl, type Plate, type PlateSpot } from "./mannequin-plates";
+import { parameter } from "../core2/parameters";
 import type { Occluder } from "./occluders";
 
 export type AgeBand = "child" | "teen" | "adult" | "older";
@@ -36,7 +37,13 @@ export type AgeBand = "child" | "teen" | "adult" | "older";
 /** A person's age band on the game's date. */
 export function ageBandOf(core: CoreState, birthDate: string): AgeBand {
   const age = ageOnDate(makeIsoDate(birthDate), makeIsoDate(core.date));
-  return age < 13 ? "child" : age < 18 ? "teen" : age < 65 ? "adult" : "older";
+  return age < 13
+    ? "child"
+    : age < parameter("votingAge")
+      ? "teen"
+      : age < 65
+        ? "adult"
+        : "older";
 }
 
 /** Who is being drawn: their record, and whether they hold office. */

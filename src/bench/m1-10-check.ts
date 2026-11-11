@@ -16,6 +16,7 @@
 //     it did not reach whose stance on that topic it left alone.
 // Exits nonzero naming each failed clause.
 // Usage: node --max-old-space-size=8192 --import tsx src/bench/m1-10-check.ts
+import { parameter } from "../core2/parameters";
 import { buildBenchWorld } from "./world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -128,7 +129,8 @@ const adults = [...core.people.values()].filter(
     p.alive &&
     p.tier !== "husk" &&
     p.placeId === town &&
-    ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date)) >= 18,
+    ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date)) >=
+      parameter("votingAge"),
 );
 const views = adults.map((p) => viewOf(api, p.id)).filter((v) => v !== null);
 check(views.length > 0, `${where}: no adult in town has a view`);

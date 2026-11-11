@@ -8,6 +8,7 @@ import { plateFor } from "./mannequin-plates";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
+import { parameter } from "../core2/parameters";
 import { backdropPath, benchScene } from "./scene";
 
 const seed = process.argv[2] ?? process.env.GOLDEN_PATH_SEED ?? "scene-check";
@@ -18,7 +19,7 @@ const w = buildBenchWorld(seed, gameStartDate(), {
   minimumPeople: Number(process.env.BENCH_CHECK_PEOPLE ?? 600),
 });
 const player = new BenchPlayer(w.core, w.director);
-const adults = w.residents.filter((row) => row.age >= 18);
+const adults = w.residents.filter((row) => row.age >= parameter("votingAge"));
 const picked = [0, 1, 2].map(
   (i) => adults[Math.floor(((i + 1) * adults.length) / 4)]!,
 );

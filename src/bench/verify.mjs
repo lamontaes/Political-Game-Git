@@ -4,6 +4,7 @@ import { chromium } from "@playwright/test";
 import { randomUUID, randomInt } from "node:crypto";
 import { writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
+import parameters from "../core2/data/parameters.json" with { type: "json" };
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
   headless: true,
@@ -122,7 +123,9 @@ try {
     () => document.getElementById("seed").value.length > 0,
   );
   const opening = await build();
-  const candidates = opening.residents.filter((x) => x.age >= 18 && x.jobId);
+  const candidates = opening.residents.filter(
+    (x) => x.age >= parameters.votingAge.value && x.jobId,
+  );
   const person = candidates[randomInt(candidates.length)];
   receipt.controlledPersonId = person.id;
   const before = await inspect(person);
