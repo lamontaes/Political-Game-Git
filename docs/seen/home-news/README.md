@@ -29,3 +29,5 @@ Retaken at ca3856d5 (Bedford at 1bbb5936), in a full checkout so the room is dra
 - Bedford: "Have you seen this? Automatic Voter Registration Act now in force in Hawaii." The replies are "Did they say why? What's it mean for Bedford?" / "Oh, my." / "I missed that on Meridian News Network." / "I'm for it myself, Maria." Picking why: "They didn't get into the why. It ran a few days ago." (retaken at 1bbb5936: the headline already says the question, so the answer says "it" and gives the day it ran).
 
 In both sets the goodbye at home after the answer is the composed one from #8758, naming the part of the day: "We'll talk more later this morning.", "I'll check on you again this morning.", "I've got a few things to get done this morning."
+
+Every line of the news subjects (the story raised, the replies, the question back and the answer back), with its insert, the owner's grade, the line rules and whether it plays, is in `lines-checked.md` (128 lines, all pass).
