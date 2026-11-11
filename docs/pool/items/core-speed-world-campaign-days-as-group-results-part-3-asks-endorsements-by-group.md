@@ -19,7 +19,7 @@ source: split from core-speed-world-campaign-days-as-group-results in the pool r
 checked: fable 2026-11-10
 ---
 
-**What.** A world campaign's donation asks and group endorsements are decided person by person. Read them from the group impression of part 1 by the same rule as a person, times the count, so a group's donations and endorsement are one result. This is part 3 of core-speed-world-campaign-days-as-group-results.
+**What.** A world campaign's donation asks and group endorsements are decided person by person. Read them from the group impression of part 1 by the same rule as a person, times the count, so a group's donations and endorsement are one result. This is part 3 of core-speed-world-campaign-days-as-group-results. Feeds: core-speed-world-campaign-days-as-group-results.
 
 **Cause.** Design: docs/speed/off-screen-campaigns-as-results.md, stage 3. Measured (Speed, Nov 9): in Gunnison, Utah (4932660, seed n8f6) year 4, world campaigns took 25 s, of which day choices 7.0 s (`takeCampaignDayChoice`, src/core2/campaign-day.ts line 824) and group endorsements are per-person decisions by unwatched people.
 

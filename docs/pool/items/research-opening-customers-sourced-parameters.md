@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -49,3 +49,5 @@ Oct 24, 2026: split. PR 5864 (item research-opening-customers-cleaning-coverage)
 Sent back 2026-10-23 from PR #5864 (branch claude/dreamy-tesla-bgi3ui-opening-customers): Two parameter rows, required spreads and all five stopgap resolutions remain unmet, and the year has no public-cleaning reader; give the completed research bounded acceptance with positive generated-world proof; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced the opening's customer and public-buyer numbers; they stay estimates, and every item that waited on it is dropped.

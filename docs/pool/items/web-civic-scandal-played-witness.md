@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ branch: claude/pool-web-civic-scandal-played-witness
 **Notes.** Split Oct 25 by the effects lead from web-reach-civic, whose economy witness is in its PR.
 
 Released (2026-11-11): seed sc1 (CIVIC_PLAYED_SEED) crashes in drives.ts: Drive requires a learned source event (speech.ts deliverSpeech via a public comment); the proof cannot run there; needs a draw that survives. Continue on branch claude/pool-web-civic-scandal-played-witness.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have found a drawn place where a bribe story surfaces before a race and named the ballot that carried it; a proof item with no known cause, and bribes never arose in three played worlds.

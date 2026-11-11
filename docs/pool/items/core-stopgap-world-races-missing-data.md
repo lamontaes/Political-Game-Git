@@ -4,7 +4,7 @@ title: "Stopgaps in world-races (missing-data): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5304
@@ -42,3 +42,5 @@ checked: fable 2026-11-10
 Oct 20, 2026 (research left for the session on claude/world-races-delegate, not built here): the 2024 delegate race votes cast found by search, with their quality. Puerto Rico: Hernández 530,540 at 43.48 percent, so about 1,220,000 cast (derived, not a reported total; the State Commission of Elections certifies the exact count). Guam: Moylan 15,422 at 52.69 percent and Cruz 13,703, so about 29,300 (derived). U.S. Virgin Islands: 14,167 votes cast for candidates in the certified count (Plaskett 10,397, Smith 2,323, Pickard 1,348, write-ins 99; vivote.gov). American Samoa: Radewagen 7,394 at 74.78 percent and Kuaea 1,840, so about 9,900 (derived). Northern Mariana Islands: 12,225 votes cast (King-Hinds 4,931; unofficial results). The wiring point is `racePlaces` in `src/core2/modules/world-races.ts`: `statePlaces(usps, eligible)` already takes a territory's eligible voters; size it as votes cast over the state or national CPS turnout (`cpsTurnout`) and set `votes2024` to the votes cast, then drop `api.stopgap("SG-GOV-delegate-race-size")`. Read each commission's certified results before calling the row resolved.
 
 Sent back 2026-10-23 from PR #5304 (branch claude/world-races-delegate): the body lacks the required Done-when evidence table and one-year played-world reader proof by record ID; one of the two named stopgaps explicitly remains open, so route the delegate-only slice to a bounded valid item; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sized territory delegate races by their real votes cast instead of a default; no player sees a territory race's vote total.

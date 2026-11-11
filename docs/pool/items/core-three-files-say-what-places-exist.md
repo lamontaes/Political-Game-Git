@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/place-lookup.ts, src/core2/places.ts, src/core2/place-map.ts, src/core2/data/places/place-map.json, src/core2/data/places/place-lookup.json, src/core2/data/places/localities.json
 
 **Notes.** From the audit's "Duplicate systems" item 8 ("I checked each item below in the code myself"). The audit adds: "The nine files named calendar are not duplicates; each keeps a different calendar." Marked done, still shows: the core-one-map family (core-one-map-reader, core-one-map-lookups, core-one-map-state-readers, core-one-map-state-reads, core-one-map-counties, core-one-map-laws, core-one-map-elections-state, core-one-map-housing-town, core-one-map-last-town-records and others) moved readers onto `place-map.ts` one family at a time and each is done, yet the two older files remain with more importers than the map. Read their Notes for what was moved and the speed records (core-one-map-speed-record, core-one-map-speed-final) before starting. With 212 importers this may not fit one M item: if so, the claimer splits it into bounded parts (the listing first, then the lookup by importer family) and blocks this item on them, as the pool rule for a too-large item says. The importer counts are a regular-expression search on Nov 10 and may be off by a few. Not verified by the audit: whether the three files ever disagree about a place in play; the audit calls them duplicates from reading, and no wrong place on a screen was traced to them.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have folded three place-listing files into one across 212 importing files with no change in behavior; no player sees it.

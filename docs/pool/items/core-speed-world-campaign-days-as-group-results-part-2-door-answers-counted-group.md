@@ -19,7 +19,7 @@ source: split from core-speed-world-campaign-days-as-group-results in the pool r
 checked: fable 2026-11-10
 ---
 
-**What.** Most people who open a world campaign's door are counted residents, who already take the counted path, so the unwatched-full-person doors branch did not pay. Make a counted group's door answer one result per group and candidate, read from the group impression of part 1, instead of one answer per household. This is part 2 of core-speed-world-campaign-days-as-group-results.
+**What.** Most people who open a world campaign's door are counted residents, who already take the counted path, so the unwatched-full-person doors branch did not pay. Make a counted group's door answer one result per group and candidate, read from the group impression of part 1, instead of one answer per household. This is part 2 of core-speed-world-campaign-days-as-group-results. Feeds: core-speed-world-campaign-days-as-group-results.
 
 **Cause.** Design: docs/speed/off-screen-campaigns-as-results.md, stage 3. Measured (Speed, Nov 9): Gunnison, Utah (4932660, seed n8f6) year 4, `walkWith` (src/core2/modules/campaigns.ts line 1355) 5.8 s on main against 5.2 s with the unwatched doors branch, because most door openers are counted residents; their `doorAppealOf` (src/core2/modules/voting.ts line 1389) is 2.7 s.
 

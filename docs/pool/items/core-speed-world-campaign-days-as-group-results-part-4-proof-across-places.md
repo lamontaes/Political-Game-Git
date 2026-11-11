@@ -19,7 +19,7 @@ source: split from core-speed-world-campaign-days-as-group-results in the pool r
 checked: fable 2026-11-10
 ---
 
-**What.** After parts 1 to 3, prove the whole change: four-year runs of Gunnison, Utah (key 4932660, seed n8f6) and two other drawn places, the branch against its base in alternating pairs in both orders. Report year 4 seconds and the outcomes. This is part 4 of core-speed-world-campaign-days-as-group-results.
+**What.** After parts 1 to 3, prove the whole change: four-year runs of Gunnison, Utah (key 4932660, seed n8f6) and two other drawn places, the branch against its base in alternating pairs in both orders. Report year 4 seconds and the outcomes. This is part 4 of core-speed-world-campaign-days-as-group-results. Feeds: core-speed-world-campaign-days-as-group-results.
 
 **Cause.** Design: docs/speed/off-screen-campaigns-as-results.md, stage 3. The proof is the one the design asks for under its Proof heading; the earlier doors-only branch was inside the noise (159.3 against 143.3 s and, reversed, 134.6 against 141.7 s).
 

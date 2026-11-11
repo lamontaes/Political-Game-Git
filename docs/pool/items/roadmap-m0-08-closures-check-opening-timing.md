@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** scripts/core2-year/closures.mjs
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed a spec check that reads the opening's outside postings at the wrong moment; it protects only an unseen check, and no engine makes or loses money.

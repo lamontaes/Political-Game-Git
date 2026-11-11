@@ -20,7 +20,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** M1-01 (laws in force) already reads passes true in docs/roadmap/features.json, so only M1-02 (the national economy and central bank) is left of the two flags this item was filed for. The Notes record that M1-02's registered command gave zero bank lines and zero repricings in an independent draw at Swanton, Nebraska, byte-identical on clean main, and that the newly accepted flag lacks its positive loan-cost witness. Nobody has traced why the draw shows no repricing. The item stays open until a rate decision is seen changing what loans cost in a drawn place, and M1-02 then flips with its run named.
+**What.** M1-01 (laws in force) already reads passes true in docs/roadmap/features.json, so only M1-02 (the national economy and central bank) is left of the two flags this item was filed for. The Notes record that M1-02's registered command gave zero bank lines and zero repricings in an independent draw at Swanton, Nebraska, byte-identical on clean main, and that the newly accepted flag lacks its positive loan-cost witness. Nobody has traced why the draw shows no repricing. The item stays open until a rate decision is seen changing what loans cost in a drawn place, and M1-02 then flips with its run named. Seen: what a loan costs in a drawn town after a rate decision, which showed no repricing in Swanton, Nebraska.
 
 **Cause.** Needs cause. Looked at docs/roadmap/features.json (M1-01 true, M1-02 false) and src/core2/tooling/m1-02-check.ts, which exists; the zero-repricing result in the Swanton, Nebraska draw is reported in the Notes but not traced to a record or a line.
 

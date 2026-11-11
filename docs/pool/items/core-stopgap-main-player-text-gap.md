@@ -4,7 +4,7 @@ title: "Stopgaps in main (player-text-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5251
@@ -44,3 +44,5 @@ Looked at Oct 19 (claude/stopgap-rows-notes), not built. The row is one sentence
 Sent back 2026-10-20 from PR #5251 (branch claude/desktop-update-text): data/english/parts/shell.json adds 19 entries with origin authored and shippable true. The morning check forbids authored bank text shipping before grading. Keep these entries held until graded, update the claimed shipped behavior accordingly, and have the Words session own the data/english changes.; finish on that branch, merge main into it first.
 
 Oct 21 (claude): not finished; this needs the Words session and an owner call. PR #5251 moves the desktop updater's dialog text into `data/english/parts/shell.json` (19 authored entries, `shippable: true`), and the morning check forbids authored pieces shipping before grading. The catch: the shell runs outside the game and reads the bank itself (`desktop/shell-lines.mjs` ignores `shippable` and throws on a missing line), so setting the pieces to `shippable: false` changes nothing the user sees, and removing them would make the updater throw. Either the owner grades these 19 lines in a batch (then the PR ships as is), or the shell is told to read only graded parts and given one graded fallback per dialog. Merging main into the branch conflicts only in `scripts/english-corpus/moves.json` (keep both `shell` and main's entries). Claim released.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have moved one update-dialog sentence in the desktop shell into a graded bank; the shell string stays as it is.

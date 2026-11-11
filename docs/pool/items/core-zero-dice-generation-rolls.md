@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** scripts/zero-dice-guard.mjs, scripts/zero-dice-allowlist.json, scripts/zero-dice-guard.test.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a class and a reason to 14 guard entries; the draws are allowed generation, and no player sees the labels.

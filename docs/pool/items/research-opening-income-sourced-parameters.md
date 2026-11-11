@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -46,3 +46,5 @@ Findings Oct 20 (claude), not built: (1) `openingRetirementBenefitMonthlyMinor` 
 Deferred Oct 25: nothing on screen reads it yet.
 
 Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced the opening's retirement income and funding; it stays an estimate, and every item that waited on it is dropped.

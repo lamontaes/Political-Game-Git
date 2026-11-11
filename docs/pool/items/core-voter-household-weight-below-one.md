@@ -20,7 +20,7 @@ claimed-at: 2026-11-11T01:53:13.697Z
 checked: fable 2026-11-10
 ---
 
-**What.** `src/core2/voter-groups.test.ts` ("voter groups are the counted electorate") fails at some drawn places because a voter row carries its household's weight and that weight is below 1. Valley City, North Dakota (key 3881180, seed d5a9ce3f642229fdc5611e1a85e2e1565f79688af5a1f55b560643f2d082a184) gave 0.414. A counted household stands for at least itself, so a weight under 1 means the opening's scaling shrank a household instead of growing it. Fix the weight, not the test.
+**What.** `src/core2/voter-groups.test.ts` ("voter groups are the counted electorate") fails at some drawn places because a voter row carries its household's weight and that weight is below 1. Valley City, North Dakota (key 3881180, seed d5a9ce3f642229fdc5611e1a85e2e1565f79688af5a1f55b560643f2d082a184) gave 0.414. A counted household stands for at least itself, so a weight under 1 means the opening's scaling shrank a household instead of growing it. Fix the weight, not the test. Seen: the election's vote counts, since a household weighing under one shrinks the electorate (Valley City, North Dakota), and the test is red by seed.
 
 **Cause.** Found in code: `src/core2/opening-county-sample.ts` lines 286 to 290, where the county sample's household weight is `max(county.eligible - kinEligible, 1) / sampleEligible`. It falls below 1 whenever the sampled adult citizens outnumber the county's eligible voters, which is the Valley City case. The test asserts `v.weight >= 1` against `store.weightOf` (`src/core2/counted-groups.ts` line 531, `src/core2/voter-groups.test.ts` line 83).
 

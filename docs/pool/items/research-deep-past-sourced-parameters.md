@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -60,3 +60,5 @@ Sent back 2026-10-23 from PR #5854 (branch claude/dreamy-tesla-bgi3ui-deep-past)
 Oct 24, 2026: split. PR 5854 (item research-deep-past-couple-ages-school-dates) delivers the spouse age gap (ESTIMATED), both school offsets (SOURCED), the peer group size spread and seven research files. Still open here: all six stopgaps, since each still fakes something a number cannot fix. SG-P15-partnership-model (cohabitation, same-sex gaps, place tables, island areas) waits on art-stopgap-opening-partnership-estimated-behavior, SG-P8-civic-inputs on core-stopgap-civic-inputs-civic-data-vintage-and-permission, SG-P8-deep-past on core-deep-past-school-place-from-birthplace, and SG-P15-kin-light-past on core-deep-past-kin-past-on-fill-in. SG-P8-opening-peer-network (recognition never fades) waits on people-peer-recognition-fades, with bug core-opening-peer-network-openingPeerGroupSize-as-cause for its ceiling read, and SG-P15-opening-profile waits on core-opening-profile-attainment-from-schooling.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced the numbers behind the deep past, peer networks and partnerships; they stay estimates, and every item that waited on it is dropped.

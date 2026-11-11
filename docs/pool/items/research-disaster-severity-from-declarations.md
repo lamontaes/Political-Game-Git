@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ source: added with npm run pool -- add
 Deferred Oct 25: nothing on screen reads it yet.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. disaster.severe is built: src/core2/modules/disasters.ts defines `severityOf` (a ramp over FEMA-inspected damaged homes per resident, with its cutoffs and effect years in src/core2/data/disasters/severity.json, each ESTIMATED with a quoted citation), the disasters engine's news event carries the severity, and src/core2/modules/outcome-web.ts `severeDisasterReading` reads it as disaster.severe (registered as SG-WEB-disaster-severity-damage-proxy). src/core2/law-wiring-disasters-web.test.ts proves disaster-to-home-values and disaster-to-out-migration read it in a drawn place by record id. The item's premise (no engine records disaster.severe) is out of date.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have mapped FEMA declarations to a study's severity so two links could read it; research that only adds precision nobody sees.

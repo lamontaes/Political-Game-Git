@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -48,3 +48,5 @@ Oct 24, 2026: split. PR 5848 (item research-content-atus-lookup-hours) delivers 
 Sent back 2026-10-23 from PR #5848 (branch claude/dreamy-tesla-bgi3ui): The acceptance table explicitly leaves the care coefficient and both stopgap-resolution rows unmet; bound the completed ATUS and lookupHours slice separately while preserving the unidentified coefficient and mechanic work open; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced the content engine's life-utility and civic-progress numbers; they stay estimates, and every item that waited on it is dropped.

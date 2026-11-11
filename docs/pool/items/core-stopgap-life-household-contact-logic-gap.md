@@ -4,7 +4,7 @@ title: "Stopgaps in life (household-contact-logic-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5279
@@ -49,3 +49,5 @@ Sent back 2026-10-20 from PR #5279 (branch claude/household-contact-closed): The
 Sent back 2026-10-20 from PR #5269 (branch claude/household-contact-note): This is a useful played-year finding, but the body explicitly leaves SG-P8-household-shared-time-contact open for its time-use evidence check. The linked item Done when requires the row resolved and another engine reading the replacement by record id. Keep that unfinished item open; finish the named evidence or track this completed finding-only note separately so merging it does not complete the broader item.; finish on that branch, merge main into it first.
 
 Looked at Oct 21 (claude), research not completed. A search for ATUS time with household members found the 2023 release's childcare figures (primary childcare 2.3 hours a day with a child under 6, 52 minutes with the youngest 6 to 17; https://www.bls.gov/news.release/atus.nr0.htm) but no "with whom" table for time with a spouse or household members; a non-BLS blog gives just under 2.0 hours a day with household members in 2019, unverified. The BLS "who was with the respondent" tables (the tables that follow the release's text, or the ATUS-X extract) are the place to read it. Claim released.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a sourced per-tie rate for time with household members; a probe already shows housemates getting 35 to 50 contacts a year, and no player sees the rate.
