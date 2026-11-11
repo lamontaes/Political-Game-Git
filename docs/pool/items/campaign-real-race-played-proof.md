@@ -5,14 +5,14 @@ area: elections
 kind: wiring
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-campaign-real-race-played-proof
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
 source: governing lead, Oct 30 (the played-year half of campaign-like-real-races)
 lead: governing
-claimed-at: 2026-11-11T00:06:14.401Z
+claimed-at:
 standard: 2
 model: sonnet
 effort: medium
@@ -46,3 +46,5 @@ Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Fix is run-and-open but an earlier run showed the incumbent-step-up clause fails (engine gap); not re-run by me. Continue on branch claude/pool-campaign-real-race-played-proof.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:06 UTC) on branch claude/pool-campaign-real-race-played-proof.
+
+Released (2026-11-11): Ran the branch test on two fresh seeds (c1 d2f739a23d522ef1, c2 47ecaf54f68ac10e): 10 draws, none offered the player a council race on the day tried (e.g. Woodland Park NJ offered only governor and assembly), so no clause is reached; test needs to wait for a council contest, an owner-of-test change, not run-and-open. Continue on branch claude/pool-campaign-real-race-played-proof.
