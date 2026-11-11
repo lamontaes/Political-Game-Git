@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: dropped
+status: open
 standard: 2
 claimed-by:
 pr:
@@ -19,7 +19,7 @@ source: Fable, Nov 10, 2026, found by the new test for the unit of a counted hou
 checked: fable 2026-11-10
 ---
 
-**What.** At the opening, the out-of-town workers the counted records hold (unplacedWorkers times each record's weight) times the pool's pay per worker equal what the place's unplaced-workers flow pays a year, to the cent. In play the two drift apart: a newcomer household is given the place's rate of unplaced workers and nothing is added to the pool's flow, and a household that leaves takes its workers off the records while nothing comes off the flow. Every reader of a counted household's income (income bands, rent it can pay, the law-reach readers, poverty) then reads pay the pool never hands out, or misses pay it does. Make arrivals add the out-of-town pay to the pool and departures take it off.
+**What.** At the opening, the out-of-town workers the counted records hold (unplacedWorkers times each record's weight) times the pool's pay per worker equal what the place's unplaced-workers flow pays a year, to the cent. In play the two drift apart: a newcomer household is given the place's rate of unplaced workers and nothing is added to the pool's flow, and a household that leaves takes its workers off the records while nothing comes off the flow. Every reader of a counted household's income (income bands, rent it can pay, the law-reach readers, poverty) then reads pay the pool never hands out, or misses pay it does. Make arrivals add the out-of-town pay to the pool and departures take it off. Seen: the Metrics tab's household income and the town's poverty figure, which read counted households' pay and should match what the pool pays them.
 
 **Cause.** Measured: Denio, Nevada (place key 3218500, world seed 4defc8043b5c928062099a71f58aeb036910648c89301b71ffa7b2d8223ef9e9), after 400 days with the weight fix in: in the rest-of-county place the records hold 332.4 workers (128.2 at the opening) and earn 16,120,160 dollars a year by householdIncome's reading, while the pool pays 11,887,943; in the town the records earn 3,790,355 and the pool pays 3,836,643. Found in code: `arrivals` in src/core2/modules/counted-moves.ts (line 1381) sets h.unplacedWorkers = jobShare(...) and adds nothing to the pool's flow.
 
@@ -36,5 +36,3 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, src/core2/unplaced-workers-unit.test.ts (new)
 
 **Notes.** The test prints both sides after its played days and does not assert them yet; turn that print into the assertion. Also seen and not looked into: a household that returns to the counts holds its commuter's pay as so many of the pool's workers (returnCommuterPay), so a one-household record can read 3.17 workers with two working-age members; and a counted person in regional work who dies or passes working age keeps their worker on the household until the turnover pull ends it. The moves engine's place rate (unplacedRates) adds records without their weights on both sides.
-
-Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have reconciled counted incomes with the out-of-town pool pay; it rides on the dropped commute split and no screen shows the drift.
