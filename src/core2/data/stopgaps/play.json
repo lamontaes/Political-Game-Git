@@ -334,5 +334,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A trip spending the distance between the two places at the place's travel speed and a visit its errand's hours by kind of place, each read from the records and spent through player.spend.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-campaign-ask-on-screen",
+    "kind": "partial-model",
+    "file": "src/bench/play.mjs",
+    "line": 4235,
+    "whatItFakes": "A candidate's ask for money reaches the player as a request on the Campaigns screen (the candidate, the race, the sum they would give by their own reasons and the cash they hold, with Give, an amount and Decline), not as a conversation or letter the director stages.",
+    "why": "play-campaign-ask-reaches-player asks for the request in a conversation or a letter; the director's letter is a relative's (letter-facts.ts) and a talk whose replies move money needs a situation type and bank lines the words session writes.",
+    "addedBy": "play-campaign-ask-reaches-player",
+    "addedAt": "2026-11-11",
+    "replacement": "A director situation type that stages the ask record (core2-campaigns-v1 asks) as a talk with the candidate or a letter from them, whose replies call answerDonationAsk, with lines from the English engine.",
+    "status": "open"
   }
 ]

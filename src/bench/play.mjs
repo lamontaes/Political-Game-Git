@@ -54,7 +54,7 @@ import {
 } from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { select, optionsOf, numberBox } from "./ui/fields.mjs";
+import { select, optionsOf, numberBox, statusLine } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
@@ -4227,10 +4227,64 @@ const sheets = {
     });
   },
   async campaigns() {
-    const [v, ballot] = await Promise.all([
+    const [v, ballot, asked] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
       api("/api/government/local-races"),
+      api("/api/campaign/asks").catch(() => ({ asks: [] })),
     ]);
+    // stopgapId: SG-PLAY-campaign-ask-on-screen
+    // A candidate who knows you asking for money (play-campaign-ask-reaches-player):
+    // what they asked, the sum you'd give by your own reasons, and your answer.
+    const askWords = controls.campaignAsks;
+    const askPage = (ask) => {
+      const status = statusLine();
+      const dollarsIn = numberBox({
+        value: Math.round(ask.suggestedMinor / 100),
+        min: 1,
+        step: 1,
+        label: askWords.amount,
+      });
+      const answer = (kind) =>
+        makeButton({
+          className: kind === "give" ? "action primary" : "action",
+          textContent: askWords[kind],
+          onclick: async () => {
+            const response = await post(
+              `/api/campaign/asks/answer?${new URLSearchParams({
+                askId: ask.id,
+                answer: kind,
+                ...(kind === "give"
+                  ? {
+                      amountMinor: String(
+                        Math.round(Number(dollarsIn.value) * 100),
+                      ),
+                    }
+                  : {}),
+              })}`,
+            ).catch(() => ({ answered: false }));
+            // A sum they can't give (more than they hold, past the limit, not whole dollars) is refused here.
+            if (!response.answered) {
+              status.textContent = askWords.notGiven;
+              return;
+            }
+            await refresh();
+            await openSheet("campaigns");
+          },
+        });
+      return [
+        rosterTitle(ask.candidate, ask.party ?? undefined),
+        stripSection(
+          1,
+          askWords.title,
+          row(askWords.race, ask.race),
+          row(askWords.asked, dateWords(ask.askedOn)),
+          row(askWords.suggested, roundedMoney(ask.suggestedMinor)),
+          row(askWords.cash, roundedMoney(asked.cashMinor)),
+        ),
+        buttonRow(dollarsIn, answer("give"), answer("decline")),
+        status,
+      ];
+    };
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
@@ -4375,6 +4429,20 @@ const sheets = {
       byDate.set(race.electionDate, day);
     }
     const groups = [
+      ...(asked.asks.length
+        ? [
+            {
+              title: askWords.title,
+              entries: asked.asks.map((ask) => ({
+                key: ask.id,
+                label: ask.candidate,
+                aside: roundedMoney(ask.suggestedMinor),
+                data: { ask: ask.id },
+                ask,
+              })),
+            },
+          ]
+        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
@@ -4396,7 +4464,8 @@ const sheets = {
       title: labels.title,
       groups,
       className: "elections-screen",
-      render: async (entry) => racePage(entry.race),
+      render: async (entry) =>
+        entry.ask ? askPage(entry.ask) : racePage(entry.race),
     });
   },
   /**

@@ -46,6 +46,17 @@
   "raceStanding": {
     "title": "Where the race stands"
   },
+  "campaignAsks": {
+    "title": "Asking you for money",
+    "race": "Running for",
+    "asked": "Asked",
+    "suggested": "You would give",
+    "cash": "You have",
+    "amount": "Amount in dollars",
+    "give": "Give",
+    "decline": "Decline",
+    "notGiven": "You can't give that sum."
+  },
   "speech": {
     "begin": "Give a speech",
     "give": "Give the speech",
