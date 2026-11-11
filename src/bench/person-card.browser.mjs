@@ -2,7 +2,7 @@
 // Run against the bench; fresh runs draw a world, later runs reuse its life.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { finishTalk, startLife, someoneToTalkTo } from "./start-life.mjs";
+import { startLife, someoneToTalkTo } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER || undefined,
 });
@@ -93,6 +93,19 @@ try {
     name,
     "PASS strip card from the record, no raw contact date",
   );
+  // The same card in a smaller window, while it is open: a second talk to
+  // reach it again would depend on the person having more to say.
+  await page.setViewportSize({ width: 1024, height: 768 });
+  const panel = await page.locator("#person").boundingBox();
+  assert.ok(
+    panel.x >= 0 &&
+      panel.y >= 0 &&
+      panel.x + panel.width <= 1024 &&
+      panel.y + panel.height <= 768,
+    "the card does not fit a smaller viewport",
+  );
+  console.log("PASS the card fits a smaller viewport");
+  await page.setViewportSize({ width: 1672, height: 941 });
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
   assert.equal(
@@ -107,31 +120,7 @@ try {
   console.log(
     "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
-  // A second talk can open on a line with no speaker named (a story that
-  // came up meanwhile): it is played through and the person asked again.
-  for (let tries = 0; tries < 3; tries += 1) {
-    await (await someoneToTalkTo(page)).first().press("Enter");
-    await page.locator("#talk:not([hidden])").waitFor();
-    const named = await page
-      .locator("#talk-name")
-      .waitFor({ timeout: 5000 })
-      .then(() => true)
-      .catch(() => false);
-    if (named) break;
-    await finishTalk(page);
-  }
-  await page.locator("#talk-name").click();
-  await page.locator("#person:not([hidden])").waitFor();
-  await page.setViewportSize({ width: 1024, height: 768 });
-  const panel = await page.locator("#person").boundingBox();
-  assert.ok(
-    panel.x >= 0 &&
-      panel.y >= 0 &&
-      panel.x + panel.width <= 1024 &&
-      panel.y + panel.height <= 768,
-  );
   assert.deepEqual(errors, []);
-  console.log("PASS the card fits a smaller viewport");
 } finally {
   await browser.close();
 }

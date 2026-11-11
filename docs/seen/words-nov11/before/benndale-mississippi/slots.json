@@ -1,0 +1,66 @@
+{
+  "place": "Benndale, Mississippi",
+  "seed": "39970a24-63c3-423f-9ab4-a00bfcb93701",
+  "slots": {
+    "10": null,
+    "01": {
+      "talk": 0,
+      "typeKey": "address",
+      "clock": "Monday, January 20, 20258:30 PM",
+      "pictures": [
+        "before/benndale-mississippi/01-address-1.jpg",
+        "before/benndale-mississippi/01-address-2.jpg"
+      ],
+      "words": "Citizens of this country, thank you for having me. I come with a plain belief that this country is on the edge of something good. The founders did not trust power, and they were right not to. I mean to use this office's power sparingly, and to give back what it does not need. // A new day is beginning, and I would like us to meet it with a little more faith than we have lately allowed ourselves. The oath is a promise to the future as much as to the present, and the future is a thing I am looking forward to."
+    },
+    "02": null,
+    "03": {
+      "pictures": ["before/benndale-mississippi/03-night-news.jpg"],
+      "words": "News\nMonday, January 20, 2025\nMississippi State Senate passes paying into the pension fund on schedule\n\nOn January 6, 2025, the Mississippi State Senate voted 36 to 16.\n\nIt carried by 20 votes.\n\nChild care income limit (family of three) took effect on January 1, 2025.\n\nIncome tax rate took effect on January 1, 2025.\n\nSales tax rate took effect on January 1, 2025.\n\nState unemployment tax rate took effect on January 1, 2025.\n\nUnemployment weekly maximum took effect on January 1, 2025.\n\nEstate tax rate took effect on January 1, 2025.\n\nFederal campaign contribution limit took effect on January 1, 2025.\n\nIncome tax rate took effect on January 1, 2025.\n\nSocial Security tax rate took effect on January 1, 2025.\n\nMississippi State Senate rejects a rising share of electricity from clean sources"
+    },
+    "04": {
+      "talk": 2,
+      "typeKey": null,
+      "clock": "Tuesday, February 4, 20258:00 AM",
+      "pictures": ["before/benndale-mississippi/04-greeting-away.jpg"],
+      "words": "First thing on February 4th, Alina Olson walks up to you in the street. Your mother has news for you. // Alina Olson: I'm about as conservative as they come. [Replies: I see it the same way. | I see it differently. | I'm glad you told me. | I keep mine to myself, mostly.] // Alina Olson: BLAIR OLSON\nI see it the same way.\nGlad I'm not the only one.\nWe'll talk more later."
+    },
+    "05": {
+      "talk": 2,
+      "typeKey": null,
+      "clock": "Tuesday, February 4, 20258:00 AM",
+      "pictures": ["before/benndale-mississippi/05-goodbye-away.jpg"],
+      "words": "Alina Olson: BLAIR OLSON\nI see it the same way.\nGlad I'm not the only one.\nWe'll talk more later."
+    },
+    "06": {
+      "talk": 30,
+      "typeKey": "story-read",
+      "clock": "Saturday, January 17, 20267:00 AM",
+      "pictures": ["before/benndale-mississippi/06-talk-about-work.jpg"],
+      "words": "First thing on January 16th, at work, you talk with Isaiah Calderon.\nIsaiah Calderon read what Meridian News Network printed on collective bargaining for public workers, and it has been on their mind since. // Isaiah Calderon: Meridian News Network ran a story on the change on collective bargaining for public workers taking effect. I thought of you when I read it. [Replies: I read it too. I didn't love it, but it's fair. | It sounded like somebody who has never had to live with it. | Which part got to you? | Let me get settled first, and then you can tell me.] // Isaiah Calderon: BLAIR OLSON\nI read it too. I didn't love it, but it's fair.\nThen what do we do about it? [Replies: Yeah. I think it does matter. I just didn't want to say so. | We can both read it and not agree. | I'll think about it. I have to go.] // Isaiah Calderon: BLAIR OLSON\nYeah. I think it does matter. I just didn't want to say so.\nSo why isn't anyone doing anything about collective bargaining for public workers? We're the ones who live with it. [Replies: All right, you're right. It bothers me too. | I saw it. They only told one side of collective bargaining for public workers, and that's the side people will remember. | Let me read it again before I say anything else.] // Isaiah Calderon: BLAIR OLSON\nAll right, you're right. It bothers me too.\nDoes that mean you'd say something, if someone asked? [Replies: I read it twice. I still don't buy it. | I'm sorry. I can't get into this right now.] // Isaiah Calderon: BLAIR OLSON\nI read it twice. I still don't buy it.\nThat's not how I read it. Where did they go wrong?\nDon't be surprised if I ask you again."
+    },
+    "07": {
+      "talk": 1,
+      "typeKey": "hallway",
+      "clock": "Thursday, January 23, 20258:00 AM",
+      "pictures": ["before/benndale-mississippi/07-talk-about-the-news.jpg"],
+      "words": "First thing on January 23rd, you meet Daniel Banks downtown.\nDaniel Banks answered the governor from the floor, and now comes down the aisle to find you. // Daniel Banks: Blair, a word. I answered the governor today, and I wanted you to hear why from me.\nI said what a lot of us were thinking. Where does that leave you? [Replies: Some of it I liked and some of it I didn't. I'm not going to pretend it was all one thing. | What would you do instead? That's the part I didn't hear. | I'll hear you out before the vote. That's a promise. | I'll vote the way my district needs, not the way either of you asks.] // Daniel Banks: BLAIR OLSON\nSome of it I liked and some of it I didn't. I'm not going to pretend it was all one thing.\nI appreciate your honesty, even where we differ."
+    },
+    "08": {
+      "talk": 25,
+      "typeKey": null,
+      "clock": "Thursday, October 30, 20258:00 AM",
+      "pictures": ["before/benndale-mississippi/08-filing-counter.jpg"],
+      "words": "Susan Griffin: First thing on October 30th, you step into the Secretary of State's office and ask for Susan Griffin. // Susan Griffin: Can I help you? [Replies: I want to run for U.S. Senator. November 3, 2026 · Held by Allison Craig | I want to run for U.S. Representative (District 4). November 3, 2026 · Held by Jessica Rivera] // Susan Griffin: BLAIR OLSON\nI want to run for U.S. Senator.\nRunning for U.S. Senator? Good. Let me pull the papers. You'd serve 6 years. First comes the primary, March 10, 2026, and then the general, November 3, 2026. It's a statewide office. Every voter in the state gets a say in who holds it. The papers are due back December 26.\nYou have to be at least 30. [Replies: Alright.]"
+    },
+    "09": {
+      "talk": 45,
+      "typeKey": "rival-filed",
+      "clock": "Wednesday, October 28, 20267:00 AM",
+      "pictures": [
+        "before/benndale-mississippi/09-talk-at-home-about-filing.jpg"
+      ],
+      "words": "First thing on October 28th, you sit down at home with Adam Olson.\nAdam Olson has been reading who filed for Commissioner of Agriculture and Commerce before you did. // Adam Olson: Blair, sit down a second.\nYou're not first in: incumbent Susan Jensen filed for Commissioner of Agriculture and Commerce ahead of you. [Replies: Do you know much about Susan Jensen? | Then I'd better get to work. | Let them run. | Thanks for telling me.] // Adam Olson: BLAIR OLSON\nDo you know much about Susan Jensen?\nNot much. Only what was filed. [Replies: Good. Now it's a real race. | Doesn't change anything for me. | I need a minute.] // Adam Olson: BLAIR OLSON\nGood. Now it's a real race.\nThat's the spirit."
+    }
+  }
+}

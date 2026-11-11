@@ -8,6 +8,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { benchRequest, benchWorld } from "./handler";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -19,7 +20,7 @@ const ask = async (method: string, path: string) => {
   return {
     status: reply.status,
     json: JSON.parse(String(reply.body)) as {
-      packet: { at: { minuteOfDay: number } };
+      packet?: { at: { date: string; minuteOfDay: number } };
       lines?: unknown[];
     },
   };
@@ -44,9 +45,33 @@ it("a trip, two visits, a talk and a wait move the clock past noon", async () =>
   const ids = [...core.people.values()].filter((p) => p.alive).map((p) => p.id);
   const me = ids[0]!;
   world.player!.select(me);
+  // The opening evening comes before the first morning: a talk then holds the
+  // clock, so the first Day still lands on the very next morning. (Spent from
+  // tomorrow morning, it cost the player that whole day: Panama, Nebraska,
+  // seed f06ba996-7a12-41f6-a670-66607f7659bb, Nov 11.)
+  const opening = core.date;
+  for (const other of ids.slice(1, 21)) {
+    const opened = await ask("POST", `/api/talk/open?otherId=${other}`);
+    expect(opened.status, where).toBe(200);
+    const said = (opened.json.lines ?? []).length;
+    const left = await ask("POST", "/api/talk/leave");
+    expect(left.status, where).toBe(200);
+    expect(
+      left.json.packet,
+      `${where}: the evening's talk moved the clock`,
+    ).toBeUndefined();
+    if (said) break;
+  }
+  expect(
+    world.player!.packet,
+    `${where}: the clock has not started`,
+  ).toBeUndefined();
   const day = await ask("POST", "/api/advance?mode=day");
   expect(day.status, where).toBe(200);
-  const start = day.json.packet.at.minuteOfDay as number;
+  expect(day.json.packet!.at.date, `${where}: the first Day's date`).toBe(
+    addDays(makeIsoDate(opening), 1),
+  );
+  const start = day.json.packet!.at.minuteOfDay as number;
   const minute = () => world.player!.packet!.at.minuteOfDay as number;
   expect(start, `${where}: Day lands on the morning`).toBeLessThan(12 * 60);
 
@@ -72,7 +97,7 @@ it("a trip, two visits, a talk and a wait move the clock past noon", async () =>
   for (const other of ids.slice(1, 21)) {
     const opened = await ask("POST", `/api/talk/open?otherId=${other}`);
     expect(opened.status, where).toBe(200);
-    lines = (opened.json.lines ?? []).length;
+    lines = ((opened.json?.lines as unknown[] | undefined) ?? []).length;
     if (lines) break;
     await ask("POST", "/api/talk/leave");
   }
