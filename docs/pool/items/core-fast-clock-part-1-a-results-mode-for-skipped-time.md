@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 8171
+pr: #8171
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,7 @@ effort: high
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+merged-at: 2026-11-10T18:59:24.000Z
 ---
 
 **What.** The world has one speed: every day runs every engine's day and every person due to act. This part adds a second way to advance, for time nobody is watching: each engine's dated work runs, the daily loops and people's own days do not, and play picks up day by day afterward without an error. It is the base the other parts of the fast clock add their monthly steps to.
@@ -34,3 +35,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/life.ts, src/core2/module-calendar.ts, src/core2/finance-state.ts, src/core2/results-mode.test.ts (new)
+
+**Notes (Fable B, Nov 10, marked merged by hand).** Pull request 8171 merged at 2026-11-10 18:59 UTC and built this item, but the item stayed in review: its `pr:` field held the number with no `#`, which the merge's flip does not match, and the pull request's first line named no item (pool item pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash). A second session's check in the game is still owed.

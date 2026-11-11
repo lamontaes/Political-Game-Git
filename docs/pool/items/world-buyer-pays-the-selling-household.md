@@ -19,7 +19,7 @@ source: split of world-home-turnover (Oct 18)
 checked: fable 2026-11-10
 ---
 
-**What.** A home bought in the played world is paid for from the builder of a new house or from the town's outside market, never from a household in town, so no sale ever frees a home for a buyer. The `sales` table is written only for owners who leave. When a home is on the market because of a sale (an estate or a departure), a renter household that chooses to buy takes that home: the down payment and the loan go to the selling household or its estate, the lender is paid off first, and the purchase row and the sale row carry each other's ids.
+**What.** A home bought in the played world is paid for from the builder of a new house or from the town's outside market, never from a household in town, so no sale ever frees a home for a buyer. The `sales` table is written only for owners who leave. When a home is on the market because of a sale (an estate or a departure), a renter household that chooses to buy takes that home: the down payment and the loan go to the selling household or its estate, the lender is paid off first, and the purchase row and the sale row carry each other's ids. Feeds: world-home-sales-set-the-town-price and the other home-turnover items that wait on it; drop it if the lead drops them.
 
 **Cause.** Found in code: buyHomes in src/core2/modules/housing.ts (line 1487) takes `takeNewHome(...) ?? outside.id` as the seller (the call is near line 1577), so no sale frees a home for a buyer.
 
