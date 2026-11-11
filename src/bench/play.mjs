@@ -5110,6 +5110,7 @@ const sheets = {
     // One law's page: what is in force at each level and since when, the statute, the
     // measure that enacted it, what is coming, what changed and how members voted.
     const lawPage = async (law) => {
+      const about = controls.policyAbout?.[law.series];
       const inForce = law.levels
         .filter((l) => l.row)
         .flatMap((l) => [
@@ -5163,7 +5164,15 @@ const sheets = {
       );
       return [
         rosterTitle(policyLabel(law.series)),
-        stripSection(1, labels.inForce, ...inForce, ...statutes),
+        stripSection(
+          1,
+          labels.inForce,
+          ...(about
+            ? [row(labels.about, about[0].toUpperCase() + about.slice(1))]
+            : []),
+          ...inForce,
+          ...statutes,
+        ),
         ...(measures.length ? [buttonTray(...measures)] : []),
         ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
         ...(changed.length

@@ -117,12 +117,14 @@ try {
 // The Subject filter's choices; visit each subject.
 async function eachSubject(page, visit) {
   {
-    const select = page.locator("#sheet-body select.issue-filter");
-    const subjects = await select
-      .locator("option")
-      .evaluateAll((all) => all.map((o) => o.value).filter((v) => v !== "all"));
+    const bar = page.locator("#sheet-body .tab-rail.issue-filter").nth(2);
+    const subjects = await bar
+      .locator(".tab")
+      .evaluateAll((all) =>
+        all.map((t) => t.dataset.subject).filter((v) => v !== "all"),
+      );
     for (const subject of subjects) {
-      await select.selectOption(subject);
+      await bar.locator(`.tab[data-subject="${subject}"]`).click();
       await page
         .locator("#sheet-body .issues-laws .roster-row")
         .first()
