@@ -121,6 +121,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
 - `play-first`: one item of the play-first lane; the screenshot and browser check
 - `people-pack`: drawing people from the pack, on mannequin plates
+- `play-walks`: playing a new life with scripts that click what a player clicks and write down every line
 - `played-world-proof`: proving a feature in a played year
 - `player-screen-text`: checking every string a player sees
 - `pool-notes`: pool-only changes go in one bundle an hour; the cap on new work
