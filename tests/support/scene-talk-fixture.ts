@@ -109,6 +109,7 @@ export const facts: Record<string, Fact> = {
   executive: fact("governor"),
   employer: fact("the hardware store"),
   "donor-first": fact("Pat"),
+  "asker-first": fact("Lee"),
   position: fact("a cashier"),
   pay: fact("$15.00"),
   when: fact("this morning"),

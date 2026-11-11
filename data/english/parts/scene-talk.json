@@ -60,8 +60,6 @@
     "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
     "employer": "An employer: the one making a job offer, from the jobs engine's offer record, or a donor's own, from their job and its organization.",
-    "asker-first": "The given name of the person asking, as the one asked says it to them, from the person record.",
-    "stake": "Present when the person asking has a stake on record (a job lost this year, rent owed), from the arc-variant reads.",
     "about": "What a bill a donor named is about, from the bill's first provision as the bill catalog words its question (question-names).",
     "donor-first": "A donor's given name, as the candidate says it to them, from the person record.",
     "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
@@ -8035,6 +8033,15 @@
           "role": "asker",
           "purpose": "party-ask",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "lie"
         },
         {
           "subject": "scene",
@@ -27693,6 +27700,15 @@
           "role": "asker",
           "purpose": "law-reaches",
           "key": "news-received"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confess"
         },
         {
           "subject": "scene",
@@ -96385,6 +96401,14 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -96441,6 +96465,14 @@
           "step": "open",
           "move": "greet",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -96451,6 +96483,30 @@
       "date": "2026-10-15",
       "tag": {
         "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-have-a-question-and-i-d-like-a-straight-answer",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I have a question, and I'd like a straight answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
         "key": "favor-asked"
       }
     },
@@ -96624,6 +96680,30 @@
       "origin": "authored",
       "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
       "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-are-you-going-to-do-about-the-things-people-here-are-worried-abou",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What are you going to do about the things people here are worried about?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
       "tag": {
         "move": "ask",
         "key": "favor-asked"
@@ -97048,6 +97128,14 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -97067,6 +97155,24 @@
       "kind": "spoken",
       "text": "I hear you. I still think it's the right answer.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97106,6 +97212,14 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -97125,6 +97239,24 @@
       "kind": "spoken",
       "text": "I may not have weighed that enough. I'll look again.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97164,6 +97296,24 @@
           "step": "reply",
           "move": "relent",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "requiresFacts": ["host-opposed"]
@@ -97198,6 +97348,14 @@
           "step": "reply",
           "move": "offer",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -97217,6 +97375,14 @@
       "kind": "spoken",
       "text": "Give my office your name and number. I'll call you this week.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97246,6 +97412,14 @@
           "step": "reply",
           "move": "offer",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -97265,6 +97439,14 @@
       "kind": "spoken",
       "text": "That's a good one for another night.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97294,6 +97476,14 @@
           "step": "reply",
           "move": "deflect",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -97318,6 +97508,14 @@
           "step": "reply",
           "move": "lie",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked"
         }
@@ -97332,11 +97530,77 @@
       }
     },
     {
+      "key": "scene-talk.reply-lie.my-office-has-a-file-open-on-it",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "My office has a file open on it.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-started-on-it-last-month",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I started on it last month.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-lie.i-m-on-your-side-on-this",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "I'm on your side on this.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97376,6 +97640,15 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "answer"
@@ -97396,6 +97669,15 @@
       "kind": "spoken",
       "text": "Easy to say from up there.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer"
+        },
         {
           "subject": "scene",
           "step": "follow",
@@ -97426,6 +97708,15 @@
           "step": "follow",
           "move": "accept",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "answer"
@@ -97446,6 +97737,15 @@
       "kind": "spoken",
       "text": "Alright. I'll remember you said it.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer"
+        },
         {
           "subject": "scene",
           "step": "follow",
@@ -97476,6 +97776,15 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "relent"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "relent"
@@ -97496,6 +97805,15 @@
       "kind": "spoken",
       "text": "I appreciate you saying so.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "relent"
+        },
         {
           "subject": "scene",
           "step": "follow",
@@ -97526,6 +97844,15 @@
           "step": "follow",
           "move": "thank",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "offer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "offer"
@@ -97546,6 +97873,15 @@
       "kind": "spoken",
       "text": "You'll really see me?",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "offer"
+        },
         {
           "subject": "scene",
           "step": "follow",
@@ -97576,6 +97912,15 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "deflect"
@@ -97601,6 +97946,15 @@
           "step": "follow",
           "move": "plea",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "deflect"
@@ -97621,6 +97975,26 @@
       "kind": "spoken",
       "text": "Maybe I'm wrong. Tell me what I'm missing.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["host-declined"]
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97662,6 +98036,15 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "press"
@@ -97677,11 +98060,81 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.i-have-to-move-on-others-are-waiting",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to move on. Others are waiting.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-can-say-here",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I can say here.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-relent.you-re-right-i-m-sorry-let-me-try-again",
       "move": "reply-relent",
       "kind": "spoken",
       "text": "You're right. I'm sorry. Let me try again.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["host-declined"]
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97723,6 +98176,15 @@
           "step": "reply",
           "move": "offer",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "plea"
@@ -97732,6 +98194,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.call-my-office-tomorrow-and-ask-for-me-by-name",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Call my office tomorrow and ask for me by name.",
+      "uses": [
+        {
+          "after": "plea",
+          "key": "favor-asked",
+          "move": "offer",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.stop-by-after-this-i-ll-stay-as-long-as-it-takes",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Stop by after this. I'll stay as long as it takes.",
+      "uses": [
+        {
+          "after": "plea",
+          "key": "favor-asked",
+          "move": "offer",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "offer",
         "key": "favor-asked"
@@ -97748,6 +98260,15 @@
           "step": "reply",
           "move": "leave",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "plea"
@@ -97757,6 +98278,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-wish-i-had-more-time-i-don-t",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I wish I had more time. I don't.",
+      "uses": [
+        {
+          "after": "plea",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I hear you, and I have to take the next question.",
+      "uses": [
+        {
+          "after": "plea",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "town-hall-question",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "leave",
         "key": "favor-asked"
@@ -97845,6 +98416,15 @@
           "step": "reply",
           "move": "confess",
           "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confront"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "confront"
@@ -97865,6 +98445,15 @@
       "kind": "spoken",
       "text": "They've got it wrong.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confront"
+        },
         {
           "subject": "scene",
           "step": "reply",
@@ -97895,6 +98484,15 @@
           "step": "follow",
           "move": "ask",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confess"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "confess"
@@ -97904,6 +98502,31 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.so-why-did-you-tell-us-otherwise",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "So why did you tell us otherwise?",
+      "uses": [
+        {
+          "after": "confess",
+          "key": "favor-asked",
+          "move": "ask",
+          "purpose": "town-hall-question",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "ask",
         "key": "favor-asked"
@@ -97945,6 +98568,15 @@
           "step": "follow",
           "move": "press",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "deflect"
@@ -97970,6 +98602,15 @@
           "step": "close",
           "move": "thank",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "outcome": "resolved"
@@ -97985,11 +98626,70 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.i-appreciate-you-listening",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I appreciate you listening.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "thank",
+          "outcome": "resolved",
+          "purpose": "town-hall-question",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-didn-t-expect-you-to-listen-thank-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I didn't expect you to listen. Thank you.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "thank",
+          "outcome": "resolved",
+          "purpose": "town-hall-question",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-promise.i-ll-be-at-the-next-one-too",
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll be at the next one too.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        },
         {
           "subject": "scene",
           "step": "close",
@@ -98010,11 +98710,70 @@
       }
     },
     {
+      "key": "scene-talk.close-promise.you-ll-see-me-here-again",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll see me here again.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "promise",
+          "outcome": "resolved",
+          "purpose": "town-hall-question",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-m-not-going-anywhere",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'm not going anywhere.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "promise",
+          "outcome": "resolved",
+          "purpose": "town-hall-question",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-accept.then-i-ll-be-watching-what-you-do",
       "move": "close-accept",
       "kind": "spoken",
       "text": "Then I'll be watching what you do.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "refused"
+        },
         {
           "subject": "scene",
           "step": "close",
@@ -98045,6 +98804,15 @@
           "step": "close",
           "move": "warn",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "outcome": "refused"
@@ -98070,6 +98838,15 @@
           "step": "close",
           "move": "press",
           "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
           "purpose": "testimony-heard",
           "key": "favor-asked",
           "outcome": "open"
@@ -98090,6 +98867,15 @@
       "kind": "spoken",
       "text": "Don't keep us waiting.",
       "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "open"
+        },
         {
           "subject": "scene",
           "step": "close",
@@ -134449,6 +135235,106 @@
       "date": "2026-11-08",
       "tag": {
         "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.well-be-back-tomorrow-and-there-will-be-more-of-us",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll be back tomorrow, and there will be more of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-line-stays-up-until-we-hear-something-real",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The line stays up until we hear something real.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-people-behind-me-arent-going-home-on-a-maybe",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The people behind me aren't going home on a maybe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-lose-a-days-pay-for-every-day-this-goes-on-give",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We lose a day's pay for every day this goes on. Give us something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
         "key": "favor-asked"
       }
     },
@@ -204747,3850 +205633,6 @@
       },
       "piece": {
         "of": "donor-ask-reply-agree-short",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.you-said-no-on-issue-i-d-like-to-hear-why-from-you",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "You said no on {issue}. I'd like to hear why, from you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-opposed"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-heard-your-answer-on-issue-and-i-don-t-think-you-ve-seen-what-it-costs",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I heard your answer on {issue}, and I don't think you've seen what it costs.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-opposed"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.you-came-down-against-issue-can-you-tell-me-why-plainly",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "You came down against {issue}. Can you tell me why, plainly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-opposed"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.you-said-you-re-for-issue-when-does-that-turn-into-something",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "You said you're for {issue}. When does that turn into something?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-agreed"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-m-glad-you-re-with-us-on-issue-what-happens-next-and-when",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I'm glad you're with us on {issue}. What happens next, and when?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-agreed"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.you-back-issue-i-want-to-know-what-you-ll-actually-do-about-it",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "You back {issue}. I want to know what you'll actually do about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-agreed"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.nobody-up-there-will-say-where-they-stand-on-issue-will-you",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Nobody up there will say where they stand on {issue}. Will you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-declined"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-asked-about-issue-and-got-nothing-back-i-m-asking-again",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I asked about {issue} and got nothing back. I'm asking again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-declined"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.where-are-you-on-issue-yes-or-no-is-fine",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Where are you on {issue}? Yes or no is fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "host-declined"],
-          "excludesFacts": ["protest", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.we-re-out-here-over-issue-where-do-you-stand",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We're out here over {issue}. Where do you stand?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "protest"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.every-one-of-us-came-about-issue-tell-us-what-you-ll-do",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Every one of us came about {issue}. Tell us what you'll do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "protest"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.we-walked-off-the-job-over-issue-what-will-you-do-about-it",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We walked off the job over {issue}. What will you do about it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.this-line-is-about-issue-are-you-with-us-or-not",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "This line is about {issue}. Are you with us or not?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "stake", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-was-let-go-from-employer-not-long-ago",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I was let go from {employer} not long ago.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-worked-at-employer-until-they-cut-me-loose",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I worked at {employer} until they cut me loose.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.employer-let-me-go-so-i-ve-got-time-to-show-up-to-these",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "{employer} let me go, so I've got time to show up to these.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-used-to-work-at-employer-now-i-don-t",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I used to work at {employer}. Now I don't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.half-my-shift-at-employer-got-cut-me-with-it",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "Half my shift at {employer} got cut, me with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-lost-my-spot-at-employer-and-i-m-still-looking",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I lost my spot at {employer}, and I'm still looking.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.we-re-owed-behind-on-rent-right-now",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We're {owed} behind on rent right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.my-family-owes-owed-in-rent-and-the-notice-already-came",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "My family owes {owed} in rent, and the notice already came.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-ve-got-a-rent-notice-for-owed-on-my-kitchen-table",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I've got a rent notice for {owed} on my kitchen table.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.we-owe-owed-to-the-landlord-this-is-real-for-us",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "We owe {owed} to the landlord. This is real for us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.with-owed-in-back-rent-i-don-t-have-room-to-wait",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "With {owed} in back rent, I don't have room to wait.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.i-m-owed-behind-and-every-month-it-gets-harder",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "I'm {owed} behind, and every month it gets harder.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-stake",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.we-disagree-on-issue-but-at-least-you-said-it-to-my-face",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "We disagree on {issue}, but at least you said it to my face.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "host-opposed"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-know-where-you-are-on-issue-i-ll-remember-it",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I know where you are on {issue}. I'll remember it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "host-opposed"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.all-i-wanted-was-a-straight-answer-on-issue-i-got-one",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "All I wanted was a straight answer on {issue}. I got one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fine-i-ll-tell-people-what-you-said-about-issue",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fine. I'll tell people what you said about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-ll-tell-the-folks-from-employer-what-you-said",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'll tell the folks from {employer} what you said.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-ll-hold-you-to-that-in-front-of-everybody-in-place",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I'll hold you to that in front of everybody in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.then-why-did-you-say-otherwise-on-issue",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Then why did you say otherwise on {issue}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.so-what-actually-changes-on-issue",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "So what actually changes on {issue}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.would-you-say-that-to-the-people-employer-let-go",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Would you say that to the people {employer} let go?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.and-what-do-i-do-about-the-owed-in-the-meantime",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "And what do I do about the {owed} in the meantime?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.what-does-that-mean-for-people-in-place",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "What does that mean for people in {place}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.who-in-place-is-that-answer-for",
-      "move": "follow-ask",
-      "kind": "spoken",
-      "text": "Who in {place} is that answer for?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.please-think-about-the-people-who-worked-at-employer",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. Think about the people who worked at {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.please-we-don-t-have-owed",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. We don't have {owed}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.please-don-t-brush-off-issue-not-again",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please don't brush off {issue}. Not again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.i-stood-up-to-ask-about-issue-please-give-me-something",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "I stood up to ask about {issue}. Please give me something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.please-people-in-place-are-counting-on-you",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. People in {place} are counting on you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-plea.i-m-asking-for-place-not-for-me-please",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "I'm asking for {place}, not for me. Please.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "anxious",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-plea",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.that-isn-t-an-answer-on-issue-i-can-take-home",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "That isn't an answer on {issue} I can take home.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.easy-to-say-from-up-there-what-about-issue",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Easy to say from up there. What about {issue}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.tell-that-to-the-people-walking-out-of-employer",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Tell that to the people walking out of {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.my-landlord-wants-owed-he-won-t-take-that-answer-either",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "My landlord wants {owed}. He won't take that answer either.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.don-t-skip-me-half-of-place-wants-this-answered",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Don't skip me. Half of {place} wants this answered.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.you-ll-really-see-me-plenty-in-place-have-heard-that-before",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "You'll really see me? Plenty in {place} have heard that before.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.good-i-ll-hold-you-to-that-on-issue",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Good. I'll hold you to that on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "host-agreed"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-that-s-all-i-wanted-to-hear-on-issue",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. That's all I wanted to hear on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-appreciate-a-straight-word-on-issue",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I appreciate a straight word on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-the-people-from-employer-will-want-to-hear-that",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. The people from {employer} will want to hear that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-folks-in-place-needed-to-hear-that",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. Folks in {place} needed to hear that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.that-s-more-of-an-answer-than-i-usually-get-in-place-thank-you",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "That's more of an answer than I usually get in {place}. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thank-you-for-hearing-me-out-on-issue",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thank you for hearing me out on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.i-didn-t-expect-you-to-listen-on-issue-thank-you",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "I didn't expect you to listen on {issue}. Thank you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.i-ll-tell-my-neighbors-in-place-you-listened",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "I'll tell my neighbors in {place} you listened.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-thank.thanks-that-s-more-than-place-usually-gets",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "Thanks. That's more than {place} usually gets.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-thank",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-be-at-the-next-one-too-asking-about-issue",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll be at the next one too, asking about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.you-ll-see-me-again-on-issue",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "You'll see me again on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-m-not-going-anywhere-i-live-in-place",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'm not going anywhere. I live in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-promise.i-ll-be-back-in-this-room-and-so-will-the-rest-of-place",
-      "move": "close-promise",
-      "kind": "spoken",
-      "text": "I'll be back in this room, and so will the rest of {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-promise",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.then-i-ll-be-watching-what-you-do-on-issue",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Then I'll be watching what you do on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.fine-the-fight-over-issue-isn-t-going-away-and-neither-am-i",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Fine. The fight over {issue} isn't going away, and neither am I.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.then-the-rest-of-place-gets-to-decide-what-that-s-worth",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Then the rest of {place} gets to decide what that's worth.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-accept",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.people-are-going-to-hear-what-you-said-about-issue",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "People are going to hear what you said about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-warn-refused",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.everybody-in-place-is-going-to-hear-about-this",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Everybody in {place} is going to hear about this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-warn-refused",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.don-t-keep-us-waiting-on-issue",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "Don't keep us waiting on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "open"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-warn-open",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.place-won-t-wait-forever",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "{place} won't wait forever.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-warn-open",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.we-ll-be-back-tomorrow-about-issue-and-there-will-be-more-of-us",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "We'll be back tomorrow about {issue}, and there will be more of us.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "protest"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-warn-crowd",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.the-line-stays-up-until-we-hear-something-real-on-issue",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "The line stays up until we hear something real on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "warn",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-warn-crowd",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-press.this-isn-t-over-for-me-not-on-issue",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "This isn't over for me. Not on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"],
-          "outcome": "open"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.close-press.you-ll-see-me-at-the-next-one-in-place",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "You'll see me at the next one in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-close-press",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.the-people-behind-me-aren-t-going-home-on-a-maybe-about-issue",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "The people behind me aren't going home on a maybe about {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "protest"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press-crowd",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.every-day-this-goes-on-we-lose-a-day-s-pay-over-issue",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Every day this goes on, we lose a day's pay over {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "strike"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-press-crowd",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-gave-you-my-answer-on-issue-and-i-meant-it",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I gave you my answer on {issue}, and I meant it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.on-issue-i-stand-where-i-said-i-do",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "On {issue}, I stand where I said I do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.you-re-right-to-ask-my-answer-on-issue-hasn-t-changed",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "You're right to ask. My answer on {issue} hasn't changed.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-ve-thought-hard-about-issue-and-that-s-where-i-come-down",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I've thought hard about {issue}, and that's where I come down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-know-issue-isn-t-easy-my-answer-stays-the-same",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I know {issue} isn't easy. My answer stays the same.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.that-s-my-honest-answer-on-issue",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "That's my honest answer on {issue}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.on-issue-i-d-rather-be-clear-than-popular",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "On {issue}, I'd rather be clear than popular.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-won-t-pretend-about-issue-that-s-where-i-am",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I won't pretend about {issue}. That's where I am.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.i-know-you-disagree-on-issue-i-still-think-it-s-the-right-call",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I know you disagree on {issue}. I still think it's the right call.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "host-opposed"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-answer.fair-enough-here-it-is-i-m-still-weighing-issue-and-i-ll-say-when-i-m-done",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Fair enough. Here it is: I'm still weighing {issue}, and I'll say when I'm done.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue", "host-declined"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "answer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-answer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.you-might-be-right-asker-first-i-ll-look-at-it-again",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "You might be right, {asker-first}. I'll look at it again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.that-s-fair-asker-first-let-me-take-that-back-and-work-on-it",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "That's fair, {asker-first}. Let me take that back and work on it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.maybe-i-m-wrong-asker-first-tell-me-what-i-m-missing",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "Maybe I'm wrong, {asker-first}. Tell me what I'm missing.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.i-hadn-t-weighed-that-enough-asker-first-i-ll-go-back-to-it",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "I hadn't weighed that enough, {asker-first}. I'll go back to it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.you-ve-given-me-something-to-think-about-asker-first",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "You've given me something to think about, {asker-first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.okay-asker-first-i-ll-rethink-my-answer",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "Okay, {asker-first}. I'll rethink my answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.point-taken-asker-first-i-ll-come-back-with-a-better-one",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "Point taken, {asker-first}. I'll come back with a better one.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-relent.asker-first-you-re-right-i-m-sorry-let-me-try-again",
-      "move": "reply-relent",
-      "kind": "spoken",
-      "text": "{asker-first}, you're right. I'm sorry. Let me try again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "relent",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "relent",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-relent",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.stay-after-and-tell-me-what-happened-at-employer",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Stay after, and tell me what happened at {employer}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.bring-a-couple-of-the-people-from-employer-to-my-office-this-week",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Bring a couple of the people from {employer} to my office this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.i-want-to-hear-the-whole-story-about-employer-come-see-me",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "I want to hear the whole story about {employer}. Come see me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.give-my-office-your-name-i-ll-call-you-about-employer-myself",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Give my office your name. I'll call you about {employer} myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-work", "employer"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.stay-after-let-s-talk-about-the-owed-and-what-help-there-is",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Stay after. Let's talk about the {owed} and what help there is.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.come-see-my-office-tomorrow-and-bring-the-notice-for-owed",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Come see my office tomorrow, and bring the notice for {owed}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["stake-money", "owed"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.stay-after-and-let-s-sit-down-i-m-not-in-a-hurry-to-leave-place",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Stay after, and let's sit down. I'm not in a hurry to leave {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.come-see-me-this-week-at-the-office-here-in-place",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Come see me this week at the office here in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-find-me-after-here-in-place",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "I can't do this justice from here. Find me after, here in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-offer.call-my-office-in-place-tomorrow-and-ask-for-me-by-name",
-      "move": "reply-offer",
-      "kind": "spoken",
-      "text": "Call my office in {place} tomorrow and ask for me by name.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "offer",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "offer",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-offer",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.that-s-a-good-one-for-another-meeting-in-place",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "That's a good one for another meeting in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.a-lot-of-people-in-place-have-questions-i-ll-get-back-to-you",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "A lot of people in {place} have questions. I'll get back to you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.let-me-take-the-next-hand-plenty-of-place-wants-a-turn",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Let me take the next hand. Plenty of {place} wants a turn.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.there-s-a-lot-on-the-agenda-for-place-let-s-pick-this-up-later",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "There's a lot on the agenda for {place}. Let's pick this up later.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-ll-come-back-to-that-once-more-of-place-has-had-a-turn",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'll come back to that once more of {place} has had a turn.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.fair-question-let-me-get-to-a-few-more-from-place-first",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Fair question. Let me get to a few more from {place} first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.we-ll-get-to-it-but-place-has-a-lot-on-the-table",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "We'll get to it, but {place} has a lot on the table.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.that-one-deserves-more-time-than-this-room-in-place-gives-me",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "That one deserves more time than this room in {place} gives me.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.let-s-move-on",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "Let's move on.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "deflect",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-deflect-short",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-m-already-working-on-it-asker-first",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I'm already working on it, {asker-first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.my-office-has-a-file-open-on-it-asker-first",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "My office has a file open on it, {asker-first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-started-on-it-last-month-ask-anyone-in-place",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I started on it last month. Ask anyone in {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.whoever-told-place-otherwise-has-it-wrong",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "Whoever told {place} otherwise has it wrong.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-lie.i-m-on-your-side-on-issue-whatever-you-heard",
-      "move": "reply-lie",
-      "kind": "spoken",
-      "text": "I'm on your side on {issue}, whatever you heard.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "lie",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["host-opposed", "issue"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "lie",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-lie",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-have-to-move-on-more-of-place-wants-a-turn",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I have to move on. More of {place} wants a turn.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-wish-i-had-more-time-place-has-a-lot-of-questions",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I wish I had more time. {place} has a lot of questions.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.that-s-all-i-can-say-here-i-owe-the-rest-of-place-a-turn",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "That's all I can say here. I owe the rest of {place} a turn.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-m-sorry-asker-first-i-have-to-take-the-next-question",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'm sorry, {asker-first}. I have to take the next question.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["asker-first"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "leave",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-leave",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-confess.you-re-right-i-haven-t-done-anything-on-issue-yet",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "You're right. I haven't done anything on {issue} yet.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "confess",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-confess",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.reply-confess.honestly-issue-has-sat-on-my-desk-too-long",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "Honestly, {issue} has sat on my desk too long.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "town-hall-question",
-          "key": "favor-asked",
-          "requiresFacts": ["issue"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "confess",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-reply-confess",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.first-i-have-a-question-and-i-d-like-a-straight-answer",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "{first}, I have a question, and I'd like a straight answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-plain",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.state-ask.what-are-you-going-to-do-about-what-people-in-place-are-worried-about",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "What are you going to do about what people in {place} are worried about?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "ask",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-ask-plain",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.thank-you-for-taking-this-first",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Thank you for taking this, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-open-plain",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-ll-be-quick-first",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'll be quick, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-open-plain",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-ve-been-waiting-to-ask-you-something-first",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I've been waiting to ask you something, {first}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "town-hall-question",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder W6",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "greet",
-        "key": "favor-asked"
-      },
-      "piece": {
-        "of": "town-hall-open-plain",
         "part": "core",
         "required": true
       }
