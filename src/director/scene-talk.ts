@@ -35,6 +35,7 @@ import situationFile from "./data/situation-types.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
   pieceAnswers,
+  ruledOutByRecord,
   sceneMoveFits,
   sceneMovesWritten,
   wordSceneMove,
@@ -577,7 +578,12 @@ export function composeSceneTalk(
       round: zero,
       ...(use.after ? { after: use.after } : {}),
       ...(use.outcome ? { outcome: use.outcome } : {}),
-      parts: [worded.pieceKey],
+      // The piece the line answers by first: a joined sentence's core, then
+      // the other pieces it was made of.
+      parts: [
+        worded.pieceKey,
+        ...(worded.pieceKeys ?? []).filter((k) => k !== worded.pieceKey),
+      ],
       slotRecordIds: [...worded.slotRecordIds],
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,
@@ -1453,7 +1459,15 @@ export function composeSceneTalk(
         seen,
       );
       if (!reply) {
-        gap("reply", move, path.askerMove);
+        // A move the record rules out here (a stall once the vote is held)
+        // is not offered, and is no hole in the bank.
+        if (
+          !ruledOutByRecord(
+            { step: "reply", move, role: "asked", ...base },
+            facts,
+          )
+        )
+          gap("reply", move, path.askerMove);
         return [];
       }
       // A line already offered or said on this path is not offered again.

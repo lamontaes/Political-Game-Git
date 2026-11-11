@@ -1,0 +1,20 @@
+PLAYER w7-press-h: Amir Chan in Lesslie, South Carolina
+FILED w7-press-h: {"me":"person_740fc20c61b6f628","body":"office:gus2025:134417:board","billId":"bill:office:gus2025:134417:board:2025-01-20:person_740fc20c61b6f628:5","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+VOTE-MOMENT w7-press-h: {"id":"person_740fc20c61b6f628:2025-01-28:bill-vote:bill:office:gus2025:134417:board:2025-01-20:person_740fc20c61b6f628:5:office:gus2025:134417:board","kinds":["floor-vote","press-interview"]}
+TALK w7-press-h (asked):
+Evelyn Fernandez
+Do you have a moment for a couple of questions?
+You voted for Ordinance 2025-1. What should people know about why?
+A second reporter drifts over, then a third.
+I'm voting for it, and you can quote me.
+I'm not going to negotiate this through the press.
+I'm not answering that one.
+--
+TALK w7-press-h (answered):
+Evelyn Fernandez
+AMIR CHAN
+I'm voting for it, and you can quote me.
+Can I quote you on that?
+You can quote me.
+Time will answer that, and it'll answer for me.
+I've got a meeting. Walk with me if you want.

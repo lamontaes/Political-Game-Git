@@ -481,7 +481,7 @@
     },
     "press-comment": {
       "state": "ask",
-      "replies": ["answer", "deflect", "refuse", "lie"],
+      "replies": ["answer", "refuse", "stall", "confront"],
       "follow": {
         "answer": ["ask", "thank"],
         "deflect": ["press", "accept"],
@@ -493,11 +493,12 @@
       },
       "again": {
         "ask": ["answer", "boast", "refuse", "leave"],
-        "press": ["answer", "stall", "confront", "leave", "lie"],
+        "press": ["answer", "refuse", "stall", "leave", "lie"],
         "answer": ["answer", "boast", "leave", "lie"]
       },
       "repeatable": {
-        "ask": ["answer"]
+        "ask": ["answer"],
+        "press": ["refuse"]
       },
       "endings": [
         {

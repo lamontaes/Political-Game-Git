@@ -1,0 +1,19 @@
+PLAYER w7-press-c: Blair Hanson in East Point, Georgia
+FILED w7-press-c: {"me":"person_f7cb3eb10ea7886b","body":"office:gus2025:161875:council","billId":"bill:office:gus2025:161875:council:2025-01-20:person_f7cb3eb10ea7886b:12","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+VOTE-MOMENT w7-press-c: {"id":"person_f7cb3eb10ea7886b:2025-02-04:bill-vote:bill:office:gus2025:161875:council:2025-01-20:person_f7cb3eb10ea7886b:12:office:gus2025:161875:council","kinds":["floor-vote","press-interview"]}
+TALK w7-press-c (asked):
+Katelyn Joseph
+Ordinance 2025-1 will be in the paper. You voted for it. Why?
+A staffer hovers at your elbow, holding a schedule.
+I support it. It's good for East Point.
+That's a question for the sponsor.
+I'm not answering that one.
+I've always supported it.
+TALK w7-press-c (answered):
+Katelyn Joseph
+BLAIR HANSON
+I support it. It's good for East Point.
+Even if it costs you votes?
+Even then. It's the right call.
+Time will answer that, and it'll answer for me.
+I've got a meeting. Walk with me if you want.

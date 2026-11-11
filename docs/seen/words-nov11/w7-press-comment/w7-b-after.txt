@@ -1,0 +1,20 @@
+PLAYER w7-press-b: Amber Holmes in Pocatello, Idaho
+FILED w7-press-b: {"me":"person_7a090974d8fd3110","body":"office:gus2025:102377:council","billId":"bill:office:gus2025:102377:council:2025-01-20:person_7a090974d8fd3110:17","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+VOTE-MOMENT w7-press-b: {"id":"person_7a090974d8fd3110:2025-02-04:bill-vote:bill:office:gus2025:102377:council:2025-01-20:person_7a090974d8fd3110:17:office:gus2025:102377:council","kinds":["floor-vote","press-interview"]}
+TALK w7-press-b (asked):
+Ethan Velez
+Ethan Velez
+Have you got thirty seconds for Pocatello Review?
+You voted for the Free Fares for Riders Ordinance. What should people know about why?
+Ethan Velez writes fast and doesn't look up.
+I was a yes on the Free Fares for Riders Ordinance, and I'd cast that vote again. It carried 4 to 1, and the roll is public. That's on the record.
+I'm not doing this in a hallway. Set up a time with my office, and Pocatello Review can have its interview.
+--
+TALK w7-press-b (answered):
+Ethan Velez
+Ethan Velez
+AMBER HOLMES
+I was a yes on the Free Fares for Riders Ordinance, and I'd cast that vote again. It carried 4 to 1, and the roll is public. That's on the record.
+It went 4 to 1. Did you have it counted that way going in?
+About what I expected. People in Pocatello had been telling me for weeks.
+When this comes up in Pocatello, people already know where I stand. Print that.

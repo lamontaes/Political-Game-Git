@@ -1,0 +1,19 @@
+PLAYER w7-press-c: Blair Hanson in East Point, Georgia
+FILED w7-press-c: {"me":"person_f7cb3eb10ea7886b","body":"office:gus2025:161875:council","billId":"bill:office:gus2025:161875:council:2025-01-20:person_f7cb3eb10ea7886b:12","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+VOTE-MOMENT w7-press-c: {"id":"person_f7cb3eb10ea7886b:2025-02-04:bill-vote:bill:office:gus2025:161875:council:2025-01-20:person_f7cb3eb10ea7886b:12:office:gus2025:161875:council","kinds":["floor-vote","press-interview"]}
+TALK w7-press-c (asked):
+Katelyn Joseph
+Katelyn Joseph
+The Free Fares for Riders Ordinance will be in the paper. You voted for it. Why?
+A staffer hovers at your elbow while Katelyn Joseph writes.
+I was for the Free Fares for Riders Ordinance when it came up, and I'm for it now. The roll was 2 to 3, and it lost.
+East Point Register can have a statement from my office, not from me here.
+That's not what it does, and you know it, Katelyn.
+TALK w7-press-c (answered):
+Katelyn Joseph
+Katelyn Joseph
+BLAIR HANSON
+I was for the Free Fares for Riders Ordinance when it came up, and I'm for it now. The roll was 2 to 3, and it lost.
+So, 2 to 3. Is that how you had it counted?
+About there. I'd talked it through with half of East Point the week before.
+I knew where I stood on this before anyone in East Point asked. Print that.
