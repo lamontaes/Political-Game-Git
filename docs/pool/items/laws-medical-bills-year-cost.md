@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-medical-bills-year-cost
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:05:12.764Z
+claimed-at:
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -72,3 +72,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Only item left for tier mid; needs a dedicated machine for repeated speed:year runs (skill heavy-runs). Handoff: remaining cost is payCounted/payFull journal postings and recordMedicalDebt in src/core2/medical-bills.ts. Continue on branch claude/pool-laws-medical-bills-year-cost.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-laws-medical-bills-year-cost.
+
+Released (2026-11-11): Re-read billMedicalCare/payCounted on the branch: no cut I can prove unchanged or faster without speed:year runs and a records proof this container cannot hold. Needs a dedicated machine. Continue on branch claude/pool-laws-medical-bills-year-cost.
