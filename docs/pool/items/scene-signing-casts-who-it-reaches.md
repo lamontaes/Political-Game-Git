@@ -5,15 +5,15 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-scene-signing-casts-who-it-reaches
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web executive pass (packet the-signing)"
 lead: director
 milestone: play-first
-claimed-at: 2026-11-11T02:44:10.514Z
+claimed-at:
 after:
 model: sonnet
 effort: medium
@@ -49,3 +49,5 @@ Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Swapping asker/asked in bill-signed would put the 55 existing signing-ask lines (written with the executive as asker, e.g. 'Nice work on this one', 'You signed it because it was good') in the wrong mouths; needs Story's new lines under data/english/parts first. Cause is right (situation-types.json bill-signed asker=signer asked=sponsor). Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:44 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Released (2026-11-11): the executive's four replies (commit to the next step, credit others, temper expectations, decline) are bank lines, Story's under the Nov 10 split; swapping asker/asked without them leaves the executive with no replies. Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
