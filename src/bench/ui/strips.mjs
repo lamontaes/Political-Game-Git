@@ -5,6 +5,7 @@
 // right, each a header strip of its own depth under a broken gold outline.
 // Every screen of that look builds from these parts, never its own markup.
 import { el } from "./dom.mjs";
+import { picture } from "./picture.mjs";
 import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
@@ -513,10 +514,9 @@ export function journalScreen({ chapters, labels, yearOf, rows }) {
                   // The picture of the place the chapter's lines happened in; none on record, no slot.
                   ...(chosen.picture
                     ? [
-                        el("img", {
-                          className: "journal-picture",
+                        picture({
                           src: chosen.picture.url,
-                          alt: "",
+                          className: "journal-picture",
                         }),
                       ]
                     : []),
