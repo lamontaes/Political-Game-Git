@@ -18,6 +18,7 @@
  * candidate's platform holds one, the campaign event opens on it, and a
  * voter's ballot in the race weighs the platform.
  */
+import type { GovernmentLevel } from "./government-level";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -25,7 +26,7 @@ import geography from "../../data/research/geography/state-reference.json" with 
 import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { contestPositions } from "./contest-positions";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -73,7 +74,7 @@ const KINDS = geography.places as Readonly<
 interface OfficeRecord {
   id: string;
   kind: string;
-  level: "federal" | "state" | "county" | "city" | "township";
+  level: GovernmentLevel | "township";
 }
 
 const BUDGET = "budget-line:";

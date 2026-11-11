@@ -12,6 +12,13 @@
  * names no item stops the run with the file and number, so no grade is
  * silently lost.
  *
+ * Counting is by batch and row: folding the same files again changes
+ * nothing. After a fold, run `npm run words:rules` (scripts/words/run-rules.ts):
+ * those two commands are the whole update. The first records what he graded;
+ * the second runs every rule he has given over every line and writes the list
+ * of lines the game does not play (data/english/pulled.json). There is no
+ * map, reach table or odds file to rebuild: a line plays or it does not.
+ *
  * A development tool. It never words anything.
  */
 import { execSync } from "node:child_process";
@@ -21,7 +28,7 @@ import type {
   CalibrationTable,
   RunningGrade,
 } from "../../src/english/calibration";
-import { buildReach, type PieceMakeup } from "../../src/english/grade-reach";
+import { readBankPieces } from "../words/run-rules";
 import {
   type AxisGradeCounts,
   heldByGrades,
@@ -29,6 +36,9 @@ import {
   type PartGradeCounts,
   type PartGradeLedger,
 } from "../../src/english/english-grades";
+
+/** The whole-line strength a voice grade needs to count as a verdict in the ledger. */
+export const VOICE_VERDICT = 0.25;
 
 export const BATCH_DIR = "data/english/batches";
 export const GRADE_DIR = "data/english/grades";
@@ -298,18 +308,17 @@ const clamp = (value: number, low: number, high: number) =>
 
 /**
  * Folds the bench grades of each batch not yet folded into the calibration
- * table, a small step each (`parameters.step`): a line's axes move its
- * pieces' running grades; trait fit moves its speaker's traits' pull toward
- * the line's bearing; "too long" or "too short" moves the register's target
- * length and the speaker's traits' length pull; a preferred piece takes a 5;
- * naturalness moves the move pair. Pure; returns a new table. Weights only.
+ * table, a small step each (`parameters.step`): trait fit moves its speaker's
+ * traits' pull toward the line's bearing; "too long" or "too short" moves the
+ * register's target length and the speaker's traits' length pull;
+ * naturalness moves the move pair. Pure; returns a new table. Weights only,
+ * and none of them is a grade of a line.
  */
 export function foldCalibration(
   graded: readonly GradedBatch[],
   base: CalibrationTable,
 ): CalibrationTable {
   const step = base.parameters.step!.value;
-  const pieces: Record<string, RunningGrade> = { ...base.pieces };
   const movePairs: Record<string, RunningGrade> = { ...base.movePairs };
   const traits: Record<
     string,
@@ -350,16 +359,9 @@ export function foldCalibration(
           numeric[axisKey(name)] = value;
         } else if (axisKey(name) === "length") length = value.toLowerCase();
       }
-      const quality = Object.entries(numeric)
-        .filter(([name]) => name !== "traitfit" && name !== "length")
-        .map(([, value]) => value);
-      const mean = quality.length
-        ? quality.reduce((sum, value) => sum + value, 0) / quality.length
-        : undefined;
-      if (mean !== undefined)
-        for (const piece of new Set(line.parts))
-          addRunning(pieces, piece, mean);
-      if (typeof row.prefer === "string") addRunning(pieces, row.prefer, 5);
+      // A grade of a line's quality moves no weight: a line plays or it does
+      // not (the ledger and the rules). Only the pair, the speaker's traits
+      // and the register's length move.
       if (numeric.naturalness !== undefined && line.move && line.previousMove)
         addRunning(
           movePairs,
@@ -414,7 +416,7 @@ export function foldCalibration(
     }
     if (any) folded.push(id);
   }
-  return { ...base, folded, traits, registers, pieces, movePairs };
+  return { ...base, folded, traits, registers, movePairs };
 }
 
 export const COVERAGE_FILE = "data/english/coverage.json";
@@ -500,6 +502,24 @@ export function sumGradedCoverage(
   return table;
 }
 
+/**
+ * A grade file of span grades (the voice-note reader's output: rows of
+ * `{ key, spans }`). Only a span-grade file's whole-line verdicts reach the
+ * ledger (`withVoiceGrades`); the ledger's fold of whole-line grades leaves
+ * the file alone.
+ */
+export function isSpanGradeFile(path: string): boolean {
+  const rows = rowsOf(JSON.parse(readFileSync(path, "utf8")));
+  return (
+    rows.length > 0 &&
+    rows.every(
+      (row) =>
+        typeof (row as { key?: unknown }).key === "string" &&
+        Array.isArray((row as { spans?: unknown }).spans),
+    )
+  );
+}
+
 /** The graded batches on disk, in batch order (batch-2 before batch-10). */
 export function readGradedBatches(
   batchDir = BATCH_DIR,
@@ -510,6 +530,7 @@ export function readGradedBatches(
   return readdirSync(gradeDir)
     .filter((name) => name.endsWith(".json"))
     .sort((a, b) => order(a) - order(b) || a.localeCompare(b))
+    .filter((name) => !isSpanGradeFile(join(gradeDir, name)))
     .map((name) => {
       const batchPath = join(batchDir, basename(name));
       const grades = JSON.parse(
@@ -530,10 +551,52 @@ export function readGradedBatches(
     });
 }
 
+/** A part's counts plus another's. */
+function plus(was: PartGradeCounts, add: PartGradeCounts): PartGradeCounts {
+  const axes: Record<string, AxisGradeCounts> = { ...(was.axes ?? {}) };
+  for (const [axis, counts] of Object.entries(add.axes ?? {}) as [
+    string,
+    AxisGradeCounts,
+  ][]) {
+    const prior = axes[axis] ?? { good: 0, bad: 0, fix: 0 };
+    axes[axis] = {
+      good: prior.good + counts.good,
+      bad: prior.bad + counts.bad,
+      fix: prior.fix + counts.fix,
+    };
+  }
+  return {
+    good: was.good + add.good,
+    bad: was.bad + add.bad,
+    fix: was.fix + add.fix,
+    sharedGood: was.sharedGood + add.sharedGood,
+    sharedBad: was.sharedBad + add.sharedBad,
+    sharedFix: was.sharedFix + add.sharedFix,
+    ...(Object.keys(axes).length ? { axes } : {}),
+  };
+}
+
+/** Two sets of part counts added together, parts in key order. */
+function addParts(
+  one: Readonly<Record<string, PartGradeCounts>>,
+  two: Readonly<Record<string, PartGradeCounts>>,
+): Record<string, PartGradeCounts> {
+  const parts: Record<string, PartGradeCounts> = { ...one };
+  for (const [key, add] of Object.entries(two))
+    parts[key] = plus(parts[key] ?? EMPTY, add);
+  const sorted: Record<string, PartGradeCounts> = {};
+  for (const key of Object.keys(parts).sort()) sorted[key] = parts[key]!;
+  return sorted;
+}
+
 /**
- * Adds a fresh fold to grades kept from batches whose files were since
- * removed from the repository (the old batch and grade files were deleted
- * once folded), so no earlier grade is lost.
+ * The ledger is a pure result of the grade files on disk plus the share of
+ * batches whose files are gone. That share is written into the ledger itself
+ * (`kept`), so a rerun never has to guess it back out of the totals: the
+ * totals are always the fresh fold plus `kept`, however many times this runs.
+ * A batch whose files have just gone away is moved into `kept` by taking its
+ * share out of the old totals (everything the files still on disk fold to,
+ * and the old `kept`, come out first).
  */
 export function withKept(
   fresh: PartGradeLedger,
@@ -541,51 +604,42 @@ export function withKept(
   /** Folds the named batches still on disk, to take their share out of `existing`. */
   refold?: (ids: readonly string[]) => PartGradeLedger,
 ): PartGradeLedger {
-  const kept = (existing?.batches ?? []).filter(
-    (id) => !fresh.batches.includes(id),
-  );
-  if (!existing || !kept.length) return fresh;
-  let base = existing;
-  if (kept.length !== existing.batches.length) {
-    // Some of the ledger's batches are still on disk: their share comes out
-    // of the ledger, and the fresh fold adds it back once.
-    if (!refold)
-      throw new Error(
-        `${LEDGER_FILE}: some of its batches are on disk and some are not (${kept.join(", ")} missing); restore their files or fold them together`,
-      );
-    base = without(
-      existing,
-      refold(existing.batches.filter((id) => !kept.includes(id))),
+  if (!existing) return fresh;
+  const prior = existing.kept ?? { batches: [], parts: {} };
+  const back = prior.batches.filter((id) => fresh.batches.includes(id));
+  if (back.length)
+    throw new Error(
+      `${LEDGER_FILE}: batches ${back.join(", ")} are kept from files that are gone but are on disk again; remove them from "kept" and refold`,
     );
-  }
-  const parts: Record<string, PartGradeCounts> = { ...base.parts };
-  for (const [key, add] of Object.entries(fresh.parts)) {
-    const was = parts[key] ?? EMPTY;
-    const axes: Record<string, AxisGradeCounts> = { ...(was.axes ?? {}) };
-    for (const [axis, counts] of Object.entries(add.axes ?? {}) as [
-      string,
-      AxisGradeCounts,
-    ][]) {
-      const prior = axes[axis] ?? { good: 0, bad: 0, fix: 0 };
-      axes[axis] = {
-        good: prior.good + counts.good,
-        bad: prior.bad + counts.bad,
-        fix: prior.fix + counts.fix,
-      };
-    }
-    parts[key] = {
-      good: was.good + add.good,
-      bad: was.bad + add.bad,
-      fix: was.fix + add.fix,
-      sharedGood: was.sharedGood + add.sharedGood,
-      sharedBad: was.sharedBad + add.sharedBad,
-      sharedFix: was.sharedFix + add.sharedFix,
-      ...(Object.keys(axes).length ? { axes } : {}),
+  const onDisk = existing.batches.filter((id) => fresh.batches.includes(id));
+  const gone = existing.batches.filter(
+    (id) => !fresh.batches.includes(id) && !prior.batches.includes(id),
+  );
+  let kept = prior;
+  if (gone.length) {
+    // Some of the ledger's batches are still on disk: their share comes out
+    // of the ledger, and what is left beyond the old `kept` is the share of
+    // the batches that went away.
+    if (!refold && onDisk.length)
+      throw new Error(
+        `${LEDGER_FILE}: some of its batches are on disk and some are not (${gone.join(", ")} missing); restore their files or fold them together`,
+      );
+    const rest = without(
+      without(existing, { ...existing, batches: [], parts: prior.parts }),
+      onDisk.length ? refold!(onDisk) : { ...existing, batches: [], parts: {} },
+    );
+    kept = {
+      batches: [...prior.batches, ...gone],
+      parts: addParts(prior.parts, rest.parts),
     };
   }
-  const sorted: Record<string, PartGradeCounts> = {};
-  for (const key of Object.keys(parts).sort()) sorted[key] = parts[key]!;
-  return { ...fresh, batches: [...kept, ...fresh.batches], parts: sorted };
+  if (!kept.batches.length) return fresh;
+  return {
+    ...fresh,
+    batches: [...kept.batches, ...fresh.batches],
+    parts: addParts(kept.parts, fresh.parts),
+    kept: { batches: kept.batches, parts: kept.parts },
+  };
 }
 
 /** A ledger with another ledger's counts taken out. */
@@ -640,49 +694,88 @@ function without(
 }
 
 export const PARTS_DIR = "data/english/parts";
-export const REACH_FILE = "data/english/grade-reach.json";
 
-/** Every bank piece's makeup by key, read from the banks. */
-export function readPieces(dir = PARTS_DIR): Map<string, PieceMakeup> {
-  const pieces = new Map<string, PieceMakeup>();
-  for (const name of readdirSync(dir)
+/**
+ * Adds the owner's voice-note grades (span-grade files) to a fold: a line his
+ * words grade clearly good counts as good, clearly bad as bad, by the sum of
+ * its spans. A line he graded part of keeps its part grades on the grade map
+ * only. The batch is listed once, by the file's `batch`.
+ */
+export function withVoiceGrades(
+  fold: PartGradeLedger,
+  gradeDir = GRADE_DIR,
+  /** Only the voice batches with these ids (`<batch>:voice`), when given. */
+  only?: readonly string[],
+): PartGradeLedger {
+  if (!existsSync(gradeDir)) return fold;
+  const parts: Record<string, PartGradeCounts> = { ...fold.parts };
+  const batches = [...fold.batches];
+  for (const name of readdirSync(gradeDir)
     .filter((entry) => entry.endsWith(".json"))
     .sort()) {
-    const bank = JSON.parse(readFileSync(join(dir, name), "utf8")) as {
-      parts?: (Omit<PieceMakeup, "bank" | "purpose"> & {
-        key: string;
-        uses?: { purpose?: string }[];
-      })[];
+    const path = join(gradeDir, name);
+    if (!isSpanGradeFile(path)) continue;
+    const file = JSON.parse(readFileSync(path, "utf8")) as {
+      batch?: string;
+      grades: { key: string; spans: { strength: number }[] }[];
     };
-    for (const part of bank.parts ?? []) {
-      const purpose = part.uses?.find(
-        (use) => use.purpose && use.purpose !== "*",
-      )?.purpose;
-      pieces.set(part.key, {
-        bank: basename(name, ".json"),
-        move: part.move,
-        ...(purpose ? { purpose } : {}),
-        ...(part.tag ? { tag: part.tag } : {}),
-        ...(part.bearing ? { bearing: part.bearing } : {}),
+    const id = `${file.batch ?? basename(name, ".json")}:voice`;
+    if (only && !only.includes(id)) continue;
+    if (!batches.includes(id)) batches.push(id);
+    for (const row of file.grades) {
+      const net = row.spans.reduce((sum, span) => sum + span.strength, 0);
+      if (Math.abs(net) < VOICE_VERDICT) continue;
+      const counts = (parts[row.key] ??= {
+        good: 0,
+        bad: 0,
+        fix: 0,
+        sharedGood: 0,
+        sharedBad: 0,
+        sharedFix: 0,
       });
+      parts[row.key] =
+        net > 0
+          ? { ...counts, good: counts.good + 1 }
+          : { ...counts, bad: counts.bad + 1 };
     }
   }
-  return pieces;
+  return { ...fold, batches, parts };
+}
+
+/**
+ * The ledger the grade files in `gradeDir` fold to: every row of every file
+ * counted once, plus the share of batches whose files are gone (`kept`, read
+ * from `existing`). Folding again from its own result changes nothing.
+ */
+export function foldLedger(
+  graded: readonly GradedBatch[],
+  existing: PartGradeLedger | undefined,
+  gradeDir = GRADE_DIR,
+): PartGradeLedger {
+  return withKept(
+    withVoiceGrades(foldGrades(graded), gradeDir),
+    existing,
+    // A voice batch's share comes out with the rest, or each run counts it again.
+    (ids) =>
+      withVoiceGrades(
+        foldGrades(
+          graded.filter((row) =>
+            ids.includes(row.batch?.id ?? row.grades.batch ?? ""),
+          ),
+        ),
+        gradeDir,
+        ids,
+      ),
+  );
 }
 
 function main() {
   const graded = readGradedBatches();
-  const ledger = withKept(
-    foldGrades(graded),
+  const ledger = foldLedger(
+    graded,
     existsSync(LEDGER_FILE)
       ? (JSON.parse(readFileSync(LEDGER_FILE, "utf8")) as PartGradeLedger)
       : undefined,
-    (ids) =>
-      foldGrades(
-        graded.filter((row) =>
-          ids.includes(row.batch?.id ?? row.grades.batch ?? ""),
-        ),
-      ),
   );
   // The coverage file keeps what batches asked (byKind, cells) beside what the
   // owner has graded, axis by kind.
@@ -723,21 +816,14 @@ function main() {
   console.log(
     `Wrote ${LEDGER_FILE}: ${ledger.batches.length} graded batches, ${Object.keys(ledger.parts).length} parts graded, ${held.length} held back.`,
   );
-  // Every grade reaches the pieces sharing its pattern, voice and register
-  // (`src/english/grade-reach.ts`): the profile and group sums the engine reads.
-  const pieces = readPieces();
-  const reach = buildReach(pieces, ledger, table.registerClasses ?? {});
-  writeFileSync(REACH_FILE, `${JSON.stringify(reach, null, 2)}\n`);
-  execSync(`npx prettier --write ${REACH_FILE}`, { stdio: "ignore" });
-  console.log(
-    `Wrote ${REACH_FILE}: ${Object.keys(reach.groups).length} groups reaching ${Object.keys(reach.profiles).length} pieces.`,
-  );
-  // The ledger is the only gate: a bank part plays unless the grades hold it.
-  const heldInBanks = [...pieces.keys()].filter((key) =>
-    heldByGrades(key, ledger),
+  // The ledger and the rules are the only gates: a bank part plays unless the
+  // grades hold it or a rule pulled it (`npm run words:rules`).
+  const pieces = readBankPieces();
+  const heldInBanks = pieces.filter((piece) =>
+    heldByGrades(piece.key, ledger),
   ).length;
   console.log(
-    `Banks in ${PARTS_DIR}: ${pieces.size - heldInBanks} parts play, ${heldInBanks} held by the grades.`,
+    `Banks in ${PARTS_DIR}: ${pieces.length - heldInBanks} parts play, ${heldInBanks} held by the grades. Now run: npm run words:rules`,
   );
 }
 

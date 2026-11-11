@@ -52,7 +52,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/laws.ts",
     "line": 312,
-    "whatItFakes": "Six federal questions (the debt limit, immigration levels, student loan forgiveness, D.C. statehood, federal mandatory minimums, the members' stock trading ban) start as law in force ('no', each cited) and Congress can enact or repeal them from the bill paper, but no engine reads the law, so enacting one moves no money, person or place. National data privacy is read now: the business engine charges employing businesses a compliance cost while it stands (federal-data-privacy-law.test.ts). The disaster cost share is read now (disasters.ts).",
+    "whatItFakes": "Four federal questions (student loan forgiveness, D.C. statehood, federal mandatory minimums, the members' stock trading ban) start as law in force ('no', each cited) and Congress can enact or repeal them from the bill paper, but no engine reads the law, so enacting one moves no money, person or place. The immigration question is read now (counted-moves.ts raises the yearly arrivals from abroad by the researched extra admissions); its labor effect through the outcome web is still unread. National data privacy is read now: the business engine charges employing businesses a compliance cost while it stands (federal-data-privacy-law.test.ts). The disaster cost share (disasters.ts) and the debt limit (budgets-treasury.ts) are read now.",
     "why": "Each needs a mechanic or a researched size that does not exist yet (a debt ceiling that binds borrowing, an immigration flow, a loan balance record, a disaster cost split, a privacy rule that businesses follow, a statehood and representation change, a sentencing record, a members' holdings record).",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
@@ -62,7 +62,7 @@
   {
     "id": "SG-LAWS-local-line-filing-threshold",
     "file": "src/core2/modules/world-legislating.ts",
-    "line": 709,
+    "line": 730,
     "whatItFakes": "How big a gap between a member's wanted budget line and the line in force must be before they file a mid-year amendment (1 percent of the line, spread 0.5 to 3 percent, budgetAmendmentMinShare) is an estimate; no table of local amendment thresholds was found. Real councils also take up contracts, appointments and rezonings that no record here carries.",
     "why": "The research names how often local bodies amend budgets mid-year but not a size below which members do not bother.",
     "addedBy": "night:laws-and-effects",
@@ -80,6 +80,51 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "The share from the first enacted or introduced text, with the state's own cost taken up by the state government's budget.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-debt-limit-binding",
+    "file": "src/core2/budgets-treasury.ts",
+    "line": 988,
+    "whatItFakes": "Where Congress has made a higher debt limit something to pay for, the statutory limit ($41.1 trillion, P.L. 119-21, scaled to this world's debt) holds and the Treasury borrows only the room under it, its payments prorated; no offsetting cuts to pay for a raise are drawn up, and the limit is not raised by any other route. Where the law is off, the limit is raised whenever it binds (today's practice), so borrowing is unlimited.",
+    "why": "The research names the limit and the votes but no schedule of offsets; the raise-and-offset bargain is not simulated.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "The federal budget's adoption cutting lines by the 'pay for' amount of each raise, from the first enacted or introduced text.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-retail-choice-price",
+    "file": "src/core2/modules/place-prices.ts",
+    "line": 1041,
+    "whatItFakes": "A law allowing residential retail electric choice cuts every household's electricity spending by 7 percent, fading to nothing over five years from its effective date (Su 2015). The cut is the average over states, which research traces to the rate freezes and cuts legislated with restructuring; no rate freeze is drawn up, no state-by-state size is used, and the starting law in the 14 states that already have choice dates from 1998 to 2002, so it has faded to nothing there.",
+    "why": "Published estimates differ by sample and method (Hill finds the cut comes from rate freezes; Borenstein and Bushnell find no significant effect after controlling for gas prices), and none is per state.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "A state-by-state price effect from the restructuring acts' own rate freezes and cuts, with the supplier market (shopping share) as the competition term.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-ui-base-period-last-pay",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 282,
+    "whatItFakes": "A claim's weekly benefit is the state's share of the lost job's weekly pay as it stood on the last day, times the weeks it ran (capped by the weekly maximum). Real state law computes it from base-period wages, usually the highest quarter of the first four of the last five completed quarters, so an hours cut shortly before a layoff barely moves it.",
+    "why": "No per-person pay by calendar quarter is read by the claim engine; named workers' paydays are in the cash journal (work-payroll-cash.ts) and counted workers' in their group's perDayMinorByJob history, but the claim does not sum them yet.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "(The base-period read is built against Money's folds, core.work.payByQuarter for named workers and core.work.countedPayByQuarter for counted groups; a claim with no list in either, as before #7801 merges, stays on the last pay, and this stopgap resolves once #7801 and the hours-cut path #7781 are in and a claim after a cut is proved.) fileClaim sums the person's recorded payday receipts by calendar quarter, takes the state's basis quarters from the law row (weeklyBenefitBasisQuarters), and applies the state's fraction, max and min; counted workers read their group's perDayMinorByJob history. Proved on a claim after an hours cut (Jobs #7781, api.rehourJob).",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-records-response-unread",
+    "kind": "missing-engine",
+    "file": "data/research/laws/open-meetings-and-records-2026.json",
+    "line": 1,
+    "whatItFakes": "Each state's days to answer a public-records request (recordsDays, 43 of 56 places with a number, the rest ESTIMATED FROM AVERAGE by median) sit in the research file but are not loaded as law: nothing in the game files or answers a records request, so no engine could read the number.",
+    "why": "The game has no records request: a resident, reporter or the player cannot ask an office for a record, and no office answers one within days. The notice hours in the same file are loaded and read (scheduleVote).",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "A records request a resident or the player can file with an office, answered within the state's days from the office's own staff time, with the delay and the denial kept as records; then load recordsDaysUsed as a law series and read it where the office answers.",
     "status": "open"
   }
 ]

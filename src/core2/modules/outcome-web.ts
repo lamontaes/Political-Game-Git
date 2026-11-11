@@ -43,7 +43,8 @@ import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
-import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import { inTownChain } from "../laws-in-force";
+import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
   defenseBoostPct,
@@ -100,7 +101,7 @@ const SCHOOL_MEASURED = new Set([
   "school.graduation-pct",
 ]);
 
-export { OUTCOME_WEB_MODULE_ID };
+export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
 export { webReach, type WebReach } from "../outcome-web-reach";
 const STATE_ID = "outcome-web:state";
@@ -213,8 +214,17 @@ export function lawValue(
     effectiveDate: string;
   }[];
   const latest = new Map<string, { value: unknown; effectiveDate: string }>();
+  // The town's law is its own chain's: a law another state's legislature
+  // passed is that state's, not the town's.
+  const chain = open ? lawChain(api) : null;
   for (const row of rows) {
     if (row.effectiveDate > date) continue;
+    if (
+      chain &&
+      row.jurisdiction !== "US" &&
+      !inTownChain(chain, row.jurisdiction)
+    )
+      continue;
     const held = latest.get(row.jurisdiction);
     if (!held || row.effectiveDate >= held.effectiveDate)
       latest.set(row.jurisdiction, row);
@@ -707,6 +717,10 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
   },
   eventKinds: [SETTINGS.lawsModule.eventKind],
   onEvent(api, event) {
+    // Another state's act is a national event, not the town's law: the web reads
+    // the town's laws, so it neither records it nor rewrites the month for it
+    // (the rewrite would overwrite what the month's other readers laid on it).
+    if (String(event.placeId).startsWith("national:")) return;
     recordLaw(api, event);
     // A law moves the record the day it takes effect, not at month's end.
     run(api);

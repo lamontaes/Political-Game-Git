@@ -32,18 +32,9 @@ import {
   officialStance,
   type OfficialRow,
 } from "./modules/officials";
-import {
-  stanceRow,
-  viewOf,
-  VIEWS_DATA,
-  VIEWS_MODULE_ID,
-} from "./modules/views";
-import {
-  campaignParameter,
-  personLean,
-  questionAxis,
-  type Stance,
-} from "./campaign-views";
+import { stanceOn, viewOf, VIEWS_DATA, VIEWS_MODULE_ID } from "./modules/views";
+import { personLean, questionAxis } from "./campaign-views";
+import { campaignParameter, type Stance } from "./campaign-data";
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
 const sameLabel = (a: string, b: string) =>
@@ -276,14 +267,8 @@ export class StanceReader {
     // news that reached them), on top of where their lean puts them.
     let moved = 0;
     if (this.api.state.modules.has(VIEWS_MODULE_ID)) {
-      const s = stanceRow(this.api, this.personId, question);
-      if (s)
-        moved +=
-          s.desiredChange === "enact"
-            ? s.strength
-            : s.desiredChange === "repeal"
-              ? -s.strength
-              : 0;
+      // Their own row and, if heard among like hearers, their group's.
+      moved += stanceOn(this.api, this.personId, question);
     }
     return clamp(this.lean * questionAxis(question) + moved);
   }

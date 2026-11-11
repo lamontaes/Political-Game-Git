@@ -13,11 +13,22 @@ import {
   type Experiment,
   type LawLevel,
 } from "./dev-mode";
-import { traceNode, traceReport } from "./dev-trace";
+import { traceReport } from "./dev-trace";
 import { compareProofs, recordProof, type RecordProof } from "./dev-proof";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import type { BenchPlayer } from "./player";
+
+/** The per-member votes a dev call names ({ memberKey: "yes" | "no" | "abstain" }); anything else is left out. */
+function memberVotes(
+  raw: unknown,
+): Record<string, "yes" | "no" | "abstain"> | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const out: Record<string, "yes" | "no" | "abstain"> = {};
+  for (const [key, cast] of Object.entries(raw))
+    if (cast === "yes" || cast === "no" || cast === "abstain") out[key] = cast;
+  return Object.keys(out).length ? out : undefined;
+}
 
 export interface DevWorld {
   core?: CoreState;
@@ -130,6 +141,12 @@ export async function handleDev(
     case "GET reach":
       send(200, mode.reach(q("lawId")));
       return true;
+    case "GET bill-outcome":
+      send(200, mode.billOutcome(q("billId")));
+      return true;
+    case "POST twin-money":
+      send(200, mode.twinMoney());
+      return true;
     case "GET people":
       send(
         200,
@@ -190,6 +207,21 @@ export async function handleDev(
       send(200, mode.holdVote(String(input.billId)));
       return true;
     }
+    case "POST work-beside-colleagues": {
+      send(200, mode.workBesideColleagues());
+      return true;
+    }
+    case "POST learn-stakes": {
+      const input = await body(request);
+      send(
+        200,
+        mode.learnStakes(
+          String(input.billId),
+          input.memberId ? String(input.memberId) : undefined,
+        ),
+      );
+      return true;
+    }
     case "POST sign": {
       const input = await body(request);
       send(200, mode.sign(String(input.billId), input.sign === true));
@@ -210,10 +242,13 @@ export async function handleDev(
         200,
         mode.introduce({
           bodyOfficeId: String(input.bodyOfficeId),
-          sponsorId: String(input.sponsorId),
-          series: String(input.series),
-          value: Number(input.value),
+          sponsorId:
+            input.sponsorId === undefined ? undefined : String(input.sponsorId),
+          series: input.series === undefined ? undefined : String(input.series),
+          value: input.value === undefined ? undefined : Number(input.value),
           unit: input.unit === undefined ? undefined : String(input.unit),
+          billId: input.billId === undefined ? undefined : String(input.billId),
+          schedule: input.schedule === true,
         }),
       );
       return true;
@@ -224,14 +259,22 @@ export async function handleDev(
     case "GET scenes":
       send(200, mode.scenes());
       return true;
+    case "GET scene-cast": {
+      send(200, mode.sceneCast(q("typeKey")));
+      return true;
+    }
     case "POST scene": {
       const input = await body(request);
+      const text = (value: unknown) =>
+        typeof value === "string" ? value : undefined;
       send(
         200,
         mode.forceScene({
           typeKey: String(input.typeKey),
-          personId:
-            typeof input.personId === "string" ? input.personId : undefined,
+          personId: text(input.personId),
+          forId: text(input.forId),
+          mournedId: text(input.mournedId),
+          where: text(input.where),
         }),
       );
       return true;
@@ -244,6 +287,26 @@ export async function handleDev(
     case "POST illness": {
       const input = await body(request);
       send(200, mode.forceIllness(String(input.personId)));
+      return true;
+    }
+    case "GET campaign-setup":
+      send(200, mode.campaignSetup());
+      return true;
+    case "POST raise-money": {
+      const input = await body(request);
+      send(200, mode.raiseMoney(String(input.filingId)));
+      return true;
+    }
+    case "POST volunteer-cast": {
+      const input = await body(request);
+      send(
+        200,
+        mode.volunteerCast(
+          String(input.filingId),
+          String(input.personId),
+          input.yes !== false,
+        ),
+      );
       return true;
     }
     case "GET wealthiest":
@@ -270,14 +333,38 @@ export async function handleDev(
       const input = await body(request);
       send(
         200,
-        mode.decideAt(String(input.billId), Number(input.margin), {
-          sign: typeof input.sign === "boolean" ? input.sign : undefined,
-          discharge: input.discharge === true,
-          chairHears: input.chairHears === true,
-          overrideMargin:
-            input.overrideMargin === undefined
-              ? undefined
-              : Number(input.overrideMargin),
+        mode.decideAt(
+          String(input.billId),
+          input.margin === undefined ? undefined : Number(input.margin),
+          {
+            votes: memberVotes(input.votes),
+            sign: typeof input.sign === "boolean" ? input.sign : undefined,
+            discharge: input.discharge === true,
+            chairHears: input.chairHears === true,
+            overrideMargin:
+              input.overrideMargin === undefined
+                ? undefined
+                : Number(input.overrideMargin),
+          },
+        ),
+      );
+      return true;
+    }
+    case "GET run-year-notice": {
+      send(200, { notDone: mode.skipNotice() });
+      return true;
+    }
+    case "POST run-year": {
+      await body(request);
+      send(200, mode.runYear());
+      return true;
+    }
+    case "POST outlook": {
+      const input = await body(request);
+      send(
+        200,
+        mode.outlook({
+          years: input.years === undefined ? undefined : Number(input.years),
         }),
       );
       return true;
@@ -292,18 +379,58 @@ export async function handleDev(
           cap: input.cap === undefined ? undefined : Number(input.cap),
           person: typeof input.person === "string" ? input.person : undefined,
           kind: typeof input.kind === "string" ? input.kind : undefined,
+          scene: typeof input.scene === "string" ? input.scene : undefined,
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,
+          where: input.where === "anywhere" ? "anywhere" : "mine",
+          subject:
+            typeof input.subject === "string" ? input.subject : undefined,
         }),
       );
       return true;
     }
-    case "GET trace":
-      send(200, mode.trace(q("id")));
+    // Jump to an hour: the player's own clock moves to that hour (today's, or
+    // tomorrow's when it has passed), through the same wait an office's
+    // opening uses, so the world runs to it and people are where their
+    // schedules put them at that hour. Dev mode's proving ground (owner, Nov 7).
+    case "POST hour": {
+      const input = await body(request);
+      const player = mode.player;
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      const hour = Number(input.hour);
+      if (!Number.isInteger(hour) || hour < 0 || hour > 23)
+        throw new Error("An hour is a whole number from 0 to 23.");
+      const minuteOfDay = hour * 60;
+      const start = player.packet?.at ?? {
+        date: addDays(makeIsoDate(core.date), 1),
+        minuteOfDay: 0,
+      };
+      const target = makeIsoDate(
+        start.minuteOfDay >= minuteOfDay && player.packet
+          ? addDays(makeIsoDate(start.date), 1)
+          : start.date,
+      );
+      const reached = () => {
+        const at = player.packet?.at;
+        return !!at && at.minuteOfDay >= minuteOfDay && at.date >= target;
+      };
+      // A fresh clock first lives to the morning's start; the wait goes on from there.
+      for (let tries = 0; tries < 3 && !reached(); tries += 1) {
+        const moved = player.waitUntil({ date: target, minuteOfDay });
+        if (!moved || player.packet?.kind !== "complete") break;
+      }
+      send(200, {
+        reached: reached(),
+        at: player.packet?.at ?? null,
+        held: player.packet?.kind !== "complete",
+      });
       return true;
+    }
+    // One trace under both names: the record, its answer and the records behind it.
+    case "GET trace":
     case "GET trace/node":
-      send(200, traceNode(core, mode.director, q("id")));
+      send(200, mode.trace(q("id")));
       return true;
     case "POST trace/report": {
       const input = await body(request);
@@ -344,10 +471,7 @@ export async function handleDev(
         // The first difference opens in the trace; the rest open on click by firstId.
         differences: differences.map((row, i) => ({
           ...row,
-          trace:
-            i === 0 && row.firstId
-              ? traceNode(core, mode.director, row.firstId)
-              : undefined,
+          trace: i === 0 && row.firstId ? mode.trace(row.firstId) : undefined,
         })),
       });
       return true;

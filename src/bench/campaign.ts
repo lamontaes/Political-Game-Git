@@ -13,7 +13,7 @@ import {
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
-import type { Stance } from "../core2/campaign-views";
+import type { Stance } from "../core2/campaign-data";
 import {
   campaignDayChoices,
   contestStanding,
@@ -42,7 +42,7 @@ import {
   speechText,
   type SpeechBuild,
 } from "../director/speech-builder";
-import { campaignParameter } from "../core2/campaign-views";
+import { campaignParameter } from "../core2/campaign-data";
 import { backdropFor, homeOf, stagePeople } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import { campaignAnswer } from "../director/campaign-answer";

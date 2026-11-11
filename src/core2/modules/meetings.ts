@@ -22,8 +22,8 @@
  *   (`debateEve`).
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
-import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { coreAPI, registerModule } from "../state";
+import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -76,8 +76,9 @@ import {
   type InterviewAnswer,
 } from "./press";
 import { closenessBetween } from "../closeness";
-import { personLean, questionAxis, type Stance } from "../campaign-views";
-import { agreementWith, viewOn } from "./views";
+import { personLean, questionAxis } from "../campaign-views";
+import { type Stance } from "../campaign-data";
+import { agreementWith, countedLean, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
@@ -161,9 +162,7 @@ export const MEETINGS_MODULE: CoreModule = {
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(MEETINGS_MODULE_ID).table(name);
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 /**
  * What a resident's feeling (`base`) comes to as a drive to stand up: the
  * feeling times one plus every trait's lean toward taking part in a public
@@ -409,18 +408,20 @@ export function commentSpeakers(
  * and say so; the room is a public record.
  */
 function publicComment(api: CoreAPI, billId: string): void {
+  /** The counted resident's record by id, as the views store reads it. */
+  const countedVoter = (id: string) =>
+    countedResidents(api.state as CoreState).find((v) => v.id === id)!;
   if (!api.state.modules.has(MEETINGS_MODULE_ID)) return;
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
-  const core = api.state as CoreState;
   const speakers = takePart(
     commentSpeakers(api, bill, stance),
     meetingParameter("publicCommentSpeakers"),
   );
   for (const s of speakers) {
-    // A speaker on the public record is a named person.
-    if (countedRecordOnly(core, s.p.id)) fillInPerson(core, s.p.id);
+    // A resident from the wider population speaks on the record by their id and their counted
+    // record; they are filled in only when the player attends or opens the bill (two-level population).
     table(api, "remarks").put({
       id: `remark:${bill.id}:${s.p.id}`,
       billId: bill.id,
@@ -444,19 +445,30 @@ function publicComment(api: CoreAPI, billId: string): void {
       ...said.map((r) => r.personId),
     ].filter((id) => api.state.people.get(id)?.alive);
     // Everyone who spoke is heard: those who signed up (the player among
-    // them) and those moved to stand up.
-    for (const r of said)
-      if (api.state.people.get(r.personId)?.alive)
-        deliverSpeech(api, {
-          id: `speech:remark:${bill.id}:${r.personId}`,
-          speakerId: r.personId,
-          placeId: lawChain(api).townPlaceId,
-          topic: stance.question,
-          desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
-          audienceIds: [...new Set(room)]
-            .filter((id) => id !== r.personId)
-            .sort(),
-        });
+    // them) and those moved to stand up. A speaker still in the wider
+    // population speaks from their counted record: the room hears them with the
+    // lean that record gives, by the same rule as a full person's (one model,
+    // two tiers), and they are not filled in.
+    const counted = new Map(speakers.map((x) => [x.p.id, x.p] as const));
+    for (const r of said) {
+      const full = api.state.people.get(r.personId);
+      const record = full ? undefined : counted.get(r.personId);
+      if (!full?.alive && !record) continue;
+      deliverSpeech(api, {
+        id: `speech:remark:${bill.id}:${r.personId}`,
+        speakerId: r.personId,
+        placeId: lawChain(api).townPlaceId,
+        topic: stance.question,
+        desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
+        audienceIds: [...new Set(room)]
+          .filter((id) => id !== r.personId)
+          .sort(),
+        // The lean the views store keeps for a counted resident (its one rule), not a second formula.
+        ...(record
+          ? { countedSpeakerLean: countedLean(api, countedVoter(record.id)) }
+          : {}),
+      });
+    }
   }
   api.emit({
     id: `public-comment:${bill.id}`,

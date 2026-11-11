@@ -13,6 +13,7 @@ Inputs (all under data/research):
   money/death-taxes-2026.json                   estate and inheritance taxes
   laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
+  laws/open-meetings-and-records-2026.json      public notice before a regular meeting, by state (ESTIMATED draft)
   laws/irs-2025-federal-tax.json, laws/taxfoundation-2025-*.json,
   laws/fns-2025-snap-maximums.json, laws/hhs-2025-fmap.json,
   laws/dol-2025-ui-weekly-bounds.json           the phases in force on the start date
@@ -194,6 +195,67 @@ STATE_CONTRIBUTION_SERIES = {
     "stateHouse": "state-contribution-limit-state-house",
     "local": "state-contribution-limit-local",
 }
+
+
+def governor_term_limits(rows):
+    """Each state's governor term limit, in terms (0 for none), from the state office research."""
+    places = load(RESEARCH / "offices/state-offices.json")["places"]
+    for state, place in sorted(places.items()):
+        for executive in place.get("executives", []):
+            if executive["key"] != "governor":
+                continue
+            limit = executive.get("termLimit") or {}
+            kind = limit.get("kind")
+            terms = limit.get("terms") if kind in ("consecutive", "lifetime") else 0
+            rows.append(row(state, "state", "executive-term-limit", terms or 0, "2026-01-01", FOREVER,
+                            executive.get("citation") or "State constitution", False, unit="terms",
+                            terms={"kind": kind or "none"}, note=limit.get("notes"), retrieved="2026-11-08"))
+
+
+def child_care(rows):
+    """Each state's CCDF initial income eligibility limit for a family of three (dollars a month)."""
+    data = load(RESEARCH / "laws/ccdf-income-limits-2025.json")
+    for state, item in sorted(data["rows"].items()):
+        rows.append(row(state, "state", "child-care-income-limit", item["monthlyDollarsFamilyOf3"],
+                        "2025-01-01", FOREVER, item["source"], bool(item["estimate"]),
+                        unit="USD/month", terms={"pctSMI": item["pctSMI"], "familySize": 3},
+                        note=item.get("note"), retrieved="2026-11-08"))
+
+
+def energy_assistance(rows):
+    """Each state's home energy assistance income limit, as a percent of the poverty line (the statute's ceiling until each state's own is read)."""
+    states = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")["places"]
+    for state in sorted(states):
+        rows.append(row(state, "state", "energy-assistance-income-limit", 150, "2026-01-01", FOREVER,
+                        "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+                        True, unit="percent-of-poverty-line",
+                        terms={"floorPct": 110, "ceilingPct": 150},
+                        note="ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up.",
+                        retrieved="2026-11-08"))
+
+
+# stopgapId: SG-LAWS-records-response-unread (the same file's recordsDays are not loaded: no records request to read them)
+def meeting_notice(rows):
+    """Each place's minimum public notice before a regular meeting of a local body, in hours (data/research/laws/open-meetings-and-records-2026.json)."""
+    data = load(RESEARCH / "laws/open-meetings-and-records-2026.json")
+    for state, item in sorted(data["rows"].items()):
+        estimated = item.get("noticeHours") is None or item["tag"] == "ESTIMATED"
+        terms = {"cite": item["statute"]} if item.get("statute") else {}
+        rows.append(row(state, "state", "meeting-notice-hours", item["noticeHoursUsed"], "2000-01-01", FOREVER,
+                        item.get("source") or "open-meetings-and-records-2026.json", estimated, unit="hours",
+                        terms=terms or None,
+                        note=item.get("noticeHoursEstimate") or item.get("noticeNote"),
+                        retrieved="2026-11-09"))
+
+
+def ssi(rows):
+    """The federal SSI benefit rate for an eligible individual, a month."""
+    data = load(RESEARCH / "laws/ssi-2026.json")
+    rate = data["federalBenefitRate"]
+    rows.append(row("US", "federal", "ssi-federal-benefit-rate", rate["individualDollars"], rate["effectiveDate"], FOREVER,
+                    data["sources"][0]["url"], False, unit="USD/month",
+                    terms={"coupleDollars": rate["coupleDollars"], "colaPercent": rate["colaPercent"]},
+                    retrieved=data["retrieved"]))
 
 
 def business_taxes(rows):
@@ -571,7 +633,12 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    ssi(rows)
+    meeting_notice(rows)
+    energy_assistance(rows)
+    governor_term_limits(rows)
     campaign_finance(rows)
+    child_care(rows)
     death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)

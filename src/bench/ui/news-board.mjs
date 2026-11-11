@@ -16,7 +16,7 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
-export function newsBoard({ outlets, labels, date, headlineOf, words }) {
+export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
   let chosen = outlets.keys().next().value;
   let opened = null;
   const holder = el("div", { className: "news-board" });
@@ -69,11 +69,19 @@ export function newsBoard({ outlets, labels, date, headlineOf, words }) {
       });
       return node;
     };
+    // The lead of a government acting carries that room's front-page photo, when the record has one.
+    const photo = (story, className) => {
+      const url = className === "lead" ? photoOf?.(story) : undefined;
+      return url
+        ? [el("img", { className: "story-image", src: url, alt: "" })]
+        : [];
+    };
     const storyNode = (story, className) =>
       el(
         "article",
         { className: `news-story ${className}` },
         headline(story, className),
+        ...photo(story, className),
         el(
           "div",
           { className: "news-text" },
@@ -88,7 +96,10 @@ export function newsBoard({ outlets, labels, date, headlineOf, words }) {
       el(
         "header",
         { className: "news-masthead" },
-        el("h2", { textContent: outlet.name ?? labels.title }),
+        // A paper with no name of its own (or the sheet's own) would repeat the title.
+        ...(outlet.name && outlet.name !== labels.title
+          ? [el("h2", { textContent: outlet.name })]
+          : []),
         el("span", {
           textContent: dateWords(date, { weekday: true }),
         }),
@@ -115,7 +126,6 @@ export function newsBoard({ outlets, labels, date, headlineOf, words }) {
                     columns: 1,
                     rowHeight: 86,
                     gap: 6,
-                    words,
                     className: "news-briefs",
                   }),
                 ),

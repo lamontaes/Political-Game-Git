@@ -1175,17 +1175,17 @@ function rehousedDwelling(
   householdId: string,
   rentMinor: number,
 ): void {
+  const prior = store(api).table("dwellings").get(`dwelling:${householdId}`) as
+    { kind?: string; usps?: string } | undefined;
   store(api)
     .table("dwellings")
     .put({
       id: `dwelling:${householdId}`,
       householdId,
       tenure: "rent",
-      kind:
-        (
-          store(api).table("dwellings").get(`dwelling:${householdId}`) as
-            { kind?: string } | undefined
-        )?.kind ?? "apartment",
+      kind: prior?.kind ?? "apartment",
+      // The household still lives in the same state: its eviction law stays its own.
+      ...(prior?.usps ? { usps: prior.usps } : {}),
       rentMinor,
       since: api.state.date,
       basis: "rehoused",
@@ -1816,6 +1816,12 @@ function review(api: CoreAPI): void {
           caseId,
           owedMinor: String(lease?.arrearsMinor ?? late!.owedMinor),
           cureBy,
+          // What the notice is for, so a line can say it: the rent the lease
+          // asks each month and the day the first of it went unpaid.
+          ...(lease && lease.amountMinor > 0
+            ? { rentMinor: String(lease.amountMinor) }
+            : {}),
+          ...(lease?.firstUnpaidAt ? { unpaidSince: lease.firstUnpaidAt } : {}),
         },
         source: {
           tag: "ESTIMATED",
@@ -2558,14 +2564,16 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
       household?.placeId ??
       c.organizations.get(row.landlordId)?.placeId ??
       "",
-    ...(counted
-      ? {
-          facts: countedFacts(
+    // The case is the eviction's record, for the grievance it causes.
+    facts: {
+      caseId,
+      ...(counted
+        ? countedFacts(
             counted.id,
             memberIds.filter((id) => !c.people.has(id)),
-          ),
-        }
-      : {}),
+          )
+        : {}),
+    },
     source: {
       tag: "ESTIMATED",
       asOf: c.date,
@@ -2785,6 +2793,7 @@ export const HOUSING_MODULE: PreStartModule = {
       owedAtNoticeMinor: number;
       [key: string]: unknown;
     }[]) {
+      api.stopgap("SG-WORLD-housing-fill-in-arrears");
       api.carryStandingArrears(lease, row.owedAtNoticeMinor, row.noticeAt);
       // The household settles part of it now, from its own cash and traits:
       // what its members hold beyond a month's living, times how far their

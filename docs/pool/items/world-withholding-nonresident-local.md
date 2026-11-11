@@ -6,21 +6,35 @@ kind: stopgap
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 after: world-commuters-in-opening
+lead: laws-effects
+model: opus
+effort: medium
+root: rc9-place-facts-one-default
 source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** A worker who lives outside the town pays no county or city income tax to the town's jurisdictions for working there: the law rows' nonresident rate is never applied, and local tax is withheld only by the law at the worker's residence (SG-WORLD-withholding-nonresident-local). Resolve the workplace's local chain on each paycheck and apply each row's nonresident rate to residents of other jurisdictions, with the tax going to the town's treasury line. A commuter's paycheck then shows the tax of the place they work in.
+**What.** A worker who lives outside the town pays no county or city income tax to the town's jurisdictions for working there: the law rows' nonresident rate is never applied, and local tax is withheld only by the law at the worker's residence (SG-WORLD-withholding-nonresident-local). Resolve the workplace's local chain on each paycheck and apply each row's nonresident rate to residents of other jurisdictions, with the tax going to the town's treasury line. A commuter's paycheck then shows the tax of the place they work in. The law rows hold no nonresident rate yet, so this needs sourced rate data and commuters in the opening first.
 
-**Rules.** Every dollar balances: the tax withheld from the paycheck is exactly the treasury line's receipt. Wire to the world: the treasury line, the worker's net pay and the budget read it. One rule, all 56 places: the rates are law rows, never named places.
+**Cause.** Found in code: `withholdingDue` in src/core2/modules/budgets.ts (line 1888) reads the law at the worker's residence only (`residentLaw`, line 1721), and src/core2/data/laws/starting-law.json holds no nonresident rate (SG-WORLD-withholding-nonresident-local is open in src/core2/data/stopgaps/world.json).
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 with a local income tax row, seed named in the PR body) a named worker who lives outside the town has local tax withheld at the row's nonresident rate on a payday, shown by the paycheck record id and the treasury receipt record id, and SG-WORLD-withholding-nonresident-local is resolved; the budgets test passes. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Fix.** After a sourced nonresident-rate row set exists for the 56 places, apply the workplace's local chain's nonresident rate on each paycheck, with the tax going to the town's treasury line, and resolve the stopgap.
 
-**Files.** src/core2/modules/budgets.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Wire to the world: every dollar balances, so the tax withheld from the paycheck is exactly the treasury line's receipt, and the treasury line, the worker's net pay and the budget read it. One rule, all 56 places: the rates are law rows, never named places.
+
+**Done when.** A second session, on main in a place drawn from all 56 with a local income tax row (place and seed named), plays a year in dev mode and finds a named worker who lives outside the town with local tax withheld at the row's nonresident rate on a payday, shown by the paycheck record id and the treasury receipt record id. SG-WORLD-withholding-nonresident-local is resolved and the budgets test passes.
+
+**Waits on.** world-commuters-in-opening (until it lands no full worker lives outside the town they work in). The sourced nonresident local income tax rates for the 56 places have no item of their own: researching them (researcher skill, each row quoted from a fetched page) is this item's first step.
+
+**Files.** src/core2/modules/budgets.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/laws/starting-law.json, src/core2/data/stopgaps/world.json
 
 **Notes.** Split from gov-stopgap-budgets-faked-mechanic. The other withholding rows (residence law, the base's exemptions) stay on their own stopgaps.
 

@@ -12,11 +12,12 @@
  * Congress); a member they met weighs the group's case among their reasons,
  * in proportion to how many of the bill's losers the group speaks for.
  */
+import { ageInYears } from "../kernel/dates";
 import { coreAPI, registerModule } from "../state";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { currentCloseness } from "../closeness";
 import { countedPersonOf } from "../counted-actor";
 import { parameter } from "../parameters";
@@ -36,7 +37,8 @@ import {
   type BillRow,
 } from "./legislature";
 import { personLean } from "../campaign-views";
-import { registerStanceListener, viewOf, viewOn } from "./views";
+import { registerStanceListener } from "../stance-listeners";
+import { viewOf, viewOn } from "./views";
 import { makeCase } from "./speech";
 import { concerns, meetingParameter } from "./meetings";
 import type { PersonState } from "../types";
@@ -559,9 +561,7 @@ function lobbyTerm(api: CoreAPI, b: BillRow, memberId: string): number {
 }
 
 const ageOn = (p: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /**
  * Residents organize over a bill: each feels its pull by how strongly they

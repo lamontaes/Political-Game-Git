@@ -20,6 +20,7 @@
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
+import { povertyLineDollars } from "./poverty-line";
 import { registerTreasuryRule } from "../budgets-treasury";
 import {
   endPlaceRule,
@@ -68,6 +69,9 @@ import {
   payBenefits,
   recordCoverage,
   payPreschool,
+  paySsi,
+  payChildCare,
+  payEnergyAssistance,
   payVouchers,
   recordApplied,
   residentsOf,
@@ -81,7 +85,10 @@ import { lawNoLongerApplies } from "./applied";
 type Mechanic =
   | "records"
   | "medicaid-coverage"
+  | "ssi-payment"
   | "preschool-payment"
+  | "child-care-payment"
+  | "energy-assistance-payment"
   | "compliance-cost"
   | "assistance-time-limit"
   | "school-voucher"
@@ -616,6 +623,156 @@ function runPolicy(
       );
       return;
     }
+    case "energy-assistance-payment": {
+      // The limit in force is a percent of the poverty line for the household's size.
+      const answer = lawInForce(api, key);
+      const limit = answer.value;
+      const lawId = input.lawId || answer.governing?.id || key;
+      const households =
+        inForce && limit
+          ? [...facts.households.values()].filter(
+              (h) =>
+                h.incomeDollars <=
+                (povertyLineDollars(chain.stateKey, h.size) * limit) / 100,
+            )
+          : [];
+      const paid = payEnergyAssistance(api, {
+        key,
+        lawId,
+        inForce,
+        households,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        { ...input, lawId },
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: [],
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "ssi-payment": {
+      // The law's value is the federal benefit rate, dollars a month, for an
+      // individual; an aged resident's benefit is that less countable income.
+      const answer = lawInForce(api, key);
+      const rate = answer.value;
+      const lawId = input.lawId || answer.governing?.id || key;
+      const agedFrom = reachParameter("ssiAgedFrom");
+      const households =
+        inForce && rate
+          ? [...facts.households.values()].flatMap((h) => {
+              const agedCount = h.ages.filter((a) => a >= agedFrom).length;
+              return agedCount > 0
+                ? [
+                    {
+                      id: h.id,
+                      named: h.named,
+                      scale: h.scale,
+                      agedCount,
+                      size: h.size,
+                      incomeDollars: h.incomeDollars,
+                    },
+                  ]
+                : [];
+            })
+          : [];
+      const paid = paySsi(api, {
+        key,
+        lawId,
+        inForce,
+        rateDollars: rate ?? 0,
+        households,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        { ...input, lawId },
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: [],
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "child-care-payment": {
+      // The income limit in force is the state's family-of-three figure a
+      // month; a family's limit scales from it by the square root of its size.
+      const answer = lawInForce(api, key);
+      const limit = answer.value;
+      // The standing run at the opening carries no law id: the row in force names it.
+      const lawId = input.lawId || answer.governing?.id || key;
+      const exponent = reachParameter("childCareFamilySizeExponent");
+      const working = new Set(
+        facts.residents
+          .filter((r) => r.age >= reachParameter("votingAge") && r.employed)
+          .map((r) => r.householdId),
+      );
+      const children =
+        inForce && def.people && limit
+          ? selectResidents(facts, def.people, chain.stateKey).filter((c) => {
+              const household = facts.households.get(c.householdId);
+              return (
+                household !== undefined &&
+                working.has(c.householdId) &&
+                household.incomeDollars <=
+                  limit *
+                    reachParameter("monthsPerYear") *
+                    Math.pow(household.size / 3, exponent)
+              );
+            })
+          : [];
+      const paid = payChildCare(api, {
+        key,
+        lawId,
+        inForce,
+        children,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        { ...input, lawId },
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: children.filter((c) => c.named),
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
     case "farm-output":
       return; // The business engine reads the law when setting production limits.
     case "property-assessment":
@@ -935,7 +1092,7 @@ export function registerGroupB(): void {
         reviewFiscalRule(api, key);
         return;
       }
-      const row = lawRow(api, change.lawId);
+      const row = change.lawId ? lawRow(api, change.lawId) : undefined;
       const enacting = key.includes(":")
         ? row?.value === 1
         : (row?.value ?? 0) > 0;

@@ -60,6 +60,7 @@
  * Only households in the places whose money the world keeps are billed
  * (billedPlaces); the care norm is theirs.
  */
+import { bookkeeping } from "./bookkeeping";
 import data from "./data/health/medical-bills.json" with { type: "json" };
 import customers from "./data/opening-customers.json" with { type: "json" };
 import { chargeGroups, fundGroups } from "./counted-money";
@@ -92,6 +93,10 @@ import {
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
+import { lawApplied } from "./law-reach/applied";
+
+/** The engine named on the law-reach rows these bills write. */
+const MEDICAL_BILLS_ENGINE = "medical-bills";
 import { parameter, type Parameter } from "./parameters";
 import {
   livingCostsRegionForState,
@@ -482,10 +487,8 @@ function billMembers(
     api.parameter("minorPerDollar") / api.parameter("monthsPerYear");
   // Medicare's negotiated drug prices cut what its members pay while the
   // federal law is in force (the engine decides the cause from the law itself).
-  const drugs =
-    lawInForce(api, DRUG_NEGOTIATION).value === one
-      ? one + (DRUG_LINK.size ?? 0)
-      : one;
+  const drugLaw = lawInForce(api, DRUG_NEGOTIATION);
+  const drugs = drugLaw.value === one ? one + (DRUG_LINK.size ?? 0) : one;
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
@@ -502,6 +505,25 @@ function billMembers(
           cost * q(SHARE_KEY[m.plan]) * (m.plan === "medicare" ? drugs : one),
         );
         const added = billMinor - Math.round(cost * medicaidShare);
+        // The law reached this Medicare member (a named person; the counted
+        // members are read the same way and kept as the household's totals).
+        if (
+          m.plan === "medicare" &&
+          drugs !== one &&
+          drugLaw.governing &&
+          api.state.people.has(m.personId)
+        )
+          lawApplied(api, {
+            key: DRUG_NEGOTIATION,
+            lawId: drugLaw.governing.id,
+            targetId: m.personId,
+            target: "person",
+            engine: MEDICAL_BILLS_ENGINE,
+            what: "medicare-drug-bill-lowered",
+            amountMinor: Math.round(
+              cost * q(SHARE_KEY.medicare) * (drugs - one),
+            ),
+          });
         return {
           personId: m.personId,
           plan: m.plan,
@@ -917,7 +939,8 @@ export function billMedicalCare(
       debtId: debtId ?? prior.get(h.householdId)?.debtId ?? null,
       source,
     };
-    table(api, input.module).put(row as never);
+    // Built fresh for this write and never touched again: frozen in place, not copied.
+    table(api, input.module).putOwned(row as never);
   }
   if (medicaidBySeller.size) {
     const { paidBySeller } = payMedicaidCare(api, {
@@ -927,6 +950,31 @@ export function billMedicalCare(
     });
     for (const [sellerId, paid] of paidBySeller) bookSale(core, sellerId, paid);
   }
+  if (!bookkeeping()) dropSettledRows(api, input.module, households);
+}
+
+/**
+ * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a household
+ * not billed this month (it died out, moved beyond the billed places or
+ * merged) that owes nothing and holds no medical-debt record leaves its row.
+ * The billing pass reads a row only for what is owed, the debt and its
+ * seller, so a household billed again later is billed as it would be from
+ * that row. Kept, they were 104 MB of a long run's heap (Montpelier,
+ * Vermont, year 6: 46,917 rows). With bookkeeping on (tests, proofs) every
+ * row stays.
+ */
+function dropSettledRows(
+  api: CoreAPI,
+  module: string,
+  households: readonly Household[],
+): void {
+  const billedNow = new Set(
+    households.map((h) => `medical-bill:${h.householdId}`),
+  );
+  const rows = table(api, module);
+  for (const row of [...(rows.rows() as unknown as MedicalBillRow[])])
+    if (!billedNow.has(row.id) && !row.owed.length && row.debtId === null)
+      rows.remove(row.id);
 }
 
 /** A household's latest month of medical bills, if it was billed. */

@@ -33,12 +33,51 @@ const table = (name: string) =>
     unknown
   >[];
 
+let seen = new Map<string, string>();
+let lastDate = core.date;
 function snapshot(label: string) {
   // The jobs engine's own units: one record is one person, named or counted.
   const seekers = [...table("seekers"), ...table("countedSeekers")].filter(
     (row) => !row.employed && row.placeId === world.placeId,
   );
   const unemployed = seekers.length;
+  // The town's own flows since the last snapshot, named and counted people alike: who came into the pool and why, who left it hired or with no hire.
+  const now = new Map(
+    seekers.map((row) => [String(row.personId), String(row.reasonKey)]),
+  );
+  if (label !== "start") {
+    const hiredNow = new Set(
+      (
+        table("changes") as unknown as {
+          personId: string;
+          date: string;
+          kind: string;
+        }[]
+      )
+        .filter((row) => row.kind === "hire" && row.date > lastDate)
+        .map((row) => row.personId),
+    );
+    let lost = 0,
+      chose = 0,
+      hired = 0,
+      gaveUp = 0;
+    for (const [id, reason] of now)
+      if (!seen.has(id)) {
+        if (reason === "started-looking" || reason === "opening-unemployed")
+          chose += 1;
+        else lost += 1;
+      }
+    for (const id of seen.keys())
+      if (!now.has(id)) {
+        if (hiredNow.has(id)) hired += 1;
+        else gaveUp += 1;
+      }
+    console.log(
+      `${label} town flows: in lost-job ${lost}, in chose-to-look ${chose}; out hired ${hired}, out gave-up-or-left ${gaveUp}`,
+    );
+  }
+  seen = now;
+  lastDate = core.date;
   const named = [...core.jobs.values()].filter(
     (job) =>
       job.endsAt === undefined &&
@@ -47,7 +86,12 @@ function snapshot(label: string) {
   const counted = [...rt.jobs.values()].filter(
     (job) => job.endsAt === undefined,
   ).length;
-  const force = unemployed + named + counted;
+  // The opening's employment target also holds working-age members at work outside a recorded job; they are in the labor force until a fill-in gives them a commuter job.
+  let unplaced = 0;
+  for (const h of rt.store.liveHouseholds())
+    if (h.placeId === world.placeId)
+      unplaced += h.unplacedWorkers / rt.store.weightOf(h);
+  const force = unemployed + named + counted + Math.round(unplaced);
   const open = table("positions").filter((row) => row.status === "open");
   const commuters = [...core.jobs.values()].filter(
     (job) => job.endsAt === undefined && job.id.startsWith("job:commuter:"),
@@ -93,4 +137,9 @@ console.log(
     .slice(0, 3)
     .map((row) => row.id)
     .join(", ")}`,
+);
+// Hours cuts: the jobs whose hours the employers changed (core.work.hourChanges), the record that hours moved before staff.
+const hourRows = [...world.core.work.hourChanges.values()].flat();
+console.log(
+  `jobs with an hours change ${world.core.work.hourChanges.size}; changes ${hourRows.length}; first: ${[...world.core.work.hourChanges.keys()].slice(0, 3).join(", ")}`,
 );

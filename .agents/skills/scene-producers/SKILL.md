@@ -75,3 +75,24 @@ The recipe, in the order that worked (the rally, the doubt at home and the lobby
 - **After a bank change** run `apply-grades.ts`; when main moved the reach file, take main's and regenerate it, never merge it by hand.
 - **A threat's cost** (money, an endorsement) is the interest-group engine's to read; until it does, register the stopgap and say so.
 - **Read the PR's own state right before every push to its branch.** A push to a PR that merged a minute earlier is stranded (Nov 8, twice: a floor-debate export that missed #7529's merge, and a first push the desk's own commit bounced). Check merged or open, and pull the desk's commits in, then push.
+
+## 8. Giving a kind several arcs (owner, Nov 8: "you could get 30 different scenes within there")
+
+One kind of scene can play several arcs, its **variants**, and the records pick which one. There is one engine (`src/director/arc-variant.ts`) and one data file (`src/director/data/arc-variants.json`); a new family is a row of data, never a new code path.
+
+- **A family** is a purpose in `purpose-arcs.json` (`bribe-offer`). Its variants are rows: a `purpose` id for the bank (`bribe-offer.small`; the plain row keeps the family's own id and arc), a `base`, `terms` (a named read, a weight, `low` for one minus the read), `pull` (personality facets whose mean on the asker multiplies the score by one plus the pull) and the `arc` (state, replies, follow, again, endings: moves only).
+- **A read** looks at the records in one of four ways: `record` (a number on a module row that a fact of the cause record names), `history` (how many earlier records of some kinds name both people), `strain` (how hard pressed the asker is for money), `setting` (where it is set). A new read is a data row of those kinds; add a way of looking only when none fits.
+- **Reads use what stays true while the scene is open** (the kept record, the tie as the engine kept it, what happened before the cause's day). The first choice for a cause stands, so the tree the player sees is the tree a reply is matched against.
+- **Weights are hand set**: sample the reads over a drawn world's offers (`scratch` script: `considerBribe` with dev mode's `pick`, then `chooseVariant`) and set base and weights so every variant wins somewhere. The registered stopgap is `SG-STORY-arc-variant-weights`.
+- **Ending ids the engines read keep their meaning in every variant** (`took-it`, `put-off`, `left-there`, `said-you-would-report`); any other id is a refusal to the corruption engine. Put a `reply` ending before an `anyReply` one when the last thing the player said should win.
+- **Pieces.** A piece written for the variant (`uses.purpose: "bribe-offer.small"`) beats the family's whatever facts either needs; once the variant's own lines are said on a branch the family's serve, so write only what makes the variant differ. A variant needs two lines for each move it offers at the root or its tree stays one deep; add `close` pieces when the family's close would clash.
+- **Per-cause keys.** The scene's word picks are keyed on its cause (`SceneTalkCast.causeId`), and a type whose scene is about one record's decision is `eachCause: true`, so two records between the same two people are two scenes. Never key a scene on its kind and its people alone.
+
+## 9. What the damaged-home scene taught (Nov 9)
+
+- **A table is not a record.** A circumstance row reads logged events; an engine's module table (the disasters engine's `damaged` rows) calls nothing. Have the owning engine emit one event naming the household on the day it fills the row (as housing does for a notice), with the row's id in its facts, and word the scene from that event; the row stays the engine's only copy.
+- **Do not set `topic` on such an event** unless it is a policy topic: the facts block turns any `topic` into the `cause` slot.
+- **A scene that is logged but never staged:** read `ledger.circumstanceLast` for the player. The week between scenes (`lived: true` lifts it for the player's own life) and the cast window (`recast: true` lifts it for a household with one other person, whom a news scene may have cast lately) hide a scene without an error.
+- **Pieces: only the top tier plays.** `fitting()` keeps only the pieces with the highest specificity, so a state that has pieces for a move (paid-up) silences the generic ones; a generic piece that presupposes the other state ("how do we pay for it") needs `excludesFacts`, and each state needs a piece for every move of every branch, or its tree loses a reply. Give the pieces for the heaviest state the most required facts (ties pick across both).
+- **Money in a fact** goes through `moneySaid` ("about $4,000"): never write "the {loss}" or "toward the {left}"; write "come to {loss}" and "still owe {left}".
+- **The director imports no module from another engine family** (the families guard counts it): name the record kind in a local constant beside `RALLY_EVENT`.

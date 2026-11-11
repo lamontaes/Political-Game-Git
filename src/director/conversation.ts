@@ -48,7 +48,11 @@ import {
   movePairFactor,
   type CalibrationTable,
 } from "../english/calibration";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  searchCorePlaces,
+  type CorePlace,
+} from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
@@ -78,7 +82,7 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { bringItUp, changesKnownTo } from "./bring-it-up";
+import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -115,6 +119,7 @@ import {
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName, spoken, spokenWhen } from "./words";
+import { learnView, viewKey, viewSubjectOf } from "./view-learned";
 
 const zero = P.zero;
 const one = P.one;
@@ -216,6 +221,14 @@ export interface Subject {
   aboutId?: string;
   /** The stage its own line is said in, from its record (a layoff, a closure). */
   stage?: string;
+  /**
+   * How much it weighs as a talk's topic when the speaker's willingness to
+   * raise it is what decides (where they stand politically), not a recorded
+   * event; zero when small talk outweighs it.
+   */
+  weight?: number;
+  /** What the listener learns once it is said: the knowledge key and the records it cites. */
+  learned?: { key: string; recordIds: readonly string[] };
 }
 
 /** Which mined sentence said a line, and what picked it (for reports and grading). */
@@ -545,6 +558,9 @@ function topicWeight(
       DEFAULT_DIRECTOR_DATA.parameters.directorTalkAddressImpact!.value
     );
   }
+  // Where they stand politically weighs what their willingness makes it, and
+  // only when that outweighs the small talk that would lead instead.
+  if (subject.weight !== undefined) return subject.weight;
   let weight = zero;
   for (const moment of recentMoments(core, director, holderId))
     if (isAbout(subject, moment, data) && moment.impact > weight)
@@ -1340,8 +1356,17 @@ export function subjectsBetween(
   // its headline and the outlet that printed it.
   const printed = printedHeard(core, speakerId, director);
   if (printed) out.push(printed);
-  // The newest change the speaker learned of, as news to pass on.
-  const news = changesKnownTo(core, speakerId)[zero];
+  // The newest change the speaker learned of, as news to pass on: a place
+  // that closed, said by its name. A story the speaker read is the printed
+  // subject above, said by its headline; its outlet is not what happened.
+  const stories = new Set(
+    BRING_IT_UP_ROWS.changes
+      .filter((row) => row.story)
+      .map((row) => row.eventKind),
+  );
+  const news = changesKnownTo(core, speakerId).find(
+    (change) => !stories.has(change.kind),
+  );
   const institution = news
     ? core.organizations.get(news.institutionId)
     : undefined;
@@ -1399,6 +1424,21 @@ export function subjectsBetween(
         facts: { take: take.fact },
       });
   }
+  // Where the speaker stands politically, from the views engine's record of
+  // their lean, said only as far as their tie to the listener and their
+  // temperament allow (`./view-learned`). Once said, the listener knows it.
+  const stand = viewSubjectOf(core, speakerId, listenerId);
+  if (stand)
+    out.push({
+      id: `own-view:${speakerId}`,
+      kind: "own-view",
+      stage: stand.stage,
+      weight: stand.weight,
+      facts: {
+        stand: { text: "", sourceRecordIds: [stand.recordId] },
+      },
+      learned: { key: viewKey(speakerId), recordIds: [stand.recordId] },
+    });
   // At home, the day itself: the weekday, the last time the two spent
   // together and a work day, from records. Raised last, when
   // nothing else opens the talk.
@@ -1821,6 +1861,14 @@ function raiseSubject(
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
+  // What they said they stand for, the player now knows (and so does anyone
+  // else in the room): the card reads this key.
+  if (subject.learned) {
+    const api = coreAPI(core as CoreState);
+    const sourceId = `conversation:${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.kind}`;
+    for (const hearerId of [playerId, ...conversation.presentIds])
+      learnView(api, hearerId, otherId, subject.learned.recordIds, sourceId);
+  }
   // Theirs, not the player's: no own record the player could lie about.
   const raised: Subject = {
     id: `${otherId}>${subject.id}`,
@@ -2016,6 +2064,8 @@ function mainTopic(
 ): { subject: Subject; asks: boolean } | null {
   const { playerId, otherId, director } = conversation;
   let best: { subject: Subject; asks: boolean; weight: number } | null = null;
+  let standing: { subject: Subject; asks: boolean; weight: number } | null =
+    null;
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
@@ -2040,6 +2090,13 @@ function mainTopic(
             SHARED_KINDS.includes(subject.kind)
           ? Number.MAX_VALUE
           : topicWeight(core, director, holderId, subject, data);
+    // Where they stand politically competes with small talk only: any
+    // recorded event, or the address while it is news, leads before it.
+    if (subject.weight !== undefined) {
+      if (weight > zero && (!standing || weight > standing.weight))
+        standing = { subject, asks, weight };
+      return;
+    }
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -2048,7 +2105,7 @@ function mainTopic(
       consider(subject, true, playerId);
   for (const subject of subjectsBetween(core, otherId, playerId, director))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
-  return best;
+  return best ?? standing;
 }
 
 /**
@@ -2390,10 +2447,43 @@ function awayPlaceOf(
         )
         .flatMap(([, ids]) => [...ids].slice(zero, one)),
     );
-  return person
-    ? { placeId: person.placeId, recordId: person.householdId }
+  if (person) return { placeId: person.placeId, recordId: person.householdId };
+  // No one the world holds lives elsewhere (a played town holds its own
+  // people, and the rest of the country only as counts by place): another town
+  // of the player's state, which the place records name. The pick among equals
+  // is a stable ordering by the conversation's key, never a roll.
+  const home = corePlaceByJurisdictionId(player.placeId as never);
+  const state = home?.stateJurisdictionKey;
+  if (!state) return null;
+  let towns = TOWNS_OF_STATE.get(state);
+  if (!towns) {
+    towns = searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    });
+    TOWNS_OF_STATE.set(state, towns);
+  }
+  const town = towns
+    .filter(
+      (row) =>
+        row.context.jurisdiction.id !== player.placeId &&
+        row.context.jurisdiction.id !== player.countyId,
+    )
+    .sort((a, b) =>
+      stableHash(`${key}:${a.key}`).localeCompare(
+        stableHash(`${key}:${b.key}`),
+      ),
+    )[zero];
+  return town
+    ? {
+        placeId: town.context.jurisdiction.id,
+        recordId: town.context.jurisdiction.id,
+      }
     : null;
 }
+
+/** Each state's towns, read once: the places a false answer about home can name. */
+const TOWNS_OF_STATE = new Map<string, readonly CorePlace[]>();
 
 /** The kinds the player can raise: the other person has words to reply with. */
 function raisable(data: ConversationData, kind: string): boolean {

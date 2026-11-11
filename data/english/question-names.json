@@ -109,6 +109,10 @@
       "about": "collective bargaining for public workers",
       "to": "let public workers bargain collectively"
     },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "about": "asking about criminal records on state job applications",
+      "to": "bar state agencies from asking about criminal records on job applications"
+    },
     "us-policy-positions:labor-workforce.right-to-work": {
       "about": "right-to-work rules",
       "to": "ban required union dues"
@@ -124,6 +128,10 @@
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
       "about": "banning new gas hookups",
       "to": "ban new gas hookups"
+    },
+    "us-policy-positions:environment-energy.allow-retail-electric-choice": {
+      "about": "letting customers pick their electricity supplier",
+      "to": "let customers pick their electricity supplier"
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
       "about": "a clean electricity standard",

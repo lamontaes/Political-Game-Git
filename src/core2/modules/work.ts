@@ -11,8 +11,6 @@ import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
 import { FinanceReadGuard } from "../finance-plan";
 
-/** The work family's entry for the legacy calendar-average pay result other families read (a closure's cause). */
-export type { LegacyWorkCashResult } from "../work-cash";
 import { careNeedOf } from "./health";
 import type { Parameter } from "../parameters";
 import type {
@@ -1001,5 +999,12 @@ export const WORK_MODULE: CoreModule = {
     const attendance = runScheduledWork(api, decide, refresh);
     runWorkPayrollDay(api);
     return attendance;
+  },
+  // Results mode (time nobody watches): attendance is each worker's own dated
+  // decision and pay follows it, so a skipped month records no shift and pays
+  // no full worker; counted workers are paid by the residents engine.
+  onResultsMonth(api) {
+    // stopgapId: SG-SPEED-results-mode-work-attendance (a skipped month records no full worker's attendance and pays none)
+    api.stopgap("SG-SPEED-results-mode-work-attendance");
   },
 };

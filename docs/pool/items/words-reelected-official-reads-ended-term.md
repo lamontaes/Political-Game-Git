@@ -5,20 +5,36 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-words-reelected-official-reads-ended-term
+pr: #8500
 blocked-on:
 source: added with npm run pool -- add
+after:
+standard: 2
+model: sonnet
+effort: low
+root: rc10-screens-keep-own-facts
+lead: words
+checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:50:34.690Z
 ---
 
 **What.** press-desk.ts holdsHighOffice (about lines 585-595) and printed-words.ts officeOf (about 350-357) and termOf (about 1213) read the term named by the official's own id (official:<termId>). After a re-election that term has ended and a new serving term holds the seat, so holdsHighOffice returns false for a re-elected official and a profile reads the old term. recalls.ts:208-215 has the same flaw and is asked of the laws lead separately. Found by the speed lead's reader map of office terms on Nov 1 (main 24cebf2761). Seen: the press profile of a re-elected official, which reads the old term.
 
+**Cause.** Found in code: holdsHighOffice (src/core2/press-desk.ts, line 587) reads the term named by the official's own id (official:<termId>), which has ended after a re-election; servingTermsOf (src/core2/modules/offices.ts, line 324) answers an official's current term. It is latent until other legislatures sit (SG-GOV-other-legislatures-not-sitting, U3), because src/core2/press-topics.ts keeps full people out of officialIds; printed-words reads a re-election correctly, and its real case is an official who moved seats or left office, whose profile prints the first office.
+
+**Fix.** Make holdsHighOffice and the printed profile's office read use servingTermsOf, and cover an official who moved seats.
+
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
 **Rules.** The simulation is the one layer that knows anything, and every story and profile is a view of the same records: a view must read the official's serving term, not the term their id was minted from. One rule, all 56 places: the reader finds the serving term by person or seat, never by a place named in code.
 
-**Done when.** In a played world (buildBenchWorld) in a place drawn from all 56, named with its seed, a test re-elects an official who is not filled in, then shows holdsHighOffice true for them and the printed profile naming the new term by record id; with the old read put back, the test fails.
+**Done when.** A second session, not the builder, runs the new test in a played world (buildBenchWorld) in a drawn place from all 56 (place and seed named): it re-elects an official who is not filled in, shows holdsHighOffice true for them and the printed profile naming the new term by record id, and fails when the old read is put back.
 
-**Files.** src/core2/press-desk.ts,src/bench/printed-words.ts
+**Waits on.** Nothing. The case is latent until SG-GOV-other-legislatures-not-sitting U3 lands; the test builds it directly.
+
+**Files.** src/core2/press-desk.ts, src/bench/printed-words.ts, src/core2/modules/offices.ts, src/core2/press-topics.ts
 
 **Notes.** lead: words. Words asked for it on Nov 1, 23:54 UTC, to take after its current order. When the office-terms fold (core-long-run-election-and-term-rows) lands, these reads go through its termById resolver.
 

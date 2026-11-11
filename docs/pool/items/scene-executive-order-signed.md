@@ -6,19 +6,33 @@ kind: feature
 priority: 3
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: scene researcher Helper D, Oct 27; scenes-from-life episode executive-order-voting-rights (a governor restoring the vote by order, a supporter at the signing)
 lead: director
 claimed-at:
+after:
+model: opus
+effort: medium
+root: design-story-director
+checked: fable 2026-11-10
 ---
 
-**What.** A scene researcher's item for the director engineer. On the day a governor issues an executive order, the governor's aide sets it on the desk and a resident the order reaches comes into the room and says what it means to them. The governor answers one of four ways: promise to ask the legislature to write it into law, own the order, warn that it lasts only as long as the governor holds the office, or ask what else they need. A governor's revocation of an earlier order is the mirror, with the same resident asking what happens to them. The resident is filled in from the state's counted adults the order reaches, as the two-level population rule has it. Seen: when a governor signs an order a resident it reaches comes in and says what it means to them, with four replies.
+**What.** On the day a governor issues an executive order, the governor's aide sets it on the desk and a resident the order reaches comes into the room and says what it means to them. The governor answers one of four ways: promise to ask the legislature to write it into law, own the order, warn that it lasts only as long as the governor holds the office, or ask what else they need. A governor's revocation of an earlier order is the mirror, with the same resident asking what happens to them. The resident is filled in from the state's counted adults the order reaches, as the two-level population rule has it. Seen: when a governor signs an order a resident it reaches comes in and says what it means to them, with four replies.
+
+**Cause.** Design: docs/design/scenes/from-life/executive-order-voting-rights.md (trigger office-act, entry executive-order) under docs/design/story-director.md and docs/design/one-model-two-tiers.md. The record exists: src/core2/modules/executive.ts writes the office-act, and fillInPerson in src/core2/state.ts is the existing fill-in path; src/director/data/situation-types.json holds no executive-order type.
+
+**Fix.** Add a situation type fired by an executive-order office-act that casts the governor's aide (one of the serving staff) and a resident filled in with fillInPerson from the counted adults the order reaches, with four replies and a revoke mirror; the arc goes in src/director/data/purpose-arcs.json. No filled-in guest means no scene. The lines are Story's under the Nov 10 split of words work.
+
+**Time box.** 6 hours.
 
 **Rules.** No dice: whether an order is issued follows the governor's powers, views and law in force already, and what the resident says follows their traits, never a roll. Wire to the world: the order's law row, the state's felony-disenfranchisement share and the filled-in person's record are read by the director, and the scene cites each by record id. One model, two tiers: the resident is the counted group's rule made one person, matching the state's share, never a separate simulation.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place whose state lets the governor order the restoration, and a seed the director engineer did not choose, an office-act record for the order casts a filled-in resident the order reaches and composes the scene citing the act, the order's law row and the filled-in person by id; a governor with no aide, or a state with no counted adults the order reaches, fires none; the four replies are four moves; a revoke fires the mirror; a test fails when the act record is absent.
+**Done when.** A second session, in a played world (buildBenchWorld) in a drawn place whose state lets the governor order the restoration, and a seed the builder did not choose, sees an office-act record for the order cast a filled-in resident the order reaches, with the scene citing the act, the order's law row and the filled-in person by id. A governor with no aide, or a state with no counted adults the order reaches, fires none; the four replies are four moves; a revoke fires the mirror; a test fails when the act record is absent.
+
+**Waits on.** Nothing.
 
 **Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/civic-roles.ts, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, docs/design/scenes/from-life/executive-order-voting-rights.md
 

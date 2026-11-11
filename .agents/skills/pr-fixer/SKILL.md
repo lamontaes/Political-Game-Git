@@ -41,6 +41,8 @@ A sent-back PR is usually one small fix away from merging. Finish it on its own 
 5. Push with a plain push. Comment once on the PR: `Fixer: fixed <what>, at <sha>. Checks run here: <list>, all passed.` The merger compares that commit's time with its send-back.
 6. Set the item back to `in-pr` with the PR number.
 
+- **A conflict resolved by hand in a stopgap family file or any JSON register can lose an entry without breaking the JSON (Laws and effects, Nov 9: `gov.json` and `labor.json` joins glued two entries and `SG-GOV-REACH-B-state-eitc-filing` vanished, so `stopgaps-register`, `realistic-not-real` and the unit and golden-path runs failed on #7818).** After the hand resolution, parse the file (`node -e "JSON.parse(require('fs').readFileSync('<file>','utf8'))"`), compare the id count with the two sides, and run `npx vitest run src/core2/stopgaps-register.test.ts` before pushing; a glued entry passes JSON parsing but loses an id.
+
 ## When you can't
 
 - If the fix needs the owner's or another area's call, or is bigger than the PR, comment why, set the item `open` with a one-line Notes entry, and move on.

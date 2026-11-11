@@ -6,20 +6,35 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
+after:
+lead: money
+model: sonnet
+effort: medium
+root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** In src/core2/credit-deposits.ts the deposit reserve a business keeps in cash is figured from the book's annualOtherCostsMinor, which is not multiplied by the town's count weight, while its sales and purchases are. In Opelika, Alabama (0157048, seed op1, scale 3.5765) a wholesaler put 6.43 billion minor units in the bank, 8.2 times the sample's deposits for 3.55 times the flows, and held no cash on its payday. Read the weighted costs the way the other readers of a business's book do.
+**What.** In src/core2/credit-deposits.ts the deposit reserve a business keeps in cash was figured from the book's annualOtherCostsMinor, which is not multiplied by the town's count weight, while its sales and purchases are. In Opelika, Alabama (0157048, seed op1, scale 3.5765) a wholesaler put 6.43 billion minor units in the bank, 8.2 times the sample's deposits for 3.55 times the flows, and held no cash on its payday. The aggregate slice landed under world-deposit-reserve-reads-unweighted-costs-aggregate (done, #5791): the reserve now multiplies payroll and other costs by the business's staffed scale. What is left is this item's own acceptance, that each business's deposits over its weighted flows sit inside a stated spread of the same town's ratio at the sample size, per business and not as a town aggregate, because a single firm's ratio swings either way on a given day. Seen: a business's cash and the bank's deposits in the town's money numbers, where a wholesaler banked 8.2 times too much.
 
-**Rules.** One model, two tiers: every reader of a business figure multiplies by the weight the same way. Wire to the world: the deposits and the cash on hand move on the journal, shown in a played year.
+**Cause.** Found in code: src/core2/credit-deposits.ts (the reserveMinor of each business, near line 122) now multiplies annualPayrollMinor + annualOtherCostsMinor by staffedScale (src/core2/residents-economy.ts line 271), so the weight is applied there; the per-business proof the item asks for has not been run, and a firm whose cash is the sample's opening stock rather than weighted (item Notes, Oct 21) may still differ.
 
-**Done when.** In a one-year played world built with buildBenchWorld at Census scale in a drawn place above 10,000 (seed named), each business's deposits divided by its weighted flows are within a stated spread of the same town's ratio at the sample size, named by organization id, in a test in src/core2. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
+**Fix.** Run the per-business check in a one-year world at Census scale; if a business's deposits over its weighted flows sit outside the stated spread, find the reader that still uses an unweighted cash or cost figure and weight it the way the other readers of a business's book do.
 
-**Files.** src/core2/credit-deposits.ts
+**Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One model, two tiers: every reader of a business figure multiplies by the weight the same way. Wire to the world: the deposits and the cash on hand move on the journal, shown in a played year. Ask why: a business whose ratio differs is explained by its own records before any number moves.
+
+**Done when.** A second session (not the builder) plays a one-year world built with `buildBenchWorld` at Census scale in a drawn place above 10,000 (seed named) and sees each business's deposits over its weighted flows inside a spread stated per business of the same town's ratio at the sample size, named by organization id, in a test in src/core2; any business outside the spread is explained by a record. On screen: nothing yet; it would show on Politics, Issues and Government, and nothing there reads it.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/credit-deposits.ts, src/core2/residents-economy.ts
 
 **Notes.** Found by the helper working world-census-scale-closures-rise (PR #5553); closures no longer follow from it since payroll draws savings.
 
@@ -28,3 +43,5 @@ Measured Oct 21 (claude, claude/deposit-reserve), tried and reverted. Opelika, A
 Sent back 2026-10-23 from PR #5791 (branch claude/deposit-reserve-weighted): The table substitutes 120 days and a town aggregate for the required year and per-business ratio bounds, and the diff has no release declaration; supply the actual acceptance or track a bounded slice; finish on that branch, merge main into it first.
 
 Fixer, Oct 27: the aggregate slice (the town's deposits per weighted flow at Census scale against the sample, 120 days, by the shared staffed scale) moved to `world-deposit-reserve-reads-unweighted-costs-aggregate` (PR #5791). This item stays open for its Done-when as written: a one-year played world with each business's deposits over its weighted flows inside a stated spread of the sample's, by organization id; Merger 1 and the PR body both found a single firm's ratio swings either way on a given day, so that proof needs a spread stated per business, not a town aggregate.
+
+**Notes (pool redo, Nov 10).** Kept with a changed premise: the proposed cause (the line reads costs without the count weight) no longer holds on main, because credit-deposits.ts now applies staffedScale to the reserve (the aggregate slice, #5791). The item is kept for its per-business proof.

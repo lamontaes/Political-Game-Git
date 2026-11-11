@@ -84,6 +84,7 @@ CATEGORY_SUBJECT = {
 
 # Topic placement by words in the question key; the subject's first topic otherwise.
 TOPIC_WORDS = [
+    ("retail-electric", "Utility regulation"),
     ("debt-limit", "Debt and borrowing"), ("admit-more", "Entry and visas"), ("forgive", "Student aid"), ("states-share-disaster", "Emergency management and disaster recovery"),
     ("national-data-privacy", "Data protection"), ("statehood", "Constitutional and institutional reform"), ("mandatory-minimum", "Criminal law and sentencing"), ("stock-trading", "Ethics and conflicts"),
     ("tariff", "Trade and customs"), ("voucher", "Affordable and public housing"), ("power-plant", "Air and emissions"),
@@ -155,8 +156,13 @@ SERIES = {
     "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: stateSenate", "USD/election"),
     "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: stateHouse", "USD/election"),
     "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
+    "executive-term-limit": ("government", "Elections and representation", "Governor term limit (terms; 0 for none)", "terms"),
     "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
+    "meeting-notice-hours": ("government", "Public records and meetings", "Public notice before a regular meeting (hours)", "hours"),
+    "ssi-federal-benefit-rate": ("assistance", "Disability support", "SSI federal benefit rate (individual)", "USD/month"),
     "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
+    "energy-assistance-income-limit": ("assistance", "Utility-bill assistance", "Home energy assistance income limit (percent of the poverty line)", "percent-of-poverty-line"),
+    "child-care-income-limit": ("assistance", "Child-care assistance", "Child care income limit (family of three)", "USD/month"),
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
     "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),
     # 26 USC 3304(a)(19) expressly reserves amendment or repeal.

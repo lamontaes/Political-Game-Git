@@ -64,7 +64,8 @@ import {
   weeklyHoursOf,
 } from "./town-pay";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
-import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import { hudRentRowFor } from "./hud-rents";
+import { householdDailyCostMinor } from "./household-cost";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
 import {
   TOWN_RESIDENTS_VERSION,
@@ -600,7 +601,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
   );
   stopgap("SG-P8-family-network-coverage");
-  stopgap("SG-P8-person-trait-diversity");
   const gaps = new Set<string>([
     `Opening vintage: ${startedAt} household and population estimates are calibrated from the latest source vintages, which calibrate the world without dating it.`,
     "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
@@ -1389,15 +1389,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           livingCostsRegionForState(place.stateJurisdictionKey),
           plan.ids.length,
         );
-    const monthlyShelterMinor =
-      rent && !plan.quarters
-        ? rent.rents[bedroomsForHousehold(plan.ids.length)]! *
-          p("minorPerDollar")
-        : p("zero");
-    const householdDailyCost = Math.round(
-      ((costs.monthlyMinor + monthlyShelterMinor) * p("monthsPerYear")) /
-        p("daysPerMeanYear"),
-    );
+    const householdDailyCost = householdDailyCostMinor({
+      seed: options.seed,
+      stateKey: place.stateJurisdictionKey,
+      size: plan.ids.length,
+      rent: plan.quarters ? undefined : rent,
+      everydayMonthlyMinor: costs.monthlyMinor,
+      parameter: p,
+    });
     const dailyPay = plan.ids.reduce(
       (sum, id) => sum + (jobByPerson.get(id)?.wageDailyMinor ?? p("zero")),
       p("zero"),
@@ -1903,6 +1902,38 @@ function openingFamilies(input: OpeningFamilyInput): {
       pastFacts: [...(person.pastFacts ?? []), ...facts.pastFacts],
     };
   });
+  // A relative's household outside the town spends like any household: the
+  // region's Consumer Expenditure basket for its size plus a HUD shelter
+  // budget, shared among its adults. Counted in the two-level world, these
+  // households earn (unplaced pay) and must spend; with no cost they were a
+  // one-way source of money (Ripley, TN: 18,650 counted households, $352
+  // million a year of pay, no spending).
+  // stopgapId: SG-P15-kin-living-cost-region: the region and shelter row are the town's, not the relative's own place's.
+  stopgap("SG-P15-kin-living-cost-region");
+  const kinRent = hudRentRowFor(input.town, input.seed);
+  const kinBirth = new Map(kin.people.map((row) => [row.id, row.birthDate]));
+  const kinLiving = new Map<string, number>();
+  for (const row of kin.households) {
+    const adults = row.memberIds.filter(
+      (id) =>
+        ageOnDate(makeIsoDate(kinBirth.get(id)!), startedAt) >= p("votingAge"),
+    );
+    if (!adults.length) continue;
+    const daily = householdDailyCostMinor({
+      seed: input.seed,
+      stateKey: input.stateKey ?? "",
+      size: row.memberIds.length,
+      rent: kinRent,
+      parameter: p,
+    });
+    adults.forEach((id, index) =>
+      kinLiving.set(
+        id,
+        Math.floor(daily / adults.length) +
+          (index < daily % adults.length ? p("one") : p("zero")),
+      ),
+    );
+  }
   const relatives: PersonInput[] = kin.people.map((person) => {
     const facts = familyFacts(person.id);
     const ids = [...new Set(facts.ids)];
@@ -1919,7 +1950,7 @@ function openingFamilies(input: OpeningFamilyInput): {
       traits: { ...(temperament.get(person.id) ?? {}) },
       sharedTraitSource: temperamentSource,
       liquidMinor: p("zero"),
-      livingCostDailyMinor: p("zero"),
+      livingCostDailyMinor: kinLiving.get(person.id) ?? p("zero"),
       source: kinSource,
       familyIds: [...ids].sort(),
       knownIds: ids,

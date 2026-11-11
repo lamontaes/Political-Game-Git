@@ -51,7 +51,7 @@ import {
   resultOf,
   type BallotRow,
 } from "./modules/voting";
-import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
 
@@ -546,7 +546,7 @@ describe("a door yes holds for the one household the door reached", () => {
           let evening = 0;
           evening < 30 &&
           petitionCirculating(api, f.id) &&
-          petitionOf(api, f.id)!.signers.length < petitionOf(api, f.id)!.needed;
+          petitionOf(api, f.id)!.signed < petitionOf(api, f.id)!.needed;
           evening++
         )
           knockDoors(api, {

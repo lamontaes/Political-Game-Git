@@ -527,6 +527,20 @@ export function yearOf(date: IsoDate): number {
   return Number(date.slice(0, 4));
 }
 
+/**
+ * Whole years between a birth date and a date, both written YYYY-MM-DD, by
+ * comparing year and month-day text. No validation and no leap-day rule, so
+ * it is the cheap form for hot loops; use ageOnDate when the text is not yet
+ * known to be a date.
+ */
+export function ageInYears(birthDate: string, date: string): number {
+  return (
+    Number(date.slice(0, 4)) -
+    Number(birthDate.slice(0, 4)) -
+    (date.slice(5) < birthDate.slice(5) ? 1 : 0)
+  );
+}
+
 /** Whole years between two dates written YYYY-MM-DD; both are validated here, so callers pass the text as it is held. */
 export function ageOnDate(birthDate: string, comparisonDate: string): number {
   const validatedBirthDate = makeIsoDate(birthDate);

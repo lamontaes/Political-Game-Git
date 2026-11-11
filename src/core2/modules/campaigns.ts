@@ -13,7 +13,8 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
-import { fastForward } from "../fast-forward";
+import { lawApplied } from "../law-reach/applied";
+import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
@@ -23,6 +24,7 @@ import {
 } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
+import { registerDerivedCache } from "../snapshot";
 import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
@@ -66,15 +68,13 @@ import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
 import { medianTransactionBalance } from "../starting-cash";
+import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
-  districtLean,
-  groupAgreement,
-  personLean,
   PLATFORM_QUESTIONS,
   platformLead,
   type Stance,
-} from "../campaign-views";
+} from "../campaign-data";
 import {
   candidatePlatform,
   partyLean,
@@ -99,8 +99,10 @@ import {
   agreementWith,
   countedStanceProfile,
   viewOn,
+  VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./views";
+import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 import {
   LEGISLATURE_MODULE_ID,
   obligationsOwedBetween,
@@ -188,6 +190,8 @@ export interface CampaignRow {
   }[];
   /** The share of an event the town has been owed but not yet had (`heldInTown`), 0 up to one. */
   readonly townEventCredit?: number;
+  /** The same for the interviews the town's outlets ask of the candidate (`interviewHeldInTown`). */
+  readonly townInterviewCredit?: number;
   /** Money set aside toward an event's venue and a poll, not yet paid. */
   readonly eventFundMinor?: number;
   readonly pollFundMinor?: number;
@@ -476,6 +480,8 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       },
       polls: { indexes: { byContest: { fields: ["contestId"] } } },
       money: {},
+      /** A decision cast for a person on a campaign's ask (the player's, or a dev pick): read in place of their own lean (`castVolunteer`). */
+      casts: {},
       gifts: {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
@@ -519,7 +525,10 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   onDay: (api) => {
     offersToHelp(api);
     rivalWordPassedOn(api);
-    if (Number(api.state.date.slice(8)) % 7 === 1) foldOldCauses(api);
+    if (Number(api.state.date.slice(8)) % 7 === 1) {
+      foldOldCauses(api);
+      dropOldFoldedCauses(api);
+    }
   },
   // The candidate's answer to an offer, said in the scene it stages; a
   // count closes a race, and its causes fold; a filing's announcement takes
@@ -1924,20 +1933,42 @@ export function askToVolunteer(
     rivalFiling(api, campaign, personId)
   )
     return false;
-  const yes = leanedYes(
-    api.state,
-    person,
-    "campaigns.volunteer",
-    "volunteer",
-    "decline",
-    volunteerReason(api, campaign, person, ask),
-  );
+  const cast = table(api, "casts").get(
+    `${campaign.filingId}|${personId}|volunteer`,
+  ) as unknown as { yes: boolean } | undefined;
+  const yes = cast
+    ? cast.yes
+    : leanedYes(
+        api.state,
+        person,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+        volunteerReason(api, campaign, person, ask),
+      );
   if (yes && !campaign.volunteerIds.includes(personId))
     save(api, {
       ...campaign,
       volunteerIds: [...campaign.volunteerIds, personId],
     });
   return yes;
+}
+
+/**
+ * A decision cast for a person on a campaign's volunteer ask, before they are asked (the player's, or a
+ * dev pick): `askToVolunteer` reads it in place of their own lean, as the legislature reads a signature
+ * cast for a member. A person who is a rival's or under the volunteering age is still not asked.
+ */
+export function castVolunteer(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+  yes: boolean,
+): void {
+  table(api, "casts").put({
+    id: `${filingId}|${personId}|volunteer`,
+    yes,
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -2561,17 +2592,30 @@ function townShareOfRace(api: CoreAPI, contestId: string): number {
  * town race (share one) holds every event. (Speed, Nov 8: a House candidate
  * held about a town hall a day in a town of 600.)
  */
-function heldInTown(api: CoreAPI, filingId: string): boolean {
+function heldInTown(
+  api: CoreAPI,
+  filingId: string,
+  credit: "townEventCredit" | "townInterviewCredit" = "townEventCredit",
+): boolean {
   const campaign = campaignFor(api, filingId);
   const share = townShareOfRace(api, campaign.contestId);
   if (share >= 1) return true;
-  const owed = (campaign.townEventCredit ?? 0) + share;
+  const owed = (campaign[credit] ?? 0) + share;
   const held = owed >= 1;
   save(api, {
     ...campaign,
-    townEventCredit: held ? owed - 1 : owed,
+    [credit]: held ? owed - 1 : owed,
   });
   return held;
+}
+
+/**
+ * Whether an interview a town outlet would ask of a candidate is held: the
+ * town's outlets interview a candidate for an office the town is only part of
+ * in proportion to the town's share of the race, as events are (`heldInTown`).
+ */
+export function interviewHeldInTown(api: CoreAPI, filingId: string): boolean {
+  return heldInTown(api, filingId, "townInterviewCredit");
 }
 
 /**
@@ -2832,6 +2876,8 @@ export function contributionLimit(
   readonly minor: number | null;
   readonly source: string;
   readonly estimate: boolean;
+  /** The law row the limit stands on (its series and record id), where one is open. */
+  readonly law?: { readonly key: string; readonly id: string };
 } {
   const contest = elections(api, "contests").get(
     contestId,
@@ -2870,6 +2916,14 @@ export function contributionLimit(
           ? `${String(law.governing.source)}`
           : `${federal.source} ${federal.sourceUrl}`,
       estimate: false,
+      ...(fromLaw !== null && law?.governing
+        ? {
+            law: {
+              key: "federal-campaign-contribution-limit",
+              id: law.governing.id,
+            },
+          }
+        : {}),
     };
   }
   const key =
@@ -2892,6 +2946,7 @@ export function contributionLimit(
         minor: stateRow.value * 100,
         source: String(stateRow.source),
         estimate: stateRow.estimate === true,
+        law: { key: series, id: stateRow.id },
       };
   }
   const row = research.limits[townRow(api).stateKey]?.[key];
@@ -3330,6 +3385,19 @@ export function donationAnswer(
     Math.floor(
       Math.max(0, Math.min(wanted - given, room, donor.liquidMinor)) / 100,
     ) * 100;
+  // The law reached the donor when it held the gift below what they would
+  // have given.
+  const wouldGive = Math.min(wanted - given, donor.liquidMinor);
+  if (limit.law && room < wouldGive)
+    lawApplied(api, {
+      key: limit.law.key,
+      lawId: limit.law.id,
+      targetId: donorId,
+      target: "person",
+      engine: CAMPAIGNS_MODULE_ID,
+      what: "gift-held-to-the-limit",
+      amountMinor: -(wouldGive - Math.max(0, room)),
+    });
   if (amount <= 0)
     return { givenMinor: 0, why: room <= 0 ? "at-limit" : "small" };
   postMoney(
@@ -3463,6 +3531,21 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     const amount = donors * each;
     if (amount <= 0) continue;
     const donorId = `outside:${place.id}`;
+    // The law reached this place's donors when it held each gift below what
+    // they would have given.
+    const wouldGive =
+      spare * reason * campaignParameter("donationShareOfCashPerWarmth");
+    if (limit.law && limit.minor !== null && limit.minor < wouldGive)
+      lawApplied(api, {
+        key: limit.law.key,
+        lawId: limit.law.id,
+        targetId: donorId,
+        target: "group",
+        engine: CAMPAIGNS_MODULE_ID,
+        what: "gift-held-to-the-limit",
+        count: donors,
+        amountMinor: -Math.round(donors * (wouldGive - limit.minor)),
+      });
     const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
     // The outside account pays the campaign's account through the accounts
     // API, a flow recorded in outside-flows.json as the donors' own money.
@@ -4225,6 +4308,7 @@ export function makeStatements(
         topic: statement.question,
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
+        groupUnwatched: true,
       }),
     );
   }
@@ -4351,7 +4435,12 @@ export function runAd(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
-  const amount = Math.min(input.amountMinor, available);
+  // A campaign for an office the town is only part of spreads its ad money
+  // over the whole district, so this town's outlet sells it the town's share.
+  const amount = Math.floor(
+    Math.min(input.amountMinor, available) *
+      townShareOfRace(api, campaign.contestId),
+  );
   void account;
   if (amount <= 0) return [];
   const sold = adAudience(api, amount);
@@ -4497,6 +4586,34 @@ function emitMessage(
     kept.noted = messages.get(input.id);
   }
   if (input.kind === CANVASS_MESSAGE_KIND) return;
+  // Level of detail (owner, Nov 9): a world candidate's paid message reaches
+  // the viewers nobody watches once per group of like hearers, the rest as
+  // people (`hearAsGroups`). The message row above keeps every viewer.
+  let asPeople = witnessIds;
+  if (
+    campaign.candidateId !== api.state.playerId &&
+    api.state.modules.has(VIEWS_MODULE_ID)
+  ) {
+    asPeople = witnessIds.filter((id) => hearsAsPerson(api, id));
+    if (asPeople.length < witnessIds.length) {
+      const people = new Set(asPeople);
+      const impulse = Math.abs(campaignParameter("adViewsImpulse"));
+      hearAsGroups(
+        api,
+        {
+          event: { id: input.id, date: api.state.date },
+          speakerId: campaign.candidateId,
+          topic: lead.question,
+          desiredChange: lead.position > 0 ? "enact" : "repeal",
+          size: impulse > 0 ? impulse : 1,
+        },
+        witnessIds.filter(
+          (id) => !people.has(id) && api.state.people.get(id)?.alive,
+        ),
+      );
+    }
+    if (!asPeople.length) return;
+  }
   api.emit({
     id: input.id,
     date: api.state.date,
@@ -4504,7 +4621,7 @@ function emitMessage(
     personIds: api.state.people.has(campaign.candidateId)
       ? [campaign.candidateId]
       : [],
-    witnessIds,
+    witnessIds: asPeople,
     placeId: townRow(api).townPlaceId,
     topic: lead.question,
     desiredChange: lead.position > 0 ? "enact" : "repeal",
@@ -5136,6 +5253,72 @@ export function answerPollReason(
  * toward a candidate but avoids conflict says "no opinion". True support is
  * never reported, only what people said.
  */
+type PollFrameEntry = {
+  readonly id: string;
+  readonly traits: Readonly<Record<string, number>>;
+  readonly birthDate: string;
+};
+/**
+ * The counted adults of a town, sorted by id, read once a day for each change
+ * to the counts (the store's `version` moves with every change to who is
+ * counted or grouped). Whoever was filled in since is dropped when read.
+ */
+const countedPollFrames = new WeakMap<
+  object,
+  { key: string; store: object; entries: readonly PollFrameEntry[] }
+>();
+registerDerivedCache(countedPollFrames);
+const byId = (a: PollFrameEntry, b: PollFrameEntry) => a.id.localeCompare(b.id);
+
+/**
+ * A poll's frame: the town's full adults and its counted adults, in id order
+ * (the order the full list sorted by id gives).
+ */
+function pollFrame(
+  api: CoreAPI,
+  town: string,
+  date: string,
+  adultAge: number,
+): PollFrameEntry[] {
+  const core = api.state as CoreState;
+  const named = [...api.state.people.values()]
+    .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge)
+    .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate }))
+    .sort(byId);
+  const rt = residentsRuntime(core);
+  if (!rt) return named;
+  const store = rt.store;
+  const key = `${date}|${town}|${adultAge}|${store.version}`;
+  let held = countedPollFrames.get(core);
+  if (held?.store !== store || held.key !== key) {
+    const entries = [...store.liveHouseholds()]
+      .filter((h) => h.placeId === town)
+      .flatMap((h) => store.countedMembers(h))
+      .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= adultAge)
+      .map((m) => ({
+        id: store.ids[m]!,
+        traits: store.packedTraits(m),
+        birthDate: store.born[m]!,
+      }))
+      .sort(byId);
+    held = { key, store, entries };
+    countedPollFrames.set(core, held);
+  }
+  const counted = held.entries.filter((m) => !api.state.people.has(m.id));
+  // Merge the two id-ordered lists.
+  const out: PollFrameEntry[] = [];
+  let i = 0,
+    j = 0;
+  while (i < named.length || j < counted.length)
+    out.push(
+      j >= counted.length ||
+        (i < named.length && byId(named[i]!, counted[j]!) <= 0)
+        ? named[i++]!
+        : counted[j++]!,
+    );
+  return out;
+}
+
 export function commissionPoll(
   api: CoreAPI,
   input: { readonly filingId: string; readonly sampleSize: number },
@@ -5146,27 +5329,7 @@ export function commissionPoll(
   const date = api.state.date;
   const core = api.state as CoreState;
   // The whole town is the frame: full people and the counted residents.
-  const rt = residentsRuntime(core);
-  const frame = [
-    ...[...api.state.people.values()]
-      .filter(
-        (p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge,
-      )
-      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
-    ...[...(rt?.store.liveHouseholds() ?? [])]
-      .filter((h) => h.placeId === town)
-      .flatMap((h) => rt!.store.countedMembers(h))
-      .filter(
-        (m) =>
-          !api.state.people.has(rt!.store.ids[m]!) &&
-          ageOn({ birthDate: rt!.store.born[m]! }, date) >= adultAge,
-      )
-      .map((m) => ({
-        id: rt!.store.ids[m]!,
-        traits: rt!.store.packedTraits(m),
-        birthDate: rt!.store.born[m]!,
-      })),
-  ].sort((a, b) => a.id.localeCompare(b.id));
+  const frame = pollFrame(api, town, date, adultAge);
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const available = core.cashJournal.accounts.get(
@@ -5329,6 +5492,28 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
 }
 
 /**
+ * A folded cause kept for the trace goes once it is older than
+ * `circleActRetentionMonths`, the window the circle's routine acts already
+ * keep (`decision-detail.ts`; CTO, Nov 8: a folded cause keeps its own row
+ * only for the player's circle and people in focus, and only while someone
+ * can ask why). Readers: dev mode's `findRecord` and a fact's `sourceId`
+ * lookup in the why view; a fact older than the window names a source the
+ * trace no longer finds, as for any circle act past its window. The player's
+ * own rows stay. The campaign summary row already counts every folded cause.
+ */
+export function dropOldFoldedCauses(api: CoreAPI): void {
+  const folded = table(api, "foldedCauses");
+  const cutoff = new Date(`${api.state.date}T00:00:00Z`);
+  cutoff.setUTCMonth(
+    cutoff.getUTCMonth() - api.parameter("circleActRetentionMonths"),
+  );
+  const before = cutoff.toISOString().slice(0, 10);
+  const player = api.state.playerId;
+  for (const row of folded.rows() as unknown as CauseRow[])
+    if (row.date < before && row.voterId !== player) folded.remove(row.id);
+}
+
+/**
  * Every seventh day of the month the causes older than the keeping window fold
  * for every candidate with any (an open race's too), so a race's causes do not
  * pile up as rows until its count (Montpelier, Vermont's election year added
@@ -5460,9 +5645,15 @@ export function sendMail(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
+  // The mail a district campaign sends is spread over the district: the
+  // town gets its share of the pieces.
   const pieces = Math.min(
     list.length,
-    Math.floor(Math.min(amountMinor, available) / perPiece),
+    Math.floor(
+      (Math.min(amountMinor, available) *
+        townShareOfRace(api, campaign.contestId)) /
+        perPiece,
+    ),
   );
   if (pieces <= 0) return [];
   spend(api, filingId, {
@@ -5851,7 +6042,7 @@ export function rivalDay(
     : null;
   const target = petition?.needed ? signaturesToGather(petition.needed) : 0;
   const shortfall = target
-    ? Math.max(0, target - petition!.signers.length) / target
+    ? Math.max(0, target - petition!.signed) / target
     : 0;
   const home = candidate.placeId === town;
   const campaign = campaignFor(api, filingId);
@@ -6362,8 +6553,6 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       races.remove(race.id);
       continue;
     }
-    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: no turns, no doors)
-    if (fastForward()) continue;
     // A campaign works harder as election day nears: far out its people
     // turn to it now and then, in the last weeks every few days. While its
     // petitions circulate, the nearer day is the filing deadline.
@@ -6375,9 +6564,22 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? contest.filingDeadline
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
-    const every =
-      turnDays * (1 + daysLeft / campaignParameter("campaignRampDays"));
-    if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
+    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
+    // The wait is counted in whole scheduled turns (they fall `turnDays`
+    // apart), so a day nearer than one more turn never costs a skipped turn:
+    // near a deadline or an election every scheduled turn works the race.
+    const everyTurns = Math.max(
+      1,
+      Math.round(
+        (fastForward() ? FAST_FORWARD_STRIDE : 1) *
+          (1 + daysLeft / campaignParameter("campaignRampDays")),
+      ),
+    );
+    if (
+      race.lastTurn &&
+      daysBetween(race.lastTurn, date) < everyTurns * turnDays
+    )
+      continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     // The town's organizations weigh the race first, so the volunteers they
     // send work this turn; then every campaign's volunteers walk its doors on

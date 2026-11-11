@@ -15,7 +15,8 @@ import {
   startingSocialSecurityAges,
   type SocialSecurityAges,
 } from "../social-security-law";
-import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
+import { lawApplied } from "../law-reach/applied";
+import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { leanedTerm } from "../trait-decisions";
 import { residentsRuntime } from "./residents";
@@ -96,6 +97,30 @@ function agesFor(api: CoreAPI, birthDate: string): SocialSecurityAges {
   return api.state.modules.has(LAWS_MODULE_ID)
     ? socialSecurityAges(api, birthDate)
     : startingSocialSecurityAges(birthDate);
+}
+
+/** The three laws that set a person's claim ages. */
+const AGE_LAWS = [
+  "social-security-earliest-claim-age",
+  "social-security-full-retirement-age",
+  "social-security-delayed-credit-age",
+] as const;
+
+/** The laws that set a named person's claim ages reached them: the engine read them to decide when they claim. */
+function recordAgesReach(api: CoreAPI, personId: PersonId): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return;
+  for (const series of AGE_LAWS) {
+    const governing = lawInForce(api, series).governing;
+    if (governing)
+      lawApplied(api, {
+        key: series,
+        lawId: governing.id,
+        targetId: personId,
+        target: "person",
+        engine: "core2-retirement-claims-v1",
+        what: "retirement-claim-age-set",
+      });
+  }
 }
 
 function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
@@ -195,6 +220,7 @@ function index(api: CoreAPI, rt: Runtime): void {
     if (!person.alive || receivesRetirement(core, person.id)) continue;
     const date = claimDateOf(api, person);
     if (!date || date <= core.date) continue;
+    recordAgesReach(api, person.id);
     schedule(rt, date, person.id);
   }
 }
@@ -207,13 +233,22 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     return;
   const accounts = api.accounts();
   const id = `${row.obligationId}:own`;
+  const cadence = { kind: "months", every: 1 } as const;
+  // The award keeps its own pay day. After skipped time the counted flow's
+  // next day can lie in the past (the flow did not run while time was
+  // skipped), so the person's first payment is the first of those days still
+  // ahead; the days gone by were the counted flow's.
+  let months = 0;
+  let firstDueAt = makeIsoDate(flow.nextAt);
+  while (firstDueAt <= api.state.date)
+    firstDueAt = makeIsoDate(monthsAfter(flow.nextAt, (months += 1)));
   accounts.addObligation({
     id,
     from: accounts.main(flow.payerId),
     to: accounts.main(personId),
     amountMinor: row.monthlyMinor,
-    firstDueAt: flow.nextAt,
-    cadence: { kind: "months", every: 1 },
+    firstDueAt,
+    cadence,
     accruesArrears: false,
     reasonKey: "income.retirement",
     source: flow.source,

@@ -44,7 +44,7 @@ describe("votes, approval and press links and the engines that decide them", () 
       /const scandal = scandalTerm\(api, voter\.id, entry\.id, lean\);/,
     );
     // It enters the appeal each vote is chosen from.
-    expect(voting).toMatch(/parts\.ballot \+\s+scandal,/);
+    expect(voting).toMatch(/parts\.ballot \+\s+scandal \+\s+parts\.pledge,/);
     // Counted voters take it at the share of named adults it reached.
     expect(voting).toMatch(/scandal: scandalAppeal\(api, f\.personId, named\)/);
     const parameters = JSON.parse(
@@ -62,19 +62,22 @@ describe("votes, approval and press links and the engines that decide them", () 
       "src/core2/electorate-inputs.ts",
       "candidateReasons",
     );
-    expect(row.carriedBy).toContain("nationalEconomyChange");
+    expect(row.carriedBy).toContain("approvalGapPoints");
     const inputs = read("src/core2/electorate-inputs.ts");
-    expect(inputs).toMatch(/export function nationalEconomyChange\(/);
-    expect(inputs).toMatch(/national: nationalEconomyChange\(api\)/);
     expect(inputs).toMatch(
-      /const economy = candidate\.presidentsParty\s+\?\s+-\(/,
+      /approvalGapPoints: approvalGapPoints\(api, input\.electionDate\)/,
     );
     expect(inputs).toMatch(
-      /p\("unemploymentShare"\) \* conditions\.national\.unemploymentChange/,
+      /const economy = candidate\.presidentsParty \? -tide\.economy : 0;/,
     );
-    expect(inputs).toMatch(
-      /p\("inflationShare"\) \* conditions\.national\.inflationChange/,
+    expect(inputs).toMatch(/p\("approvalVoteShare"\) \*\s+approvalGapPoints/);
+    // The decision to run reads the same tide.
+    expect(read("src/core2/modules/candidacy.ts")).toMatch(
+      /approvalGapPoints\(api, race\.electionDate\)/,
     );
+    const opinion = read("src/core2/modules/national-opinion.ts");
+    expect(opinion).toMatch(/opinionParameter\("pointsPerUnemploymentPoint"\)/);
+    expect(opinion).toMatch(/opinionParameter\("pointsPerInflationPoint"\)/);
   });
 
   it("carries the election laws' turnout links by the law reach the voting engine reads, so no law moves turnout twice", () => {

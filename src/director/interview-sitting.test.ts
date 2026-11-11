@@ -22,7 +22,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";

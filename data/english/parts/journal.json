@@ -28,7 +28,20 @@
     "election": "The day of the election a filing is for, as people say a date, from the filing record.",
     "valid": "How many signatures on the petition the clerk counted as good, from the petition check record.",
     "needed": "How many good signatures the petition needed, from the petition record.",
-    "doors": "How many doors a volunteer knocked in an evening, from the volunteer-shift record."
+    "doors": "How many doors a volunteer knocked in an evening, from the volunteer-shift record.",
+    "held": "How long a job lasted, in months as people say it, from the job record's dates.",
+    "lost_employer": "The employer a lost job was with, from the job record that ended (said only after a job lost, never after a death).",
+    "last_employer": "The employer who let the person go before a stretch out of work, from that job's record.",
+    "paid_more_than": "What the job before paid an hour, said only when this one paid more.",
+    "paid_less_than": "What the job before paid an hour, said only when this one paid less.",
+    "moved_from": "The place a person moved from, from the moves engine's record of the move.",
+    "moved_with": "The children born before a move who came with the person, by relation and name, from the family records.",
+    "age_then": "The person's age on the day of the event, from the birth record and the event's day.",
+    "firstborn": "The name of the person's first child, from the family record.",
+    "together": "How long a couple has been together, from the day their partnership's record names, to the day told.",
+    "death_age": "The age of a person who died, from their birth record and the day of the death.",
+    "after_illness": "What the death record's topic says the person had been, in plain words.",
+    "school_for": "How long the person had been at a school, from the school's attendance record."
   },
   "maxWords": 10,
   "mining": {
@@ -1652,10 +1665,10 @@
       }
     },
     {
-      "key": "journal.office-line-filed.i-ran-for-office",
+      "key": "journal.office-line-filed.i-filed-to-run-for-office-the-election-is-election",
       "move": "office-line-filed",
       "kind": "spoken",
-      "text": "I filed to run for {office}, in an election set for {election}.",
+      "text": "I filed to run for {office}. The election is {election}.",
       "uses": [
         {
           "move": "office-line-filed",
@@ -4275,7 +4288,7 @@
       "key": "journal.memoir-meant-friend.that-made-me-glad",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "That made me glad.",
+      "text": "We got along well.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -4301,7 +4314,7 @@
       "key": "journal.memoir-meant-friend.i-was-happy-about-that",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "I was happy about that.",
+      "text": "We were on good terms.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -5364,7 +5377,7 @@
       "key": "journal.memoir-remember.we-were-friends",
       "move": "memoir-remember",
       "kind": "spoken",
-      "text": "We were friends.",
+      "text": "We were close.",
       "uses": [
         {
           "move": "memoir-remember",
@@ -5431,10 +5444,10 @@
       }
     },
     {
-      "key": "journal.memoir-decided.so-i-ran",
+      "key": "journal.memoir-decided.so-i-filed-for-office-with-the-election-set-for-election",
       "move": "memoir-decided",
       "kind": "spoken",
-      "text": "So I filed to run for {office}, with the election set for {election}.",
+      "text": "So I filed for {office}, with the election set for {election}.",
       "uses": [
         {
           "move": "memoir-decided",
@@ -5466,261 +5479,10 @@
       }
     },
     {
-      "key": "journal.memoir-hard.it-was-hard",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was hard.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 28,
-      "bySource": {
-        "NASA oral histories": 18,
-        "U.S. House oral histories": 10
-      },
-      "source": {
-        "document": "NASA oral history lawrencedj-3-22-24",
-        "date": "2024-03-22",
-        "granule": "nasa-lawrencedj-3-22-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lawrencedj-3-22-24.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-a-tough-time",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was a tough time.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "U.S. House oral history: The Honorable Sue Myrick",
-        "date": "2016-03-14",
-        "granule": "house-myrick-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/myrick-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-a-difficult-time",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was a difficult time.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 4
-      },
-      "source": {
-        "document": "NASA oral history diazav-6-6-17",
-        "date": "2017-06-06",
-        "granule": "nasa-diazav-6-6-17",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-tough",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was tough.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 26,
-      "bySource": {
-        "NASA oral histories": 23,
-        "U.S. House oral histories": 3
-      },
-      "source": {
-        "document": "NASA oral history lounsburyja-9-13-23",
-        "date": "2023-09-13",
-        "granule": "nasa-lounsburyja-9-13-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lounsburyja-9-13-23.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-difficult",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was difficult.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 16,
-      "bySource": {
-        "NASA oral histories": 10,
-        "U.S. House oral histories": 5,
-        "U.S. Senate oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history lewiscr-6-28-22",
-        "date": "2022-06-28",
-        "granule": "nasa-lewiscr-6-28-22",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.we-got-through-it",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "We got through it.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history geyerms-12-3-20",
-        "date": "2020-12-03",
-        "granule": "nasa-geyerms-12-3-20",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.that-was-hard",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "That was hard.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 15,
-      "bySource": {
-        "NASA oral histories": 13,
-        "U.S. House oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history sunshinej-2-25-25",
-        "date": "2025-02-25",
-        "granule": "nasa-sunshinej-2-25-25",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-hard.that-was-tough",
       "move": "memoir-hard",
       "kind": "spoken",
-      "text": "That was tough.",
+      "text": "I had no job after {lost_employer}.",
       "uses": [
         {
           "move": "memoir-hard",
@@ -5733,7 +5495,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": ["hard-time"]
+          "requiresFacts": ["hard-time", "lost-employer"]
         }
       ],
       "transcriptsUsing": 11,
@@ -5745,221 +5507,6 @@
         "date": "2017-08-17",
         "granule": "nasa-brekkem-8-17-17",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/02/brekkem-8-17-17.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.that-was-difficult",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "That was difficult.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. Senate oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history saundersmp-5-11-22",
-        "date": "2022-05-11",
-        "granule": "nasa-saundersmp-5-11-22",
-        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/saundersmp-5-11-22.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-very-difficult",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was very difficult.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 13,
-      "bySource": {
-        "NASA oral histories": 10,
-        "U.S. House oral histories": 3
-      },
-      "source": {
-        "document": "NASA oral history sunshinej-2-25-25",
-        "date": "2025-02-25",
-        "granule": "nasa-sunshinej-2-25-25",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-a-very-difficult-time",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was a very difficult time.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "source": {
-        "document": "NASA oral history diazav-6-6-17",
-        "date": "2017-06-06",
-        "granule": "nasa-diazav-6-6-17",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-a-terrible-time",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was a terrible time.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "U.S. House oral history: Cokie Roberts",
-        "date": "2017-05-25",
-        "granule": "house-roberts-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/roberts-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-rough",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was rough.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history laurettads-8-12-24",
-        "date": "2024-08-12",
-        "granule": "nasa-laurettads-8-12-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-12-24.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.memoir-hard.it-was-really-tough",
-      "move": "memoir-hard",
-      "kind": "spoken",
-      "text": "It was really tough.",
-      "uses": [
-        {
-          "move": "memoir-hard",
-          "subject": "memoir",
-          "role": "hard",
-          "choice": "hard",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hard"
-            }
-          ],
-          "requiresFacts": ["hard-time"]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. Senate oral histories": 1
-      },
-      "source": {
-        "document": "NASA oral history peddiecl-4-27-23",
-        "date": "2023-04-27",
-        "granule": "nasa-peddiecl-4-27-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -7852,140 +7399,10 @@
       }
     },
     {
-      "key": "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "After {span} out of work, I went to work for {employer}.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item history-past-work)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.i-was-out-of-work-for-span-before-employer-took-me-on",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "I was out of work for {span} before {employer} took me on.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item history-past-work)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.it-was-span-before-i-found-work-again-at-employer",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "It was {span} before I found work again, at {employer}.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item history-past-work)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "After {span} out of work, I went back to work.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.work-line-again.i-found-work-again",
       "move": "work-line-again",
       "kind": "spoken",
       "text": "I found work again.",
-      "uses": [
-        {
-          "move": "work-line-again",
-          "subject": "work",
-          "role": "line",
-          "choice": "again",
-          "journal": [
-            {
-              "kindPrefix": "job-started:again",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
-      "move": "work-line-again",
-      "kind": "spoken",
-      "text": "After {span} out of work, I found work in {place}.",
       "uses": [
         {
           "move": "work-line-again",
@@ -9750,10 +9167,10 @@
       }
     },
     {
-      "key": "journal.office-line-petition.the-clerk-counted-valid-good-signatures",
+      "key": "journal.office-line-petition.the-clerk-counted-valid-good-signatures-i-needed-needed",
       "move": "office-line-petition",
       "kind": "spoken",
-      "text": "The clerk counted {valid} good signatures on my petition for {office}. I needed {needed}.",
+      "text": "The clerk counted {valid} good signatures. I needed {needed}.",
       "uses": [
         {
           "move": "office-line-petition",
@@ -9776,10 +9193,10 @@
       }
     },
     {
-      "key": "journal.office-line-petition.my-petition-came-back-from-the-clerk",
+      "key": "journal.office-line-petition.my-petition-came-back-with-valid-good-signatures-against-needed",
       "move": "office-line-petition",
       "kind": "spoken",
-      "text": "My petition for {office} came back from the clerk: {valid} good signatures, against the {needed} I needed.",
+      "text": "My petition came back with {valid} good signatures, against {needed}.",
       "uses": [
         {
           "move": "office-line-petition",
@@ -9901,6 +9318,1077 @@
       "origin": "authored",
       "author": "Lane 3, words and scenes (words-journal-volunteer-named)",
       "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.family-line-born.relation-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{relation} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "dcpd": 2,
+        "house": 1,
+        "nasa2": 1,
+        "nps": 3,
+        "wpa": 1
+      },
+      "source": {
+        "document": "Remarks at the National Republican Congressional Committee Annual Fundraising Dinner",
+        "date": "2026-03-25",
+        "granule": "DCPD-202600207",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600207/html/DCPD-202600207.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      },
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again-at-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again at {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.employer-took-me-on",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "{employer} took me on.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-went-back-to-work-for-employer",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I went back to work for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-pay.it-paid-wage-an-hour",
+      "move": "memoir-again-pay",
+      "kind": "spoken",
+      "text": "It paid {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-again-pay",
+          "subject": "memoir",
+          "role": "again-pay",
+          "choice": "again-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againPay"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-pay.the-pay-was-wage-an-hour",
+      "move": "memoir-again-pay",
+      "kind": "spoken",
+      "text": "The pay was {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-again-pay",
+          "subject": "memoir",
+          "role": "again-pay",
+          "choice": "again-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againPay"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-felt.up-from-paid-more-than-it-was-a-relief",
+      "move": "memoir-again-felt",
+      "kind": "spoken",
+      "text": "Up from {paid_more_than}, and it was work again.",
+      "uses": [
+        {
+          "move": "memoir-again-felt",
+          "subject": "memoir",
+          "role": "again-felt",
+          "choice": "again-felt",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againFelt"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-felt.down-from-paid-less-than-but-it-was-work-again",
+      "move": "memoir-again-felt",
+      "kind": "spoken",
+      "text": "Down from {paid_less_than}, but it was work again.",
+      "uses": [
+        {
+          "move": "memoir-again-felt",
+          "subject": "memoir",
+          "role": "again-felt",
+          "choice": "again-felt",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againFelt"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-first-pay.i-earned-wage-an-hour",
+      "move": "memoir-first-pay",
+      "kind": "spoken",
+      "text": "I earned {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-first-pay",
+          "subject": "memoir",
+          "role": "first-pay",
+          "choice": "first-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "firstPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-held.i-had-worked-there-held",
+      "move": "memoir-let-go-held",
+      "kind": "spoken",
+      "text": "I had worked there {held}.",
+      "uses": [
+        {
+          "move": "memoir-let-go-held",
+          "subject": "memoir",
+          "role": "let-go-held",
+          "choice": "let-go-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-held.employer-had-been-my-job-for-held",
+      "move": "memoir-let-go-held",
+      "kind": "spoken",
+      "text": "{employer} had been my job for {held}.",
+      "uses": [
+        {
+          "move": "memoir-let-go-held",
+          "subject": "memoir",
+          "role": "let-go-held",
+          "choice": "let-go-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-held.i-had-been-there-held",
+      "move": "memoir-let-go-held",
+      "kind": "spoken",
+      "text": "I had been there {held}.",
+      "uses": [
+        {
+          "move": "memoir-let-go-held",
+          "subject": "memoir",
+          "role": "let-go-held",
+          "choice": "let-go-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoHeld"
+            },
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-pay.it-had-paid-wage-an-hour",
+      "move": "memoir-let-go-pay",
+      "kind": "spoken",
+      "text": "It had paid {wage} an hour.",
+      "uses": [
+        {
+          "move": "memoir-let-go-pay",
+          "subject": "memoir",
+          "role": "let-go-pay",
+          "choice": "let-go-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-let-go-pay.that-was-wage-an-hour-gone",
+      "move": "memoir-let-go-pay",
+      "kind": "spoken",
+      "text": "That was {wage} an hour I wouldn't have anymore.",
+      "uses": [
+        {
+          "move": "memoir-let-go-pay",
+          "subject": "memoir",
+          "role": "let-go-pay",
+          "choice": "let-go-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "letGoPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-held.i-had-worked-at-employer-for-held",
+      "move": "memoir-moved-held",
+      "kind": "spoken",
+      "text": "I had worked at {employer} for {held}.",
+      "uses": [
+        {
+          "move": "memoir-moved-held",
+          "subject": "memoir",
+          "role": "moved-held",
+          "choice": "moved-held",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedHeld"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-pay.it-paid-wage-an-hour-up-from-paid-more-than",
+      "move": "memoir-moved-pay",
+      "kind": "spoken",
+      "text": "It paid {wage} an hour, up from {paid_more_than}.",
+      "uses": [
+        {
+          "move": "memoir-moved-pay",
+          "subject": "memoir",
+          "role": "moved-pay",
+          "choice": "moved-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-pay.it-paid-wage-an-hour-down-from-paid-less-than",
+      "move": "memoir-moved-pay",
+      "kind": "spoken",
+      "text": "It paid {wage} an hour, down from {paid_less_than}.",
+      "uses": [
+        {
+          "move": "memoir-moved-pay",
+          "subject": "memoir",
+          "role": "moved-pay",
+          "choice": "moved-pay",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedPay"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-wait.it-was-my-first-paycheck-since-last-employer",
+      "move": "memoir-again-wait",
+      "kind": "spoken",
+      "text": "It was my first paycheck since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-again-wait",
+          "subject": "memoir",
+          "role": "again-wait",
+          "choice": "again-wait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-again-wait.i-had-not-been-paid-since-last-employer",
+      "move": "memoir-again-wait",
+      "kind": "spoken",
+      "text": "I hadn't had a paycheck since {last_employer}.",
+      "uses": [
+        {
+          "move": "memoir-again-wait",
+          "subject": "memoir",
+          "role": "again-wait",
+          "choice": "again-wait",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "againWait"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal as stories)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-from.i-came-here-from-moved-from",
+      "move": "memoir-moved-from",
+      "kind": "spoken",
+      "text": "I came here from {moved_from}.",
+      "uses": [
+        {
+          "move": "memoir-moved-from",
+          "subject": "memoir",
+          "role": "moved-from",
+          "choice": "moved-from",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-from.i-had-been-living-in-moved-from-before-that",
+      "move": "memoir-moved-from",
+      "kind": "spoken",
+      "text": "I had been living in {moved_from} before that.",
+      "uses": [
+        {
+          "move": "memoir-moved-from",
+          "subject": "memoir",
+          "role": "moved-from",
+          "choice": "moved-from",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedFrom"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-with.moved-with-came-too",
+      "move": "memoir-moved-with",
+      "kind": "spoken",
+      "text": "{moved_with} came too.",
+      "uses": [
+        {
+          "move": "memoir-moved-with",
+          "subject": "memoir",
+          "role": "moved-with",
+          "choice": "moved-with",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-with.moved-with-came-with-me",
+      "move": "memoir-moved-with",
+      "kind": "spoken",
+      "text": "{moved_with} came with me.",
+      "uses": [
+        {
+          "move": "memoir-moved-with",
+          "subject": "memoir",
+          "role": "moved-with",
+          "choice": "moved-with",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedWith"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-age.i-was-age-then-at-the-time",
+      "move": "memoir-moved-age",
+      "kind": "spoken",
+      "text": "I was {age_then} at the time.",
+      "uses": [
+        {
+          "move": "memoir-moved-age",
+          "subject": "memoir",
+          "role": "moved-age",
+          "choice": "moved-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-moved-age.i-was-age-then-that-year",
+      "move": "memoir-moved-age",
+      "kind": "spoken",
+      "text": "I was {age_then} that year.",
+      "uses": [
+        {
+          "move": "memoir-moved-age",
+          "subject": "memoir",
+          "role": "moved-age",
+          "choice": "moved-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "movedAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-age.i-was-age-then-then",
+      "move": "memoir-birth-age",
+      "kind": "spoken",
+      "text": "I was {age_then} then.",
+      "uses": [
+        {
+          "move": "memoir-birth-age",
+          "subject": "memoir",
+          "role": "birth-age",
+          "choice": "birth-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-age.i-was-age-then-when-it-happened",
+      "move": "memoir-birth-age",
+      "kind": "spoken",
+      "text": "I was {age_then} when it happened.",
+      "uses": [
+        {
+          "move": "memoir-birth-age",
+          "subject": "memoir",
+          "role": "birth-age",
+          "choice": "birth-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-first.firstborn-was-my-first-child",
+      "move": "memoir-birth-first",
+      "kind": "spoken",
+      "text": "{firstborn} was my first child.",
+      "uses": [
+        {
+          "move": "memoir-birth-first",
+          "subject": "memoir",
+          "role": "birth-first",
+          "choice": "birth-first",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-birth-first.firstborn-was-our-first",
+      "move": "memoir-birth-first",
+      "kind": "spoken",
+      "text": "{firstborn} was our first.",
+      "uses": [
+        {
+          "move": "memoir-birth-first",
+          "subject": "memoir",
+          "role": "birth-first",
+          "choice": "birth-first",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "birthFirst"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-together-for.we-have-been-together-together",
+      "move": "memoir-together-for",
+      "kind": "spoken",
+      "text": "We have been together {together}.",
+      "uses": [
+        {
+          "move": "memoir-together-for",
+          "subject": "memoir",
+          "role": "together-for",
+          "choice": "together-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "togetherFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-together-for.it-has-been-together-since-then",
+      "move": "memoir-together-for",
+      "kind": "spoken",
+      "text": "It has been {together} since then.",
+      "uses": [
+        {
+          "move": "memoir-together-for",
+          "subject": "memoir",
+          "role": "together-for",
+          "choice": "together-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "togetherFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-age.name-was-death-age",
+      "move": "memoir-death-age",
+      "kind": "spoken",
+      "text": "{name} was {death_age}.",
+      "uses": [
+        {
+          "move": "memoir-death-age",
+          "subject": "memoir",
+          "role": "death-age",
+          "choice": "death-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-age.name-was-death-age-years-old",
+      "move": "memoir-death-age",
+      "kind": "spoken",
+      "text": "{name} was {death_age} years old.",
+      "uses": [
+        {
+          "move": "memoir-death-age",
+          "subject": "memoir",
+          "role": "death-age",
+          "choice": "death-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-illness.name-had-been-after-illness",
+      "move": "memoir-death-illness",
+      "kind": "spoken",
+      "text": "{name} had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-illness",
+          "subject": "memoir",
+          "role": "death-illness",
+          "choice": "death-illness",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathIllness"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-for.i-had-been-at-school-for-school-for",
+      "move": "memoir-school-for",
+      "kind": "spoken",
+      "text": "I had been there for {school_for}.",
+      "uses": [
+        {
+          "move": "memoir-school-for",
+          "subject": "memoir",
+          "role": "school-for",
+          "choice": "school-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-for.that-ended-school-for-at-school",
+      "move": "memoir-school-for",
+      "kind": "spoken",
+      "text": "That ended {school_for} there.",
+      "uses": [
+        {
+          "move": "memoir-school-for",
+          "subject": "memoir",
+          "role": "school-for",
+          "choice": "school-for",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolFor"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-age.i-was-age-then-that-day",
+      "move": "memoir-school-age",
+      "kind": "spoken",
+      "text": "I was {age_then} that day.",
+      "uses": [
+        {
+          "move": "memoir-school-age",
+          "subject": "memoir",
+          "role": "school-age",
+          "choice": "school-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-school-age.i-was-age-then-when-it-ended",
+      "move": "memoir-school-age",
+      "kind": "spoken",
+      "text": "I was {age_then} when it ended.",
+      "uses": [
+        {
+          "move": "memoir-school-age",
+          "subject": "memoir",
+          "role": "school-age",
+          "choice": "school-age",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "schoolAge"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-both.name-was-death-age-and-had-been-after-illness",
+      "move": "memoir-death-both",
+      "kind": "spoken",
+      "text": "{name} was {death_age} and had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-both",
+          "subject": "memoir",
+          "role": "death-both",
+          "choice": "death-both",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathBoth"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal death named once)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-both.name-was-death-age-years-old-and-had-been-after-illness",
+      "move": "memoir-death-both",
+      "kind": "spoken",
+      "text": "{name} was {death_age} years old and had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-both",
+          "subject": "memoir",
+          "role": "death-both",
+          "choice": "death-both",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathBoth"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal death named once)",
+      "date": "2026-11-10",
       "tag": {
         "move": "tell"
       }

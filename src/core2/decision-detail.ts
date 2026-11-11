@@ -13,9 +13,11 @@
  * and never scans the log.
  */
 import { parameter } from "./parameters";
+import retention from "./data/log-retention.json" with { type: "json" };
 import type { CoreState, DecisionResult, LogRecord } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { forgetOldExperiences } from "./knowledge-retention";
+import { forgetOldEventIds } from "./event-id-retention";
 import { foldCashJournalDetail } from "./journal-state";
 
 const queues = new WeakMap<CoreState, [string, string][]>();
@@ -26,6 +28,64 @@ registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
 /** The circle's other routine entries (no decision to condense), dropped on the same schedule. */
 const entryQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-entry-queue", entryQueues);
+
+/** Circle relationships whose latest change keeps a full decision, to condense on the log's schedule. */
+const relationshipQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart(
+  "core2-decision-detail-relationship-queue",
+  relationshipQueues,
+);
+
+/**
+ * A circle member's routine entries of the kinds in `log-retention.json`
+ * (a drive strengthened by one more speech), dropped after
+ * `circleDecisionDetailDays` like their weighed choices.
+ */
+const shortQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart("core2-decision-detail-short-queue", shortQueues);
+const SHORT_KINDS: ReadonlySet<string> = new Set(retention.shortDetailKinds);
+
+/** True for a routine kind that keeps the short detail window. */
+export function isShortDetailKind(kind: string): boolean {
+  return SHORT_KINDS.has(kind);
+}
+
+/** A circle member's short-detail entry, to drop after the detail window. */
+export function queueShortEntry(
+  core: CoreState,
+  date: string,
+  id: string,
+): void {
+  let queue = shortQueues.get(core);
+  if (!queue) shortQueues.set(core, (queue = []));
+  queue.push([date, id]);
+}
+
+/**
+ * The public log rows of campaign gifts and endorsements, dropped
+ * `campaignRecordRetentionMonths` after the day. The money and the answers
+ * stay in the campaigns engine's own tables (`money`, `gifts`, `endorsements`);
+ * the news printed the day it happened and a scene reads the row within days.
+ */
+const campaignQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart("core2-decision-detail-campaign-queue", campaignQueues);
+
+/** The public campaign record kinds whose log rows go after a year. */
+export const CAMPAIGN_RECORD_KINDS: ReadonlySet<string> = new Set([
+  "campaign-gift",
+  "campaign-endorsed",
+]);
+
+/** A public campaign gift or endorsement row, to drop when a year old. */
+export function queueCampaignRecord(
+  core: CoreState,
+  date: string,
+  id: string,
+): void {
+  let queue = campaignQueues.get(core);
+  if (!queue) campaignQueues.set(core, (queue = []));
+  queue.push([date, id]);
+}
 
 /** The player's own routine acts and weighed choices, with their full scores, to condense once a year old. */
 const playerQueues = new WeakMap<CoreState, [string, string][]>();
@@ -93,6 +153,68 @@ export function queueCircleEntry(
   queue.push([date, id]);
 }
 
+/** A relationship whose latest change holds a circle member's full decision (`relationship` in state.ts). */
+export function queueRelationshipDetail(
+  core: CoreState,
+  date: string,
+  id: string,
+): void {
+  let queue = relationshipQueues.get(core);
+  if (!queue) relationshipQueues.set(core, (queue = []));
+  queue.push([date, id]);
+}
+
+/**
+ * The tie's latest change keeps the circle member's decision with every
+ * option's score for the detail window, as their log entry does, then only
+ * what the "why" view names (`condenseDecision`). A tie changed since keeps
+ * the newer change's own queue entry. The debug observer keeps everything.
+ */
+function condenseRelationshipDecisions(core: CoreState): void {
+  const queue = relationshipQueues.get(core);
+  if (!queue?.length || core.observer) return;
+  const before = daysAgo(
+    core,
+    parameter("circleDecisionDetailDays", core.data.parameters),
+  );
+  let done = 0;
+  while (done < queue.length && queue[done]![0] < before) {
+    const [date, id] = queue[done]!;
+    done++;
+    const row = core.relationships.get(id);
+    const change = row?.latestChange;
+    const decision = change?.decision;
+    if (
+      !row ||
+      !change ||
+      !decision?.scores ||
+      change.date !== date ||
+      decision.actorId === core.playerId
+    )
+      continue;
+    const compact = (decision as { compactChoice?: unknown }).compactChoice;
+    const kept: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries({
+      actorId: decision.actorId,
+      date: decision.date,
+      reasonKey: decision.reasonKey,
+      selectedReasons: decision.selectedReasons,
+      ...(compact !== undefined
+        ? { compactChoice: compact }
+        : { selected: decision.selected }),
+    }))
+      if (value !== undefined) kept[key] = value;
+    core.relationships.set(id, {
+      ...row,
+      latestChange: {
+        ...change,
+        decision: kept as unknown as DecisionResult,
+      },
+    });
+  }
+  if (done) queue.splice(0, done);
+}
+
 export function queueDecisionDetail(
   core: CoreState,
   date: string,
@@ -152,10 +274,14 @@ export function condenseCircleDecisions(core: CoreState): void {
   dropOldReceiptDetail(core);
   if (core.date.endsWith("-01")) foldOldCashJournalDetail(core);
   forgetOldExperiences(core);
+  forgetOldEventIds(core);
   condensePlayerDecisions(core);
+  condenseRelationshipDecisions(core);
+  dropShortEntries(core);
   const queue = queues.get(core);
   if (!queue?.length) {
     dropOldCircleActs(core, dropQueues);
+    dropOldCircleActs(core, campaignQueues, "campaignRecordRetentionMonths");
     return dropOldCircleActs(core, entryQueues);
   }
   const before = daysAgo(
@@ -199,6 +325,7 @@ export function condenseCircleDecisions(core: CoreState): void {
   }
   if (done) queue.splice(0, done);
   dropOldCircleActs(core, dropQueues);
+  dropOldCircleActs(core, campaignQueues, "campaignRecordRetentionMonths");
   dropOldCircleActs(core, entryQueues);
 }
 
@@ -227,13 +354,13 @@ function condensePlayerDecisions(core: CoreState): void {
 function dropOldCircleActs(
   core: CoreState,
   queues: WeakMap<CoreState, [string, string][]>,
+  window = "circleActRetentionMonths",
 ): void {
   const drops = queues.get(core);
   if (!drops?.length) return;
   const cutoff = new Date(`${core.date}T00:00:00Z`);
   cutoff.setUTCMonth(
-    cutoff.getUTCMonth() -
-      parameter("circleActRetentionMonths", core.data.parameters),
+    cutoff.getUTCMonth() - parameter(window, core.data.parameters),
   );
   const before = cutoff.toISOString().slice(0, 10);
   let done = 0;
@@ -241,6 +368,24 @@ function dropOldCircleActs(
     const id = drops[done]![1];
     done++;
     const row = core.durableLog.get(id);
+    if (!row || involvesPlayer(core, row)) continue;
+    forgetEntry(core, row);
+  }
+  if (done) drops.splice(0, done);
+}
+
+/** Drops short-detail entries older than the detail window, except any that name the player. */
+function dropShortEntries(core: CoreState): void {
+  const drops = shortQueues.get(core);
+  if (!drops?.length) return;
+  const before = daysAgo(
+    core,
+    parameter("circleDecisionDetailDays", core.data.parameters),
+  );
+  let done = 0;
+  while (done < drops.length && drops[done]![0] < before) {
+    const row = core.durableLog.get(drops[done]![1]);
+    done++;
     if (!row || involvesPlayer(core, row)) continue;
     forgetEntry(core, row);
   }

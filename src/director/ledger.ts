@@ -146,6 +146,12 @@ export interface Director {
     allowedKinds: readonly string[] | null,
     date: IsoDate,
   ): SceneFilter | null;
+  /**
+   * Dev mode's force-scene: the kind of place (one of the type's own settings)
+   * tried first for a situation type from now on, or null to take it back.
+   * Not part of a save.
+   */
+  preferSetting(typeKey: string, kind: string | null): void;
   /** A thread's importance on a date: the tie plus faded moment impacts. Pure. */
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
@@ -192,6 +198,8 @@ export function createDirector(
   } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
+  /** Dev mode's preferred kind of place per situation type (not saved). */
+  const preferredSettings = new Map<string, string>();
   const ledger: Ledger = {
     people: new Map(),
     broadEvents: new Map(),
@@ -595,17 +603,21 @@ export function createDirector(
     return Math.pow(P.two, -nearest / param("directorAnniversaryHalfDays"));
   }
 
-  function fadingOf(thread: Thread, book: PersonLedger, date: IsoDate): number {
-    // Living in one home is contact, whether or not the core records it.
-    if (thread.sharedHome) return zero;
+  /** The last day the pair were in touch, as the thread stands now. */
+  function lastSeen(thread: Thread, book: PersonLedger): IsoDate | undefined {
     const fact = book.keptFacts.get(
       `knew-each-other:${[thread.personId, thread.otherId].sort().join(":")}`,
     );
     const known = thread.lastContact ?? fact?.since;
-    const last =
-      thread.renewedAt && (!known || thread.renewedAt > known)
-        ? thread.renewedAt
-        : known;
+    return thread.renewedAt && (!known || thread.renewedAt > known)
+      ? thread.renewedAt
+      : known;
+  }
+
+  function fadingOf(thread: Thread, book: PersonLedger, date: IsoDate): number {
+    // Living in one home is contact, whether or not the core records it.
+    if (thread.sharedHome) return zero;
+    const last = lastSeen(thread, book);
     if (!last) return one;
     const days = Math.max(
       zero,
@@ -957,6 +969,9 @@ export function createDirector(
     // Ties: every change in closeness, read once at the end of the day.
     directorStopgap("SG-P13-tie-day-order", ledger.stopgapHits);
     const fadedBefore = new Map<PersonId, number>();
+    // The last day each pair was in touch before today's change, kept for the
+    // turn that renews a faded thread (the reunion scene says how long).
+    const lastBefore = new Map<PersonId, IsoDate>();
     for (const id of core.relationshipsByPerson.get(book.personId) ?? []) {
       const row = core.relationships.get(id)!;
       const otherId = row.actorId === book.personId ? row.otherId : row.actorId;
@@ -974,6 +989,8 @@ export function createDirector(
         (knew !== undefined && knew.since < date);
       const fadingBefore = hadHistory ? fadingOf(thread, book, date) : zero;
       fadedBefore.set(otherId, fadingBefore);
+      const seenBefore = hadHistory ? lastSeen(thread, book) : undefined;
+      if (seenBefore) lastBefore.set(otherId, seenBefore);
       // Cites the relationship record; the moment id carries the date.
       const causeId = id;
       // A tie moves a little with each contact; it turns when the change since
@@ -1153,12 +1170,14 @@ export function createDirector(
             "re-entry",
             (row.raw.get("re-entry") ?? zero) + importance * fading,
           );
+        const away = lastBefore.get(otherId) ?? lastSeen(thread, book);
         thread.renewedAt = date;
         thread.turns.push({
           date,
           turn: "renewed",
           causeId: row.causeId,
           closeness: thread.closeness,
+          ...(away && away < date ? { since: away } : {}),
         });
         rescoreHindsight(book, otherId, date);
       }
@@ -1350,6 +1369,7 @@ export function createDirector(
       mode,
       interruptImpact: param("directorInterruptImpact"),
       ...(filter ? { allowedKinds: new Set(filter.allowedKinds) } : {}),
+      ...(preferredSettings.size ? { preferredSettings } : {}),
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
@@ -1520,7 +1540,8 @@ export function createDirector(
             ),
           // The same person is not cast again inside the scheduler's window
           // for the same scene with the same people: the next with a reason is.
-          castDue: (id) =>
+          castDue: (id, row) =>
+            !!row.recast ||
             spacingAllows(
               ledger.circumstanceLast.get(`${book.personId}|cast|${id}`),
               SITUATION_LIBRARY.scheduling.repeatDays,
@@ -1915,6 +1936,10 @@ export function createDirector(
       };
       ledger.sceneFilters.set(personId, filter);
       return filter;
+    },
+    preferSetting(typeKey, kind) {
+      if (kind === null) preferredSettings.delete(typeKey);
+      else preferredSettings.set(typeKey, kind);
     },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);

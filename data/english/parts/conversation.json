@@ -1494,7 +1494,7 @@
       "key": "conversation.greet-answer-fine.all-right",
       "move": "greet-answer-fine",
       "kind": "spoken",
-      "text": "All right.",
+      "text": "Alright.",
       "uses": [
         {
           "move": "greet-answer-fine",
@@ -9606,10 +9606,10 @@
       "bearing": "braced"
     },
     {
-      "key": "conversation.news-ask-think.what-do-you-think",
+      "key": "conversation.news-ask-think.what-do-you-make-of-the-news",
       "move": "news-ask-think",
       "kind": "spoken",
-      "text": "What do you think?",
+      "text": "What do you make of the news?",
       "uses": [
         {
           "move": "news-ask-think",
@@ -16449,7 +16449,7 @@
       "key": "conversation.job-hope-reply-answer-brief.all-right-let-me-know-how-it-goes",
       "move": "job-hope-reply-answer-brief",
       "kind": "spoken",
-      "text": "All right. Let me know how it goes.",
+      "text": "Alright. Let me know how it goes.",
       "uses": [
         {
           "move": "job-hope-reply-answer-brief",
@@ -18862,7 +18862,7 @@
       "key": "conversation.eviction-where-reply-answer-ok.all-right-we-ll-make-it-work",
       "move": "eviction-where-reply-answer-ok",
       "kind": "spoken",
-      "text": "All right. We'll make it work.",
+      "text": "Alright. We'll make it work.",
       "uses": [
         {
           "move": "eviction-where-reply-answer-ok",
@@ -22416,7 +22416,7 @@
       "key": "conversation.interview-take-plain-reply-take.all-right-ill-put-that-down",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
-      "text": "All right. I'll put that down.",
+      "text": "Alright. I'll put that down.",
       "uses": [
         {
           "move": "interview-take-plain-reply-take",
@@ -22605,7 +22605,7 @@
       "key": "conversation.interview-take-brief-reply-take.that-was-quick-all-right",
       "move": "interview-take-brief-reply-take",
       "kind": "spoken",
-      "text": "That was quick. All right.",
+      "text": "That was quick. Alright.",
       "uses": [
         {
           "move": "interview-take-brief-reply-take",
@@ -22710,7 +22710,7 @@
       "key": "conversation.interview-take-declined-reply-take.nothing-on-that-one-all-right",
       "move": "interview-take-declined-reply-take",
       "kind": "spoken",
-      "text": "Nothing on that one. All right.",
+      "text": "Nothing on that one. Alright.",
       "uses": [
         {
           "move": "interview-take-declined-reply-take",
@@ -23615,7 +23615,7 @@
       "key": "conversation.debate-take-declined-reply-take.youd-rather-not-say-all-right",
       "move": "debate-take-declined-reply-take",
       "kind": "spoken",
-      "text": "You'd rather not say? All right.",
+      "text": "You'd rather not say? Alright.",
       "uses": [
         {
           "move": "debate-take-declined-reply-take",
@@ -24076,6 +24076,1010 @@
       "date": "2026-11-02",
       "tag": {
         "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-very-liberal.im-about-as-liberal-as-they-come",
+      "move": "own-view-raise-very-liberal",
+      "kind": "spoken",
+      "text": "I'm about as liberal as they come.",
+      "uses": [
+        {
+          "move": "own-view-raise-very-liberal",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "very-liberal",
+          "stages": ["veryLiberal"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-very-liberal.im-far-over-on-the-liberal-side",
+      "move": "own-view-raise-very-liberal",
+      "kind": "spoken",
+      "text": "I'm far over on the liberal side.",
+      "uses": [
+        {
+          "move": "own-view-raise-very-liberal",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "very-liberal",
+          "stages": ["veryLiberal"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-very-liberal.i-m-a-liberal-and-i-don-t-mind-who-knows-it",
+      "move": "own-view-raise-very-liberal",
+      "kind": "spoken",
+      "text": "I'm a liberal, and I don't mind who knows it.",
+      "uses": [
+        {
+          "move": "own-view-raise-very-liberal",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "very-liberal",
+          "stages": ["veryLiberal"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-liberal.i-should-tell-you-i-lean-liberal",
+      "move": "own-view-raise-liberal",
+      "kind": "spoken",
+      "text": "I should tell you, I lean liberal.",
+      "uses": [
+        {
+          "move": "own-view-raise-liberal",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "liberal",
+          "stages": ["liberal"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-liberal.most-things-i-come-down-on-the-liberal-side",
+      "move": "own-view-raise-liberal",
+      "kind": "spoken",
+      "text": "Most things, I come down on the liberal side.",
+      "uses": [
+        {
+          "move": "own-view-raise-liberal",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "liberal",
+          "stages": ["liberal"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-liberal.if-you-re-curious-where-i-stand-it-s-liberal-mostly",
+      "move": "own-view-raise-liberal",
+      "kind": "spoken",
+      "text": "If you're curious where I stand, it's liberal, mostly.",
+      "uses": [
+        {
+          "move": "own-view-raise-liberal",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "liberal",
+          "stages": ["liberal"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-moderate.i-m-in-the-middle-on-most-of-it-politically",
+      "move": "own-view-raise-moderate",
+      "kind": "spoken",
+      "text": "I'm in the middle on most of it, politically.",
+      "uses": [
+        {
+          "move": "own-view-raise-moderate",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "moderate",
+          "stages": ["moderate"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-moderate.i-take-each-thing-as-it-comes",
+      "move": "own-view-raise-moderate",
+      "kind": "spoken",
+      "text": "I take each thing as it comes.",
+      "uses": [
+        {
+          "move": "own-view-raise-moderate",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "moderate",
+          "stages": ["moderate"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-moderate.honestly-i-land-somewhere-in-the-middle",
+      "move": "own-view-raise-moderate",
+      "kind": "spoken",
+      "text": "Honestly, I land somewhere in the middle.",
+      "uses": [
+        {
+          "move": "own-view-raise-moderate",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "moderate",
+          "stages": ["moderate"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-conservative.i-should-tell-you-i-lean-conservative",
+      "move": "own-view-raise-conservative",
+      "kind": "spoken",
+      "text": "I should tell you, I lean conservative.",
+      "uses": [
+        {
+          "move": "own-view-raise-conservative",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "conservative",
+          "stages": ["conservative"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-conservative.most-things-i-come-down-on-the-conservative-side",
+      "move": "own-view-raise-conservative",
+      "kind": "spoken",
+      "text": "Most things, I come down on the conservative side.",
+      "uses": [
+        {
+          "move": "own-view-raise-conservative",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "conservative",
+          "stages": ["conservative"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-conservative.if-you-re-curious-where-i-stand-it-s-conservative-mostly",
+      "move": "own-view-raise-conservative",
+      "kind": "spoken",
+      "text": "If you're curious where I stand, it's conservative, mostly.",
+      "uses": [
+        {
+          "move": "own-view-raise-conservative",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "conservative",
+          "stages": ["conservative"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-very-conservative.im-about-as-conservative-as-they-come",
+      "move": "own-view-raise-very-conservative",
+      "kind": "spoken",
+      "text": "I'm about as conservative as they come.",
+      "uses": [
+        {
+          "move": "own-view-raise-very-conservative",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "very-conservative",
+          "stages": ["veryConservative"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-very-conservative.im-far-over-on-the-conservative-side",
+      "move": "own-view-raise-very-conservative",
+      "kind": "spoken",
+      "text": "I'm far over on the conservative side.",
+      "uses": [
+        {
+          "move": "own-view-raise-very-conservative",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "very-conservative",
+          "stages": ["veryConservative"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-very-conservative.i-m-a-conservative-and-i-don-t-mind-who-knows-it",
+      "move": "own-view-raise-very-conservative",
+      "kind": "spoken",
+      "text": "I'm a conservative, and I don't mind who knows it.",
+      "uses": [
+        {
+          "move": "own-view-raise-very-conservative",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "very-conservative",
+          "stages": ["veryConservative"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-not-sure.i-dont-follow-politics-much-honestly",
+      "move": "own-view-raise-not-sure",
+      "kind": "spoken",
+      "text": "I don't follow politics much, honestly.",
+      "uses": [
+        {
+          "move": "own-view-raise-not-sure",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "not-sure",
+          "stages": ["not-sure"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-not-sure.politics-i-keep-out-of-it",
+      "move": "own-view-raise-not-sure",
+      "kind": "spoken",
+      "text": "Politics? I keep out of it.",
+      "uses": [
+        {
+          "move": "own-view-raise-not-sure",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "not-sure",
+          "stages": ["not-sure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-raise-not-sure.i-havent-made-up-my-mind-yet",
+      "move": "own-view-raise-not-sure",
+      "kind": "spoken",
+      "text": "I haven't made up my mind yet.",
+      "uses": [
+        {
+          "move": "own-view-raise-not-sure",
+          "subject": "own-view",
+          "role": "raise",
+          "choice": "not-sure",
+          "stages": ["not-sure"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.own-view-answer-agree.i-see-it-the-same-way",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "I see it the same way.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-view-answer-agree.same-here-as-it-happens",
+      "move": "own-view-answer-agree",
+      "kind": "spoken",
+      "text": "Same here, as it happens.",
+      "uses": [
+        {
+          "move": "own-view-answer-agree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-see-it-differently",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I see it differently.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-view-answer-disagree.i-come-down-somewhere-else",
+      "move": "own-view-answer-disagree",
+      "kind": "spoken",
+      "text": "I come down somewhere else.",
+      "uses": [
+        {
+          "move": "own-view-answer-disagree",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-view-answer-hear.good-to-know",
+      "move": "own-view-answer-hear",
+      "kind": "spoken",
+      "text": "Good to know.",
+      "uses": [
+        {
+          "move": "own-view-answer-hear",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "hear"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-view-answer-hear.i-m-glad-you-told-me",
+      "move": "own-view-answer-hear",
+      "kind": "spoken",
+      "text": "I'm glad you told me.",
+      "uses": [
+        {
+          "move": "own-view-answer-hear",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "hear"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-view-answer-private.i-keep-mine-to-myself-mostly",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "I keep mine to myself, mostly.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-view-answer-private.i-d-rather-not-say-where-i-stand",
+      "move": "own-view-answer-private",
+      "kind": "spoken",
+      "text": "I'd rather not say where I stand.",
+      "uses": [
+        {
+          "move": "own-view-answer-private",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "private"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story session (story-person-view-learned)",
+      "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-work-answer-detail.still-there-still-living-in-my-place",
+      "move": "own-work-answer-detail",
+      "kind": "spoken",
+      "text": "Still there. Still living in {my_place}.",
+      "uses": [
+        {
+          "move": "own-work-answer-detail",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-detail.yes-at-employer-and-still-in-my-place",
+      "move": "own-work-answer-detail",
+      "kind": "spoken",
+      "text": "At {employer}, and still in {my_place}.",
+      "uses": [
+        {
+          "move": "own-work-answer-detail",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-deflect.that-s-a-long-story-ask-me-another-time",
+      "move": "own-work-answer-deflect",
+      "kind": "spoken",
+      "text": "That's a long story. Ask me another time.",
+      "uses": [
+        {
+          "move": "own-work-answer-deflect",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-deflect.let-s-not-talk-shop-maybe-another-time",
+      "move": "own-work-answer-deflect",
+      "kind": "spoken",
+      "text": "Let's not talk shop. Maybe another time.",
+      "uses": [
+        {
+          "move": "own-work-answer-deflect",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-change.still-there-where-are-you-living-these-days",
+      "move": "own-work-answer-change",
+      "kind": "spoken",
+      "text": "Still there. Where are you living these days?",
+      "uses": [
+        {
+          "move": "own-work-answer-change",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-change.yes-and-where-are-you-living-now",
+      "move": "own-work-answer-change",
+      "kind": "spoken",
+      "text": "Same as ever. Where are you living now?",
+      "uses": [
+        {
+          "move": "own-work-answer-change",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-care.say-hello-to-name-for-me",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Say hello to {name} for me.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-care.please-say-hi-to-name-for-me",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Please say hi to {name} for me.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-deflect.i-d-rather-not-get-into-name-now",
+      "move": "mutual-answer-deflect",
+      "kind": "spoken",
+      "text": "I'd rather not get into {name} now.",
+      "uses": [
+        {
+          "move": "mutual-answer-deflect",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-deflect.that-s-a-story-for-another-time",
+      "move": "mutual-answer-deflect",
+      "kind": "spoken",
+      "text": "That's a story for another time.",
+      "uses": [
+        {
+          "move": "mutual-answer-deflect",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-change.okay-where-do-you-work-these-days",
+      "move": "mutual-answer-change",
+      "kind": "spoken",
+      "text": "Okay. Where do you work these days?",
+      "uses": [
+        {
+          "move": "mutual-answer-change",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-change.huh-what-are-you-doing-for-work-now",
+      "move": "mutual-answer-change",
+      "kind": "spoken",
+      "text": "Huh. What are you doing for work now?",
+      "uses": [
+        {
+          "move": "mutual-answer-change",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-m-not-from-place-originally-i-moved-here",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I'm not from {place} originally. I moved here.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-moved-to-place-now-i-work-at-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I moved to {place}. Now I work at {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-detail.born-in-place-now-i-m-at-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "Born in {place}. Now I'm at {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["born"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-m-from-place-i-work-at-my-employer-now",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I'm from {place}. I work at {my_employer} now.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-work.i-m-from-place-what-do-you-do-for-work",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "I'm from {place}. What do you do for work?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-work.place-and-you-where-do-you-work",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "{place}. And you, where do you work?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-work.here-in-place-where-do-you-work-these-days",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "Here in {place}. Where do you work these days?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.it-s-a-long-story-ask-me-again-over-coffee",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "It's a long story. Ask me again over coffee.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.not-much-to-tell-ask-me-again-sometime",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Not much to tell. Ask me again sometime.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-mutual.i-m-from-place-do-we-know-anyone-in-common",
+      "move": "home-new-answer-mutual",
+      "kind": "spoken",
+      "text": "I'm from {place}. Do we know anyone in common?",
+      "uses": [
+        {
+          "move": "home-new-answer-mutual",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "mutual",
+          "raises": "mutual"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-mutual.place-who-else-do-the-two-of-us-know",
+      "move": "home-new-answer-mutual",
+      "kind": "spoken",
+      "text": "{place}. Who else do the two of us know?",
+      "uses": [
+        {
+          "move": "home-new-answer-mutual",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "mutual",
+          "raises": "mutual"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
       }
     }
   ]

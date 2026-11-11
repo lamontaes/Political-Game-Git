@@ -10,6 +10,7 @@ import { localOfficeKit } from "./office-day-acts";
 import { governments } from "./modules/budgets";
 import { contractsOf } from "./modules/contracts";
 import {
+  PROJECT_PARAMETERS,
   cutRibbon,
   finishedProjects,
   ribbonOf,
@@ -37,9 +38,35 @@ it(`a finished public work is offered as a ribbon, cut once, and recorded, seed 
     api.subscribeEvents("test-projects", ["ribbon-cut"], (_api, event) =>
       events.push(event as never),
     );
-    // Live a month at a time until a finished work's ribbon is open (or two years pass).
+    // A work finishes when the next fiscal year's budget takes over, so the
+    // first ribbons open just after each local government's first turnover of
+    // the fiscal year. A place with no local government never has one, and a
+    // place with none open a ribbon window after its last first turnover is
+    // not played on (a place that never awards a work to a town firm cost 26
+    // months of play before this, 211 s for a territory with no local
+    // government).
+    const local = governments(api).filter(
+      (g) => g.level === "city" || g.level === "county",
+    );
+    if (!local.length) continue;
+    const start = core.date;
+    const firstTurnover = (fiscalYearStart: string) => {
+      const sameYear = `${start.slice(0, 4)}-${fiscalYearStart}`;
+      return sameYear > start
+        ? sameYear
+        : `${Number(start.slice(0, 4)) + 1}-${fiscalYearStart}`;
+    };
+    const lastTurnover = local
+      .map((g) => firstTurnover(g.fiscalYearStart))
+      .sort()
+      .at(-1)!;
+    const giveUpAfter = addDays(
+      makeIsoDate(lastTurnover),
+      PROJECT_PARAMETERS.ribbonWindowDays.value,
+    );
+    // Live a month at a time until a finished work's ribbon is open.
     let open = ribbonsToCut(api);
-    for (let month = 0; month < 26 && !open.length; month += 1) {
+    while (!open.length && core.date <= giveUpAfter) {
       advanceCore(core, addDays(makeIsoDate(core.date), 30));
       open = ribbonsToCut(api);
     }

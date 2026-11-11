@@ -1,0 +1,3204 @@
+{
+  "schema": "director-arc-variants/1",
+  "note": "One kind of scene, several arcs (owner, Nov 8, 9:50 voice note: 'they've gotta have like a variance. So even though there's only 5 in corruption scenes right now, you could get, I'm just making a number up, 30 different scenes within there'). A family is a purpose in purpose-arcs.json; its variants are the arcs it can play. src/director/arc-variant.ts scores each variant from the records, as an address's kind is scored (address-kinds.json): a variant's score is its base plus each term's weight times a read between 0 and 1 (`low` reads one minus the read), never below nothing, times one plus the asker's pull toward it (the mean of the personality facets listed). The highest score plays and a tie goes to the name first in the alphabet; no roll, no threshold. A read looks at the records in one of six ways: a number kept on a module's row that the cause record names (`record`), a number the cause record itself carries (`fact`), how close the two people are (`closeness`), how many earlier records of some kinds name both people, optionally only those whose facts match (`history`), the asker's money pressure (`strain`), or where the scene is set (`setting`). A variant holds the arc (state, replies, follow, again, endings: moves only, no sentence) and the purpose id its bank pieces are written under; the family's own pieces serve where it has none of its own. Ending ids the engines read downstream (took-it, put-off, left-there, said-you-would-report) keep their meaning in every variant; a variant's other endings are refusals to the engine. Every weight is TUNABLE and registered as SG-STORY-arc-variant-weights.",
+  "reads": {
+    "tie": {
+      "kind": "record",
+      "module": "corruption",
+      "table": "crimes",
+      "idFact": "bribeId",
+      "field": "reasons.offer.tie"
+    },
+    "size": {
+      "kind": "record",
+      "module": "corruption",
+      "table": "crimes",
+      "idFact": "bribeId",
+      "field": "amountMinor",
+      "against": "asked-year"
+    },
+    "need": {
+      "kind": "record",
+      "module": "corruption",
+      "table": "crimes",
+      "idFact": "bribeId",
+      "field": "reasons.offer.stake",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "The offerer's own weighing of the favor, its worth against a year of their living costs on a log scale (corruption.ts offerValues.stake): at 1 the favor is worth about one and three quarters of their year, and the read is one half."
+      }
+    },
+    "refused-before": {
+      "kind": "history",
+      "events": ["corruption.bribe-refused"],
+      "exceptSameFact": "bribeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "One earlier refusal reads one half, two read two thirds: the second ask is already a different scene, the fifth only a little more."
+      }
+    },
+    "offered-before": {
+      "kind": "history",
+      "events": ["corruption.bribe-offered"],
+      "exceptSameFact": "bribeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for offers to the same seat from the same person."
+      }
+    },
+    "pressed-before": {
+      "kind": "history",
+      "events": ["corruption.bribe-pressed"],
+      "exceptSameFact": "bribeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for earlier pressure from the same person on the same seat."
+      }
+    },
+    "strain": {
+      "kind": "strain"
+    },
+    "public": {
+      "kind": "setting",
+      "is": "venue"
+    },
+    "gift-size": {
+      "kind": "fact",
+      "fact": "amountMinor",
+      "against": "asker-year",
+      "of": {
+        "value": 0.05,
+        "tag": "TUNABLE",
+        "spread": [0.02, 0.1],
+        "checkedAgainst": "The gift against the donor's own year of living costs: at one twentieth of a year the read is one half, so a gift of a few hundred dollars reads small and one of several thousand reads large for most households."
+      }
+    },
+    "gift-share": {
+      "kind": "fact",
+      "fact": "share"
+    },
+    "close": {
+      "kind": "closeness"
+    },
+    "gave-before": {
+      "kind": "history",
+      "events": ["campaign-gift"],
+      "exceptSameFact": "totalMinor",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for earlier gifts from the same donor to the same candidate."
+      }
+    },
+    "put-off-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "donor-ask",
+        "ending": "put-off"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for an earlier donor-ask between the same two people that the candidate put off."
+      }
+    },
+    "answered-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "press-interview",
+        "ending": "on-record"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "One earlier answer on the record to the same reporter reads one half, two read two thirds: a reporter who has taken the player's words twice already covers them."
+      }
+    },
+    "sparred-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "press-interview",
+        "ending": "sparred"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As answered-before, for earlier talks between the same two that ended in a quarrel."
+      }
+    },
+    "dodged-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "press-interview",
+        "ending": "no-comment"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As answered-before, for earlier talks between the same two where the player would not comment."
+      }
+    },
+    "town-against": {
+      "kind": "town-against"
+    },
+    "quarrel": {
+      "kind": "quarrel"
+    },
+    "exposed-before": {
+      "kind": "history",
+      "events": ["press.exposed"],
+      "named": "asked",
+      "within": {
+        "value": 180,
+        "tag": "TUNABLE",
+        "spread": [90, 365],
+        "checkedAgainst": "A story the press printed about the player in the last half year is still open; one from years ago is a closed matter."
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As answered-before, for stories the press printed about the player's own conduct."
+      }
+    },
+    "scandal": {
+      "kind": "scandal",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "One reported bribe or conviction reads one half: a single story is already a different interview."
+      }
+    },
+    "national-desk": {
+      "kind": "national-outlet"
+    },
+    "reach": {
+      "kind": "fact-map",
+      "fact": "level",
+      "values": {
+        "federal": 1.0,
+        "state": 0.5,
+        "county": 0.2,
+        "township": 0.1,
+        "city": 0.0
+      }
+    },
+    "same-party": {
+      "kind": "shared-party"
+    },
+    "holds-post": {
+      "kind": "holds-post"
+    },
+    "favor-given": {
+      "kind": "favor-given",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "One earlier bill of the player's own that the asker voted for reads one half, two read two thirds: a colleague who has voted with the player once already has a favor to call in, and the second adds less than the first."
+      }
+    },
+    "town-for-bill": {
+      "kind": "town-on-bill",
+      "side": "for"
+    },
+    "town-against-bill": {
+      "kind": "town-on-bill",
+      "side": "against"
+    },
+    "about-money": {
+      "kind": "fact-map",
+      "fact": "about",
+      "values": {
+        "money": 1
+      }
+    },
+    "quarreled-before": {
+      "kind": "history",
+      "events": ["family.quarrel"],
+      "exceptSameFact": "missedId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for earlier quarrels between the same two people that the records name: one earlier quarrel reads one half, so the second is already a different scene."
+      }
+    },
+    "complaint": {
+      "kind": "fact-map",
+      "fact": "offense",
+      "values": {
+        "bribery": 1
+      }
+    },
+    "witnessed": {
+      "kind": "record",
+      "module": "core2-justice-v1",
+      "table": "complaints",
+      "idFact": "complaintId",
+      "field": "basis",
+      "equals": "witness"
+    },
+    "told": {
+      "kind": "record",
+      "module": "core2-justice-v1",
+      "table": "complaints",
+      "idFact": "complaintId",
+      "field": "basis",
+      "equals": "told"
+    },
+    "bribe-taken": {
+      "kind": "record",
+      "module": "corruption",
+      "table": "crimes",
+      "idFact": "crimeId",
+      "field": "taken",
+      "equals": true
+    },
+    "laid-off": {
+      "kind": "person-rows",
+      "module": "jobs",
+      "table": "changes",
+      "index": "byPerson",
+      "where": {
+        "kind": "layoff"
+      },
+      "within": {
+        "value": 180,
+        "tag": "TUNABLE",
+        "spread": [90, 365],
+        "checkedAgainst": "A layoff in the last half year is still the reason they are at the table; one from years ago is only part of their history."
+      },
+      "scale": {
+        "value": 0.5,
+        "tag": "TUNABLE",
+        "spread": [0.25, 1],
+        "checkedAgainst": "One layoff in the window reads two thirds, a second reads four fifths: the person who lost a job this spring is already the person who lost a job."
+      }
+    },
+    "out-of-work": {
+      "kind": "fact-map",
+      "fact": "problem",
+      "values": {
+        "looking-for-work": 1
+      }
+    },
+    "notice-served": {
+      "kind": "household-case",
+      "module": "housing",
+      "table": "cases",
+      "index": "byHousehold"
+    },
+    "rent-owed": {
+      "kind": "household-case",
+      "module": "housing",
+      "table": "cases",
+      "index": "byHousehold",
+      "field": "owedAtNoticeMinor",
+      "against": "asker-year"
+    },
+    "paid-under-floor": {
+      "kind": "fact-map",
+      "fact": "problem",
+      "values": {
+        "paid-under-minimum-wage": 1
+      }
+    },
+    "shortfall": {
+      "kind": "record",
+      "module": "core2-constituent-cases-v1",
+      "table": "cases",
+      "idFact": "caseId",
+      "field": "severity",
+      "when": {
+        "fact": "problem",
+        "is": "paid-under-minimum-wage"
+      }
+    },
+    "own-illness": {
+      "kind": "care-need",
+      "whose": "self"
+    },
+    "household-illness": {
+      "kind": "care-need",
+      "whose": "household"
+    }
+  },
+  "families": {
+    "bribe-offer": {
+      "variants": {
+        "plain": {
+          "purpose": "bribe-offer",
+          "base": 0.3
+        },
+        "small": {
+          "purpose": "bribe-offer.small",
+          "base": -0.55,
+          "terms": [
+            {
+              "read": "size",
+              "weight": 1.0,
+              "low": true
+            },
+            {
+              "read": "strain",
+              "weight": 0.25,
+              "low": true
+            },
+            {
+              "read": "public",
+              "weight": 0.15
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-light-hearted",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-approval-seeking"
+          ],
+          "arc": {
+            "state": "offer",
+            "replies": ["accept", "refuse", "deflect", "confront"],
+            "follow": {
+              "accept": ["thank"],
+              "refuse": ["accept", "plea"],
+              "deflect": ["offer", "press"],
+              "confront": ["deflect", "plea"]
+            },
+            "again": {
+              "offer": ["accept", "refuse", "confront", "leave"],
+              "plea": ["refuse", "accept", "leave"],
+              "press": ["refuse", "accept", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "took-it",
+                "label": "You kept the gift",
+                "keeps": "bribe-taken",
+                "when": {
+                  "anyReply": ["accept"]
+                }
+              },
+              {
+                "id": "reported",
+                "label": "You said you would report it",
+                "keeps": "bribe-reported",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "handed-back",
+                "label": "You gave it back",
+                "keeps": "bribe-refused",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "You waved it off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "large": {
+          "purpose": "bribe-offer.large",
+          "base": -0.5,
+          "terms": [
+            {
+              "read": "size",
+              "weight": 1.4
+            },
+            {
+              "read": "need",
+              "weight": 0.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-cocky",
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-competitive"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["accept", "refuse", "confront", "stall"],
+            "follow": {
+              "accept": ["thank"],
+              "refuse": ["bargain", "threaten", "accept"],
+              "confront": ["plea", "threaten", "deflect"],
+              "stall": ["press", "plea"]
+            },
+            "again": {
+              "bargain": ["accept", "refuse", "confront", "leave"],
+              "threaten": ["refuse", "confront", "accept", "leave"],
+              "plea": ["refuse", "accept", "confront", "leave"],
+              "press": ["refuse", "accept", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "took-it",
+                "label": "You took the money",
+                "keeps": "bribe-taken",
+                "when": {
+                  "anyReply": ["accept"]
+                }
+              },
+              {
+                "id": "reported",
+                "label": "You said you would report it",
+                "keeps": "bribe-reported",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "handed-back",
+                "label": "You turned the money down",
+                "keeps": "bribe-refused",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["stall", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "bribe-offer.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "tie",
+              "weight": 1.4
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-comforting",
+            "personality-v1:facet-sincere"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["accept", "refuse", "apologize", "confront", "stall"],
+            "follow": {
+              "accept": ["thank"],
+              "refuse": ["plea", "accept"],
+              "apologize": ["accept", "plea"],
+              "confront": ["plea", "deflect"],
+              "stall": ["press", "plea"]
+            },
+            "again": {
+              "plea": ["refuse", "apologize", "accept", "leave"],
+              "press": ["refuse", "accept", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "took-it",
+                "label": "You took it from a friend",
+                "keeps": "bribe-taken",
+                "when": {
+                  "anyReply": ["accept"]
+                }
+              },
+              {
+                "id": "turned-down-kindly",
+                "label": "You turned them down gently",
+                "keeps": "bribe-refused",
+                "when": {
+                  "reply": ["apologize"]
+                }
+              },
+              {
+                "id": "reported",
+                "label": "You said you would report a friend",
+                "keeps": "bribe-reported",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "handed-back",
+                "label": "You turned a friend down",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["stall", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "again": {
+          "purpose": "bribe-offer.again",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "refused-before",
+              "weight": 1.4
+            },
+            {
+              "read": "offered-before",
+              "weight": 0.4
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-argumentative"
+          ],
+          "arc": {
+            "state": "press",
+            "replies": ["refuse", "confront", "accept", "deflect"],
+            "follow": {
+              "refuse": ["threaten", "plea", "accept"],
+              "confront": ["plea", "threaten"],
+              "accept": ["thank"],
+              "deflect": ["press", "threaten"]
+            },
+            "again": {
+              "threaten": ["refuse", "confront", "accept", "leave"],
+              "plea": ["refuse", "confront", "accept", "leave"],
+              "press": ["refuse", "confront", "accept", "leave"]
+            },
+            "endings": [
+              {
+                "id": "took-it",
+                "label": "This time you took it",
+                "keeps": "bribe-taken",
+                "when": {
+                  "anyReply": ["accept"]
+                }
+              },
+              {
+                "id": "reported",
+                "label": "You said you would report it",
+                "keeps": "bribe-reported",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "handed-back",
+                "label": "You said no a second time",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off again",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "desperate": {
+          "purpose": "bribe-offer.desperate",
+          "base": -0.4,
+          "terms": [
+            {
+              "read": "strain",
+              "weight": 1.1
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-self-conscious",
+            "personality-v1:facet-excitable",
+            "personality-v1:facet-dramatic"
+          ],
+          "arc": {
+            "state": "plea",
+            "replies": ["accept", "refuse", "comfort", "confront", "stall"],
+            "follow": {
+              "accept": ["thank"],
+              "refuse": ["plea", "press", "accept"],
+              "comfort": ["thank"],
+              "confront": ["plea", "deflect"],
+              "stall": ["plea", "press"]
+            },
+            "again": {
+              "plea": ["refuse", "comfort", "accept", "leave"],
+              "press": ["refuse", "comfort", "confront", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "took-it",
+                "label": "You took the money",
+                "keeps": "bribe-taken",
+                "when": {
+                  "anyReply": ["accept"]
+                }
+              },
+              {
+                "id": "sent-away-kindly",
+                "label": "You sent them away kindly",
+                "keeps": "bribe-refused",
+                "when": {
+                  "reply": ["comfort"]
+                }
+              },
+              {
+                "id": "reported",
+                "label": "You said you would report it",
+                "keeps": "bribe-reported",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "handed-back",
+                "label": "You handed it back",
+                "keeps": "bribe-refused",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "bribe-pending",
+                "when": {
+                  "reply": ["stall", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "bribe-pressed": {
+      "variants": {
+        "plain": {
+          "purpose": "bribe-pressed",
+          "base": 0.3
+        },
+        "veiled": {
+          "purpose": "bribe-pressed.veiled",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "tie",
+              "weight": 1.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-charming",
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-smug",
+            "personality-v1:facet-manipulative"
+          ],
+          "arc": {
+            "state": "warn",
+            "replies": ["refuse", "confront", "deflect", "tell"],
+            "follow": {
+              "refuse": ["plea", "accept"],
+              "confront": ["plea", "deflect"],
+              "deflect": ["press", "plea"],
+              "tell": ["plea", "accept"]
+            },
+            "again": {
+              "plea": ["refuse", "confront", "deflect", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "heard-them-out",
+                "label": "You heard them out",
+                "keeps": "none",
+                "when": {
+                  "reply": ["tell"]
+                }
+              },
+              {
+                "id": "held-the-line",
+                "label": "You held the line",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "said-you-would-report",
+                "label": "You said you would report it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "open": {
+          "purpose": "bribe-pressed.open",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "tie",
+              "weight": 1.0,
+              "low": true
+            },
+            {
+              "read": "size",
+              "weight": 0.5
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-hostile",
+            "personality-v1:facet-argumentative",
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-assertive"
+          ],
+          "arc": {
+            "state": "threaten",
+            "replies": ["refuse", "confront", "deflect", "leave"],
+            "follow": {
+              "refuse": ["threaten", "warn"],
+              "confront": ["threaten", "press"],
+              "deflect": ["press", "threaten"]
+            },
+            "again": {
+              "threaten": ["refuse", "confront", "deflect", "leave"],
+              "warn": ["refuse", "confront", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"]
+            },
+            "endings": [
+              {
+                "id": "held-the-line",
+                "label": "You stood your ground",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "said-you-would-report",
+                "label": "You said you would take it to the clerk",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "walked-out",
+                "label": "You walked out on them",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "begging": {
+          "purpose": "bribe-pressed.begging",
+          "base": -0.4,
+          "terms": [
+            {
+              "read": "strain",
+              "weight": 1.1
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-self-conscious",
+            "personality-v1:facet-excitable",
+            "personality-v1:facet-dramatic"
+          ],
+          "arc": {
+            "state": "plea",
+            "replies": ["refuse", "confront", "deflect", "comfort"],
+            "follow": {
+              "refuse": ["plea", "accept"],
+              "confront": ["plea", "deflect"],
+              "deflect": ["plea", "press"],
+              "comfort": ["thank"]
+            },
+            "again": {
+              "plea": ["refuse", "confront", "comfort", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"],
+              "deflect": ["refuse", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "comforted",
+                "label": "You sent them off kindly",
+                "keeps": "none",
+                "when": {
+                  "reply": ["comfort"]
+                }
+              },
+              {
+                "id": "held-the-line",
+                "label": "You held the line",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "said-you-would-report",
+                "label": "You said you would report it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "again": {
+          "purpose": "bribe-pressed.again",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "pressed-before",
+              "weight": 1.4
+            },
+            {
+              "read": "refused-before",
+              "weight": 0.4
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-hostile"
+          ],
+          "arc": {
+            "state": "press",
+            "replies": ["refuse", "confront", "deflect", "leave"],
+            "follow": {
+              "refuse": ["threaten", "accept"],
+              "confront": ["threaten", "plea"],
+              "deflect": ["press", "threaten"]
+            },
+            "again": {
+              "threaten": ["refuse", "confront", "deflect", "leave"],
+              "press": ["refuse", "confront", "deflect", "leave"],
+              "plea": ["refuse", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "held-the-line",
+                "label": "You held the line again",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["refuse"]
+                }
+              },
+              {
+                "id": "said-you-would-report",
+                "label": "You said you would report it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "anyReply": ["confront"]
+                }
+              },
+              {
+                "id": "brushed-off",
+                "label": "You brushed it off again",
+                "keeps": "none",
+                "when": {
+                  "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "donor-ask": {
+      "variants": {
+        "plain": {
+          "purpose": "donor-ask",
+          "base": 0.3
+        },
+        "small": {
+          "purpose": "donor-ask.small",
+          "base": -0.35,
+          "terms": [
+            {
+              "read": "gift-size",
+              "weight": 1.0,
+              "low": true
+            },
+            {
+              "read": "gift-share",
+              "weight": 0.3,
+              "low": true
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.1,
+              "low": true
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-self-conscious",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-approval-seeking"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "offer", "decline", "deflect"],
+            "follow": {
+              "agree": ["thank"],
+              "offer": ["thank", "plea"],
+              "decline": ["plea", "accept"],
+              "deflect": ["press", "plea"]
+            },
+            "again": {
+              "plea": ["agree", "decline", "deflect", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll hear them out",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "process",
+                "label": "Handed to your chief of staff",
+                "keeps": "meeting-set",
+                "when": {
+                  "reply": ["offer"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deflect", "stall", "leave", "apologize"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "large": {
+          "purpose": "donor-ask.large",
+          "base": -0.5,
+          "terms": [
+            {
+              "read": "gift-size",
+              "weight": 1.2
+            },
+            {
+              "read": "gift-share",
+              "weight": 0.6
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-cocky",
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-competitive"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "bargain", "decline", "stall"],
+            "follow": {
+              "agree": ["thank"],
+              "bargain": ["accept", "press"],
+              "decline": ["threaten", "press", "accept"],
+              "stall": ["press", "threaten"]
+            },
+            "again": {
+              "press": ["agree", "decline", "bargain", "leave"],
+              "threaten": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll look at it again",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["stall", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "donor-ask.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "close",
+              "weight": 1.3
+            },
+            {
+              "read": "gift-size",
+              "weight": 0.2,
+              "low": true
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-comforting",
+            "personality-v1:facet-sincere"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "offer", "decline", "apologize"],
+            "follow": {
+              "agree": ["thank"],
+              "offer": ["thank", "plea"],
+              "decline": ["plea"],
+              "apologize": ["accept", "plea"]
+            },
+            "again": {
+              "plea": ["agree", "decline", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll sit down with a friend",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "process",
+                "label": "Handed to your chief of staff",
+                "keeps": "meeting-set",
+                "when": {
+                  "reply": ["offer"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "You gave a friend a hearing",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "again": {
+          "purpose": "donor-ask.again",
+          "base": -0.35,
+          "terms": [
+            {
+              "read": "put-off-before",
+              "weight": 1.6
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-argumentative",
+            "personality-v1:facet-assertive"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "decline", "stall", "bargain"],
+            "follow": {
+              "agree": ["thank"],
+              "decline": ["press", "threaten"],
+              "stall": ["press", "confront"],
+              "bargain": ["accept", "press"]
+            },
+            "again": {
+              "press": ["agree", "decline", "bargain", "leave"],
+              "threaten": ["agree", "decline", "leave"],
+              "confront": ["deflect", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll finally answer",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["stall", "leave", "deflect", "apologize"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "press-comment": {
+      "variants": {
+        "plain": {
+          "purpose": "press-comment",
+          "base": 0.3
+        },
+        "friendly": {
+          "purpose": "press-comment.friendly",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "answered-before",
+              "weight": 1.0
+            },
+            {
+              "read": "close",
+              "weight": 0.9
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-comforting"
+          ],
+          "arc": {
+            "state": "ask",
+            "replies": ["answer", "stall", "deflect", "lie"],
+            "follow": {
+              "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
+              "stall": ["press", "accept"],
+              "refuse": ["accept"],
+              "confront": ["answer"],
+              "leave": [],
+              "boast": ["accept"]
+            },
+            "again": {
+              "ask": ["answer", "boast", "stall", "leave"],
+              "press": ["answer", "stall", "leave", "lie"],
+              "answer": ["answer", "boast", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "On the record with a reporter you know",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "No comment, for now",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off from a reporter you know",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "A friendly talk gone sour",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "hostile": {
+          "purpose": "press-comment.hostile",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "town-against",
+              "weight": 1.6
+            },
+            {
+              "read": "sparred-before",
+              "weight": 0.7
+            },
+            {
+              "read": "quarrel",
+              "weight": 0.6
+            },
+            {
+              "read": "dodged-before",
+              "weight": 0.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-skeptical",
+            "personality-v1:facet-argumentative",
+            "personality-v1:facet-hostile",
+            "personality-v1:facet-blunt"
+          ],
+          "arc": {
+            "state": "ask",
+            "replies": ["answer", "confront", "refuse", "lie"],
+            "follow": {
+              "answer": ["ask", "press"],
+              "confront": ["press", "accept"],
+              "refuse": ["press", "accept"],
+              "stall": ["press", "accept"],
+              "leave": [],
+              "boast": ["accept"],
+              "deflect": ["press", "accept"]
+            },
+            "again": {
+              "ask": ["answer", "refuse", "confront", "leave"],
+              "press": ["answer", "confront", "leave", "lie"],
+              "answer": ["answer", "confront", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "On the record against the town",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "Declined to answer",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off on the reporter",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "Sparred with the reporter",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "scandal": {
+          "purpose": "press-comment.scandal",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "scandal",
+              "weight": 1.5
+            },
+            {
+              "read": "exposed-before",
+              "weight": 1.6
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-skeptical",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-analytical"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["answer", "deflect", "refuse", "confront", "lie"],
+            "follow": {
+              "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
+              "refuse": ["press", "accept"],
+              "confront": ["press", "answer"],
+              "stall": ["press", "accept"],
+              "leave": [],
+              "boast": ["accept"]
+            },
+            "again": {
+              "ask": ["answer", "refuse", "confront", "leave"],
+              "press": ["answer", "refuse", "confront", "leave", "lie"],
+              "answer": ["answer", "confront", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "Answered on the record",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "Declined, with the story still open",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked away from the questions",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "Sparred with the reporter",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "national": {
+          "purpose": "press-comment.national",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "national-desk",
+              "weight": 1.3
+            },
+            {
+              "read": "reach",
+              "weight": 0.12
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-assertive"
+          ],
+          "arc": {
+            "state": "ask",
+            "replies": ["answer", "boast", "stall", "lie"],
+            "follow": {
+              "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
+              "refuse": ["press", "accept"],
+              "confront": ["answer"],
+              "stall": ["press", "accept"],
+              "leave": [],
+              "boast": ["ask", "accept"]
+            },
+            "again": {
+              "ask": ["answer", "boast", "stall", "leave"],
+              "press": ["answer", "stall", "leave", "lie"],
+              "answer": ["answer", "boast", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "On the record for the national press",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "Held your comment",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off from the national press",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "Played to the national press",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ask-vote": {
+      "variants": {
+        "plain": {
+          "purpose": "ask-vote",
+          "base": 0.3
+        },
+        "whip": {
+          "purpose": "ask-vote.whip",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "holds-post",
+              "weight": 0.9
+            },
+            {
+              "read": "same-party",
+              "weight": 0.25
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-blunt"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "decline", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "trade": {
+          "purpose": "ask-vote.trade",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "favor-given",
+              "weight": 1.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-manipulative",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-analytical"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["relent", "refuse", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "watched": {
+          "purpose": "ask-vote.watched",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "town-for-bill",
+              "weight": 1.6
+            },
+            {
+              "read": "town-against-bill",
+              "weight": 1.6
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-approval-seeking",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-analytical"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "ask-vote.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "close",
+              "weight": 1.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-comforting"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "owed-apology": {
+      "variants": {
+        "plain": {
+          "purpose": "owed-apology",
+          "base": 0.3,
+          "terms": []
+        },
+        "money": {
+          "purpose": "owed-apology.money",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["apologize", "promise", "deflect", "confront"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "close": {
+          "purpose": "owed-apology.close",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 0.3
+            },
+            {
+              "read": "close",
+              "weight": 0.9
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-affectionate"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["apologize", "promise", "ask", "deflect"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "ask": ["answer"],
+              "deflect": ["press"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave"],
+              "answer": ["apologize", "promise", "deflect"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "repeat": {
+          "purpose": "owed-apology.repeat",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 0.3
+            },
+            {
+              "read": "quarreled-before",
+              "weight": 1.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-skeptical",
+            "personality-v1:facet-blunt"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["apologize", "promise", "confront", "leave"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "pressed": {
+          "purpose": "owed-apology.pressed",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 0.1
+            },
+            {
+              "read": "strain",
+              "weight": 1.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-practical",
+            "personality-v1:facet-meticulous"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["apologize", "deflect", "confront", "leave"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "conflict-accuse": {
+      "variants": {
+        "plain": {
+          "purpose": "conflict-accuse",
+          "base": 0.3,
+          "terms": []
+        },
+        "witness": {
+          "purpose": "conflict-accuse.witness",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "witnessed",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["deny", "tell", "confront", "apologize"],
+            "follow": {
+              "tell": ["ask", "accept"],
+              "deny": ["press"],
+              "confront": ["confront"],
+              "apologize": ["accept", "press"],
+              "leave": []
+            },
+            "again": {
+              "ask": ["tell", "apologize", "leave"],
+              "press": ["tell", "apologize", "confront", "leave"],
+              "confront": ["apologize", "deny", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "hearsay": {
+          "purpose": "conflict-accuse.hearsay",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "told",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["ask", "deny", "tell", "confront"],
+            "follow": {
+              "ask": ["answer"],
+              "tell": ["ask", "accept"],
+              "deny": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "answer": ["tell", "deny", "leave"],
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "confront", "leave"],
+              "confront": ["deny", "tell", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "taken": {
+          "purpose": "conflict-accuse.taken",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "bribe-taken",
+              "weight": 1.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-skeptical"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["tell", "apologize", "deny", "leave"],
+            "follow": {
+              "tell": ["ask", "accept"],
+              "apologize": ["accept", "press"],
+              "deny": ["press"],
+              "leave": []
+            },
+            "again": {
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "conflict-accuse.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "close",
+              "weight": 2.0
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-devoted"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["apologize", "ask", "deny", "tell"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "ask": ["answer"],
+              "deny": ["press"],
+              "tell": ["ask", "accept"],
+              "leave": []
+            },
+            "again": {
+              "answer": ["tell", "deny", "apologize"],
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constituent-help": {
+      "variants": {
+        "plain": {
+          "purpose": "constituent-help",
+          "base": 0.3
+        },
+        "lost-job": {
+          "purpose": "constituent-help.lost-job",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "looking-for-work"
+          },
+          "terms": [
+            {
+              "read": "laid-off",
+              "weight": 0.9
+            },
+            {
+              "read": "out-of-work",
+              "weight": 0.2
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "offer", "lie"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "eviction": {
+          "purpose": "constituent-help.eviction",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "behind-on-rent"
+          },
+          "terms": [
+            {
+              "read": "notice-served",
+              "weight": 0.8
+            },
+            {
+              "read": "rent-owed",
+              "weight": 0.6
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "offer"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "short-pay": {
+          "purpose": "constituent-help.short-pay",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "paid-under-minimum-wage"
+          },
+          "terms": [
+            {
+              "read": "paid-under-floor",
+              "weight": 1.0
+            },
+            {
+              "read": "shortfall",
+              "weight": 0.5
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "offer", "lie"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "sick": {
+          "purpose": "constituent-help.sick",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "caring-for-someone-ill"
+          },
+          "terms": [
+            {
+              "read": "own-illness",
+              "weight": 0.36
+            },
+            {
+              "read": "household-illness",
+              "weight": 0.36
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "offer"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

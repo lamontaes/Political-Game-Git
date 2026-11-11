@@ -10,8 +10,10 @@ import {
   holdVote,
   members,
   memberKey,
+  votesOn,
   FEDERAL_HOUSE,
 } from "./modules/legislature";
+import { seatAct, seatView } from "../bench/legislature";
 import { policyAuthority } from "./policy-authority";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
@@ -34,11 +36,24 @@ beforeAll(() => {
 
 describe("recorded policy powers", () => {
   it("does not give Congress a question reserved to state law", () => {
-    const result = policyAuthority(
-      api,
-      "us-policy-positions:fiscal.adopt-income-tax",
-      "federal",
-    );
+    // A question the catalog reserves to the states and below: none names the
+    // federal level (the income tax is concurrent since Congress was given the
+    // power to repeal and restore its own).
+    const reserved = Object.entries(
+      (
+        mapping as unknown as {
+          questions: Record<string, { levels: string[] }>;
+        }
+      ).questions,
+    )
+      .filter(([, row]) => row.levels.length && !row.levels.includes("federal"))
+      .map(([question]) => question)
+      .sort()[0]!;
+    expect(
+      reserved,
+      "the catalog reserves some question to the states",
+    ).toBeDefined();
+    const result = policyAuthority(api, reserved, "federal");
     expect(result.allowed).toBe(false);
     expect(result.reason).toBe("level-lacks-power");
     expect(result.source).toContain("question-powers.json");
@@ -124,19 +139,20 @@ describe("recorded policy powers", () => {
     let found:
       | {
           api: CoreAPI;
+          core: Parameters<typeof seatView>[0];
           where: string;
+          placeSeed: string;
           council: { id: string; kind: string };
           chamber: { id: string };
         }
       | undefined;
     for (let i = 0; i < 10 && !found; i += 1) {
       const where = drawPlace(`${seed}:${i}`, "policy-authority-refusal");
-      const tried = coreAPI(
-        buildBenchWorld(where.seed, gameStartDate(), {
-          placeKey: where.key,
-          twoLevel: true,
-        }).core,
-      );
+      const core = buildBenchWorld(where.seed, gameStartDate(), {
+        placeKey: where.key,
+        twoLevel: true,
+      }).core;
+      const tried = coreAPI(core);
       const offices = tried
         .moduleState("core2-offices-v1")
         .table("offices")
@@ -146,10 +162,17 @@ describe("recorded policy powers", () => {
         .find((o) => o !== undefined);
       const chamber = offices.find((o) => o.kind === "legislature-lower");
       if (council && chamber)
-        found = { api: tried, where: where.name, council, chamber };
+        found = {
+          api: tried,
+          core,
+          where: where.name,
+          placeSeed: where.seed,
+          council,
+          chamber,
+        };
     }
     expect(found, "a place with a town body and a state chamber").toBeTruthy();
-    const { api: world, where, council, chamber } = found!;
+    const { api: world, core, where, placeSeed, council, chamber } = found!;
     const level = council.kind === "county-board" ? "county" : "city";
     // A question the town lacks the power for and the state holds.
     const question = Object.keys(POLICY_QUESTIONS).find((q) => {
@@ -181,6 +204,35 @@ describe("recorded policy powers", () => {
     expect(refused.authority[0]!.source).toContain("question-powers.json");
     const accepted = draft(chamber.id);
     expect(accepted.status, accepted.id).toBe("drafted");
+    // The same lack of power through the seat route the draft card uses: the
+    // council member's own draft stays blocked with the recorded reason, the
+    // seat view marks it not allowed by bill id, and the vote never happens.
+    const person = members(world, council.id).find((m) => m.personId)?.personId;
+    const seatTag = `${where}; seed ${placeSeed}`;
+    expect(person, seatTag).toBeDefined();
+    process.stdout.write(
+      `SEAT-BAN ${JSON.stringify({ place: where, seed: placeSeed })}\n`,
+    );
+    const acted = seatAct(core, person!, {
+      kind: "draft",
+      officeId: council.id,
+      question: question!,
+      value: 1,
+    });
+    const tag = `${seatTag}; bill ${acted.id}`;
+    expect(acted.status, tag).toBe("blocked");
+    expect(acted.authority[0]).toMatchObject({
+      allowed: false,
+      reason: "level-lacks-power",
+    });
+    const entry = seatView(core, person!).bills.find(
+      (b) => b.bill.id === acted.id,
+    );
+    expect(entry, `${tag} in the seat view`).toBeDefined();
+    expect(entry!.bill.status, tag).toBe("blocked");
+    expect(entry!.bill.authority[0]!.reason, tag).toBe("level-lacks-power");
+    expect(holdVote(world, acted.id).status, tag).toBe("blocked");
+    expect(votesOn(world, acted.id), `${tag} has no vote row`).toHaveLength(0);
   }, 600_000);
   it("gives a territorial legislature its state cell's power where the catalog has not read its own", async () => {
     // A territory drawn by the seed (the five island areas), in its own world.

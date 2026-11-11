@@ -27,11 +27,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import {
-  campaignParameter,
-  personLean,
-  PLATFORM_QUESTIONS,
-} from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
@@ -43,7 +40,7 @@ import {
   leanedYes,
 } from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
 
 export const PARTIES_MODULE_ID = "core2-parties-v1";
 
@@ -515,9 +512,7 @@ export interface PartyMeetingRow {
 }
 
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /** The party's next local committee meeting. */
 function scheduleMeeting(api: CoreAPI, from: string): void {

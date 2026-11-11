@@ -116,8 +116,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Resolved Nov 8 (Tiers): stressHalfLifeDays = 1, ESTIMATED from Bolger, DeLongis, Kessler and Schilling (1989) (habituation by the second day; PubMed 2810026). A played half-year at Reynolds, Georgia moved the town's mean stress from 0.240 (seven days) to 0.267 (one day).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-needWeight",
@@ -296,7 +296,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established. Resolved by P15 part 2 (OPUS-PEOPLE, 2026-10-10): no longer read; closeness now follows hours of time together.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
+    "replacement": "Deleted Nov 8 (Tiers): a filled-in person's family ties now open at the closeness their records give, `openingClosenessHours` through the sourced hours-to-closeness curve (closeness.ts), the same as every opening family tie; a stand-in 0.5 had been read as hours.",
     "status": "resolved"
   },
   {
@@ -356,7 +356,7 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior. Resolved Oct 14, 2026 (start/inauguration-2025): the owner ruled every game starts on January 20, 2025 (gameStartDate) and that data calibrates the simulation without defining the game's date, so the ACS 2020–2024, CES, HUD and OEWS vintages now calibrate an opening they nearly coincide with, not a January 2021 one.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "January 2021 source vintages for population, employment, pay, household costs and conditions.",
+    "replacement": "January 2021 source vintages for population, employment, pay, household costs and conditions. Closed Nov 8 (Dev Tester): the dead pointer to this stopgap in data/content.json (openingVintageStopgap), which no code read, is deleted; the owner's Oct 14 ruling stands (every game starts January 20, 2025, and the data vintages calibrate the opening, they do not define its date).",
     "status": "resolved"
   },
   {
@@ -980,6 +980,18 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-10",
     "replacement": "Qualified employer-owned dated compensation/payroll records and government/education policy calendars, actual legal-frequency/holiday/lag treatment, shared household payday source links and empirical startup cohort checks. Public-budget/national modules own actual government funding, not this timing prior.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P8-farm-sector",
+    "kind": "assumed-mapping",
+    "file": "src/core2/data/business-books.json",
+    "line": 11,
+    "whatItFakes": "The farm kind is filed under the mining-logging sector because the country tier's list has no agriculture sector.",
+    "why": "The tier's sector list follows the BLS payroll supersectors, which leave farms out; a farm seller still needs a sector to meet buyers.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "An agriculture sector added to the country tier's list (COUNTRY_SECTORS) with its own pay, basket and trade shares, then the farm kind moved to it.",
     "status": "open"
   }
 ]

@@ -5,6 +5,7 @@
  * real for named people, organizations, officeholders or counted groups
  * through the engine that owns it; a repeal ends it.
  */
+import type { GovernmentLevel } from "./government-level";
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -59,6 +60,7 @@ import {
 } from "./law-reach/group-a-voting";
 // After the engines: the outcome web reads this module while it loads.
 import { govMeasure } from "./gov-measures";
+import { openClimate } from "./modules/climate";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -121,6 +123,10 @@ function openTown(): void {
     openRecord(c);
     openLegislature(c);
     openBudgets(c);
+    // The disasters engine every life core carries reads the climate engine's
+    // hazards each day, so a world that runs days opens it, after the laws and
+    // the budgets (the way the played world does).
+    openClimate(c);
     openLawReach(c);
     repealStartingAnswers(c);
     const a = coreAPI(c);
@@ -151,7 +157,7 @@ function jurisdictionOf(level: string): string {
 function enactLawId(key: string, level: string, value: number): string {
   return enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
-    level: level as "federal" | "state" | "county" | "city",
+    level: level as GovernmentLevel,
     series: key,
     value,
     effectiveDate: api.state.date,
@@ -165,7 +171,7 @@ function enact(key: string, level: string, value: number, days = 2): string {
   const measureId = `test:${key}:${value}:${api.state.date}`;
   enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
-    level: level as "federal" | "state" | "county" | "city",
+    level: level as GovernmentLevel,
     series: key,
     value,
     effectiveDate: after(api.state.date, 1),
@@ -187,6 +193,12 @@ function levelFor(key: string): string {
   // Where the state bars its places from the rule, only the state can make it.
   if (POLICY_QUESTIONS[key]?.answers[lawChain(api).stateKey]?.preempts)
     return "state";
+  // A policy whose effect is data-limited to certain levels (a state license
+  // regime) is heard only when one of those levels changes: a city's yes
+  // there is not a law that issues the license (Arkansas, place 0573940, where
+  // the state does not bar its places and cannabis sales are a state license).
+  const effect = POLICIES[key]?.effectLevels;
+  if (effect?.length && !effect.includes("city")) return effect[0]!;
   return "city";
 }
 

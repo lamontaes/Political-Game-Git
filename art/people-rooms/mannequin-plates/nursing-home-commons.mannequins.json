@@ -1,0 +1,65 @@
+{
+  "scene": "nursing-home-commons",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "nursing-home-commons__midday.jpg",
+  "backdrops": [],
+  "spots": [
+    {
+      "id": "nursing-home-commons-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 346,
+        "x": 520.0,
+        "width": 65
+      },
+      "box": [
+        453,
+        346,
+        587,
+        900
+      ],
+      "feet": 899
+    },
+    {
+      "id": "nursing-home-commons-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 387,
+        "x": 640.0,
+        "width": 37
+      },
+      "box": [
+        602,
+        387,
+        678,
+        700
+      ],
+      "feet": 699
+    },
+    {
+      "id": "nursing-home-commons-2",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 403,
+        "x": 600.0,
+        "width": 25
+      },
+      "box": [
+        574,
+        403,
+        626,
+        620
+      ],
+      "feet": 619
+    }
+  ]
+}

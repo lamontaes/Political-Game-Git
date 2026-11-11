@@ -40,6 +40,7 @@ import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { SCHOOL_MODULE } from "./modules/school";
 import { DISASTERS_MODULE } from "./modules/disasters";
 import { declareSnapshotCovered } from "./snapshot";
+import { stopgap } from "./stopgaps";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import {
@@ -297,28 +298,10 @@ export function availableActs(
   if (core.data.discretionaryIneligibleTiersV1?.includes(actor.tier)) return [];
   const api = coreAPI(core);
   const offers: ActOffer[] = [];
-  // The same for every offer: the person's free hours today, and whether
-  // they hold a current commitment at their own job (computed once, not per
-  // offer).
+  // The same for every offer: the person's free hours today (computed once,
+  // not per offer).
   const freeHours = discretionaryHours(api, actor.id);
   const zero = api.parameter("zero");
-  let atOwnJob: boolean | undefined;
-  const holdsOwnJob = () => {
-    if (atOwnJob === undefined) {
-      atOwnJob = false;
-      for (const id of core.work.commitmentsByPerson.get(actor.id) ?? []) {
-        const row = core.work.commitments.get(id)!;
-        if (
-          row.jobId === actor.jobId &&
-          (row.endsAt === undefined || row.endsAt >= core.date)
-        ) {
-          atOwnJob = true;
-          break;
-        }
-      }
-    }
-    return atOwnJob;
-  };
   // One round of offers: the providers share what they work out for
   // this person today (nothing they read changes while the offers are made).
   const round: OfferRound = new Map();
@@ -332,13 +315,9 @@ export function availableActs(
       throw new Error(
         `Unregistered available-act provider: ${definition.targetKind}`,
       );
-    const excludedAtWork =
-      core.data.work?.discretionaryExclusions.includes(definition.effect) ??
-      false;
     const override =
       core.data.work?.discretionaryDurationParameters?.[definition.effect];
     for (const offer of provide(api, actor, definition, round)) {
-      if (excludedAtWork && holdsOwnJob()) continue;
       offer.effortHours = override
         ? api.parameter(override)
         : api.parameter(definition.effortParameter);
@@ -589,16 +568,37 @@ export function runDay(
     acts += hooks.activate(row);
   }
   for (const module of core.modules.values()) module.onAfterDay?.(api);
+  compactDay(core);
+  return { decisions, acts };
+}
+
+/** End-of-day compaction, run by both the day loop and results mode. */
+function compactDay(core: CoreState): void {
   compactRoutineMetrics(core);
   compactQuietWorkResults(core, coreAPI(core));
   condenseCircleDecisions(core);
-  return { decisions, acts };
+}
+
+/**
+ * One day nobody watches (results mode): the module calendar's dated work and
+ * the day's compaction, with no module's day and no person due to act. On the
+ * first of each month every module's onResultsMonth brings its own daily work
+ * up to date, so day-by-day play resumes after the skip.
+ */
+function runResultsDay(core: CoreState, api: CoreAPI): void {
+  // stopgapId: SG-SPEED-results-mode-daily-work (a skipped day runs no module's day and no person; each engine with an onResultsMonth step catches up on the first of the month)
+  stopgap("SG-SPEED-results-mode-daily-work", core);
+  runModuleCalendar(core, api);
+  const day = new Date(`${makeIsoDate(core.date)}T00:00:00.000Z`).getUTCDate();
+  if (day === parameter("one", core.data.parameters))
+    for (const module of core.modules.values()) module.onResultsMonth?.(api);
+  compactDay(core);
 }
 
 export function advanceCore(
   core: CoreState,
   throughDate: string,
-  options: { controller?: Controller } = {},
+  options: { controller?: Controller; results?: boolean } = {},
 ): { simulatedDays: number; decisions: number; acts: number } {
   if (snapshotExplicitControlV1(core).personId !== undefined)
     throw new Error(
@@ -612,6 +612,11 @@ export function advanceCore(
     acts = p("zero");
   while (core.date < target) {
     const date = addDays(makeIsoDate(core.date), p("one"));
+    if (options.results) {
+      advanceDate(core, date);
+      runResultsDay(core, coreAPI(core));
+      continue;
+    }
     const due = duePeople(core, date);
     advanceDate(core, date);
     const api = coreAPI(core);

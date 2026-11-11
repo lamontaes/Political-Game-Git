@@ -1,0 +1,157 @@
+{
+ "date": "2026-01-20",
+ "api": {
+  "sections": [
+   {
+    "key": "nation",
+    "rows": [
+     {
+      "key": "unemployment",
+      "unit": "percent",
+      "now": 1.7419414054378506,
+      "before": 3.6842946566557804
+     },
+     {
+      "key": "inflation",
+      "unit": "percent",
+      "now": 4.827694852021502,
+      "before": 3.2810436856944403
+     },
+     {
+      "key": "pay",
+      "unit": "dollars",
+      "now": 39.11375240974709,
+      "before": 36.44372701807787
+     },
+     {
+      "key": "mortgage",
+      "unit": "percent",
+      "now": 6.936388390772359,
+      "before": 6.9424775403782375
+     },
+     {
+      "key": "policyRate",
+      "unit": "percent",
+      "now": 6.125,
+      "before": 4.125
+     }
+    ]
+   },
+   {
+    "key": "state",
+    "rows": [
+     {
+      "key": "unemployment",
+      "unit": "percent",
+      "now": 0.020294286012440325,
+      "before": null
+     },
+     {
+      "key": "pay",
+      "unit": "dollars",
+      "now": 34.66065546378979,
+      "before": null
+     },
+     {
+      "key": "jobs",
+      "unit": "count",
+      "now": 486269.3500683512,
+      "before": null
+     }
+    ]
+   },
+   {
+    "key": "city",
+    "rows": [
+     {
+      "key": "employed",
+      "unit": "count",
+      "now": 51,
+      "before": null
+     },
+     {
+      "key": "seekers",
+      "unit": "count",
+      "now": 1,
+      "before": null
+     },
+     {
+      "key": "openPositions",
+      "unit": "count",
+      "now": 2,
+      "before": null
+     }
+    ]
+   },
+   {
+    "key": "housing",
+    "rows": [
+     {
+      "key": "rentals",
+      "unit": "count",
+      "now": 11,
+      "before": null
+     },
+     {
+      "key": "vacant",
+      "unit": "count",
+      "now": 1,
+      "before": null
+     },
+     {
+      "key": "rent",
+      "unit": "money",
+      "now": 92985,
+      "before": null
+     },
+     {
+      "key": "homeValue",
+      "unit": "money",
+      "now": 19910562,
+      "before": null
+     }
+    ]
+   },
+   {
+    "key": "evictions",
+    "rows": [
+     {
+      "key": "evictions",
+      "unit": "count",
+      "now": 1,
+      "before": 0
+     }
+    ]
+   },
+   {
+    "key": "benefits",
+    "rows": [
+     {
+      "key": "claims",
+      "unit": "count",
+      "now": 1,
+      "before": null
+     }
+    ]
+   },
+   {
+    "key": "budget",
+    "rows": [
+     {
+      "key": "revenue",
+      "unit": "money",
+      "now": 12383940,
+      "before": 12383940
+     },
+     {
+      "key": "spending",
+      "unit": "money",
+      "now": 11672326,
+      "before": 11811654
+     }
+    ]
+   }
+  ]
+ },
+ "text": "Politics\nGovernment\nElections\nParties\nIssues\nBills\nBudgets\nMetrics\nThe country\nUnemployment\n1.7 %\n\nLast year 3.7 % · down 1.9 since last year\n\nPrice growth\n4.8 %\n\nLast year 3.3 % · up 1.5 since last year\n\nAverage hourly pay\n$39\n\nLast year $36 · up $3 since last year\n\n30-year mortgage rate\n6.9 %\n\nLast year 6.9 % · no change since last year\n\nThe central bank's rate\n6.1 %\n\nLast year 4.1 % · up 2.0 since last year\n\nHomes\nRental homes\n11\nRentals standing empty\n1\nTypical monthly rent\n$930\nTypical home value\n$199,000\nThe town's books\nComing in\n$124,000\n\nLast year $124,000 · no change since last year\n\nGoing out\n$117,000\n\nLast year $118,000 · down $1,390 since last year\n\nYour state\nUnemployment\n0.0 %\nAverage hourly pay\n$35\nJobs\n486,269\nEvictions\nEvictions\n1\n\nLast year 0 · up 1 since last year\n\nYour town\nPeople at work\n51\nPeople looking for work\n1\nJobs open\n2\nHelp for the unemployed\nPeople claiming now\n1"
+}

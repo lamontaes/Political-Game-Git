@@ -4,7 +4,7 @@ title: "Order 3: mine the empty cells of the coverage table"
 area: words
 kind: research
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5701
 blocked-on:
@@ -29,3 +29,7 @@ Sent back 2026-10-20 from PR #5187 (branch claude/political-game-pool-g08lgv): w
 Sent back 2026-10-21 from PR #5701 (branch claude/political-game-pool-yucp92-bm): The date-note repair is present and the new authored parts remain held, which is correct. However, words-mine-empty-cells Done when requires before/after coverage counts, a drawn whole exchange using each new bank, and the owner being able to attend a council meeting and hear it. The body explicitly says nothing can reach play yet and supplies no before/after counts or full drawn place/seed. Keep these held parts, but track their bounded preparatory work separately or finish the named acceptance; add the required Done when evidence table. No local gate pass is claimed here.; finish on that branch, merge main into it first.
 
 Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political-game-pool-yucp92-bm last pushed Oct 20; PR #5701 stays open for the next builder).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Its tooling is gone: words:coverage is not in package.json, and docs/grading/coverage.md, scripts/dialogue-batch/coverage-table.ts and data/english/parts/meeting.json no longer exist. The owner's Nov 10 ruling "Who does words work: split by role" (docs/coordination/OWNER-DECISIONS.md: "Split by role." Fable builds the rules and checks, Story writes every line) replaces its mine-and-grade method, and its named first targets are separate items (words-hearing-chair-title-and-yes, words-meeting-minutes-from-the-record).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

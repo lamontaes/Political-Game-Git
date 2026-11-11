@@ -93,6 +93,14 @@ function table(api: CoreAPI) {
   return api.moduleState(JOBS_MODULE_ID).table(WORK_ELSEWHERE_TABLE);
 }
 
+/**
+ * A death ends the person's working-life row, so the table holds only the
+ * living (the partnerships engine does the same with its pulls).
+ */
+export function forgetWorkElsewhere(api: CoreAPI, personId: PersonId): void {
+  table(api).remove(personId);
+}
+
 function bandOf(age: number): string | undefined {
   for (const band of CPS.ageBands) {
     const [low, high] = band.replace("+", "-").split("-");
@@ -372,7 +380,7 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
         }
       } else {
         row.findPull +=
-          findPerQuarter(api, at.meanOverNow, leans.applyLean) * month;
+          findPerQuarter(api, at.meanOverNow, leans.applyLean, age) * month;
         if (row.findPull >= p("one")) {
           row.status = "employed";
           row.since = core.date;

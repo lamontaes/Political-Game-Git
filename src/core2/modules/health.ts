@@ -21,7 +21,6 @@ import {
   personalityShares,
   startingConditionAssignments,
 } from "../condition-pack";
-import { remainingDaysAfterOnset } from "../death-causes";
 import {
   DEATH_WEB_REFRESH_DAY,
   deathWebFactor,
@@ -31,6 +30,7 @@ import {
 import {
   assignDeathCause,
   DEATH_CAUSE_FACT_KEY,
+  remainingDaysAfterOnset,
   SUBSTANCE_CONDITION,
 } from "../death-cause";
 import { incomeBandOf } from "../counted-income-fifth";
@@ -56,6 +56,8 @@ import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
 import { isDemoted } from "../counted-groups";
+import { huskIdentityOf, huskIncomeOf } from "../husk-promoters";
+import { personOrFillIn } from "../state";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -85,6 +87,8 @@ export interface HealthData {
   calibrationCategory: "equal-mixture" | "male" | "female";
   onsetEventKind: string;
   deathEventKind: string;
+  /** Results mode's calendar work for one day of a skipped month: the health engine's day. */
+  resultsDayWorkKind: string;
   /** A serious illness begun in the wider population, recorded for the person and their household. */
   countedOnsetEventKind: string;
   /** A death in the wider population, recorded for the household that outlives them. */
@@ -139,6 +143,8 @@ interface Severity {
 }
 
 export const DEFAULT_HEALTH_DATA = healthJson as unknown as HealthData;
+export const HEALTH_MODULE_ID = "core2-health-producer-p10-v1";
+const RESULTS_OPENING_GAP_STOPGAP = "SG-HEALTH-results-mode-opening-gap";
 
 export interface HealthCase {
   personId: PersonId;
@@ -172,6 +178,8 @@ interface HealthRuntime {
   initialized: boolean;
   /** People count at the last look; a change means newcomers to admit. */
   seenPeople: number;
+  /** How many husks the last pass read, so a day that adds none costs one comparison. */
+  seenHusks: number;
   cases: Map<PersonId, HealthCase>;
   onsetsByDate: Map<IsoDate, Set<PersonId>>;
   deathsByDate: Map<IsoDate, Set<PersonId>>;
@@ -195,6 +203,10 @@ interface HealthRuntime {
   youthCannabis: Map<PersonId, YouthCannabisRecord>;
   /** The fraction of a user each place's count carried to the next month. */
   youthCannabisCarry: Map<string, number>;
+  /** The last day the daily work ran; the next run takes every booked day after it. */
+  lastDay?: Day;
+  /** Results mode's calendar keys for the month under way, forgotten when the next month books its own. */
+  monthKeys: string[];
 }
 
 /** A day on the hazard model's calendar. */
@@ -233,6 +245,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
     row = {
       initialized: false,
       seenPeople: zero,
+      seenHusks: zero,
       cases: new Map(),
       onsetsByDate: new Map(),
       deathsByDate: new Map(),
@@ -245,6 +258,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       traitNorm: new Map(),
       youthCannabis: new Map(),
       youthCannabisCarry: new Map(),
+      monthKeys: [],
     };
     runtimes.set(state, row);
   }
@@ -811,23 +825,50 @@ export function youthCannabisRecordOf(
 
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   api.stopgap(data.stopgapId);
+  const p = (key: string) => api.parameter(key);
   const start = makeIsoDate(api.state.startedAt);
   const pay = householdMonthlyPay(api);
   const alive = [...api.state.people.values()].filter((person) => person.alive);
   setTraitNorms(api, data, row, alive);
+  // Another state's legislators are husks, but their conditions are ranked in
+  // their cell by their seat's pay with everyone else's, as they were when they
+  // were people (`admitHusks` books the rest of them as they appear).
+  const core = api.state as CoreState;
+  const members = [
+    ...alive.map((who) => ({
+      who: who as Readonly<PersonState>,
+      monthly: pay.get(who.householdId) ?? null,
+    })),
+    ...[...core.husks.keys()].flatMap((id) => {
+      const who = huskIdentityOf(core, id);
+      if (!who) return [];
+      const income = huskIncomeOf(core, id);
+      return [
+        {
+          who: {
+            id,
+            birthDate: who.birthDate,
+            placeId: who.placeId,
+            traits: who.traits,
+          } as unknown as Readonly<PersonState>,
+          monthly: income === undefined ? null : income / p("monthsPerYear"),
+        },
+      ];
+    }),
+  ];
   const assignments = startingConditionAssignments(
-    alive.map((person) => ({
-      personId: person.id as EntityId,
-      placeKey: person.placeId,
-      age: exactAge(api, person.birthDate, start),
+    members.map(({ who, monthly }) => ({
+      personId: who.id as EntityId,
+      placeKey: who.placeId,
+      age: exactAge(api, who.birthDate, start),
       category: data.calibrationCategory,
-      monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
-      conscientiousness: conscientiousness(data, person),
+      monthlyHouseholdIncomeMinor: monthly,
+      conscientiousness: conscientiousness(data, who),
     })),
     behaviorSlopes(api, data),
     worldRateFactor(api.state.seed, "conditions"),
   );
-  for (const person of alive)
+  for (const { who: person } of members)
     assignPerson(
       api,
       data,
@@ -850,6 +891,40 @@ function admitNewcomers(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   row.seenPeople = api.state.people.size;
   for (const person of api.state.people.values())
     giveHealthRecord(api, person.id, data);
+}
+
+/**
+ * Another state's legislators are husks until something opens them
+ * (`husk-promoters.ts`); they still get the health record a person gets, from
+ * the same model and seeded by the world and the person, so their illness and
+ * death are booked on the same days and the person is built on the day it
+ * begins (`onDay`). Only a husk an engine can name (an official) is booked: a
+ * relative in the counts dies by the counted flows.
+ */
+function admitHusks(api: CoreAPI, data: HealthData, row: HealthRuntime) {
+  const core = api.state as CoreState;
+  if (core.husks.size === row.seenHusks) return;
+  row.seenHusks = core.husks.size;
+  const today = makeIsoDate(api.state.date);
+  for (const id of core.husks.keys()) {
+    if (row.conditionsByPerson.has(id)) continue;
+    const who = huskIdentityOf(core, id);
+    if (!who) continue;
+    const stand = {
+      id,
+      birthDate: who.birthDate,
+      traits: who.traits,
+    } as unknown as PersonState;
+    api.stopgap(data.stopgapId);
+    assignPerson(
+      api,
+      data,
+      row,
+      stand,
+      lateConditions(api, data, stand, exactAge(api, who.birthDate, today)),
+      today,
+    );
+  }
 }
 
 /**
@@ -999,93 +1074,199 @@ function caseEvent(
   };
 }
 
+/**
+ * The onsets and deaths booked for one day, heard today: on its own day in
+ * play, or today when the clock passed over that day (the days between the
+ * opening and the engine's first run in results mode).
+ */
+function hearBookedDay(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  booked: Day,
+) {
+  const date = makeIsoDate(api.state.date);
+  for (const id of [...(row.onsetsByDate.get(booked) ?? [])].sort()) {
+    const core = api.state as CoreState;
+    const person =
+      api.state.people.get(id) ??
+      (core.husks.has(id) ? undefined : personOrFillIn(core, id));
+    const found = row.cases.get(id);
+    // A husk whose illness begins is not built: nobody close to them is
+    // a full person to hear it (the onset is private), so it begins
+    // unseen on the same day and their death, on the day it falls due,
+    // builds them (below).
+    if (!person && found && core.husks.has(id)) {
+      const who = huskIdentityOf(core, id);
+      if (!who) continue;
+      api.stopgap(data.stopgapId);
+      const days = remainingDaysAfterOnset({
+        age: ageOnDate(makeIsoDate(who.birthDate), date),
+        severity: found.severity,
+        covered: null,
+      });
+      found.onsetEventId = `${data.onsetEventKind}:${id}:${date}`;
+      found.deathDate = addDays(date, days);
+      index(row.deathsByDate, found.deathDate, id);
+      row.onsets += api.parameter("one");
+      continue;
+    }
+    // Someone back in the counts is counted: the counted flows decide
+    // their illness and death, by the same life-table share, and their
+    // kept record waits for them to be met again (one model, two tiers).
+    if (!person?.alive || !found || isDemoted(person)) continue;
+    api.stopgap(data.stopgapId);
+    const event = caseEvent(
+      api,
+      data,
+      person,
+      found,
+      data.onsetEventKind,
+      data.onsetSeverity,
+      false,
+    );
+    const days = remainingDaysAfterOnset({
+      age: ageOnDate(makeIsoDate(person.birthDate), date),
+      severity: found.severity,
+      covered: null,
+    });
+    found.onsetEventId = event.id;
+    found.deathDate = addDays(date, days);
+    index(row.deathsByDate, found.deathDate, id);
+    row.onsets += api.parameter("one");
+    api.emit(event);
+  }
+  for (const id of [...(row.deathsByDate.get(booked) ?? [])].sort()) {
+    // A husk whose death falls due is built now, then dies as anyone does.
+    const person =
+      api.state.people.get(id) ??
+      ((api.state as CoreState).husks.has(id) && row.cases.get(id)?.onsetEventId
+        ? personOrFillIn(api.state as CoreState, id)
+        : undefined);
+    const found = row.cases.get(id);
+    if (!person?.alive || !found || isDemoted(person)) continue;
+    api.stopgap(data.stopgapId);
+    const event = caseEvent(
+      api,
+      data,
+      person,
+      found,
+      data.deathEventKind,
+      data.deathSeverity,
+      true,
+    );
+    const died = assignDeathCause(api, {
+      placeId: person.placeId,
+      age: Math.floor(exactAge(api, person.birthDate, date)),
+      incomeFifth: row.plans.get(id)?.fifth,
+      substanceUse: (row.conditionsByPerson.get(id) ?? []).includes(
+        SUBSTANCE_CONDITION,
+      ),
+    });
+    found.deathEventId = event.id;
+    // A death booked on a day the clock passed over is heard, and dated, today.
+    found.deathDate = date;
+    row.causeOfDeath.set(id, died.cause);
+    api.updatePerson(id, { alive: false });
+    row.deaths += api.parameter("one");
+    // A death is a public record (the death certificate) and local news
+    // (the obituary): the town's counts, the news, kin and the seat's
+    // vacancy rule all read it. An illness's onset stays private.
+    api.emit({
+      ...event,
+      facts: {
+        ...event.facts,
+        [`event:${event.id}:${DEATH_CAUSE_FACT_KEY}`]: died.cause,
+      },
+      publicRecord: true,
+      news: true,
+    });
+    // Their cash passes to their heirs, or escheats (money audit defect 6).
+    settleEstate(api, id, event.id);
+  }
+}
+
+/**
+ * The health engine's day: its records begin or admit newcomers, the monthly
+ * refreshes run on their day, and every day booked since the last run is
+ * heard. It runs once a day whichever clock calls it: the day's loop, or in
+ * results mode the first of the month and the calendar's work for each other
+ * day of the month, so a skipped year falls ill and dies on the days it does
+ * day by day.
+ */
+function runHealthDay(api: CoreAPI, data: HealthData): void {
+  const row = runtime(api.state);
+  const today = makeIsoDate(api.state.date);
+  if (row.lastDay === today) return;
+  if (!row.initialized) initialize(api, data, row);
+  else admitNewcomers(api, data, row);
+  if (row.initialized) admitHusks(api, data, row);
+  if (row.initialized) {
+    refreshWebFactors(api, data, row);
+    refreshYouthCannabis(api, data, row);
+  }
+  const one = api.parameter("one");
+  for (
+    let booked = addDays(row.lastDay ?? addDays(today, -one), one);
+    booked <= today;
+    booked = addDays(booked, one)
+  ) {
+    // stopgapId: SG-HEALTH-results-mode-opening-gap (a day booked before the engine's first run in results mode is heard on that run)
+    if (booked < today) api.stopgap(RESULTS_OPENING_GAP_STOPGAP);
+    hearBookedDay(api, data, row, booked);
+  }
+  row.lastDay = today;
+}
+
+/**
+ * Results mode's month (time nobody watches), on its first day: today's
+ * health day, then one calendar entry for each other day of the month, so
+ * the people kept as people fall ill and die on their own days with no
+ * module's day running. Last month's finished entries are forgotten.
+ */
+function bookResultsMonth(api: CoreAPI, data: HealthData): void {
+  runHealthDay(api, data);
+  const row = runtime(api.state);
+  const calendar = api.moduleCalendar(HEALTH_MODULE_ID);
+  for (const key of row.monthKeys) calendar.forget(key);
+  row.monthKeys = [];
+  const today = makeIsoDate(api.state.date);
+  const month = today.slice(0, 7);
+  const one = api.parameter("one");
+  for (
+    let date = addDays(today, one);
+    date.slice(0, 7) === month;
+    date = addDays(date, one)
+  ) {
+    const key = `${data.resultsDayWorkKind}:${date}`;
+    calendar.schedule({
+      key,
+      date,
+      kind: data.resultsDayWorkKind,
+      source: { ...data.source, asOf: today },
+      sourceRecordIds: [`${HEALTH_MODULE_ID}:${key}`],
+    });
+    row.monthKeys.push(key);
+  }
+}
+
 export function createHealthModule(
   data: HealthData = DEFAULT_HEALTH_DATA,
 ): CoreModule {
   return {
-    id: "core2-health-producer-p10-v1",
+    id: HEALTH_MODULE_ID,
     eventKinds: [HOUSING_STATUS_EVENT, "housing.eviction"],
     onEvent(api, event) {
       housingChanged(api, data, event);
     },
     onDay(api) {
-      const row = runtime(api.state);
-      if (!row.initialized) initialize(api, data, row);
-      else admitNewcomers(api, data, row);
-      if (row.initialized) {
-        refreshWebFactors(api, data, row);
-        refreshYouthCannabis(api, data, row);
-      }
-      const date = makeIsoDate(api.state.date);
-      for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
-        const person = api.state.people.get(id);
-        const found = row.cases.get(id);
-        // Someone back in the counts is counted: the counted flows decide
-        // their illness and death, by the same life-table share, and their
-        // kept record waits for them to be met again (one model, two tiers).
-        if (!person?.alive || !found || isDemoted(person)) continue;
-        api.stopgap(data.stopgapId);
-        const event = caseEvent(
-          api,
-          data,
-          person,
-          found,
-          data.onsetEventKind,
-          data.onsetSeverity,
-          false,
-        );
-        const days = remainingDaysAfterOnset({
-          age: ageOnDate(makeIsoDate(person.birthDate), date),
-          severity: found.severity,
-          covered: null,
-        });
-        found.onsetEventId = event.id;
-        found.deathDate = addDays(date, days);
-        index(row.deathsByDate, found.deathDate, id);
-        row.onsets += api.parameter("one");
-        api.emit(event);
-      }
-      for (const id of [...(row.deathsByDate.get(date) ?? [])].sort()) {
-        const person = api.state.people.get(id);
-        const found = row.cases.get(id);
-        if (!person?.alive || !found || isDemoted(person)) continue;
-        api.stopgap(data.stopgapId);
-        const event = caseEvent(
-          api,
-          data,
-          person,
-          found,
-          data.deathEventKind,
-          data.deathSeverity,
-          true,
-        );
-        const died = assignDeathCause(api, {
-          placeId: person.placeId,
-          age: Math.floor(exactAge(api, person.birthDate, date)),
-          incomeFifth: row.plans.get(id)?.fifth,
-          substanceUse: (row.conditionsByPerson.get(id) ?? []).includes(
-            SUBSTANCE_CONDITION,
-          ),
-        });
-        found.deathEventId = event.id;
-        row.causeOfDeath.set(id, died.cause);
-        api.updatePerson(id, { alive: false });
-        row.deaths += api.parameter("one");
-        // A death is a public record (the death certificate) and local news
-        // (the obituary): the town's counts, the news, kin and the seat's
-        // vacancy rule all read it. An illness's onset stays private.
-        api.emit({
-          ...event,
-          facts: {
-            ...event.facts,
-            [`event:${event.id}:${DEATH_CAUSE_FACT_KEY}`]: died.cause,
-          },
-          publicRecord: true,
-          news: true,
-        });
-        // Their cash passes to their heirs, or escheats (money audit defect 6).
-        settleEstate(api, id, event.id);
-      }
+      runHealthDay(api, data);
+    },
+    onResultsMonth(api) {
+      bookResultsMonth(api, data);
+    },
+    onCalendarWork(api, work) {
+      if (work.kind === data.resultsDayWorkKind) runHealthDay(api, data);
     },
   };
 }

@@ -38,7 +38,17 @@ function dueIds(
   return result;
 }
 
-function runFinanceDay(api: CoreAPI): void {
+/**
+ * The finance engine's dated work for today: budgets that end, business
+ * reviews and bills that fell due, settled in the data's phase order. The
+ * day passes `afterPhase` to add its daily work after a phase (households'
+ * everyday living after the household phase); results mode's month passes
+ * none.
+ */
+function settleDueFinance(
+  api: CoreAPI,
+  afterPhase?: (phaseId: string) => void,
+): void {
   const finance = api.state.finance;
   for (const id of dueIds(finance.contractsEndingAt, api.state.date))
     api.retireFinanceBudget(id);
@@ -81,8 +91,14 @@ function runFinanceDay(api: CoreAPI): void {
           counted: false,
         });
     }
+    afterPhase?.(phase.id);
+  }
+}
+
+function runFinanceDay(api: CoreAPI): void {
+  settleDueFinance(api, (phaseId) => {
     // Households spend on everyday living after income, before restocking.
-    if (phase.id === api.state.data.finance!.defaultPhases.household)
+    if (phaseId === api.state.data.finance!.defaultPhases.household)
       settleLivingDay(api, (sale) =>
         notifySalesReceipt(api, {
           ...sale,
@@ -92,12 +108,26 @@ function runFinanceDay(api: CoreAPI): void {
           counted: false,
         }),
       );
-  }
+  });
+}
+
+/**
+ * Results mode's month (time nobody watches): the finance engine's own dated
+ * work for everything that fell due in the skipped month (budgets that ended,
+ * business reviews, bills and buyers' purchases, whose cutoffs move with
+ * them) and its end of day, so no review or bill is a skipped period when
+ * day-by-day play resumes. Households' everyday living is daily work and does
+ * not run.
+ */
+function catchUpFinanceMonth(api: CoreAPI): void {
+  settleDueFinance(api);
+  api.finishFinanceDay();
 }
 
 export const FINANCE_MODULE: CoreModule = {
   id: "core2-recorded-finance-v1",
   onDay: runFinanceDay,
+  onResultsMonth: catchUpFinanceMonth,
   onWorkPayroll: observeWorkPayrollForFinance,
   onAfterDay: (api) => api.finishFinanceDay(),
 };

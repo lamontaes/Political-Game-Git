@@ -6,19 +6,33 @@ kind: feature
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by: 
 pr:
 blocked-on:
 source: scene researcher Helper D, Oct 27; scenes-from-life episode disaster-first-hours (owner's executive brief: a disaster's first hours, a mayor and the governor)
 lead: director
 claimed-at: 
+after:
+model: sonnet
+effort: medium
+root: design-story-director
+checked: fable 2026-11-10
 ---
 
-**What.** A scene researcher's item for the director engineer. On the day a real FEMA incident begins in the player's town, the head of the department that handles it comes to the executive's office with the first count and asks what they may spend. The governor calls the mayor on the same day when the governor is a full person. The executive answers one of four ways: authorize the spending, ask what is needed first, escalate to the governor, or hold to the budget. The facts the lines say come from the disaster record, the damaged-home count where FEMA counted homes, and the town's seated department heads. Seen: when a disaster begins the department head comes to the executive's office and asks what they may spend, with four replies.
+**What.** On the day a real FEMA incident begins in the player's town, the head of the department that handles it comes to the executive's office with the first count and asks what they may spend. The governor calls the mayor on the same day when the governor is a full person. The executive answers one of four ways: authorize the spending, ask what is needed first, escalate to the governor, or hold to the budget. The facts the lines say come from the disaster record, the damaged-home count where FEMA counted homes, and the town's seated department heads. No disaster situation type exists; the packet and cast rule are on main. Seen: when a disaster begins the department head comes to the executive's office and asks what they may spend, with four replies.
+
+**Cause.** Design: docs/design/scenes/from-life/disaster-first-hours.md (trigger hazard.disaster, cast rule from appointmentsIn) under docs/design/story-director.md. The record already exists: src/core2/modules/disasters.ts emits kind hazard.disaster on the day the incident begins, and src/director/data/situation-types.json holds no type for it.
+
+**Fix.** Add a situation type fired by hazard.disaster that casts the seated fire chief or public works director as the visitor (and the governor by phone), with four reply moves, writing scene.reply and the tie contact back; the arc goes in src/director/data/purpose-arcs.json and the cast rule in src/director/civic-roles.ts. The lines are Story's under the Nov 10 split of words work.
+
+**Time box.** 5 hours.
 
 **Rules.** No dice: who comes is the seated head of the post the incident type engages, never a roll, and what they say follows their traits and their tie to the executive. Wire to the world: the disaster record, the appointment row and the declaration records are read by the director, and the scene cites each by record id. No hand-written player text in code: every word is a bank piece worded by the English engine.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the director engineer did not choose, a recorded hazard.disaster that names the town's executive casts the fire chief or public works director as the visitor and composes the scene citing the disaster record and the appointment row by id, saying the damaged-home count when the record holds one; a town with no seated head fires none; two trait profiles of the visitor say it differently; the four replies are four moves; a test fails when the executive is missing from the disaster record.
+**Done when.** A second session, in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, sees a recorded hazard.disaster that names the town's executive cast the fire chief or public works director as the visitor, with the scene citing the disaster record and the appointment row by id and saying the damaged-home count when the record holds one. A town with no seated head fires none; two trait profiles of the visitor say it differently; the four replies are four moves; a test fails when the executive is missing from the disaster record.
+
+**Waits on.** world-disaster-names-the-executives (open).
 
 **Files.** src/director/data/situation-types.json, src/director/data/purpose-arcs.json, src/director/civic-roles.ts, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, docs/design/scenes/from-life/disaster-first-hours.md
 

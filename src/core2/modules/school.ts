@@ -8,11 +8,12 @@
  * or the town itself where a world opened without that step.
  * Attending takes a school day's hours and is recorded for the day.
  */
+import { ageInYears } from "../kernel/dates";
 import data from "../data/school-days.json" with { type: "json" };
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
 import { offer } from "./life";
 import { reenrollPrivateTuition } from "../private-tuition-reenroll";
 import type {
@@ -43,10 +44,7 @@ import outcomes from "../data/school/outcomes.json" with { type: "json" };
 
 export { SCHOOL_MODULE_ID };
 
-const ageOn = (birthDate: string, date: string) => {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
-};
+const ageOn = ageInYears;
 
 /** A weekday inside the base school year, outside its recorded breaks. */
 function onBaseCalendar(date: string): boolean {

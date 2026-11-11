@@ -3,6 +3,7 @@
 // (ui/bill-stage.mjs) read this; every fact is a record read from the one legislature
 // module (committeeRecords, learnedStakesOf, votesOn), never a count made here, and no
 // player text is written here (the screens word the codes).
+import { legislativeSessionsOf } from "../core2/modules/world-panels";
 import { coreAPI } from "../core2/state";
 import { composeBill } from "../english/bill-sections";
 import {
@@ -10,6 +11,7 @@ import {
   billForm,
   billJurisdiction,
   billOf,
+  billReach,
   bodyOf,
   holdOverride,
   overridePending,
@@ -32,7 +34,9 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { snapshotExplicitControlV1 } from "../core2/life";
-import type { CoreState } from "../core2/types";
+import reachA from "../core2/data/laws/reach-group-a.json" with { type: "json" };
+import reachB from "../core2/data/laws/reach-group-b.json" with { type: "json" };
+import type { CoreAPI, CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
 import { townSeats } from "../core2/modules/offices";
@@ -59,6 +63,55 @@ export interface NamedVote {
   readonly personId: string | null;
   readonly name: string;
   readonly vote: string;
+  /**
+   * Why they voted so, from the position the record kept: each reason that pulled, its side and
+   * its signed magnitude, strongest first. Empty where the record kept none (a vote the player
+   * cast, an official not weighed).
+   */
+  readonly reasons?: readonly {
+    readonly reason: string;
+    readonly side: "for" | "against";
+    readonly magnitude: number;
+  }[];
+}
+
+/** The reasons a position record kept, strongest first, each with its side and signed magnitude. */
+const REASON_KEYS = [
+  "views",
+  "constituents",
+  "sponsor",
+  "deal",
+  "lobby",
+  "party",
+  "wing",
+  "ambition",
+  "press",
+  "trait",
+  "consistency",
+  "bribe",
+  "reply",
+] as const;
+function reasonsOf(
+  position: object | undefined,
+): NonNullable<NamedVote["reasons"]> {
+  const kept = position as
+    Readonly<Record<string, number | undefined>> | undefined;
+  return REASON_KEYS.flatMap((key) => {
+    const n = kept?.[key];
+    return typeof n === "number" && n !== 0
+      ? [
+          {
+            reason: key,
+            side: n > 0 ? ("for" as const) : ("against" as const),
+            magnitude: n,
+          },
+        ]
+      : [];
+  }).sort(
+    (a, b) =>
+      Math.abs(b.magnitude) - Math.abs(a.magnitude) ||
+      a.reason.localeCompare(b.reason),
+  );
 }
 
 /** The side a member has told the player they lean to: from the stake the player learned. */
@@ -86,11 +139,16 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     ...rows.filter((r) => r.memberId === you),
     ...rows.filter((r) => r.memberId !== you),
   ];
-  const named = (row: { memberId: string; vote: string }): NamedVote => ({
+  const named = (row: {
+    memberId: string;
+    vote: string;
+    position?: object;
+  }): NamedVote => ({
     memberId: row.memberId,
     personId: core.people.has(row.memberId) ? row.memberId : null,
     name: personName(core, row.memberId),
     vote: row.vote,
+    ...(row.position ? { reasons: reasonsOf(row.position) } : {}),
   });
 
   const rows = votesOn(api, bill.id) as unknown as {
@@ -99,6 +157,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     chamber?: string;
     override?: boolean;
     tieBreak?: boolean;
+    position?: object;
   }[];
   const chambers = chambersOf(api, bill);
   const byChamber = (override: boolean) =>
@@ -281,21 +340,6 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
   const waiting = deskWaiting(api).some((row) => row.id === bill.id);
   const lean = waiting ? executiveLean(api, bill.id, player) : null;
   const side = (n: number) => (n > 0 ? "for" : n < 0 ? "against" : "none");
-  const REASONS = [
-    "views",
-    "constituents",
-    "sponsor",
-    "deal",
-    "lobby",
-    "party",
-    "wing",
-    "ambition",
-    "press",
-    "trait",
-    "consistency",
-    "bribe",
-    "reply",
-  ] as const;
   const decided = (
     votesOn(api, bill.id) as unknown as {
       memberId: string;
@@ -307,12 +351,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     .map((row) => ({
       ...named(row),
       personId: core.people.has(row.memberId) ? row.memberId : null,
-      reasons: REASONS.flatMap((key) => {
-        const n = row.position?.[key];
-        return typeof n === "number" && n !== 0
-          ? [{ reason: key, side: side(n) }]
-          : [];
-      }),
+      reasons: reasonsOf(row.position),
     }));
   const desk = {
     waiting,
@@ -329,9 +368,23 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     stage,
     desk,
     amendments,
-    /** The sections whose amount an amendment may lower or raise. */
-    sectionsAmendable: bill.provisions
-      .map((p, i) => (p.kind === "policy-question" ? -1 : i))
+    /**
+     * The sections whose amount an amendment may lower or raise: those with a law in force to move
+     * from, the test `moveOwnAmendment` applies (a section with none had a button and an error).
+     */
+    sectionsAmendable: (() => {
+      const sections = billForm(api, bill).sections;
+      return bill.provisions
+        .map((p, i) =>
+          p.kind === "policy-question" || sections[i]?.before.value == null
+            ? -1
+            : i,
+        )
+        .filter((i) => i >= 0);
+    })(),
+    /** The yes-or-no sections an amendment may reverse (the answer struck, its opposite inserted). */
+    sectionsReversible: bill.provisions
+      .map((p, i) => (p.kind === "policy-question" ? i : -1))
       .filter((i) => i >= 0),
     yours: {
       sits,
@@ -416,14 +469,25 @@ export function moveOwnAmendment(
   const player =
     asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId;
   if (!player) throw new Error("Choose a resident first.");
-  if (direction !== "lower" && direction !== "raise")
-    throw new Error("Lower or raise the section.");
+  if (direction !== "lower" && direction !== "raise" && direction !== "reverse")
+    throw new Error("Lower, raise or reverse the section.");
   const stage = billStage(core, billId, player);
   if (!stage.yours.mayChoose)
     throw new Error("You may not move an amendment on that bill now.");
   const api = coreAPI(core);
   const bill = billOf(api, billId);
   const section = bill.provisions[index];
+  if (direction === "reverse") {
+    if (section?.kind !== "policy-question")
+      throw new Error("Only a yes-or-no section can be reversed.");
+    moveAmendment(api, {
+      billId,
+      movedBy: player,
+      index,
+      with: { ...section, value: -section.value },
+    });
+    return billStage(core, billId, player);
+  }
   const today = billForm(api, bill).sections[index]?.before.value;
   if (!section || section.kind === "policy-question" || today == null)
     throw new Error("That section has no amount to move.");
@@ -468,10 +532,15 @@ export function followedBills(core: CoreState, asId?: string) {
   const higher = (officeId: string) =>
     officeId.startsWith("federal:") ||
     bodyRow(bodyOf(api, officeId)?.kind ?? "")?.legislature !== undefined;
+  // The player's own members: the state and federal officials who hold the seats that cover
+  // the place, and the town's council and the county's board (any body that is not a legislature
+  // but sits in the place's own chain, by the body table).
   const mine = new Set(
     townSeats(api).flatMap(({ office, holder }) =>
       holder &&
-      (office.kind.startsWith("legislature-") || office.kind.startsWith("us-"))
+      (office.kind.startsWith("legislature-") ||
+        office.kind.startsWith("us-") ||
+        bodyRow(office.kind) !== undefined)
         ? [memberKey(holder)]
         : [],
     ),
@@ -480,33 +549,41 @@ export function followedBills(core: CoreState, asId?: string) {
     .moduleState(LEGISLATURE)
     .table("bills")
     .rows() as unknown as BillRow[];
-  return rows
-    .filter((bill) => higher(bill.bodyOfficeId))
-    .sort(
-      (a, b) =>
-        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
-    )
-    .map((bill) => {
-      const stage = billStage(core, bill.id, asId);
-      return {
-        id: bill.id,
-        number: bill.number,
-        title: billPaper(core, bill.id).title,
-        sponsor: stage.sponsor,
-        stage: stage.stage,
-        status: stage.status,
-        floor: stage.floor.map((c) => ({
-          chamberTitle: c.chamberTitle,
-          result: c.result,
-        })),
-        mine: [...stage.floor, ...stage.override].flatMap((c) =>
-          [...c.yes, ...c.no, ...c.other]
-            .filter((v) => mine.has(v.memberId))
-            .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
-        ),
-        reachesYou: reachesTown(api, billJurisdiction(api, bill)),
-      };
-    });
+  return (
+    rows
+      // The state's and Congress's bills, and the bills of the place's own council and county board:
+      // a bill is followed when its body is a legislature or its law reaches the player's place.
+      .filter(
+        (bill) =>
+          higher(bill.bodyOfficeId) ||
+          reachesTown(api, billJurisdiction(api, bill)),
+      )
+      .sort(
+        (a, b) =>
+          b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+      )
+      .map((bill) => {
+        const stage = billStage(core, bill.id, asId);
+        return {
+          id: bill.id,
+          number: bill.number,
+          title: billPaper(core, bill.id).title,
+          sponsor: stage.sponsor,
+          stage: stage.stage,
+          status: stage.status,
+          floor: stage.floor.map((c) => ({
+            chamberTitle: c.chamberTitle,
+            result: c.result,
+          })),
+          mine: [...stage.floor, ...stage.override].flatMap((c) =>
+            [...c.yes, ...c.no, ...c.other]
+              .filter((v) => mine.has(v.memberId))
+              .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
+          ),
+          reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+        };
+      })
+  );
 }
 
 /**
@@ -612,4 +689,304 @@ export function callOverrideVote(
     billId,
     asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId,
   );
+}
+
+/**
+ * The session window of the body holding a bill: the sitting it is in (or, between sittings, the
+ * next one), from the body's calendar records; null for a body that sits by regular meeting.
+ * What the floor does not reach dies at adjournment (world-legislating), so a drafted bill's
+ * deadline is the sitting's end.
+ */
+function sessionWindowOf(
+  api: CoreAPI,
+  bill: BillRow,
+): { startsOn: string; endsOn: string; id: string } | null {
+  const body = bodyOf(api, bill.bodyOfficeId);
+  if (!body) return null;
+  const jurisdiction =
+    body.kind.startsWith("us-house") || body.kind === "us-senate"
+      ? "US"
+      : body.jurisdiction;
+  const today = api.state.date;
+  const rows = legislativeSessionsOf(api)
+    .filter((row) => row.jurisdiction === jurisdiction)
+    .sort((a, b) => a.conveneAt.localeCompare(b.conveneAt));
+  const row =
+    rows.find((r) => r.conveneAt <= today && r.adjournAt > today) ??
+    rows.find((r) => r.conveneAt > today);
+  return row
+    ? { startsOn: row.conveneAt, endsOn: row.adjournAt, id: row.id }
+    : null;
+}
+
+/**
+ * What the bill's page is built from, one object and nothing for the screen to compute: its name,
+ * the stage and the day of it, its sponsor, each section with its label key, its amount, the law
+ * in force before it and (for a budget line) last year's amount, and the government level, the
+ * tally at each stage it has passed, and where it reaches. Money is in minor units; the screen
+ * words it (`moneySaid`) and the labels (the banks).
+ */
+export function billPageView(core: CoreState, billId: string, asId?: string) {
+  const api = coreAPI(core);
+  const bill = billOf(api, billId);
+  const stage = billStage(core, billId, asId);
+  const paper = billPaper(core, billId);
+  const form = billForm(api, bill);
+  const reach = billReach(api, bill);
+  const minorUnit = (unit: string | null | undefined) =>
+    typeof unit === "string" && unit.startsWith("minor");
+  const clauseOf = (provisions: readonly Provision[], index: number) => {
+    const copy: BillRow = { ...bill, provisions };
+    const f = billForm(api, copy);
+    return (
+      composeBill({
+        ...copy,
+        effective: f.effectiveSection,
+        before: f.sections.map((row) => row.before),
+      })?.sections[index] ?? null
+    );
+  };
+  const rows = bill.provisions.map((provision, index) => {
+    const before = form.sections[index]?.before;
+    const budgetLine = provision.kind === "budget-line";
+    const amountMinor =
+      budgetLine || minorUnit(provision.unit)
+        ? budgetLine && provision.of !== undefined
+          ? provision.of + provision.value
+          : provision.value
+        : null;
+    const inForceMinor =
+      before && minorUnit(before.unit) && typeof before.value === "number"
+        ? before.value
+        : null;
+    const lastYearMinor = budgetLine ? (provision.of ?? null) : null;
+    // The change the section makes: a budget line against last year's amount, a rate against the law in force.
+    const base = budgetLine ? lastYearMinor : inForceMinor;
+    const changeMinor =
+      amountMinor !== null && base !== null ? amountMinor - base : null;
+    return {
+      budgetLine,
+      section: {
+        index,
+        kind: provision.kind,
+        // The clause as the bill words it (inserted) and as it would read with the law in force
+        // today in its place (struck), for a screen to strike and insert; null where the law in
+        // force gives no value to put back.
+        inserted: clauseOf(bill.provisions, index),
+        struck:
+          before && typeof before.value === "number" && !budgetLine
+            ? clauseOf(
+                bill.provisions.map((p, i) =>
+                  i === index
+                    ? ({ ...p, value: before.value } as Provision)
+                    : p,
+                ),
+                index,
+              )
+            : null,
+        // The law the section changes, to open: its record id and the citation the records give.
+        amends:
+          before && (before.lawId || before.statute)
+            ? { lawId: before.lawId ?? null, citation: before.statute ?? null }
+            : null,
+        // The catalog policy, question or budget line the section names: the key for its label.
+        labelKey:
+          provision.policyId ??
+          provision.question ??
+          provision.series ??
+          provision.line ??
+          null,
+        // A budget line carries the amount it sets (its change added to what it changes), else the value.
+        amountMinor,
+        // The law in force today for a rate or an amount in minor units.
+        inForceMinor,
+        // A budget line's amount in the budget it changes (last year's), where one is recorded.
+        lastYearMinor,
+        // The change from last year's amount (a budget line) or the law in force (a rate), in minor
+        // units and as a share of that base; null where the record gives no base.
+        changeMinor,
+        changePct:
+          changeMinor !== null && base ? (changeMinor / base) * 100 : null,
+        level: reach.level,
+        // The estimate engine's note for this section alone (workers it reaches, dollars a year),
+        // as the clerk's or budget office's note reads it for the section; the bill's own is above.
+        estimate: estimateOfProvisions(api, [provision]),
+        // Whom the law applies to (the law-reach data's own scope for this policy), and the change
+        // itself from what is in force to what is proposed; no counts before it is law.
+        scope: reachScopeOf(
+          provision.policyId ??
+            provision.question ??
+            provision.series ??
+            (provision.line ? `budget:${provision.line}` : null),
+        ),
+      },
+    };
+  });
+  const sections = rows.map((row) => row.section);
+  // The bill's total change in dollars a year: its budget lines only (a rate is not a sum).
+  const budgetChanges = rows.filter(
+    (row) => row.budgetLine && row.section.changeMinor !== null,
+  );
+  const totalChangeMinor = budgetChanges.length
+    ? budgetChanges.reduce(
+        (sum, row) => sum + (row.section.changeMinor ?? 0),
+        0,
+      )
+    : null;
+  const tallies = [
+    ...stage.committees.map((c) => ({
+      stage: "committee" as const,
+      chamber: c.chamber,
+      date: c.date,
+      yes: c.yes,
+      no: c.no,
+    })),
+    ...stage.floor.map((c) => {
+      // Each party's yes and no, and how many of the chamber's members cast no vote.
+      const partyOf = new Map(
+        members(api, c.chamber).map((t) => [memberKey(t), t.party ?? ""]),
+      );
+      const byParty = new Map<string, { yes: number; no: number }>();
+      for (const [side, list] of [
+        ["yes", c.yes],
+        ["no", c.no],
+      ] as const)
+        for (const vote of list) {
+          const party = partyOf.get(vote.memberId) ?? "";
+          const row = byParty.get(party) ?? { yes: 0, no: 0 };
+          row[side] += 1;
+          byParty.set(party, row);
+        }
+      return {
+        stage: "floor" as const,
+        chamber: c.chamber,
+        date: paper.floorDate ?? null,
+        yes: c.yes.length,
+        no: c.no.length,
+        byParty: [...byParty.entries()]
+          .map(([party, row]) => ({ party: party || null, ...row }))
+          .sort((x, y) => y.yes + y.no - (x.yes + x.no)),
+        notVoting: Math.max(
+          0,
+          partyOf.size - c.yes.length - c.no.length - c.other.length,
+        ),
+      };
+    }),
+    ...stage.override.map((c) => ({
+      stage: "override" as const,
+      chamber: c.chamber,
+      date: null as string | null,
+      yes: c.yes.length,
+      no: c.no.length,
+    })),
+  ];
+  return {
+    id: bill.id,
+    number: bill.number,
+    name: paper.title,
+    level: reach.level,
+    stage: stage.stage,
+    // The day of the stage the bill is at: the day it was decided, else the day the floor takes it up.
+    stageDate:
+      paper.decision?.decidedOn ?? paper.floorDate ?? paper.agendaDate ?? null,
+    sponsor: { id: bill.sponsorId, name: paper.sponsor },
+    /** Where it is: the body it sits in, the committee that has it now, who filed it and when. */
+    where: {
+      bodyTitle:
+        stage.committees.at(-1)?.chamberTitle ??
+        bodyOf(api, bill.bodyOfficeId)?.bodyName ??
+        null,
+      committee: stage.committees.at(-1)?.committee ?? null,
+      filedBy: { id: bill.sponsorId, name: paper.sponsor },
+      filedOn: bill.introduced,
+      // The day its newest committee took it up in this chamber, else null (not yet referred).
+      reachedChamberOn: stage.committees.at(-1)?.date ?? null,
+      // The sitting the body holds the bill in (its start and end, from the body's calendar records).
+      session: sessionWindowOf(api, bill),
+      // The day the bill has until: what the floor does not reach dies at the sitting's adjournment,
+      // so a bill still before the body has until then; null once it is decided, and for a body that
+      // meets by regular meeting (no sitting).
+      until: (bill.status === "drafted"
+        ? (sessionWindowOf(api, bill)?.endsOn ?? null)
+        : null) as string | null,
+    },
+    /**
+     * The player's own representatives in each chamber that has the bill: the holders of the seats
+     * that cover the player's town (their district's legislator, a state senator, a member of
+     * Congress, a senator), each with the vote they cast, else null, and what they told the player
+     * if anything. A council or board with no seat for the town's district lists none.
+     */
+    yourMembers: chambersOf(api, bill).flatMap((chamber) => {
+      const kind = bodyOf(api, chamber)?.kind;
+      return townSeats(api)
+        .filter(({ office, holder }) => office.kind === kind && holder)
+        .map(({ office, holder }) => {
+          const memberId = memberKey(holder!);
+          const cast = (
+            votesOn(api, bill.id) as unknown as {
+              memberId: string;
+              vote: string;
+              chamber?: string;
+              override?: boolean;
+            }[]
+          ).find(
+            (row) =>
+              row.memberId === memberId &&
+              row.chamber === chamber &&
+              !row.override,
+          );
+          return {
+            chamber,
+            title: office.title,
+            memberId,
+            personId: core.people.has(memberId) ? memberId : null,
+            name: personName(core, memberId),
+            vote: cast?.vote ?? null,
+            told: stage.told.find((t) => t.memberId === memberId)?.side ?? null,
+          };
+        });
+    }),
+    sections,
+    totalChangeMinor,
+    tallies,
+    reach: {
+      level: reach.level,
+      reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+    },
+  };
+}
+
+interface ReachRow {
+  readonly people?: unknown;
+  readonly reaches?: unknown;
+  readonly organizations?: readonly string[];
+  readonly enforcer?: string;
+  readonly mechanic?: string;
+}
+
+/**
+ * Whom a section's law applies to, as the law-reach data states it for that policy or budget
+ * line: the people it selects (by the selector's own terms, for the banks to word), the
+ * organizations it reaches and who enforces it. Null where the data names none. No counts: a
+ * screen creates no facts, and the counts come from the law-reach records once it is law.
+ */
+function reachScopeOf(key: string | null) {
+  if (!key) return null;
+  const a = (reachA.policies as Record<string, ReachRow>)[key];
+  const b =
+    (reachB.policies as Record<string, ReachRow>)[key] ??
+    (reachB.budgetLines as Record<string, ReachRow>)[
+      key.replace(/^budget:/, "")
+    ];
+  const row = b ?? a;
+  if (!row) return null;
+  const people = row.people ?? row.reaches ?? null;
+  const empty = Array.isArray(people) ? people.length === 0 : people === null;
+  if (empty && !row.organizations?.length && !row.enforcer) return null;
+  return {
+    people: empty ? null : people,
+    organizations: row.organizations ?? [],
+    enforcer: row.enforcer ?? null,
+    mechanic: row.mechanic ?? null,
+  };
 }

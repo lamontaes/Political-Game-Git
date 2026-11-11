@@ -104,8 +104,8 @@
     "why": "The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-CORE's law-reach count function, read by DevMode.reach.",
-    "status": "open"
+    "replacement": "OPUS-CORE's law-reach count function, read by DevMode.reach. Resolved by Fable, November 10, 2026: lawReach in src/core2/law-reach/applied.ts reads every store that records a law applied to someone (the applied table, both law-reach stores, the wage raises) across both tiers, with dollars, and DevMode.reach and scripts/dev-tests/law-run.ts both call it.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-dev-public-salary-floor",
@@ -321,6 +321,30 @@
     "addedBy": "play-offices-keep-their-hours (Claude Sonnet 5.5, play-first lane)",
     "addedAt": "2026-11-01",
     "replacement": "Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-trip-time-average",
+    "kind": "missing-mechanic",
+    "file": "src/bench/handler.ts",
+    "line": 904,
+    "whatItFakes": "Every trip to a place in town takes the average trip time (tripMinutes) and every visit the same visitHours, because the records hold no distance between two places, no travel speed and no errand length by kind of place.",
+    "why": "The Coordinator ruled on Nov 8 that visits, talks and travel spend game time from the existing clock; a talk spends its lines, but a trip's distance and an errand's own hours are not in the records yet.",
+    "addedBy": "jobs/clock-spends-time",
+    "addedAt": "2026-11-08",
+    "replacement": "A trip spending the distance between the two places at the place's travel speed and a visit its errand's hours by kind of place, each read from the records and spent through player.spend.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-creator-bust-choices",
+    "kind": "placeholder-art",
+    "file": "src/bench/appearance.ts",
+    "line": 22,
+    "whatItFakes": "The creator offers what the bust bank paints today: three skins, three hair pieces and, for a man, a beard or a mustache. The approved creator mock (docs/mocks/2026-11-08-front, fr-creator) also shows Face, Hair color, Shirt, Jacket and Tie, which the bank has no pieces for; a bust wears the top its person would wear where they are seen, so clothes are not chosen.",
+    "why": "Owner, Nov 7 and Nov 10, 2026: busts, never full figures; full bodies come back after early access. The bank (art/busts/v1) holds rounds 1 and 2 of the painting.",
+    "addedBy": "claude/fable-b-creator-on-busts",
+    "addedAt": "2026-11-11",
+    "replacement": "More pieces as rows in art/busts/v1/manifest.json (faces, hair colors, tops to choose); the creator offers each new hair or facial hair row with no code change, and a Top row when the manifest marks tops as chosen.",
     "status": "open"
   }
 ]

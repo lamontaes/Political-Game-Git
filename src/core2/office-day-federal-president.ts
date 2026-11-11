@@ -11,6 +11,10 @@
  * what the player leaves alone, the character does from their own views and
  * standing. Nothing is rolled; nothing names a place.
  */
+import {
+  addFederalDayPart,
+  addFederalWorldPart,
+} from "./office-day-federal-parts";
 import { placeStateKey } from "./place-map";
 import type { CoreAPI } from "./types";
 import type { ModuleRow } from "./module-data";
@@ -21,11 +25,14 @@ import {
   appointerWeighing,
   nominateAndConfirm,
   partySide,
-  senateSides,
 } from "./appointments";
-import { campaignParameter } from "./campaign-views";
+import { senateSides } from "./modules/elections";
+import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
-import { fillInIdentity } from "./state";
+import { federalOrderable } from "./modules/executive";
+import { fillInIdentity, personOrFillIn } from "./state";
+import { drawnAdult } from "./modules/counted-moves";
+import { admitCountedHousehold } from "./modules/residents";
 import type { CoreState } from "./types";
 import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
@@ -55,8 +62,6 @@ import { nationalPanel } from "./modules/macro";
 import cabinetData from "./data/office-day/federal-cabinet.json" with { type: "json" };
 import {
   OFFICE_DAY_FEDERAL_MODULE_ID,
-  addFederalDayPart,
-  addFederalWorldPart,
   federalParameter,
   federalSeatOf,
   holdFederal,
@@ -110,6 +115,8 @@ export interface CabinetRow {
     | "acting";
   /** The last day an acting head may serve (5 U.S.C. 3346(a)(1), 210 days): the post is open again after it. */
   readonly actingUntil?: string;
+  /** The person serving as acting head, drawn from the wider population and filled in when named (SG-OFFICE-FED-acting-head). */
+  readonly actingId?: string;
   readonly nomineeId: string | null;
   readonly nominatedOn: string | null;
   /** The Senate sitting day its vote falls on. */
@@ -247,6 +254,29 @@ export function nominationsOpen(
     }));
 }
 
+/** The youngest and oldest a person drawn to serve as an acting department head may be. */
+const ACTING_AGE: readonly [number, number] = [40, 66];
+
+/**
+ * Who serves as acting head of a post left open: a person drawn from the wider population
+ * (the same people path as an arrival: `drawnResident`, seeded by the world and the salt
+ * `acting:<post>:<date opened>`, so the same post and day give the same person), then filled
+ * in because they are named. The template is the first counted adult of working age in the
+ * town's counts. Returns null when the world has no counted adults (no acting head is named).
+ */
+function nameActingHead(api: CoreAPI, postId: string): string | null {
+  const core = api.state as CoreState;
+  const record = drawnAdult(
+    api,
+    `acting:${postId}:${api.state.date}`,
+    ACTING_AGE,
+  );
+  if (!record) return null;
+  admitCountedHousehold(core, record);
+  const named = record.people[0]!.id;
+  return personOrFillIn(core, named)?.id ?? named;
+}
+
 /**
  * The president leaves a cabinet post open for now (or has no one to nominate): as in law, the post
  * stays vacant and the department runs under an acting head. The hold clears once no post is waiting.
@@ -264,10 +294,12 @@ export function leavePostOpen(
     throw new Error(`${postId} is ${current.status}`);
   // stopgapId: SG-OFFICE-FED-acting-head
   api.stopgap("SG-OFFICE-FED-acting-head");
+  const actingId = nameActingHead(api, postId);
   cabinetTable(api).put({
     ...current,
     status: "acting",
     actingUntil: addDays(api.state.date, federalParameter("actingServiceDays")),
+    ...(actingId ? { actingId } : {}),
     date: api.state.date,
   } satisfies CabinetRow as unknown as ModuleRow);
   officeHost.keep(api, {
@@ -933,15 +965,14 @@ export function travelToTown(
 }
 
 /**
- * The orders the president may issue that an engine can carry. None yet.
- * Stopgap SG-OFFICE-FED-presidential-orders: the executive engine's orders
- * read only a state's powers (`orderableBy`), so the president has no order
- * an engine carries until GOV adds the federal ones.
+ * The orders the president may issue that an engine reads: the executive
+ * engine's federal orders (`federalOrderable`, with the authority for each).
+ * An unplayed President weighs and issues them in president-acts.ts; the
+ * played President has no screen over them yet (stopgap
+ * SG-NATION-federal-axis-proxy).
  */
-export function presidentialOrders(api: CoreAPI): readonly string[] {
-  // stopgapId: SG-OFFICE-FED-presidential-orders
-  api.stopgap("SG-OFFICE-FED-presidential-orders");
-  return [];
+export function presidentialOrders(): readonly string[] {
+  return federalOrderable();
 }
 
 /**

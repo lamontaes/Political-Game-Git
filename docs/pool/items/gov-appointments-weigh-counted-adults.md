@@ -11,15 +11,30 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: governing
+standard: 2
+model: opus
+effort: high
+root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
-**What.** The appointer chooses a town's department heads from the town's full people only (src/core2/modules/executive.ts, townPostInput reads peopleByPlace). In a two-level world those are the player's household and circle, officials and people met, about 120 in Anson, Texas (playtest seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213, 80 of them adults), so the player's household is a large share of the pool: on main two of Anson's eight heads came from it (the player's mother as city administrator, and a 17-year-old sister at public works, fixed for age in play-stop-20). The town's counted adults are never weighed.
+**What.** The appointer chooses a town's department heads from the town's full people only. In a two-level world those are the player's household and circle, officials and people met, about 120 in Anson, Texas (playtest seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213, 80 of them adults), so the player's household is a large share of the pool: on main two of Anson's eight heads came from it (the player's mother as city administrator, and a 17-year-old sister at public works, fixed for age in play-stop-20). The town's counted adults are never weighed. The design question (Oct 27 analysis in Notes) was settled in favor of option (a): a coarse counted score, then fill in only the top few. Seen: who the mayor's department heads are, on the town's officials list; the player's own household stops filling the posts.
 
-**Rules.** One model, two tiers (owner, Oct 14): a rule that applies only to full people is an unregistered placeholder; a counted group is read by the same rule times its count and filled in when it matters. No dice.
+**Cause.** Found in code: `src/core2/modules/executive.ts` `townPostInput` (line 410) builds its pool from `peopleByPlace` full people only and ranks each by `personLean`, `appointmentQualification` and acquaintance with the appointer, all of which read a full person's work history, past facts and ties.
 
-**Done when.** In a two-level played world in a place drawn from all 56 (place and seed named), the appointer weighs the town's counted adults by the same reasons, and the share of department heads from the player's household is no higher than its share of the town's adults; a counted adult who is appointed is filled in and matches the records (their job, pay and household). **On screen.** Nothing yet: it would show on Politics → Government, and nothing there reads it.
+**Fix.** Weigh a town's counted adults with a coarse score from their packed traits and age (no work history, past facts or ties, which they do not have until filled in), reusing the counted pool in `countedPool` of `src/core2/modules/staff.ts`. Fill in only the top few as full people with `fillInPerson` (job, pay and household from the records), and weigh them in full with the full people. A filled-in person must match what the records already say.
 
-**Files.** src/core2/modules/executive.ts
+**Time box.** 6 hours for one opus session.
+
+**Rules.** One model, two tiers (owner, Oct 14): a rule that applies only to full people is an unregistered placeholder; a counted group is read by the same rule times its count and filled in when it matters. No dice. Speed: never fill in the whole counted adult list; score by index and fill in only the few who could win.
+
+**Done when.** A second session plays a two-level world in a place drawn from all 56 (place and seed named), opens Politics, Government and sees the town's department heads include counted adults who were filled in, each matching the records (job, pay, household), and the share of heads from the player's household is no higher than its share of the town's adults. A test names the filled-in person ids.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/executive.ts, src/core2/modules/staff.ts
 
 **Notes.** Found by the speed lead on play-stop-20 (Oct 25).
 

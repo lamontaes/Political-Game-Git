@@ -5,15 +5,16 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: lane3/journal-links
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-04T10:31:45.783Z
+claimed-at:
+branch: lane3/journal-links
 ---
 
-**What.** Split from director-journal-one-story: every Journal line after the first carries a link to the line before it, by cause (its records name the earlier line's records or share a fact such as the contest or bill, never only a person or place), feeling (the mood moved the same way) or time, with the record ids that join them. The joining words and another's turn told through the tie stay on director-journal-one-story.
+**What.** Split from director-journal-one-story: every Journal line after the first carries a link to the line before it, by cause (its records name the earlier line's records or share a fact such as the contest or bill, never only a person or place), feeling (the mood moved the same way) or time, with the record ids that join them. The joining words and another's turn told through the tie stay on director-journal-one-story. This item is the link only, a record of how one line follows another; the words that voice the link are a later piece from the journal bank.
 
 **Rules.** One engine per mechanic: the Journal reads the records; the link decides nothing. No hand-written player text: the joining words come from the journal bank in a later PR.
 
@@ -22,3 +23,5 @@ claimed-at: 2026-11-04T10:31:45.783Z
 **Files.** src/director/journal.ts, src/director/journal-story.test.ts
 
 **Notes.** Lane 3, Nov 4: built on lane3/journal-links.
+
+Released by next (2026-11-10): no push to lane3/journal-links since 2026-11-04 10:53 UTC, more than twice its 4-hour time box. Continue on branch lane3/journal-links.

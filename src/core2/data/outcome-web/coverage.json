@@ -24,6 +24,7 @@
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
     "rent-control-to-tenant-stays",
+    "rent-burden-to-homelessness",
     "home-prices-to-owner-births",
     "home-prices-to-renter-births",
     "property-tax-to-rent",
@@ -120,6 +121,7 @@
     "highway-money-for-transit-to-service",
     "defense-contracts-to-earnings",
     "transit-service-to-ridership",
+    "federal-deficit-to-borrowing-cost",
     "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
     "highways-spending-to-poor-roads",
@@ -259,8 +261,8 @@
       "needsSize": true
     },
     "class-size-to-scores": {
-      "waitingOn": ["school.class-size-k3", "school.test-scores"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the school engine's math and reading tests (decideSchoolOutcome in src/core2/school-outcomes.ts), which read the district's pupil-teacher ratio from its records (pupilTeacherRatio: the tested cohort over all grades at the public share, over the district's teacher jobs) and move each eighth grader's expected share of clearing the proficiency line by the normal-density change of the shift in standard deviations (classSizeShiftSd: pupils fewer than the ratio the world opened on, as a share of the 8.5-pupil gap between small and regular classes, times this row's size, of which grade 8 keeps the researched quarter), so the web does not also run it"
     },
     "prek-to-graduation": {
       "waitingOn": [],
@@ -320,10 +322,6 @@
     "new-apartments-to-nearby-rent": {
       "waitingOn": [],
       "carriedBy": "the housing engine's lease renewal (renewRentalLeases in src/core2/housing-occupancy.ts), which moves each renewing lease by the place's change in rental vacancy raised to the rental elasticity, so the units a new building adds lower the rents tenants renew at; the research measures one building within about 250 meters, a scale the game does not keep, so the engine's own vacancy response stands for it"
-    },
-    "rent-burden-to-homelessness": {
-      "waitingOn": [],
-      "needsSize": true
     },
     "eviction-to-homelessness": {
       "waitingOn": [],
@@ -401,7 +399,7 @@
     },
     "economy-to-approval": {
       "waitingOn": [],
-      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+      "carriedBy": "the national-opinion engine (src/core2/modules/national-opinion.ts), which moves the monthly approval of the president by the year's change in national unemployment and inflation (pointsPerUnemploymentPoint and pointsPerInflationPoint in src/core2/data/electorate/national-opinion.json), and the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading approvalGapPoints), which takes approval's gap from its long-run mean into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot; this row has no size, so the engine's own shares stand"
     },
     "medicaid-expansion-to-coverage": {
       "waitingOn": [],
@@ -440,6 +438,10 @@
     "federal-minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/law-reach/group-a-wages.ts writes the wage row that src/core2/modules/jobs.ts wageFloor applies"
+    },
+    "drug-negotiation-to-out-of-pocket": {
+      "waitingOn": [],
+      "carriedBy": "the medical bills' monthly pass (billMembers in src/core2/medical-bills.ts), which reads the federal Medicare drug price negotiation law in force (lawInForce) and multiplies each Medicare member's bill by one plus this row's size, so the cause is decided from the law itself and the web does not also run it"
     },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],
@@ -529,10 +531,6 @@
     "farm-payments-cut-to-land-values": {
       "waitingOn": ["federal.farm-payments-cut-pct-of-land-value"]
     },
-    "federal-deficit-to-borrowing-cost": {
-      "waitingOn": [],
-      "carriedBy": "the treasury's interest factor (interestFactor in src/core2/budgets-treasury.ts), which reads the web's change in gov.borrowing-cost and reprices the state's interest line by it; the cause is the federal budget row in force against its base, as points of national output (federalDeficitChangePct in src/core2/gov-measures.ts, the federal-deficit-change reader in src/core2/modules/outcome-web.ts). Only the state's interest line is repriced (stopgap SG-EFFECT-WEB-prices-gov-borrowing)"
-    },
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
@@ -587,6 +585,30 @@
     "welfare-spending-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record"
+    },
+    "emissions-to-warming": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-flood-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-storm-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-drought-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-wildfire-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    "warming-to-heat-hazard": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     }
   },
   "measuresWanted": {
@@ -600,10 +622,6 @@
     },
     "health.coverage": {
       "owner": "OPUS-PEOPLE",
-      "links": 3
-    },
-    "school.test-scores": {
-      "owner": "OPUS-GOV",
       "links": 3
     },
     "business.incentive-deal": {
@@ -631,6 +649,10 @@
       "links": 2
     },
     "program.child-benefit-dollars": {
+      "owner": "OPUS-GOV",
+      "links": 2
+    },
+    "school.test-scores": {
       "owner": "OPUS-GOV",
       "links": 2
     },
@@ -831,10 +853,6 @@
       "links": 1
     },
     "school.ac-share": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "school.class-size-k3": {
       "owner": "OPUS-GOV",
       "links": 1
     },

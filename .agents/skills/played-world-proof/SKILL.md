@@ -14,7 +14,7 @@ description: >
 
 Current as of 2026-10-24, 21:30 UTC (unchanged by the Oct 24 rulings; a play-first lane item's acceptance is a screenshot, `play-first`, and this proof backs the engine side)
 
-A feature counts as finished only when the running game shows another part of the game using what it made. A small test world does not show that.
+A feature counts as built only when the running game shows another part of the game using what it made. A small test world does not show that. This is the builder's proof. It makes the work ready to merge, not done: a second session's check in the running game does that (`seen-in-game`).
 
 ## The run
 
@@ -47,6 +47,7 @@ Name the few people it reached by record id. Most people are untouched; say so.
 
 - An effect is a read: a record nobody else reads is a placeholder. Register it as a stopgap.
 - Hand-inserted fixtures prove edge cases only.
+- **Run on the latest main (owner, Nov 8, 11:05):** "anything that requires them to run a world should update with like the speed update, so that way there isn't a speed update that's sitting there all merged, but it's running it on an old one." Before any run that plays a world (a proof, test, drift or twin run, golden-path replay or timing), merge the latest main into the branch. A run on a branch more than a few hours behind main is not proof. Name the main commit in the proof line ("on main abc1234 + this branch").
 - When a controlled budget amendment needs a positive benefit program, read the current and adopted line through the budget engine before choosing its amount. Opening fiscal rules may already have cut the line below its base, so a fixed increase can still create no benefit. Keep the assertion that actual payment obligations exist; correct the fixture instead of skipping the drawn place or weakening that assertion. For an explicit new recipient fixture, use `api.addPersonV1` to admit the person and their cash account; `initialPersonState` only constructs the person object and does not register cash ownership or indexes.
 - Speed: measure a game year before and after with `npm run speed:year`, on the same base and machine, one process at a time. No change makes a year more than 20% slower. A year must run under two minutes.
 - Every dollar balances; the golden-path suite must stay green.

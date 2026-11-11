@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, URL */
 // Dev mode from the game's own screens, in a real browser on the bench (npm run bench) at
 // 1440x900, in a place drawn from all 56 (the run prints its seed and place): the setting in
 // Options (off by default), the person card's Remembers section, the Calendar's Run until, and
@@ -55,52 +55,73 @@ try {
   // Run until: a number of days, with the reason it stopped.
   await dock("Calendar").click();
   await page.locator('[data-testid="dev-run"]').waitFor();
-  await page.locator(".dev-run input").first().fill("3");
+  // Three days: the arrows step the number down from 30 to 3.
+  while (
+    !(await page.locator('[data-testid="dev-days"]').innerText()).includes(
+      "3 days",
+    )
+  )
+    await page.locator('[data-testid="dev-days"] button').first().click();
   await page.locator('[data-testid="dev-run"]').click();
   await page.waitForFunction(
     () => document.querySelector(".dev-run .option-status")?.textContent,
   );
   const ran = await page.locator(".dev-run .option-status").textContent();
   assert.match(ran, /Days passed/, ran);
-  // Scenes: the types the game can bring about are forced, the rest say there is no way in.
+  // Scenes: only the types the game can bring about are offered; the rest stay off.
   await page.locator('[data-testid="dev-scene"]').click();
-  await page.waitForFunction(
-    () => document.querySelector(".dev-scene .option-status")?.textContent,
+  // The sheet redraws after a run and rebuilds the line from the last result, so wait for the words.
+  await page.waitForFunction(() =>
+    /Begun for/.test(
+      document.querySelector(".dev-scene .option-status")?.textContent ?? "",
+    ),
   );
   assert.match(
     await page.locator(".dev-scene .option-status").textContent(),
     /Begun for/,
   );
-  // A layoff; and a kind no engine writes the cause of says so (the kinds the world runs until they
+  // A layoff, and no kind offered that no engine can start (the kinds the world runs until they
   // happen take up to a year of days and are proved in dev-scene.test.ts).
-  for (const [match, expected] of [
-    ["work.job-lost", /Begun for|worked today|staff|job|No one in the player/],
-    ["No engine writes its cause yet", /no engine writes/i],
-  ]) {
-    const value = await page
-      .locator('.dev-scene select option:text-matches("' + match + '")')
-      .first()
-      .getAttribute("value");
-    await expect_enabled();
-    const before = await page
-      .locator(".dev-scene .option-status")
-      .textContent();
-    // Picked and pressed in one step: the sheet may still be redrawing from the last press.
-    await page.evaluate((picked) => {
-      const select = document.querySelector(".dev-scene select");
-      select.value = picked;
-      document.querySelector('[data-testid="dev-scene"]').click();
-    }, value);
-    await page.waitForFunction(
-      (text) =>
-        document.querySelector(".dev-scene .option-status")?.textContent !==
-        text,
-      before,
-    );
-    assert.match(
-      await page.locator(".dev-scene .option-status").textContent(),
-      expected,
-    );
+  assert.equal(
+    await page
+      .locator('.dev-scene [data-scene]:text-matches("No engine")')
+      .count(),
+    0,
+    "a scene nothing can start is offered",
+  );
+  {
+    const expected = /Begun for|worked today|staff|job|No one in the player/;
+    // The layoff kind: the one the scenes list marks with that recipe.
+    const rows = await (
+      await page.request.get(
+        `http://localhost:${process.env.BENCH_PORT ?? 3000}/api/dev/scenes`,
+      )
+    ).json();
+    const value = rows.find((row) => row.recipe === "layoff")?.key;
+    // A world with no layoff kind the game can start skips this step.
+    if (value) {
+      await expect_enabled();
+      // Picked and pressed in one step: the sheet may still be redrawing from the last press.
+      // The answer is the game's own response to this press, so a line equal to the last one
+      // (the same person, the same record) still tells apart.
+      const answered = page.waitForResponse(
+        (r) => new URL(r.url()).pathname === "/api/dev/scene",
+      );
+      await page.evaluate((picked) => {
+        document.querySelector(`.dev-scene [data-scene="${picked}"]`).click();
+        document.querySelector('[data-testid="dev-scene"]').click();
+      }, value);
+      await answered;
+      await page.waitForFunction(() =>
+        Boolean(
+          document.querySelector(".dev-scene .option-status")?.textContent,
+        ),
+      );
+      assert.match(
+        await page.locator(".dev-scene .option-status").textContent(),
+        expected,
+      );
+    }
   }
   // Watch and the golden path, on the Calendar beside Run until.
   await page.locator(".dev-watch").waitFor();
@@ -176,11 +197,24 @@ try {
       ),
     );
     // A yes-or-no law is answered Yes or No and repealed by a bill; members can sign a discharge petition.
-    await page.locator('select[aria-label="Law"]').selectOption({
-      value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
-    });
+    // The sheet redraws after the pass; a pick made on the old panel is lost, so pick again until
+    // the redrawn panel shows the yes-or-no controls.
+    for (let attempt = 1; ; attempt += 1) {
+      await page.locator('select[aria-label="Law"]').selectOption({
+        value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      });
+      const shown = await page
+        .locator('[data-testid="dev-repeal"]')
+        .waitFor({ state: "visible", timeout: 3000 })
+        .then(() => true)
+        .catch(() => false);
+      if (shown) break;
+      assert.ok(
+        attempt < 10,
+        "the yes-or-no controls show once a law is picked",
+      );
+    }
     await page.locator('select[aria-label="Answer"]').waitFor();
-    await page.locator('[data-testid="dev-repeal"]').waitFor();
     await page.locator('[data-testid="dev-petition"]').waitFor();
     // The chair is cast to hear the bill, and the bill is passed again through it.
     // (set in one step: the sheet may still be redrawing from the last pass)

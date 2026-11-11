@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, fetch, setTimeout */
 // The bill stage (legislation mocks, Nov 8): a member drafts a bill, the dev route holds its
 // floor vote, and the bill's paper then shows the floor result by name: each chamber's yes and no,
 // every name that has a card opening it.
@@ -80,6 +80,25 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
+  // Control binds when the clock next advances: play a day, then clear what the day brings.
+  await page.locator("#week").click();
+  for (let i = 0; i < 20; i += 1) {
+    const replies = page.locator("#talk-choices .reply");
+    if ((await replies.count()) > 0 && (await replies.first().isVisible()))
+      await replies.first().click();
+    else if (await visible("talk-next"))
+      await page.locator("#talk-next").click();
+    else if (await visible("talk-leave"))
+      await page.locator("#talk-leave").click();
+    else if (await visible("continue")) await page.locator("#continue").click();
+    else if (!(await page.locator("#week").isDisabled())) break;
+    await page.waitForTimeout(800);
+  }
+  // The player has worked beside their colleagues for a while (dev mode records the hours of contact), so the
+  // colleagues who back a bill and know them sign on when they introduce it.
+  await page.evaluate(() =>
+    fetch("/api/dev/work-beside-colleagues", { method: "POST" }),
+  );
   // The draft card: the issue, what is in force today and the new amount.
   await page
     .locator('#rings [data-tab="politics"]')
@@ -95,31 +114,33 @@ try {
   await page.locator(".office-board").waitFor();
   const draftTab = page.locator('.office-tabs [data-office="draft"]');
   if (await draftTab.isVisible()) await draftTab.click();
-  await page.locator(".draft-card select").waitFor();
+  // Writing a bill opens from the board: a list of subjects beside the chosen one's page.
+  await page.locator('.office-board [data-act="write-a-bill"]').first().click();
+  await page.locator(".draft-card .pick").first().waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card.png` });
-  const chosen = await page.evaluate(() => {
-    const select = document.querySelector(".draft-card select");
-    const allowed = [...select.options].filter(
+  const chosen = await page.evaluate(async () => {
+    const rows = [...document.querySelectorAll(".draft-card .pick")];
+    const allowed = rows.filter(
       (o) =>
-        o.value.startsWith("series:") &&
+        o.dataset.value.startsWith("series:") &&
         !/Not a power|preempts|levy no|restricts|bars/i.test(o.textContent),
     );
     // The sales tax where the body may draft it (the case the merger found), else the first issue with
     // an amount in force today: staff redraft a section against the law in force, so one that is not set has nothing to redraft.
-    const pick = (option) => {
-      select.value = option.value;
-      select.dispatchEvent(new Event("change", { bubbles: true }));
-      return document.querySelector(".draft-today").textContent;
-    };
+    // A row carries what is in force today as its aside.
+    const todayOf = (option) => option.querySelector("span")?.textContent ?? "";
     const ordered = [
       ...allowed.filter((o) => /Sales tax rate/i.test(o.textContent)),
       ...allowed.filter((o) => !/Sales tax rate/i.test(o.textContent)),
     ];
-    const option = ordered.find((o) => !/not set/i.test(pick(o))) ?? ordered[0];
+    const option =
+      ordered.find((o) => todayOf(o) && !/not set/i.test(todayOf(o))) ??
+      ordered[0];
     if (!option) return null;
-    pick(option);
+    option.click();
+    await new Promise((done) => setTimeout(done, 100));
     return {
-      issue: option.textContent,
+      issue: option.querySelector("b").textContent,
       today: document.querySelector(".draft-today").textContent,
       unit: document.querySelector(".draft-unit").textContent,
     };
@@ -145,6 +166,94 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // The paper's civic terms are marked wherever they appear (the inline glossary): each opens its definition.
+  const terms = await page.evaluate(() =>
+    [...document.querySelectorAll(".bill-doc [data-term-key]")].map((n) =>
+      n.getAttribute("data-term-key"),
+    ),
+  );
+  console.log("paper terms:", JSON.stringify(terms));
+  assert.ok(terms.length > 0, "the paper marks its civic terms");
+  // Colleagues tell the player where they stand (dev mode records it as a conversation does); the paper
+  // then carries what members told the player and the aide's estimate, in words and marked as able to be wrong.
+  const told = await page.evaluate(async (id) => {
+    await fetch("/api/dev/learn-stakes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ billId: id }),
+    });
+    const v = await (
+      await fetch(`/api/bill/stage?billId=${encodeURIComponent(id)}`)
+    ).json();
+    return {
+      aide: v.aide,
+      told: v.told.length,
+      cosponsors: v.cosponsors,
+      // Colleagues who are full people and told the player they back the bill: the ones who can sign on.
+      backing: v.told.filter((t) => t.side === "for" && t.personId).length,
+    };
+  }, billId);
+  console.log("after colleagues told the player:", JSON.stringify(told));
+  // Who signs on is decided when the bill is drafted (the cosponsor rule): members whose position on
+  // the bill is already for it and who stand close to the sponsor. That is not the set who tell the
+  // player afterwards where they stand, so the check claims what the rule makes: every cosponsor is a
+  // member of a body in this world and is not the sponsor, and a colleague who told the player they
+  // back the bill is not assumed to have signed on.
+  if (told.told === 0)
+    console.log(
+      "no colleagues in this draw: the player's seat has no body to tell them where they stand",
+    );
+  const sign = await page.evaluate(async (id) => {
+    const v = await (
+      await fetch(`/api/bill/stage?billId=${encodeURIComponent(id)}`)
+    ).json();
+    const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
+    const members = new Set(bodies.flatMap((b) => b.members.map((m) => m.key)));
+    return {
+      sponsor: v.sponsor,
+      cosponsors: v.cosponsors,
+      outside: v.cosponsors.filter(
+        (c) => !c.personId || !members.has(c.personId),
+      ).length,
+    };
+  }, billId);
+  console.log("cosponsors:", JSON.stringify(sign.cosponsors));
+  assert.ok(
+    !sign.cosponsors.some((c) => c.name === sign.sponsor),
+    "a member does not sign on to their own bill",
+  );
+  assert.equal(
+    sign.outside,
+    0,
+    "every cosponsor is a member of a body in this world",
+  );
+  // Back, and open the paper again: it now says what the aide expects.
+  await page.locator("#sheet-body button.action").first().click();
+  await page.waitForTimeout(800);
+  await page
+    .locator("#sheet-body button", { hasText: /Read the bill/ })
+    .first()
+    .click();
+  await page.locator(".bill-doc").waitFor();
+  const paperAfter = await page.locator("#sheet-body").innerText();
+  console.log("aide on the paper:", /aide/i.test(paperAfter));
+  // The paper names its cosponsors when someone signed on (above: who does follows who backs the bill
+  // in this draw); a bill with none has no such line.
+  if (told.cosponsors.length)
+    assert.match(paperAfter, /Cosponsors/, "the paper names its cosponsors");
+  else
+    assert.doesNotMatch(
+      paperAfter,
+      /Cosponsors/,
+      "a bill with no cosponsors names none",
+    );
+  assert.match(paperAfter, /aide/i, "the paper carries the aide's estimate");
+  assert.match(
+    paperAfter,
+    /can be wrong/i,
+    "the estimate says it can be wrong",
+  );
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/bill-paper-aide.png` });
   // Staff redraft: ask for section 1, see it struck and inserted, keep the staff's version.
   await page
     .getByRole("button", { name: "Ask staff to redraft section 1" })
@@ -224,7 +333,9 @@ try {
   // A bill before the state or Congress lists with a Read the bill control; a world with none says so.
   await page
     .locator("#sheet-body")
-    .getByText(/Read the bill|No bill is before your state or Congress yet\./)
+    .getByText(
+      /Read the bill|No bill is before your town, county, state or Congress yet\./,
+    )
     .first()
     .waitFor();
   const followed = await page.evaluate(() =>

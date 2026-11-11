@@ -14,17 +14,26 @@
  *     their kept decisions (each act's offered options with every reason, the
  *     trait reason first, or the chosen option's reasons once condensed);
  *   - a credit line's repricing: the line's rate history, each change with
- *     the central bank meeting behind it.
+ *     the central bank meeting behind it;
+ *   - a state of the country tier: its people and jobs, the part its played
+ *     town and county hold in full and the rest, which add to the state's.
  */
 import { coreAPI } from "../core2/state";
 import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
+import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
-  LEGISLATURE_MODULE_ID,
-  votesOn,
-  type MemberPosition,
-} from "../core2/modules/legislature";
+  COUNTRY_SECTORS,
+  MACRO_MODULE_ID,
+  countryStateParts,
+  type CountrySector,
+  type CountryState,
+} from "../core2/modules/macro";
+import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import placeStates from "../core2/data/places/states.json" with { type: "json" };
 import type {
   CoreState,
   DecisionReason,
@@ -47,9 +56,6 @@ export interface WhyPanel {
 }
 
 const MAX_ROWS = 700;
-const BUSINESS_MODULE_ID = "business";
-const BUDGETS_MODULE_ID = "budgets";
-const MACRO_MODULE_ID = "macro";
 
 type Row = Record<string, unknown>;
 const table = (core: CoreState, moduleId: string, name: string): Row[] =>
@@ -71,83 +77,6 @@ const nameOf = (core: CoreState, id: string) => {
   const person = core.people.get(id);
   return person ? `${person.givenName} ${person.familyName}` : id;
 };
-
-// ---- A vote ----------------------------------------------------------------
-
-/** The terms of a member's position, in the order the legislature sums them. */
-const TERMS = [
-  "views",
-  "openingViews",
-  "constituents",
-  "sponsor",
-  "deal",
-  "lobby",
-  "party",
-  "wing",
-  "ambition",
-  "press",
-  "trait",
-  "consistency",
-  "bribe",
-] as const;
-
-function positionRows(position: MemberPosition): WhyRow[] {
-  const record = position as unknown as Record<string, unknown>;
-  return [
-    ...TERMS.flatMap((term) =>
-      typeof record[term] === "number"
-        ? [{ label: term, value: number(record[term] as number) }]
-        : [],
-    ),
-    { label: "total (sum of the reasons)", value: number(position.total) },
-  ];
-}
-
-function votePanels(core: CoreState, billId: string, voteId?: string) {
-  const panels: WhyPanel[] = [];
-  const votes = votesOn(coreAPI(core), billId);
-  const rows = table(core, LEGISLATURE_MODULE_ID, "votes").filter(
-    (row) => row.billId === billId,
-  );
-  if (voteId) {
-    const row = rows.find((candidate) => candidate.id === voteId);
-    const position = row?.position as MemberPosition | undefined;
-    panels.push({
-      title: `Why ${nameOf(core, String(row?.memberId ?? ""))} voted ${row?.vote ?? ""}`,
-      rows: position ? positionRows(position) : [],
-      ...(position
-        ? {}
-        : {
-            gap: "The legislature kept no reasons for this vote (the row has no position).",
-          }),
-    });
-  }
-  panels.push({
-    title: `Every member's recorded reasons on ${billId}`,
-    rows: votes.slice(0, MAX_ROWS).map((vote) => {
-      const position = vote.position as MemberPosition | undefined;
-      const terms = position
-        ? TERMS.flatMap((term) => {
-            const value = (position as unknown as Record<string, unknown>)[
-              term
-            ];
-            return typeof value === "number" && Math.abs(value) >= 0.005
-              ? [`${term} ${value > 0 ? "+" : ""}${number(value)}`]
-              : [];
-          }).join(", ")
-        : "no reasons kept";
-      return {
-        label: nameOf(core, vote.memberId),
-        value: `${vote.vote} (total ${position ? number(position.total) : "?"}): ${terms}`,
-        id: `vote:${billId}:${vote.memberId}`,
-      };
-    }),
-    ...(votes.length
-      ? {}
-      : { gap: "No vote has been recorded on this bill yet." }),
-  });
-  return panels;
-}
 
 // ---- A business closing ----------------------------------------------------
 
@@ -299,7 +228,7 @@ function budgetPanels(core: CoreState, facts: Record<string, string>) {
   if (budget)
     rows.push({
       label: "the budget",
-      value: `adopted by ${budget.adoptedBy}`,
+      value: `adopted by ${(budget.adoptedBy as { kind: string; bill?: { number: string } }).kind}${(budget.adoptedBy as { bill?: { number: string } }).bill ? ` ${(budget.adoptedBy as { bill: { number: string } }).bill.number}` : ""}`,
       id: String(budget.id),
     });
   panels.push({
@@ -628,6 +557,166 @@ function repricingPanels(core: CoreState, facilityId: string): WhyPanel[] {
   ];
 }
 
+// ---- A state's month in the country tier ----------------------------------
+
+/** What the bill catalog calls each law amount ("Income tax rate"), by series. */
+const LAW_NAMES: ReadonlyMap<string, string> = new Map(
+  (
+    billCatalog as unknown as {
+      subjects: {
+        topics: {
+          policies: { kind: string; series?: string; name: string }[];
+        }[];
+      }[];
+    }
+  ).subjects.flatMap((subject) =>
+    subject.topics.flatMap((topic) =>
+      topic.policies.flatMap((policy) =>
+        policy.kind === "law-amount" && policy.series
+          ? [[policy.series, policy.name] as const]
+          : [],
+      ),
+    ),
+  ),
+);
+const STATE_NAMES = placeStates.states as Readonly<Record<string, string>>;
+const SECTOR_WORDS: Readonly<Record<CountrySector, string>> = {
+  construction: "construction",
+  "education-health": "education and health care",
+  financial: "finance, insurance and real estate",
+  government: "government",
+  information: "information",
+  "leisure-hospitality": "leisure and hospitality",
+  manufacturing: "manufacturing",
+  "mining-logging": "mining and logging",
+  "other-services": "other services",
+  "professional-business": "professional and business services",
+  "trade-transport-utilities": "trade, transportation and utilities",
+};
+const dollars = (value: number) => money(Math.round(value * 100));
+const whole = (value: number) =>
+  `${value < 0 ? "−" : ""}${Math.round(Math.abs(value)).toLocaleString("en-US")}`;
+/** Largest figure first. */
+const largestFirst = (rows: { size: number; row: WhyRow }[]): WhyRow[] =>
+  rows.sort((a, b) => Math.abs(b.size) - Math.abs(a.size)).map((r) => r.row);
+
+/**
+ * What each step of a state's latest month moved (`whatMoved`, kept by the country tier's
+ * month): the taxes withheld under each law row, which opens that law; what households spent
+ * and the ledger took in; the jobs filled and ended in each sector; who arrived and left.
+ */
+function countryStatePanels(core: CoreState, state: CountryState): WhyPanel[] {
+  const name = STATE_NAMES[state.usps] ?? state.usps;
+  const latest = state.whatMoved?.at(-1);
+  if (!latest)
+    return [
+      {
+        title: `What moved ${name} this month`,
+        rows: [],
+        gap: "The country tier has not run a month here yet: let a month pass.",
+      },
+    ];
+  const laws = core.modules.get(LAWS_MODULE_ID)?.state
+    ? coreAPI(core).moduleState(LAWS_MODULE_ID).table("laws")
+    : undefined;
+  const lawName = (lawId: string, level: string) => {
+    const row = laws?.get(lawId) as { series?: string } | undefined;
+    const named = row?.series ? LAW_NAMES.get(row.series) : undefined;
+    return `withheld under the ${level} law${named ? ` (${named})` : ""}`;
+  };
+  const month = `month ${latest.month} of the country's economy`;
+  const withheld = largestFirst(
+    latest.withheld.map((line) => ({
+      size: line.dollars,
+      row: {
+        label: lawName(line.lawId, line.level),
+        value: dollars(line.dollars),
+        id: line.lawId,
+      },
+    })),
+  );
+  const ledger = largestFirst(
+    [
+      ["what households spent", latest.spent],
+      ["state income tax the ledger took in", latest.incomeTaxRevenue],
+      ["sales tax the ledger took in", latest.salesTaxRevenue],
+      ["tax on profits the ledger took in", latest.profitTaxRevenue],
+      ["other revenue the ledger took in", latest.otherRevenue],
+      ["the year's budget in force", latest.budgetYear],
+    ].map(([label, size]) => ({
+      size: size as number,
+      row: { label: label as string, value: dollars(size as number) },
+    })),
+  );
+  const jobs = largestFirst(
+    COUNTRY_SECTORS.map((sector, at) => {
+      const added = latest.jobsAdded[at] ?? 0;
+      const cut = latest.jobsCut[at] ?? 0;
+      const vacated = latest.jobsVacated[at] ?? 0;
+      const net = added - cut - vacated;
+      return {
+        size: net,
+        row: {
+          label: SECTOR_WORDS[sector],
+          value: `${net >= 0 ? "+" : ""}${whole(net)} jobs: ${whole(added)} filled, ${whole(cut)} ended at firms, ${whole(vacated)} left by people who moved away, aged out of work or died`,
+        },
+      };
+    }),
+  );
+  const people = largestFirst(
+    [
+      ["people who moved here from other states", latest.arrived],
+      ["people who left for other states", latest.left],
+      ["people who came from abroad", latest.fromAbroad],
+    ].map(([label, size]) => ({
+      size: size as number,
+      row: { label: label as string, value: whole(size as number) },
+    })),
+  );
+  return [
+    { title: `Taxes withheld from pay in ${name}, ${month}`, rows: withheld },
+    { title: `Spending and the ledger in ${name}, ${month}`, rows: ledger },
+    { title: `Jobs in ${name} by sector, ${month}`, rows: jobs },
+    { title: `People who arrived and left ${name}, ${month}`, rows: people },
+  ];
+}
+
+// ---- A state of the country tier: the part held in full --------------------
+
+/** A state's people and jobs: the part its played town and county hold in full, and the rest its cells step. */
+function countryStatePartPanels(
+  core: CoreState,
+  state: CountryState,
+): WhyPanel[] {
+  const parts = countryStateParts(coreAPI(core), state.key);
+  const name = STATE_NAMES[state.usps] ?? state.usps;
+  if (!parts) return [];
+  const rows = (of: "people" | "jobs"): WhyRow[] => [
+    { label: "the state", value: whole(parts.total[of]), id: parts.stateId },
+    {
+      label: "held in full (the played places)",
+      value: whole(parts.part[of]),
+      ...(parts.partId ? { id: parts.partId } : {}),
+    },
+    { label: "the rest of the state", value: whole(parts.rest[of]) },
+  ];
+  return [
+    {
+      title: `People in ${name}: the played places and the rest`,
+      rows: rows("people"),
+      ...(parts.partId
+        ? {}
+        : {
+            gap: "No place in this state is held in full: its cells are all of it.",
+          }),
+    },
+    {
+      title: `Jobs in ${name}: the played places and the rest`,
+      rows: rows("jobs"),
+    },
+  ];
+}
+
 // ---- The entry point -------------------------------------------------------
 
 export function whyPanels(
@@ -638,11 +727,6 @@ export function whyPanels(
   if (!found) return [];
   const record = found.record as Row;
   const facts = (record.facts ?? {}) as Record<string, string>;
-  if (found.engine === `${LEGISLATURE_MODULE_ID}.votes`)
-    return votePanels(core, String(record.billId), id);
-  if (found.engine === `${LEGISLATURE_MODULE_ID}.bills`)
-    return votePanels(core, id);
-  if (typeof facts.billId === "string") return votePanels(core, facts.billId);
   if (found.engine === `${BUSINESS_MODULE_ID}.closures`)
     return closingPanels(core, String(record.organizationId));
   if (found.kind === "business.closed")
@@ -659,6 +743,11 @@ export function whyPanels(
     );
   if (found.kind === "person")
     return [...ledgerPanels(core, id), ...decisionPanels(core, id)];
+  if (found.engine === `${MACRO_MODULE_ID}.countryStates`)
+    return [
+      ...countryStatePartPanels(core, record as unknown as CountryState),
+      ...countryStatePanels(core, record as unknown as CountryState),
+    ];
   if (found.engine === `${MACRO_MODULE_ID}.repricings`)
     return repricingPanels(core, String(record.facilityId));
   return [];

@@ -2,7 +2,12 @@ import { coreAPI } from "../core2/state";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
-import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import {
+  billTitleOf,
+  budgetSectionSaid,
+  spokenDesignation,
+} from "../english/bill-names";
+import { moneySaid } from "../english/count-words";
 import { screenLine } from "../english/screen-words";
 import { budgetLineNames, policyNames } from "./words";
 import {
@@ -11,8 +16,11 @@ import {
   bodyRow,
   currentAmount,
   draftBill,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
   floorDateOf,
   memberKey,
+  members as bodyMembersOf,
   votesOn,
   whipCount,
   type BillRow,
@@ -49,35 +57,19 @@ function bodiesOf(core: CoreState, personId: string) {
   const mine = (
     terms(core).query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((row) => row.status === "serving");
-  return mine.flatMap((term) => {
-    const office = offices.table("offices").get(term.officeId) as
-      | {
-          id: string;
-          title: string;
-          seats: number;
-          level: string;
-          kind: string;
-        }
-      | undefined;
-    if (!office || office.seats < 2) return [];
-    const members = (
-      offices.table("seats").query("byOffice", [office.id]) as unknown as {
-        id: string;
-      }[]
-    ).flatMap(
-      (seat) =>
-        terms(core).query("bySeatStatus", [
-          seat.id,
-          "serving",
-        ]) as unknown as TermRow[],
-    );
+  // A member of Congress sits on the national chamber (each holds a one-seat office of their
+  // own district or state), which is the body their bills go before.
+  const federal = [FEDERAL_HOUSE, FEDERAL_SENATE].flatMap((chamberId) => {
+    const roster = bodyMembersOf(api, chamberId);
+    const body = bodyOf(api, chamberId);
+    if (!body || !roster.some((row) => row.personId === personId)) return [];
     return [
       {
-        officeId: office.id,
-        title: office.title,
-        level: office.level,
-        kind: office.kind,
-        members: members.map((row) => ({
+        officeId: chamberId,
+        title: body.bodyName ?? body.governmentName,
+        level: "federal",
+        kind: body.kind,
+        members: roster.map((row) => ({
           key: memberKey(row),
           name: personName(core, memberKey(row)),
           party: row.party,
@@ -86,6 +78,46 @@ function bodiesOf(core: CoreState, personId: string) {
       },
     ];
   });
+  return [
+    ...federal,
+    ...mine.flatMap((term) => {
+      const office = offices.table("offices").get(term.officeId) as
+        | {
+            id: string;
+            title: string;
+            seats: number;
+            level: string;
+            kind: string;
+          }
+        | undefined;
+      if (!office || office.seats < 2) return [];
+      const members = (
+        offices.table("seats").query("byOffice", [office.id]) as unknown as {
+          id: string;
+        }[]
+      ).flatMap(
+        (seat) =>
+          terms(core).query("bySeatStatus", [
+            seat.id,
+            "serving",
+          ]) as unknown as TermRow[],
+      );
+      return [
+        {
+          officeId: office.id,
+          title: office.title,
+          level: office.level,
+          kind: office.kind,
+          members: members.map((row) => ({
+            key: memberKey(row),
+            name: personName(core, memberKey(row)),
+            party: row.party,
+            you: row.personId === personId,
+          })),
+        },
+      ];
+    }),
+  ];
 }
 
 /** The seats this person left on taking another, with the law that required it. */
@@ -390,9 +422,15 @@ export function billPaper(core: CoreState, billId: string) {
     const section = form.sections[index] ?? null;
     // A citation that is a web address never reaches the screen: the
     // estimate names the law record instead, and the PR body cites it.
+    // A budget line says its own name and amount (rounded as people say it), not the bill's one
+    // purpose again on every line.
     const clause = (
       composed?.sections[index] ??
-      (purpose && named ? `${named}: ${purpose}` : (purpose ?? named))
+      (provision.kind === "budget-line" && named
+        ? budgetSectionSaid(named, moneySaid(provision.value))
+        : purpose && named
+          ? `${named}: ${purpose}`
+          : (purpose ?? named))
     )?.replace(/, amending https?:\/\/\S+\.?$/, "");
     // The section's authority row as the drafting engine recorded it.
     const authority = bill.authority[index];
@@ -432,6 +470,7 @@ export function billPaper(core: CoreState, billId: string) {
     title: composed?.title ?? titled?.title ?? bill.number,
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
+    bodyOfficeId: bill.bodyOfficeId,
     sections,
     authorityWarning: bill.authority.some((row) => row.warning === "disputed")
       ? disputedWarning(api, bill)
@@ -453,7 +492,12 @@ export function billPaper(core: CoreState, billId: string) {
     decision:
       bill.status === "drafted"
         ? null
-        : { status: bill.status, passedOn: bill.passedOn ?? null },
+        : {
+            status: bill.status,
+            passedOn: bill.passedOn ?? null,
+            // The day the bill's fate was decided: it passed, or a vote or a committee ended it.
+            decidedOn: bill.passedOn ?? bill.failedOn ?? null,
+          },
   };
 }
 

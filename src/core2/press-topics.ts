@@ -130,16 +130,26 @@ export function wireItem(
   // Where it happened: the town's own records, its state's, the nation's.
   let level: WireLevel | null = null;
   const authority = officeLevel(api, event, town.stateKey);
-  if (seat) level = LEVELS[seat.level] ?? "town";
+  // Another state's act is national news (law.ts emits it for national:<state>),
+  // whatever level the act itself was passed at.
+  if (String(event.placeId).startsWith("national:")) level = "nation";
+  else if (seat) level = LEVELS[seat.level] ?? "town";
   else if (facts.level && LEVELS[facts.level]) level = LEVELS[facts.level]!;
   else if (authority) level = authority;
   else if (event.placeId === town.placeId) level = "town";
-  else if (String(event.placeId).startsWith("national:")) level = "nation";
   else if (String(event.placeId).startsWith("state:")) {
     const usps = town.stateKey.slice(town.stateKey.lastIndexOf("-") + 1);
     level = String(event.placeId) === `state:${usps}` ? "state" : null;
   } else if (event.placeId === town.stateKey) level = "state";
   if (!level) return null;
+  // Another state's measure result has no place in its news bank yet, so it
+  // would read as local; the law it enacts reaches the national press as the
+  // law (stopgap SG-NATION-outside-measure-news-unworded).
+  if (
+    event.kind === "ballot-measure-result" &&
+    String(event.placeId).startsWith("national:")
+  )
+    return null;
   const people = event.personIds.filter((id) => api.state.people.has(id));
   const officialIds = [
     ...new Set(

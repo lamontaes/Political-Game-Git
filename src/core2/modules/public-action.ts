@@ -32,7 +32,7 @@ import {
   INTEREST_GROUPS_MODULE_ID,
   foundMovement,
   movementGroupId,
-} from "./interest-groups";
+} from "./elections";
 import { groupDraw, joinsGroup } from "./elections";
 import { leanedYes } from "../trait-decisions";
 import { makeCase } from "./speech";

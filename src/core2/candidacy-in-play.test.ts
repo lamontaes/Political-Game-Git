@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
+import { setKeepEveryonesWhy } from "./why-kept";
 import {
   CANDIDACY_MODULE_ID,
   type CandidacyDecision,
@@ -15,7 +16,8 @@ import {
 } from "./modules/elections";
 import { coreAPI } from "./state";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { campaignParameter, questionAxis } from "./campaign-views";
+import { questionAxis } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import {
   VOTING_MODULE_ID,
   type BallotRow,
@@ -32,6 +34,11 @@ import { CAMPAIGNS_MODULE_ID, parsePlatform } from "./modules/campaigns";
 // Every check reads records only.
 const seed = process.env.PW3_SEED ?? randomBytes(8).toString("hex");
 const opening = "2026-10-12";
+// Check (E) reads the position each voter's ballot weighed (`lean`) and the
+// reasons behind it, which play keeps only for the player's circle: this
+// test is the debug scope that reads everyone's, so it keeps them for the
+// whole run (Keep it simple, owner Oct 11: bookkeeping is a debug switch).
+setKeepEveryonesWhy(true);
 const world = buildBenchWorld(seed, opening, { twoLevel: true });
 const api = coreAPI(world.core);
 const contests = () =>
@@ -52,10 +59,27 @@ const weighedRows = () =>
     .moduleState(CANDIDACY_MODULE_ID)
     .table("weighed")
     .rows() as unknown as WeighedContest[];
+// The played span ends when the checks have something to read: the general
+// election has been counted and at least three local contests have been
+// weighed and filed for, or at the year's end (a whole year at a large place
+// such as West Wendover NV took 588 s of import here, past the 600 s line
+// heavy tests are held to). Every check reads only contests weighed by then.
+const localWeighedAndFiled = () => {
+  const localIds = new Set(
+    contests()
+      .filter(local)
+      .map((c) => c.id),
+  );
+  return weighedRows().filter((w) => localIds.has(w.contestId) && w.filedOn)
+    .length;
+};
 while (date < yearEnd) {
   date = addDay(date);
   advanceCore(world.core, date);
+  if (date > `${opening.slice(0, 4)}-11-10` && localWeighedAndFiled() >= 3)
+    break;
 }
+const spanEnd = date;
 const rows = <T>(module: string, name: string) =>
   api.moduleState(module).table(name).rows() as unknown as T[];
 
@@ -66,25 +90,33 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
       .rows() as unknown as CandidacyDecision[];
+    // Looked up once: the loop below asks about every named adult of every
+    // local seat, so a scan per person is quadratic in the town.
+    const decisionBy = new Map(
+      decisions.map((row) => [`${row.contestId}|${row.personId}`, row]),
+    );
+    const termsBySeat = new Map<string, TermRow[]>();
+    for (const t of rows<TermRow>(OFFICES_MODULE_ID, "terms"))
+      (
+        termsBySeat.get(t.seatId) ??
+        termsBySeat.set(t.seatId, []).get(t.seatId)!
+      ).push(t);
     for (const c of contests()) {
-      if (c.filingDeadline <= opening || weighingDate(api, c) >= yearEnd)
+      if (c.filingDeadline <= opening || weighingDate(api, c) >= spanEnd)
         continue;
       const w = held.get(c.id);
       expect(w, c.id).toBeDefined();
       if (local(c)) expect(w!.askedIds.length, c.id).toBeGreaterThan(0);
       for (const personId of w!.askedIds) {
-        const d = decisions.find(
-          (row) => row.contestId === c.id && row.personId === personId,
-        )!;
+        const d = decisionBy.get(`${c.id}|${personId}`)!;
         expect(d).toBeDefined();
         // Someone serving the seat on the day they decided, by any term on
         // it (a special election's winner included), weighs standing again
         // (voting.stand-again); everyone else, including someone who decided
         // before they took the seat, weighs entering the race on its several
         // reasons.
-        const servingThen = rows<TermRow>(OFFICES_MODULE_ID, "terms").some(
+        const servingThen = (termsBySeat.get(c.seatId) ?? []).some(
           (t) =>
-            t.seatId === c.seatId &&
             t.personId === personId &&
             t.startDate <= d.date &&
             (t.status === "serving" ||

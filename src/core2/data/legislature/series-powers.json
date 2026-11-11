@@ -50,6 +50,10 @@
       "levels": ["federal"],
       "source": "26 U.S.C. §§ 3301-3302"
     },
+    "executive-term-limit": {
+      "levels": ["state"],
+      "source": "State constitutions (a governor's limit on terms) and the amendments that change it"
+    },
     "state-unemployment-tax": {
       "levels": ["state"],
       "source": "State unemployment insurance law under 26 U.S.C. § 3304"
@@ -101,6 +105,22 @@
     "state-contribution-limit-local": {
       "levels": ["state"],
       "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "child-care-income-limit": {
+      "levels": ["state"],
+      "source": "Child Care and Development Block Grant Act, 42 U.S.C. 9858c(c)(2)(B): a state sets the family income limit for its subsidies, up to 85 percent of the state median income"
+    },
+    "ssi-federal-benefit-rate": {
+      "levels": ["federal"],
+      "source": "Social Security Act title XVI, 42 U.S.C. 1382(b): Congress sets the federal benefit rate (adjusted each January by the cost-of-living increase)"
+    },
+    "energy-assistance-income-limit": {
+      "levels": ["state"],
+      "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state sets the household income limit for its home energy assistance, within the statute's floor and ceiling"
+    },
+    "meeting-notice-hours": {
+      "levels": ["state"],
+      "source": "State open-meetings acts: the notice a local public body must give before a regular meeting (research draft data/research/laws/open-meetings-and-records-2026.json; a place with no statutory number uses the median of those that have one)"
     }
   },
   "questions": {
@@ -319,6 +339,10 @@
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "levels": ["federal", "state"],
       "source": "23 U.S.C. flexible funding; state transportation budgets"
+    },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "levels": ["state"],
+      "source": "State statutes and governors' executive orders on state-agency hiring (NELP Ban the Box guide, October 2021; data/research/executive/ban-the-box-public-hiring-2025-01.json)"
     }
   },
   "questionsAbout": "Which levels of government may answer each policy question, ESTIMATED by OPUS-GOV from where such laws are enacted in practice (the cited statutes; NCSL and NLC surveys). A local body also needs the state not to have preempted it (authorityFor). A level not listed has no power to pass the question."

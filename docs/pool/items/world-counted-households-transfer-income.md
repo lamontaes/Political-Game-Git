@@ -6,20 +6,35 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
+after:
+lead: laws-effects
+model: opus
+effort: medium
+root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** A counted household's income (householdIncome in src/core2/modules/residents.ts) is its recorded wages, its retirement awards and its share of the place's unplaced workers. Nothing else is paid to it: no Social Security for a disabled or surviving member, no cash assistance under the law in force. Once unplaced workers are whole people (branch claude/pr-renter-income), about 40 percent of renter households in a Puerto Rico town have no income at all and are evicted (65 homeless where HUD implies about 1). Pay counted households the transfers the same rules give a full household, read by householdIncome, rent and the eviction path.
+**What.** A counted household's income (householdIncome in src/core2/modules/residents.ts) is its recorded wages, its retirement awards and its share of the place's unplaced workers. Nothing else is paid to it: no Social Security for a disabled or surviving member, no cash assistance under the law in force. Once unplaced workers are whole people (branch claude/pr-renter-income, not on main), about 40 percent of renter households in a Puerto Rico town have no income at all and are evicted (65 homeless where HUD implies about 1). Pay counted households the transfers the same rules give a full household, read by householdIncome, rent and the eviction path. The Puerto Rico renter-income item (world-counted-renter-income-puerto-rico-third) is proposed to merge here with its ACS figures (B19055, B19065, B19067, B25071) as evidence. Seen: a renter household's card and the town's evictions and homeless count, where about 40 percent of renters have no income.
 
-**Rules.** One model, two tiers: a counted household receives a transfer by the same rule as a full household, times its count. Wire to the world: each transfer is a journal record from the paying government or outside flow. Estimate, never UNKNOWN: amounts start from sourced per-place figures with a spread.
+**Cause.** Found in code: householdIncome at src/core2/modules/residents.ts:341 returns h.wagesMinorYear + h.retirementMinorYear + h.unplacedWorkers * unplacedPayPerWorker(rt, h); no transfer enters it.
 
-**Done when.** In Puerto Rico place 7237336 (seed 63ef211a72f7f8d3519652d91152eaf5cda51a871ae2bed4e9221c537c7bd2f8) and a drawn place (seed named), with the branch's whole unplaced workers merged, the share of counted renter households with no income on day one is within 5 points of the ACS share with no income, and housing-calibration.test.ts passes, shown by transfer record ids. **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
+**Fix.** Pay counted households the transfers a full household gets by the same rules (Social Security for retired, disabled and surviving members; cash assistance under the law in force), each as a journal record from the paying government or outside flow, and have householdIncome, rent and the eviction path read them.
 
-**Files.** src/core2/modules/residents.ts, src/core2/residents.ts
+**Time box.** 8 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One model, two tiers: a counted household receives a transfer by the same rule as a full household, times its count. Wire to the world: each transfer is a journal record from the paying government or outside flow. Estimate, never UNKNOWN: amounts start from sourced per-place figures with a spread. Real figures such as the ACS no-income share are reported beside the result and are never a target (owner, Nov 8).
+
+**Done when.** A second session (not the builder) plays Puerto Rico place 7237336 (seed 63ef211a72f7f8d3519652d91152eaf5cda51a871ae2bed4e9221c537c7bd2f8) and a drawn place (seed named), and sees counted renter households with no earner receive transfers shown by transfer record ids, a household with no wages paying its rent from them instead of being evicted on day one, and housing-calibration.test.ts passing; the share of counted renter households with no income on day one is reported beside the ACS share.
+
+**Waits on.** Nothing. The claude/pr-renter-income branch is not needed on main to start.
+
+**Files.** src/core2/modules/residents.ts, src/core2/residents.ts, src/core2/housing-calibration.test.ts
 
 **Notes.** Found working world-counted-renter-income-puerto-rico-third (see its Oct 21 notes for the ACS figures fetched: B19055, B19065, B19067 for Puerto Rico).
 

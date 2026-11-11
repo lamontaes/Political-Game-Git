@@ -58,8 +58,12 @@ const CHAMBER_ORDER = [
   "legislature-upper",
   "us-senate",
 ];
-/** How many of a body's recorded roll calls the screen shows, newest first. */
-const RECENT_VOTES = 3;
+/**
+ * How many of a body's recorded roll calls the screen shows, newest first: a page of the term's
+ * record. It was 3, and a council that had voted 37 measures in 14 months (San Luis, Arizona,
+ * 0463470) showed three; the screen reads the record, so the cap is a page, not a handful.
+ */
+export const RECENT_VOTES = 50;
 /** How many coming dates the screen shows, soonest first. */
 const COMING_UP = 4;
 /** Noon: rooms are shown in daylight on a reference screen. */
@@ -184,6 +188,8 @@ export function recentVotesOf(api: Api, officeId: string) {
         billId,
         date,
         number: bill?.number ?? null,
+        // A bill the legislature still holds has a paper to open; a past measure has none.
+        openable: Boolean(bill),
         title: bill
           ? (billTitleOf(bill)?.title ?? null)
           : (names[question] ?? null),

@@ -58,6 +58,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-second-source.test.ts"),
   },
   {
+    id: "register-duplicate-keys",
+    rule: "A register entry is never glued to another: no repeated key inside any object of a stopgap register file (JSON.parse hides it, the later key wins and an entry vanishes).",
+    readMore:
+      "docs/design/guards.md; tests/guards/register-duplicate-keys.test.ts",
+    command: vitest("tests/guards/register-duplicate-keys.test.ts"),
+  },
+  {
     id: "families",
     rule: "One engine per mechanic: every file is in one engine family, and reaches another family only through its entry files; the deep imports only shrink.",
     readMore:
@@ -92,6 +99,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/one-history.test.ts"),
   },
   {
+    id: "daily-register",
+    rule: "Not everything is tracked every day: every daily engine step and every kept table is written in the daily register, and a daily step or a table that grows unfolded is approved by name; the unapproved list only shrinks.",
+    readMore:
+      ".agents/rules/cadence-and-summaries.md; docs/design/daily-register.md; skill cadence-and-summaries",
+    command: vitest("tests/guards/daily-register.test.ts"),
+  },
+  {
     id: "english",
     rule: "Player text is American English, never restates where the player is or who is there, and carries no developer text; the known lists only shrink.",
     readMore:
@@ -103,6 +117,13 @@ export const GUARDS: readonly Guard[] = [
     rule: "Every piece of UI comes from the UI kit in src/bench/ui/, nothing invented; the known markup outside it only shrinks.",
     readMore: ".claude/skills/screen-to-mock/SKILL.md",
     command: vitest("tests/guards/kit-only-ui.test.ts"),
+  },
+  {
+    id: "no-steering",
+    rule: "A measure moves because something in the world caused it: no step code pulls it toward a level, a researched figure or a higher place's value, or clamps an outcome to a range; every parameter row names its role; the known lists only shrink.",
+    readMore:
+      "tests/guards/no-steering.test.ts; the owner's rule that real ranges are not targets",
+    command: vitest("tests/guards/no-steering.test.ts"),
   },
   {
     id: "canned-content",

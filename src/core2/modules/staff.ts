@@ -38,7 +38,8 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { residentsRuntime } from "./residents";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, personLean } from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { keepsWhy } from "../why-kept";
 import {
@@ -48,7 +49,12 @@ import {
 } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageInYears,
+  daysBetweenText,
+  makeIsoDate,
+} from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
@@ -165,9 +171,7 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(STAFF_MODULE_ID).table(name);
 
 const ageOn = (p: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 export interface StaffCandidate {
   readonly personId: string;
@@ -187,9 +191,7 @@ export interface StaffCandidate {
 }
 
 const ageOnDay = (birthDate: string, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(birthDate.slice(0, 4)) -
-  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+  ageInYears(birthDate, date);
 
 const WORKING_AGE_POINTS = [18, 22, 30, 40, 50, 60, 70, 80] as const;
 

@@ -1,3 +1,4 @@
+/* global Node */
 // The approved strip screen (owner, Nov 7, 2026: You, the person card,
 // Government, Budgets; docs/mocks/2026-11-07-approved/): a left column with
 // the screen's name, the role line under it and a bust, and sections down the
@@ -7,6 +8,11 @@ import { el } from "./dom.mjs";
 import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
+import { bustPlace, bustStack } from "./bust.mjs";
+
+/** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
+const JOURNAL_TWO_COLUMNS = 700;
+const JOURNAL_DROP_CAP = 120;
 
 /**
  * A section: its header strip (`depth` 1 to 5 sets how deep the strip's
@@ -21,29 +27,33 @@ export function stripSection(depth, title, ...nodes) {
   );
 }
 
-/** The bust's size: the head fills this share of the column, and the crop ends this far below the head's top. */
-const HEAD_PX = 190;
-const BUST_BELOW_HEAD = 1.65;
+/** The column a bust is sized for. */
 const COLUMN_PX = 320;
+/** The share of the column a bust's head takes: the shoulders reach the column's edges. */
+const BUST_HEAD_SHARE = 0.36;
 
 /**
- * A bust from a pack figure: head to upper chest, ending in a soft fade. `face`
- * is the card's face record (the figure's url and size, and its head
- * [top, middle, width] in the figure's pixels).
+ * A person's bust for a screen's left column (ui/bust.mjs): the whole of it
+ * across the column, ending in a soft fade on the chest. `face` is the card's
+ * face record; someone with none (a child) gets the warm light alone.
  */
 export function bust(face, alt, column = COLUMN_PX) {
   if (!face) return el("div", { className: "mxglow" });
-  const [top, middle, width] = face.head;
+  const record = face.bust;
   const scale = column / COLUMN_PX;
-  const k = (HEAD_PX * scale) / width;
-  const image = el("img", { src: face.url, alt });
-  Object.assign(image.style, {
-    height: `${Math.round(face.height * k)}px`,
-    left: `${Math.round(column / 2 - middle * k)}px`,
-    top: `${Math.round(12 * scale - top * k)}px`,
+  const at = bustPlace(record, {
+    share: BUST_HEAD_SHARE,
+    top: (12 * scale) / column,
   });
-  const frame = el("div", { className: "mxbust" }, image);
-  frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
+  const stack = bustStack(record, alt);
+  Object.assign(stack.style, {
+    width: `${Math.round(at.side * column)}px`,
+    left: `${Math.round(at.left * column)}px`,
+    top: `${Math.round(at.top * column)}px`,
+  });
+  const frame = el("div", { className: "mxbust" }, stack);
+  // The frame ends where the canvas does, so the fade falls on the chest.
+  frame.style.height = `${Math.round((at.top + at.side) * column)}px`;
   frame.style.width = `${column}px`;
   const glow = el("div", { className: "mxglow" }, frame);
   glow.style.width = `${column}px`;
@@ -111,6 +121,46 @@ export function introText(...parts) {
   return el("p", { className: "intro" }, ...parts);
 }
 
+/**
+ * A life told as sentences, never a list of dates: the card's lines (oldest
+ * first, each with its kind and the record behind it) grouped by what mattered
+ * (`groups`: the kinds that belong together, in the order they are read), one
+ * paragraph in the story face for each group, each sentence on its record.
+ */
+export function lifeStory(lines, groups, onOpen) {
+  const at = new Map(
+    groups.flatMap((kinds, i) => kinds.map((kind) => [kind, i])),
+  );
+  const paragraphs = [...groups, []].map(() => []);
+  for (const line of lines)
+    paragraphs[at.get(line.kind) ?? groups.length].push(line);
+  return paragraphs
+    .filter((rows) => rows.length)
+    .map((rows) =>
+      introText(
+        ...rows.flatMap((row, i) => {
+          const sentence = el("span", { textContent: row.text });
+          sentence.dataset.record = row.recordId;
+          // Dev mode only: the sentence opens its record in the one Trace box.
+          if (onOpen && row.recordId) {
+            const open = () => onOpen(row.recordId);
+            sentence.classList.add("pick");
+            sentence.tabIndex = 0;
+            sentence.setAttribute("role", "button");
+            sentence.addEventListener("click", open);
+            sentence.addEventListener("keydown", (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                open();
+              }
+            });
+          }
+          return i ? [" ", sentence] : [sentence];
+        }),
+      ),
+    );
+}
+
 /** A name that opens its card: bold gold in the sentence, a button for keyboard and screen reader. */
 export function nameLink(text, onOpen) {
   const node = el("span", { className: "nm pick", textContent: text });
@@ -142,7 +192,7 @@ export function peopleSentence(people) {
   return line;
 }
 
-/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }. */
+/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }; a value may be a node (a name that opens its card). */
 export function dotRows(rows) {
   return el(
     "div",
@@ -153,7 +203,9 @@ export function dotRows(rows) {
         { className: "dotrow" },
         el("span", { className: "dotlabel", textContent: row.label }),
         el("span", { className: "dotleader" }),
-        el("span", { className: "dotvalue", textContent: row.value }),
+        row.value instanceof Node
+          ? el("span", { className: "dotvalue" }, row.value)
+          : el("span", { className: "dotvalue", textContent: row.value }),
       ),
     ),
   );
@@ -162,7 +214,7 @@ export function dotRows(rows) {
 /**
  * The budget board: a row of tabs and a fiscal-year line over three columns of
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
- * Courier Prime capitals at the right of the tabs.
+ * capitals at the right of the tabs.
  */
 export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
@@ -280,12 +332,27 @@ export function seatNumbers(parts, vacant) {
   );
 }
 
-/** Roll calls in type: the title, the result and the count, the date under it. */
+/** Roll calls in type: the title, the result and the count, the date under it; a row with `onOpen` opens its bill. */
 export function voteRows(rows) {
   return el(
     "div",
     { className: "vote-rows" },
-    ...rows.map((row) => typedRow(row.title, row.result, row.when)),
+    ...rows.map((row) => {
+      const node = typedRow(row.title, row.result, row.when);
+      if (!row.onOpen) return node;
+      // A row with a paper behind it opens it: a button for the pointer and the keyboard.
+      node.classList.add("pick");
+      node.tabIndex = 0;
+      node.setAttribute("role", "button");
+      node.addEventListener("click", row.onOpen);
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          row.onOpen();
+        }
+      });
+      return node;
+    }),
   );
 }
 
@@ -341,7 +408,7 @@ export function quitButton(label, onQuit) {
  * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
  * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
  */
-export function patchNotesScreen({ builds, title, words, rows }) {
+export function patchNotesScreen({ builds, title, rows }) {
   const holder = el("div");
   let chosen = builds[0];
   const draw = () =>
@@ -369,18 +436,24 @@ export function patchNotesScreen({ builds, title, words, rows }) {
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
-                words,
                 className: "bsdepts",
               }),
             ),
           ],
-          (chosen?.groups ?? []).map((group, at) =>
-            stripSection(
-              Math.min(at + 2, 5),
-              group.heading,
-              ...group.notes.map((note) => introText(note)),
+          [
+            // A build's notes run long: they scroll inside their own box, never the sheet.
+            el(
+              "div",
+              { className: "patch-detail" },
+              ...(chosen?.groups ?? []).map((group, at) =>
+                stripSection(
+                  Math.min(at + 2, 5),
+                  group.heading,
+                  ...group.notes.map((note) => introText(note)),
+                ),
+              ),
             ),
-          ),
+          ],
         ],
       }),
     );
@@ -393,7 +466,7 @@ export function patchNotesScreen({ builds, title, words, rows }) {
  * newest last and chosen, each with its years; the chosen chapter is its title over two
  * columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
  */
-export function journalScreen({ chapters, labels, yearOf, rows, words }) {
+export function journalScreen({ chapters, labels, yearOf, rows }) {
   const holder = el("div");
   let chosen = chapters.at(-1);
   const yearsOf = (chapter) => {
@@ -427,7 +500,6 @@ export function journalScreen({ chapters, labels, yearOf, rows, words }) {
                     columns: 1,
                     rowHeight: 52,
                     gap: 2,
-                    words,
                     className: "bsdepts",
                   })
                 : el("p", { className: "intro", textContent: labels.empty }),
@@ -438,11 +510,23 @@ export function journalScreen({ chapters, labels, yearOf, rows, words }) {
                 stripSection(
                   2,
                   chosen.title,
+                  // Two columns and a drop cap only where the words fill them: a short
+                  // chapter is one column and a one-line first paragraph has no drop cap.
                   el(
                     "div",
-                    { className: "journal-text" },
-                    ...chosen.lines.map((line) =>
-                      el("p", { className: "intro", textContent: line.text }),
+                    {
+                      className: `journal-text${
+                        chosen.lines.reduce((n, l) => n + l.text.length, 0) <
+                        JOURNAL_TWO_COLUMNS
+                          ? " one-column"
+                          : ""
+                      }`,
+                    },
+                    ...chosen.lines.map((line, at) =>
+                      el("p", {
+                        className: `intro${at === 0 && line.text.length >= JOURNAL_DROP_CAP ? " lead" : ""}`,
+                        textContent: line.text,
+                      }),
                     ),
                   ),
                 ),

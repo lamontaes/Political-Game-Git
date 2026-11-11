@@ -1,0 +1,59 @@
+{
+  "about": "The order work is taken in, written down once (owner, Nov 10, 2026: \"does it have weights on what should be done first?\"). `npm run pool -- next` sorts by it and the index's Ready by model lists follow it. Change the order here, never in a prompt.",
+  "levels": ["haiku", "sonnet", "opus", "fable"],
+  "sortBy": [
+    "priority: 1 before 2 before 3. Priority 1 is a red on main or what the owner asked for now.",
+    "class: rules, checks and skills first; then the critical path; then what stops play; then the rest.",
+    "unblocks: the item more live items wait on comes first.",
+    "effort: low before medium before high.",
+    "size: S before M before L.",
+    "id: alphabetical, so the order is the same for everyone."
+  ],
+  "kinds": {
+    "play": {
+      "why": "Owner, Nov 10: \"the stuff I actually click and play\". Player-facing items only.",
+      "areas": ["play"],
+      "leads": ["play-first", "screens"]
+    }
+  },
+  "classes": [
+    {
+      "name": "rules-checks-skills",
+      "why": "Owner, Nov 10: any rule, check or skill merges first, because everything built after it is held to it.",
+      "idPrefixes": [
+        "tests-",
+        "test-",
+        "skills-",
+        "pool-",
+        "words-machine-",
+        "docs-"
+      ],
+      "roots": ["rc2-done-from-records", "design-guards"]
+    },
+    {
+      "name": "critical-path",
+      "why": "The four pieces the owner's Nov 9 answers put first (the acceptance rule, the country tier and its clock, the life record, the words machine) and the audit's seven top root causes.",
+      "idPrefixes": [
+        "core-fast-clock",
+        "core-country-tier",
+        "core-life-record"
+      ],
+      "roots": [
+        "design-country-tier",
+        "design-life-record",
+        "design-words-machine",
+        "rc1-world-outside-town",
+        "rc3-thin-life-record",
+        "rc4-hand-written-words",
+        "rc5-full-detail-every-day",
+        "rc6-scenes-repeat",
+        "rc7-player-cannot-drive"
+      ]
+    },
+    {
+      "name": "stops-play",
+      "why": "Owner, Oct 24: \"I still can't play the game.\" The play-first lane's items, in the order docs/play-first/ORDER.md gives.",
+      "milestone": "play-first"
+    }
+  ]
+}

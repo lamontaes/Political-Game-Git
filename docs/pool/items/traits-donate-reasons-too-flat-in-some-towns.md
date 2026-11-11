@@ -6,21 +6,41 @@ kind: bug
 priority: 1
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+model: opus
+effort: high
+root: none
 source: red main (checker), Oct 30; lead set to governing by the CTO (folded into the campaign money calibration)
 lead: governing
+checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-traits-donate-reasons-too-flat-in-some-towns
 ---
 
-**What.** src/core2/modules/campaigns.traits.test.ts 'giving follows openness at about the researched rate' fails by draw on clean main (b216577): GOLDEN_PATH_SEED=chk2-c, Lyndon Center, Vermont (5041800), race 2025-03-04: campaigns.donate odds ratio 8.18 against a target of 1.82 and a bound of 4.01. Measured on the same calls: Lyndon Center has 2104 calls, 357 distinct reason totals all near zero (the biggest pile is 45), and 57.5 percent say yes; the personality weight is 0.071, so with the circumstances barely varying temperament alone sorts who gives. Elberta, Michigan (chk2-a): 1612 calls, 600 distinct totals, 52.5 percent yes, odds ratio 1.62, inside the band. So the donate choice does not read enough of a person's money, ties and the race to vary the reasons, as the volunteering test's own comment says of that choice (trait-decision-gaps.json). A share of about half of contacts giving is also far above real giving.
+**What.** src/core2/modules/campaigns.traits.test.ts 'giving follows openness at about the researched rate' fails by draw on clean main (b216577): GOLDEN_PATH_SEED=chk2-c, Lyndon Center, Vermont (5041800), race 2025-03-04: campaigns.donate odds ratio 8.18 against a target of 1.82 and a bound of 4.01. Measured on the same calls: Lyndon Center has 2104 calls, 357 distinct reason totals all near zero (the biggest pile is 45), and 57.5 percent say yes; the personality weight is 0.071, so with the circumstances barely varying temperament alone sorts who gives. Elberta, Michigan (chk2-a): 1612 calls, 600 distinct totals, 52.5 percent yes, odds ratio 1.62, inside the band. So the donate choice does not read enough of a person's money, ties and the race to vary the reasons, as the volunteering test's own comment says of that choice (data/content/trait-decision-gaps.json). A share of about half of contacts giving is also far above real giving. Guards: who gives to the player's campaign, which this test keeps right.
+
+**Cause.** Needs cause. The failure measured on Oct 30 and Nov 1 does not reproduce on main 732385a8239 (opus-5234, PR #8535): `GOLDEN_PATH_SEED=chk2-c` (Lyndon Center, Vermont) and `chk2-a` (Elberta, Michigan) both pass `npx vitest run src/core2/modules/campaigns.traits.test.ts -t "giving follows openness"`, so the donate odds ratio is inside the band (it read 8.18 and 4.39). Not re-measured: the 357 distinct reason totals in 2,104 calls and the 57.5 percent saying yes. A finder counts those on main in drawn towns (the test prints neither) and decides whether giving still reads too little of a person's circumstances and gives too often against a sourced share.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 5 hours for one Opus session.
 
 **Rules.** No dice: the reasons are the person's money, ties, views and the race, never a seeded pick. Every number a sourced or estimated parameter; the researched share of contacted people who give is read from a source, not typed. One rule, all 56 places: a flip by seed is a defect, so the fix makes the odds ratio hold across drawn towns. Never widen the test's 2.2 slack or skip it.
 
-**Done when.** src/core2/modules/campaigns.traits.test.ts giving test passes with GOLDEN_PATH_SEED=chk2-c and chk2-a and on three fresh drawn places named in the PR body with their seeds, each reporting the odds ratio within the band and the yes share near the researched share of contacted people who give, by the played calls' count
+**Done when.** A second session runs the giving test in src/core2/modules/campaigns.traits.test.ts with GOLDEN_PATH_SEED=chk2-c, chk2-a and three seeds it chose in drawn places (named); it passes on all of them, the reasons differ person to person in the played calls (distinct reason totals reported against the 357 of 2104 calls before), and the share of contacted people who give is reported beside the sourced share.
 
-**Files.** src/core2/modules/campaigns.ts,src/core2/modules/campaigns.traits.test.ts,src/core2/data/trait-decision-gaps.json
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/campaigns.ts, src/core2/modules/campaigns.traits.test.ts, data/content/trait-decision-gaps.json
 
 **Notes.** lead: traits. Found by the standing red-main owner Oct 30 03:20 UTC from Checker 2's report; not fixed by the red-main owner because the fix is a calibration needing a sourced giving share and a reading of the person's own money, not a test change. Read: OWNER-DECISIONS (no dice, estimate-not-unknown), searched docs/pool/items for campaigns.donate and giving follows openness: none.
 
 Nov 1 evidence (governing lead, review of governing/traits-endorsements-heard, head ed93f41c81, main also red): GOLDEN_PATH_SEED=chk2-c, Lyndon Center, Vermont (draw :0): campaigns.donate odds ratio 4.39 against the bound of 4.01, so the giving case still fails there (it read 8.18 on main b216577 on Oct 30). The same run's running-for-office case is a separate item, tests-campaigns-traits-run-ratio-cruz-bay (Cruz Bay, U.S. Virgin Islands, seed a4eca5af1791dc3df7527d94791fb774b3fcdd52 draw :0).
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:46 UTC) on branch claude/pool-traits-donate-reasons-too-flat-in-some-towns.
+
+Released (2026-11-11): The giving test passes on main with chk2-c and chk2-a; marking its Cause Needs cause (PR 8535). Continue on branch claude/pool-traits-donate-reasons-too-flat-in-some-towns.

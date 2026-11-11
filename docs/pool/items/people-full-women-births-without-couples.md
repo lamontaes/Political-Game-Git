@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,7 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into people-births-ready-couples-conceive-at-once. Same seam as the kept item: a full woman with no partner link is not in the couples table of src/core2/modules/renewal.ts, so she cannot plan a birth. The kept item's part 3 (people-births-ready-couples-conceive-at-once-part-3-women-without-partner) takes this item's done-when: three drawn places, births per thousand by 5-year band, person-birth record ids.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `people-births-ready-couples-conceive-at-once`, which carries this item's remaining work.

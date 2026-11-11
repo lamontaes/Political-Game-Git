@@ -17,6 +17,7 @@ import {
   playerClockAtRestV1,
   resumePlayerV1,
 } from "./player-v1";
+import { openStartingCircle } from "./modules/people";
 import { preStartWindow, runPreStart } from "./pre-start";
 import {
   restoreWorld,
@@ -179,6 +180,7 @@ export function newGame(recipe: GameRecipe, options: GameOptions = {}): Game {
   const preStart = recipe.preStart ?? defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  if (preStart) openStartingCircle(core);
   return { core, recipe, commands: [], skipped: [] };
 }
 

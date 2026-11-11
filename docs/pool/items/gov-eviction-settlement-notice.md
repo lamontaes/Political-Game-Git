@@ -11,15 +11,30 @@ pr: #5390
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: governing
+standard: 2
+model: sonnet
+effort: medium
+root: none
+checked: fable 2026-11-10
 ---
 
-**What.** Finish the existing implementation on claude/eviction-settlement-notice. A tenant represented by a lawyer should receive the settlement notice that reflects the recorded payment plan.
+**What.** This item continues a branch, claude/eviction-settlement-notice (PR #5390, sent back twice), whose purpose was that a tenant represented by a lawyer receives the settlement notice that reflects the recorded payment plan. The branch's files, `src/core2/housing-notices.ts` and `src/core2/eviction-notice.test.ts`, are not on main, and `src/core2/modules/housing.ts` has since changed (it now writes a case at stage `notice`, and a settlements table and lawyer hearing exist). Nothing on main or in a ruling says what the notice should be, so it is not buildable from this file.
 
-**Rules.** Use the existing housing and law engines. Preserve current readers, merge main normally, and regenerate the pool index without hand editing it.
+**Cause.** Needs cause. Looked at the item and `src/core2/modules/housing.ts` (the settlements table at about line 1711, the lawyer hearing at about line 2001): there is no settlement-notice producer on main and no ruling or design names one.
 
-**Done when.** The branch merges main without code conflicts, eviction-notice.test.ts passes in a drawn buildBenchWorld with place and seed named, and the PR evidence table identifies the settlement, notice, law and journal records.
+**Fix.** None until the cause is found.
 
-**Files.** src/core2/modules/housing.ts, src/core2/housing-notices.ts, src/core2/eviction-notice.test.ts
+**Time box.** 4 hours for one sonnet session, to read the branch and the current housing module and write down what notice is missing and what record it should read.
+
+**Rules.** Use the existing housing and law engines. One rule, all 56 places. No dice. Look before you ask: read OWNER-DECISIONS, the decision register and `docs/` for the eviction settlement before registering a decision.
+
+**Done when.** A second session reads the branch claude/eviction-settlement-notice against main and either rewrites this item with `Found in code:` or `Measured:` and a real Fix (what notice a represented tenant receives, from which settlement and law records), or records that the housing module's `notice` case already covers it, with the record ids seen in a drawn `buildBenchWorld` place and seed.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/housing.ts
 
 **Notes.** Sent back 2026-10-23 from PR #5390 (branch claude/eviction-settlement-notice): current main conflicts in src/core2/modules/housing.ts; preserve both readers, merge stopgaps by ID and regenerate the pool index; finish on that branch, merge main into it first. No existing matching pool item was found by PR, branch or settlement-notice title.
 

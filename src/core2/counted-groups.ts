@@ -12,6 +12,7 @@
  * these columns on demand (`personInput`, `householdView`): the stopgap
  * SG-CORE-counted-person-views, retired engine by engine as each reads groups.
  */
+import { ageInYears } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
 import type { ResidentHouseholdRecord } from "./residents";
@@ -47,6 +48,13 @@ export const enum MemberState {
   Dead = 2,
   Moved = 3,
 }
+
+/** The `looks` keys that carry a person's roles (opening-roles.ts), kept for counted members as for named people. */
+export const ROLE_KEYS = [
+  "partyActivity",
+  "ownedEmployerId",
+  "civicRoles",
+] as const;
 
 export type HouseholdKind = "one-adult" | "adults" | "with-children";
 /**
@@ -121,6 +129,10 @@ export interface CountedHousehold {
    * Every reader of a count multiplies by it (`CountedStore.weightOf`).
    */
   weight?: number;
+  /** The day it moved into its place. */
+  since?: IsoDate;
+  /** Its sampled county workers' employers (see HouseholdInput.employment). */
+  employment?: HouseholdInput["employment"];
   /** The district it lives in, where its place has districts. */
   district?: string;
   /** Bumped when its members or their records change (readers' cached views go stale). */
@@ -142,11 +154,7 @@ export function ageBandOf(age: number): string {
 }
 
 export function ageOn(birthDate: string, date: string): number {
-  return (
-    Number(date.slice(0, 4)) -
-    Number(birthDate.slice(0, 4)) -
-    (date.slice(5) < birthDate.slice(5) ? 1 : 0)
-  );
+  return ageInYears(birthDate, date);
 }
 
 export function groupId(key: GroupKey): string {
@@ -206,7 +214,7 @@ export class CountedStore {
   readonly born: string[] = [];
   readonly household: number[] = [];
   readonly living: number[] = [];
-  /** Opening cash, until each group holds its own account (SG-CORE-counted-cash-share). */
+  /** Cash each counted member holds, in minor units (the store keeps it per member). */
   readonly liquid: number[] = [];
   readonly jobId: (string | undefined)[] = [];
   readonly appearance: (string | undefined)[] = [];
@@ -216,9 +224,27 @@ export class CountedStore {
   readonly genderIx: number[] = [];
   readonly pronounsIx: number[] = [];
   readonly recipeIx: number[] = [];
+  /** Where each member's family comes from (looks.origin). */
+  readonly originIx: number[] = [];
+  /** The roles a member holds in the place's life (`looks` keys in `ROLE_KEYS`), interned by key. */
+  readonly roleIx: Record<string, number[]> = {
+    partyActivity: [],
+    ownedEmployerId: [],
+    civicRoles: [],
+  };
   readonly tierIx: number[] = [];
   state = new Uint8Array(0);
   traits = new Int8Array(0);
+  /**
+   * Exact traits of the members whose traits are not all small whole numbers
+   * (full people's traits become fractions in play): member index to one
+   * value per trait name. All of such a member's traits live here; the
+   * `traits` slots hold the rounded, clamped value only as a fallback nobody
+   * reads. Whole-number members (nearly all) have no entry.
+   */
+  readonly exactTraits = new Map<number, Float64Array>();
+  /** Whether any member holds exact traits (one check on the hot read path). */
+  hasExact = false;
   readonly traitNames: string[] = [];
   readonly traitIndex = new Map<string, number>();
   readonly strings: string[] = [""];
@@ -338,17 +364,37 @@ export class CountedStore {
     this.genderIx.push(this.intern(person.looks?.gender));
     this.pronounsIx.push(this.intern(person.looks?.pronouns));
     this.recipeIx.push(this.intern(person.looks?.recipeVersion));
+    this.originIx.push(this.intern(person.looks?.origin));
+    for (const key of ROLE_KEYS)
+      (this.roleIx[key] ??= []).push(this.intern(person.looks?.[key]));
     this.tierIx.push(this.intern(person.tier));
     this.state = grown(this.state, m + 1, (n) => new Uint8Array(n));
     this.state[m] = MemberState.Counted;
     this.traits = grown(this.traits, (m + 1) * width, (n) => new Int8Array(n));
+    let whole = true;
     for (const [name, value] of Object.entries(person.traits)) {
-      const ix = this.traitIndex.get(name);
-      if (ix === undefined)
+      if (!this.traitIndex.has(name))
         throw new Error(`Unknown trait for a counted member: ${name}`);
+      if (typeof value !== "number" || !Number.isFinite(value))
+        throw new Error(`A counted trait is not a finite number: ${name}`);
       if (!Number.isInteger(value) || value < -127 || value > 127)
-        throw new Error(`A counted trait is not a small whole number: ${name}`);
-      this.traits[m * width + ix] = value;
+        whole = false;
+    }
+    if (whole) {
+      for (const [name, value] of Object.entries(person.traits))
+        this.traits[m * width + this.traitIndex.get(name)!] = value;
+    } else {
+      const exact = new Float64Array(width);
+      for (const [name, value] of Object.entries(person.traits)) {
+        const ix = this.traitIndex.get(name)!;
+        exact[ix] = value;
+        this.traits[m * width + ix] = Math.max(
+          -127,
+          Math.min(127, Math.round(value)),
+        );
+      }
+      this.exactTraits.set(m, exact);
+      this.hasExact = true;
     }
     if (
       person.sharedTraitSource &&
@@ -363,25 +409,30 @@ export class CountedStore {
 
   trait(member: number, name: string): number | undefined {
     const ix = this.traitIndex.get(name);
-    return ix === undefined
-      ? undefined
-      : this.traits[member * this.traitNames.length + ix];
+    if (ix === undefined) return undefined;
+    if (this.hasExact) {
+      const exact = this.exactTraits.get(member);
+      if (exact) return exact[ix];
+    }
+    return this.traits[member * this.traitNames.length + ix];
   }
 
   /** A member's traits as a plain record (for a filled-in person or a reader that copies). */
   traitRecord(member: number): Record<string, number> {
     const width = this.traitNames.length,
       base = member * width,
+      exact = this.hasExact ? this.exactTraits.get(member) : undefined,
       out: Record<string, number> = {};
     for (let i = 0; i < width; i++)
-      out[this.traitNames[i]!] = this.traits[base + i]!;
+      out[this.traitNames[i]!] = exact ? exact[i]! : this.traits[base + i]!;
     return out;
   }
 
   /** A member's traits read in place from the columns. */
   packedTraits(member: number): PackedTraits {
     if (!this.traitView) {
-      const traits = () => this.traits;
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const store = this;
       const width = () => this.traitNames.length;
       const View = function (this: { [MEMBER]: number }, m: number) {
         this[MEMBER] = m;
@@ -389,7 +440,12 @@ export class CountedStore {
       this.traitNames.forEach((name, ix) =>
         Object.defineProperty(View.prototype, name, {
           get(this: { [MEMBER]: number }) {
-            return traits()[this[MEMBER] * width() + ix];
+            const member = this[MEMBER];
+            if (store.hasExact) {
+              const exact = store.exactTraits.get(member);
+              if (exact) return exact[ix];
+            }
+            return store.traits[member * width() + ix];
           },
           enumerable: true,
         }),
@@ -628,11 +684,17 @@ export class CountedStore {
     const gender = this.genderIx[member]!,
       pronouns = this.pronounsIx[member]!,
       recipe = this.recipeIx[member]!,
+      origin = this.originIx[member],
       appearance = this.appearance[member];
     if (gender) looks.gender = this.strings[gender]!;
     if (pronouns) looks.pronouns = this.strings[pronouns]!;
     if (appearance) looks.appearanceSeed = appearance;
     if (recipe) looks.recipeVersion = this.strings[recipe]!;
+    if (origin) looks.origin = this.strings[origin]!;
+    for (const key of ROLE_KEYS) {
+      const at = this.roleIx[key]?.[member];
+      if (at) looks[key] = this.strings[at]!;
+    }
     const person: PersonInput = {
       id: this.ids[member]!,
       givenName: this.given[member]!,
@@ -730,6 +792,10 @@ export class CountedStore {
       ...(facts.weight !== undefined && facts.weight !== 1
         ? { weight: facts.weight }
         : {}),
+      ...(record.household.since ? { since: record.household.since } : {}),
+      ...(record.household.employment
+        ? { employment: record.household.employment }
+        : {}),
     };
     this.households.push(h);
     this.householdOf.set(h.id, index);
@@ -774,6 +840,8 @@ class HouseholdView implements ResidentHouseholdRecord {
         .map((m) => this.store.ids[m]!),
       source: this.h.source,
       ...(this.h.quarters ? { quarters: this.h.quarters } : {}),
+      ...(this.h.since ? { since: this.h.since } : {}),
+      ...(this.h.employment ? { employment: this.h.employment } : {}),
     };
   }
   get people(): readonly PersonInput[] {
@@ -896,6 +964,8 @@ export function encodeStore(store: CountedStore): unknown {
           ![
             "state",
             "traits",
+            "exactTraits",
+            "hasExact",
             "traitView",
             "traitViews",
             "peopleViews",
@@ -910,6 +980,10 @@ export function encodeStore(store: CountedStore): unknown {
     traits: [
       ...store.traits.subarray(0, store.memberCount * store.traitNames.length),
     ],
+    exactTraits: [...store.exactTraits].map(([member, values]) => [
+      member,
+      [...values],
+    ]),
     households: store.households.map((h) => ({ ...h })),
     groups: store.groups.map((g) => ({ ...g, households: [...g.households] })),
   };
@@ -919,6 +993,7 @@ export function decodeStore(data: unknown): CountedStore {
   const raw = data as Record<string, unknown> & {
     state: number[];
     traits: number[];
+    exactTraits?: [number, number[]][];
     groups: (Omit<CountedGroup, "households"> & { households: number[] })[];
   };
   const store = new CountedStore();
@@ -927,6 +1002,8 @@ export function decodeStore(data: unknown): CountedStore {
       [
         "state",
         "traits",
+        "exactTraits",
+        "hasExact",
         "groups",
         "traitView",
         "traitViews",
@@ -938,6 +1015,9 @@ export function decodeStore(data: unknown): CountedStore {
   }
   store.state = Uint8Array.from(raw.state);
   store.traits = Int8Array.from(raw.traits);
+  for (const [member, values] of raw.exactTraits ?? [])
+    store.exactTraits.set(member, Float64Array.from(values));
+  store.hasExact = store.exactTraits.size > 0;
   (store as unknown as { groups: CountedGroup[] }).groups = raw.groups.map(
     (g) => ({ ...g, households: new Set(g.households) }),
   );

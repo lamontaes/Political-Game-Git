@@ -180,6 +180,11 @@
       "purpose": "let public employees bargain together over pay and conditions",
       "enact": "public employees shall have the right to bargain together over their pay and working conditions"
     },
+    "labor-workforce.ban-the-box-public-hiring": {
+      "subject": "criminal records on state job applications",
+      "purpose": "bar state agencies from asking about criminal records on a first job application",
+      "enact": "a state agency shall not ask about an applicant's criminal record on a first job application"
+    },
     "labor-workforce.right-to-work": {
       "subject": "workers who do not join a union",
       "purpose": "bar contracts that make workers pay a union to hold a job",
@@ -199,6 +204,11 @@
       "subject": "new gas hookups in buildings",
       "purpose": "bar new natural gas hookups in buildings",
       "enact": "a new building shall not be connected to the natural gas system"
+    },
+    "environment-energy.allow-retail-electric-choice": {
+      "subject": "retail electric choice",
+      "purpose": "let households buy their electricity from a competitive supplier",
+      "enact": "residential customers may buy electricity from a competitive supplier"
     },
     "environment-energy.clean-electricity-standard": {
       "subject": "clean electricity",
@@ -511,6 +521,14 @@
       "raiseTo": "the federal share of Medicaid costs shall be raised to {value}",
       "lowerTo": "the federal share of Medicaid costs shall be lowered to {value}"
     },
+    "child-care-income-limit": {
+      "subject": "the family income limit for child care assistance",
+      "purpose": "set the most a family of three may earn a month and still receive child care assistance",
+      "raise": "the family income limit for child care assistance shall be raised from {before} to {value}",
+      "lower": "the family income limit for child care assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the family income limit for child care assistance shall be raised to {value}",
+      "lowerTo": "the family income limit for child care assistance shall be lowered to {value}"
+    },
     "snap-maximum": {
       "subject": "the maximum monthly food assistance benefit",
       "purpose": "set the maximum monthly food assistance benefit",
@@ -596,6 +614,44 @@
       "lower": "the most a person may give a local candidate for each election shall be lowered from {before} to {value}",
       "raiseTo": "the most a person may give a local candidate for each election shall be raised to {value}",
       "lowerTo": "the most a person may give a local candidate for each election shall be lowered to {value}"
+    },
+    "executive-term-limit": {
+      "subject": "the limit on a governor's terms",
+      "purpose": "set how many terms a governor may serve",
+      "raise": "the limit on a governor's terms shall be raised from {before} to {value}",
+      "lower": "the limit on a governor's terms shall be lowered from {before} to {value}",
+      "raiseTo": "the limit on a governor's terms shall be raised to {value}",
+      "lowerTo": "the limit on a governor's terms shall be lowered to {value}"
+    },
+    "ssi-federal-benefit-rate": {
+      "subject": "the federal benefit rate for supplemental security income",
+      "purpose": "set the monthly federal benefit rate for supplemental security income",
+      "raise": "the monthly federal benefit rate for supplemental security income shall be raised from {before} to {value}",
+      "lower": "the monthly federal benefit rate for supplemental security income shall be lowered from {before} to {value}",
+      "raiseTo": "the monthly federal benefit rate for supplemental security income shall be raised to {value}",
+      "lowerTo": "the monthly federal benefit rate for supplemental security income shall be lowered to {value}"
+    },
+    "energy-assistance-income-limit": {
+      "subject": "the income limit for home energy assistance",
+      "purpose": "set the household income limit for home energy assistance, as a percent of the poverty line",
+      "raise": "the household income limit for home energy assistance shall be raised from {before} to {value}",
+      "lower": "the household income limit for home energy assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the household income limit for home energy assistance shall be raised to {value}",
+      "lowerTo": "the household income limit for home energy assistance shall be lowered to {value}"
+    },
+    "unemployment-insurance": {
+      "subject": "the unemployment insurance program",
+      "purpose": "decide whether the state pays weekly benefits to workers who lose their jobs through no fault of their own",
+      "grant": "the state shall pay weekly unemployment insurance benefits to eligible workers who lose their jobs",
+      "withdraw": "the state shall pay no unemployment insurance benefits, and any such program in force shall end"
+    },
+    "meeting-notice-hours": {
+      "subject": "the notice required before a public meeting",
+      "purpose": "set how many hours of public notice a regular meeting of a local body must be given",
+      "raise": "the public notice a regular meeting of a local body requires shall be raised from {before} to {value}",
+      "lower": "the public notice a regular meeting of a local body requires shall be lowered from {before} to {value}",
+      "raiseTo": "the public notice a regular meeting of a local body requires shall be raised to {value}",
+      "lowerTo": "the public notice a regular meeting of a local body requires shall be lowered to {value}"
     }
   },
   "units": {
@@ -605,7 +661,8 @@
     "USD/month": "{dollars} a month",
     "USD/week": "{dollars} a week",
     "years": "{value} years",
-    "USD/election": "{dollars} for each election"
+    "USD/election": "{dollars} for each election",
+    "hours": "{value} hours"
   },
   "cited": "{clause}, amending {statute}"
 }

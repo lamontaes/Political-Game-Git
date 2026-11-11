@@ -42,7 +42,11 @@ import {
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
-import { budgetsOf, governments } from "../../src/core2/modules/budgets";
+import {
+  budgetsOf,
+  governments,
+  lineChangedInYear,
+} from "../../src/core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
@@ -566,12 +570,29 @@ function playWorld(seed: string) {
   const unchangedBudgets = passedBudgets.filter(
     (bill) =>
       !budgets.some((adopted) => {
+        // A mid-year amendment (a local body's budget-line bill) reaches
+        // spending through the budget it amends: that budget names the bill
+        // and the government's enacted record carries a change on one of the
+        // bill's lines in that fiscal year.
+        if (
+          adopted.adoptedBy.amendedBy?.includes(String(bill.number)) &&
+          ((bill.provisions as { line?: string; value?: number }[]) ?? []).some(
+            (p) =>
+              p.line &&
+              p.value &&
+              lineChangedInYear(
+                api,
+                adopted.governmentId,
+                adopted.fiscalYear,
+                p.line,
+              ) !== 0,
+          )
+        )
+          return true;
         if (
           adopted.adoptedOn < String(bill.introduced) ||
-          // Amendments after adoption are appended ("; amended by ...").
-          !adopted.adoptedBy
-            .split("; ")[0]!
-            .endsWith(`, ${String(bill.number)}`)
+          // Amendments after adoption are listed apart from the vote's own bill.
+          adopted.adoptedBy.bill?.number !== String(bill.number)
         )
           return false;
         const before = budgetsOf(api, adopted.governmentId)

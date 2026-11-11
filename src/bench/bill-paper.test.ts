@@ -1,7 +1,10 @@
+import { buildBenchWorld } from "./world";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import startingLaw from "../core2/data/laws/starting-law.json" with { type: "json" };
+import { placeStateKey } from "../core2/place-map";
 import {
   LEGISLATURE_MODULE_ID,
   employerCosts,
@@ -13,7 +16,6 @@ import { policyAuthority } from "../core2/policy-authority";
 import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { coreAPI } from "../core2/state";
 import { billPaper, seatAct, seatView } from "./legislature";
-import { buildBenchWorld } from "./world";
 
 // A bill opens as one paper document read from its own records: the
 // designation and title in plain words, the sponsor by name, each section with
@@ -24,7 +26,25 @@ const seed =
   process.env.BILL_PAPER_SEED ??
   process.env.GOLDEN_PATH_SEED ??
   randomBytes(8).toString("hex");
-const place = drawPlace(seed, "bill-paper");
+// A wage bill is drafted only where the state lets its places set a wage: the
+// states whose law in force grants local minimum-wage authority (the starting
+// law's rows), read from the records, not named here.
+const GRANTS_LOCAL_WAGE = new Set(
+  Object.entries(
+    (
+      startingLaw as unknown as {
+        jurisdictions: Record<string, { series: string; value: unknown }[]>;
+      }
+    ).jurisdictions,
+  )
+    .filter(([, rows]) =>
+      rows.some((r) => r.series === "local-minimum-wage-authority" && r.value),
+    )
+    .map(([state]) => state),
+);
+const grantsLocalWage = (key: string) =>
+  GRANTS_LOCAL_WAGE.has(placeStateKey(key) ?? "");
+const place = drawPlace(seed, "bill-paper", grantsLocalWage);
 /** The amount, in minor units, the spending bill sets for its budget line. */
 const BUDGET_LINE_AMOUNT_MINOR = 10000;
 /** The weeks in a year that `employerCosts` pays a job's scheduled hours for. */
@@ -32,8 +52,9 @@ const WEEKS_A_YEAR = 52;
 
 describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
   it("reads the filed bill from its records, with the estimate beside each section", () => {
-    // A town where a wage bill is drafted, not blocked: the draw goes on to
-    // the next place until one is, bounded.
+    // A town where a wage bill is drafted, not blocked: places are drawn
+    // from the states that grant local wage authority, and the draw goes on
+    // to the next place until one drafts, bounded.
     let found:
       | {
           world: ReturnType<typeof buildBenchWorld>;
@@ -49,7 +70,7 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
       | undefined;
     for (let i = 0; i < 10 && !found; i += 1) {
       const draw = i
-        ? drawPlace(`${seed}:${i}`, "bill-paper")
+        ? drawPlace(`${seed}:${i}`, "bill-paper", grantsLocalWage)
         : { name: place.name, key: place.key, seed };
       const world = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,
@@ -229,6 +250,14 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     const budgetPaper = billPaper(world.core, budget.id);
     expect(budgetPaper.sections.length, budget.id).toBeGreaterThan(0);
     expect(budgetPaper.sections[0]!.estimate.line, budget.id).toBe(line);
+    // Each line says its own name and amount for the year (rounded as people say it), not the
+    // bill's one purpose again.
+    expect(budgetPaper.sections[0]!.text, budget.id).toMatch(
+      /: about \$[\d,]+( million| billion| thousand)? for the year/i,
+    );
+    expect(budgetPaper.sections[0]!.text, budget.id).not.toMatch(
+      /the government's spending/,
+    );
     // The paper carries the amount the bill sets for its line, as filed,
     // and its note says it moves no pay rather than standing blank.
     const budgetRow = bills.get(budget.id) as unknown as BillRow;

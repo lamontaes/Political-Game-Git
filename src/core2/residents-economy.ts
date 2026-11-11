@@ -13,6 +13,7 @@ import {
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { stopgap } from "./stopgaps";
 
 type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
 type Flow = Runtime["flows"] extends Map<string, infer F> ? F : never;
@@ -377,6 +378,11 @@ const outputLimits = new WeakMap<CoreState, Map<string, number>>();
 registerWorldMapPart("core2-output-limits", outputLimits);
 const limitOf = (core: CoreState, organizationId: string) =>
   outputLimits.get(core)?.get(organizationId) ?? 1;
+/** The share of its kind's outside buyers a seller holds against its rivals' (1 at the opening), by outside-sales flow id. */
+const outsideShares = new WeakMap<CoreState, Map<string, number>>();
+registerWorldMapPart("core2-outside-shares", outsideShares);
+const shareOfFlow = (core: CoreState, flowId: string) =>
+  outsideShares.get(core)?.get(flowId) ?? 1;
 
 export function shiftPurchaseShare(
   core: CoreState,
@@ -471,6 +477,8 @@ export function scaleOutsideSales(
   core: CoreState,
   placeId: string,
   factor: number,
+  /** A seller's service level now (staff against what its demand needs, 0 to 1), where the jobs engine keeps one. */
+  serviceLevel?: (organizationId: string) => number | undefined,
 ): number {
   const rt = residentsRuntime(core);
   if (!rt || !(factor > 0)) return 0;
@@ -478,9 +486,15 @@ export function scaleOutsideSales(
   if (!bases) outsideBases.set(core, (bases = new Map()));
   let factors = outsideFactors.get(core);
   if (!factors) outsideFactors.set(core, (factors = new Map()));
+  let shares = outsideShares.get(core);
+  if (!shares) outsideShares.set(core, (shares = new Map()));
   const before = factors.get(placeId) ?? 1;
   factors.set(placeId, factor);
   let changed = 0;
+  // Each seller's outside spending before the division, by its kind.
+  const kinds = serviceLevel
+    ? new Map<string, { flow: Flow; raw: number; level: number }[]>()
+    : undefined;
   for (const flow of rt.flows.values()) {
     if (
       flow.kind !== "outside-sales" ||
@@ -492,14 +506,53 @@ export function scaleOutsideSales(
     if (!bases.has(flow.id))
       bases.set(
         flow.id,
-        flow.amountMinor / (before * limitOf(core, flow.payeeId)),
+        flow.amountMinor /
+          (before * limitOf(core, flow.payeeId) * shareOfFlow(core, flow.id)),
       );
-    flow.amountMinor = Math.round(
-      bases.get(flow.id)! * factor * limitOf(core, flow.payeeId),
-    );
+    const raw = bases.get(flow.id)! * factor * limitOf(core, flow.payeeId);
+    flow.amountMinor = Math.round(raw * shareOfFlow(core, flow.id));
     changed += 1;
+    const level = kinds && serviceLevel!(flow.payeeId);
+    const book =
+      kinds && level !== undefined
+        ? core.finance.businesses.get(flow.payeeId)
+        : undefined;
+    if (kinds && book && !book.closedAt) {
+      const group = kinds.get(book.kindId) ?? [];
+      group.push({ flow, raw, level: level! });
+      kinds.set(book.kindId, group);
+    }
   }
+  if (kinds) divideOutsideSales(core, kinds, shares);
   return changed;
+}
+
+/**
+ * Buyers outside the town divide their spending among the sellers of one kind
+ * by how much of it each can serve (SG-CORE-outside-share-service-level): a
+ * seller whose staff falls short of what its demand needs serves that share of
+ * its customers, and the rest go to its rivals. The kind's total is unchanged,
+ * so one seller's loss is its rivals' gain; a lone seller keeps all of it.
+ */
+function divideOutsideSales(
+  core: CoreState,
+  kinds: ReadonlyMap<string, { flow: Flow; raw: number; level: number }[]>,
+  shares: Map<string, number>,
+): void {
+  stopgap("SG-CORE-outside-share-service-level", core);
+  for (const group of kinds.values()) {
+    const total = group.reduce((n, row) => n + row.raw, 0);
+    const served = group.reduce((n, row) => n + row.raw * row.level, 0);
+    if (group.length < 2 || !(total > 0) || !(served > 0)) {
+      for (const row of group) shares.set(row.flow.id, 1);
+      continue;
+    }
+    for (const row of group) {
+      const share = row.raw > 0 ? (row.level * total) / served : 1;
+      shares.set(row.flow.id, share);
+      row.flow.amountMinor = Math.round(row.raw * share);
+    }
+  }
 }
 
 /**
@@ -533,10 +586,14 @@ export function limitOutsideSales(
     if (!bases.has(flow.id))
       bases.set(
         flow.id,
-        flow.amountMinor / (placeFactor(flow.placeId) * before),
+        flow.amountMinor /
+          (placeFactor(flow.placeId) * before * shareOfFlow(core, flow.id)),
       );
     flow.amountMinor = Math.round(
-      bases.get(flow.id)! * placeFactor(flow.placeId) * limit,
+      bases.get(flow.id)! *
+        placeFactor(flow.placeId) *
+        limit *
+        shareOfFlow(core, flow.id),
     );
     changed += 1;
   }
@@ -602,6 +659,47 @@ export function rerateCountedJobs(
     };
     rt.jobs.set(jobId, rerated);
     countedHouseholdJobChanged(core, rerated);
+    changed += 1;
+  }
+  for (const flow of touched) recompute(flow);
+  return changed;
+}
+
+/**
+ * New daily hours for counted workers (`rehourJob` for a job not in the full
+ * table): the wage flow's per-day pay for the job scales with the hours, as
+ * `rerateCountedJobs` scales it with the rate. Returns the jobs changed.
+ */
+export function rehourCountedJobs(
+  core: CoreState,
+  hoursByJob: ReadonlyMap<string, number>,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt) return 0;
+  const touched = new Set<Flow>();
+  let changed = 0;
+  for (const [jobId, hoursDaily] of hoursByJob) {
+    const job = rt.jobs.get(jobId),
+      flow = rt.wageFlowByJob.get(jobId);
+    if (!job || !flow || flow.endedAt || !job.hoursDaily) continue;
+    if (flow.perDayMinorByJob?.[jobId] === undefined) continue;
+    const ratio = hoursDaily / job.hoursDaily;
+    for (const half of wageHalves(rt, flow)) {
+      const perDay = half.perDayMinorByJob?.[jobId];
+      if (perDay === undefined) continue;
+      if (!touched.has(half)) {
+        half.perDayMinorByJob = { ...half.perDayMinorByJob };
+        touched.add(half);
+      }
+      (half.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
+    }
+    const rehoured = {
+      ...job,
+      hoursDaily,
+      wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
+    };
+    rt.jobs.set(jobId, rehoured);
+    countedHouseholdJobChanged(core, rehoured);
     changed += 1;
   }
   for (const flow of touched) recompute(flow);

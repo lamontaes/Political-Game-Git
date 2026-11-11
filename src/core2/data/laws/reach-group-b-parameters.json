@@ -320,11 +320,92 @@
       "value": 5,
       "tag": "SOURCED",
       "source": "Container Recycling Institute, bottle bill states 2024: the common deposit is 5 cents (10 cents in Michigan and Oregon)."
+    },
+    "retailChoicePriceShare": {
+      "value": -0.07,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Su (2015), 'Have customers benefited from electricity retail competition?', Journal of Regulatory Economics 47(2):146-182; working paper https://sites.ualberta.ca/~econwps/2012/wp2012-21.pdf: 'In the uniform impact model (panel A), residential customers experience a price reduction of 7%' (state panel, 1990-2011); commercial and industrial customers see no significant effect. Hill (Arizona State University) finds the cut comes from rate freezes and cuts legislated with restructuring, not from competition itself.",
+      "spread": [-0.09, 0]
+    },
+    "retailChoiceFadeYears": {
+      "value": 5,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Su (2015): the short-run effect over the five-year transition window is 1.14 to 1.31 cents per kilowatt-hour and significant, the long-run effect 0.53 to 0.72 cents and not significant at 10 percent; the abstract says the benefit 'is transitory and disappears in the long run'.",
+      "spread": [3, 8]
+    },
+    "childCareMonthlySubsidyDollars": {
+      "value": 700,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Federal Register, Improving Child Care Access, Affordability, and Stability in the CCDF (Mar 1, 2024), https://www.govinfo.gov/content/pkg/FR-2024-03-01/pdf/2024-04139.pdf: 'the average subsidy amount of approximately $8,400 per year (which has been adjusted for inflation to 2023 dollars)', from unpublished preliminary FY 2021 CCDF administrative data: $700 a month for each child, the government's share excluding the parent's copay.",
+      "spread": [650, 750]
+    },
+    "childCareTakeUpShare": {
+      "value": 0.2,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "ASPE, Child Care Subsidy Eligibility and Receipt, FY 2022, https://aspe.hhs.gov/sites/default/files/documents/423242373901e0901d36fc56c3d55a21/CCDF%20Eligibility%20and%20Receipt_FY22.pdf: 9.1 million children eligible under state rules, 1.8 million received subsidies, '20 percent under state rules'.",
+      "spread": [0.16, 0.25]
+    },
+    "childCareAgeBelow": {
+      "value": 13,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "CCDF serves children under 13 (42 U.S.C. 9858n(2)); ASPE counts children ages 0 through 12.",
+      "spread": [13, 13]
+    },
+    "childCareFamilySizeExponent": {
+      "value": 0.5,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "A family's income limit scales from the three-person figure by (size over three) to this power, the square-root equivalence scale used for household incomes; CCDF limits rise with family size by a percentage of the state median income for that size.",
+      "spread": [0.3, 0.7]
+    },
+    "ssiAgedFrom": {
+      "role": "level",
+      "value": 65,
+      "tag": "SOURCED",
+      "source": "42 U.S.C. 1382c(a)(1)(A) (Cornell): \"is 65 years of age or older, is blind ..., or is disabled\". Only the aged part is read; blindness and disability are not."
+    },
+    "ssiGeneralIncomeExclusionDollars": {
+      "role": "level",
+      "value": 20,
+      "tag": "SOURCED",
+      "source": "CRS RS20294 (https://www.everycrsreport.com/reports/RS20294.html): \"a general income exclusion of $20 per month\"; the earned-income exclusions ($65 and half the rest) are not applied."
+    },
+    "ssiTakeUpShare": {
+      "role": "level",
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Every aged resident whose income leaves a benefit is paid; the share of eligible who apply is not read. Spread: SSA participation among eligible aged is below 100 percent.",
+      "spread": [0.6, 1]
+    },
+    "energyAssistanceAnnualBenefitDollars": {
+      "value": 301,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"in FY2014, the most recent year in which data are available, the average heating benefit nationwide was $301, with a range from $78 (Oklahoma) to $1,024 (North Dakota).\" Old (FY2014) and not inflated; the spread is the states' range.",
+      "spread": [78, 1024]
+    },
+    "energyAssistanceTakeUpShare": {
+      "value": 0.16,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"the percentage of eligible households served settled again at 16% in FY2013 and FY2014\" (21% and 22% at the FY2009-FY2010 funding peak).",
+      "spread": [0.14, 0.22]
     }
   },
   "povertyGuidelineByState": {
-    "US-AK": { "firstPerson": 19550, "perAddedPerson": 6880 },
-    "US-HI": { "firstPerson": 17990, "perAddedPerson": 6330 }
+    "US-AK": {
+      "firstPerson": 19550,
+      "perAddedPerson": 6880
+    },
+    "US-HI": {
+      "firstPerson": 17990,
+      "perAddedPerson": 6330
+    }
   },
   "graduatedSchedules": {
     "about": "The graduated schedule a graduated-income-tax act sets where the level had a flat tax or none (single filer; dollars and percents). ESTIMATED from the median of graduated states (Tax Foundation 2025) and of graduated city taxes; spread: top rates 4.5% to 7% (state) and 1.5% to 3% (local).",
@@ -332,18 +413,39 @@
     "state": {
       "standardDeduction": 15000,
       "brackets": [
-        { "over": 0, "rate": 2 },
-        { "over": 10000, "rate": 4 },
-        { "over": 40000, "rate": 5.5 },
-        { "over": 100000, "rate": 6.5 }
+        {
+          "over": 0,
+          "rate": 2
+        },
+        {
+          "over": 10000,
+          "rate": 4
+        },
+        {
+          "over": 40000,
+          "rate": 5.5
+        },
+        {
+          "over": 100000,
+          "rate": 6.5
+        }
       ]
     },
     "local": {
       "standardDeduction": 0,
       "brackets": [
-        { "over": 0, "rate": 1 },
-        { "over": 25000, "rate": 1.5 },
-        { "over": 75000, "rate": 2 }
+        {
+          "over": 0,
+          "rate": 1
+        },
+        {
+          "over": 25000,
+          "rate": 1.5
+        },
+        {
+          "over": 75000,
+          "rate": 2
+        }
       ]
     }
   }

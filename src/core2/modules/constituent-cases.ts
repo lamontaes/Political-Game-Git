@@ -17,6 +17,7 @@
  * to the workforce office. Either way the resident's view of the official
  * moves, as a cause their next ballot reads.
  */
+import { ageInYears } from "../kernel/dates";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { fundBalance } from "../counted-money";
 import { closenessBetween } from "../closeness";
@@ -24,7 +25,7 @@ import { engagementOf } from "../electorate";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { leanedYes } from "../trait-decisions";
 import { lawChain, lawInForce } from "./laws";
 import { raiseOne } from "../wage-floor";
@@ -89,9 +90,7 @@ const addDays = (date: string, days: number) =>
     .slice(0, 10);
 
 const ageOn = (p: Pick<PersonState, "birthDate">, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /** Register the module and put the town's local office hours on the calendar. */
 export function openCases(core: CoreState): void {

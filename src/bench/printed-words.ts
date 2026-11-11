@@ -16,7 +16,12 @@ import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  stateLawInForce,
+} from "../core2/modules/laws";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -48,6 +53,7 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
+import { causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
@@ -254,7 +260,13 @@ export function printedFacts(
     story,
     sourceId,
     kind,
-    source?.personIds ?? [],
+    // A household event the log doesn't keep (a home bought in a place the
+    // player can't see) still names its household as the story's topic: its
+    // members are who the story is about.
+    source?.personIds ??
+      (story.topic ? core.households.get(story.topic as EntityId) : undefined)
+        ?.memberIds ??
+      [],
     happened,
   );
   const built = BUILDERS[kind]?.(read, facts) ?? null;
@@ -498,10 +510,18 @@ class Reader {
     ) as unknown as { title?: string } | undefined;
     return contest?.title ?? null;
   }
-  /** An organization's name; null where its record keeps none but its key. */
+  /**
+   * An organization's name; a founded cause group, which keeps only its key,
+   * is named by the English engine from its topic. Null where there is neither.
+   */
   organization(id: string | undefined): string | null {
-    const name = id ? this.core.organizations.get(id as EntityId)?.name : null;
-    return name && !/[:_]/.test(name) ? name : null;
+    const org = id ? this.core.organizations.get(id as EntityId) : undefined;
+    if (!org) return null;
+    if (/[:_]/.test(org.name))
+      return org.kind === "cause-group" && org.topic
+        ? causeGroupName(org.id, org.topic)
+        : null;
+    return org.name || null;
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {
@@ -516,8 +536,18 @@ class Reader {
     if (!officeId) return null;
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
-    ) as unknown as { bodyName?: string } | undefined;
-    return office?.bodyName ?? null;
+    ) as unknown as { bodyName?: string; jurisdiction?: string } | undefined;
+    const name = office?.bodyName ?? null;
+    if (!name) return null;
+    // A state's chamber is named with its state ("Connecticut House of Representatives"): the
+    // record's body name alone ("House of Representatives") does not say which one voted.
+    const usps = /^US-([A-Z]{2})$/.exec(office?.jurisdiction ?? "")?.[1];
+    const state = usps ? coreStateName(usps) : null;
+    return state &&
+      !name.includes(state) &&
+      !/^(Legislature|United States)\b/.test(name)
+      ? `${state} ${name}`
+      : name;
   }
   /**
    * The town's own name ("Stockport"), or a state's ("Ohio") by its key. A
@@ -603,7 +633,7 @@ function amount(unit: string, value: number): string | null {
   if (unit === "minor/hour") return dollars(value, true);
   if (unit === "minor") return dollars(value);
   // A benefit or a limit kept in whole dollars for a period.
-  if (/^(?:USD|dollars)\/(?:week|month|year)$/i.test(unit))
+  if (/^(?:USD|dollars)\/(?:week|month|year|election)$/i.test(unit))
     return dollars(value * 100);
   if (unit.startsWith("percent")) return percent(value);
   return null;
@@ -646,13 +676,14 @@ const lawTookEffect: Builder = (read, f) => {
       : {}),
   };
   if (f.unit && f.unit !== "program") {
-    // An amount: the town's law in force the day before, and now.
-    const was = lawInForce(
-      read.api,
-      series,
-      addDays(makeIsoDate(read.story.date), -1),
-    ).value;
-    const now = lawInForce(read.api, series, read.story.date).value;
+    // An amount: the law in force the day before, and now, in the state that
+    // passed it (another state's law is read from its own, never the town's).
+    const inForce = (date: string) =>
+      state && f.jurisdiction
+        ? stateLawInForce(read.api, f.jurisdiction, series, date)
+        : lawInForce(read.api, series, date);
+    const was = inForce(addDays(makeIsoDate(read.story.date), -1)).value;
+    const now = inForce(read.story.date).value;
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
     if (!to || !from) return rule(read, f, base);
@@ -719,6 +750,96 @@ export function archivedLawFacts(
     unit: row.unit ?? "",
     ...(row.terms?.enactedBy ? { enactedBy: String(row.terms.enactedBy) } : {}),
   });
+}
+
+/**
+ * A law enacted in the year before day one, told for what it does: the amount
+ * it moves from and to, or what the policy is for, where it applies and when it
+ * starts, from the law's own row (never the record's kind, series or
+ * jurisdiction as written). Null when the row is gone or says too little, and
+ * the story keeps its name and date.
+ */
+export function archivedLawPassedFacts(
+  core: CoreState,
+  printed: PrintedStory,
+): PrintedFacts | null {
+  const lawId = String(printed.facts.lawId ?? "");
+  const row = coreAPI(core)
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(lawId) as unknown as
+    | {
+        series: string;
+        level: string;
+        jurisdiction: string;
+        value?: number;
+        unit?: string;
+        effectiveDate?: string;
+      }
+    | undefined;
+  if (!row) return null;
+  const read = new Reader(core, printed, lawId, "law-enacted", []);
+  const state = row.level === "state";
+  const federal = row.level === "federal";
+  const place = federal
+    ? null
+    : read.place(state ? row.jurisdiction : undefined);
+  const form = state || federal ? "act" : "ordinance";
+  const base: Facts = {
+    date: read.date(),
+    // The word "passed" in a piece is said only where the record holds it.
+    passed: read.yes(),
+    ...(place ? { place: read.fact(place) } : {}),
+    ...(federal ? { federal: read.yes() } : {}),
+    ...(row.effectiveDate && row.effectiveDate > printed.date
+      ? { starts: read.fact(spokenDate(row.effectiveDate), lawId) }
+      : {}),
+  };
+  if (row.unit && row.unit !== "program") {
+    // An amount: what the law in force reads the day before the law starts and
+    // the day it does, so a state's rate is told as the town's reader meets it.
+    const starts = makeIsoDate(row.effectiveDate ?? printed.date);
+    const inForce = (date: string) =>
+      state
+        ? stateLawInForce(read.api, row.jurisdiction, row.series, date)
+        : lawInForce(read.api, row.series, date);
+    const before = inForce(addDays(starts, -1)).value;
+    const after = inForce(starts).value;
+    const to = typeof after === "number" ? amount(row.unit, after) : null;
+    // With no law before it on the books, the story says what it sets.
+    const from = typeof before === "number" ? amount(row.unit, before) : null;
+    // The amount is told only when the law's own row is what holds from its
+    // start; a rate another level sets on top of it is that level's story.
+    if (!to || after !== row.value) return null;
+    return story(
+      "law-amount-passed",
+      {
+        ...base,
+        measure: read.fact(measureName(row.series), lawId),
+        to: read.fact(to, lawId),
+        ...(from && from !== to
+          ? { from: read.fact(from, lawId), changed: read.yes() }
+          : {}),
+        ...(from && from === to ? { same: read.yes() } : {}),
+        ...(from && after! < before! ? { down: read.yes() } : {}),
+        ...(from && after! > before! ? { up: read.yes() } : {}),
+      },
+      ["measure", "to"],
+    );
+  }
+  const ended = Number(row.value) === 0;
+  const named = billNameFor(row.series, form, ended);
+  if (!named) return null;
+  return story(
+    "law-passed",
+    {
+      ...base,
+      law: read.fact(named.title, lawId),
+      purpose: read.fact(named.purpose, lawId),
+      ...(ended ? { ended: read.yes() } : {}),
+    },
+    ["law"],
+  );
 }
 
 /** A floor vote on a bill: the count and whether it carried. */
@@ -998,6 +1119,27 @@ const disaster: Builder = (read, f) => {
         ? { incident: read.fact(f.incidentType.toLowerCase()) }
         : {}),
       ...(homes ? { number: read.fact(count(homes)) } : {}),
+      date: read.date(),
+    },
+    ["place"],
+  );
+};
+
+/**
+ * A disaster elsewhere in the country (the national events engine's record,
+ * placed at national:<state>), told with the same hazard bank under the
+ * state it struck.
+ */
+const nationalDisaster: Builder = (read, f) => {
+  const state = f.stateKey ? read.place(f.stateKey) : null;
+  if (!state) return null;
+  return story(
+    "hazard",
+    {
+      place: read.fact(state),
+      ...(f.incidentType
+        ? { incident: read.fact(f.incidentType.toLowerCase()) }
+        : {}),
       date: read.date(),
     },
     ["place"],
@@ -1954,10 +2096,10 @@ function businessExtras(
   const industry = read.industry(id);
   const extras: Facts = industry ? { industry: read.fact(industry, id) } : {};
   if (kind === "staff-cut") {
-    // The staff the employer plans for after the cut, which its staffing
-    // review kept on the record (the staff it has changes day to day).
-    const planned = Math.round(num(f.targetStaff) ?? 0);
-    if (planned > 1) extras.staff = read.fact(count(planned), id);
+    // The staff the business has after the cut, which its jobs engine kept on
+    // the record with the event (the staff it has changes day to day).
+    const staff = Math.round(num(f.staffAfter) ?? 0);
+    if (staff > 1) extras.staff = read.fact(count(staff), id);
   }
   if (kind === "owner-changed") {
     const handover = read.row<{
@@ -2956,6 +3098,37 @@ const publicAction =
     );
   };
 
+/** A cabinet nominee told: the president's pick, the Senate's vote that confirmed or rejected them (office-day-federal-president.ts). */
+const cabinet =
+  (
+    kind: "cabinet-nominated" | "cabinet-confirmed" | "cabinet-rejected",
+  ): Builder =>
+  (read, f) => {
+    const yeas = num(f.yes);
+    const nays = num(f.no);
+    return story(
+      kind,
+      {
+        ...read.who(f.nomineeId, "name", false),
+        ...read.who(
+          read.people.find((id) => id !== f.nomineeId),
+          "by",
+          false,
+        ),
+        ...(f.title ? { office: read.fact(f.title, f.postId ?? "") } : {}),
+        ...(kind !== "cabinet-nominated" &&
+        yeas !== undefined &&
+        nays !== undefined
+          ? {
+              yeas: read.fact(count(yeas), f.postId ?? ""),
+              nays: read.fact(count(nays), f.postId ?? ""),
+            }
+          : {}),
+      },
+      ["name", "office"],
+    );
+  };
+
 /** The other side's answer to a governor's address (director/address-response.ts): who answered, whom, and the ask they objected to. */
 const addressResponse: Builder = (read, f) =>
   story(
@@ -3143,6 +3316,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "budget-line-changed": budgetLine,
   "budget-adopted": budgetAdopted,
   "hazard.disaster": disaster,
+  "national.disaster": nationalDisaster,
   "economy.state-jobs-report": jobsReport,
   "outcome-web.month": conditions,
   "central-bank-rate-decision": rateDecision,
@@ -3237,6 +3411,9 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "governor.address": localAddress("state"),
   "mayor.address": localAddress("town"),
   "governor.response": addressResponse,
+  "cabinet-nominated": cabinet("cabinet-nominated"),
+  "cabinet-confirmed": cabinet("cabinet-confirmed"),
+  "cabinet-rejected": cabinet("cabinet-rejected"),
   "floor-debate": floorDebate,
   "civic.protest": publicAction("protest"),
   "civic.strike": publicAction("strike"),

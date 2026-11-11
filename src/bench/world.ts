@@ -11,11 +11,13 @@ import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
 import {
+  openClimate,
   WORLD_MODULES,
   withWorldEconomy,
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
@@ -23,10 +25,12 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openOutsideBudgets } from "../core2/modules/outside-budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
 import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
+import { openGrievance } from "../core2/modules/people";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
@@ -41,12 +45,19 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
-import { openWorldLegislating } from "../core2/modules/world-legislating";
+import { openNationalOpinion } from "../core2/modules/national-opinion";
+import { openFederalCourts } from "../core2/modules/federal-courts";
+import { openNationalEvents } from "../core2/modules/national-events";
+import {
+  openSittingSessions,
+  openWorldLegislating,
+} from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
+import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
 import { openPublicSafety } from "../core2/modules/public-safety";
@@ -64,7 +75,11 @@ import {
 } from "../core2/opening-outside-market";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
+import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
+import { withCountySample } from "../core2/opening-county-sample";
+import { withRoles } from "../core2/opening-roles";
+import { withYearsInPlace } from "../core2/opening-tenure";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
@@ -242,7 +257,19 @@ function entrantBornNear(
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
+  | "people"
+  | "past"
+  | "economy"
+  | "core"
+  | "government"
+  | "elections"
+  | "budgets"
+  | "legislature"
+  | "cabinet"
+  | "workings"
+  | "history"
+  | "opening"
+  | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -436,27 +463,34 @@ function* benchWorldStages(
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
+    // The county's counted sample, weighted to its eligible voters, and years
+    // in place on every household.
+    const countySample = withCountySample(economy, kept);
+    const weights = {
+      ...(countScale !== 1
+        ? { [place.context.jurisdiction.id]: countScale }
+        : {}),
+    };
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       addTradeArea(
         withWorldEconomy(
-          collapseToTwoLevels(economy, {
-            keep: kept,
-            ...(countScale !== 1
-              ? {
-                  weights: {
-                    [place.context.jurisdiction.id]: countScale,
-                  },
-                }
-              : {}),
-          }),
+          collapseToTwoLevels(
+            withOrigins(
+              withRoles(withYearsInPlace(countySample?.input ?? economy)),
+            ),
+            {
+              keep: kept,
+              ...(Object.keys(weights).length ? { weights } : {}),
+            },
+          ),
         ),
       ),
     );
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
-        ...input,
+        ...withOrigins(input),
         finance: createOpeningFinance(input),
       }),
     );
@@ -488,19 +522,26 @@ function* benchWorldStages(
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);
+  yield "elections";
   openElections(core);
   openCampaigns(core);
   openParties(core);
   openVoting(core);
   openRecord(core);
+  yield "budgets";
   openBudgets(core);
+  // Every other state's budget, in the same store, moved by the state's own economy.
+  openOutsideBudgets(core);
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Disputes between two people from the layoffs and evictions above.
+  openGrievance(core);
   // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
   openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
+  yield "legislature";
   openLegislature(core);
   // Each government's body awards the town's public contracts (gov-public-contract-awards).
   openContracts(core);
@@ -508,6 +549,7 @@ function* benchWorldStages(
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
+  yield "cabinet";
   openExecutive(core, seed);
   // The president's cabinet and the line of succession (OPUS-GOV).
   openSuccession(core);
@@ -517,6 +559,7 @@ function* benchWorldStages(
   // on every bill's vote), other governments' lawmaking, state and federal
   // races elsewhere, ballot measures, recalls, the press, public meetings
   // (debates need the press's outlets) and constituent cases.
+  yield "workings";
   openStaff(core);
   openInterestGroups(core);
   openWorldLegislating(core);
@@ -528,14 +571,24 @@ function* benchWorldStages(
   openCases(core);
   // The town's strikes, protests and rallies, from how its term reads by area.
   openPublicAction(core);
+  // The country's approval of its president, from the economy and what happened.
+  openNationalOpinion(core);
+  // What happens in the rest of the country, as results (disasters from FEMA's record).
+  openNationalEvents(core);
+  openClimate(core);
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.
   openOfficeDay(core, seed);
+  // The President nominates and the Senate confirms when nobody plays the President.
+  openPresidentActs(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   // Ordinary crime, courts, jail, firearm laws and fire service.
   openPublicSafety(core);
+  // The federal courts as a national flow and stock, from the Commission and the Bureau.
+  openFederalCourts(core);
+  yield "history";
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
@@ -545,6 +598,10 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // The people the player starts out knowing have their whole past at the opening.
+  openStartingCircle(core);
+  // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
+  openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
@@ -575,6 +632,25 @@ function* benchWorldStages(
         ...(person.jobId ? { jobId: person.jobId } : {}),
       };
     });
+  recipes.set(core, {
+    seed,
+    date,
+    options: {
+      twoLevel: options.twoLevel,
+      placeKey: place.key,
+      ...(options.minimumPeople !== undefined
+        ? { minimumPeople: options.minimumPeople }
+        : {}),
+      ...(options.countScale !== undefined
+        ? { countScale: options.countScale }
+        : {}),
+      ...(options.playerBirthDate
+        ? { playerBirthDate: options.playerBirthDate }
+        : {}),
+      ...(options.playerGender ? { playerGender: options.playerGender } : {}),
+      ...(options.settings ? { settings: options.settings } : {}),
+    },
+  });
   return {
     core,
     director,
@@ -583,4 +659,22 @@ function* benchWorldStages(
     residents,
     ...(playerId ? { playerId } : {}),
   };
+}
+
+/** How a world was built: its seed, its start date and the choices that shaped it. */
+export interface BuildRecipe {
+  readonly seed: string;
+  readonly date: string;
+  readonly options: BuildOptions;
+}
+const recipes = new WeakMap<CoreState, BuildRecipe>();
+
+/**
+ * The recipe a world was built from, so the same world can be built again as a
+ * twin (dev mode's money check compares the played world with the same world
+ * left alone). Kept beside the world, not in it; a world restored from a save
+ * has none.
+ */
+export function buildRecipeOf(core: CoreState): BuildRecipe | undefined {
+  return recipes.get(core);
 }
