@@ -583,6 +583,7 @@
     "bill": "The bill",
     "vote": "The vote",
     "estimate": "What it would do",
+    "noFigure": "No dollar figure on record for this section.",
     "amends": "Amends",
     "from": "from",
     "to": "to",
