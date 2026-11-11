@@ -5,7 +5,7 @@ area: people
 kind: stopgap
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-5-relatives-elsewhere-have-school-and-work-years
 pr: #8641
