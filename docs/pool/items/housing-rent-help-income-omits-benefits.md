@@ -6,10 +6,10 @@ lead: laws-effects
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-housing-rent-help-income-omits-benefits
-pr:
+pr: #8600
 after:
 blocked-on:
 model: sonnet
