@@ -1,130 +1,343 @@
 /**
- * The talk after the President's address (owner, Nov 1: "There's only one
- * dialogue for after the president... that's not how I approve this"). In
- * three played openings in places drawn from all 56, the player talks with
- * everyone they live with on the opening evening:
+ * The talk after the President's address (owner, Nov 11, 2026: "the relative
+ * raises a real thing the President said in that address and where they stand
+ * on it from their own life. The player's replies are up to four, each a
+ * different move about what was said"). In places drawn from all 56, on the
+ * opening evening:
  *
- * - what each housemate made of the address is said in their own voice, by
- *   their stance on the President and their traits, so the first lines
- *   differ across the three openings;
- * - no line about the President says "they" for a President whose record
- *   gives a gender ("Why would it say they? Why not she?");
- * - every answer the player can give is met by a line written for that
- *   answer, never a "Suit yourself" to a disagreement;
- * - a second talk with the same person does not open the address again.
+ * - the relative's line names a point (`about`) that is in that world's
+ *   address, with a stand and a reason the engine composes from parts;
+ * - the replies are up to four, each a different move, each naming the point
+ *   or the town, and each is answered in words that name it;
+ * - what the player answered is kept by the relative, keyed by the question,
+ *   and a later talk reads it: the point is behind them;
+ * - two people with opposite views on the point take opposite stands;
+ * - someone who lost a job this year or is looking for work raises a work
+ *   point when the address has one;
+ * - over 200 openings in one world, at least 40 different raise lines.
  */
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { officialsIn } from "../core2/modules/officials";
+import { viewOf, viewOn } from "../core2/modules/views";
 import { coreAPI } from "../core2/state";
-import type { PersonId } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
+import { questionSubject } from "../english/policy-names";
+import { questionAbout, questionTo } from "../english/question-names";
 import rules from "./data/conversation-rules.json" with { type: "json" };
-import { openConversation, say } from "./conversation";
-import { answerInTalk } from "./scene-talk";
+import {
+  addressPointFor,
+  composedLine,
+  openConversation,
+  say,
+  subjectsBetween,
+} from "./conversation";
+import {
+  ADDRESS_FACT,
+  addressPoints,
+  type AddressPoint,
+} from "./opening-facts";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const OPENINGS = 3;
 const ATTEMPTS = 8;
-const TURNS = 6;
-const ABOUT_ADDRESS = /^address/;
-const VIEW_MOVES = (rules.replyMoves as Record<string, unknown>)[
-  "address-view"
-] as Record<string, string>;
+const RAISES = 200;
+const DIFFERENT = 40;
+const POINT = "address-point";
+const BACK = rules.addressPoint.back;
+const MOVES = ["agree", "disagree", "here", "instead"];
+const WEEKS = 26;
+const DAYS_A_WEEK = 7;
 
-it(`the talk after the address varies by speaker, names no President "they", and answers each reply (seed ${seed})`, () => {
+const BANK = JSON.parse(
+  readFileSync(
+    path.resolve(__dirname, "../../data/english/parts/conversation.json"),
+    "utf8",
+  ),
+) as {
+  lineWords: Record<string, number>;
+  parts: { key: string; text: string }[];
+};
+const TEXT = new Map(BANK.parts.map((row) => [row.key, row.text]));
+/** A composed line's words besides its slots, from the pieces it is made of. */
+const wordsOf = (pieces: readonly string[]) =>
+  pieces
+    .map((key) => TEXT.get(key) ?? "")
+    .join(" ")
+    .replace(/\{[\w-]+\},?/g, "")
+    .trim()
+    .split(/\s+/).length;
+
+function world(draw: number, purpose: string) {
+  const place = drawPlace(`${seed}:${draw}`, purpose);
   setBookkeeping(false);
-  const openers: string[] = [];
-  const tried: string[] = [];
-  for (let draw = 0; draw < ATTEMPTS && openers.length < OPENINGS; draw += 1) {
-    const place = drawPlace(`${seed}:${draw}`, "address-talk");
-    const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
-    const { core, director, playerId } = buildBenchWorld(
-      place.seed,
-      gameStartDate(),
-      { twoLevel: true, placeKey: place.key },
-    );
-    const me = playerId as PersonId;
-    const president = officialsIn(coreAPI(core), "US:president")[0];
-    const gender = president
-      ? core.people.get(president.id)?.looks?.gender
-      : undefined;
-    const housemates = [...core.people.values()].filter(
+  const built = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  return {
+    ...built,
+    me: built.playerId as PersonId,
+    where: `${place.name} (${place.key}), seed ${seed}:${draw}`,
+    points: addressPoints(built.director.ledger.opening!),
+  };
+}
+
+const housematesOf = (core: CoreState, me: PersonId) =>
+  [...core.people.values()]
+    .filter(
       (row) =>
         row.alive &&
         row.id !== me &&
         row.householdId === core.people.get(me)!.householdId,
-    );
-    let heard: string | null = null;
-    for (const other of housemates) {
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+
+it(`the relative raises a point of this world's address, with a stand and a reason, and four replies about it (seed ${seed})`, () => {
+  const raised: string[] = [];
+  const tried: string[] = [];
+  for (let draw = 0; draw < ATTEMPTS && raised.length < OPENINGS; draw += 1) {
+    const { core, director, me, where, points } = world(draw, "address-talk");
+    const abouts = points.map((row) => row.about);
+    const president = officialsIn(coreAPI(core), "US:president")[0];
+    const gender = president
+      ? core.people.get(president.id)?.looks?.gender
+      : undefined;
+    let found = false;
+    for (const other of housematesOf(core, me)) {
       const otherId = other.id as PersonId;
       const talk = openConversation(core, me, otherId, { director });
-      for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1) {
-        const view = talk.lines.find(
-          (line) => line.kind === "address-view" && line.speakerId === otherId,
-        );
-        if (view && !heard) {
-          heard = view.text;
-          // Each answer the player may give here is met by a line written for
-          // that answer, from the one scene bank.
-          for (const choice of talk.choices.filter(
-            (row) => row.answers === view.subjectId,
-          )) {
-            const reply = answerInTalk(core, {
-              replyMove: VIEW_MOVES[choice.move] ?? "answer",
-              answered: `address-view:${choice.move}`,
-              key: "address-view",
-              speakerId: otherId,
-              momentKey: `${me}:${otherId}:${choice.key}`,
-            });
-            process.stdout.write(
-              `${where} ${other.givenName}: "${view.text}" / you: "${choice.text}" / ${other.givenName}: "${reply?.text ?? "(nothing)"}"\n`,
-            );
-            expect(reply, `${where}: "${choice.text}"`).toBeTruthy();
-            expect(reply!.text, where).not.toMatch(/Suit yourself/);
-          }
-        }
-        // The replies offered about the address name no President "they"
-        // either.
-        if (gender === "female" || gender === "male")
-          for (const choice of talk.choices.filter((row) =>
-            /(^|>)address/.test(row.answers),
-          ))
-            expect(choice.text, `${where}: offered`).not.toMatch(
-              /\b(they|them|their)\b/i,
-            );
-        say(core, talk, talk.choices[0]!.key);
-      }
-      // Nothing about the President says "they" for a President whose
-      // record gives a gender.
-      if (gender === "female" || gender === "male")
-        for (const line of talk.lines.filter((row) =>
-          ABOUT_ADDRESS.test(row.kind),
-        ))
-          expect(line.text, `${where}: ${line.kind}`).not.toMatch(
-            /\b(they|them|their)\b/i,
-          );
-      // A second talk with the same person does not open the address again.
-      if (talk.lines.some((line) => line.kind === "address-view")) {
-        const again = openConversation(core, me, otherId, { director });
+      // They ask about the address; any answer moves them on to their point.
+      if (talk.lines[0]?.kind !== "address" || !talk.choices.length) continue;
+      say(core, talk, talk.choices[0]!.key);
+      const line = talk.lines.find(
+        (row) => row.kind === POINT && row.speakerId === otherId,
+      );
+      if (!line) continue;
+      const here = `${where}: ${other.givenName}`;
+      // It names something the President said in this world's address.
+      const about = abouts.find((text) => line.text.includes(text));
+      expect(
+        about,
+        `${here}: "${line.text}" names none of ${abouts.join(", ")}`,
+      ).toBeTruthy();
+      expect(line.sourceRecordIds, here).toContain(director.ledger.opening!.id);
+      expect(
+        wordsOf(line.wording!.parts),
+        `${here}: "${line.text}"`,
+      ).toBeLessThanOrEqual(BANK.lineWords[POINT]!);
+      // Up to four replies, each a different move about the point.
+      expectUpToFourDifferent(talk.choices, here);
+      expect(new Set(talk.choices.map((row) => row.move)), here).toEqual(
+        new Set(MOVES),
+      );
+      const town = talk.last!.facts.place?.text ?? "";
+      for (const choice of talk.choices) {
         expect(
-          again.lines.filter((line) => ABOUT_ADDRESS.test(line.kind)),
-          `${where}: ${other.givenName} again: ${again.lines.map((line) => line.text).join(" / ")}`,
-        ).toEqual([]);
+          choice.text.includes(about!) ||
+            (!!town && choice.text.includes(town)),
+          `${here}: "${choice.text}"`,
+        ).toBe(true);
+        // Each reply is answered, in words that name the point or the town.
+        const back = composedLine(
+          core,
+          otherId,
+          BACK,
+          talk.last!.facts,
+          choice.move,
+          `${here}:${choice.key}`,
+        );
+        expect(back, `${here}: "${choice.text}"`).toBeTruthy();
+        expect(
+          back!.text.includes(about!) || (!!town && back!.text.includes(town)),
+          `${here}: "${choice.text}" / "${back!.text}"`,
+        ).toBe(true);
+        expect(wordsOf(back!.wording.parts), back!.text).toBeLessThanOrEqual(
+          BANK.lineWords[BACK]!,
+        );
       }
-      if (heard) break;
+      // No line about the President says "they" for a President whose record gives a gender.
+      if (gender === "female" || gender === "male")
+        for (const row of [line, ...talk.choices])
+          expect(row.text, here).not.toMatch(/\b(they|them|their)\b/i);
+      // The player answers; the relative keeps the answer by the question,
+      // and answers it.
+      const question = talk.last!.subject.point!.question;
+      const choice = talk.choices[raised.length % talk.choices.length]!;
+      const before = talk.lines.length;
+      say(core, talk, choice.key);
+      const answer = talk.lines[before + 1];
+      expect(answer?.kind, `${here}: "${choice.text}"`).toBe(BACK);
+      expect(answer?.speakerId, here).toBe(otherId);
+      const kept = core.knowledgeByPerson
+        .get(otherId)
+        ?.get(`talk:${me}:address-point:${question}`);
+      expect(kept?.value, here).toBe(choice.move);
+      expect(core.eventIds.has(kept!.sourceId as never), here).toBe(true);
+      // A later talk reads it: that point is behind them.
+      expect(
+        addressPointFor(core, otherId, points, me, director)?.point.question,
+        here,
+      ).not.toBe(question);
+      process.stdout.write(
+        `${here}: "${talk.lines[0]!.text}" / you: "${talk.lines[1]!.text}" / "${line.text}" / you: "${choice.text}" / "${answer!.text}" (record ${kept!.sourceId})\n`,
+      );
+      raised.push(line.text);
+      found = true;
+      break;
     }
-    if (!heard) {
-      tried.push(`${where}: no housemate took a side on the address`);
-      continue;
-    }
-    openers.push(heard);
+    if (!found) tried.push(`${where}: no housemate raised a point`);
   }
-  process.stdout.write(`ADDRESS OPENERS ${seed}: ${openers.join(" | ")}\n`);
-  expect(openers.length, tried.join("; ")).toBe(OPENINGS);
-  // The first lines after the address differ across the three openings.
-  expect(new Set(openers).size, openers.join(" | ")).toBeGreaterThan(1);
+  process.stdout.write(`ADDRESS POINTS ${seed}: ${raised.join(" | ")}\n`);
+  expect(raised.length, tried.join("; ")).toBe(OPENINGS);
+  // The openings do not share a raise line.
+  expect(new Set(raised).size, raised.join(" | ")).toBe(OPENINGS);
+}, 1_800_000);
+
+/** A point on work the bill catalog names, for an address that has none: a hand-made edge case beside the drawn ones. */
+function workPoint(points: readonly AddressPoint[]): AddressPoint {
+  const own = points.find((row) =>
+    rules.addressPoint.work.subjects.includes(
+      questionSubject(row.question) ?? "",
+    ),
+  );
+  if (own) return own;
+  const question = "us-policy-positions:labor-workforce.raise-minimum-wage";
+  return {
+    question,
+    about: questionAbout(question)!,
+    to: questionTo(question)!,
+    stance: "for",
+    sourceRecordIds: [`question:${question}`],
+  };
+}
+
+it(`opposite views take opposite stands, a job lost raises a work point, and 200 openings say at least 40 lines (seed ${seed})`, () => {
+  const passed: string[] = [];
+  let opposite = false;
+  let work = false;
+  let varied = false;
+  for (
+    let draw = 0;
+    draw < ATTEMPTS && !(opposite && work && varied);
+    draw += 1
+  ) {
+    const { core, director, me, where, points } = world(draw, "address-stands");
+    const api = coreAPI(core);
+    const knows = [...core.people.values()].filter(
+      (row) =>
+        row.alive &&
+        !!core.knowledgeByPerson.get(row.id)?.get(ADDRESS_FACT.event) &&
+        !!viewOf(api, row.id as PersonId),
+    );
+    // Two people with opposite views on the same point take opposite stands.
+    if (!opposite)
+      for (const point of points) {
+        const stands = knows.map((row) => ({
+          id: row.id as PersonId,
+          view: viewOn(
+            api,
+            row.id as PersonId,
+            point.question,
+            viewOf(api, row.id as PersonId)!.lean,
+          ),
+          stand: addressPointFor(core, row.id as PersonId, [point])!.stand,
+        }));
+        const up = stands.find((row) => row.view > 0);
+        const down = stands.find((row) => row.view < 0);
+        if (!up || !down) continue;
+        expect(up.stand, `${where}: ${point.about}`).not.toBe(down.stand);
+        expect([up.stand, down.stand].sort(), where).toEqual([
+          "against",
+          "with",
+        ]);
+        passed.push(
+          `${where}: ${up.id} ${up.stand}, ${down.id} ${down.stand} on ${point.about}`,
+        );
+        opposite = true;
+        break;
+      }
+    // Over 200 openings in one world, at least 40 different raise lines.
+    if (!varied) {
+      const subjects = housematesOf(core, me).flatMap((row) =>
+        subjectsBetween(core, row.id as PersonId, me, director)
+          .filter((subject) => subject.kind === POINT)
+          .map((subject) => ({ speakerId: row.id as PersonId, subject })),
+      );
+      if (subjects.length) {
+        const lines = new Set<string>();
+        for (let opening = 0; opening < RAISES; opening += 1) {
+          const { speakerId, subject } = subjects[opening % subjects.length]!;
+          const line = composedLine(
+            core,
+            speakerId,
+            POINT,
+            subject.facts,
+            subject.stage!,
+            `opening:${opening}`,
+          );
+          expect(line, where).toBeTruthy();
+          lines.add(line!.text);
+        }
+        expect(
+          lines.size,
+          `${where}: ${[...lines].slice(0, 5).join(" | ")}`,
+        ).toBeGreaterThanOrEqual(DIFFERENT);
+        passed.push(
+          `${where}: ${lines.size} different raise lines in ${RAISES}`,
+        );
+        varied = true;
+      }
+    }
+    // Someone looking for work raises a work point when the address has one.
+    // Nobody is looking on the opening day, so the world runs a week at a
+    // time until the jobs engine records someone (drawn-place-tests).
+    if (!work && core.modules.has(JOBS_MODULE_ID)) {
+      const point = workPoint(points);
+      const seekers = api.moduleState(JOBS_MODULE_ID).table("seekers");
+      for (let week = 0; week < WEEKS && !work; week += 1) {
+        const looking = [...core.people.values()].filter(
+          (row) =>
+            row.alive &&
+            !!viewOf(api, row.id as PersonId) &&
+            (seekers.get(row.id) as { isSeeker?: boolean } | undefined)
+              ?.isSeeker,
+        );
+        for (const row of looking) {
+          const pick = addressPointFor(core, row.id as PersonId, [
+            ...points,
+            point,
+          ]);
+          expect(pick?.reason, `${where}: ${row.id}`).toBe("work");
+          expect(pick?.point.question, `${where}: ${row.id}`).toBe(
+            point.question,
+          );
+          work = true;
+        }
+        if (work)
+          passed.push(
+            `${where}: on ${core.date}, ${looking.length} looking for work raised ${point.about}`,
+          );
+        else advanceCore(core, addDays(makeIsoDate(core.date), DAYS_A_WEEK));
+      }
+      if (!work)
+        passed.push(`${where}: nobody looking for work in ${WEEKS} weeks`);
+    }
+  }
+  process.stdout.write(`ADDRESS STANDS ${seed}: ${passed.join("; ")}\n`);
+  expect({ opposite, work, varied }, passed.join("; ")).toEqual({
+    opposite: true,
+    work: true,
+    varied: true,
+  });
 }, 1_800_000);

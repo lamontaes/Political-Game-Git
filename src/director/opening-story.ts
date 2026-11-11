@@ -87,6 +87,16 @@ export interface OpeningSentence {
   readonly values: Readonly<Record<string, string>>;
   /** The state a place line names, from the campaign visit it came from. */
   readonly stateKey?: string;
+  /**
+   * The policy question the sentence's block speaks on, in the stand's own
+   * words and with the President's side, whether or not this sentence's
+   * words said them.
+   */
+  readonly stand?: {
+    readonly about: string;
+    readonly to: string;
+    readonly stance: "for" | "against";
+  };
 }
 
 export interface OpeningStory {
@@ -1077,6 +1087,19 @@ export function composeBlocks(
           [...used].sort().map((key) => [key, block.facts[key]?.text ?? ""]),
         ),
         ...(visit ? { stateKey: visit } : {}),
+        ...(block.facts.about &&
+        block.facts.to &&
+        (block.facts["stance-for"] || block.facts["stance-against"])
+          ? {
+              stand: {
+                about: block.facts.about.text,
+                to: block.facts.to.text,
+                stance: block.facts["stance-for"]
+                  ? ("for" as const)
+                  : ("against" as const),
+              },
+            }
+          : {}),
         sourceRecordIds: [
           ...new Set([
             president.id,

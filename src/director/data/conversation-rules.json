@@ -22,8 +22,7 @@
     "their-tenure": "tenure-reply",
     "their-school": "school-reply",
     "their-family": "family-reply",
-    "news": "news-reply",
-    "address": "address-view"
+    "news": "news-reply"
   },
   "otherRaises": {
     "own-work": {
@@ -102,8 +101,8 @@
       "kind": "acquittal-reply",
       "stage": "default"
     },
-    "address-view": {
-      "kind": "address-view",
+    "address-point": {
+      "kind": "address-point",
       "stage": "default"
     },
     "own-view": {
@@ -171,11 +170,12 @@
       "where": "eviction-where"
     },
     "address": {
-      "agree": "address-view",
-      "doubt": "address-view",
-      "hope": "address-view",
-      "plain": "address-view",
-      "missed": "address-view"
+      "agree": "address-point",
+      "doubt": "address-point",
+      "hope": "address-point",
+      "plain": "address-point",
+      "missed": "address-point",
+      "turn": "address-point"
     },
     "job-new-reply": {
       "ask": "job-new-detail",
@@ -198,11 +198,11 @@
       "agree": "agree",
       "doubt": "disagree"
     },
-    "address-view": {
+    "address-point": {
       "agree": "agree",
       "disagree": "disagree",
-      "wait": "stall",
-      "local": "ask"
+      "here": "ask",
+      "instead": "ask"
     },
     "own-view": {
       "agree": "agree",
@@ -239,6 +239,20 @@
       "refuse": "refuse",
       "deflect": "deflect"
     }
+  },
+  "addressPoint": {
+    "about": "Owner, Nov 11, 2026: the relative raises a real thing the President said in the address and where they stand on it from their own life. Which of the address's points a hearer raises reads these lists: a point on work or pay (by the bill catalog's subject) for someone who lost a job this year or is looking for one, a point on prices, rent or housing (the catalog's subjects, and the questions about prices by name) for someone money is hard for. `back` is the subject the hearer's answer to the player's reply is composed under. Names only; no sentence.",
+    "work": { "subjects": ["labor"] },
+    "money": {
+      "subjects": ["housing"],
+      "questions": [
+        "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+        "us-federal-positions:health.medicare-drug-price-negotiation",
+        "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+        "us-federal-positions:trade.raise-tariffs"
+      ]
+    },
+    "back": "address-point-back"
   },
   "familyTalk": {
     "about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene; neither is 'Have you talked to Diana?'). These are the subject kinds a relative does not raise or ask; what is left is the household's own news (a lost job, an eviction), kin, and news passed on.",

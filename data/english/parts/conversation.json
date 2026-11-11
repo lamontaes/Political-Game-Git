@@ -26,9 +26,15 @@
     "position": "The speaker's new job, with its article (\"a server\"), from the job record's title.",
     "about": "The policy question the reporter asks about, as a noun phrase that reads after 'on' or 'about', from the question's spoken name (data/english/question-names.json).",
     "to": "The same question as a verb phrase that reads after 'to', from the question's spoken name (data/english/question-names.json).",
-    "rival": "A rival on the same ballot, by name, from their filing."
+    "rival": "A rival on the same ballot, by name, from their filing.",
+    "president": "The President's name, from the officials engine's record of who holds the office, as the opening story names them."
   },
   "maxWords": 10,
+  "lineWords": {
+    "about": "A line the engine composes from parts (opener, core, reason, closer) is longer than one part: each part keeps maxWords, and the whole line keeps this many words besides its slots. Set for the address point (owner, Nov 11: the relative raises a real thing the President said and where they stand on it from their own life), which says the point, the stand and the reason in one turn.",
+    "address-point": 28,
+    "address-point-back": 12
+  },
   "mining": {
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/conversation.json",
@@ -17245,28 +17251,6 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-home.i-ll-let-you-get-back-to-it",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "I'll let you get back to it.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "guarded",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
       "key": "conversation.job-new-told-raise-raise.congratulations-on-the-job-at-employer",
       "move": "job-new-told-raise-raise",
       "kind": "spoken",
@@ -18939,512 +18923,6 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-ask-seen.did-you-watch-the-president-s-speech",
-      "move": "address-ask-seen",
-      "kind": "spoken",
-      "text": "Did you watch the President's speech?",
-      "uses": [
-        {
-          "move": "address-ask-seen",
-          "subject": "address",
-          "role": "ask",
-          "choice": "seen"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-ask-seen.did-you-catch-the-president-s-speech",
-      "move": "address-ask-seen",
-      "kind": "spoken",
-      "text": "Did you catch the President's speech?",
-      "uses": [
-        {
-          "move": "address-ask-seen",
-          "subject": "address",
-          "role": "ask",
-          "choice": "seen"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-agree.i-thought-it-was-a-good-speech",
-      "move": "address-answer-agree",
-      "kind": "spoken",
-      "text": "I thought it was a good speech.",
-      "uses": [
-        {
-          "move": "address-answer-agree",
-          "subject": "address",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-agree.i-liked-what-the-president-said",
-      "move": "address-answer-agree",
-      "kind": "spoken",
-      "text": "I liked what the President said.",
-      "uses": [
-        {
-          "move": "address-answer-agree",
-          "subject": "address",
-          "role": "answer",
-          "choice": "agree",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-doubt.i-m-not-sure-i-believe-any-of-it",
-      "move": "address-answer-doubt",
-      "kind": "spoken",
-      "text": "I'm not sure I believe any of it.",
-      "uses": [
-        {
-          "move": "address-answer-doubt",
-          "subject": "address",
-          "role": "answer",
-          "choice": "doubt",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-doubt.i-ve-heard-all-of-that-before",
-      "move": "address-answer-doubt",
-      "kind": "spoken",
-      "text": "I've heard all of that before.",
-      "uses": [
-        {
-          "move": "address-answer-doubt",
-          "subject": "address",
-          "role": "answer",
-          "choice": "doubt",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-hope.i-hope-some-of-it-actually-happens",
-      "move": "address-answer-hope",
-      "kind": "spoken",
-      "text": "I hope some of it actually happens.",
-      "uses": [
-        {
-          "move": "address-answer-hope",
-          "subject": "address",
-          "role": "answer",
-          "choice": "hope",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-hope.i-hope-it-means-something-for-us-here",
-      "move": "address-answer-hope",
-      "kind": "spoken",
-      "text": "I hope it means something for us here.",
-      "uses": [
-        {
-          "move": "address-answer-hope",
-          "subject": "address",
-          "role": "answer",
-          "choice": "hope",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-think.what-did-you-make-of-it",
-      "move": "address-answer-think",
-      "kind": "spoken",
-      "text": "What did you make of it?",
-      "uses": [
-        {
-          "move": "address-answer-think",
-          "subject": "address",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "address",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-think.what-did-you-think-of-it",
-      "move": "address-answer-think",
-      "kind": "spoken",
-      "text": "What did you think of it?",
-      "uses": [
-        {
-          "move": "address-answer-think",
-          "subject": "address",
-          "role": "answer",
-          "choice": "turn",
-          "raises": "address",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-answer-plain.i-did",
-      "move": "address-answer-plain",
-      "kind": "spoken",
-      "text": "I did.",
-      "uses": [
-        {
-          "move": "address-answer-plain",
-          "subject": "address",
-          "role": "answer",
-          "choice": "plain",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
-      "date": "2026-10-29"
-    },
-    {
-      "key": "conversation.address-answer-plain.i-saw-it",
-      "move": "address-answer-plain",
-      "kind": "spoken",
-      "text": "I saw it.",
-      "uses": [
-        {
-          "move": "address-answer-plain",
-          "subject": "address",
-          "role": "answer",
-          "choice": "plain",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
-      "date": "2026-10-29"
-    },
-    {
-      "key": "conversation.address-answer-plain.yes-i-caught-it",
-      "move": "address-answer-plain",
-      "kind": "spoken",
-      "text": "Yes, I caught it.",
-      "uses": [
-        {
-          "move": "address-answer-plain",
-          "subject": "address",
-          "role": "answer",
-          "choice": "plain",
-          "requiresFacts": ["seen"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
-      "date": "2026-10-29"
-    },
-    {
-      "key": "conversation.address-answer-missed.no-i-missed-it",
-      "move": "address-answer-missed",
-      "kind": "spoken",
-      "text": "No, I missed it.",
-      "uses": [
-        {
-          "move": "address-answer-missed",
-          "subject": "address",
-          "role": "answer",
-          "choice": "missed",
-          "requiresFacts": ["missed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
-      "date": "2026-10-29"
-    },
-    {
-      "key": "conversation.address-answer-missed.i-didn-t-get-to-see-it",
-      "move": "address-answer-missed",
-      "kind": "spoken",
-      "text": "I didn't get to see it.",
-      "uses": [
-        {
-          "move": "address-answer-missed",
-          "subject": "address",
-          "role": "answer",
-          "choice": "missed",
-          "requiresFacts": ["missed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-everyday-talk-one-engine)",
-      "date": "2026-10-29"
-    },
-    {
-      "key": "conversation.address-view-raise-for.i-thought-the-president-made-a-lot-of-sense",
-      "move": "address-view-raise-for",
-      "kind": "spoken",
-      "text": "I thought the President made a lot of sense.",
-      "uses": [
-        {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-raise-for.i-liked-what-the-president-had-to-say",
-      "move": "address-view-raise-for",
-      "kind": "spoken",
-      "text": "I liked what the President had to say.",
-      "uses": [
-        {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-raise-against.i-didn-t-believe-a-word-the-president-said",
-      "move": "address-view-raise-against",
-      "kind": "spoken",
-      "text": "I didn't believe a word the President said.",
-      "uses": [
-        {
-          "move": "address-view-raise-against",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "against",
-          "stages": ["against"]
-        },
-        {
-          "move": "address-view-reply-against",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "against",
-          "stages": ["against"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-raise-against.i-ve-heard-those-promises-too-many-times",
-      "move": "address-view-raise-against",
-      "kind": "spoken",
-      "text": "I've heard those promises too many times.",
-      "uses": [
-        {
-          "move": "address-view-raise-against",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "against",
-          "stages": ["against"]
-        },
-        {
-          "move": "address-view-reply-against",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "against",
-          "stages": ["against"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-answer-agree.i-m-with-you-on-that",
-      "move": "address-view-answer-agree",
-      "kind": "spoken",
-      "text": "I'm with you on that.",
-      "uses": [
-        {
-          "move": "address-view-answer-agree",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "agree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-answer-agree.you-and-me-both",
-      "move": "address-view-answer-agree",
-      "kind": "spoken",
-      "text": "You and me both.",
-      "uses": [
-        {
-          "move": "address-view-answer-agree",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "agree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-answer-disagree.i-saw-it-differently",
-      "move": "address-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I saw it differently.",
-      "uses": [
-        {
-          "move": "address-view-answer-disagree",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "disagree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-answer-disagree.i-don-t-see-it-that-way",
-      "move": "address-view-answer-disagree",
-      "kind": "spoken",
-      "text": "I don't see it that way.",
-      "uses": [
-        {
-          "move": "address-view-answer-disagree",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "disagree"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-answer-wait.we-ll-see-what-the-president-actually-does",
-      "move": "address-view-answer-wait",
-      "kind": "spoken",
-      "text": "We'll see what the President actually does.",
-      "uses": [
-        {
-          "move": "address-view-answer-wait",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "wait"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02"
-    },
-    {
-      "key": "conversation.address-view-answer-wait.i-ll-believe-it-when-i-see-it",
-      "move": "address-view-answer-wait",
-      "kind": "spoken",
-      "text": "I'll believe it when I see it.",
-      "uses": [
-        {
-          "move": "address-view-answer-wait",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "wait"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.address-view-answer-local.washington-s-a-long-way-from-here-though",
-      "move": "address-view-answer-local",
-      "kind": "spoken",
-      "text": "Washington's a long way from here, though.",
-      "uses": [
-        {
-          "move": "address-view-answer-local",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "local"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02"
-    },
-    {
-      "key": "conversation.address-view-answer-local.i-ll-wait-to-see-if-any-of-it-reaches-us",
-      "move": "address-view-answer-local",
-      "kind": "spoken",
-      "text": "I'll wait to see if any of it reaches us.",
-      "uses": [
-        {
-          "move": "address-view-answer-local",
-          "subject": "address-view",
-          "role": "answer",
-          "choice": "local"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02"
     },
     {
       "key": "conversation.news-answer-opinion.good-that-s-been-a-long-time-coming",
@@ -23760,323 +23238,3665 @@
       }
     },
     {
-      "key": "conversation.address-view-raise-for.that-was-a-better-speech-than-i-expected",
-      "move": "address-view-raise-for",
+      "key": "conversation.address-point-opener.the-president-brought-up-about",
+      "move": "address-point-opener",
       "kind": "spoken",
-      "text": "That was a better speech than I expected.",
+      "text": "The President brought up {about}.",
       "uses": [
         {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.address-view-raise-for.good-to-hear-somebody-talk-about-people-like-us",
-      "move": "address-view-raise-for",
-      "kind": "spoken",
-      "text": "Good to hear somebody talk about people like us.",
-      "uses": [
-        {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.address-view-raise-for.say-what-you-want-that-was-a-good-speech",
-      "move": "address-view-raise-for",
-      "kind": "spoken",
-      "text": "Say what you want, that was a good speech.",
-      "uses": [
-        {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
         }
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-view-raise-for.i-think-the-president-meant-every-word-of-that",
-      "move": "address-view-raise-for",
+      "key": "conversation.address-point-opener.that-part-about-about-stuck-with-me",
+      "move": "address-point-opener",
       "kind": "spoken",
-      "text": "I think the President meant every word of that.",
+      "text": "That part about {about} stuck with me.",
       "uses": [
         {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.address-view-raise-for.right-things-said-right-now-let-s-see-it-done",
-      "move": "address-view-raise-for",
-      "kind": "spoken",
-      "text": "Right things, said right. Now let's see it done.",
-      "uses": [
-        {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.address-view-raise-for.i-liked-it-i-want-to-see-what-comes-next",
-      "move": "address-view-raise-for",
-      "kind": "spoken",
-      "text": "I liked it. I want to see what comes next.",
-      "uses": [
-        {
-          "move": "address-view-raise-for",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "for",
-          "stages": ["for"]
-        },
-        {
-          "move": "address-view-reply-for",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "for",
-          "stages": ["for"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.address-view-raise-against.pretty-words-washington-s-full-of-those",
-      "move": "address-view-raise-against",
-      "kind": "spoken",
-      "text": "Pretty words. Washington's full of those.",
-      "uses": [
-        {
-          "move": "address-view-raise-against",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "against",
-          "stages": ["against"]
-        },
-        {
-          "move": "address-view-reply-against",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "against",
-          "stages": ["against"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.address-view-raise-against.i-wanted-to-like-that-speech-i-just-didn-t",
-      "move": "address-view-raise-against",
-      "kind": "spoken",
-      "text": "I wanted to like that speech. I just didn't.",
-      "uses": [
-        {
-          "move": "address-view-raise-against",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "against",
-          "stages": ["against"]
-        },
-        {
-          "move": "address-view-reply-against",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "against",
-          "stages": ["against"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "conversation.address-view-raise-against.nothing-in-that-speech-was-meant-for-us",
-      "move": "address-view-raise-against",
-      "kind": "spoken",
-      "text": "Nothing in that speech was meant for us.",
-      "uses": [
-        {
-          "move": "address-view-raise-against",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "against",
-          "stages": ["against"]
-        },
-        {
-          "move": "address-view-reply-against",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "against",
-          "stages": ["against"]
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
         }
       ],
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-view-raise-against.it-ll-take-more-than-a-speech-to-win-me-over",
-      "move": "address-view-raise-against",
+      "key": "conversation.address-point-opener.i-keep-thinking-about-what-the-president-said-on-about",
+      "move": "address-point-opener",
       "kind": "spoken",
-      "text": "It'll take more than a speech to win me over.",
+      "text": "I keep thinking about what the President said on {about}.",
       "uses": [
         {
-          "move": "address-view-raise-against",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "against",
-          "stages": ["against"]
-        },
-        {
-          "move": "address-view-reply-against",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "against",
-          "stages": ["against"]
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
         }
       ],
-      "bearing": "calm",
+      "bearing": "guarded",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-view-raise-against.i-kept-waiting-for-something-real-it-never-came",
-      "move": "address-view-raise-against",
+      "key": "conversation.address-point-opener.so-the-president-talked-about-about",
+      "move": "address-point-opener",
       "kind": "spoken",
-      "text": "I kept waiting for something real. It never came.",
+      "text": "So the President talked about {about}.",
       "uses": [
         {
-          "move": "address-view-raise-against",
-          "subject": "address-view",
-          "role": "raise",
-          "choice": "against",
-          "stages": ["against"]
-        },
-        {
-          "move": "address-view-reply-against",
-          "subject": "address-view",
-          "role": "reply",
-          "choice": "against",
-          "stages": ["against"]
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
         }
       ],
-      "bearing": "curious",
+      "bearing": "braced",
       "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "tell"
-      }
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.the-president-spent-some-time-on-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "The President spent some time on {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.what-the-president-said-about-about-caught-my-ear",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "What the President said about {about} caught my ear.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.the-president-made-a-point-of-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "The President made a point of {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.i-heard-the-president-on-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "I heard the President on {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.the-president-went-right-at-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "The President went right at {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.if-i-heard-it-right-the-president-talked-about-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "If I heard it right, the President talked about {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.the-part-i-paid-attention-to-was-on-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "The part I paid attention to was on {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.the-president-mentioned-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "The President mentioned {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.out-of-that-whole-speech-i-heard-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "Out of that whole speech, I heard {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.there-was-the-bit-about-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "There was the bit about {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.president-brought-up-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "{president} brought up {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.i-heard-president-on-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "I heard {president} on {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-opener.so-president-wants-to-talk-about-about",
+      "move": "address-point-opener",
+      "kind": "spoken",
+      "text": "So {president} wants to talk about {about}.",
+      "uses": [
+        {
+          "move": "address-point-opener",
+          "subject": "address-point",
+          "role": "opener"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.it-s-time-somebody-tried-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "It's time somebody tried to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-d-like-to-see-washington-actually-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I'd like to see Washington actually {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.we-ought-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "We ought to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.somebody-should-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Somebody should {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.if-washington-can-to-i-m-all-for-it",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "If Washington can {to}, I'm all for it.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-d-vote-to-to-tomorrow",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I'd vote to {to} tomorrow.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.there-s-a-real-case-for-trying-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "There's a real case for trying to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-think-the-president-s-right-to-want-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I think the President's right to want to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.good-it-s-long-past-time-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Good. It's long past time to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-can-get-behind-a-plan-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I can get behind a plan to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.it-would-help-a-lot-of-people-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "It would help a lot of people to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.anybody-who-wants-to-to-has-my-vote",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Anybody who wants to {to} has my vote.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.nobody-needs-to-to-and-the-president-knows-it",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Nobody needs to {to}, and the President knows it.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.the-president-s-right-not-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "The President's right not to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-don-t-want-anybody-trying-to-to-either",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I don't want anybody trying to {to} either.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.there-s-no-good-reason-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "There's no good reason to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-d-rather-nobody-tried-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I'd rather nobody tried to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.trying-to-to-would-cost-more-than-it-s-worth",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Trying to {to} would cost more than it's worth.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-agree-with-the-president-we-shouldn-t-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I agree with the President. We shouldn't {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.good-let-s-not-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "Good. Let's not {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-don-t-think-we-should-to-and-neither-does-the-president",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I don't think we should {to}, and neither does the President.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.it-makes-sense-to-me-not-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "It makes sense to me not to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.the-last-thing-we-need-is-to-to",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "The last thing we need is to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-with.i-d-be-against-any-plan-to-to-too",
+      "move": "address-point-core-with",
+      "kind": "spoken",
+      "text": "I'd be against any plan to {to} too.",
+      "uses": [
+        {
+          "move": "address-point-core-with",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["with"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-don-t-see-why-we-d-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I don't see why we'd {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-never-asked-anybody-to-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I never asked anybody to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.trying-to-to-is-the-wrong-idea",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Trying to {to} is the wrong idea.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-m-not-sold-on-a-plan-to-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'm not sold on a plan to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-d-vote-against-any-plan-to-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'd vote against any plan to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-don-t-think-it-s-wise-to-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I don't think it's wise to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.the-president-wants-to-to-and-i-don-t",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "The President wants to {to}, and I don't.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-can-t-get-behind-a-plan-to-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I can't get behind a plan to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.we-d-be-making-a-mistake-to-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "We'd be making a mistake to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.a-plan-to-to-sounds-fine-until-somebody-pays-for-it",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "A plan to {to} sounds fine until somebody pays for it.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-d-leave-well-enough-alone-and-not-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'd leave well enough alone and not {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-m-against-trying-to-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'm against trying to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-think-somebody-should-to-whatever-the-president-says",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I think somebody should {to}, whatever the President says.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.we-ought-to-to-and-the-president-won-t",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "We ought to {to}, and the President won't.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-d-still-like-to-see-somebody-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'd still like to see somebody {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.saying-no-to-a-plan-to-to-is-a-mistake",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Saying no to a plan to {to} is a mistake.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-d-vote-to-to-even-so",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'd vote to {to} even so.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.somebody-has-to-to-sooner-or-later",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Somebody has to {to} sooner or later.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.the-president-should-to-and-won-t",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "The President should {to}, and won't.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-think-it-s-time-to-to-whatever-washington-says",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I think it's time to {to}, whatever Washington says.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.there-s-a-good-case-to-to-and-it-got-waved-off",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "There's a good case to {to}, and it got waved off.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.somebody-ought-to-stand-up-and-to",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Somebody ought to stand up and {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.i-m-for-trying-to-to-even-if-the-president-isn-t",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "I'm for trying to {to}, even if the President isn't.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-against.refusing-to-to-doesn-t-sit-right-with-me",
+      "move": "address-point-core-against",
+      "kind": "spoken",
+      "text": "Refusing to {to} doesn't sit right with me.",
+      "uses": [
+        {
+          "move": "address-point-core-against",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["president-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-don-t-know-yet-whether-we-should-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I don't know yet whether we should {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-can-t-tell-if-it-s-smart-to-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I can't tell if it's smart to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.maybe-we-ought-to-to-maybe-not",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "Maybe we ought to {to}. Maybe not.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-d-want-to-hear-more-before-anybody-tries-to-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I'd want to hear more before anybody tries to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-haven-t-made-up-my-mind-about-trying-to-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I haven't made up my mind about trying to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-could-go-either-way-on-a-plan-to-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I could go either way on a plan to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-honestly-don-t-know-if-we-should-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I honestly don't know if we should {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-d-have-to-think-hard-before-i-d-vote-to-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I'd have to think hard before I'd vote to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.whether-we-should-to-i-can-t-say-yet",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "Whether we should {to}, I can't say yet.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-don-t-have-a-view-yet-on-trying-to-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I don't have a view yet on trying to {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.ask-me-again-once-somebody-explains-how-they-d-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "Ask me again once somebody explains how they'd {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-core-unsure.i-d-need-to-see-the-numbers-before-we-to",
+      "move": "address-point-core-unsure",
+      "kind": "spoken",
+      "text": "I'd need to see the numbers before we {to}.",
+      "uses": [
+        {
+          "move": "address-point-core-unsure",
+          "subject": "address-point",
+          "role": "core",
+          "stages": ["unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.since-employer-let-me-go-i-pay-attention",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "Since {employer} let me go, I pay attention.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.i-was-let-go-from-employer-so-it-matters-to-me",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "I was let go from {employer}, so it matters to me.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.when-employer-let-me-go-nobody-in-washington-called",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "When {employer} let me go, nobody in Washington called.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.my-job-at-employer-is-gone-so-this-is-personal",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "My job at {employer} is gone, so this is personal.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.losing-my-job-at-employer-changes-how-i-hear-it",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "Losing my job at {employer} changes how I hear it.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.i-m-out-of-work-so-what-president-says-about-it-matters",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "I'm out of work, so what {president} says about it matters.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work", "why-seeking"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.looking-for-work-in-place-you-hear-it-differently",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "Looking for work in {place}, you hear it differently.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work", "why-seeking"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.out-of-work-in-place-i-think-about-it-a-lot",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "Out of work in {place}, I think about it a lot.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work", "why-seeking"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.out-of-work-like-i-am-president-is-talking-about-me",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "Out of work like I am, {president} is talking about me.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work", "why-seeking"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-work.after-employer-i-m-still-looking-for-work",
+      "move": "address-point-reason-work",
+      "kind": "spoken",
+      "text": "After {employer}, I'm still looking for work.",
+      "uses": [
+        {
+          "move": "address-point-reason-work",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-work", "why-seeking"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.money-s-tight-for-us-in-place-so-i-listen",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "Money's tight for us in {place}, so I listen.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.with-money-as-tight-as-ours-president-has-my-attention",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "With money as tight as ours, {president} has my attention.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.bills-in-place-don-t-wait-for-washington",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "Bills in {place} don't wait for Washington.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.we-re-stretched-thin-in-place-and-that-s-a-pocketbook-thing",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "We're stretched thin in {place}, and that's a pocketbook thing.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.when-money-s-short-you-listen-to-what-president-promises",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "When money's short, you listen to what {president} promises.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.getting-by-in-place-isn-t-easy-right-now",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "Getting by in {place} isn't easy right now.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.money-s-short-at-our-place-so-i-noticed-what-president-said",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "Money's short at our place, so I noticed what {president} said.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.stretching-a-paycheck-in-place-makes-you-care-about-it",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "Stretching a paycheck in {place} makes you care about it.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-money.money-s-been-hard-for-us-lately-in-place",
+      "move": "address-point-reason-money",
+      "kind": "spoken",
+      "text": "Money's been hard for us lately in {place}.",
+      "uses": [
+        {
+          "move": "address-point-reason-money",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-money"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.too-many-people-in-place-are-out-of-work",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Too many people in {place} are out of work.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-jobs"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.work-is-hard-to-find-in-place-right-now",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Work is hard to find in {place} right now.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-jobs"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.ask-around-place-plenty-of-folks-are-looking-for-work",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Ask around {place}. Plenty of folks are looking for work.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-jobs"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.more-people-are-out-of-work-in-place-than-most-places",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "More people are out of work in {place} than most places.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-jobs"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.jobs-in-place-have-been-hard-to-come-by",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Jobs in {place} have been hard to come by.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-jobs"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.rent-in-place-takes-too-big-a-bite",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Rent in {place} takes too big a bite.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-rent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.rent-in-place-eats-too-much-of-a-paycheck",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Rent in {place} eats too much of a paycheck.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-rent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.rent-in-place-is-a-lot-for-what-people-earn",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Rent in {place} is a lot for what people earn.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-rent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.ask-anyone-renting-in-place-what-it-costs",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Ask anyone renting in {place} what it costs.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-rent"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-town.keeping-up-with-rent-in-place-is-hard-for-folks",
+      "move": "address-point-reason-town",
+      "kind": "spoken",
+      "text": "Keeping up with rent in {place} is hard for folks.",
+      "uses": [
+        {
+          "move": "address-point-reason-town",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-town-rent"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.nothing-president-says-will-change-my-mind",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "Nothing {president} says will change my mind.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.i-knew-where-i-stood-before-president-said-a-word",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "I knew where I stood before {president} said a word.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.president-didn-t-tell-me-anything-i-hadn-t-thought-through",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "{president} didn't tell me anything I hadn't thought through.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.my-mind-was-made-up-long-before-president-spoke",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "My mind was made up long before {president} spoke.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.i-don-t-need-president-to-tell-me-what-i-think",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "I don't need {president} to tell me what I think.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.whatever-president-says-i-know-where-i-stand",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "Whatever {president} says, I know where I stand.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.that-one-i-ve-thought-through-with-or-without-president",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "That one I've thought through, with or without {president}.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.i-d-say-the-same-if-president-had-never-brought-it-up",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "I'd say the same if {president} had never brought it up.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-reason-view.i-ve-had-my-say-on-it-before-president-or-not",
+      "move": "address-point-reason-view",
+      "kind": "spoken",
+      "text": "I've had my say on it before, {president} or not.",
+      "uses": [
+        {
+          "move": "address-point-reason-view",
+          "subject": "address-point",
+          "role": "reason",
+          "requiresFacts": ["why-view"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.we-ll-see-what-place-gets-out-of-it",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "We'll see what {place} gets out of it.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.time-will-tell-what-it-means-for-place",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Time will tell what it means for {place}.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.somebody-in-place-will-feel-it-either-way",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Somebody in {place} will feel it either way.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.i-ll-believe-it-when-place-sees-it",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "I'll believe it when {place} sees it.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.whatever-happens-place-will-find-out-last",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "Whatever happens, {place} will find out last.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.i-d-like-to-know-what-it-does-for-place",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "I'd like to know what it does for {place}.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.it-ll-be-a-while-before-place-sees-any-of-it",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "It'll be a while before {place} sees any of it.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-closer.i-wonder-how-place-would-come-out",
+      "move": "address-point-closer",
+      "kind": "spoken",
+      "text": "I wonder how {place} would come out.",
+      "uses": [
+        {
+          "move": "address-point-closer",
+          "subject": "address-point",
+          "role": "closer",
+          "requiresFacts": ["why-first"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.i-m-with-you-on-about",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "I'm with you on {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.i-see-about-the-same-way",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "I see {about} the same way.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.you-re-right-about-about",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "You're right about {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.same-here-on-about",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "Same here on {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.i-d-say-the-same-about-about",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "I'd say the same about {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.we-agree-on-about-then",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "We agree on {about}, then.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.that-s-how-i-see-about-too",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "That's how I see {about} too.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-agree.no-argument-from-me-on-about",
+      "move": "address-point-answer-agree",
+      "kind": "spoken",
+      "text": "No argument from me on {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-agree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "agree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.i-see-about-differently",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "I see {about} differently.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.i-don-t-agree-on-about",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "I don't agree on {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.i-m-not-with-you-on-about",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "I'm not with you on {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.i-think-you-ve-got-about-wrong",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "I think you've got {about} wrong.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.that-s-not-how-i-see-about",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "That's not how I see {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.i-d-argue-the-other-side-of-about",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "I'd argue the other side of {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.we-don-t-agree-on-about",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "We don't agree on {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-disagree.i-can-t-go-along-with-you-on-about",
+      "move": "address-point-answer-disagree",
+      "kind": "spoken",
+      "text": "I can't go along with you on {about}.",
+      "uses": [
+        {
+          "move": "address-point-answer-disagree",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "disagree"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.what-would-that-mean-for-place",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "What would that mean for {place}?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.how-would-that-change-things-in-place",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "How would that change things in {place}?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.would-anyone-in-place-even-notice",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "Would anyone in {place} even notice?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.what-would-it-do-for-place",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "What would it do for {place}?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.who-in-place-would-that-help",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "Who in {place} would that help?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.how-would-it-land-in-place",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "How would it land in {place}?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.would-place-see-any-of-it",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "Would {place} see any of it?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-here.what-does-place-get-out-of-about",
+      "move": "address-point-answer-here",
+      "kind": "spoken",
+      "text": "What does {place} get out of {about}?",
+      "uses": [
+        {
+          "move": "address-point-answer-here",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "here"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.what-would-you-do-about-about-instead",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "What would you do about {about} instead?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.so-what-s-your-answer-on-about",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "So what's your answer on {about}?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.what-would-you-rather-see-on-about",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "What would you rather see on {about}?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.what-should-happen-with-about-then",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "What should happen with {about}, then?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.how-would-you-handle-about",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "How would you handle {about}?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.what-s-the-better-way-on-about",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "What's the better way on {about}?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.if-you-ran-things-what-about-about",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "If you ran things, what about {about}?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-answer-instead.what-would-you-change-about-about",
+      "move": "address-point-answer-instead",
+      "kind": "spoken",
+      "text": "What would you change about {about}?",
+      "uses": [
+        {
+          "move": "address-point-answer-instead",
+          "subject": "address-point",
+          "role": "answer",
+          "choice": "instead"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.then-we-re-on-the-same-page-about-about",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Then we're on the same page about {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-i-figured-you-d-see-about-that-way",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. I figured you'd see {about} that way.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.so-it-s-not-just-me-on-about",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "So it's not just me on {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.then-you-know-why-i-care-about-about",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Then you know why I care about {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.we-ll-see-if-washington-gets-about-right",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "We'll see if Washington gets {about} right.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-keep-an-eye-on-about-with-me",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. Keep an eye on {about} with me.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.that-makes-two-of-us-on-about",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "That makes two of us on {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-agree.then-we-ll-both-be-watching-what-happens-with-about",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Then we'll both be watching what happens with {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.fair-enough-we-see-about-differently",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "Fair enough. We see {about} differently.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.then-we-ll-argue-about-another-time",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "Then we'll argue {about} another time.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.you-might-be-right-about-about-i-doubt-it",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "You might be right about {about}. I doubt it.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.maybe-so-i-still-see-about-my-way",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "Maybe so. I still see {about} my way.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.we-can-disagree-on-about",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "We can disagree on {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.we-won-t-settle-about-between-the-two-of-us",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "We won't settle {about} between the two of us.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.i-ll-think-about-what-you-said-on-about",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "I'll think about what you said on {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.then-one-of-us-is-wrong-about-about",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "Then one of us is wrong about {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.for-place-hard-to-say-until-it-s-written-down",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "For {place}? Hard to say until it's written down.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.in-place-it-would-come-down-to-who-pays",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "In {place}, it would come down to who pays.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.nobody-in-place-will-know-until-it-s-law",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "Nobody in {place} will know until it's law.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.for-place-i-couldn-t-tell-you-yet",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "For {place}, I couldn't tell you yet.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.place-would-have-to-wait-and-see",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "{place} would have to wait and see.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.depends-what-congress-does-with-it-before-it-reaches-place",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "Depends what Congress does with it before it reaches {place}.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.it-d-take-a-while-to-reach-place-if-it-ever-does",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "It'd take a while to reach {place}, if it ever does.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-here.i-d-ask-the-folks-who-run-place-that-one",
+      "move": "address-point-back-here",
+      "kind": "spoken",
+      "text": "I'd ask the folks who run {place} that one.",
+      "uses": [
+        {
+          "move": "address-point-back-here",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["here"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.i-don-t-have-a-better-idea-on-about-not-yet",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "I don't have a better idea on {about}. Not yet.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-with"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.nothing-better-than-what-the-president-said-on-about",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "Nothing better than what the President said on {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-with"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.i-d-go-the-same-way-on-about-honestly",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "I'd go the same way on {about}, honestly.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-with"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.i-d-put-about-aside-and-start-with-place",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "I'd put {about} aside and start with {place}.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.something-smaller-on-about-that-place-could-actually-see",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "Something smaller on {about}, that {place} could actually see.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.i-d-want-a-plan-on-about-people-can-read",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "I'd want a plan on {about} people can read.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.ask-me-after-i-ve-slept-on-about",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "Ask me after I've slept on {about}.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-unsure"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.honestly-i-d-want-to-hear-from-place-first",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "Honestly, I'd want to hear from {place} first.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-point-back-instead.i-don-t-know-what-i-d-do-about-about-yet",
+      "move": "address-point-back-instead",
+      "kind": "spoken",
+      "text": "I don't know what I'd do about {about} yet.",
+      "uses": [
+        {
+          "move": "address-point-back-instead",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["instead"],
+          "requiresFacts": ["stand-unsure"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-see-the-president-s-speech-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you see the President's speech {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-catch-what-the-president-said-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you catch what the President said {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-ask-seen.you-saw-the-president-s-speech-when-didn-t-you",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "You saw the President's speech {when}, didn't you?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-agree.i-watched-it-when-and-i-thought-it-was-good",
+      "move": "address-answer-agree",
+      "kind": "spoken",
+      "text": "I watched it {when}, and I thought it was good.",
+      "uses": [
+        {
+          "move": "address-answer-agree",
+          "subject": "address",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-agree.i-saw-it-when-it-was-a-good-speech",
+      "move": "address-answer-agree",
+      "kind": "spoken",
+      "text": "I saw it {when}. It was a good speech.",
+      "uses": [
+        {
+          "move": "address-answer-agree",
+          "subject": "address",
+          "role": "answer",
+          "choice": "agree",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-doubt.i-saw-it-when-i-m-not-sure-i-believe-it",
+      "move": "address-answer-doubt",
+      "kind": "spoken",
+      "text": "I saw it {when}. I'm not sure I believe it.",
+      "uses": [
+        {
+          "move": "address-answer-doubt",
+          "subject": "address",
+          "role": "answer",
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-doubt.i-caught-it-when-and-i-ve-heard-it-all-before",
+      "move": "address-answer-doubt",
+      "kind": "spoken",
+      "text": "I caught it {when}, and I've heard it all before.",
+      "uses": [
+        {
+          "move": "address-answer-doubt",
+          "subject": "address",
+          "role": "answer",
+          "choice": "doubt",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-hope.i-saw-it-when-i-hope-some-of-it-happens",
+      "move": "address-answer-hope",
+      "kind": "spoken",
+      "text": "I saw it {when}. I hope some of it happens.",
+      "uses": [
+        {
+          "move": "address-answer-hope",
+          "subject": "address",
+          "role": "answer",
+          "choice": "hope",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-hope.i-watched-it-when-i-hope-my-place-sees-some-of-it",
+      "move": "address-answer-hope",
+      "kind": "spoken",
+      "text": "I watched it {when}. I hope {my_place} sees some of it.",
+      "uses": [
+        {
+          "move": "address-answer-hope",
+          "subject": "address",
+          "role": "answer",
+          "choice": "hope",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-plain.i-saw-it-when",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "I saw it {when}.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-plain.yes-i-watched-it-when",
+      "move": "address-answer-plain",
+      "kind": "spoken",
+      "text": "Yes, I watched it {when}.",
+      "uses": [
+        {
+          "move": "address-answer-plain",
+          "subject": "address",
+          "role": "answer",
+          "choice": "plain",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-missed.no-i-missed-it-when",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "No, I missed it {when}.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-missed.i-didn-t-get-to-see-it-when",
+      "move": "address-answer-missed",
+      "kind": "spoken",
+      "text": "I didn't get to see it {when}.",
+      "uses": [
+        {
+          "move": "address-answer-missed",
+          "subject": "address",
+          "role": "answer",
+          "choice": "missed",
+          "requiresFacts": ["missed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-think.i-saw-it-when-what-did-you-make-of-it",
+      "move": "address-answer-think",
+      "kind": "spoken",
+      "text": "I saw it {when}. What did you make of it?",
+      "uses": [
+        {
+          "move": "address-answer-think",
+          "subject": "address",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.address-answer-think.i-watched-it-when-what-did-you-think-of-it",
+      "move": "address-answer-think",
+      "kind": "spoken",
+      "text": "I watched it {when}. What did you think of it?",
+      "uses": [
+        {
+          "move": "address-answer-think",
+          "subject": "address",
+          "role": "answer",
+          "choice": "turn",
+          "raises": "address",
+          "requiresFacts": ["seen"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "date": "2026-11-11"
     },
     {
       "key": "conversation.own-view-raise-very-liberal.im-about-as-liberal-as-they-come",

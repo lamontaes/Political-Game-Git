@@ -16,6 +16,13 @@ import {
   MINED_CONVERSATION,
 } from "./mined/conversation-bank";
 import { fitMoves, moveVariantKey } from "./move-fit";
+import { admittedParts, directorSlots } from "./bank-parts";
+import {
+  LINE_PARTS,
+  type ComposedLineBank,
+  type LinePart,
+  type LinePartVariant,
+} from "./english-composition";
 
 export type { Fact };
 
@@ -211,4 +218,60 @@ export function joinedReply(
 /** Whether a line someone said asks a question. */
 export function asksQuestion(line: { text: string }): boolean {
   return asks(line.text.trim());
+}
+
+const COMPOSED = new Map<string, ComposedLineBank | null>();
+
+/**
+ * The bank a subject's composed lines are made from: its pieces in the
+ * conversation bank by the part of the line each says (opener, core, reason,
+ * closer: a use whose role is one of those), for `composeGroundedLine`. Null
+ * when the subject has no core. A piece the grades or the rules hold back is
+ * never in it.
+ */
+export function composedConversationBank(
+  subject: string,
+): ComposedLineBank | null {
+  if (COMPOSED.has(subject)) return COMPOSED.get(subject)!;
+  const parts: Partial<Record<LinePart, LinePartVariant[]>> = {};
+  for (const piece of admittedParts(CONVERSATION_BANK.parts))
+    for (const use of piece.uses)
+      if (
+        use.subject === subject &&
+        (LINE_PARTS as readonly string[]).includes(use.role)
+      )
+        (parts[use.role as LinePart] ??= []).push({
+          key: piece.key,
+          kind: "template",
+          text: directorSlots(piece.text),
+          pieceKey: piece.key,
+          ...(use.stages ? { stages: use.stages } : {}),
+          ...(use.requiresFacts
+            ? {
+                requiresFacts: use.requiresFacts.map((key) =>
+                  key.replace(/_/g, "-"),
+                ),
+              }
+            : {}),
+          ...(piece.bearing ? { bearing: piece.bearing } : {}),
+        });
+  const bank: ComposedLineBank | null = parts.core?.length
+    ? {
+        key: `conversation.${subject}`,
+        version: "words-composed-conversation-v1",
+        surface: "dialogue",
+        act: "tell",
+        parts: {
+          ...Object.fromEntries(
+            Object.entries(parts).map(([part, variants]) => [
+              part,
+              { variants },
+            ]),
+          ),
+          core: { required: true, variants: parts.core },
+        },
+      }
+    : null;
+  COMPOSED.set(subject, bank);
+  return bank;
 }

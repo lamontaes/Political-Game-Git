@@ -41,7 +41,12 @@ import {
   daysBetween,
   makeIsoDate,
 } from "../core2/kernel/dates";
-import { ADDRESS_FACT } from "./opening-facts";
+import {
+  ADDRESS_FACT,
+  addressPoints,
+  type AddressPoint,
+} from "./opening-facts";
+import { macroMonths } from "./opening-story";
 import { stableHash } from "../core2/kernel/ids";
 import {
   CALIBRATION,
@@ -72,7 +77,7 @@ import {
   outletsHere,
   type OutletKind,
 } from "../core2/modules/press";
-import { decisionLean } from "../core2/trait-decisions";
+import { decisionLean, hardshipStress } from "../core2/trait-decisions";
 import type {
   CoreAPI,
   CoreModule,
@@ -86,11 +91,16 @@ import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
-import { viewOf } from "../core2/modules/views";
-import { officialsIn } from "../core2/modules/officials";
-import { partySide } from "../core2/appointments";
+import { viewOf, viewOn } from "../core2/modules/views";
+import { townMetrics } from "../core2/modules/world";
+import { questionSubject } from "../english/policy-names";
+import {
+  composeGroundedLine,
+  LINE_PARTS,
+} from "../english/english-composition";
 import {
   asksQuestion,
+  composedConversationBank,
   conversationHas,
   conversationMoves,
   CONVERSATION_WORDS,
@@ -221,6 +231,8 @@ export interface Subject {
   aboutId?: string;
   /** The stage its own line is said in, from its record (a layoff, a closure). */
   stage?: string;
+  /** For the address's point a hearer raises: the question and why they raised it. */
+  point?: { question: string; reason: PointReason };
   /**
    * How much it weighs as a talk's topic when the speaker's willingness to
    * raise it is what decides (where they stand politically), not a recorded
@@ -1410,19 +1422,32 @@ export function subjectsBetween(
           text: quote.value,
           sourceRecordIds: [address.value, quote.sourceId],
         },
+        // The day it was given, as people say it ("today", "yesterday").
+        when: {
+          text: spokenWhen(givenOn, core.date),
+          sourceRecordIds: [address.value],
+        },
       },
     });
-    // What the speaker made of it: their own lean against the President's
-    // party, both on record.
-    const take = addressTake(core, speakerId, address.value);
-    if (take)
-      out.push({
-        id: `address-view:${address.value}`,
-        kind: "address-view",
-        aboutId: address.value,
-        stage: take.stage,
-        facts: { take: take.fact },
-      });
+    // The point of the address the speaker raises, from their own life, and
+    // where they stand on it (owner, Nov 11: "the relative raises a real
+    // thing the President said in that address and where they stand on it
+    // from their own life").
+    const opening = director?.ledger.opening;
+    const point =
+      opening?.id === address.value
+        ? addressPointFor(
+            core,
+            speakerId,
+            addressPoints(opening),
+            listenerId,
+            director,
+          )
+        : null;
+    if (point && opening)
+      out.push(
+        pointSubject(core, speakerId, address.value, point, opening.president),
+      );
   }
   // Where the speaker stands politically, from the views engine's record of
   // their lean, said only as far as their tie to the listener and their
@@ -1452,27 +1477,321 @@ export function subjectsBetween(
   return out;
 }
 
-/**
- * What someone made of the President's address: for it when their own lean
- * is on the side of the President's party, against it when it is on the other
- * side; none when either is even. The views engine's lean and the officials
- * engine's party are the records it stands on.
- */
-function addressTake(
+/** Why someone raises the point of the address they raise. */
+export type PointReason = "work" | "money" | "view" | "first";
+
+/** The point of the address a person raises, why, and where they stand on it. */
+export interface PointPick {
+  readonly point: AddressPoint;
+  readonly reason: PointReason;
+  /** The records the reason stands on: the job lost or the search for one, the hardship, the view. */
+  readonly reasonIds: readonly string[];
+  /** Where they stand on it against the President. */
+  readonly stand: "with" | "against" | "unsure";
+  /** The employer a work reason names: the job they lost. */
+  readonly employer?: Fact;
+  /** The jobs engine's record that they are looking for work, for a work reason. */
+  readonly seeking?: string;
+}
+
+interface PointRules {
+  readonly work: { readonly subjects: readonly string[] };
+  readonly money: {
+    readonly subjects: readonly string[];
+    readonly questions: readonly string[];
+  };
+  readonly back: string;
+}
+const POINT_RULES = (rulesFile as unknown as { addressPoint: PointRules })
+  .addressPoint;
+/** The subject a hearer raises the address's point as, and the one they answer a reply with. */
+const POINT = "address-point";
+const POINT_BACK = POINT_RULES.back;
+
+/** Whether a question is about work and pay, or about prices, rent and housing, by the bill catalog's subject. */
+function pointArea(question: string): "work" | "money" | null {
+  const subject = questionSubject(question);
+  if (
+    POINT_RULES.money.questions.includes(question) ||
+    (subject && POINT_RULES.money.subjects.includes(subject))
+  )
+    return "money";
+  return subject && POINT_RULES.work.subjects.includes(subject) ? "work" : null;
+}
+
+/** The knowledge key a person keeps of what the player said to them on one of the address's questions. */
+const pointKey = (playerId: PersonId, question: string) =>
+  `talk:${playerId}:address-point:${question}`;
+
+/** An employer as a person says it: never the market outside the town or a treasury. */
+function employerFact(
   core: Readonly<CoreState>,
-  personId: PersonId,
-  eventId: string,
-): { stage: "for" | "against"; fact: Fact } | null {
+  job: { id: string; organizationId: string } | undefined,
+): Fact | undefined {
+  const org = job ? core.organizations.get(job.organizationId) : undefined;
+  if (!job || !org || org.outsideFlow || org.kind === "government-treasury")
+    return undefined;
+  return { text: properName(org.name), sourceRecordIds: [job.id, org.id] };
+}
+
+/**
+ * Which point of the address a person raises, from their own life. No chance
+ * decides it. In order: a point on work or pay when they lost a job this year
+ * or are looking for one; a point on prices, rent or housing when money is
+ * hard for them (the trait engine's hardship stress) or their household is
+ * being evicted; else the point they hold the strongest view on; else the
+ * President's first point. A point they already talked over with the
+ * listener (the record `say` keeps) is behind them, and another is raised.
+ */
+export function addressPointFor(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  points: readonly AddressPoint[],
+  listenerId?: PersonId,
+  director?: Director,
+): PointPick | null {
+  const speaker = core.people.get(speakerId);
+  if (!speaker) return null;
+  const known = core.knowledgeByPerson.get(speakerId);
+  const open = listenerId
+    ? points.filter((row) => !known?.get(pointKey(listenerId, row.question)))
+    : points;
+  if (!open.length) return null;
   const api = coreAPI(core as CoreState);
-  const president = officialsIn(api, "US:president")[zero];
-  const side = partySide(president?.party);
-  const lean = viewOf(api, personId)?.lean ?? zero;
-  if (!president || side === zero || lean === zero) return null;
+  const lean = viewOf(api, speakerId)?.lean;
+  const viewAt = (row: AddressPoint) =>
+    lean === undefined ? zero : viewOn(api, speakerId, row.question, lean);
+  const pick = (
+    point: AddressPoint,
+    reason: PointReason,
+    reasonIds: readonly string[],
+    employer?: Fact,
+    seeking?: string,
+  ): PointPick => {
+    const view = viewAt(point);
+    const side = point.stance === "for" ? one : -one;
+    return {
+      point,
+      reason,
+      reasonIds,
+      // A view of exactly nothing is no view (the views engine's own rule).
+      stand:
+        view === zero
+          ? "unsure"
+          : Math.sign(view) === side
+            ? "with"
+            : "against",
+      ...(employer ? { employer } : {}),
+      ...(seeking ? { seeking } : {}),
+    };
+  };
+  // Work: a job they lost this year, or their search for one.
+  const year = core.date.slice(zero, "YYYY".length);
+  const ended = lastEndedJob(core, speakerId);
+  const endedAt = ended
+    ? known?.get(`job:${ended.id}:status`)?.learnedAt
+    : undefined;
+  const lostThisYear = ended && endedAt?.startsWith(year) ? ended : undefined;
+  const seeking = seekingOf(core, speakerId);
+  const work = open.find((row) => pointArea(row.question) === "work");
+  if (work && (lostThisYear || seeking)) {
+    const employer = employerFact(core, lostThisYear ?? ended);
+    return pick(
+      work,
+      "work",
+      [
+        ...(lostThisYear ? [lostThisYear.id] : []),
+        ...(seeking ? [seeking.id] : []),
+      ],
+      employer,
+      seeking?.id,
+    );
+  }
+  // Money: hardship on their record, or an eviction.
+  const money = open.find((row) => pointArea(row.question) === "money");
+  const hardship = hardshipStress(core, speaker) > zero;
+  const evicted = evictionSubjects(
+    core,
+    director,
+    speakerId,
+    listenerId ?? speakerId,
+  )[zero];
+  if (money && (hardship || evicted))
+    return pick(money, "money", [
+      ...(hardship ? [speakerId] : []),
+      ...(evicted ? [evicted.aboutId!] : []),
+    ]);
+  // The point they hold the strongest view on.
+  const held = open
+    .map((row) => ({ row, size: Math.abs(viewAt(row)) }))
+    .filter((row) => row.size > zero)
+    .sort((a, b) => b.size - a.size)[zero];
+  if (held) return pick(held.row, "view", [speakerId]);
+  return pick(open[zero]!, "first", []);
+}
+
+/** What the town's own figures back, for a point on work or on money: its unemployment above the country's, or rent above what counts as a burden. */
+const townBacking = new WeakMap<
+  object,
+  { date: string; rows: Map<string, string[]> }
+>();
+function townBacks(
+  core: Readonly<CoreState>,
+  placeId: string,
+): readonly string[] {
+  const kept = townBacking.get(core);
+  if (kept?.date === core.date) return kept.rows.get(placeId) ?? [];
+  const rows = new Map<string, string[]>();
+  const nation = macroMonths(core as CoreState)?.now;
+  for (const row of townMetrics(coreAPI(core as CoreState))) {
+    const backs: string[] = [];
+    if (nation && row.unemploymentRate * P.percent > nation.unemploymentPct)
+      backs.push("why-town-jobs");
+    if (
+      row.rentToEarnings >
+      DEFAULT_DIRECTOR_DATA.parameters.directorRentBurdenShare!.value
+    )
+      backs.push("why-town-rent");
+    rows.set(row.placeId, backs);
+  }
+  townBacking.set(core, { date: core.date, rows });
+  return rows.get(placeId) ?? [];
+}
+
+/**
+ * The point as a subject the speaker raises (`address-point`): its stage is
+ * where they stand, its facts what the President said (`about`, `to`), their
+ * town (`place`), and the one fact of their own life the reason names: the
+ * employer for work, their money or the town's figures for money, nothing
+ * more for a view.
+ */
+function pointSubject(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  eventId: string,
+  pick: PointPick,
+  president: { name: string; sourceRecordIds: readonly string[] },
+): Subject {
+  const speaker = core.people.get(speakerId)!;
+  const said = [eventId, ...pick.point.sourceRecordIds];
+  const facts: Facts = {
+    about: { text: pick.point.about, sourceRecordIds: said },
+    to: { text: pick.point.to, sourceRecordIds: said },
+    // Who gave it, by name, from the officials engine's record.
+    president: {
+      text: president.name,
+      sourceRecordIds: [eventId, ...president.sourceRecordIds],
+    },
+  };
+  const place = corePlaceByJurisdictionId(speaker.placeId as never);
+  if (place)
+    facts.place = {
+      text: spoken(place),
+      sourceRecordIds: [speaker.householdId],
+    };
+  const mark = (key: string, ids: readonly string[]) => {
+    if (ids.length) facts[key] = { text: "yes", sourceRecordIds: [...ids] };
+  };
+  // The President's side and theirs, which the words of the stand follow.
+  mark(`president-${pick.point.stance}`, said);
+  mark(`stand-${pick.stand}`, [...said, speakerId]);
+  if (pick.reason === "work") {
+    mark("why-work", pick.reasonIds);
+    if (pick.seeking) mark("why-seeking", [pick.seeking]);
+    if (pick.employer) facts.employer = pick.employer;
+  }
+  if (pick.reason === "money") mark("why-money", pick.reasonIds);
+  if (pick.reason === "view") mark("why-view", [...pick.reasonIds, ...said]);
+  // The town's own figures back a point on work or money that is not the
+  // speaker's own trouble.
+  const area = pointArea(pick.point.question);
+  if (place && (pick.reason === "first" || pick.reason === "view") && area)
+    for (const key of townBacks(core, speaker.placeId))
+      if (
+        (key === "why-town-jobs" && area === "work") ||
+        (key === "why-town-rent" && area === "money")
+      )
+        mark(key, [speaker.placeId]);
+  // Nothing of their own life or their town's behind it: the town, as a
+  // closing thought.
+  if (
+    pick.reason === "first" &&
+    !facts["why-town-jobs"] &&
+    !facts["why-town-rent"]
+  )
+    mark("why-first", said);
   return {
-    stage: Math.sign(lean) === Math.sign(side) ? "for" : "against",
-    fact: { text: "", sourceRecordIds: [eventId, president.id, personId] },
+    id: `${POINT}:${eventId}`,
+    kind: POINT,
+    aboutId: eventId,
+    stage: pick.stand,
+    facts,
+    point: { question: pick.point.question, reason: pick.reason },
   };
 }
+
+/**
+ * A line the English engine composes from parts (opener, core, reason,
+ * closer), for a subject whose lines are made that way: the hearer's point of
+ * the address and their answer to the player's reply. Null when no core can
+ * be said from the facts given.
+ */
+export function composedLine(
+  core: Readonly<CoreState>,
+  speakerId: PersonId,
+  subject: string,
+  facts: Facts,
+  stage: string,
+  momentKey: string,
+  recentPartKeys: readonly string[] = [],
+): Said | null {
+  const bank = composedConversationBank(subject);
+  if (!bank) return null;
+  const traits = core.people.get(speakerId)?.traits ?? {};
+  const line = composeGroundedLine(
+    {
+      surface: "dialogue",
+      momentKey,
+      worldSeed: core.seed,
+      bankVersion: bank.version,
+      stage,
+      sourceRecordIds: [speakerId as EntityId],
+      facts,
+      speaker: { personId: speakerId as EntityId, traits: {} },
+      knowledge: Object.entries(facts).map(([factKey, row]) => ({
+        personId: speakerId as EntityId,
+        factKey,
+        sourceRecordIds: row.sourceRecordIds as EntityId[],
+      })),
+      voice: { traits, register: "conversation" },
+    },
+    bank,
+    {
+      speakerTraits: traits,
+      // What they said before, in every part it could be said in.
+      recentPartKeys: recentPartKeys.flatMap((key) =>
+        LINE_PARTS.map((part) => `${bank.key}:${part}:${key}`),
+      ),
+    },
+  );
+  if (line.kind !== "rendered") return null;
+  return {
+    text: line.text,
+    sourceRecordIds: line.sourceRecordIds,
+    wording: {
+      bank: `conversation:${subject}:composed`,
+      parts: line.parts.map((part) => part.variantKey),
+      stage,
+      facts: [...new Set(line.parts.flatMap((part) => part.usedFactKeys))],
+    },
+  };
+}
+
+/** The parts this speaker said earlier in the talk, so the next composed line says the point in other words. */
+const saidParts = (conversation: Conversation, speakerId: PersonId) =>
+  conversation.lines
+    .filter((line) => line.speakerId === speakerId)
+    .flatMap((line) => line.wording?.parts ?? []);
 
 /** The facts the listener answers a raised subject with, from their own records. */
 function replyFacts(
@@ -1572,14 +1891,6 @@ function replyFacts(
           ? "heard"
           : "not-heard",
       };
-    case "address": {
-      // Asked what they made of the address, the listener says their own
-      // take, only when their own record says they saw it or heard of it.
-      if (!core.knowledgeByPerson.get(listenerId)?.get(ADDRESS_FACT.event))
-        return null;
-      const take = addressTake(core, listenerId, subject.aboutId!);
-      return take ? { facts: { take: take.fact }, stage: take.stage } : null;
-    }
     default:
       return { facts: subject.facts, stage: "default" };
   }
@@ -1824,20 +2135,31 @@ function raiseSubject(
   conversation.used.push(`${otherId}>${subject.id}`);
   const then = data.otherRaises[subject.kind];
   if (!then) return false;
+  const momentKey = `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`;
   const line = said
     ? null
-    : words(
-        core,
-        data,
-        otherId,
-        subject.kind,
-        "raise",
-        ALL,
-        subject.facts,
-        `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
-        subject.stage ?? "default",
-        subject,
-      );
+    : subject.kind === POINT
+      ? composedLine(
+          core,
+          otherId,
+          POINT,
+          subject.facts,
+          subject.stage ?? "default",
+          momentKey,
+          saidParts(conversation, otherId),
+        )
+      : words(
+          core,
+          data,
+          otherId,
+          subject.kind,
+          "raise",
+          ALL,
+          subject.facts,
+          momentKey,
+          subject.stage ?? "default",
+          subject,
+        );
   const lines = said ?? (line ? [line] : []);
   if (!lines.length) return false;
   for (const row of lines)
@@ -1875,6 +2197,8 @@ function raiseSubject(
     kind: subject.kind,
     facts: subject.facts,
     ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
+    ...(subject.stage ? { stage: subject.stage } : {}),
+    ...(subject.point ? { point: subject.point } : {}),
   };
   conversation.last = {
     subject: raised,
@@ -1900,18 +2224,27 @@ function tellable(
       row.kind === kind &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !!data.otherRaises[row.kind] &&
-      !!words(
-        core,
-        data,
-        otherId,
-        row.kind,
-        "raise",
-        ALL,
-        row.facts,
-        `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
-        row.stage ?? "default",
-        row,
-      ),
+      !!(row.kind === POINT
+        ? composedLine(
+            core,
+            otherId,
+            POINT,
+            row.facts,
+            row.stage ?? "default",
+            `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
+          )
+        : words(
+            core,
+            data,
+            otherId,
+            row.kind,
+            "raise",
+            ALL,
+            row.facts,
+            `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${row.id}:theirs`,
+            row.stage ?? "default",
+            row,
+          )),
   );
 }
 
@@ -2632,6 +2965,8 @@ function offerChoices(
         between.some((row) => row.id === raised.id) &&
         !!replyFacts(core, otherId, raised)) ||
       !!data.tells?.[last.kind]?.[choiceKey] ||
+      // Every reply to the address's point is answered, in composed words.
+      last.kind === POINT ||
       REPLY_MOVES.answerable.includes(replyMoveOf(last.kind, choiceKey));
     const text = joinedReply(head, tail);
     const opensAsking = asksQuestion({
@@ -2714,10 +3049,12 @@ function offerChoices(
   // question ("How's Keanu?"), and each reply moves the talk.
   const question = conversation.lines.at(-one);
   // A bare "Okay." never answers bad news either: it does not continue the talk.
+  // Nor the address's point: each reply there is a move about what was said.
   if (
     question?.act !== "ask" &&
     !(question && asksQuestion(question)) &&
-    !NEWS_SUBJECTS.has(last.subject.kind)
+    !NEWS_SUBJECTS.has(last.subject.kind) &&
+    last.kind !== POINT
   ) {
     for (const move of conversationMoves("ack", "reply", data))
       add(
@@ -3178,6 +3515,16 @@ export function say(
       sourceId: eventId,
       access: "told",
     });
+  // A reply to the address's point: the other person keeps what the player
+  // said on that question, and answers it in words the engine composes.
+  if (last.kind === POINT && last.subject.point && !choice.lie) {
+    tell(eventId, {
+      key: pointKey(playerId, last.subject.point.question),
+      value: choice.move,
+    });
+    answerPoint(core, conversation, data, choice, eventId);
+    return conversation;
+  }
   // A choice that asks the other person to say more ("What happened?"):
   // they tell it from their own records, on the same topic.
   const told = data.tells?.[last.kind]?.[choice.move];
@@ -3298,6 +3645,43 @@ export function say(
   };
   offerChoices(core, conversation, data);
   return conversation;
+}
+
+/**
+ * The other person's answer to the player's reply on the address's point,
+ * once `say` has recorded what the player said on that question (agreed,
+ * disagreed, or asked what it would mean here or what they would do
+ * instead), keyed by the question, so a later talk reads it: words the
+ * engine composes, naming the point; then the talk carries on.
+ */
+function answerPoint(
+  core: CoreState,
+  conversation: Conversation,
+  data: ConversationData,
+  choice: ConversationChoice,
+  eventId: string,
+): void {
+  const { otherId } = conversation;
+  const last = conversation.last!;
+  const back = composedLine(
+    core,
+    otherId,
+    POINT_BACK,
+    last.facts,
+    choice.move,
+    `${eventId}:back`,
+    saidParts(conversation, otherId),
+  );
+  if (back)
+    conversation.lines.push({
+      speakerId: otherId,
+      subjectId: choice.answers,
+      kind: POINT_BACK,
+      act: "tell",
+      ...back,
+      sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+    });
+  carryOn(core, conversation, data);
 }
 
 // Beliefs left by lies, and how they are found out.
