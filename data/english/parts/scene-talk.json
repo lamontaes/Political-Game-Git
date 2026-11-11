@@ -119526,31 +119526,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.guess-who-won-the-office-race-winner",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "Guess who won the {office} race? {winner}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["winner", "office", "winner-is-other"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.i-wanted-you-to-hear-this-from-me-winner-won-the-office-race",
       "move": "state-tell",
       "kind": "spoken",
@@ -119676,31 +119651,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race",
-      "move": "state-tell",
-      "kind": "spoken",
-      "text": "I'm sorry, {first}. {winner} won the {office} race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "tell",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["you-ran", "winner", "office", "winner-is-other"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.state-tell.it-didn-t-go-your-way-winner-won-the-office-race",
       "move": "state-tell",
       "kind": "spoken",
@@ -119751,400 +119701,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.how-did-it-happen",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How did it happen?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-did-the-count-look-like",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What did the count look like?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.does-anyone-know-why-it-went-that-way",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Does anyone know why it went that way?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-turned-out-for-winner",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who turned out for {winner}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["winner", "winner-is-other"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.who-turned-out-for-you",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Who turned out for you?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-won"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.what-went-wrong-for-me",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What went wrong for me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["you-ran"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.how-are-you-taking-it",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "How are you taking it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "ask",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.whatever-this-means-for-you-i-m-on-your-side",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "Whatever this means for you, I'm on your side.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.whatever-comes-of-it-we-ll-manage",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "Whatever comes of it, we'll manage.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.i-know-this-one-carried-weight-take-your-time-with-it",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "I know this one carried weight. Take your time with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.congratulations-you-earned-it",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "Congratulations. You earned it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-won"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.congratulations-i-mean-that",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "Congratulations. I mean that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-won"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.i-m-sorry-that-s-a-hard-result-to-carry",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry. That's a hard result to carry.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-lost"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.you-gave-that-race-everything-nobody-can-say-you-didn-t",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "You gave that race everything. Nobody can say you didn't.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-lost"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.don-t-worry-about-me-i-ll-be-all-right",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "Don't worry about me. I'll be all right.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["you-ran"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.it-stings-but-i-ll-get-through-it",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "It stings, but I'll get through it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["you-ran"]
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "comfort",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.reply-tell.it-matters-to-me-whoever-won-i-live-under-what-they-decide",
       "move": "reply-tell",
       "kind": "spoken",
@@ -120156,7 +119712,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "race-told",
-          "key": "race-heard"
+          "key": "race-heard",
+          "requiresFacts": ["winner-is-other"]
         }
       ],
       "bearing": "calm",
@@ -120166,104 +119723,10 @@
       "tag": {
         "move": "tell",
         "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-ll-be-watching-what-they-do-with-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'll be watching what they do with it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.it-changes-what-i-have-to-think-about-next",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "It changes what I have to think about next.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-put-everything-into-that-race-it-s-going-to-take-me-a-while",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I put everything into that race. It's going to take me a while.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["you-ran"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-thought-i-had-a-chance-i-m-not-going-to-pretend-i-m-fine",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I thought I had a chance. I'm not going to pretend I'm fine.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["you-ran"]
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "opener"
       }
     },
     {
@@ -120288,225 +119751,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-tell.i-m-glad-it-was-you-whatever-else-comes-of-it",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I'm glad it was you, whatever else comes of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-won"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "tell",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.it-doesn-t-change-my-week",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "It doesn't change my week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deflect",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-d-rather-not-make-a-big-thing-of-it",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I'd rather not make a big thing of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deflect",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.people-will-talk-about-it-for-a-while-i-suppose",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "People will talk about it for a while, I suppose.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deflect",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-deflect.i-can-t-think-about-that-right-now",
-      "move": "reply-deflect",
-      "kind": "spoken",
-      "text": "I can't think about that right now.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "deflect",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deflect",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.give-me-a-little-time-with-this",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "Give me a little time with this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.reply-leave.i-ll-call-you-once-i-ve-sorted-it-out",
-      "move": "reply-leave",
-      "kind": "spoken",
-      "text": "I'll call you once I've sorted it out.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "leave",
-          "role": "asked",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "leave",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-only-know-what-came-out-of-the-count-people-are-still-sorting-out-what-it-mean",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I only know what came out of the count. People are still sorting out what it means.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "ask"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.honestly-i-m-still-trying-to-work-that-out-myself",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "Honestly, I'm still trying to work that out myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "ask"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
         "key": "race-heard"
       }
     },
@@ -120538,84 +119782,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.i-got-the-most-votes-that-s-all-i-know-for-sure",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I got the most votes. That's all I know for sure.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-won"],
-          "after": "ask",
-          "excludesFacts": ["vote-share"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-m-still-going-over-it-myself-i-ll-tell-you-when-i-understand-it",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'm still going over it myself. I'll tell you when I understand it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "requiresFacts": ["bearer-lost"],
-          "after": "ask"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "answer",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.thank-you-that-means-more-than-you-d-think",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. That means more than you'd think.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "comfort"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.that-helps-first-it-really-does",
       "move": "follow-thank",
       "kind": "spoken",
@@ -120632,56 +119798,6 @@
         }
       ],
       "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.you-re-kind-to-say-so",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "You're kind to say so.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "comfort"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.i-ll-hold-onto-that",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "I'll hold onto that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "comfort"
-        }
-      ],
-      "bearing": "calm",
       "origin": "authored",
       "author": "Finisher helper (race told)",
       "date": "2026-10-27",
@@ -120721,210 +119837,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "accept",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.take-whatever-time-you-need",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Take whatever time you need.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "tell"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-i-won-t-push",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. I won't push.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "tell"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.okay-i-ll-let-it-sit",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. I'll let it sit.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "tell"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.so-what-will-you-do-about-it",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "So what will you do about it?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "tell"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.does-it-change-your-plans",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Does it change your plans?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "tell"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.you-can-t-set-it-aside-forever",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "You can't set it aside forever.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "tell"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "after": "deflect"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
         "key": "race-heard"
       }
     },
@@ -120988,56 +119900,6 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.i-m-glad-i-told-you-myself",
-      "move": "close-thank",
-      "kind": "spoken",
-      "text": "I'm glad I told you myself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "resolved"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "thank",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.all-right-we-ll-leave-it-at-that",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Alright. We'll leave it at that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.close-accept.okay-first-whenever-you-re-ready",
       "move": "close-accept",
       "kind": "spoken",
@@ -121059,132 +119921,6 @@
       "date": "2026-10-27",
       "tag": {
         "move": "accept",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.close-accept.understood-i-ll-let-you-be",
-      "move": "close-accept",
-      "kind": "spoken",
-      "text": "Understood. I'll let you be.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "refused"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "accept",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.think-it-over-and-we-ll-talk-again",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Think it over, and we'll talk again.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.it-won-t-look-any-smaller-tomorrow",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "It won't look any smaller tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.close-press.promise-me-you-ll-think-about-it",
-      "move": "close-press",
-      "kind": "spoken",
-      "text": "Promise me you'll think about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "press",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "open"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "press",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.close-warn.we-ll-talk-again-once-you-ve-had-time",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "We'll talk again once you've had time.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "open",
-          "after": "leave"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "warn",
         "key": "race-heard"
       }
     },
@@ -121215,60 +119951,10 @@
       }
     },
     {
-      "key": "scene-talk.close-warn.i-ll-check-in-on-you-soon",
-      "move": "close-warn",
-      "kind": "spoken",
-      "text": "I'll check in on you soon.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "close",
-          "move": "warn",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard",
-          "outcome": "open",
-          "after": "leave"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher helper (race told)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "warn",
-        "key": "race-heard"
-      }
-    },
-    {
       "key": "scene-talk.open-greet.first-i-m-glad-i-caught-you-it-s-about-the-race",
       "move": "open-greet",
       "kind": "spoken",
       "text": "{first}, I'm glad I caught you. It's about the race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-thought-you-d-want-to-know-before-you-heard-it-anywhere-else",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I thought you'd want to know before you heard it anywhere else.",
       "uses": [
         {
           "subject": "scene",
@@ -121304,30 +119990,6 @@
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
-      "author": "Finisher (English engine and scenes)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "greet",
-        "key": "race-heard"
-      }
-    },
-    {
-      "key": "scene-talk.open-greet.i-ll-keep-this-short-the-count-s-done",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I'll keep this short. The count's done.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "race-told",
-          "key": "race-heard"
-        }
-      ],
-      "bearing": "guarded",
       "origin": "authored",
       "author": "Finisher (English engine and scenes)",
       "date": "2026-10-27",
@@ -190487,7 +189149,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "race-told",
-          "key": "race-heard"
+          "key": "race-heard",
+          "requiresFacts": ["winner-is-other"]
         }
       ],
       "bearing": "calm",
@@ -190501,6 +189164,10 @@
       "source": {
         "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
         "date": "2026-11-09"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "opener"
       }
     },
     {
@@ -190515,7 +189182,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "race-told",
-          "key": "race-heard"
+          "key": "race-heard",
+          "requiresFacts": ["winner-is-other"]
         }
       ],
       "bearing": "braced",
@@ -190529,6 +189197,10 @@
       "source": {
         "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
         "date": "2026-11-09"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "opener"
       }
     },
     {
@@ -190543,7 +189215,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "race-told",
-          "key": "race-heard"
+          "key": "race-heard",
+          "requiresFacts": ["winner-is-other"]
         }
       ],
       "bearing": "braced",
@@ -190557,6 +189230,10 @@
       "source": {
         "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
         "date": "2026-11-09"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "opener"
       }
     },
     {
@@ -206719,6 +205396,2408 @@
       "tag": {
         "move": "promise",
         "key": "family-filing"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.winner-has-to-earn-it-now",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{winner} has to earn it now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.now-we-see-what-winner-actually-does",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "now we see what {winner} actually does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.winner-gets-a-chance-and-i-ll-be-watching",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{winner} gets a chance, and I'll be watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-give-winner-a-fair-shot",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll give {winner} a fair shot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.winner-owes-all-of-us-not-just-the-ones-who-voted-for-them",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{winner} owes all of us, not just the ones who voted for them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.let-s-hope-winner-was-worth-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "let's hope {winner} was worth it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.winner-has-a-lot-to-prove",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{winner} has a lot to prove.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-judge-winner-by-what-gets-done",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll judge {winner} by what gets done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-tell",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.ahead-by-margin-congratulations",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Ahead by {margin}? Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["bearer-won", "margin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.margin-ahead-you-earned-every-one",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{margin} ahead. You earned every one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["bearer-won", "margin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-won-by-margin-i-m-proud-of-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You won by {margin}. I'm proud of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["bearer-won", "margin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.winner-beat-me-i-m-not-going-to-pretend-i-m-fine",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{winner} beat me. I'm not going to pretend I'm fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["you-ran", "winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.winner-won-it-fair-it-still-stings",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{winner} won it fair. It still stings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "requiresFacts": ["you-ran", "winner-is-other"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-the-count-look-like-for-seat",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did the count look like for {seat}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-close-was-it-for-seat",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How close was it for {seat}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-turned-out-for-seat",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who turned out for {seat}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-were-the-numbers-on-seat",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What were the numbers on {seat}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-did-seat-come-out-exactly",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How did {seat} come out, exactly?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.was-seat-close-at-all",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Was {seat} close at all?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-did-seat-get-decided",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where did {seat} get decided?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-many-votes-was-seat-in-the-end",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How many votes was {seat} in the end?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "ask",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-m-on-your-side-kin-whatever-comes-next",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'm on your side, {kin}, whatever comes next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-lost", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-m-here-kin-we-ll-get-through-this-one",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'm here, {kin}. We'll get through this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-lost", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.kin-i-ll-stand-with-you-on-this",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "{kin}, I'll stand with you on this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-lost", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.you-re-not-alone-in-it-kin",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "You're not alone in it, {kin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-lost", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-m-with-you-on-this-kin",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'm with you on this, {kin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-against", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.kin-whatever-comes-of-it-i-ve-got-your-back",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "{kin}, whatever comes of it, I've got your back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-against", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.we-ll-keep-an-eye-on-it-together-kin",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "We'll keep an eye on it together, {kin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-against", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-ll-be-right-there-with-you-kin",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'll be right there with you, {kin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-against", "kin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-m-here",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-lost"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.hang-in-there",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Hang in there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "requiresFacts": ["bearer-against"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "comfort",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.nothing-in-place-changes-overnight",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Nothing in {place} changes overnight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.place-will-keep-running-either-way",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{place} will keep running either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-worry-about-place-tomorrow",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll worry about {place} tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.place-has-seen-worse",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{place} has seen worse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.whoever-won-place-still-needs-its-roads-fixed",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Whoever won, {place} still needs its roads fixed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.it-s-still-place-i-ll-be-fine",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It's still {place}. I'll be fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-s-see-if-anyone-in-place-even-notices",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's see if anyone in {place} even notices.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.place-will-get-used-to-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "{place} will get used to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "deflect",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.give-me-time",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Give me time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "leave",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-right-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "leave",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-won-it-by-margin",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} won it by {margin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["margin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-came-down-to-margin-and-winner-had-them",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "it came down to {margin}, and {winner} had them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["margin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-took-vote-share-percent-of-the-vote",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} took {vote_share} percent of the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["vote-share"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-finished-margin-ahead",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} finished {margin} ahead.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["margin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.turnout-was-turnout-percent-and-winner-got-vote-share-percent-of-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "turnout was {turnout} percent, and {winner} got {vote_share} percent of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["turnout", "vote-share"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.best-place-carried-it-for-winner",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{best_place} carried it for {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["best-place"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-margin-was-margin-with-best-place-going-hardest-for-winner",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "the margin was {margin}, with {best_place} going hardest for {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["margin", "best-place"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-won-and-that-s-what-the-count-says",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} won, and that's what the count says.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-voted-for-winner-so-i-m-not-complaining",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I voted for {winner}, so I'm not complaining.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-with"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-s-the-result-i-was-hoping-for",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It's the result I was hoping for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-with"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.good-night-for-our-side",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Good night for our side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-with"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-can-live-with-that",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I can live with that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-with"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-s-how-i-d-have-called-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That's how I'd have called it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-with"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.can-t-say-i-m-sorry-about-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Can't say I'm sorry about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-with"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.not-the-way-i-d-have-voted",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Not the way I'd have voted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-against"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-not-thrilled-about-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm not thrilled about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-against"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-ll-see-what-winner-does-with-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We'll see what {winner} does with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-against"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-wasn-t-my-pick",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It wasn't my pick.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-against"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ll-be-watching-closely",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll be watching closely.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-against"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.hard-to-swallow-honestly",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Hard to swallow, honestly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "after": "ask",
+          "requiresFacts": ["bearer-against"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      },
+      "piece": {
+        "of": "race-told-count",
+        "part": "reason"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-first-that-helps",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. That helps.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "comfort",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-helps-more-than-you-know-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That helps more than you know, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "comfort",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-hold-onto-that-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll hold onto that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "comfort",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-re-good-to-me-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You're good to me, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "comfort",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-really",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. Really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "comfort",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-needed-that-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I needed that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "after": "comfort",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-winner-it-is",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. {winner} it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-we-ll-see-what-winner-does",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. We'll see what {winner} does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-winner-has-the-job-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. {winner} has the job now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-winner-won-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. {winner} won it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-time-will-tell-with-winner",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Time will tell with {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-give-winner-a-chance-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. Give {winner} a chance, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.so-what-do-you-make-of-winner",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "So what do you make of {winner}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.winner-won-by-margin-that-doesn-t-bother-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "{winner} won by {margin}. That doesn't bother you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "tell",
+          "requiresFacts": ["margin"],
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-you-care-how-seat-went",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't you care how {seat} went?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-really-don-t-have-a-view-on-winner",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You really don't have a view on {winner}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.winner-is-going-to-decide-things-for-you-doesn-t-that-matter",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "{winner} is going to decide things for you. Doesn't that matter?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.come-on-what-do-you-think-winner-will-do",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Come on. What do you think {winner} will do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "tell",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-winner-it-is-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. {winner} it is, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-we-ll-see-about-winner",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. We'll see about {winner}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-winner-won-and-that-s-that",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. {winner} won, and that's that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "after": "deflect",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-care-when-winner-starts-deciding-things",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll care when {winner} starts deciding things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.winner-won-t-wait-for-you-to-care",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "{winner} won't wait for you to care.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.think-about-what-winner-means-for-place",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think about what {winner} means for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "after": "deflect",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-you-heard-about-winner-from-me",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad you heard about {winner} from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-wanted-you-to-hear-about-winner-from-me-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I wanted you to hear about {winner} from me, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "thank",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-winner-it-is-then-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. {winner} it is, then, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.we-ll-leave-winner-there-for-now",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We'll leave {winner} there for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "accept",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.watch-what-winner-does-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Watch what {winner} does first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-what-winner-means-for-you",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about what {winner} means for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "press",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.we-ll-talk-about-winner-once-you-ve-had-time",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll talk about {winner} once you've had time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "after": "leave",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "warn",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-check-in-on-you-soon-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll check in on you soon, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "after": "leave",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "warn",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.first-you-ll-want-to-hear-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, you'll want to hear this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short-first-the-count-s-done",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll keep this short, {first}. The count's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "race-told",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "key": "race-heard"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-race-told-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "greet",
+        "key": "race-heard"
       }
     }
   ]

@@ -1995,7 +1995,7 @@
         {
           "id": "stood-with-them",
           "label": "You stood with them",
-          "keeps": "none",
+          "keeps": "promise",
           "when": {
             "anyReply": ["comfort"]
           }

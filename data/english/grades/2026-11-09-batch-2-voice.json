@@ -19,47 +19,6 @@
       ]
     },
     {
-      "key": "scene-talk.reply-tell.i-ll-be-watching-what-they-do-with-it",
-      "id": "1.2",
-      "spans": [
-        {
-          "start": 0,
-          "end": 38,
-          "strength": -0.375
-        },
-        {
-          "start": 0,
-          "end": 38,
-          "strength": -0.375
-        }
-      ],
-      "note": "This like no subject in these answers is a little weird. Like it, I don't like."
-    },
-    {
-      "key": "scene-talk.reply-tell.it-changes-what-i-have-to-think-about-next",
-      "id": "1.3",
-      "spans": [
-        {
-          "start": 0,
-          "end": 43,
-          "strength": -1
-        }
-      ],
-      "note": "That doesn't even make any sense."
-    },
-    {
-      "key": "scene-talk.state-tell.guess-who-won-the-office-race-winner",
-      "id": "2.3",
-      "spans": [
-        {
-          "start": 0,
-          "end": 42,
-          "strength": -0.75
-        }
-      ],
-      "note": "I don't have any context around this race."
-    },
-    {
       "key": "scene-talk.narrate-returns-mine.you-came-up-short-this-time",
       "id": "3.1",
       "spans": [
@@ -370,19 +329,6 @@
         }
       ],
       "note": "13.3, that's the second best."
-    },
-    {
-      "key": "scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race",
-      "id": "2.1",
-      "spans": [
-        {
-          "start": 0,
-          "end": 51,
-          "strength": -1
-        }
-      ],
-      "note": "An apology implies the listener was running; if you were running you wouldn't hear the result secondhand.",
-      "from": "the CTO's reading of his note (the reader missed it)"
     },
     {
       "key": "scene-talk.state-tell.i-won-the-office-race-first-i-still-can-t-quite-believe-it",

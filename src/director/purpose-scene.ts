@@ -9,6 +9,7 @@
  */
 import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { personLean } from "../core2/campaign-views";
+import { partyLean } from "../core2/campaign-stances";
 import { appointmentsIn } from "../core2/modules/executive";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
 import { meetingsOn } from "../core2/modules/interest-groups";
@@ -48,7 +49,12 @@ import {
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
-import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
+import {
+  lateSaid,
+  moneySaid,
+  monthsOfRentDays,
+  votesSaid,
+} from "../english/count-words";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
 import {
   NEWS_MODULE_ID,
@@ -1128,6 +1134,41 @@ function composeBinding(
   // winner the biggest share.
   if (record?.kind === "election-result" && said.contestId)
     Object.assign(facts, raceTurnoutFacts(core, said.contestId));
+  // How far ahead the winner finished, as people round it ("about 60
+  // votes"), for every count, and where the one who tells stands on the
+  // winner: their lean against the winner's party, from the views and the
+  // filing records (none when either sits at the middle).
+  if (record?.kind === "election-result" && said.totals && winner) {
+    const counts = Object.values(
+      JSON.parse(said.totals) as Record<string, number>,
+    ).sort((a, b) => b - a);
+    const ahead = (counts[P.zero] ?? P.zero) - (counts[P.one] ?? P.zero);
+    if (counts.length > P.one && ahead > P.zero && !facts.margin)
+      facts.margin = {
+        text: votesSaid(ahead),
+        sourceRecordIds: [moment.causeId],
+      };
+    if (said.contestId && core.modules.has(ELECTIONS_MODULE_ID)) {
+      const api = coreAPI(core as CoreState);
+      const filing = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .query("byContest", [said.contestId]) as unknown as {
+          id: string;
+          personId: string;
+          party?: string | null;
+        }[]
+      ).find((row) => row.personId === winner.id);
+      const party = partyLean(api, filing?.party)?.lean ?? P.zero;
+      const own = personLean(core.people, asker, P.zero);
+      if (filing && party !== P.zero && own !== P.zero)
+        facts[party * own > P.zero ? "bearer-with" : "bearer-against"] = {
+          text: "yes",
+          sourceRecordIds: [moment.causeId, filing.id, askerId],
+        };
+    }
+  }
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {

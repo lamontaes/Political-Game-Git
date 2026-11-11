@@ -1831,25 +1831,9 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
-    "scene-talk.reply-tell.i-ll-be-watching-what-they-do-with-it": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
     "scene-talk.reply-tell.im-a-little-apprehensive": {
       "good": 1,
       "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "scene-talk.reply-tell.it-changes-what-i-have-to-think-about-next": {
-      "good": 0,
-      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -2023,25 +2007,9 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
-    "scene-talk.state-tell.guess-who-won-the-office-race-winner": {
-      "good": 0,
-      "bad": 1,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
     "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w": {
       "good": 1,
       "bad": 0,
-      "fix": 0,
-      "sharedGood": 0,
-      "sharedBad": 0,
-      "sharedFix": 0
-    },
-    "scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race": {
-      "good": 0,
-      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
