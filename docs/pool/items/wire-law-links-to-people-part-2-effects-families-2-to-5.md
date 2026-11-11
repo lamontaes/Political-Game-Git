@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-wire-law-links-to-people-part-2-effects-families-2-to-5
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:24:58.576Z
+claimed-at:
 branch: claude/pool-wire-law-links-to-people-part-2-effects-families-2-to-5
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-wire-law-links-to-people-part-2-effects-families-2-to-5
 **Files.** docs/reports/effects-web-plan-2026-10-29.md, src/core2/data/outcome-web/unwired.json, scripts/outcome-web/effect-matrix.ts, src/core2/modules/outcome-web.ts
 
 **Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:24 UTC) on branch claude/pool-wire-law-links-to-people-part-2-effects-families-2-to-5.
+
+Released (2026-11-11): Most links lack a record, not a reader; findings per link on PR 8700. Continue on branch claude/pool-wire-law-links-to-people-part-2-effects-families-2-to-5.
