@@ -23,7 +23,7 @@ branch: claude/pool-laws-end-to-end-proof
 
 **What.** The owner keeps hearing that laws work, "from negotiation to its effects," without seeing it. This item is the laws lead's acceptance: one played life in a drawn place where the player proposes a law, negotiates for it by trade or favor on the record, and the bill passes or fails by the members' own reads of their lives and districts. If it passes, the law in force changes, one named person's money or life changes because an engine read it, that person learns of it from news they received, their view or choice moves with that news as the cited reason, and the director's scene and the journal say so. M3-04's "an enacted ordinance reaches specific named people" still has no test where the ordinance passes by the body's vote in a played world and is then followed to a named person: the existing law tests enact their laws with `enactLaw`, not a vote. The units for learning on the day a story is heard and for the held bill keeping the chair's reasons are on main; this is the proof test.
 
-**Cause.** Design: docs/work-orders/lead-laws-2026-10-24.md (the laws lead's acceptance, added by the CTO Oct 24) and the Oct 29 governing-lead note in this item's Notes: no test follows a voted ordinance to a named person. The proof test src/core2/laws-end-to-end.test.ts is not on main.
+**Cause.** Design: docs/archive/2026-10-23/work-orders/lead-laws-2026-10-24.md (the laws lead's acceptance, added by the CTO Oct 24) and the Oct 29 governing-lead note in this item's Notes: no test follows a voted ordinance to a named person. The proof test src/core2/laws-end-to-end.test.ts is not on main.
 
 **Fix.** Write src/core2/laws-end-to-end.test.ts: one year of `buildBenchWorld` with every module in a drawn place, a player's bill voted by members' reasons, followed by record id to a named person's money, the news they heard, their moved stance and the journal line, and a second drawn place where the bill fails and shows the members' reasons. Where a link of the chain breaks, file it as its own item and name it here. When it lands, add the test to the M3-04 command in docs/roadmap/features.json.
 
@@ -37,7 +37,7 @@ branch: claude/pool-laws-end-to-end-proof
 
 **Files.** src/core2/laws-end-to-end.test.ts (new), src/bench/path-check.ts, scripts/law-wiring/year.ts, docs/reports/law-wiring-2026-10-20.md, docs/roadmap/features.json, data/english/parts/journal.json, data/english/parts/scene-words.json
 
-**Notes.** Added Oct 24 by the CTO as the laws lead's acceptance (docs/work-orders/lead-laws-2026-10-24.md). Built last, once the families land; the lead may start it earlier on a stopgap and say so. Where a link of the chain breaks, file it as its own item and name it here.
+**Notes.** Added Oct 24 by the CTO as the laws lead's acceptance (docs/archive/2026-10-23/work-orders/lead-laws-2026-10-24.md). Built last, once the families land; the lead may start it earlier on a stopgap and say so. Where a link of the chain breaks, file it as its own item and name it here.
 
 In PR #5968 (laws lead, Oct 24). The done-when's screenshots line waits on the owner grading nine wording pieces; the lead moved it to `laws-end-to-end-screenshots` (blocked on that grading) and asked the CTO in the PR to accept the split.
 
