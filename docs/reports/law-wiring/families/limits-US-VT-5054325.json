@@ -18,7 +18,7 @@
       "lawIds": [
         "law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c",
         "law:US-VT:state:state-contribution-limit-governor:general:2025-01-01",
-        "law:US-VT:state:state-contribution-limit-governor:general:2026-01-22:law-wiring-d24ec12c-undo"
+        "law:US-VT:state:state-contribution-limit-governor:general:2025-02-26:law-wiring-d24ec12c-undo"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -63,13 +63,64 @@
         "sample": []
       },
       "readers": {
-        "src/core2/life.ts:573": 5
+        "src/core2/life.ts:552": 5
       },
       "openingRow": "law:US-VT:state:state-contribution-limit-governor:general:2025-01-01",
       "money": {
         "direct": [],
-        "diff": [],
-        "diffKinds": 0,
+        "diff": [
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 1126700,
+            "control": 1125600,
+            "ids": [
+              "journal:2025-01-23:857",
+              "journal:2025-01-23:858",
+              "journal:2025-01-23:861"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 289974,
+            "control": 289411,
+            "ids": [
+              "journal:2025-01-23:859",
+              "journal:2025-01-23:863",
+              "journal:2025-01-23:868"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 4016958,
+            "control": 4017258,
+            "ids": [
+              "journal:2025-02-01:1751",
+              "journal:2025-02-01:1754",
+              "journal:2025-02-01:1757"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 68025734,
+            "control": 68025874,
+            "ids": [
+              "journal:2025-02-01:1467",
+              "journal:2025-02-01:1468",
+              "journal:2025-02-01:1469"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 2411411,
+            "control": 2411433,
+            "ids": [
+              "journal:2025-02-01:1752",
+              "journal:2025-02-01:1753",
+              "journal:2025-02-01:1755"
+            ]
+          }
+        ],
+        "diffKinds": 5,
         "cited": [],
         "controlCited": [],
         "own": {
@@ -86,17 +137,13 @@
         "links": [],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 70,
-        "sample": [
-          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c",
-          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c",
-          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c"
-        ]
+        "people": 0,
+        "sample": []
       },
       "afterUndo": {
         "fullPeople": 0,
@@ -122,7 +169,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 66
+      "seconds": 15
     },
     {
       "key": "state-contribution-limit-state-senate",
@@ -133,7 +180,7 @@
       "lawIds": [
         "law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd",
         "law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-01",
-        "law:US-VT:state:state-contribution-limit-state-senate:general:2026-01-22:law-wiring-85f760cd-undo"
+        "law:US-VT:state:state-contribution-limit-state-senate:general:2025-02-26:law-wiring-85f760cd-undo"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -178,13 +225,64 @@
         "sample": []
       },
       "readers": {
-        "src/core2/life.ts:573": 5
+        "src/core2/life.ts:552": 5
       },
       "openingRow": "law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-01",
       "money": {
         "direct": [],
-        "diff": [],
-        "diffKinds": 0,
+        "diff": [
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 1126700,
+            "control": 1125600,
+            "ids": [
+              "journal:2025-01-23:857",
+              "journal:2025-01-23:858",
+              "journal:2025-01-23:861"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 289974,
+            "control": 289411,
+            "ids": [
+              "journal:2025-01-23:859",
+              "journal:2025-01-23:863",
+              "journal:2025-01-23:868"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 4016958,
+            "control": 4017258,
+            "ids": [
+              "journal:2025-02-01:1751",
+              "journal:2025-02-01:1754",
+              "journal:2025-02-01:1757"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 68025734,
+            "control": 68025874,
+            "ids": [
+              "journal:2025-02-01:1467",
+              "journal:2025-02-01:1468",
+              "journal:2025-02-01:1469"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 2411411,
+            "control": 2411433,
+            "ids": [
+              "journal:2025-02-01:1752",
+              "journal:2025-02-01:1753",
+              "journal:2025-02-01:1755"
+            ]
+          }
+        ],
+        "diffKinds": 5,
         "cited": [],
         "controlCited": [],
         "own": {
@@ -201,17 +299,13 @@
         "links": [],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 70,
-        "sample": [
-          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd",
-          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd",
-          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd"
-        ]
+        "people": 0,
+        "sample": []
       },
       "afterUndo": {
         "fullPeople": 0,
@@ -237,7 +331,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 70
+      "seconds": 14
     },
     {
       "key": "state-contribution-limit-state-house",
@@ -248,7 +342,7 @@
       "lawIds": [
         "law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246",
         "law:US-VT:state:state-contribution-limit-state-house:general:2025-01-01",
-        "law:US-VT:state:state-contribution-limit-state-house:general:2026-01-22:law-wiring-741c0246-undo"
+        "law:US-VT:state:state-contribution-limit-state-house:general:2025-02-26:law-wiring-741c0246-undo"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -293,13 +387,64 @@
         "sample": []
       },
       "readers": {
-        "src/core2/life.ts:573": 5
+        "src/core2/life.ts:552": 5
       },
       "openingRow": "law:US-VT:state:state-contribution-limit-state-house:general:2025-01-01",
       "money": {
         "direct": [],
-        "diff": [],
-        "diffKinds": 0,
+        "diff": [
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 1126700,
+            "control": 1125600,
+            "ids": [
+              "journal:2025-01-23:857",
+              "journal:2025-01-23:858",
+              "journal:2025-01-23:861"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 289974,
+            "control": 289411,
+            "ids": [
+              "journal:2025-01-23:859",
+              "journal:2025-01-23:863",
+              "journal:2025-01-23:868"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 4016958,
+            "control": 4017258,
+            "ids": [
+              "journal:2025-02-01:1751",
+              "journal:2025-02-01:1754",
+              "journal:2025-02-01:1757"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 68025734,
+            "control": 68025874,
+            "ids": [
+              "journal:2025-02-01:1467",
+              "journal:2025-02-01:1468",
+              "journal:2025-02-01:1469"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 2411411,
+            "control": 2411433,
+            "ids": [
+              "journal:2025-02-01:1752",
+              "journal:2025-02-01:1753",
+              "journal:2025-02-01:1755"
+            ]
+          }
+        ],
+        "diffKinds": 5,
         "cited": [],
         "controlCited": [],
         "own": {
@@ -316,17 +461,13 @@
         "links": [],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 70,
-        "sample": [
-          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246",
-          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246",
-          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246"
-        ]
+        "people": 0,
+        "sample": []
       },
       "afterUndo": {
         "fullPeople": 0,
@@ -352,7 +493,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 68
+      "seconds": 14
     },
     {
       "key": "state-contribution-limit-local",
@@ -363,7 +504,7 @@
       "lawIds": [
         "law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d",
         "law:US-VT:state:state-contribution-limit-local:general:2025-01-01",
-        "law:US-VT:state:state-contribution-limit-local:general:2026-01-22:law-wiring-5f05fd0d-undo"
+        "law:US-VT:state:state-contribution-limit-local:general:2025-02-26:law-wiring-5f05fd0d-undo"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -408,14 +549,86 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/campaigns.ts:2886": 562,
-        "src/core2/life.ts:573": 5
+        "src/core2/modules/campaigns.ts:2940": 252,
+        "src/core2/life.ts:552": 5
       },
       "openingRow": "law:US-VT:state:state-contribution-limit-local:general:2025-01-01",
       "money": {
-        "direct": [],
-        "diff": [],
-        "diffKinds": 0,
+        "direct": [
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 1126700,
+            "control": 1125600,
+            "ids": [
+              "journal:2025-01-23:857",
+              "journal:2025-01-23:858",
+              "journal:2025-01-23:861"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 289974,
+            "control": 289411,
+            "ids": [
+              "journal:2025-01-23:859",
+              "journal:2025-01-23:863",
+              "journal:2025-01-23:868"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 1126700,
+            "control": 1125600,
+            "ids": [
+              "journal:2025-01-23:857",
+              "journal:2025-01-23:858",
+              "journal:2025-01-23:861"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:3746",
+            "treatment": 289974,
+            "control": 289411,
+            "ids": [
+              "journal:2025-01-23:859",
+              "journal:2025-01-23:863",
+              "journal:2025-01-23:868"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 4016958,
+            "control": 4017258,
+            "ids": [
+              "journal:2025-02-01:1751",
+              "journal:2025-02-01:1754",
+              "journal:2025-02-01:1757"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 68025734,
+            "control": 68025874,
+            "ids": [
+              "journal:2025-02-01:1467",
+              "journal:2025-02-01:1468",
+              "journal:2025-02-01:1469"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 2411411,
+            "control": 2411433,
+            "ids": [
+              "journal:2025-02-01:1752",
+              "journal:2025-02-01:1753",
+              "journal:2025-02-01:1755"
+            ]
+          }
+        ],
+        "diffKinds": 5,
         "cited": [],
         "controlCited": [],
         "own": {
@@ -432,17 +645,13 @@
         "links": [],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 70,
-        "sample": [
-          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d",
-          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d",
-          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d"
-        ]
+        "people": 0,
+        "sample": []
       },
       "afterUndo": {
         "fullPeople": 0,
@@ -468,7 +677,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 73
+      "seconds": 14
     }
   ]
 }
