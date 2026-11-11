@@ -186,6 +186,37 @@ it(`the President's address says different sentences, with its own world's names
       }
     }
 
+    // The Vice President is not praised twice in the same words: two
+    // sentences that name them share no run of four words.
+    const runs = (text: string) => {
+      const words = text
+        .toLowerCase()
+        .replace(/[^a-z' ]/g, " ")
+        .split(/\s+/)
+        .filter(Boolean);
+      return new Set(
+        words.slice(0, -3).map((_, at) => words.slice(at, at + 4).join(" ")),
+      );
+    };
+    for (const { where, address } of addresses) {
+      const vp = address.sentences.filter(
+        (row) => row.values["vice-president"],
+      );
+      for (const [at, one] of vp.entries())
+        for (const other of vp.slice(at + 1)) {
+          const name = one.values["vice-president"]!.toLowerCase();
+          const shared = [...runs(one.text)].filter(
+            (run) =>
+              !run.includes(name.split(" ")[0]!) &&
+              !run.includes(name.split(" ").at(-1)!) &&
+              runs(other.text).has(run),
+          );
+          expect(shared, `${where}: "${one.text}" and "${other.text}"`).toEqual(
+            [],
+          );
+        }
+    }
+
     // At least two names from each world.
     for (const { where, address } of addresses) {
       const named = new Set(

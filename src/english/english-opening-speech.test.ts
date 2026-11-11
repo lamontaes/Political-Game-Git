@@ -135,6 +135,22 @@ describe("the opening address's pieces", () => {
       );
   });
 
+  it("put the year's trouble only where a trouble fits", () => {
+    // The words lead's third read (Nov 11): "A shrinking paycheck is next on
+    // the list, and I think we're ready for it." (next is the work, not the
+    // trouble) and "the ones still stuck on inflation" (nobody is stuck on it).
+    const misfits = [
+      /(?<!fixing )\{hardest\} is next\b/i,
+      /\bready for \{hardest\}/i,
+      /\bstuck on \{hardest\}/i,
+      /\bthe list is \{hardest\}/i,
+      /\{hardest\} is the work\b/i,
+    ];
+    for (const part of OPENING_SPEECH_BANK.parts)
+      for (const misfit of misfits)
+        expect(part.text, part.key).not.toMatch(misfit);
+  });
+
   it("require, for every slot, the fact that fills it", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
       const slots = [...part.text.matchAll(/\{([\w-]+)\}/g)].map(

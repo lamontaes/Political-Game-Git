@@ -16664,7 +16664,7 @@
       "key": "opening-speech.oath.plain-ina-policy-core-that-oath-is-a-job-and-the-first-thing",
       "move": "oath",
       "kind": "spoken",
-      "text": "that oath is a job, and the first thing on the list is {hardest}.",
+      "text": "that oath is a job, and the first thing on the list is fixing {hardest}.",
       "uses": [
         {
           "move": "oath",
@@ -23794,10 +23794,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.story-turn.plain-ina-sta-hopeful-core-hardest-is-next-on-the-list-and-i-think",
+      "key": "opening-speech.story-turn.plain-ina-sta-hopeful-core-fixing-hardest-is-next-on-the-list-and-i",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "{hardest} is next on the list, and I think we're ready for it.",
+      "text": "fixing {hardest} is next on the list, and I think we're ready for it.",
       "uses": [
         {
           "move": "story-turn",
@@ -23992,10 +23992,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.story-turn.polished-ina-sta-victory-core-hardest-is-the-work-we-have-not-finished-and",
+      "key": "opening-speech.story-turn.polished-ina-sta-victory-core-hardest-is-the-problem-we-have-not-solved-and",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "{hardest} is the work we have not finished, and I intend to finish it.",
+      "text": "{hardest} is the problem we have not solved, and I intend to solve it.",
       "uses": [
         {
           "move": "story-turn",
@@ -24025,10 +24025,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.story-turn.plain-ina-sta-victory-core-we-got-it-done-on-best-and-hardest-is",
+      "key": "opening-speech.story-turn.plain-ina-sta-victory-core-we-got-it-done-on-best-and-fixing-hardest",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "we got it done on {best}, and {hardest} is next.",
+      "text": "we got it done on {best}, and fixing {hardest} is next.",
       "uses": [
         {
           "move": "story-turn",
@@ -40146,10 +40146,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "opening-speech.families.plain-ina-sta-all-core-if-your-family-s-still-stuck-on-hardest-i",
+      "key": "opening-speech.families.plain-ina-sta-all-core-if-hardest-is-still-squeezing-your-family-i-want",
       "move": "families",
       "kind": "spoken",
-      "text": "if your family's still stuck on {hardest}, I want to hear it.",
+      "text": "if {hardest} is still squeezing your family, I want to hear it.",
       "uses": [
         {
           "move": "families",
@@ -56300,7 +56300,7 @@
       "key": "opening-speech.salutation.plain-ina-hopeful-core-i-ve-got-vice-president-vice-president-working-with",
       "move": "salutation",
       "kind": "spoken",
-      "text": "I've got Vice President {vice-president} working with me, and I couldn't ask for better.",
+      "text": "I've got Vice President {vice-president} working with me, and I'm glad of it.",
       "uses": [
         {
           "move": "salutation",
@@ -59136,7 +59136,7 @@
       "key": "opening-speech.story-turn.plain-ina-sta-hopeful-core-the-folks-i-worry-about-most-are-the-ones",
       "move": "story-turn",
       "kind": "spoken",
-      "text": "the folks I worry about most are the ones still stuck on {hardest}.",
+      "text": "the folks I worry about most are the ones still hit hardest by {hardest}.",
       "uses": [
         {
           "move": "story-turn",
