@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-government-staffing-ward-charter-no-employer
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,8 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T09:23:13.626Z
+branch: claude/pool-tests-government-staffing-ward-charter-no-employer
 ---
 
 **What.** src/core2/law-wiring-government.test.ts fails on seed 446eaae155bdacc270446225a696c32454dda4b0 at its fifth attempt, the ward-charter fallback place 3050200: administration staffing applied to an employer, expected more than 0 and got 0. The first four drawn places had at-large councils, so the test fell back to a charter town with ward seats. Whether the town has no administration employer to staff, or the staffing reach misses one it has, is not yet known. Guards: a raised administration staffing line pays an employer in a ward-charter town, on the budget the player reads.
@@ -40,3 +42,21 @@ checked: fable 2026-11-10
 **Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/law-wiring-government.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=446eaae155bdacc270446225a696c32454dda4b0. Still red. First failing assertion as printed: `AssertionError: seed 446eaae155bdacc270446225a696c32454dda4b0, ward charter 3050200 (3050200), attempt 4: someone hired on the raised administration line: expected 0 to be greater than 0` at src/core2/law-wiring-government.test.ts:334.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): the staffing reach did reach an employer (staff-funded, 3 positions); the hire is missing only because the test looks before the opening's vacancy wait ends. The first four draws for this seed have at-large councils, so this seed always lands on the ward-charter fallback and always hits the short horizon.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:06 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause does not hold: with the item's fix (play on weekly to 63 days after the change) the ward-charter draw still has no hired-on-budget-line row at day 63 on seed 446eaae155bdacc270446225a696c32454dda4b0 (place 3050200) and on fresh seeds a1b2c3d4e5f60718 (3314200) and 9f8e7d6c5b4a3921 (1825000); on the last the organization staffing row is missing too, so the reach itself misses an employer. Needs a new cause find. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:16 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause does not hold: weekly play to 63 days after the change still leaves no hired-on-budget-line row on seeds 446eaae155bdacc270446225a696c32454dda4b0 (place 3050200), a1b2c3d4e5f60718 (3314200), 9f8e7d6c5b4a3921 (1825000); on the last the organization staffing row is missing too. Test change reverted; needs a new cause find. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 09:16 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): Cause does not hold (see earlier release note: no hire after 63 days on three seeds); needs a new cause find, not another build attempt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:21 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Released (2026-11-11): The Cause does not hold (three releases say so); rewritten as Needs cause on pool/notes-2026-11-11-10 (31523b368aa9), not rebuilt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:23 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
