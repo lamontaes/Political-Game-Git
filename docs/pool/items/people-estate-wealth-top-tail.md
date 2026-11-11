@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/pool-people-estate-wealth-top-tail
-pr: #0
+pr: #8698
 blocked-on:
 source: added with npm run pool -- add
 after:
