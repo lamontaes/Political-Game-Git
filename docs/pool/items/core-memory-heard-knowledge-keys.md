@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-core-memory-heard-knowledge-keys
-pr:
+pr: #8413
 after:
 blocked-on:
 model: opus
