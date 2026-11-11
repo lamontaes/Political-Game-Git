@@ -5,9 +5,9 @@ area: docs
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-release-audit-19-stale-text
-pr:
+pr: #8575
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T04:39:50.360Z

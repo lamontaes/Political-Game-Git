@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-reach-rows-stale-as-people-age
-pr: #5403
+pr: #8576
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T04:41:52.247Z

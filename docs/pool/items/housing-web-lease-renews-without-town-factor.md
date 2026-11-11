@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-housing-web-lease-renews-without-town-factor
-pr:
+pr: #8565
 after:
 blocked-on:
 lead: laws

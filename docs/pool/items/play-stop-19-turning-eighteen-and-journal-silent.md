@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-stop-19-turning-eighteen-and-journal-silent
-pr:
+pr: #8612
 after:
 blocked-on:
 standard: 2
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T00:59:42.244Z
+claimed-at: 2026-11-11T05:11:01.101Z
 branch: claude/pool-play-stop-19-turning-eighteen-and-journal-silent
 ---
 
@@ -53,3 +53,7 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-11): Replayed birthday on Calendar and journal in two places (details on #7179); pool seen needs status merged; filing line not replayed. Continue on branch claude/pool-play-stop-19-turning-eighteen-and-journal-silent.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 00:59 UTC) on branch claude/pool-play-stop-19-turning-eighteen-and-journal-silent.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-19-turning-eighteen-and-journal-silent since 2026-11-11 00:41 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-19-turning-eighteen-and-journal-silent.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:10 UTC) on branch claude/pool-play-stop-19-turning-eighteen-and-journal-silent.
