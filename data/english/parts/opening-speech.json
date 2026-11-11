@@ -13908,6 +13908,138 @@
       "date": "2026-11-11"
     },
     {
+      "key": "opening-speech.occasion.polished-ina-sta-policy-core-the-first-task-before-us-is-to-deal-with-hardest",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "the first task before us is to deal with {hardest}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-sta-policy-core-let-me-start-where-most-families-start-with-hardest",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "let me start where most families start, with {hardest}.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-sta-policy-core-i-came-here-to-deal-with-hardest-and-to-do",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I came here to deal with {hardest}, and to do it this year.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.polished-ina-sta-policy-core-tonight-i-want-to-talk-about-hardest-and-what-we",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "tonight I want to talk about {hardest}, and what we do about it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
       "key": "opening-speech.occasion.polished-ina-sta-policy-core-this-is-a-working-moment-and-i-mean-to",
       "move": "occasion",
       "kind": "spoken",
@@ -14671,6 +14803,138 @@
       "move": "occasion",
       "kind": "spoken",
       "text": "I'm here to lay out the work, starting with {hardest}, and to tell you what each step is going to take.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-sta-policy-core-first-thing-on-my-mind-is-hardest-and-i-m",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "first thing on my mind is {hardest}, and I'm not going to sit on it.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-sta-policy-core-i-m-here-to-do-something-about-hardest-starting-this",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I'm here to do something about {hardest}, starting this year.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-sta-policy-core-let-s-start-with-hardest-since-that-s-where-it",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "let's start with {hardest}, since that's where it hurts.",
+      "uses": [
+        {
+          "move": "occasion",
+          "subject": "inaugural",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        },
+        {
+          "move": "occasion",
+          "subject": "state-of-the-union",
+          "role": "occasion",
+          "choice": "occasion",
+          "requiresFacts": ["hardest"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-occasion",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.occasion.plain-ina-sta-policy-core-i-want-to-start-with-hardest-because-that-s-what",
+      "move": "occasion",
+      "kind": "spoken",
+      "text": "I want to start with {hardest}, because that's what folks ask me about.",
       "uses": [
         {
           "move": "occasion",
@@ -20291,6 +20555,105 @@
       "date": "2026-11-11"
     },
     {
+      "key": "opening-speech.creed.polished-ina-sta-policy-core-the-gains-on-best-came-from-people-not-programs-and",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "the gains on {best} came from people, not programs, and I mean to keep it that way.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-policy-core-on-best-the-right-course-is-a-lighter-hand-and",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "on {best}, the right course is a lighter hand and a smaller bill.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-policy-core-we-keep-best-going-by-trusting-the-people-who-earned",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "we keep {best} going by trusting the people who earned it, not by taxing them more.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
       "key": "opening-speech.creed.polished-ina-sta-policy-core-the-measure-i-use-one-i-took-from-home",
       "move": "creed",
       "kind": "spoken",
@@ -20328,6 +20691,72 @@
       "move": "creed",
       "kind": "spoken",
       "text": "we should build on {best} by making sure the gains reach every working family, not only those already doing well.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-policy-core-on-best-the-work-now-is-to-share-the-gains",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "on {best}, the work now is to share the gains fairly.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-policy-core-the-gains-on-best-mean-little-until-they-reach-the",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "the gains on {best} mean little until they reach the families who earned them.",
       "uses": [
         {
           "move": "creed",
@@ -20555,6 +20984,105 @@
       "date": "2026-11-11"
     },
     {
+      "key": "opening-speech.creed.plain-ina-sta-policy-core-we-don-t-fix-what-s-working-on-best-with",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "we don't fix what's working on {best} with a new tax.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-policy-core-on-best-i-ll-keep-taxes-down-and-let-it",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "on {best}, I'll keep taxes down and let it keep going.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-policy-core-the-good-news-on-best-came-from-folks-working-not",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "the good news on {best} came from folks working, not from Washington.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican", "best"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
       "key": "opening-speech.creed.plain-ina-sta-policy-core-any-plan-on-hardest-has-to-answer-one-question",
       "move": "creed",
       "kind": "spoken",
@@ -20592,6 +21120,72 @@
       "move": "creed",
       "kind": "spoken",
       "text": "we build on {best} by making sure everybody gets a share, not just the people already at the top.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-policy-core-on-best-let-s-make-sure-working-folks-get-their",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "on {best}, let's make sure working folks get their cut.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-democratic", "best"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "addressKind": "policy",
+      "piece": {
+        "of": "opening-creed",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder, opening address versions)",
+      "date": "2026-11-11"
+    },
+    {
+      "key": "opening-speech.creed.plain-ina-sta-policy-core-good-news-on-best-ought-to-show-up-in-every",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "good news on {best} ought to show up in every paycheck, not just a few.",
       "uses": [
         {
           "move": "creed",
