@@ -3,4 +3,4 @@ id: tests-law-wiring-labor-one-subject-per-test
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The labor-law wiring test now runs one test per law group, each drawing a world with only its own subject; no player-facing change.
