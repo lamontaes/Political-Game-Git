@@ -418,18 +418,36 @@ function householdMoments(
     ),
   );
   const grown = addDays(bornOn, Math.round(P.votingAge * P.daysPerMeanYear));
-  for (const id of parents)
-    for (const row of pastWorkOf(core as CoreState, id as PersonId)) {
-      if (row.kind !== PAST_WORK_SPELL) continue;
-      const startedAt = String(row.facts.startedAt);
-      if (startedAt < remembers || startedAt >= grown) continue;
-      moments.push({
-        ...base(row.id, startedAt),
-        causeKind: "household:moment:parent-new-job",
-        counterpartIds: [id as PersonId],
-        beat: "work",
-      });
-    }
+  // One line a parent: their latest new job in those years, and none when it is the job the
+  // livelihood line below already tells (a moment that adds nothing beyond a line already in the
+  // paragraph is not told; owner, Nov 9 audit: "one thing three times").
+  for (const id of parents) {
+    const spells = pastWorkOf(core as CoreState, id as PersonId)
+      .filter((row) => row.kind === PAST_WORK_SPELL)
+      .filter((row) => {
+        const startedAt = String(row.facts.startedAt);
+        return startedAt >= remembers && startedAt < grown;
+      })
+      .sort((a, b) =>
+        String(a.facts.startedAt).localeCompare(String(b.facts.startedAt)),
+      );
+    const latest = spells.at(-one);
+    if (!latest) continue;
+    const parent = core.people.get(id as PersonId);
+    const heldJob = parent?.jobId ? core.jobs.get(parent.jobId) : undefined;
+    if (
+      heldJob &&
+      latest.facts.organizationId !== undefined &&
+      heldJob.organizationId === latest.facts.organizationId
+    )
+      continue;
+    moments.push({
+      ...base(latest.id, String(latest.facts.startedAt)),
+      causeKind: "household:moment:parent-new-job",
+      counterpartIds: [id as PersonId],
+      beat: "work",
+    });
+  }
   // The first school they attended, and the high school when it was another
   // school, told by the school's own record ("When I was 5, I started at
   // ..."); a school with no record of its own goes unnamed and untold.
