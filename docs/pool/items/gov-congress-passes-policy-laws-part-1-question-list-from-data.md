@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-gov-congress-passes-policy-laws-part-1-question-list-from-data
 pr: #8380
