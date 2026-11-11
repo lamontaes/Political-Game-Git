@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-outcome-causes-housing-disaster-justice
 pr:
 blocked-on:
 source: "split from core-outcome-causes-recorded, Oct 19"
-claimed-at:
+claimed-at: 2026-11-11T06:25:31.474Z
 after:
 standard: 2
 model: sonnet
@@ -42,3 +42,5 @@ branch: claude/pool-outcome-causes-housing-disaster-justice
 Released (2026-11-11): 8-hour item adding three new cause measures and kept outcomes across the disaster, justice and school engines; not started. Continue on branch claude/pool-outcome-causes-housing-disaster-justice.
 
 Released (2026-11-11): second read: each of the three links needs a new thing, not a map entry: release-lower-level-to-larceny has no law in the bill catalog to be its cause (no low-level-offense reclassification policy exists among the justice-public-safety questions), heat-to-learning needs school.learning and school.ac-share kept (neither is in outcome-web.json), disaster-to-public-transfers needs gov.nondisaster-transfers kept; crime.property is already kept; 8 hours across three engines. Continue on branch claude/pool-outcome-causes-housing-disaster-justice.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-outcome-causes-housing-disaster-justice.
