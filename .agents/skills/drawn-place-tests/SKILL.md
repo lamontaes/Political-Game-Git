@@ -30,6 +30,13 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
 
+## Before you call a red a flake
+
+Replay it. A check that failed once and passed on a second draw has told you nothing yet: run it again on the failed seed (`BENCH_SEED` for a browser check). If it fails every time on that seed, it is a finding about that place. On Nov 11 the merge desk saw `bill-stage` time out once in Red Hook, U.S. Virgin Islands. On replay it failed every time, and showed three defects: Play as offered another place's council, a bill's page cut off its vote, and a heading stood with nothing under it.
+
+- **A check that steps in as an official picks one whose office the played place runs.** A match on a word in the list ("council") found another place's council, whose office is held as results only. Match the body by its government, never by a word in a name.
+- **A check never drafts around a missing case.** One that fell back to "the first subject" when none had a law in force went on and failed two minutes later, somewhere else. Fail by name at the point the case is missing, with the seed and what was passed over.
+
 ## Before you call a red "the game's"
 
 Print what the place holds before blaming an engine: every candidate for the case (each race with the day its filing opens, each resident the law covers) and why each was refused. Ten lines of probe settled each of the Nov 10 reds in a few minutes. If the place's own calendar or size is the reason, the test is wrong; if a rule refused something it should not, the game is, and that is an item with the record ids.

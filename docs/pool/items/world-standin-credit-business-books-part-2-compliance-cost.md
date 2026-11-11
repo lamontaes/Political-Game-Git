@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/business.ts, src/core2/data/business/parameters.json, src/core2/data/business/pace-abatement.json (new), src/core2/data/stopgaps/world.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced compliance cost per industry from Census PACE; no player sees it.
