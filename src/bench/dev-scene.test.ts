@@ -32,6 +32,15 @@ describe(`dev scenes: ${where}`, () => {
       process.stderr.write(
         `${where}: ${scenes.length} types: ${by("death").length} death, ${by("layoff").length} layoff, ${by("wait").length} run-until-it-happens, ${by(null).length} no engine writes the cause\n`,
       );
+      // The Scenes panel's three headings, from the same rows: what dev mode can do for each kind.
+      const state = (name: string) =>
+        scenes.filter((row) => row.state === name).length;
+      process.stderr.write(
+        `${where}: plays now ${state("plays")}, waits for a record ${state("waits")}, cannot be caused ${state("none")}\n`,
+      );
+      expect(state("plays") + state("waits") + state("none"), where).toBe(
+        scenes.length,
+      );
       expect(scenes.length, where).toBeGreaterThan(50);
       expect(by("death").length, where).toBeGreaterThan(0);
       expect(by("layoff").length, where).toBeGreaterThan(0);
