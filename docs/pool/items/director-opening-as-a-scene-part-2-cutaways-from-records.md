@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Part 1 (director-opening-as-a-scene-part-1-find-what-is-left) for the list of what is left.
 
 **Files.** src/bench/montage.ts, src/bench/data/opening-montage.json, src/bench/story.ts
+
+Nov 11 (CTO): dropped, as part 1 (#8361, merged) recommends. The topic table, the stock-room choice and the opening's castOf are already deleted, and the owner's Oct 29 montage ruling replaced record cutaways, so building this Fix would undo a ratified design.
