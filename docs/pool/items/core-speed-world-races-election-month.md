@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-speed-world-races-election-month
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:05:41.551Z
 ---
 
 **What.** In Bedford, Wyoming (key 5606045, seed 9a4dd331ace7), the month that ends on election day 2026 took 17.0 s against 2.3 s for an ordinary month. Profiled on Oct 25, 7.75 s of that growth is `decide` in src/core2/modules/voting.ts: 582 races elsewhere decided that month (438 House, 34 Senate, 35 governors, 75 state legislative), 5,138 places in all, each place counted coarsely in src/core2/electorate.ts with coarseSampleVoters (400, TUNABLE) of the town's counted adults standing for its voters. The cost is the same for every town, so a small town's election month is mostly other places' races. That profile predates core-speed-voting-sample-once (#6966) and core-speed-gc-other-places-count, so re-measure first. This item also takes the two leftovers of core-speed-campaign-season-kept-whys: keep a campaign cause row (keepCause) only for the player's own races, and make keepWeighing find its record id without trying suffixes (9.5 s in Sarasota's third year). Seen: the game running; an election-year month in a small town takes seconds, not seventeen, so a country's year stays under two minutes.
