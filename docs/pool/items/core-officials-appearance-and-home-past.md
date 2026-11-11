@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-officials-appearance-and-home-past
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: CTO opening root-cause report, Oct 27
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:54:01.399Z
 ---
 
 **What.** An official is filled in with a stored look now (src/core2/state.ts `lookOf`, line 2616, used at line 2747), so the appearance part of this item is already fixed on main. Two parts remain. First, the inauguration record (src/core2/modules/offices.ts, id `inauguration:<date>`, line 851) has the player's town as its place, so nothing says where the oath was taken. Second, national officials are filled in at the player's state, so the President from Wyoming went to school in Iowa (Representative Saunders, official:term:seat:US-IA:us-house:01:2025-01-20, Iowa City, seed 28c0b8150290 was the example). Evidence: docs/reports/opening-root-cause-2026-10-27.md.
