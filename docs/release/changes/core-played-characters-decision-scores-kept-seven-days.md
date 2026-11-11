@@ -3,4 +3,4 @@ id: core-played-characters-decision-scores-kept-seven-days
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A character you play now keeps the scores behind their choices for as long as the entrant's are kept, so looking back at last month's choices still shows why.
