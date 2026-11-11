@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-housing-apartment-gate-too-narrow
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:17:31.774Z
 branch: claude/pool-tests-housing-apartment-gate-too-narrow
 ---
 
