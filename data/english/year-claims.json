@@ -1,0 +1,21 @@
+{
+  "about": "What the President's address said about the country's year, as a hearer names it afterward: one noun phrase per claim the opening story's address can make (the claim facts of countryFacts in src/director/opening-story.ts), read after \"about\" or \"on\" (\"The President brought up {about}.\"). A claim with no name here is not raised as a point. Authored to the English engine's patterns, like data/english/question-names.json.",
+  "origin": "authored",
+  "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+  "date": "2026-11-11",
+  "claims": {
+    "prices-high": { "about": "prices as high as they are" },
+    "prices-up": { "about": "prices still going up" },
+    "inflation-up": { "about": "prices rising faster" },
+    "inflation-down": { "about": "prices settling down" },
+    "unemployment-up": { "about": "work getting harder to find" },
+    "unemployment-down": { "about": "more people finding work" },
+    "jobs-up": { "about": "the jobs that were added" },
+    "wages-up": { "about": "paychecks going up" },
+    "wages-ahead-of-prices": { "about": "pay getting ahead of prices" },
+    "wages-behind-prices": { "about": "pay falling behind prices" },
+    "growth-up": { "about": "the economy growing" },
+    "mortgage-up": { "about": "mortgage rates going up" },
+    "mortgage-down": { "about": "mortgage rates coming down" }
+  }
+}

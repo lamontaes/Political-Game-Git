@@ -80,7 +80,7 @@ import { lastVoteOn, recordVote } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
-import { bribePull } from "./corruption";
+import { bribePull, registerBribeScope } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
@@ -6543,6 +6543,30 @@ export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
     )
     .sort((a, b) => a.id.localeCompare(b.id));
 }
+
+/**
+ * A bribe for a bill's vote can only go to someone who has a say on it: a member of a chamber it
+ * passes through, or the executive who signs it. Read from the bill's own body, never a named place.
+ */
+registerBribeScope((api, subjectId, officialId) => {
+  if (
+    !subjectId.startsWith("bill:") ||
+    !api.state.modules.has(LEGISLATURE_MODULE_ID)
+  )
+    return null;
+  const bill = table(api, "bills").get(subjectId) as unknown as
+    BillRow | undefined;
+  if (!bill) return null;
+  const deciders = new Set<string>();
+  for (const chamber of chambersOf(api, bill))
+    for (const term of members(api, chamber))
+      if (term.personId) deciders.add(term.personId);
+  const signer = executiveOf(api, bill.bodyOfficeId).term?.personId;
+  if (signer) deciders.add(signer);
+  return deciders.has(officialId)
+    ? null
+    : "That official has no vote or signature on this bill, so there is nothing to buy from them.";
+});
 
 export function billOf(api: CoreAPI, billId: string): BillRow {
   return table(api, "bills").get(billId) as unknown as BillRow;
