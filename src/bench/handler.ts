@@ -22,7 +22,9 @@ import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { nationStories } from "./nation-news";
 import {
+  answerAsk,
   campaignAct,
+  donationAsksView,
   campaignDay,
   campaignView,
   debateAnswer,
@@ -1702,6 +1704,31 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/campaign/asks",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(200, donationAsksView(requireCore(), state.player.personId));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/campaign/asks/answer",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        answerAsk(requireCore(), state.player.personId, {
+          askId: url.searchParams.get("askId") ?? "",
+          answer: url.searchParams.get("answer") ?? "",
+          amountMinor: Number(url.searchParams.get("amountMinor")) || undefined,
+        }),
+      );
       return;
     },
   },
