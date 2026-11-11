@@ -5,10 +5,10 @@ area: director
 kind: research
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: pool/director-opening-as-a-scene-part-1-find-what-is-left
+pr: #8361
 after:
 blocked-on:
 lead: director
@@ -17,6 +17,8 @@ effort: medium
 root: design-director-on-core2
 source: split from director-opening-as-a-scene in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:05:25.248Z
+branch: pool/director-opening-as-a-scene-part-1-find-what-is-left
 ---
 
 **What.** The opening still runs on its own path in `src/director/opening-story.ts`, but nobody has listed which of its stages, casts and pictures are private and which the director already serves. This item makes that list, with file and function for each, so the two build parts can be written against it. It builds nothing. Feeds: director-opening-as-a-scene-part-3-one-situation-row.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/director/opening-story.ts, src/director/data/opening-story.json, src/bench/opening.ts
+
+**Notes.** Claimed by next for muse-8740 (Muse Spark in Muse Code, tier mid) (2026-11-11 00:05 UTC) on branch pool/director-opening-as-a-scene-part-1-find-what-is-left.

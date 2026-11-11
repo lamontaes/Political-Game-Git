@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/voting.test.ts, src/core2/modules/elections.ts
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=0534540 GOLDEN_PATH_SEED=8204cf02...df76 npx vitest run src/core2/voting.test.ts`: the test passes (exit 0) and still prints "M2-07: ... passed over 0534540 (no race two residents could file for within 60 weeks); ran in 3354740 after waiting 14 weeks". So Ivan still has no fileable race in 60 weeks. Fresh draw `GOLDEN_PATH_SEED=27cdd13a2420118b`: green, ran in 3466390 after 3 weeks, none skipped. Green test; the behavior in Ivan reproduces.

@@ -37,4 +37,6 @@ checked: fable 2026-11-10
 
 **Notes.** Found Nov 1 by the governing lead's review of governing/traits-endorsements-heard (head ed93f41c81): with the named seed the endorsement case passes and this case fails; it fails the same way on main. Read: OWNER-DECISIONS (no dice), searched docs/pool/items for candidacy.run, running for office and Cruz Bay: no match. The giving ratio in Lyndon Center, Vermont is traits-donate-reasons-too-flat-in-some-towns.
 
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/core2/modules/campaigns.traits.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=a4eca5af1791dc3df7527d94791fb774b3fcdd52: 9 of 9 passed. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-<random> (number not kept): 9 of 9 passed. Green on both. Proposed for the CTO: drop as fixed on main.
+
 Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would loosen or fix a test ceiling on an odds ratio of who runs; the ratio is a calibration check no player sees.

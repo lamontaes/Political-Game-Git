@@ -17,11 +17,13 @@ effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-words-director-one-path-part-1-filing-scene-situation-type
 ---
 
 **What.** Part of words-director-one-path. The filing counter is played by a bespoke visit while the scheduled `filing` scene cannot be worded, so the same filing has two paths. Move the visit into the one scene path and delete the duplicate. The counter's where, the clerk and the after-filing line must come from the filing and petition records. Seen: the filing counter scene, where the clerk and the after-filing line come from the filing record (golden path: file for office).
 
-**Cause.** Design: docs/reports/words-director-plan-2026-10-28.md (owner approved Oct 28, 2:10 PM), sections 1 and 3: two bespoke visits sit beside their situation types; src/director/filing-visit.ts still carries the filing visit while the scheduled `filing` type (src/director/data/situation-types.json) cannot be worded by purposeScene.
+**Cause.** Needs cause. Checked Nov 11 by opus-5251: the after-filing talk is already the scheduled filing scene (src/director/filing-visit.ts header; purpose-scene.ts `petitionFacts`), the two items this took in are dropped, and what remains is SG-WORDS-filing-counter-prompts (the talk before filing), kept as the player's action screen by the CTO on Nov 1, 16:05. Its replacement, a scene caused by arriving at the filing office, needs a new design from the Words line. The earlier text: Design: docs/reports/words-director-plan-2026-10-28.md (owner approved Oct 28, 2:10 PM), sections 1 and 3: two bespoke visits sit beside their situation types; src/director/filing-visit.ts still carries the filing visit while the scheduled `filing` type (src/director/data/situation-types.json) cannot be worded by purposeScene.
 
 **Fix.** Make the `filing` situation type stage a filing-clerk scene that purposeScene can word (where, post and after-filing lines from the filing and petition records, the clerk cast from filingClerkFor), and retire the bespoke visit once the scene plays the same counter. Takes in words-filing-clerk-scene-where and words-filing-clerk-line-after-filing (the clerk says one line from a group meant for after filing, never the raw word 'on-ballot').
 
@@ -34,3 +36,7 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/director/filing-visit.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/bench/filing.ts, data/english/parts/scene-talk.json
+
+**Notes.** Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:32 UTC) on branch claude/pool-words-director-one-path-part-1-filing-scene-situation-type.
+
+Released (2026-11-11): Cause no longer matches main: the after-filing talk is already the filing scene; the pre-filing counter is SG-WORDS-filing-counter-prompts, kept by the CTO's Nov 1 ruling (see the item's PR). Continue on branch claude/pool-words-director-one-path-part-1-filing-scene-situation-type.

@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Pull request 8176.
 
 **Files.** src/director/conversation.test.ts, src/director/conversation.ts
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=5450260 GOLDEN_PATH_SEED=1076092e npx vitest run src/director/conversation.test.ts` (McMechen, West Virginia; only the seed's first eight characters are on record): green, 21 of 21 passed. Fresh draw `GOLDEN_PATH_SEED=53a743e4444dbef2` (West Hazleton, Pennsylvania): still red, the lie test: "expected '2021-01-04' to be '2021-01-05'". The one-reply failure did not appear there. Still red.

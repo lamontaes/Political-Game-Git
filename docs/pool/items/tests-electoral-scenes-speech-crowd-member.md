@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/director/electoral-scenes.test.ts, src/core2/modules/campaigns.ts
 
 **Notes.** TODO
+
+**Notes (re-run, 2026-11-10, main b4422d346c).** npx vitest run src/director/electoral-scenes.test.ts --maxWorkers=1 with OCD_STORAGE_OVERRIDE and NODE_OPTIONS=--max-old-space-size=8192, GOLDEN_PATH_SEED=78df996a2a76eb81378fcb7c5c00238bb398b33a: 2 of 2 passed. Fresh draw GOLDEN_PATH_SEED=sweep-fresh-<random> (the number was not kept and the test does not print its place): 2 of 2 passed. Green on both. The item's place (Bascom, Florida) is not pinned by the seed alone, so this does not prove that town. Proposed for the CTO: drop as fixed on main.

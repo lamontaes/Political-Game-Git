@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-world-home-turnover-part-1-measure-sales-now
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: design-one-model-two-tiers
 source: split from world-home-turnover in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:50:51.547Z
+branch: claude/pool-world-home-turnover-part-1-measure-sales-now
 ---
 
 **What.** The item world-home-turnover was measured on Oct 17, before home sales for owners who leave or die existed: West Hammond, New Mexico wrote 0 sales and 0 purchases among 860 owner households and Epping, New Hampshire 1 sale among 1,226. Since then src/core2/housing-sale.ts (sellHome) sells a home when its owners leave town or die, and the sale row is kept by the housing ledger. Measure again what a played year writes today, so the remaining work is known: sales by reason (leave, death, move), purchases by who bought, and homes that should have changed hands and did not. Fix any owner who leaves, dies or moves and writes no sale row.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/housing.ts, src/core2/housing-sale.ts, src/core2/housing.test.ts
+
+**Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:50 UTC) on branch claude/pool-world-home-turnover-part-1-measure-sales-now.
