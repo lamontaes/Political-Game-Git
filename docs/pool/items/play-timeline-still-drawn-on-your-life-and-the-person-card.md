@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-timeline-still-drawn-on-your-life-and-the-person-card
 pr: #8115
 after:
 blocked-on:
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Against your newest rulings (measured)", and "Reported done that is not done", item 8)
-claimed-at:
+claimed-at: 2026-11-11T02:40:51.085Z
 merged-at:
 ---
 
