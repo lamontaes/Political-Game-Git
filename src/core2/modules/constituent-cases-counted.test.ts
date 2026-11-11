@@ -4,7 +4,8 @@
  * play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth): the case is
  * kept by their id and decided by the same rule as a full person's, with its
  * reason recorded, and a filled-in copy of the resident gets the same
- * decision. Nobody is filled in by a case while the player holds no office.
+ * decision. A case fills its resident in only where it reaches an official
+ * the player deals with (`keepsWhy`).
  * Three places are drawn from all 56 and run for a year; a place where no
  * counted resident brought a case is passed over and named. Replay with
  * COUNTED_CASES_SEED; COUNTED_CASES_LOG names a file for the report.
@@ -22,6 +23,7 @@ import { coreAPI, fillInPerson, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
 import { impressionOf } from "./campaigns";
 import { allCases, ownCaseDecision } from "./constituent-cases";
+import { keepsWhy } from "../why-kept";
 
 setBookkeeping(false);
 const base = process.env.COUNTED_CASES_SEED ?? randomBytes(8).toString("hex");
@@ -42,16 +44,24 @@ it(`counted residents' cases stay counted and are decided by one rule, ${PLACES}
     });
     const api = coreAPI(core);
     // Who fills people in, read from the call that did it.
-    let fromCases = 0;
+    const fromCases: string[] = [];
     registerModule(core, {
       id: "test-fill-in-callers",
-      onFillIn: () => {
-        if (/\bbringCases?\b/.test(new Error().stack ?? "")) fromCases += 1;
+      onFillIn: (_api: unknown, filled: { memberIds: readonly string[] }) => {
+        if (/\bbringCases?\b/.test(new Error().stack ?? ""))
+          fromCases.push(...filled.memberIds);
       },
     } as never);
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    // The player is 18 and holds no office, so no case fills anyone in.
-    expect(fromCases, `${where}: fill-ins from bringCases`).toBe(0);
+    // A case fills in only a resident whose official the player deals with.
+    const filledByCase = allCases(api).filter((row) =>
+      fromCases.includes(row.personId),
+    );
+    for (const row of filledByCase)
+      expect(
+        keepsWhy(core, row.officialId),
+        `${where}: ${row.personId} filled in by ${row.id}`,
+      ).toBe(true);
     const counted = allCases(api).filter(
       (row) => !core.people.has(row.personId),
     );
@@ -94,7 +104,7 @@ it(`counted residents' cases stay counted and are decided by one rule, ${PLACES}
       }
     }
     said.push(
-      `${where}: ${counted.length} counted cases, ${decided.length} decided, ${core.people.size} full people`,
+      `${where}: ${counted.length} counted cases, ${decided.length} decided, ${filledByCase.length} filled in by a case, ${core.people.size} full people`,
     );
   }
   appendFileSync(

@@ -32,7 +32,7 @@ import { raiseOne } from "../wage-floor";
 import { townSeats, type TermRow } from "./offices";
 import { impressionOf, touchImpression } from "./campaigns";
 import { countedLean } from "./views";
-import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
+import { keepsWhy } from "../why-kept";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
 import { residentsRuntime } from "./residents";
@@ -446,11 +446,12 @@ function bringCase(
       ) ||
       a.id.localeCompare(b.id),
   )[0]!;
-  // A counted resident whose case the player hears is met, so filled in now,
-  // before the visit; anyone else stays counted, kept by their id.
+  // A counted resident whose case reaches an official the player holds or
+  // deals with (`keepsWhy`: the player, their family, the people they know)
+  // is someone the player can meet there, so filled in now, before the
+  // visit; anyone else stays counted, kept by their id.
   const met =
-    !api.state.people.has(person.id) &&
-    isExplicitlyControlledPersonV1(api.state, official.personId!);
+    !api.state.people.has(person.id) && keepsWhy(state, official.personId!);
   if (met) fillInPerson(state, person.id);
   const full = api.state.people.has(person.id);
   const row: CaseRow = {
