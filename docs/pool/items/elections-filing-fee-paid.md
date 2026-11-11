@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-elections-filing-fee-paid
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 lead: wire-elections
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:16:47.869Z
 branch: claude/pool-elections-filing-fee-paid
 ---
 
