@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-voter-household-weight-below-one
-pr:
+pr: #8450
 after:
 blocked-on:
 lead: m0-m2
