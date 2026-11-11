@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-meeting-second-vote-press-page-error
+pr: #8869
 after:
 blocked-on:
 source: Fable B's walk as a council member, Nov 11, 2026 (Lino Lakes, Minnesota, seed 046d2235-27df-4daa-a680-423d6f24d0d7, the meeting of February 4, 2025); written by P1 at Fable B's word
