@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-journal-pop-up-appears-over-a-scene
+pr: #8504
 after:
 blocked-on:
 lead: play-first
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:57:01.485Z
 ---
 
 **What.** Measured by the Nov 9 audit in Blodgett Landing, New Hampshire (a random world, no seed): "'Pop-ups wait until a scene ends.' A journal pop-up appeared over the President's address." It was the journal's third paragraph, which popped up during the address. The news pop-up was fixed for the opening (`showNewsSurface` now runs after `showStory` returns in `startLife`), but the journal's pop-up was not. Fix the cause in the one toast part, for every pop-up and every scene: when a scene opens, every pop-up on screen is taken down and waits, and shows again when the scene ends.

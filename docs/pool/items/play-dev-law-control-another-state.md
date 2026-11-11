@@ -5,20 +5,21 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
-after: 
+claimed-by: claude/pool-play-dev-law-control-another-state
+pr: #8614
+after:
 blocked-on:
 lead: play-first
 model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T05:13:57.701Z
 ---
 
-**What.** Dev mode's law control sets a law only at the levels of the player's own chain: setLaw (src/bench/dev-mode.ts line 559) finds its level in lawChain(api).levels and throws for any other. Items whose Done when has a second session change another state's law and watch that state answer cannot be checked in the game. The first is core-country-tier-ledgers-replace-outside-budgets: raise another state's sales tax two points and read that state's next budget against the same world left alone (PR #8329).
+**What.** Dev mode's law control sets a law only at the levels of the player's own chain: setLaw (src/bench/dev-mode.ts line 559) finds its level in lawChain(api).levels and throws for any other. Items whose Done when has a second session change another state's law and watch that state answer cannot be checked in the game. The first is core-country-tier-ledgers-replace-outside-budgets: raise another state's sales tax two points and read that state's next budget against the same world left alone (PR #8329). Seen: in dev mode's law control, a second session picks another state, sets its sales tax two points higher, and reads that state's new rate in the Watch or Trace panel.
 
 **Cause.** Found in code: src/bench/dev-mode.ts setLaw (line 559) reads level.jurisdiction from lawChain(api).levels only; another state's law rows are kept under its state key (src/core2/modules/laws.ts stateLawInForce, line 639, reads rows whose jurisdiction is the state key).
 
