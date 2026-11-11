@@ -5,19 +5,20 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-counted-deaths-opening-small-town-red
 pr:
 after:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T10:41:40.648Z
 lead: speed
 standard: 2
 model: opus
 effort: high
 root: none
 checked: fable 2026-11-10
+branch: claude/pool-core-counted-deaths-opening-small-town-red
 ---
 
 **What.** The counted-deaths-opening test failed in a small town: Wiley Ford, West Virginia (seed 277237f6cee1bc958164636cebb4861256472194c83f59c9a78c759bc359320d) saw 2 counted people die where 13.4 were expected, and the test passed on a rerun of the same seed. A run that differs between two runs of one seed means something in the opening or the deaths pass is not seeded. This item finds that and fixes it.
@@ -43,3 +44,5 @@ Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `cla
 **Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_SEED=277237f6...320d npx vitest run src/core2/counted-deaths-opening.test.ts`: the test draws its own places, not Wiley Ford. Still red: Centennial, Wyoming (5613440): "4 died, 103.4 expected, at least 30.1 needed", and Whippoorwill, Oklahoma (4080675): "illnesses under way at the opening: expected 0 to be greater than 0". Fresh draw `GOLDEN_PATH_SEED=1955dd6301face7e`: red the same way (Centennial: 4 died, 103.4 expected; Grandview Lake, Indiana: illnesses under way 0). Still red.
 
 Cause found (Nov 11, 2026, cause finder for Fable B): a probe built the test's Centennial world and read the counts rows and the records' weights; the heavy records of the wider place carry nearly all the expected deaths and can only die a whole record at a time.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 10:41 UTC) on branch claude/pool-core-counted-deaths-opening-small-town-red.
