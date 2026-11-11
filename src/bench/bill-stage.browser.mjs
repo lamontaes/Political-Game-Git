@@ -133,10 +133,13 @@ try {
       ...allowed.filter((o) => /Sales tax rate/i.test(o.textContent)),
       ...allowed.filter((o) => !/Sales tax rate/i.test(o.textContent)),
     ];
-    const option =
-      ordered.find((o) => todayOf(o) && !/not set/i.test(todayOf(o))) ??
-      ordered[0];
-    if (!option) return null;
+    const option = ordered.find(
+      (o) => todayOf(o) && !/not set/i.test(todayOf(o)),
+    );
+    // No subject with a law in force is named, never drafted around: the
+    // redraft below needs one, and a body with none is a finding about the place.
+    if (!option)
+      return { none: allowed.map((o) => o.querySelector("b").textContent) };
     option.click();
     await new Promise((done) => setTimeout(done, 100));
     return {
@@ -145,7 +148,10 @@ try {
       unit: document.querySelector(".draft-unit").textContent,
     };
   });
-  assert.ok(chosen, "the body has no law amount it may draft");
+  assert.ok(
+    !chosen.none,
+    `seed ${seed}: no subject this body may draft has a law in force today (${(chosen.none ?? []).join(", ")})`,
+  );
   console.log("draft card:", chosen);
   assert.ok(chosen.today, "the draft card shows nothing in force today");
   await page.locator(".draft-card input").fill("2");
@@ -227,8 +233,8 @@ try {
     0,
     "every cosponsor is a member of a body in this world",
   );
-  // Back, and open the paper again: it now says what the aide expects.
-  await page.locator("#sheet-body button.action").first().click();
+  // Back to the seat by its tab (a menu has no Back), and open the paper again: it now says what the aide expects.
+  await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
   await page.waitForTimeout(800);
   await page
     .locator("#sheet-body button", { hasText: /Read the bill/ })
@@ -296,8 +302,8 @@ try {
     return r.status;
   }, billId);
   assert.equal(held, 200, "dev mode holds the floor vote");
-  // Back, and open the paper again: the floor now has a result by name.
-  await page.locator("#sheet-body button.action").first().click();
+  // Back to the seat by its tab, and open the paper again: the floor now has a result by name.
+  await page.locator('#sheet-tabs .tab[aria-pressed="true"]').click();
   await page.waitForTimeout(800);
   await page
     .locator("#sheet-body button", { hasText: /Read the bill/ })
@@ -330,16 +336,15 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
     .click();
-  // A bill before the state or Congress lists with a Read the bill control; a world with none says so.
+  // Each bill before the town, the state or Congress is a row in the list; a world with none says so.
   await page
-    .locator("#sheet-body")
-    .getByText(
-      /Read the bill|No bill is before your town, county, state or Congress yet\./,
-    )
+    .locator(".roster-screen.bills .roster-row, #sheet-body .sec")
     .first()
     .waitFor();
   const followed = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .sec")].map((n) => n.innerText),
+    [
+      ...document.querySelectorAll("#sheet-body .roster-row, #sheet-body .sec"),
+    ].map((n) => n.innerText),
   );
   console.log("followed bills:", followed.slice(0, 3));
   assert.ok(followed.length > 0, "the Bills tab lists a bill");

@@ -33,3 +33,5 @@ source: added with npm run pool -- add
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/macro.ts
+
+**Notes (opus-5234, Nov 11).** Not tied to a mid-cycle start: a bench world opened on the game's own start date in Carroll, Nebraska (place key 3108010, place seed from drawPlace("lr01", "law-repeal-restores-silence")) stopped the same way in its first months, "The country tier holds counts that cannot be: US-NE: 952874.9748205602 jobs for 952873.9505938026 workers" (src/core2/law-repeal-restores-silence.test.ts at its first version, which played toward 2026). The excess is about one job in both places, so it may be a rounding of the tier's counts.
