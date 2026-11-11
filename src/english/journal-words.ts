@@ -372,9 +372,15 @@ export type JournalMove =
 const kebab = (field: string) =>
   field.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 
-/** How a closing line ends, its last two words. */
+/**
+ * How a closing line ends, its last two words, read the same from a bank
+ * piece and from the line it rendered: a slot ("{age_then}") and the number
+ * that fills it both drop out, so "I was {age_then} then." and "I was 29
+ * then." both close on "was then".
+ */
 export function journalClosing(line: { text: string }): string {
   return line.text
+    .replace(/\{[^}]*\}/g, " ")
     .toLowerCase()
     .replace(/[^a-z' ]/g, "")
     .trim()
