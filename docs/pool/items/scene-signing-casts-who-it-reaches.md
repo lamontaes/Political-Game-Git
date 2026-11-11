@@ -51,3 +51,11 @@ Released (2026-11-11): Swapping asker/asked in bill-signed would put the 55 exis
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:44 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
 
 Released (2026-11-11): the executive's four replies (commit to the next step, credit others, temper expectations, decline) are bank lines, Story's under the Nov 10 split; swapping asker/asked without them leaves the executive with no replies. Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:27 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Released (2026-11-11): Claimed by my own next loop, not worked: each needs Story-session lines under data/english/parts, a dedicated machine for speed runs, or a rewrite beyond one pass (see my earlier release notes on this item). Continue on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 05:37 UTC) on branch claude/pool-scene-signing-casts-who-it-reaches.
+
+Released (2026-11-11): The four executive reply lines are Story's alone to write and casting a resident the law reaches is not in the records the type reads; not built. Continue on branch claude/pool-scene-signing-casts-who-it-reaches.

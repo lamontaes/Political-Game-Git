@@ -8,6 +8,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { IsoDate, PersonId } from "../core2/types";
 import { openConversation, say, subjectsBetween } from "./conversation";
 import { OPENING_ADDRESS_EVENT } from "./opening-story";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Talk at home on the first evening (play-stop-01-talk-says-nothing-a).
 // Between relatives a talk leaves out work, school and home (owner, batch
@@ -62,9 +63,8 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       expect(opener?.speakerId, here).toBe(member.id);
       expect(opener?.kind, here).toBe("address");
       expect(opener?.act, here).toBe("ask");
-      // Four replies, each a different move.
-      expect(talk.choices.length, here).toBe(4);
-      expect(new Set(talk.choices.map((row) => row.move)).size, here).toBe(4);
+      // Up to four replies, each a different move (owner, Nov 10).
+      expectUpToFourDifferent(talk.choices, here);
       // Each reply moves the talk: they answer with their own take, and four
       // new replies follow. Members take the replies in turn.
       const pick = talk.choices[index % talk.choices.length]!;
@@ -73,11 +73,7 @@ it(`a household member opens from the day, and each reply moves the talk on (see
       const answer = next.lines[said + 1];
       expect(answer?.speakerId, `${here}: ${pick.text}`).toBe(member.id);
       expect(answer?.kind, `${here}: ${pick.text}`).toBe("address-view");
-      expect(next.choices.length, `${here}: ${pick.text}`).toBe(4);
-      expect(
-        new Set(next.choices.map((row) => row.move)).size,
-        `${here}: ${pick.text}`,
-      ).toBe(4);
+      expectUpToFourDifferent(next.choices, `${here}: ${pick.text}`);
       console.log(
         `HOUSEHOLD TALK ${here}: "${opener!.text}" / you: "${pick.text}" / "${answer!.text}" / ${next.choices.map((row) => `"${row.text}"`).join(" ")}`,
       );
