@@ -4880,6 +4880,47 @@ select.release-pick {
   margin: 8px 0;
 }
 /* The country in 20 years: a wide table in a narrow panel, so its first column and its figures stay on one line. */
+/* Dev mode's Watch: its own tab of the Calendar's sheet. Its sections stand
+   side by side and each table scrolls inside its own box, so every header and
+   cell can be read (it used to be squeezed under the calendar). */
+.dev-watch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 22px;
+  align-items: start;
+}
+.dev-watch > :last-child {
+  grid-column: 1 / -1;
+}
+.dev-watch .scroll {
+  max-height: 230px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+  margin-bottom: 8px;
+}
+.dev-watch table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 var(--t-ui) var(--ui);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cream);
+}
+.dev-watch th {
+  position: sticky;
+  top: 0;
+  padding: 4px 12px 4px 0;
+  text-align: left;
+  font: 600 var(--t-label) var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: var(--iron);
+}
+.dev-watch td {
+  padding: 3px 12px 3px 0;
+  vertical-align: top;
+}
 .dev-outlook-table table {
   width: 100%;
   font-size: 0.85em;
