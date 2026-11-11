@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-words-election-notice-printed
-pr:
+pr: #8481
 after:
 blocked-on:
 lead: words
