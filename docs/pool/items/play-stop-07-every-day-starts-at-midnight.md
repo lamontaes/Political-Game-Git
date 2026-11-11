@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-07-every-day-starts-at-midnight
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T03:57:24.255Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-07-every-day-starts-at-midnight
 ---
@@ -51,3 +51,5 @@ Released (2026-11-10): Replayed on main 4da1628283: Day and closed-office travel
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:41 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
 
 Released by next (2026-11-11): no push to claude/pool-play-stop-07-every-day-starts-at-midnight since 2026-11-10 23:40 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:57 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
