@@ -42,8 +42,10 @@ const FIRST_MONTHS_SHARE = 0.5;
 const SIGMAS = 3;
 
 interface CountsRow {
-  readonly deaths: readonly string[];
-  readonly openingIll: readonly string[];
+  /** The dead by cause, in real people (a record's weight, or the share that died). */
+  readonly deathCauses: Readonly<Record<string, number>>;
+  /** The real people the illnesses under way at the opening stand for. */
+  readonly openingIllPeople?: number;
   readonly expected: { readonly deaths: number };
 }
 
@@ -60,8 +62,12 @@ function openingMonths(worldSeed: string, placeKey: string) {
     .rows() as unknown as CountsRow[];
   return {
     expected: rows.reduce((n, row) => n + row.expected.deaths, 0),
-    deaths: rows.reduce((n, row) => n + row.deaths.length, 0),
-    opening: rows.reduce((n, row) => n + row.openingIll.length, 0),
+    // Weighed as the expected figure is: in real people, not records.
+    deaths: rows.reduce(
+      (n, row) => n + Object.values(row.deathCauses).reduce((m, k) => m + k, 0),
+      0,
+    ),
+    opening: rows.reduce((n, row) => n + (row.openingIllPeople ?? 0), 0),
   };
 }
 
@@ -78,9 +84,9 @@ function checkOpening(
   const floor = Math.max(1, mean - SIGMAS * Math.sqrt(mean));
   expect(
     deaths,
-    `${where}: ${deaths} died, ${expected.toFixed(1)} expected, at least ${floor.toFixed(1)} needed`,
+    `${where}: ${deaths.toFixed(1)} died, ${expected.toFixed(1)} expected, at least ${floor.toFixed(1)} needed`,
   ).toBeGreaterThanOrEqual(floor);
-  return `${where}: ${opening} illnesses under way booked at the opening; ${deaths} counted people died in four months against ${expected.toFixed(1)} expected (at least ${floor.toFixed(1)} needed)`;
+  return `${where}: ${opening.toFixed(1)} people ill at the opening; ${deaths.toFixed(1)} counted people died in four months against ${expected.toFixed(1)} expected (at least ${floor.toFixed(1)} needed)`;
 }
 
 /**
@@ -101,7 +107,7 @@ it("in Centennial, Wyoming on the audit's seed, a small town's few deaths pass a
       `seed ${CENTENNIAL.seed}, Centennial, Wyoming (${CENTENNIAL.key})`,
       openingMonths(CENTENNIAL.seed, CENTENNIAL.key),
     );
-    console.log(`DEATHS ${proof}`);
+    process.stdout.write(`DEATHS ${proof}\n`);
   } finally {
     setBookkeeping(was);
   }
@@ -134,5 +140,5 @@ it("illnesses under way at the opening are booked and counted people die from th
     proof,
     `none of ${DRAWS} drawn places (seed ${seed}) expected ${SMALLEST} counted deaths in four months: ${passed.join("; ")}`,
   ).toBeDefined();
-  console.log(`DEATHS ${proof}`);
+  process.stdout.write(`DEATHS ${proof}\n`);
 }, 3_600_000);
