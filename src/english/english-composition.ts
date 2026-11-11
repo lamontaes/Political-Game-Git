@@ -390,15 +390,14 @@ export function composeGroundedLine(
     for (const id of conditionSources(chosen, context)) sourceRecordIds.add(id);
   }
 
-  // A part after one that ends a sentence ("Hello." then "this is ...")
-  // starts the next sentence.
+  // A part that follows a finished sentence starts one of its own.
   const composed = parts
     .map((part) => part.text.trim())
     .reduce(
       (line, text) =>
         line === ""
           ? sentenceStart(text)
-          : `${line} ${/[.?!]["']?$/.test(line) ? sentenceStart(text) : text}`,
+          : `${line} ${/[.!?]["”’)]?$/.test(line) ? sentenceStart(text) : text}`,
       "",
     );
   tagEngineText(composed, { bank: bank.key });

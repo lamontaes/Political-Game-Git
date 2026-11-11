@@ -19,7 +19,8 @@
     "refund": "What a law gave back to the household, from the payment record.",
     "topic": "What a law is about, as the policy catalog names it, from the law record.",
     "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
-    "where": "The workplace, office or school the scene is set in, from the setting's organization record."
+    "where": "The workplace, office or school the scene is set in, from the setting's organization record.",
+    "since": "The day of the record that caused the scene, told as past from the day it plays ('yesterday', 'the other day', 'on January 3rd'), from daySince; absent when the record is from the same day."
   },
   "maxWords": 10,
   "mining": {
@@ -6233,6 +6234,446 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 3)",
       "date": "2026-11-10"
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-name-comes-to-the-house-about-what-happened-since",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} comes to the house about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-you-sit-down-with-name-over-the-news-since",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you sit down with {name} over the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-you-stay-in-still-thinking-about-what-happened-since",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stay in, still thinking about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-stop-by-name-s-place-about-what-happened-since",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you stop by {name}'s place about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-alone.begins-you-stop-at-a-neighbor-s-over-the-news-since",
+      "move": "arrival-other-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stop at a neighbor's over the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-other-home-alone",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-name-calls-about-what-happened-since",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} calls about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-it-s-name-about-the-news-since",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings. It's {name}, about the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-alone.begins-the-phone-rings-it-s-about-what-happened-since",
+      "move": "arrival-phone-alone",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings. It's about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-phone-alone",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-a-letter-comes-from-name-about-what-happened-since",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes from {name} about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-alone.begins-a-letter-comes-for-you-about-what-happened-since",
+      "move": "arrival-letter-alone",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes for you about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-letter-alone",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-name-finds-you-at-work-about-what-happened-since",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} finds you at work about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-alone.begins-you-head-in-to-work-still-on-the-news-since",
+      "move": "arrival-workplace-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head in to work, still on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-alone",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-head-to-where-to-see-name-about-what-happened-sin",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you head to {where} to see {name} about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-alone.begins-you-head-into-the-office-still-on-the-news-since",
+      "move": "arrival-office-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head into the office, still on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-office-alone",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-in-the-chamber-name-brings-up-what-happened-since",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, in the chamber, {name} brings up what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-alone.begins-the-chamber-fills-up-everyone-on-the-news-since",
+      "move": "arrival-chamber-alone",
+      "kind": "spoken",
+      "text": "{begins}, the chamber fills up, everyone on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-chamber-alone",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-name-catches-you-at-school-about-what-happened-since",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} catches you at school about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-alone.begins-you-head-to-school-still-on-the-news-since",
+      "move": "arrival-school-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head to school, still on the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-school-alone",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-name-stops-you-in-the-street-about-what-happened-sinc",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} stops you in the street about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-alone.begins-in-town-people-are-talking-about-what-happened-since",
+      "move": "arrival-public-alone",
+      "kind": "spoken",
+      "text": "{begins}, in town, people are talking about what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-public-alone",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-you-meet-name-downtown-to-talk-over-what-happened-sin",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, you meet {name} downtown to talk over what happened {since}.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-alone.begins-you-head-out-and-the-talk-is-the-news-since",
+      "move": "arrival-venue-alone",
+      "kind": "spoken",
+      "text": "{begins}, you head out, and the talk is the news {since}.",
+      "uses": [
+        {
+          "move": "arrival-venue-alone",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), words-day-end-scene-opens-next-midnight",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

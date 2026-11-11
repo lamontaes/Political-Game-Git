@@ -27,14 +27,18 @@ console.log(
   `opening story: seed ${seed}, ${place.name} (${place.key}), ${date}`,
 );
 
-const sentencePatterns = OPENING_SPEECH_BANK.parts.map(
-  (part) =>
-    new RegExp(
-      `^${part.text
-        .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-        .replace(/\{[\w-]+\}/g, ".+")}$`,
-    ),
-);
+// A sentence is a core, after one of its role's openers when it has them.
+const sentencePatterns = OPENING_SPEECH_BANK.parts
+  .filter((part) => part.piece?.part !== "opener")
+  .map(
+    (part) =>
+      new RegExp(
+        `(?:^|\\s)${part.text
+          .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
+          .replace(/\{[\w-]+\}/g, ".+")}$`,
+        "i",
+      ),
+  );
 
 describe("the opening story", () => {
   const world = buildBenchWorld(place.seed, date, {

@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -35,7 +35,7 @@ branch: claude/pool-people-home-plates
 
 **Waits on.** The owner's decision on how busts are shown (OWNER-DECISIONS.md, Nov 10, "Staging waits for busts").
 
-**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/bench/people-pack.test.ts, src/core2/data/stopgaps/play.json
+**Files.** art/people-rooms/mannequin-plates/, art/backdrops/manifest.json, src/core2/data/stopgaps/play.json
 
 **Notes.**
 
@@ -44,3 +44,5 @@ branch: claude/pool-people-home-plates
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-29 on `claude/people-home-plates`; last push Oct 30, 02:12 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
 
 Released (2026-11-11): art plates wait on the owner's Nov 10 busts decision. Continue on branch claude/pool-people-home-plates.
+
+**Notes (Nov 11, 2026, set aside).** Dropped: the owner ruled on Nov 10, 2026 (about 9:24 p.m.) "Remove all the people," and at about 9:27 p.m. "people will eventually be in the game, but right now for early access, it's just we have to do the busts." No plate is painted or measured while rooms draw nobody. The full-body system and what comes back after early access are in docs/art/full-body-people-after-early-access.md; this item is rewritten from that record when full bodies return.

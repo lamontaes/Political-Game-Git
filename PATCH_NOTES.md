@@ -296,6 +296,190 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.101.0
+
+_Released November 11, 2026._
+
+### Added
+
+- **A constituent at office hours comes in four ways: a lost job, a rent notice,
+  pay under the floor or sickness** A resident who comes to your office hours no
+  longer tells the same story every time. One who lost a job names the employer
+  and how long ago it was. One whose household has a rent notice names what the
+  household owes and the day it runs out. One paid under the minimum wage puts
+  the pay stub on the table, with the rate and the law's rate. One who is sick,
+  or caring for someone at home who is, says so, and names the relative. Which
+  story you hear is read from the resident's own records: the layoff on the
+  books, the open notice on their household, the pay in their case, the care
+  their health asks of them or of someone close. A resident with none of these
+  plays the plain arc as before, and every arc ends the same ways it did.
+
+- **People remember the elections they lost, the jobs they took and left after
+  the game began, and what happened to relatives living far away.** A person's
+  card now says when they ran for an office and lost the race, when they took a
+  new job, and when they quit, retired or lost the job because the business
+  closed. A relative who lives in another state now has more on their card than
+  the year they were born.
+
+- **Politics, Issues lets you choose which laws show, by level, in force and
+  subject.** The Issues list has three filters in the menu look: level, in force
+  and subject. Each one narrows the list to exactly the laws it names.
+
+- **Election morning says where you vote** On election morning the day now tells
+  you where you vote: the building, your precinct if the town has several, and
+  one of the people working the polls there.
+
+### Improved
+
+- **Your batch 2 grades are in, with your rewrites and the lessons you asked to
+  carry everywhere** Your voice grades on batch 2 are applied. The lines you
+  panned stop playing, and your own versions play in their place. Dialogue says
+  "Alright". Every line is weighed against your new rules: no dangling
+  fragments, every line gives its context, and nobody quotes money figures they
+  wouldn't know.
+
+### Fixed
+
+- **A neighbor no longer tells you "your ordinance didn't pass" about a vote on
+  someone else's bill.** When a neighbor read about a vote you only sat in on,
+  they said it was your ordinance and that it failed, even while your own
+  ordinance had passed. They now say "your ordinance" only about a bill you
+  sponsored, with its own result, and they bring up your own bill's vote before
+  a vote you merely cast.
+
+- **A department head's argument over a budget cut reads plainly** When a
+  department head comes to argue against a cut, the scene now says what the line
+  pays for, such as fire protection or highways, instead of a job title and a
+  page nobody mentioned. A reply that asked for a list no one had raised now
+  stands on its own.
+
+- **Each of the owner's grades on a line now counts once.** The grades from
+  batches 2 and 3 had been counted four times each, so a line graded once looked
+  as if it had been graded four times. The ledger now counts every graded row
+  once, however many times the grades are folded. This also brings in the batch
+  2 and 3 grades and the lines rewritten from them.
+
+- **A death in the family names the person once in your journal, not twice.**
+  The journal said "My father died. John was 56 years old. John had been
+  seriously ill." It now says "My father died. John was 56 years old and had
+  been seriously ill."
+
+- **The journal stops saying it was hard** After a death in the family or a lost
+  job, the journal now tells what happened and what the records show, such as
+  the age and the illness, instead of saying "It was hard." or "It was a
+  terrible time."
+
+- **When a friend files, takes office or wins, your journal says you got along
+  instead of how you felt.** The journal line after a friend's turn in public
+  life said "That made me glad." It now says "We were on good terms." or "We got
+  along well."
+
+- **A relative's death no longer opens a chapter named after them** In My life,
+  a relative's death is told inside the chapter you are living instead of
+  opening a chapter titled with just their first name.
+
+- **A life story tells a loss in its place** In My life and on a person's card,
+  a loss such as a parent's death is now told after school and work, not in the
+  first paragraph before them.
+
+- **Talks about a story you read end in more than a few words** When a neighbor
+  talks to you about a news story, the talk now ends in many more ways, so the
+  same goodbye ("Okay. Go. We'll pick it up some other time.") stops coming back
+  again and again.
+
+- **The President's-speech small talk the owner rejected no longer plays.** The
+  talk about the President's speech that you called terrible on November 8 is
+  held back now, so it stops coming up with "You and me both" and "Then we agree
+  on something for once."
+
+- **When you file, your spouse asks whether you can afford it instead of quoting
+  how long your savings last.** Five lines the new word rules had pulled from
+  play are back, rewritten: two lines from the town address and three of a
+  spouse's questions when you file.
+
+- **A played year no longer stops when a small-town household moves away** A
+  household that moved out of a small town could stop the whole year, because it
+  tried to take more money from its group's fund than the fund held. It now
+  leaves with exactly its own share.
+
+### Changed
+
+- **A life is told as sentences, and people now remember what happens to them.**
+  Your life and every person's card tell a life as a few sentences grouped by
+  what mattered. The timeline is gone. Each person now keeps a short list of the
+  things that happened to them while you play, such as a job lost, a move, a
+  death in the family or an election won, and the card and the You screen read
+  that list. Your own life is told as "I".
+
+- **Asked who turned out for a winner, a neighbor now says how much of the vote
+  and the turnout the count shows.** When someone tells you who won a race and
+  you ask who turned out, they now say what the count shows ("Karen Ali drew 57
+  percent of the ballots cast," or the share of the people who could vote who
+  did, or the place that gave the winner the most) instead of "that's all I know
+  for sure."
+
+- **Each person's past now reaches back to their own childhood.** When you open
+  a person's card, or meet someone for the first time, their schooling, their
+  jobs and the year they moved to town now go back to when they were born, a
+  year at a time, instead of stopping the year your character was born. The
+  people you start out knowing have it from the first day. The town's laws,
+  elections and businesses still begin in your birth year.
+
+- **Lines say what they mean - the list, the place, the pay - and journal
+  entries read as moments.** Following the owner's batch 3 grades, lines no
+  longer point at things nobody set up ("the list", "the page", "a hearing,
+  then"), drop stock tags like "That's real", and name the place instead of
+  "this town" where the scene knows it. Mayors open their address in different
+  ways, a job offer says the pay before your first day, and journal entries
+  about finding work are told as moments.
+
+- **When someone asks your view of the news, they ask about the news, not just
+  "What do you think?"** When a neighbor or colleague asks what you make of a
+  news story, the question now names the news.
+
+- **Asked where you are from, your four replies now mean different things.**
+  Asked where you are from, you can now answer with a detail from your own life,
+  such as where you work now, or put off the story for another day, instead of
+  getting the same answer worded four ways.
+
+- **Thirteen of the lines you hear most now say what is at stake and why, in
+  plain words.** A refusal now gives its reason, a plea names what is at stake,
+  and lines that summed up a scene in a composed saying now say it plainly.
+
+- **The scenes people play most now say the same thing in more than one way.**
+  When someone wishes you luck after you turn down a job, answers a favor you
+  asked, or says goodbye on the last day of school, they no longer always use
+  the same words.
+
+- **Job offers, joining a cause and a family's requests no longer repeat the
+  same line.** When an employer holds an offer for you, a neighbor asks you to a
+  meeting, or a relative asks you for help, the people in the scene say the same
+  thing in different words from one playthrough to the next.
+
+- **Letters, the last day of school and neighbors' invitations no longer repeat
+  the same line.** When a relative writes you a letter, a classmate says goodbye
+  on the last day of school, or a neighbor invites you to a meeting, they say
+  the same thing in different words from one playthrough to the next.
+
+- **Asked if you are still at your job or if you have seen a friend, your
+  replies now differ.** Asked whether you are still at your job, or whether you
+  have seen someone you both know, you can now say where you live, send your
+  regards or put the question off, instead of the same answer worded several
+  ways.
+
+- **A reply is no longer offered after a line it does not follow.** Every pair
+  of a line and the reply that can come after it is now judged once, and the
+  game reads the result: a reply that does not follow a line is never offered
+  after that line. The first judging covered the pairs that come up most.
+  Sixty-seven of them did not follow, and those no longer play together.
+
+- **The owner's notes on the words are now rules that run over every line.** His
+  notes on the words are now rules, and every rule runs over every line in the
+  game. A line that breaks one of them stops playing until it is rewritten, and
+  a new line that breaks one is refused by name. The chance tweaks that made a
+  disliked kind of line only a little rarer are gone: a line plays or it does
+  not.
+
 ## PRE-ALPHA 0.100.0
 
 _Released November 10, 2026._

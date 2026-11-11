@@ -126314,6 +126314,35 @@
       }
     },
     {
+      "key": "scene-talk.state-tell-running.so-you-re-running-for-office",
+      "move": "state-tell-running",
+      "kind": "spoken",
+      "text": "so you're running for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-running",
+          "role": "asker",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "tell-running",
+        "key": "routine"
+      },
+      "piece": {
+        "of": "filing-running",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "scene-talk.state-tell-duty.it-s-a-county-office-you-d-answer-to-everyone-in-the-county-not-just-this-town",
       "move": "state-tell-duty",
       "kind": "spoken",
@@ -129278,14 +129307,6 @@
           "role": "asker",
           "purpose": "talk",
           "after": "agree"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:agree"
         }
       ],
       "bearing": "glad",
@@ -134412,294 +134433,6 @@
       "tag": {
         "move": "narrate",
         "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.then-we-agree-on-something-for-once",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "Then we agree on something for once.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:agree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.glad-somebody-heard-it-the-way-i-did",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "Glad somebody heard it the way I did.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:agree"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-ask-me-again-in-a-year",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. Ask me again in a year.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.we-don-t-have-to-see-it-the-same-way",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "We don't have to see it the same way.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.give-it-time-you-might-come-around",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "Give it time. You might come around.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "disagree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-disagree.then-we-ll-see-which-of-us-was-right",
-      "move": "follow-disagree",
-      "kind": "spoken",
-      "text": "Then we'll see which of us was right.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "disagree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:disagree"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "disagree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.that-s-fair-talk-is-cheap-and-that-was-a-lot-of-talk",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "That's fair. Talk is cheap, and that was a lot of talk.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:wait"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.fair-enough-i-ll-hold-my-applause-too",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Fair enough. I'll hold my applause too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:wait"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.smart-a-speech-is-the-easy-part",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Smart. A speech is the easy part.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:wait"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "accept",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.things-take-a-long-time-getting-out-here",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "Things take a long time getting out here.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:local"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.a-speech-doesn-t-pay-the-rent-either",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "A speech doesn't pay the rent, either.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:local"
-        }
-      ],
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
-      }
-    },
-    {
-      "key": "scene-talk.follow-agree.we-ll-be-the-last-place-to-see-any-of-it",
-      "move": "follow-agree",
-      "kind": "spoken",
-      "text": "We'll be the last place to see any of it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "agree",
-          "role": "asker",
-          "purpose": "talk",
-          "after": "address-view:local"
-        }
-      ],
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-after-address-talk-follows)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "agree",
-        "key": "talk"
       }
     },
     {
@@ -201836,6 +201569,150 @@
       "date": "2026-11-10"
     },
     {
+      "key": "scene-talk.state-request.friend.tell-me-it-s-wrong-first-i-d-rather-hear-it-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Tell me it's wrong, {first}. I'd rather hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.friend.i-read-every-word-of-it-first-did-you-take-the-money",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I read every word of it, {first}. Did you take the money?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.friend.is-any-of-it-true-first-you-can-tell-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Is any of it true, {first}? You can tell me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "request",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.witness.that-story-is-about-the-money-you-offered-me-first",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "That story is about the money you offered me, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.hearsay.i-d-only-heard-it-until-now-first-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'd only heard it until now, {first}. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.taken.it-says-the-money-changed-hands-first-did-you-take-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "It says the money changed hands, {first}. Did you take it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words writer (Fable B's words line), red on main #8771",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "confront",
+        "key": "bribe-reported"
+      }
+    },
+    {
       "key": "scene-talk.state-greet-counter.hi-there",
       "move": "state-greet-counter",
       "kind": "spoken",
@@ -202391,35 +202268,6 @@
       "piece": {
         "of": "filing-running",
         "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-running.so-you-re-running-for-office",
-      "move": "state-tell-running",
-      "kind": "spoken",
-      "text": "so you're running for {office}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-running",
-          "role": "asker",
-          "requiresFacts": ["office"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W5 (words-run-filing-clerk-lines-are-composed)",
-      "date": "2026-11-11",
-      "tag": {
-        "move": "tell-running",
-        "key": "routine"
-      },
-      "piece": {
-        "of": "filing-running",
-        "part": "core",
-        "required": true
       }
     },
     {
