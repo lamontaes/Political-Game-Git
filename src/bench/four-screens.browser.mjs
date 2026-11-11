@@ -67,7 +67,7 @@ try {
   console.log("Place:", await page.locator("#card-place").innerText());
 
   // The dossier: panel head, side figure and sections from the shared parts.
-  const figure = page.locator("#people .talkable").first();
+  const figure = page.locator("#here .strip-person.talkable").first();
   await figure.waitFor();
   await figure.focus();
   await page.keyboard.press("Enter");

@@ -19,7 +19,7 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const figure = page.locator("#people .talkable").first();
+  const figure = page.locator("#here .strip-person.talkable").first();
   await figure.waitFor();
   const name = await figure.getAttribute("aria-label");
   // A person in the room is talked to by a click or a key; the talk box says
@@ -106,7 +106,7 @@ try {
   console.log(
     "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
-  await page.locator("#people .talkable").first().press("Enter");
+  await page.locator("#here .strip-person.talkable").first().press("Enter");
   await page.locator("#talk:not([hidden])").waitFor();
   await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();

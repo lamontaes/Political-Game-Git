@@ -74,7 +74,7 @@ try {
   });
   console.log("Place:", await page.locator("#card-place").innerText());
   // A person's card: the first person in the room on the first evening.
-  const figure = page.locator("#people .talkable").first();
+  const figure = page.locator("#here .strip-person.talkable").first();
   await figure.waitFor();
   await figure.focus();
   await page.keyboard.press("Enter");
