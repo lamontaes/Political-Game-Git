@@ -73,15 +73,19 @@ describe("the New game creator", () => {
     ).toThrow();
   });
 
-  it("offers what a bust shows: skin, hair and, for a man, facial hair", () => {
+  it("offers what a bust shows: skin, hair, facial hair for a man, and the clothes they dress up in", () => {
     const hers = drawnAppearance("female", "seed", 0);
     expect(bustPerson(hers.person)!.sex).toBe("woman");
-    // Owner, Nov 7: "busts, never full figures". The clothes are not chosen:
-    // a bust wears the top its person would wear where they are seen.
+    // Owner, Nov 7: "busts, never full figures"; Nov 10: "I would like to be
+    // able to change ties and stuff ... I want to see colors and stuff
+    // changing as well". A row shows only where the bank paints the piece:
+    // no tie is painted for the women.
     expect(appearanceRows(hers, "female").map((row) => row.label)).toEqual([
       "Skin",
       "Hair",
       "Hair color",
+      "Shirt",
+      "Jacket",
     ]);
     const his = drawnAppearance("male", "seed", 0);
     expect(appearanceRows(his, "male").map((row) => row.label)).toEqual([
@@ -89,6 +93,9 @@ describe("the New game creator", () => {
       "Hair",
       "Hair color",
       "Facial hair",
+      "Shirt",
+      "Tie",
+      "Jacket",
     ]);
     expect(appearanceRows(hers, "nonbinary")[0]!.label).toBe("Body");
 
@@ -114,6 +121,16 @@ describe("the New game creator", () => {
     expect(faces.seen.size).toBe(choices.face.length + 1);
     expect(faces.seen.has("None")).toBe(true);
     expect(faces.look).toEqual(his);
+    // The shirt in each of its colors; the tie and the jacket: none, then each color.
+    const shirts = steps(his, "shirt", choices.shirt.length);
+    expect(shirts.seen.size).toBe(choices.shirt.length);
+    expect(shirts.look).toEqual(his);
+    for (const piece of ["tie", "jacket"] as const) {
+      const worn = steps(his, piece, choices[piece].length + 1);
+      expect(worn.seen.size, piece).toBe(choices[piece].length + 1);
+      expect(worn.seen.has("None"), piece).toBe(true);
+      expect(worn.look, piece).toEqual(his);
+    }
     expect(steps(his, "skin", 3).seen.size).toBe(3);
     // A change of skin keeps the hairstyle and the facial hair; the hair's
     // color stays where the new skin's people have it.
@@ -126,18 +143,44 @@ describe("the New game creator", () => {
     expect(() =>
       readRecipe(JSON.stringify({ ...his, person: "nobody" })),
     ).toThrow();
-    // A piece the bank lacks falls back: the first hairstyle and color, and no facial hair.
+    // A piece the bank lacks falls back: the first hairstyle, hair color and
+    // shirt, and no facial hair, tie or jacket.
     expect(
-      readRecipe(JSON.stringify({ person: his.person, hair: "x", face: "y" })),
+      readRecipe(
+        JSON.stringify({ person: his.person, hair: "x", face: "y", tie: "z" }),
+      ),
     ).toEqual({
       person: his.person,
       hair: choices.hair[0]!.key,
       hairColor: choices.hairColor[0]!.key,
+      shirt: choices.shirt[0]!.key,
     });
 
-    // The creator's bust is the look's own pieces: the bust every screen draws.
-    const face = portraitFace(his)!;
-    expect(face.bust).toEqual(bustOfLook(his, "everyday"));
+    // The creator's bust is the look's own pieces in the clothes its rows
+    // choose: the shirt, the tie where one is chosen, the jacket where one is.
+    const dressed = {
+      ...his,
+      shirt: choices.shirt[1]!.key,
+      tie: choices.tie[0]!.key,
+      jacket: choices.jacket[0]!.key,
+    };
+    const face = portraitFace(dressed)!;
+    expect(face.bust).toEqual(bustOfLook(dressed, "official"));
+    for (const piece of ["shirt", "tie", "jacket"] as const)
+      expect(
+        face.bust.layers.some(
+          (url) =>
+            url.includes(`/${piece}-`) &&
+            url.endsWith(`-${dressed[piece]}.png`),
+        ),
+        piece,
+      ).toBe(true);
+    const plain = readRecipe(
+      JSON.stringify({ ...dressed, tie: undefined, jacket: undefined }),
+    );
+    const shirtOnly = portraitFace(plain)!.bust.layers;
+    expect(shirtOnly.some((url) => /\/(tie|jacket)-/.test(url))).toBe(false);
+    expect(shirtOnly.some((url) => /\/shirt-/.test(url))).toBe(true);
     expect(
       face.bust.layers.some((url) =>
         url.endsWith(`/hair-${his.hair}-${his.hairColor}.png`),
