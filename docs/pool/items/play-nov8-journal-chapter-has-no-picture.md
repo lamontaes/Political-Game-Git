@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-nov8-journal-chapter-has-no-picture
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: design-life-record
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point P35, not fixed)
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T02:13:41.607Z
 branch: claude/pool-play-nov8-journal-chapter-has-no-picture
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-play-nov8-journal-chapter-has-no-picture
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:07 UTC) on branch claude/pool-play-nov8-journal-chapter-has-no-picture.
 
 Released (2026-11-11): Tried a bench-side cache of each played scene's backdrop by moment id, read by /api/journal per chapter: in 4 drawn places (Wylandville PA, Little Browning MT, Venango PA, Fananganan MP) the journal's lines carry 7 to 14 moment ids but no chapter got a picture, because those moments (opening, life history) were never fetched through /api/story. The fix has to be as the item says, in src/director/journal.ts: write a place onto the line from its own source records (records carry placeId; map that to a backdrop via src/bench/backdrop-places.ts / scene.ts backdropFor, which takes a 'pictured' key, not a place id, so that mapping is the open question). Nothing pushed. Continue on branch claude/pool-play-nov8-journal-chapter-has-no-picture.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:13 UTC) on branch claude/pool-play-nov8-journal-chapter-has-no-picture.
