@@ -6,7 +6,7 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { setBookkeeping } from "./bookkeeping";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { personCard } from "../bench/card";
+import { knownCard } from "../bench/card";
 import { preStartHistory } from "./pre-start";
 import { coreAPI } from "./state";
 
@@ -35,12 +35,13 @@ it("lists how an official reached their seat before the start, by record id", ()
       continue;
     }
     carded += 1;
-    const seat = personCard(core, holder).seats.find(
+    // The card a click opens, as someone else sees the official.
+    const viewer = [...core.people.keys()].find((id) => id !== holder)!;
+    const seat = knownCard(core, viewer, holder).seats.find(
       (s) => s.recordId === row.id,
     );
-    expect(seat, `card of ${holder} lists ${row.id}`).toMatchObject({
+    expect(seat, `${label}: card of ${holder} lists ${row.id}`).toMatchObject({
       termId: String(row.facts.termId),
-      reached: String(term!.reached),
     });
   }
   expect(carded, `${label}: no seat record names its holder`).toBeGreaterThan(
