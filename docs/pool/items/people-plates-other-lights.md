@@ -19,6 +19,6 @@ claimed-at: 2026-10-29T23:41:42.457Z
 
 **Done when.** people-pack.test.ts passes, including a test that a plate's other lights are the same place, the same size and a light (never a condition), which fails with a lived-in picture added; in a drawn place (name it and the seed) a daytime home scene in the plated living room draws the household, with a screenshot in the PR body.
 
-**Files.** src/bench/mannequin-plates.ts, art/people-rooms/mannequin-plates/home.mannequins.json, src/bench/people-pack.test.ts
+**Files.** src/bench/mannequin-plates.ts, art/people-rooms/mannequin-plates/home.mannequins.json
 
 **Notes.** TODO
