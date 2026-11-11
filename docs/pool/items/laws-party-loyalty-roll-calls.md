@@ -4,14 +4,14 @@ title: "Party loyalty calibrated from each legislature's public roll calls"
 area: laws
 kind: research
 priority: 3
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-party-loyalty-roll-calls
 pr: #5521
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
-claimed-at:
+claimed-at: 2026-11-11T05:16:22.659Z
 after:
 lead: laws-effects
 model: sonnet
