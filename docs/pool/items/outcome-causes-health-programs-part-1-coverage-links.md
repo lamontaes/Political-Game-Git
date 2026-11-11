@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-outcome-causes-health-programs-part-1-coverage-links
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:25:19.696Z
+branch: claude/pool-outcome-causes-health-programs-part-1-coverage-links
 ---
 
 **What.** Four links wait on a cause the health engine does not record as a measure: coverage-to-catastrophic-bills, coverage-to-medical-debt, coverage-to-depression and marriage-equality-to-coverage. Each cause is a share over the place's people read from the coverage and health rows the engines already write. Record the cause as an engine measure and keep the outcome the web needs, with its base and source, so each link runs. Seen: the Metrics tab's medical-debt, catastrophic-bill and depression measures after a coverage law.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/health.ts, src/core2/modules/coverage.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/outcome-web.test.ts
+
+**Notes.** Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-outcome-causes-health-programs-part-1-coverage-links.
