@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-opening-lands-at-830-pm
-pr:
+pr: #8647
 after:
 blocked-on:
 standard: 2

@@ -81,11 +81,13 @@ describe("the New game creator", () => {
     expect(appearanceRows(hers, "female").map((row) => row.label)).toEqual([
       "Skin",
       "Hair",
+      "Hair color",
     ]);
     const his = drawnAppearance("male", "seed", 0);
     expect(appearanceRows(his, "male").map((row) => row.label)).toEqual([
       "Skin",
       "Hair",
+      "Hair color",
       "Facial hair",
     ]);
     expect(appearanceRows(hers, "nonbinary")[0]!.label).toBe("Body");
@@ -99,38 +101,48 @@ describe("the New game creator", () => {
       }
       return { seen, look };
     };
-    const choices = bustChoices("man");
+    const choices = bustChoices(bustPerson(his.person)!);
     expect(steps(his, "hair", choices.hair.length).seen.size).toBe(
       choices.hair.length,
     );
     expect(steps(his, "hair", choices.hair.length).look).toEqual(his);
-    // Facial hair: none, then each piece.
+    expect(steps(his, "hair-color", choices.hairColor.length).seen.size).toBe(
+      choices.hairColor.length,
+    );
+    // Facial hair: none, then each style.
     const faces = steps(his, "face", choices.face.length + 1);
     expect(faces.seen.size).toBe(choices.face.length + 1);
     expect(faces.seen.has("None")).toBe(true);
     expect(faces.look).toEqual(his);
     expect(steps(his, "skin", 3).seen.size).toBe(3);
-    // A change of skin keeps the hair and the facial hair.
-    const darker = moveAppearance(his, "male", "skin", 1);
-    expect(darker.person).not.toBe(his.person);
-    expect(darker.hair).toBe(his.hair);
-    expect(darker.face).toBe(his.face);
+    // A change of skin keeps the hairstyle and the facial hair; the hair's
+    // color stays where the new skin's people have it.
+    const next = moveAppearance(his, "male", "skin", 1);
+    expect(next.person).not.toBe(his.person);
+    expect(next.hair).toBe(his.hair);
+    expect(next.face).toBe(his.face);
 
     expect(readRecipe(JSON.stringify(his))).toEqual(his);
     expect(() =>
       readRecipe(JSON.stringify({ ...his, person: "nobody" })),
     ).toThrow();
-    // A piece the bank lacks falls back: the set's first hair, and no facial hair.
+    // A piece the bank lacks falls back: the first hairstyle and color, and no facial hair.
     expect(
-      readRecipe(
-        JSON.stringify({ person: his.person, hair: "x.png", face: "y.png" }),
-      ),
-    ).toEqual({ person: his.person, hair: choices.hair[0]!.file });
+      readRecipe(JSON.stringify({ person: his.person, hair: "x", face: "y" })),
+    ).toEqual({
+      person: his.person,
+      hair: choices.hair[0]!.key,
+      hairColor: choices.hairColor[0]!.key,
+    });
 
     // The creator's bust is the look's own pieces: the bust every screen draws.
     const face = portraitFace(his)!;
     expect(face.bust).toEqual(bustOfLook(his, "everyday"));
-    expect(face.bust.layers.some((url) => url.endsWith(his.hair))).toBe(true);
+    expect(
+      face.bust.layers.some((url) =>
+        url.endsWith(`/hair-${his.hair}-${his.hairColor}.png`),
+      ),
+    ).toBe(true);
     expect(face.bust.layers.some((url) => /\/face-/.test(url))).toBe(
       Boolean(his.face),
     );
@@ -301,7 +313,7 @@ describe("a look always has the chosen gender's body", () => {
   });
 });
 
-it("names every skin, hair and facial hair capitalized, like the other rows", () => {
+it("names every skin, hairstyle, hair color and facial hair capitalized, like the other rows", () => {
   for (const sex of ["female", "male"]) {
     let look = drawnAppearance(sex, "capitals", 2);
     for (let n = 0; n < 8; n++) {
