@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-medical-bills-year-cost
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T02:40:26.502Z
 branch: claude/pool-laws-medical-bills-year-cost
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-laws-medical-bills-year-cost
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:39 UTC) on branch claude/pool-laws-medical-bills-year-cost.
 
 Released (2026-11-11): Needs repeated npm run speed:year country-year runs (over 100 s each, several GB) alternating base and head plus a records proof; this 15 GB cloud container has already had a worker killed for memory on a 150-day run, so a speed claim could not be measured reliably here. Needs a session with a dedicated machine (skill heavy-runs). Continue on branch claude/pool-laws-medical-bills-year-cost.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:40 UTC) on branch claude/pool-laws-medical-bills-year-cost.
