@@ -5,9 +5,9 @@ area: elections
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-campaign-real-race-played-proof
-pr:
+pr: #8389
 after:
 blocked-on:
 source: governing lead, Oct 30 (the played-year half of campaign-like-real-races)

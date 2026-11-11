@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
+pr: #8670
 after:
 blocked-on:
 lead: lives
@@ -17,9 +17,11 @@ effort: high
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:03:12.138Z
+branch: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
 ---
 
-**What.** The owner, Nov 8: "None of my history is simulated. I can't see anything that my character went through. No, a girlfriend or a car accident or college or whatever." The past now tells school, work and moves. Nothing in it happened between people or to a body.
+**What.** The owner, Nov 8: "None of my history is simulated. I can't see anything that my character went through. No, a girlfriend or a car accident or college or whatever." The past now tells school, work and moves. Nothing in it happened between people or to a body. Seen: a person's card, which now tells an earlier partner and a serious illness or injury (owner, Nov 8).
 
 **Cause.** Found in code: the opening already works out each adult's chance of having a partner now from a yearly chain of first marriage, divorce, widowhood and remarriage at researched rates (`partneredByAge`, src/core2/opening-partnership.ts line 234, with `partneringPerYear` at line 879 and `separatingPerYear` at line 905), but only the end state reaches a person: partnered or not. The earlier marriage the chain implies is never written as an event. The writers of the past (src/core2/past-school.ts `schoolHistoryFor` line 176, src/core2/past-work.ts `pastWorkFor` line 896, src/core2/past-moves.ts, src/core2/past-elections.ts, src/core2/past-business.ts) write no earlier partnership that ended and no hospital stay or serious injury before the start.
 
@@ -31,6 +33,8 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, opens ten adults' cards: at least one tells an earlier partner or a serious illness or injury from before the start, each with a year, and Trace on the sentence opens its record. The part's test prints the town's shares beside the researched rates.
 
-**Waits on.** Pull requests 8115 and 8123 on main. Lines from Story for the spots the pull request names.
+**Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123). The build does not wait for lines: its pull request names each spot that needs them, and Story writes them after.
 
 **Files.** src/core2/person-life.ts (new), src/core2/past-work.ts, src/core2/modules/partnerships.ts, src/core2/modules/health.ts
+
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:03 UTC) on branch claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people.
