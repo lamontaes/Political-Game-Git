@@ -9,7 +9,7 @@ status: in-pr
 standard: 2
 claimed-by: claude/pool-play-talk-no-say-nothing-when-nothing-left
 pr: #8517
-after: 
+after:
 blocked-on:
 lead: play-first
 model: sonnet
