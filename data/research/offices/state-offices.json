@@ -13206,6 +13206,7 @@
       },
       "generalElectionDate2026": {
         "date": null,
+        "nextGeneralElection": "2028-11-07",
         "notes": "No general election in 2026; next general election 2028-11-07 (Puerto Rico elects in presidential years).",
         "source": "https://en.wikipedia.org/wiki/Comparison_of_U.S._state_and_territory_governments",
         "retrievedDate": "2026-10-12",

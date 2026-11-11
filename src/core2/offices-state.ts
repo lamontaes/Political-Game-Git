@@ -338,13 +338,26 @@ function offered(
     }
   ).places[stateKey]?.[family];
   if (!row) return year;
-  return firstCycleYear(
-    row.offeredIn2026 === false && row.nextRegularElection
-      ? Number(row.nextRegularElection)
-      : FILING_RESEARCH_YEAR,
-    period,
-    year,
-  );
+  // A family with no 2026 election and no next year in the filing research
+  // (Puerto Rico, which elects in presidential years) goes by the state's own
+  // next general election in the offices research.
+  const general = (
+    stateOfficeResearch as unknown as {
+      places: Record<
+        string,
+        { generalElectionDate2026?: { nextGeneralElection?: string } }
+      >;
+    }
+  ).places[stateKey]?.generalElectionDate2026?.nextGeneralElection;
+  const anchor =
+    row.offeredIn2026 === false
+      ? row.nextRegularElection
+        ? Number(row.nextRegularElection)
+        : general
+          ? Number(general.slice(0, 4))
+          : FILING_RESEARCH_YEAR
+      : FILING_RESEARCH_YEAR;
+  return firstCycleYear(anchor, period, year);
 }
 
 /** The earliest year of a recurring cycle through `anchor` not before `year`. */
