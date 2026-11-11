@@ -22,7 +22,9 @@ import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { nationStories } from "./nation-news";
 import {
+  answerAsk,
   campaignAct,
+  donationAsksView,
   campaignDay,
   campaignView,
   debateAnswer,
@@ -69,6 +71,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   colleagueDeal,
+  hireAide,
   nameHeadPick,
   nominationDecide,
   nominationsView,
@@ -125,6 +128,7 @@ import {
   sayNothing,
   type Conversation,
 } from "../director/conversation";
+import { chapterPicture } from "./journal-pictures";
 import { composeJournal } from "../director/journal";
 import {
   fileForOffice,
@@ -708,19 +712,25 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/journal",
     run: async ({ url, send }) => {
       if (!state.director) throw new Error("Generate a town first.");
+      const who = url.searchParams.get("id") ?? "";
+      const chapters = composeJournal(
+        requireCore(),
+        state.director,
+        who,
+        // The player's own journal reads to their clock, which stands at
+        // the start of a day the core has yet to run (a birthday morning).
+        state.player?.packet && state.player.personId === who
+          ? { through: state.player.packet.at.date }
+          : {},
+      );
+      // A chapter carries the picture of the place its lines were written from;
+      // with no place on record it carries none.
       send(
         200,
-        composeJournal(
-          requireCore(),
-          state.director,
-          url.searchParams.get("id") ?? "",
-          // The player's own journal reads to their clock, which stands at
-          // the start of a day the core has yet to run (a birthday morning).
-          state.player?.packet &&
-            state.player.personId === url.searchParams.get("id")
-            ? { through: state.player.packet.at.date }
-            : {},
-        ),
+        chapters.map((chapter) => {
+          const picture = chapterPicture(requireCore(), who, chapter);
+          return picture ? { ...chapter, picture } : chapter;
+        }),
       );
       return;
     },
@@ -1509,6 +1519,22 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/office/hire-aide",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        hireAide(
+          requireCore(),
+          state.player.personId,
+          url.searchParams.get("personId") ?? "",
+        ),
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/budget-line",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
@@ -1702,6 +1728,31 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/campaign/asks",
+    run: async ({ send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(200, donationAsksView(requireCore(), state.player.personId));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/campaign/asks/answer",
+    run: async ({ url, send }) => {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        answerAsk(requireCore(), state.player.personId, {
+          askId: url.searchParams.get("askId") ?? "",
+          answer: url.searchParams.get("answer") ?? "",
+          amountMinor: Number(url.searchParams.get("amountMinor")) || undefined,
+        }),
+      );
       return;
     },
   },
