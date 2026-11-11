@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine": "a ton of different speech versions ... this is a demonstration of the game")
 checked: fable 2026-11-11
-claimed-at: 2026-11-11T06:35:34.190Z
+claimed-at:
 branch: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
 ---
 
@@ -46,3 +46,5 @@ branch: claude/pool-words-opening-address-says-the-same-sentences-in-every-world
 **Notes.** Written by Fable B (2026-11-11) from a read of main at 3de4e2f423 and two addresses played in the running game that night. How many policy points an address has depends on the President holding views on federal questions, which pull requests 8589 (the cause) and 8380 (the build) cover; this item does not wait on them, and step 5 says how its test treats the count. The pieces under data/english/parts are drafted by the builder in the pull request with `Review: words` unless the CTO says the Story session writes them.
 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:35 UTC) on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
+
+Released (2026-11-11): opus-5251 (a builder told never to write lines under data/english/parts/) released it unbuilt: steps 1 to 4 are new and deleted pieces in data/english/parts/opening-speech.json, which are the Story session's to write (owner, Nov 10). Cause checked against main and it holds; a Story or Words session should take it. Continue on branch claude/pool-words-opening-address-says-the-same-sentences-in-every-world.
