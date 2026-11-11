@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-at-large-race-one-row
+pr: #8550
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:48:45.664Z
 ---
 
 **What.** A confirmer replay of Lane 1 path 1 on main (which includes the at-large seats counted as one race) in New Game, Haleyville, Alabama (0132704, replay ab5f58e9be125c95) shows, on May 20, 2025, five races on Campaigns for the August 26 election, 'Council member (Andrew Clay)', '(Cora Daniels)', '(Keith Robinson)', '(Robert Chavez)' and '(Suzanne Copeland)', each with its own running count, plus Mayor. File for it files for one seat (filing:contest:seat:gus2025:160735:council:0:2025-08-26). The count is pooled, but the player still sees and files for one seat of five. The owner met the same thing in Manchester, Connecticut as 'Selectman (Amy Villarreal)', 'Selectman (Janet Giles)', 'Selectman (Karen Li)', each with '1 running' (playtest 2026-11-08-1, point C14).

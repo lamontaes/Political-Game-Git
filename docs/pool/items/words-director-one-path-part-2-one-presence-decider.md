@@ -40,3 +40,7 @@ branch: claude/pool-words-director-one-path-part-2-one-presence-decider
 **Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:09 UTC) on branch claude/pool-words-director-one-path-part-2-one-presence-decider.
 
 Released (2026-11-11): Claimed by my own next loop but not worked: see my earlier release notes (replay-only or heavy-run items); words-director part 2 is a six-hour refactor of presence deciders across bench and english pickers that I did not start. Continue on branch claude/pool-words-director-one-path-part-2-one-presence-decider.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:19 UTC) on branch claude/pool-words-director-one-path-part-2-one-presence-decider.
+
+Released (2026-11-11): Claimed by my own next loop, not worked; see earlier notes (needs dedicated machine / six-hour presence-decider refactor). Continue on branch claude/pool-words-director-one-path-part-2-one-presence-decider.
