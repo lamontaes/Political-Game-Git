@@ -19,7 +19,7 @@ root: rc9-place-facts-one-default
 checked: fable 2026-11-10
 ---
 
-**What.** A local question whose gating state law is not on record is refused with a disputed missing grant. All 59 policy questions are mapped; what remains is the gating state laws themselves (preemption of local minimum wage, rent control, firearms and similar). Record each place's gating law for each local question in the opening law table with a citation, read before introduction and executive orders, so the player's proposed ordinance is allowed or refused by the real law. Closes the stopgap `SG-GOV-policy-power-unresolved`. The work is three parts.
+**What.** A local question whose gating state law is not on record is refused with a disputed missing grant. All 59 policy questions are mapped; what remains is the gating state laws themselves (preemption of local minimum wage, rent control, firearms and similar). Record each place's gating law for each local question in the opening law table with a citation, read before introduction and executive orders, so the player's proposed ordinance is allowed or refused by the real law. Closes the stopgap `SG-GOV-policy-power-unresolved`. The work is three parts. Seen: the introduce screen, where the player's proposed ordinance is allowed or refused by the state law that gates it, not by a missing record.
 
 **Cause.** Found in code: `src/core2/policy-authority.ts` (line 96) refuses a local question whose gating state law is not on record and writes a disputed missing grant under stopgap `SG-GOV-policy-power-unresolved` (row in `src/core2/data/stopgaps/gov.json`).
 

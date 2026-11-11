@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-campaigns-sheet-speech-pager-races-columns-debate-date
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:30:53.505Z
 ---
 
 **What.** Found while moving the speech and debate panels onto shared parts, all three on main before that change. First, the later speech stages are taller than the Campaigns sheet, so the four replies sit behind the sheet's Continue pager and the page returns to the first after every pick. Second, the local races block at the bottom of Campaigns draws as four narrow columns with one word a line. Third, the debate invitation's date shows as an ISO string. A player cannot build a speech without paging back and forth, and the screen shows developer text.

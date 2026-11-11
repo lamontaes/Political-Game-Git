@@ -5,10 +5,10 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: dropped
+status: in-pr
 standard: 2
-claimed-by:
-pr: #6166
+claimed-by: claude/pool-docs-oct26-rules-match-pool-and-law-status
+pr: #8382
 after:
 blocked-on:
 lead: cto
@@ -16,8 +16,9 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T00:29:19.170Z
 checked: fable 2026-11-10
+branch: claude/pool-docs-oct26-rules-match-pool-and-law-status
 ---
 
 **What.** PR #6166 introduced useful owner rulings and a SMART process rule, but two documentation claims are stale or broader than the implemented behavior. The rule says the pool check flags an open item without a time box, while the check enforces the Time box only for play-first items (and for items at the standard). The LAW-LINK package describes old handler counts and a single Codex builder in the present tense, which conflicts with the laws and effects lead. Correct those statements without weakening any runtime or release guard.
@@ -38,4 +39,4 @@ checked: fable 2026-11-10
 
 **Notes.** Sent back 2026-10-26 from PR #6166 (branch claude/festive-gauss-ybtd28, checked dc46edc69a): inaccurate all-open-item Time box CLI claim and obsolete LAW-LINK present-tense counts/ownership; fix on this branch, merge main first. Other rule/ruling changes are preserved; no runtime failure or full gate green claimed.
 
-**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have corrected two stale sentences in crew rules; no player sees them.
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:28 UTC) on branch claude/pool-docs-oct26-rules-match-pool-and-law-status.

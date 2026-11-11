@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/campaign-turn.test.ts
 
 **Notes.** Filed by the governing lead, Nov 2; the Done when was lengthened by the CTO to pass the pool check (Nov 2, 00:30). The donor call list ruled at 00:25 (OWNER-DECISIONS) may change who is reached; rerun on it before tracing.
+
+**Notes (re-run, 2026-11-11, main 79d23fa596).** `GOLDEN_PATH_PLACE_KEY=3773660 GOLDEN_PATH_SEED=53cc0eca...6c npx vitest run src/core2/campaign-turn.test.ts`: the test draws its place from the seed, not the key, so it ran in Virgie, Kentucky (2179860) and not Whiteville. The raise-and-spend case named here passed; a different test failed: "a rich rival holds an event on a day it is offered and a poor one does not": "expected null to be 'event'". Fresh draw `GOLDEN_PATH_SEED=e1e888d61a8c2875` (Cascade, Montana, 3012775): the same test fails with the same message. Still red, on a different assertion.
