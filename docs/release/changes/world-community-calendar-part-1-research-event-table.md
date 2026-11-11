@@ -3,4 +3,4 @@ id: world-community-calendar-part-1-research-event-table
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Adds the table of annual community events by place type that the community calendar will read; nothing in play changes yet.
