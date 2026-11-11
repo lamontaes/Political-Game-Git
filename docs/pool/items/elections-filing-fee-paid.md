@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-elections-filing-fee-paid
+pr: #8722
 after:
 blocked-on:
 model: sonnet
@@ -17,7 +17,7 @@ root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 lead: wire-elections
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:22:04.513Z
 branch: claude/pool-elections-filing-fee-paid
 ---
 

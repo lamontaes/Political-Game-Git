@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
 pr: #8670
