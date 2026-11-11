@@ -5,17 +5,18 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
-after: 
+claimed-by: claude/pool-core2-three-test-files-cannot-load
+pr: #8519
+after:
 blocked-on:
 lead: play-first
 model: sonnet
 effort: low
 root: rc2-done-from-records
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T03:16:25.583Z
 ---
 
 **What.** The new tests:load sweep (tests-every-test-file-loads) found three test files on main that throw while loading, so every check inside them has stopped running. Each throws a 'before initialization' error caused by two engines importing each other and the test entering them by the wrong door. They were found by the sweep, not by any gate, and must be fixed at the root, never skipped.
@@ -26,7 +27,7 @@ source: added with npm run pool -- add
 
 **Time box.** 3 hours
 
-**Rules.** Red main comes first: follow .agents/skills/red-main/SKILL.md. Never skip or weaken a test; fix the import order at the root.
+**Rules.** Red main comes first: follow .agents/skills/red-main/SKILL.md. Never skip or weaken a test; fix the import order at the root. Ask why: each fix names the import that entered the two engines by the wrong door, by file and line, so the cause is on the pull request.
 
 **Done when.** The three test files load and their tests pass, with each run naming its place and seed where it draws one. A second session on main runs the three test files and sees them pass; this is a check, so no drawn place of the game applies.
 

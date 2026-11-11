@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-campaigns-volunteer-joined-and-lapsed-records
-pr:
+pr: #8393
 after:
 blocked-on:
 source: "Helper B, Oct 27, docs/design/scenes/from-life/quiet-weeks-listener-offers.md"

@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-no-vote-moment-when-cannot-vote
+pr: #8496
 after:
 blocked-on:
 standard: 2
@@ -18,6 +18,8 @@ lead: play-first
 milestone: play-first
 source: 'owner, Nov 9, batch 2 voice note (cto/voice-batch-2-part-1:docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md): "3.2 shouldn''t even be in there. It just shouldn''t let you do it if you can''t vote."'
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:41:29.789Z
+branch: claude/pool-play-no-vote-moment-when-cannot-vote
 ---
 
 **What.** When the player lives outside the town whose race is counted (an eviction, a move), election day still stages the voting moment and narrates "There's no ballot for you here today. You no longer live where this race is voted." The owner graded that line out and asked that the game not offer the vote at all when the player cannot vote (voice note of Nov 9, batch 2: "It just shouldn't let you do it if you can't vote."). The election-day scene should skip the vote ask for a player with no polling visit, and the day should go straight on to the count.
@@ -39,3 +41,5 @@ checked: fable 2026-11-10
 **You will see.** On election day after moving away, the game tells you how the count went without asking you to vote.
 
 **Screenshot.** The election-day panel for a player who moved away, with no voting choice.
+
+**Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:41 UTC) on branch claude/pool-play-no-vote-moment-when-cannot-vote.
