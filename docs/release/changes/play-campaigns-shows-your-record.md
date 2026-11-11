@@ -3,4 +3,4 @@ id: play-campaigns-shows-your-record
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Campaigns now shows your record in office: the votes you cast, the bills you sponsored with where each stands, and the promises you made, kept or broken.
