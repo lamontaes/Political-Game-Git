@@ -4,14 +4,14 @@ title: "A candidate's ask for money reaches the player as a request they answer"
 area: play
 kind: feature
 priority: 2
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-campaign-ask-reaches-player
 pr: #5407
 blocked-on:
 milestone:
 source: "core-player-money-spending: world campaigns no longer draw on the player's account"
-claimed-at:
+claimed-at: 2026-11-11T00:31:51.670Z
 after:
 lead: governing
 model: opus
