@@ -48,9 +48,13 @@ export function recordTree(value, onTrace, key = "", depth = 0) {
       shown,
     );
   }
+  // A field with no value is not shown: an unset slot (a director ledger or a pending ask a person
+  // has none of) says nothing, never the word null.
   const entries = Array.isArray(value)
     ? value.map((item, index) => [String(index), item])
-    : Object.entries(value);
+    : Object.entries(value).filter(
+        ([, item]) => item !== null && item !== undefined,
+      );
   const box = node(
     "details",
     { open: depth < 1 },

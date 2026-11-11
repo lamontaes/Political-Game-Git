@@ -52,6 +52,12 @@ try {
     !sheet.includes("[object Object]"),
     "a slot prints [object Object]",
   );
+  // A slot with nothing in it is left out, never printed as null.
+  const tree = await page.locator(".dev-records").innerText();
+  assert.ok(
+    !/\bnull\b/.test(tree),
+    `an empty slot prints null: ${tree.match(/.*\bnull\b.*/)?.[0]}`,
+  );
   const count = Math.min(3, await ids.count());
   assert.ok(count > 0, "the Records section lists no record");
   for (let i = 0; i < count; i += 1) {
