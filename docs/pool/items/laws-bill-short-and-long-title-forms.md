@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-bill-short-and-long-title-forms
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: low
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at: 2026-11-11T01:42:14.928Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-laws-bill-short-and-long-title-forms
 ---
@@ -40,3 +40,9 @@ branch: claude/pool-laws-bill-short-and-long-title-forms
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:42 UTC) on branch claude/pool-laws-bill-short-and-long-title-forms.
+
+Released (2026-11-11): needs the Story session's lines under data/english/parts (delete of four bank pieces); see draft PR. Continue on branch claude/pool-laws-bill-short-and-long-title-forms.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:42 UTC) on branch claude/pool-laws-bill-short-and-long-title-forms.
+
+Released (2026-11-11): re-offered after release; see draft PR 8436. Continue on branch claude/pool-laws-bill-short-and-long-title-forms.
