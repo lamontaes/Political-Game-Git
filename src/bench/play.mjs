@@ -1458,7 +1458,9 @@ $("talk-leave").addEventListener("click", async () => {
     filingNarrated = false;
     show("talk", false);
     await refresh();
-    renderPacket();
+    // A filing stages its stories (the clerk's petition, the talk at home)
+    // as a stop the server holds: take it back so they play, never skipped.
+    if (!(await resyncOpenStop())) renderPacket();
     return;
   }
   onContinue = undefined;

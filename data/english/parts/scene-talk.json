@@ -205139,10 +205139,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.thanks-office-won-t-come-before-us",
+      "key": "scene-talk.reply-thank.thanks-i-won-t-put-office-before-us",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Thanks. {office} won't come before us.",
+      "text": "Thanks. I won't put {office} before us.",
       "uses": [
         {
           "subject": "scene",
@@ -205162,10 +205162,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.fair-enough-office-won-t-come-first-in-this-house",
+      "key": "scene-talk.reply-accept.fair-enough-i-won-t-put-office-first-in-this-house",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Fair enough. {office} won't come first in this house.",
+      "text": "Fair enough. I won't put {office} first in this house.",
       "uses": [
         {
           "subject": "scene",
@@ -205231,10 +205231,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.deal-office-gets-my-spare-hours-not-yours",
+      "key": "scene-talk.reply-accept.deal-i-ll-give-office-my-spare-hours-not-yours",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Deal. {office} gets my spare hours, not yours.",
+      "text": "Deal. I'll give {office} my spare hours, not yours.",
       "uses": [
         {
           "subject": "scene",
@@ -205277,10 +205277,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-accept.fair-office-is-my-job-not-yours",
+      "key": "scene-talk.reply-accept.fair-running-for-office-is-my-job-not-yours",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Fair. {office} is my job, not yours.",
+      "text": "Fair. Running for {office} is my job, not yours.",
       "uses": [
         {
           "subject": "scene",
@@ -206760,10 +206760,10 @@
       }
     },
     {
-      "key": "scene-talk.close-accept.get-some-sleep-office-will-still-be-there",
+      "key": "scene-talk.close-accept.get-some-sleep-the-race-for-office-will-still-be-there",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Get some sleep. {office} will still be there.",
+      "text": "Get some sleep. The race for {office} will still be there.",
       "uses": [
         {
           "subject": "scene",
