@@ -40,3 +40,7 @@ branch: claude/pool-gov-budget-asked-versus-adopted
 **Notes.** TODO
 
 Released (2026-11-11): Read and scoped, not built: BudgetRow (budgets.ts line 164) has no request field and budgets are written on four paths (council vote, executive proposal, budget bill, rule/outside-budgets), while departmentRequests (line 1460) returns the lines as last enacted, which is lineBeforeBill's value again, so a kept 'asked' only differs from today's screen figure where the body amends the request. The request has to be captured at the budget bill's introduction (legislature.ts line ~916) and carried to the adopted row, then read by src/bench/budget.ts totaled; a design call about what counts as asked before it is a one-session build. Continue on branch claude/pool-gov-budget-asked-versus-adopted.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:24 UTC) on branch claude/pool-gov-budget-asked-versus-adopted.
+
+Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-gov-budget-asked-versus-adopted.
