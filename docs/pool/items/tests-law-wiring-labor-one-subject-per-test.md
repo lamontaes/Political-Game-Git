@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-law-wiring-labor-one-subject-per-test
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,8 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:21:09.149Z
+branch: claude/pool-tests-law-wiring-labor-one-subject-per-test
 ---
 
 **What.** src/core2/law-wiring-labor.test.ts runs one world through every labor law at once and needs all of the subjects in the same drawn town: a worker under the federal floor, a seated council member, a teacher, a full and a counted claimant, a claimant above the weekly maximum, and a public unit whose contract falls due inside the window. Few towns hold them all, so the test redraws up to ten worlds at about a minute each and on Nov 9 it ran 193 seconds to 7 minutes and failed with no place with a subject, with a different missing subject on each try. Widening one subject at a time does not help, because the next missing one stops the run. Guards: the labor laws the player passes (minimum wage, claims) reach paychecks and claims, with a test that runs in minutes.
@@ -41,3 +42,5 @@ claimed-at:
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:19 UTC) on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
 
 Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 05:21 UTC) on branch claude/pool-tests-law-wiring-labor-one-subject-per-test.
