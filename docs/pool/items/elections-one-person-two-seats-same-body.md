@@ -23,7 +23,7 @@ checked: fable 2026-11-10
 
 **Cause.** Found in code: the one eligibility check every filing passes, `checkEligibility` in `src/core2/modules/elections.ts` (line 1034, called by `fileCandidacy` at line 1199), refuses a second filing only in the same contest: its `already-filed` rule (line 1094) is "one filing per contest". Nothing refuses a person who already holds a live filing for another seat of the same body on the same election day. The candidacy engine keeps someone out of a second seat only while it weighs: `committedOn` in `src/core2/modules/candidacy.ts` (line 1104), read by `weighContest` (line 943). `fileRunners` (line 1233) files the runners of a weighing done earlier without asking again, when the weighing is from today, through `fileFor` (line 829). So in the Pine Village case, a person whom the engine had already decided would run for council seat 4 was filed for it two days after the test filed them, by hand, for seat 0. Any other route into `fileCandidacy` (the player's filing, a party's or a retiring holder's ask) has the same gap.
 
-**Fix.** Add a rule to `checkEligibility` beside `already-filed`: `one-seat-per-body`, met when the person holds no filing that is not withdrawn or refused in another contest for an office of the same body on the same election date (read the contests `byDate` and the filings `byContest`, as `committedOn` does). Name the other filing in `actual`. A refusal then reaches every filing route at once, the candidacy engine's `fileFor` included, which already turns a refusal into a decision with `unmet`. Add a case to `src/core2/elections.test.ts`: in a drawn place with a council of several seats, file one person for seat 0, then try seat 1 the same day, and see it refused with `one-seat-per-body`.
+**Fix.** Add a rule to `checkEligibility` beside `already-filed`: `one-seat-per-body`, met when the person holds no filing that is not withdrawn or refused in another contest for an office of the same body on the same election date (read the contests `byDate` and the filings `byContest`, as `committedOn` does). Name the other filing in `actual`. A refusal then reaches every filing route at once, the candidacy engine's `fileFor` included, which already turns a refusal into a decision with `unmet`. Add `src/core2/elections.test.ts` (new): in a drawn place with a council of several seats, file one person for seat 0, then try seat 1 the same day, and see it refused with `one-seat-per-body`.
 
 **Time box.** 1 hour for one Sonnet session.
 
@@ -33,7 +33,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/modules/elections.ts, src/core2/modules/candidacy.ts, src/core2/elections.test.ts
+**Files.** src/core2/modules/elections.ts, src/core2/modules/candidacy.ts, src/core2/elections.test.ts (new)
 
 **Notes.** TODO
 
