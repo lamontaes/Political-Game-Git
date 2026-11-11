@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: merged
+status: done
 claimed-by: claude/pool-gov-prestart-government-test-red-on-main
 pr: #8257
 blocked-on:
@@ -20,6 +20,8 @@ checked: fable 2026-11-10
 claimed-at: 2026-11-10T22:56:50.646Z
 branch: claude/pool-gov-prestart-government-test-red-on-main
 merged-at: 2026-11-10T23:37:42.113Z
+seen-by: second-session-1
+seen-at: 2026-11-11T00:20:39.903Z
 ---
 
 **What.** On clean main on Nov 10 (after #8116, before the life record pull requests), `npx vitest run src/core2/pre-start-government.test.ts` fails its one test, 'lists how an official reached their seat before the start, by record id', with 'TypeError: Cannot read properties of undefined (reading find)'. A helper on a branch from an earlier main saw the same test fail as `personCard(...).seats` being undefined, so the card the test reads no longer carries the field it expects (the person card's list of seats). Either the card stopped returning seats for that person or the test reads a card shape that has since changed. The test draws its own place; the run printed no place or seed before the error.
@@ -41,3 +43,5 @@ merged-at: 2026-11-10T23:37:42.113Z
 **Notes.** Not checked: which commit turned it red. The life record's first step (#8115, open) rewrites the card's history assembly; this failure is on main without it. Skill red-main says how to take it from here.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-gov-prestart-government-test-red-on-main.
+
+Seen in the game (2026-11-11, second-session-1): Platte Center, Nebraska, seed 6a0d5cf2-a21e-441c-820a-1ac0898f14ff, main 2d2a25ad69a08d788de93ebb458f68c5453b369a: The test passed in three runs (it draws its own place each run); in the game Avery Harrington's card from the Politics sheet read 'served as council member since 2023' and 'took office as council member', and the trace route opened her seat record with reached 'in office at the opening' (trace called by route, not clicked; card text does not say how she reached the seat).

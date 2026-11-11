@@ -6565,11 +6565,21 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
     // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
-    const every =
-      turnDays *
-      (fastForward() ? FAST_FORWARD_STRIDE : 1) *
-      (1 + daysLeft / campaignParameter("campaignRampDays"));
-    if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
+    // The wait is counted in whole scheduled turns (they fall `turnDays`
+    // apart), so a day nearer than one more turn never costs a skipped turn:
+    // near a deadline or an election every scheduled turn works the race.
+    const everyTurns = Math.max(
+      1,
+      Math.round(
+        (fastForward() ? FAST_FORWARD_STRIDE : 1) *
+          (1 + daysLeft / campaignParameter("campaignRampDays")),
+      ),
+    );
+    if (
+      race.lastTurn &&
+      daysBetween(race.lastTurn, date) < everyTurns * turnDays
+    )
+      continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     // The town's organizations weigh the race first, so the volunteers they
     // send work this turn; then every campaign's volunteers walk its doors on

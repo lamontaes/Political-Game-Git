@@ -5,10 +5,10 @@ area: people
 kind: stopgap
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past
+pr: #8381
 after:
 blocked-on:
 lead: lives
@@ -17,6 +17,8 @@ effort: medium
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:27:49.911Z
+branch: claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past
 ---
 
 **What.** A newspaper's owner, an election chief and others the engines make to fill a role open with schooling and almost nothing else. Their cards are the shortest in the game. This part gives them a birthplace and the working life that led to the role, when they are opened or met.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing. The life record's three steps it waited on are on main (pull requests #8115 and #8139, which holds #8123).
 
 **Files.** src/core2/person-life.ts (new), src/core2/past-work.ts, src/core2/data/stopgaps/people.json
+
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:27 UTC) on branch claude/pool-core-life-record-part-4-people-made-for-a-role-have-a-past.

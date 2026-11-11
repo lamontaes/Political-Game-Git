@@ -24855,6 +24855,234 @@
       }
     },
     {
+      "key": "conversation.home-new-answer-detail.i-m-not-from-place-originally-i-moved-here",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I'm not from {place} originally. I moved here.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-moved-to-place-now-i-work-at-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I moved to {place}. Now I work at {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-detail.born-in-place-now-i-m-at-my-employer",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "Born in {place}. Now I'm at {my_employer}.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail",
+          "stages": ["born"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-detail.i-m-from-place-i-work-at-my-employer-now",
+      "move": "home-new-answer-detail",
+      "kind": "spoken",
+      "text": "I'm from {place}. I work at {my_employer} now.",
+      "uses": [
+        {
+          "move": "home-new-answer-detail",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-work.i-m-from-place-what-do-you-do-for-work",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "I'm from {place}. What do you do for work?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-work.place-and-you-where-do-you-work",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "{place}. And you, where do you work?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-work.here-in-place-where-do-you-work-these-days",
+      "move": "home-new-answer-work",
+      "kind": "spoken",
+      "text": "Here in {place}. Where do you work these days?",
+      "uses": [
+        {
+          "move": "home-new-answer-work",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "work",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.it-s-a-long-story-ask-me-again-over-coffee",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "It's a long story. Ask me again over coffee.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-deflect.not-much-to-tell-ask-me-again-sometime",
+      "move": "home-new-answer-deflect",
+      "kind": "spoken",
+      "text": "Not much to tell. Ask me again sometime.",
+      "uses": [
+        {
+          "move": "home-new-answer-deflect",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-mutual.i-m-from-place-do-we-know-anyone-in-common",
+      "move": "home-new-answer-mutual",
+      "kind": "spoken",
+      "text": "I'm from {place}. Do we know anyone in common?",
+      "uses": [
+        {
+          "move": "home-new-answer-mutual",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "mutual",
+          "raises": "mutual"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-new-answer-mutual.place-who-else-do-the-two-of-us-know",
+      "move": "home-new-answer-mutual",
+      "kind": "spoken",
+      "text": "{place}. Who else do the two of us know?",
+      "uses": [
+        {
+          "move": "home-new-answer-mutual",
+          "subject": "home-new",
+          "role": "answer",
+          "choice": "mutual",
+          "raises": "mutual"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, home-new four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
       "key": "conversation.own-work-new-answer-detail.i-work-at-employer-i-live-in-my-place",
       "move": "own-work-new-answer-detail",
       "kind": "spoken",

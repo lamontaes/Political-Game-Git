@@ -673,13 +673,14 @@
     "notSure": "Not sure yet"
   },
   "lifeGroups": [
-    ["partner", "child", "loss"],
+    ["partner", "child"],
     ["school"],
     ["work", "business"],
     ["moved", "home"],
     ["health"],
     ["law"],
-    ["office"]
+    ["office"],
+    ["loss"]
   ],
   "who": {
     "age": "Age",
