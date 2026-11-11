@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-play-meeting-second-vote-press-page-error
 pr: #8869
 after:
@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+merged-at: 2026-11-11T23:27:40.783Z
 ---
 
 **What.** At a council meeting, a player who presses Yes twice quickly on an item (a double-click) votes once, then the second press reaches the server after the item was taken up and the page throws "That item is not waiting on this agenda." as an uncaught page error. Replayed on main in Lino Lakes, Minnesota (bench seed `046d2235-27df-4daa-a680-423d6f24d0d7`, Advanced as council member Astrid Shelton): Budget Ordinance 2025-1 enacted 3 to 2, and the page error. Seen: the meeting panel, any item's Yes, No, Abstain, Decide for me, Speak for or Speak against.
