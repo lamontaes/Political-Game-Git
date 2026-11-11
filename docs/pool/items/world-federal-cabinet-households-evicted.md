@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one Sonnet session: replay one of the two places, list each evicted household that holds a federal or state official with its lease, its rent, each month's pay received by journal record id and its cash, and say which step fails: the pay is not posted, it is posted to someone else, the rent is out of scale with the pay, or the official should not live there. Then rewrite this item with `Found in code:` or `Measured:` and a real Fix.
+**Time box.** 3 hours for one Sonnet session: replay one of the two places, list each evicted household that holds a federal or state official with its lease, its rent, each month's pay received by journal record id and its cash, and say which step fails: the pay is not posted, it is posted to someone else, the rent is out of scale with the pay, or the official should not live there. Then rewrite this item with `Found in code:` or `Measured:` and a real Fix. Seen: eviction scenes and news about federal cabinet officials' households, which no real cabinet member suffers.
 
 **Rules.** No dice. One rule, all 56 places: nothing is fixed for one town by name. Wire to the world: an official's pay is a journal payment to their own household. This is a game: fix the cause for officials the player can meet, and add no new per-person loop.
 

@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-filing-petition-on-screen
-pr:
+pr: #8466
 blocked-on:
 source: added with npm run pool -- add
 after:

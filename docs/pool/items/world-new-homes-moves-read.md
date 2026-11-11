@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Have the housing move write a life-record home entry (with the stabilized capped rent and law id on a renewal), and let the journal and director read it; the Words line writes any new lines through the English engine.
 
-**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: a scene and a Journal line when a person the player watches moves into a new home.
 
 **Rules.** An effect is a read, not a record: the director or the news reads the move record by id. No hand-written player text: the lines come from the English engine. One rule, all 56 places. The chain is the acceptance: follow one move to the rent change, the person and the journal line.
 
