@@ -39,6 +39,7 @@ The "after" texts and pictures were retaken on the same seeds after both reads:
 - A subject's movement is told once. A pledge says what the President will do, naming its subject plainly.
 - The year's hard news and good news are worded apart ("a shrinking paycheck", "rising pay").
 - No name is said more than twice, and no subject's words more than three times.
+- (Third read) The year's trouble is only put where a trouble fits ("fixing a shrinking paycheck is next", never "a shrinking paycheck is next"), and the Vice President is not praised twice in the same words.
 
 The addresses are shorter than before (12 to 15 sentences against 25 to 31), because each priority is now one sentence instead of four.
 
