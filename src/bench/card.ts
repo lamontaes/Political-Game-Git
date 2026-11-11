@@ -396,7 +396,13 @@ function lineOf(
       const childId = facts.childId ?? partner;
       const name = personName(childId);
       if (!name) return null;
-      return make(childId === viewerId ? "child.you" : "child.born", { name });
+      // A child is born by their first name, inside the family's own story
+      // (lead, Nov 11: "Jeremiah was born in 1996.").
+      const child = core.people.get(String(childId ?? ""))?.givenName ?? name;
+      return make(childId === viewerId ? "child.you" : "child.born", {
+        name,
+        child,
+      });
     }
     case "loss/died": {
       // A parent's death, from the fact (a name and a relation); a death in play, from the
@@ -825,15 +831,19 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       whom: first ? teller.name : (teller.words?.object ?? ""),
       their: teller.words?.possessive ?? (first ? "their" : ""),
     };
-    const second = kinds.has(again)
-      ? screenWays(
-          "person-history",
-          `person-history.story.${again}-second.${form}`,
-        )
-      : [];
-    const ways = second.length
-      ? second
-      : screenWays("person-history", `person-history.story.${again}.${form}`);
+    // A kind said the same in every form (a child born, by name) keeps one
+    // set of wordings under `.any`.
+    const waysOf = (kind: string) => {
+      const own = screenWays(
+        "person-history",
+        `person-history.story.${kind}.${form}`,
+      );
+      return own.length
+        ? own
+        : screenWays("person-history", `person-history.story.${kind}.any`);
+    };
+    const second = kinds.has(again) ? waysOf(`${again}-second`) : [];
+    const ways = second.length ? second : waysOf(again);
     const wording = pickWay(ways, used, line.recordId, (key) =>
       screenLine("person-history", key, slots),
     );
@@ -869,7 +879,6 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
           ? ["person-history.when.same-year"]
           : [
               "person-history.when.year",
-              "person-history.when.year-back",
               // Only after the first sentence: "Then in 2008, ...".
               ...(lastYear !== undefined
                 ? [
@@ -898,7 +907,9 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       }
     }
     before.set(group, { year, when: whenKey ?? lastWhen, framed });
-    if (first) named = true;
+    // The story names them in the first sentence that says who it is about.
+    if (first && partText("person-history", wording.key).includes("{who}"))
+      named = true;
     // The kind of record (born, school, work, office...) picks the
     // group a screen tells it in: the key's first part.
     return [

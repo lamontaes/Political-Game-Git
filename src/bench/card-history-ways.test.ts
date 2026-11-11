@@ -60,10 +60,10 @@ it(`tells each kind of event more than one way in ten lives (seed ${seed})`, () 
       for (const row of card.history) {
         const kind = row.piece
           .replace(/^person-history\.story\./, "")
-          .replace(/\.(i|third|they)(\.w\d+)?$/, "")
+          .replace(/\.(i|third|they|any)(\.w\d+)?$/, "")
           .replace(/-second$/, "");
         (ways.get(kind) ?? ways.set(kind, new Set()).get(kind)!).add(
-          row.piece.replace(/\.(i|third|they)(\.w\d+)?$/, ".$2"),
+          row.piece.replace(/\.(i|third|they|any)(\.w\d+)?$/, ".$2"),
         );
         told.set(kind, (told.get(kind) ?? 0) + 1);
       }
