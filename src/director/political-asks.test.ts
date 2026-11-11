@@ -253,7 +253,7 @@ describe("the political asks: a bribe in the press and a party that asks you to 
             here,
           ).toBe(true);
           const root = scene.talk.tree.replies.map((reply) => reply.line);
-          expectUpToFourDifferent(root, here);
+          expectUpToFourDifferent(root, here, 5);
           for (const row of root)
             expect(
               ["tell", "deny", "confront", "offer", "lie"],

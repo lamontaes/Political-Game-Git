@@ -5,17 +5,21 @@ import { expect } from "vitest";
  * Nov 10, 2026: "it's also allowed to have less than 4 options sometimes...
  * So just up to 4."). One to four, every one a different answer: no two share
  * a move or say the same text. Fails on none, on more than four, and on two
- * replies that are one answer reworded.
+ * replies that are one answer reworded. `most` is four, or five only where the
+ * owner asked for the lie as a fifth reply (Oct 15, night).
  */
 export function expectUpToFourDifferent(
   rows: ReadonlyArray<{ move: string; text: string }>,
   where: string,
+  most = 4,
 ): void {
   const texts = rows.map((row) => row.text);
   expect(rows.length, `${where}: ${texts.join(" / ")}`).toBeGreaterThanOrEqual(
     1,
   );
-  expect(rows.length, `${where}: ${texts.join(" / ")}`).toBeLessThanOrEqual(4);
+  expect(rows.length, `${where}: ${texts.join(" / ")}`).toBeLessThanOrEqual(
+    most,
+  );
   expect(
     new Set(rows.map((row) => row.move)).size,
     `${where}: two replies share a move: ${texts.join(" / ")}`,
