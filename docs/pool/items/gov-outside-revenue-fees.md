@@ -5,8 +5,8 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-gov-outside-revenue-fees
 pr: #5926
 blocked-on:
 standard: 2
@@ -15,9 +15,10 @@ effort: high
 lead: governing
 root: rc1-world-outside-town
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T00:51:10.609Z
 after:
 checked: fable 2026-11-10
+branch: claude/pool-gov-outside-revenue-fees
 ---
 
 **What.** Charges, fees and miscellaneous general revenue (tuition at public colleges, hospital and park charges, transit fares, permits, utility charges) reach each treasury today as an even twelfth of Census revenue from the outside account, with nobody paying them. Replace that share so each charge is paid by the households and businesses that use the service, on the day they use it, at the price the law and the budget set, into the treasury of the government that runs it. The player would notice that raising a park or transit fee costs the people who use the park or ride, and that a fee nobody uses brings in nothing.
@@ -41,3 +42,5 @@ checked: fable 2026-11-10
 Oct 20: gov-outside-revenue-fees-wiring is done, so the item no longer waits on it.
 
 Sent back 2026-10-24 UTC from PR #5926 (branch claude/outside-revenue-fees): council fee-change acceptance explicitly unmet and aggregate budget twelfths do not prove per-use payer chain; fee-family permit closure follow-up needs named tracking or valid bounded scope; finish on that branch, merge main into it first.
+
+Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 00:51 UTC) on branch claude/pool-gov-outside-revenue-fees.
