@@ -584,6 +584,9 @@ function latestMoment(
 /** The knowledge key that says who a relative is to someone, learned when they are mentioned. */
 const knowsOfKey = (relativeId: PersonId) => `person:${relativeId}:relation`;
 
+/** The knowledge key that says someone heard of a happening, learned when they are told it. */
+const heardKey = (causeId: string) => `heard:${causeId}`;
+
 /** The stage a relative's death is told in (`familyNews.stages`). */
 const DIED = "died";
 
@@ -599,11 +602,22 @@ function familyNews(
   speakerId: PersonId,
   relativeId: PersonId,
 ): { stage: string; facts: Facts } {
-  const moment = latestMoment(core, director, speakerId, relativeId);
   const stages = CONVERSATION_RULES.familyNews?.stages ?? {};
-  const prefix = moment
-    ? Object.keys(stages).find((row) => moment.label.startsWith(row))
-    : undefined;
+  const stageOf = (moment: Moment) =>
+    Object.keys(stages).find((row) => moment.label.startsWith(row));
+  // The latest happening that is news (a stage), theirs or the speaker's
+  // that names them; else their latest happening of any kind.
+  const staged = [
+    ...recentMoments(core, director, relativeId).filter(
+      (row) => !!stageOf(row),
+    ),
+    ...recentMoments(core, director, speakerId).filter(
+      (row) => !!stageOf(row) && row.counterpartIds.includes(relativeId),
+    ),
+  ].sort((a, b) => b.date.localeCompare(a.date));
+  const moment =
+    staged[zero] ?? latestMoment(core, director, speakerId, relativeId);
+  const prefix = moment ? stageOf(moment) : undefined;
   if (!moment || !prefix) return { stage: "default", facts: {} };
   const stage = stages[prefix]!;
   const cited = [moment.causeId];
@@ -611,12 +625,14 @@ function familyNews(
   // line that names no place or employer ("Dana moved away.").
   const facts: Facts = { happened: { text: stage, sourceRecordIds: cited } };
   // An illness or a death is told with when it happened, as people say it
-  // ("last week"), from the moment's own date.
-  if (stage === "ill" || stage === "died")
-    facts.when = {
-      text: spokenWhen(moment.date, core.date),
-      sourceRecordIds: cited,
-    };
+  // ("last week"), from the moment's own date; any happening of someone else's
+  // carries it as `happened-when`.
+  const when = {
+    text: spokenWhen(moment.date, core.date),
+    sourceRecordIds: cited,
+  };
+  if (stage === "ill" || stage === "died") facts.when = when;
+  facts["happened-when"] = when;
   if (stage === "moved") {
     const move = core.durableLog.get(moment.causeId);
     const place = move?.topic
@@ -1081,6 +1097,9 @@ export function subjectsBetween(
   // Someone told who a relative is (in an earlier talk) knows of them.
   const knowsOf = (personId: PersonId, id: PersonId) =>
     !!core.knowledgeByPerson.get(personId)?.has(knowsOfKey(id));
+  // Someone told a happening (in an earlier talk) has heard it.
+  const knowsNewsOf = (personId: PersonId, causeId: string) =>
+    !!core.knowledgeByPerson.get(personId)?.has(heardKey(causeId));
   const listener = core.people.get(listenerId)!;
   const out: Subject[] = [];
   const mine = namedJobOf(core, speaker);
@@ -1343,6 +1362,12 @@ export function subjectsBetween(
     if (id === listenerId || id === speakerId || !listener.knownIds.has(id))
       continue;
     if (!core.people.get(id)?.alive || !happened(id)) continue;
+    // What happened to them, the reason they come up at all, read the way a
+    // relative's news is (familyNews), each fact cited to its moment. Told
+    // once: a listener who heard it is not told again.
+    const news = familyNews(core, director, speakerId, id);
+    const heard = news.facts.happened?.sourceRecordIds[zero];
+    if (!heard || knowsNewsOf(listenerId, heard)) continue;
     out.push({
       id: `mutual:${id}`,
       kind: "mutual",
@@ -1356,7 +1381,9 @@ export function subjectsBetween(
           text: core.people.get(id)!.givenName,
           sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
         },
+        ...news.facts,
       },
+      stage: news.stage,
     });
   }
   // The speaker's relatives the listener has not met, named by relation. A
@@ -2504,6 +2531,21 @@ function raiseSubject(
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
+  // What happened to someone both know, the player has now heard (and so
+  // has anyone else in the room), cited to the moment: a later talk does not
+  // tell it again.
+  const heardId = subject.facts.happened?.sourceRecordIds[zero];
+  if (subject.kind === "mutual" && heardId) {
+    const api = coreAPI(core as CoreState);
+    for (const hearerId of [playerId, ...conversation.presentIds])
+      api.observe(hearerId, {
+        key: heardKey(heardId),
+        value: heardId,
+        learnedAt: core.date,
+        sourceId: `conversation:${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.kind}`,
+        access: "told",
+      });
+  }
   // Who a relative of theirs is, the player now knows (and so does anyone
   // else in the room), told the way a true answer is: the next talk asks
   // after them by name instead of introducing them again.

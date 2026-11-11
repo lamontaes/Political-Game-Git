@@ -9,7 +9,10 @@ import type { PersonId } from "../core2/types";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import { wordConversationMove } from "../english/conversation-words";
+import {
+  CONVERSATION_WORDS,
+  wordConversationMove,
+} from "../english/conversation-words";
 import { subjectsBetween } from "./conversation";
 import { spoken } from "./words";
 import { expectUpToFourDifferent } from "./reply-set-check";
@@ -270,7 +273,11 @@ it(`an ill or dead relative is answered by name with when it happened (seed ${se
     const ill = subjectsBetween(core, me, pair.listenerId, director).find(
       (row) => row.kind === "family" && row.aboutId === relative.id,
     );
-    expect(ill?.stage, where).toBe("ill");
+    // A newer happening of theirs (a move in those days) is the news then.
+    if (ill?.stage !== "ill") {
+      tried.push(`${where}: newer news (${ill?.stage}) came after the illness`);
+      continue;
+    }
     const when = ill!.facts.when!.text;
     const sick = answerAbout(world, ill!.facts, "ill", "ill");
     expect(sick?.text, where).toContain(when);
@@ -364,3 +371,130 @@ it(`a relative the listener has not met is raised by name with their town or wor
   }
   throw new Error(`no drawn place had an unmet relative: ${tried.join("; ")}`);
 }, 1_800_000);
+
+it(`someone both know comes up with what happened to them, by name and place (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let draw = 0; draw < 8; draw += 1) {
+    const world = relativeAskedAfter(`${seed}:mutual:${draw}`);
+    const { core, director, me, player, where } = world;
+    // Someone the player knows, not family, whom another person the player
+    // knows also knows.
+    const pair = [...player.knownIds].sort().flatMap((aboutId) => {
+      const about = core.people.get(aboutId);
+      if (!about?.alive || player.familyIds.has(aboutId)) return [];
+      const listenerId = [...player.knownIds].sort().find((id) => {
+        const other = core.people.get(id);
+        // Not a relative of the player: relatives don't talk of people both
+        // know (familyTalk.dropped).
+        return (
+          id !== aboutId &&
+          !!other?.alive &&
+          !player.familyIds.has(id) &&
+          other.householdId !== player.householdId &&
+          other.knownIds.has(aboutId) &&
+          !other.familyIds.has(aboutId)
+        );
+      });
+      return listenerId ? [{ aboutId, listenerId }] : [];
+    })[0];
+    if (!pair) {
+      tried.push(`${where}: no one two people the player knows both know`);
+      continue;
+    }
+    const about = core.people.get(pair.aboutId)!;
+    const to =
+      about.placeId !== player.placeId
+        ? player.placeId
+        : (player.countyId ?? player.placeId);
+    const destination = corePlaceByJurisdictionId(to as never)!;
+    const moveId = `person.moved-away:${about.id}:${core.date}`;
+    applyCoreEvent(core, {
+      id: moveId,
+      date: core.date,
+      kind: "person.moved-away",
+      personIds: [about.id],
+      witnessIds: [me],
+      placeId: about.placeId,
+      publicRecord: false,
+      topic: to,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Recorded as the moves engine writes a move away.",
+        estimatedFrom: "SG-P15-moves-weights",
+      },
+      facts: {
+        [`person:${about.id}:residence`]: to,
+        "moves:elsewhere": about.placeId,
+      },
+    } as never);
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const row = subjectsBetween(core, me, pair.listenerId, director).find(
+      (subject) => subject.kind === "mutual" && subject.aboutId === about.id,
+    );
+    expect(row, `${where}: ${about.id} is not raised`).toBeTruthy();
+    expect(row!.stage, where).toBe("moved");
+    const said = wordConversationMove({
+      seed: core.seed,
+      subject: "mutual",
+      part: "raise",
+      speakerId: me,
+      traits: player.traits,
+      facts: row!.facts,
+      momentKey: `${me}:${pair.listenerId}:${core.date}:mutual`,
+      stage: row!.stage!,
+    });
+    expect(said, where).not.toBeNull();
+    expect(said!.text, where).toMatch(
+      new RegExp(`${row!.facts.name!.text}|${about.givenName}`),
+    );
+    // What happened: where they went, or that they moved, and when.
+    expect(said!.text, where).toMatch(
+      new RegExp(`${spoken(destination)}|${row!.facts["happened-when"]!.text}`),
+    );
+    expect(said!.sourceRecordIds, where).toContain(moveId);
+    process.stdout.write(`MUTUAL ${where}: "${said!.text}"\n`);
+    return;
+  }
+  throw new Error(`no drawn place had someone both know: ${tried.join("; ")}`);
+}, 1_800_000);
+
+it('names the school or the years in every reply about a shared school, and never answers "Have you seen {name}?" by jumping to work or home', () => {
+  const facts = {
+    school: { text: "Lincoln High School", sourceRecordIds: ["school"] },
+    years: { text: "22", sourceRecordIds: ["record"] },
+    "long-ago": { text: "yes", sourceRecordIds: ["record"] },
+  };
+  for (const [part, keys] of [
+    ["reply", undefined],
+    ["answers", ["plain"]],
+    ["answers", ["brief"]],
+    ["answers", ["years"]],
+  ] as const) {
+    for (let moment = 0; moment < 12; moment += 1) {
+      const said = wordConversationMove({
+        seed: "school-words",
+        subject: "shared-school",
+        part,
+        speakerId: "person:a" as PersonId,
+        traits: {},
+        facts,
+        momentKey: `school:${part}:${keys?.join() ?? ""}:${moment}`,
+        stage: "default",
+        ...(keys ? { keys } : {}),
+      });
+      if (!said) continue;
+      const short = said.text.split(/\s+/).length <= 3;
+      expect(
+        short || /Lincoln High School|22/.test(said.text),
+        `${part} ${keys?.join() ?? ""}: "${said.text}"`,
+      ).toBe(true);
+    }
+  }
+  const jumps = ["mutual", "asked-mutual"].flatMap((subject) =>
+    (CONVERSATION_WORDS.subjects[subject]?.answers ?? []).filter(
+      (move) => move.raises === "their-work" || move.raises === "home",
+    ),
+  );
+  expect(jumps.map((move) => move.text)).toEqual([]);
+});
