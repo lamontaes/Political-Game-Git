@@ -895,7 +895,13 @@
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
     "subjects": "Subjects",
-    "backToGovernment": "Back to the government"
+    "backToGovernment": "Back to the government",
+    "repealed": "Repealed",
+    "rollCallSponsor": "Sponsor",
+    "rollCallYes": "Yes ({n})",
+    "rollCallNo": "No ({n})",
+    "rollCallOpen": "How they voted",
+    "backToNews": "Back to the news"
   },
   "results": {
     "you": "You",

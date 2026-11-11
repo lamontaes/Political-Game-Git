@@ -39,6 +39,7 @@ import { calendarItems } from "./calendar";
 import { facePlace, holderFace, homeStateOf } from "./government";
 import { properName } from "../director/words";
 import { policyNames } from "./words";
+import { chamberChanges } from "./states";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 /** A town's own government before the county's. */
@@ -380,7 +381,27 @@ export function governmentBodies(
         weekday: rule.weekday,
         weeksOfMonth: rule.weeksOfMonth,
       },
-      recentVotes: recentVotesOf(api, office.id),
+      // Another state's chamber passes its changes as law rows with their
+      // counts, not as bills: those are its recent votes, each with a roll call.
+      recentVotes: [
+        ...recentVotesOf(api, office.id),
+        ...chamberChanges(core, office.id).map((change) => ({
+          billId: null,
+          lawId: change.lawId,
+          date: change.date,
+          number: null,
+          openable: false,
+          rollCall: true,
+          title: policyNames()[change.series] ?? null,
+          repealed: !change.enacted,
+          passed: true,
+          yes: change.yes,
+          no: change.no,
+        })),
+      ]
+        .filter((v) => v.title)
+        .sort((a, b) => b.date.localeCompare(a.date))
+        .slice(0, RECENT_VOTES),
       comingUp: comingUpFor(core, api, office, calendar),
     };
   };

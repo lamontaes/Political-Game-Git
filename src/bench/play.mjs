@@ -2692,6 +2692,53 @@ function billEstimate(paper, section) {
  * records when the body has made them. Clicking a section shows its estimate
  * beside it. `show` draws the nodes, `back` returns to the rows.
  */
+/**
+ * Another state's change opened (play-states-screen-opens-any-state): who voted
+ * yes and no in each chamber and its sponsor, from the roll call kept the day
+ * it passed; `back` returns to the screen it was opened from.
+ */
+async function showRollCall(lawId, back, backLabel) {
+  const call = await api(
+    `/api/state/roll-call?${new URLSearchParams({ lawId })}`,
+  );
+  if (!call) return;
+  await controlsReady;
+  const labels = controls.politics;
+  const fill = (text, values) =>
+    Object.entries(values).reduce(
+      (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
+      text ?? "",
+    );
+  const backButton = makeButton({
+    className: "action",
+    textContent: backLabel ?? labels.backToGovernment ?? "",
+    onclick: back,
+  });
+  $("sheet-body").replaceChildren(
+    backButton,
+    rosterTitle(
+      policyLabel(call.series),
+      [call.repealed ? labels.repealed : labels.passed, dateWords(call.date)]
+        .filter(Boolean)
+        .join(" · "),
+    ),
+    ...(call.sponsor ? [row(labels.rollCallSponsor, call.sponsor)] : []),
+    ...call.chambers.map((chamber, at) =>
+      stripSection(
+        Math.min(at + 1, 5),
+        chamber.chamber,
+        row(
+          fill(labels.rollCallYes, { n: chamber.yes.length }),
+          chamber.yes.join(", "),
+        ),
+        row(
+          fill(labels.rollCallNo, { n: chamber.no.length }),
+          chamber.no.join(", "),
+        ),
+      ),
+    ),
+  );
+}
 async function openBillPaper(billId, show, back, backLabel) {
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
   const stage = await api(
@@ -3866,6 +3913,20 @@ const sheets = {
         date: today(),
         headlineOf: storyHeadline,
         photoOf: storyPhoto,
+        // Another state's law opens its roll call (play-states-screen-opens-any-state).
+        actionOf: (story) =>
+          story.kind === "nation.law"
+            ? makeButton({
+                className: "action",
+                textContent: controls.politics.rollCallOpen ?? "",
+                onclick: () =>
+                  showRollCall(
+                    story.id,
+                    () => openSheet("news"),
+                    controls.politics.backToNews,
+                  ),
+              })
+            : null,
       }),
     ];
   },
@@ -4569,8 +4630,15 @@ const sheets = {
             voteRows(
               votes.map((v) => ({
                 title: v.title,
-                result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
+                result: `${v.repealed ? labels.repealed : v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
                 when: short(v.date),
+                // Another state's change: its roll call (play-states-screen-opens-any-state).
+                ...(v.rollCall
+                  ? {
+                      onOpen: () =>
+                        showRollCall(v.lawId, () => openSheet("government")),
+                    }
+                  : {}),
                 ...(v.openable
                   ? {
                       onOpen: () =>
