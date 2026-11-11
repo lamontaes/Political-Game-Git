@@ -8,7 +8,7 @@ Each picture is the bench at 1440x900 (`npm run bench`, page `/play`). The steps
 - run 250 days in dev mode: `POST /api/dev/run-until {"days": 250}`;
 - open Politics, then Bills, and pick the bill before Congress.
 
-The same bill is opened before (main at 382123f7) and after (this branch at 5bdd884c).
+The same bill is opened before (main at 382123f7) and after (this branch at 7ae3dad4, with the bill names as well).
 
 | #   | Place                   | Test seed          | Bill    |
 | --- | ----------------------- | ------------------ | ------- |
