@@ -135,6 +135,9 @@ const zero = P.zero;
 const one = P.one;
 
 /** Years after which a shared school or workplace is a reason to talk (conversation-rules.json, TUNABLE). */
+/** The slots a person's own work detail is said under. */
+const WORK_SLOTS = { position: "position", place: "work-place" };
+
 const LONG_AGO_YEARS = (
   rulesFile as unknown as { sharedPast: { longAgoYears: { value: number } } }
 ).sharedPast.longAgoYears.value;
@@ -173,6 +176,12 @@ export interface ConversationData {
    * opinion, not by having heard of it).
    */
   answersTo?: Readonly<Record<string, readonly string[]>>;
+  /**
+   * The fact that answers a question raised as a subject (how long: the
+   * years; what they do there: the position). A reply that asks it is not
+   * offered once the line before already said it.
+   */
+  answeredBy?: Readonly<Record<string, string>>;
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
   /** A relative's latest happening, by label prefix, as the stage their news is told in. */
@@ -227,6 +236,8 @@ export interface Subject {
   facts: Facts;
   /** For the player's own record: the knowledge key and its true value. */
   own?: { key: string; value: string };
+  /** What else a true answer about it tells, each told the same way as `own` (what they do at their work). */
+  alsoOwn?: readonly { key: string; value: string; fact: string }[];
   /** The person a mutual or kin subject is about, or the shared context's record. */
   aboutId?: string;
   /** The stage its own line is said in, from its record (a layoff, a closure). */
@@ -345,6 +356,36 @@ function jobOf(core: Readonly<CoreState>, person: Readonly<PersonState>) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
   return job && org ? { job, org } : null;
+}
+
+/**
+ * What a person does at their job and, when the employer is out of their
+ * town, the town it is in: from the job record's title and the employer's
+ * place, each citing its record. Under the slot names given (the speaker's
+ * own, or the player's).
+ */
+function workDetail(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+  held: NonNullable<ReturnType<typeof jobOf>>,
+  slots: { position: string; place?: string },
+): Facts {
+  const facts: Facts = {};
+  if (held.job.title)
+    facts[slots.position] = {
+      text: withArticle(held.job.title),
+      sourceRecordIds: [held.job.id],
+    };
+  const away =
+    slots.place && held.org.placeId !== person.placeId
+      ? corePlaceByJurisdictionId(held.org.placeId as never)
+      : undefined;
+  if (away && slots.place)
+    facts[slots.place] = {
+      text: spoken(away),
+      sourceRecordIds: [held.org.id],
+    };
+  return facts;
 }
 
 /** The last school a person's records name, by the school's own record. */
@@ -998,8 +1039,21 @@ export function subjectsBetween(
           text: properName(mine.org.name),
           sourceRecordIds: [mine.job.id, mine.org.id],
         },
+        ...workDetail(core, speaker, mine, WORK_SLOTS),
       },
       own: { key: `person:${speakerId}:employer`, value: mine.org.id },
+      // A true answer also tells what they do there, for the person card.
+      ...(mine.job.title
+        ? {
+            alsoOwn: [
+              {
+                key: `person:${speakerId}:position`,
+                value: mine.job.id,
+                fact: "position",
+              },
+            ],
+          }
+        : {}),
     });
   // A job the speaker lost lately, from the director's ledger: the money
   // moment of its end, theirs or a household member's that names them.
@@ -1157,6 +1211,19 @@ export function subjectsBetween(
       id: `their-tenure:${listenerId}`,
       kind: "their-tenure",
       facts: {},
+    });
+  // What they do there, asked right after they name their work: answered
+  // from the job record's title.
+  if (theirs?.job.title)
+    out.push({
+      id: `their-position:${listenerId}`,
+      kind: "their-position",
+      facts: {
+        employer: {
+          text: properName(theirs.org.name),
+          sourceRecordIds: [theirs.job.id, theirs.org.id],
+        },
+      },
     });
   const place = corePlaceByJurisdictionId(speaker.placeId as never);
   if (place)
@@ -1819,17 +1886,48 @@ function replyFacts(
       return { facts: subject.facts, stage: "default" };
     case "their-work": {
       const theirs = jobOf(core, listener);
-      return theirs
+      if (theirs)
+        return {
+          facts: {
+            employer: {
+              text: properName(theirs.org.name),
+              sourceRecordIds: [theirs.job.id, theirs.org.id],
+            },
+            ...workDetail(core, listener, theirs, WORK_SLOTS),
+          },
+          stage: "working",
+        };
+      // Out of work: the last employer on record, when there is one.
+      const ended = lastEndedJob(core, listenerId);
+      const was = ended
+        ? core.organizations.get(ended.organizationId)
+        : undefined;
+      return {
+        facts: was
+          ? {
+              employer: {
+                text: properName(was.name),
+                sourceRecordIds: [ended!.id, was.id],
+              },
+            }
+          : {},
+        stage: "none",
+      };
+    }
+    case "their-position": {
+      const theirs = jobOf(core, listener);
+      return theirs?.job.title
         ? {
             facts: {
               employer: {
                 text: properName(theirs.org.name),
                 sourceRecordIds: [theirs.job.id, theirs.org.id],
               },
+              ...workDetail(core, listener, theirs, WORK_SLOTS),
             },
-            stage: "working",
+            stage: "default",
           }
-        : { facts: {}, stage: "none" };
+        : null;
     }
     case "their-tenure": {
       const years = tenureYears(startedOf(core, listener), core.date);
@@ -1905,11 +2003,16 @@ function playerFacts(
   const player = core.people.get(playerId)!;
   const facts: Facts = {};
   const mine = jobOf(core, player);
-  if (mine)
+  if (mine) {
     facts["my-employer"] = {
       text: properName(mine.org.name),
       sourceRecordIds: [mine.job.id, mine.org.id],
     };
+    Object.assign(
+      facts,
+      workDetail(core, player, mine, { position: "my-position" }),
+    );
+  }
   // How long the player has worked there; a home answer counts its own years.
   const tenure = last.kind.startsWith("home")
     ? undefined
@@ -2929,6 +3032,10 @@ function offerChoices(
       }
     }
     if (putQuestion && fitting && !fitting.includes(choiceKey)) return;
+    // Never asked what the line before already said ("I've been there six
+    // years." "How long have you been at Kroger?").
+    const answeredBy = raised && data.answeredBy?.[raised.kind];
+    if (answeredBy && said?.wording?.facts.includes(answeredBy)) return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
     // A move that turns the question back says nothing without its subject.
@@ -3287,6 +3394,20 @@ const OWN_OF: Readonly<Record<string, string>> = {
   "home-reply": "home",
 };
 
+/** What else the player told about a subject of their own: only what their words said (their job, when the line named it). */
+function saidOwn(
+  subject: Subject,
+  wording: Wording | undefined,
+): { key: string; value: string }[] {
+  return (subject.alsoOwn ?? [])
+    .filter(
+      (also) =>
+        wording?.facts.includes(also.fact) ||
+        wording?.facts.includes(`my-${also.fact}`),
+    )
+    .map(({ key, value }) => ({ key, value }));
+}
+
 /** The slots that carry the player's own employer or place, which a false alternative replaces. */
 const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];
 
@@ -3460,9 +3581,12 @@ export function say(
       });
       believers(api).add(hearerId);
     }
-  } else if (last.subject.own && conversation.lines.at(-one)?.act === "ask")
+  } else if (last.subject.own && conversation.lines.at(-one)?.act === "ask") {
     // A true answer tells everyone present the fact.
     tell(eventId, last.subject.own);
+    for (const also of saidOwn(last.subject, choice.wording))
+      tell(`${eventId}:${also.key}`, also);
+  }
   conversation.lines.push({
     speakerId: playerId,
     subjectId: choice.raises ?? choice.answers,
@@ -3610,6 +3734,8 @@ export function say(
   }
   conversation.used.push(raised.id);
   if (raised.own) tell(`${eventId}:told`, raised.own);
+  for (const also of saidOwn(raised, choice.wording))
+    tell(`${eventId}:told:${also.key}`, also);
   const reply = replyFacts(core, otherId, raised);
   const kind = data.replyKinds[raised.kind] ?? raised.kind;
   const line = reply

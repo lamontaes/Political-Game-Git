@@ -20,6 +20,7 @@
     "their-work": "other-work",
     "home": "home-reply",
     "their-tenure": "tenure-reply",
+    "their-position": "position-reply",
     "their-school": "school-reply",
     "their-family": "family-reply",
     "news": "news-reply"
@@ -122,7 +123,7 @@
     "own-work": ["their-work"],
     "heard-work": ["their-work"],
     "shared-work": ["their-work"],
-    "other-work": ["their-tenure"],
+    "other-work": ["their-tenure", "their-position"],
     "home": ["home"],
     "family": ["their-family"],
     "address": ["address"]
@@ -153,6 +154,11 @@
   "answersTo": {
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
     "news-ask-think": ["opinion"]
+  },
+  "answeredBy": {
+    "about": "Owner, Nov 11, 2026 (work talk names the employer, the job and how long): a question raised as a subject is answered by this fact of the other person's record. A reply that asks it is not offered when the line before already said it. Subject kinds and fact names only; no sentence.",
+    "their-tenure": "years",
+    "their-position": "position"
   },
   "tells": {
     "about": "Owner, Oct 14, 2026, night (Q10: one 'listen' and one 'ask more'): when the player answers the other person's line with a choice that asks for more, the other person tells this subject of their own, from their records, as a side remark on the same topic. By the line's kind, then the choice.",
@@ -260,6 +266,7 @@
       "own-work",
       "their-work",
       "their-tenure",
+      "their-position",
       "shared-work",
       "shared-school",
       "school",

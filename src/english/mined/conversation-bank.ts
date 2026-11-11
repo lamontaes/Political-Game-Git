@@ -34,6 +34,8 @@ export interface MinedUse {
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** A `reason` piece: the role of the lines it may follow (`raise`, `reply`, `answer`), joined after them by the engine. */
+  for?: string;
 }
 export interface MinedPart extends BankPart<MinedUse> {
   move: string;
@@ -110,6 +112,20 @@ export function conversationDataFromBank(
   // A part the owner graded down and never up is not said.
   for (const part of admittedParts(bank.parts)) {
     for (const use of part.uses) {
+      // A reason the engine joins after a line of the role it names (owner,
+      // Nov 11: every line composed from pieces, with inserts).
+      if (use.role === "reason" && use.for) {
+        const of = ROLE_FIELD[use.for];
+        if (!of) continue;
+        const reasons = ((subjects[use.subject] ??= {}).reasons ??= []);
+        if (!reasons.some((row) => row.part === part.key && row.for === of))
+          reasons.push({
+            ...directorMove(`reason.${part.key}`, part, use),
+            for: of,
+            ...(use.choice ? { forChoice: use.choice } : {}),
+          });
+        continue;
+      }
       const field = ROLE_FIELD[use.role];
       if (!field) continue;
       if (
