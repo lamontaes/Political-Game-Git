@@ -22,6 +22,17 @@ import { absenceRate, joltsRate, turnoverReport } from "./turnover-check";
 
 const seed = process.env.TURNOVER_SEED ?? randomBytes(8).toString("hex");
 
+/** The measure counts private businesses' jobs only: a post on a government's payroll is not one. */
+const isPrivate = (
+  core: Parameters<typeof turnoverReport>[0],
+  job: { id: string; organizationId?: string },
+) =>
+  !job.id.startsWith("job:public:") &&
+  !(
+    job.organizationId !== undefined &&
+    core.publicOrganizations.has(job.organizationId)
+  );
+
 it("the data carries every JOLTS industry row for each of the four rates, and the CPS absence rows", () => {
   for (const kind of [
     "hires",
@@ -103,6 +114,25 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
     `attendance diagnostic: ${where}; full-person job-weeks with a missed work segment ${absentWeeks} of ${plannedWeeks} (${absenceShare.toFixed(2)} percent), e.g. ${absentSample.join("; ")}; not comparable to CPS absence rates (${absenceRate("Private sector")} private, ${absenceRate("Public sector")} public); counted absence not measured (SG-CORE-residents-cadence)\n`,
   );
   expect(report.employed, where).toBeGreaterThan(0);
+  // Private jobs only (JOLTS' private rates): the count leaves out every government post, which are
+  // most of a drawn town's open jobs.
+  let openJobs = 0;
+  let privateJobs = 0;
+  for (const job of core.jobs.values())
+    if (!job.endsAt) {
+      openJobs += 1;
+      if (isPrivate(core, job)) privateJobs += 1;
+    }
+  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+    if (!job.endsAt) {
+      openJobs += countedJobHeads(core, job);
+      if (isPrivate(core, job)) privateJobs += countedJobHeads(core, job);
+    }
+  expect(report.employed, `${where}: private jobs only`).toBe(privateJobs);
+  expect(
+    privateJobs,
+    `${where}: private of ${openJobs} open jobs`,
+  ).toBeLessThanOrEqual(openJobs);
   expect(Object.keys(report.counts).length, where).toBeGreaterThan(0);
   // The diagnostic has a nonempty denominator from actual work rollups.
   expect(
@@ -129,12 +159,12 @@ it("counts a counted job as the heads it stands for, as the jobs engine does", (
     let records = 0;
     let people = 0;
     for (const job of core.jobs.values())
-      if (!job.endsAt) {
+      if (!job.endsAt && isPrivate(core, job)) {
         records += 1;
         people += 1;
       }
     for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-      if (!job.endsAt) {
+      if (!job.endsAt && isPrivate(core, job)) {
         records += 1;
         people += countedJobHeads(core, job);
       }
@@ -242,9 +272,14 @@ it("counts a staff cut that sheds part of a counted job as a layoff of the heads
       let shed = 0;
       for (const cut of changes.rows() as unknown as {
         kind: string;
+        jobId: string;
         values: { headsShed: number };
       }[])
-        if (cut.kind === "staff-shed") shed += cut.values.headsShed;
+        if (
+          cut.kind === "staff-shed" &&
+          (!rt.jobs.has(cut.jobId) || isPrivate(core, rt.jobs.get(cut.jobId)!))
+        )
+          shed += cut.values.headsShed;
       for (const cut of cuts) {
         const job = rt.jobs.get(cut.jobId)!;
         expect(cut.heads, `${where}: ${cut.id} moved the heads it shed`).toBe(
@@ -267,9 +302,11 @@ it("counts a staff cut that sheds part of a counted job as a layoff of the heads
         9,
       );
       let employed = 0;
-      for (const job of core.jobs.values()) if (!job.endsAt) employed += 1;
+      for (const job of core.jobs.values())
+        if (!job.endsAt && isPrivate(core, job)) employed += 1;
       for (const job of rt.jobs.values())
-        if (!job.endsAt) employed += countedJobHeads(core, job);
+        if (!job.endsAt && isPrivate(core, job))
+          employed += countedJobHeads(core, job);
       expect(report.employed, where).toBeCloseTo(employed, 9);
       process.stdout.write(
         `staff cut: ${where}; ${cuts.map((c) => `${c.id} shed ${c.values.headsShed} of ${heads.get(c.jobId)}, ${c.values.headsLeft} left`).join("; ")}; ${report.employed} employed; staff-shed ${report.counts["staff-shed"]}\n`,
