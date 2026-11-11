@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-dev-watch-panel-is-black-on-black
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T00:11:01.902Z
 branch: claude/pool-play-dev-watch-panel-is-black-on-black
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-play-dev-watch-panel-is-black-on-black
 **Notes.** From the Fable audit of Nov 9, 2026, Pillar 2, "Dev mode on the screen": a helper drove dev mode through the game's own screens in Ten Broeck, Kentucky, for five months of game time; the lead checked the screenshots cited. The screenshot is `docs/audits/fable-vision-2026-11-09-screens/07-dev-watch-unreadable.jpg` on branch `audit/fable-vision`. The audit's words: "The Watch panel is black text on a black sheet. Its tables cannot be read." The audit named no cause and did not say whether the Golden path tables or the loans table under Watch were unreadable too; the code builds them the same way, so the fix covers them. The cause lines above were read on Nov 10 by the session that filed this. Related items found: `play-dev-person-record-list-prints-object-object` (the Records tree on the person card uses the same parts), `play-golden-path-panel-in-dev-mode` (done; it put the Golden path tables here), `dev-mode-move-dev-page-controls-into-game` (done; it moved Watch from the old dev page onto the Calendar). No open item covered this defect.
 
 Released (2026-11-10): Cause differs from main 94969ad22a: in Addington, Oklahoma (seed fa7af0ac-cba5-4b41-8f2e-7390a263e968, 1440x900, Dev mode on) .dev-watch th/td/.scroll compute color rgb(242,237,228), light on the dark sheet, and the Watch text reads; no black-on-black. What does show is the Watch section squeezed into a sliver at the bottom of the Calendar sheet (one table header line then record-tree lines such as 'fiscalYear 2024' and 'adoptedOn 2024-10-01' cut off), so the item needs re-writing around that before it is built. Continue on branch claude/pool-play-dev-watch-panel-is-black-on-black.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:10 UTC) on branch claude/pool-play-dev-watch-panel-is-black-on-black.
