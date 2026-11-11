@@ -3,4 +3,4 @@ id: laws-ui-base-period-played-proof
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A played twin pair shows an unemployment claim after an hours cut reads the base period, and the stopgap is narrowed to workers with under five completed quarters of pay.
