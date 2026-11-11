@@ -9,7 +9,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-laws-nine-links-taxes
-pr:
+pr: #8372
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 after:
