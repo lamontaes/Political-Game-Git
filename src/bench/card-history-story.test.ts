@@ -27,6 +27,17 @@ interface TermRow {
   identity?: { givenName: string; familyName: string; birthDate?: string };
 }
 
+/**
+ * A sentence after the time it opens on, when it opens on one ("In 1985,",
+ * "At 14,", "That same year,"; words-life-story-has-one-wording-for-each-
+ * kind-of-event).
+ */
+const afterTime = (text: string) =>
+  text.replace(
+    /^(?:(?:In|Back in|Then in|Later, in) \d{4}|At (?:age )?\d+|That same year), /,
+    "",
+  );
+
 /** Sentences, not fragments: a capital first letter and a closing period. */
 function expectSentences(where: string, lines: readonly { text: string }[]) {
   for (const line of lines)
@@ -74,7 +85,9 @@ it("tells an official, a resident and the player as stories, with the header's s
   show("official", official);
   const name = `${byStart[0]!.identity!.givenName} ${byStart[0]!.identity!.familyName}`;
   expectSentences(`${where} official`, official.history);
-  expect(official.history[0]!.text.startsWith(name), where).toBe(true);
+  expect(afterTime(official.history[0]!.text).startsWith(name), where).toBe(
+    true,
+  );
   // Their terms in the seat are one sentence, told on every term's record.
   const told = official.history.filter(
     (line) =>
@@ -117,14 +130,14 @@ it("tells an official, a resident and the player as stories, with the header's s
   show("resident", card);
   expectSentences(`${where} resident`, card.history);
   expect(
-    card.history[0]!.text.startsWith(
+    afterTime(card.history[0]!.text).startsWith(
       `${person.givenName} ${person.familyName}`,
     ),
     where,
   ).toBe(true);
   for (const line of card.history.slice(1))
-    expect(line.text, `${where}: after the first sentence`).toMatch(
-      /^(She|He|They|You) /,
+    expect(afterTime(line.text), `${where}: after the first sentence`).toMatch(
+      /^(She|He|They|You|she|he|they|you) /,
     );
   expect(card.summary.length, where).toBeGreaterThanOrEqual(2);
 
@@ -134,7 +147,7 @@ it("tells an official, a resident and the player as stories, with the header's s
   expectSentences(`${where} player`, own.history);
   expect(own.history.length, where).toBeGreaterThan(0);
   for (const line of own.history)
-    expect(line.text, `${where}: your own story`).toMatch(/^I /);
+    expect(afterTime(line.text), `${where}: your own story`).toMatch(/^I /);
   expect(own.summary.length, where).toBeGreaterThanOrEqual(2);
   for (const line of own.summary)
     expect(line, `${where}: under your name`).toMatch(/^You /);
