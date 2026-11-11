@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-counter-agency-said-as-a-post
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:12:51.390Z
 ---
 
 **What.** At a state counter the counter narration names the filing office's title as the person's post: "Michael Medina, the Pennsylvania Department of State, sets down a stack of mail." (Meadowood, Pennsylvania, seed 16db857d2df58192fb23:0). The clerk row's title for a state counter is the agency, not a person's job. Found while building words-clerk-visit-narration-real; on main before it too.
