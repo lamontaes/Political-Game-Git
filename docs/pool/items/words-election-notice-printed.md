@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-election-notice-printed
 pr:
 after:
 blocked-on:
@@ -16,8 +16,9 @@ model: sonnet
 effort: medium
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
-claimed-at:
+claimed-at: 2026-11-11T02:36:33.475Z
 checked: fable 2026-11-10
+branch: claude/pool-words-election-notice-printed
 ---
 
 **What.** The notice of election the owner graded good ("NOTICE OF ELECTION NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.") sits in data/english/parts/notice.json under stopgap SG-WORDS-notice-no-reader. No engine prints it: the filing visit has no notice and the paper prints no election notice. Print it in the newspaper before each election from the contest records, as a real town's paper does.
@@ -37,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** data/english/parts/notice.json, src/bench/printed-words.ts, src/bench/printed-words.test.ts, src/director/filing-visit.ts, src/director/data/stopgaps.json
 
 **Notes.** Added Nov 8 by the Story session with the restore of the owner's liked lines (`scripts/dialogue-batch/liked-lines-kept.test.ts`). The graded keys stay in a bank until a scene reads them.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:36 UTC) on branch claude/pool-words-election-notice-printed.
