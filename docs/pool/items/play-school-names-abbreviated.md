@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-school-names-abbreviated
-pr:
+pr: #8557
 after:
 blocked-on:
 standard: 2
