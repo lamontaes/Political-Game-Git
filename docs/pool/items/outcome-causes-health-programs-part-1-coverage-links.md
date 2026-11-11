@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-outcome-causes-health-programs-part-1-coverage-links
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T06:25:19.696Z
+claimed-at:
 branch: claude/pool-outcome-causes-health-programs-part-1-coverage-links
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-outcome-causes-health-programs-part-1-coverage-links
 **Files.** src/core2/modules/health.ts, src/core2/modules/coverage.ts, src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/outcome-web.test.ts
 
 **Notes.** Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-outcome-causes-health-programs-part-1-coverage-links.
+
+Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-outcome-causes-health-programs-part-1-coverage-links.
