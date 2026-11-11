@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-tests-scene-staged-fails-on-seed-wire-l1-c
-pr:
+pr: #8403
 after:
 blocked-on:
 lead: director
