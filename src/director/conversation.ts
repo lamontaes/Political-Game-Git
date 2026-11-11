@@ -608,8 +608,12 @@ function familyNews(
       (row) => !!stageOf(row) && row.counterpartIds.includes(relativeId),
     ),
   ].sort((a, b) => b.date.localeCompare(a.date));
+  // A death is the news once it is recorded, whatever its records say after
+  // (a job's end, an estate).
   const moment =
-    staged[zero] ?? latestMoment(core, director, speakerId, relativeId);
+    staged.find((row) => stages[stageOf(row)!] === DIED) ??
+    staged[zero] ??
+    latestMoment(core, director, speakerId, relativeId);
   const prefix = moment ? stageOf(moment) : undefined;
   if (!moment || !prefix) return { stage: "default", facts: {} };
   const stage = stages[prefix]!;

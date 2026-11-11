@@ -487,6 +487,48 @@ export interface CountedAppeal {
   readonly scandal: number;
   /** Their own "yes" at the candidate's door, as far as it still holds. */
   readonly pledge: number;
+  /** What the held yes adds beyond its weight so it keeps the candidate ahead (`liftHeldPledges`); 0 where none holds. */
+  readonly pledgeLift?: number;
+}
+
+/**
+ * A door "yes" that still holds decides the voter's choice in proportion to
+ * how far it holds (owner, Oct 29: a yes at the door is near-binding), on a
+ * sliding scale with no threshold: the pledged candidate's total is lifted by
+ * `holds` times the gap to the best rival's total without any pledge, so a
+ * yes held in full keeps its candidate ahead by the pledge weight whatever
+ * the other reasons sum to, a yes half held closes half the gap, and one
+ * fully doubted adds nothing. The one rule for a named voter's appeal
+ * (voting.ts) and a counted voter's (`countedAppeal`), read by each after its
+ * totals are summed. `pledge` is the weight times how far the yes holds.
+ */
+export function liftHeldPledges(
+  appeal: Record<
+    string,
+    { total: number; pledge?: number; pledgeLift?: number }
+  >,
+): void {
+  const weight = campaignParameter("doorPledgeWeight");
+  if (!(weight > 0)) return;
+  for (const id in appeal) {
+    const own = appeal[id]!;
+    const holds = Math.min(1, (own.pledge ?? 0) / weight);
+    if (holds <= 0) continue;
+    let rival = -Infinity;
+    for (const other in appeal)
+      if (other !== id)
+        rival = Math.max(
+          rival,
+          appeal[other]!.total - (appeal[other]!.pledge ?? 0),
+        );
+    const gap = rival - (own.total - (own.pledge ?? 0));
+    own.pledgeLift = gap > 0 ? holds * gap : 0;
+  }
+  // Apply after every candidate's lift is read from the pledge-free totals.
+  for (const id in appeal) {
+    const own = appeal[id]!;
+    if (own.pledgeLift) own.total += own.pledgeLift;
+  }
 }
 
 /**
@@ -579,6 +621,8 @@ export function countedAppeal(
         pledge,
       };
   }
+  // A held door yes keeps its candidate ahead, in proportion to how far it holds.
+  liftHeldPledges(appeal as Record<string, Mutable<CountedAppeal>>);
   // The audit's probe (off in play) sees whether the voter backs the
   // incumbent with and without the trait term: one person's first place, or
   // the share of a counted record's people the count gives them.
