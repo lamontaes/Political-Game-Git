@@ -49,6 +49,6 @@ The holders' "Fire Chief" and "County Administrator" jobs are the jobs the appoi
 
 **Waits on.** gov-appointments-weigh-counted-adults (pull request 8830) and gov-opening-seats-go-to-the-players-own-family (pull request 8827), which it builds on.
 
-**Files.** src/core2/modules/executive.ts, src/core2/data/campaigns/parameters.json, src/core2/modules/executive-town-heads.test.ts
+**Files.** src/core2/modules/executive.ts, src/core2/data/campaigns/parameters.json, src/core2/modules/executive-town-heads.test.ts (new)
 
 **Notes.** Filed by opus-5251, Nov 11, from pull request 8830's thirty-place count, at the lead's request (Fable B).
