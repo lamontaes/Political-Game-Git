@@ -14,10 +14,11 @@
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+// The bench world first: its modules load in the order play loads them.
+import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { knownCard } from "../bench/card";
 import controls from "../bench/data/controls.json" with { type: "json" };
-import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";

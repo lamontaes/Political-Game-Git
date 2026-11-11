@@ -10245,6 +10245,13 @@
           "subject": "lie",
           "role": "doubt",
           "choice": "question"
+        },
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
         }
       ],
       "transcriptsUsing": 2,
@@ -12638,6 +12645,13 @@
           "subject": "eviction-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "own-view-answer-why",
+          "subject": "own-view",
+          "role": "answer",
+          "choice": "why",
+          "requiresFacts": ["has-reason"]
         }
       ],
       "transcriptsUsing": 12,
@@ -31490,9 +31504,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31510,9 +31522,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31530,9 +31540,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31550,9 +31558,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31570,9 +31576,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31590,9 +31594,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31610,9 +31612,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31630,9 +31630,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "agree",
-          "requiresFacts": [
-            "my-same"
-          ]
+          "requiresFacts": ["my-same"]
         }
       ],
       "origin": "authored",
@@ -31650,9 +31648,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31670,9 +31666,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31690,9 +31684,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31710,9 +31702,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31730,9 +31720,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31750,9 +31738,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31770,9 +31756,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31790,9 +31774,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "disagree",
-          "requiresFacts": [
-            "my-other"
-          ]
+          "requiresFacts": ["my-other"]
         }
       ],
       "origin": "authored",
@@ -31810,49 +31792,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "why",
-          "requiresFacts": [
-            "has-reason"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.how-come",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "How come?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": [
-            "has-reason"
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-answer-why.since-when",
-      "move": "own-view-answer-why",
-      "kind": "spoken",
-      "text": "Since when?",
-      "uses": [
-        {
-          "move": "own-view-answer-why",
-          "subject": "own-view",
-          "role": "answer",
-          "choice": "why",
-          "requiresFacts": [
-            "has-reason"
-          ]
+          "requiresFacts": ["has-reason"]
         }
       ],
       "origin": "authored",
@@ -31870,9 +31810,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "why",
-          "requiresFacts": [
-            "has-reason"
-          ]
+          "requiresFacts": ["has-reason"]
         }
       ],
       "origin": "authored",
@@ -31890,9 +31828,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "why",
-          "requiresFacts": [
-            "has-reason"
-          ]
+          "requiresFacts": ["has-reason"]
         }
       ],
       "origin": "authored",
@@ -31910,9 +31846,7 @@
           "subject": "own-view",
           "role": "answer",
           "choice": "why",
-          "requiresFacts": [
-            "has-reason"
-          ]
+          "requiresFacts": ["has-reason"]
         }
       ],
       "origin": "authored",
