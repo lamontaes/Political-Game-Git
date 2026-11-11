@@ -1,0 +1,20 @@
+PLAYER w7-press-b: Amber Holmes in Pocatello, Idaho
+FILED w7-press-b: {"me":"person_7a090974d8fd3110","body":"office:gus2025:102377:council","billId":"bill:office:gus2025:102377:council:2025-01-20:person_7a090974d8fd3110:17","tried":["us-policy-positions:transportation-infrastructure.fare-free-transit:drafted"]}
+VOTE-MOMENT w7-press-b: {"id":"person_7a090974d8fd3110:2025-02-04:bill-vote:bill:office:gus2025:102377:council:2025-01-20:person_7a090974d8fd3110:17:office:gus2025:102377:council","kinds":["floor-vote","press-interview"]}
+TALK w7-press-b (asked):
+Ethan Velez
+Quick one before you go?
+You voted for Ordinance 2025-1. What should people know about why?
+Somewhere behind you, a camera clicks twice.
+I'm voting for it, and you can quote me.
+Let's see where the amendments land.
+I'm not answering that one.
+--
+TALK w7-press-b (answered):
+Ethan Velez
+AMBER HOLMES
+I'm voting for it, and you can quote me.
+What do you say to people who disagree?
+I'd tell them I listened, and I still disagree.
+Time will answer that, and it'll answer for me.
+That's all I'm saying today.
