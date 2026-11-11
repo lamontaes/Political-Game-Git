@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-elections-filing-fee-paid
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 lead: wire-elections
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:55:04.748Z
 ---
 
 **What.** The owner's Oct 28 ruling (OWNER-DECISIONS line 16) reverses 'Filing: no fee or petition mechanic', and the Oct 24 'simulate it, don't ask' ruling names a fee as a mechanic to build from research. The petition line (PR #6724) built the signatures and the clerk's check; nothing charges the fee. filing-requirements.json already lists each place's fee by office family (gov-filing-fee-and-file-line, done). Filing should pay that fee from the candidate's account to the filing office's treasury through the money journal, for the player and for world candidates alike, and a candidate who cannot pay is refused at the counter with the reason on record.
