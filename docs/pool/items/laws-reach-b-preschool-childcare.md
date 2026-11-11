@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/law-reach/group-b-people.ts, src/core2/reference/living-costs-data.ts, src/core2/modules/school.ts, src/core2/data/stopgaps/gov.json, src/core2/law-reach-group-b.test.ts
 
 **Notes.** Part 1 of 2 of laws-reach-b-schools-preschool-tuition. There is no child-care spending in the core today (living-costs-data.ts has no child-care line); the Consumer Expenditure child-care row may need the BLS workbook, which the cloud proxy blocked for the sibling medical-spending item, so use a published average registered ESTIMATED with its citation if it cannot be fetched.
+
+**Notes (Fable B, Nov 10, depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a child-care bill and enrollment at a provider; the preschool law already pays each eligible child's household (`payPreschool`), so this only adds precision.

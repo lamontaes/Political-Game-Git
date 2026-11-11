@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-join-a-party-has-no-scene-and-no-headquarters
 pr: #8453

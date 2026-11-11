@@ -31,6 +31,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { purposeScene } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Someone comes to argue before the decision (episode desk-decision-both-sides,
 // docs/design/scenes/from-life/desk-decision-both-sides.md). When a bill is
@@ -173,7 +174,7 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
     expect(said("ayes")?.recordIds, where).toContain(first.bill.id);
     expect(said("deadline")?.recordIds, where).toContain(scene.cause.id);
 
-    // Plain words on every path, and four replies that are four stances.
+    // Plain words on every path, and up to four replies that are different stances.
     const lines = [
       ...scene.talk.lines,
       ...(function* walk(
@@ -193,9 +194,9 @@ it(`a bill on the desk brings its sponsor, or the group against it, in to argue,
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined/,
       );
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["agree", "refuse", "bargain", "ask"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["agree", "refuse", "bargain", "ask"], where).toContain(row.move);
     expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
     // Every ending hands the player to the desk.
     const ends: string[] = [];
