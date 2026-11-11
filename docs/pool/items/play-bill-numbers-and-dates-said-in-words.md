@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: claude/pool-play-bill-numbers-and-dates-worded
-pr:
+pr: #8856
 after:
 blocked-on:
 standard: 2
