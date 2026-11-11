@@ -23,6 +23,7 @@ import type { Moment } from "./types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The day after a race is counted, someone the player knows who is tied to a
 // candidate tells who won (situation type `race-told`, purpose `race-told`,
@@ -247,11 +248,11 @@ function check(
       /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
     );
 
-  // Four replies, four stances: four different moves, four different lines.
+  // Up to four replies, all different stances: different moves, different lines (owner, Nov 10).
   const root = scene.talk.tree.replies.map((reply) => reply.line);
-  expect(new Set(root.map((row) => row.move)), where).toEqual(
-    new Set(["ask", "comfort", "tell", "deflect"]),
-  );
+  expectUpToFourDifferent(root, where);
+  for (const row of root)
+    expect(["ask", "comfort", "tell", "deflect"], where).toContain(row.move);
   expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
 
   // Who turned out is the count's own: where the voting engine kept the

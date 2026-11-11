@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
+pr: #8414
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,8 @@ model: sonnet
 effort: medium
 root: rc2-done-from-records
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T01:03:26.601Z
+branch: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
 ---
 
 **What.** The test 'law reach, group B: Medicaid expansion and its work requirement' in src/core2/law-reach-group-b.test.ts throws 'no town with an employed adult and medicaid in forty draws' at its build helper (line 239). It fails the same way on clean main with GOLDEN_PATH_SEED=ce6921c4ecf8223891aef22043adad38db2ca4866c2a8df959c7d4dc5e98baab, found by Merger 4 on Oct 27 while checking PR 6339. Forty drawn towns had no employed adult with Medicaid, so either the fixture's need changed with a recent engine merge or the draw is too narrow. Guards: the Medicaid expansion and its work requirement reach a person's coverage in any town the player is dealt.
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Found Oct 27 by Merger 4; red on clean main with the seed above.
 
 **Notes (Fable's check, Nov 10).** How to find the cause: Read why forty drawn towns hold no employed Medicaid adult (the coverage record or the opening changed), fix at that, and never pin a place.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:03 UTC) on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town.

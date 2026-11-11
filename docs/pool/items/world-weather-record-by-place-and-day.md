@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** Keep one daily weather record per place derived from the climate module's hazard levels, the place's normals and the season with no roll, and have the director's backdrop pick read it, showing a rain painting where the family has one.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: a scene's backdrop follows the day's weather (owner's Oct 27 ruling).
 
 **Rules.** No dice: the day's weather follows the place's normals, the season and the climate's hazard levels, never a roll deciding a person's choice. One rule, all 56 places: normals live in data for every state and territory. Speed: written once per day per place, read by index, no scans. Wire to the world: the director's backdrop pick reads it in the same change. Real normals calibrate the record and never decide it (owner, Nov 8: ranges are not targets).
 

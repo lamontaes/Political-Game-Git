@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-work-requirement-pays-households-more
-pr:
+pr: #8405
 after:
 blocked-on:
 lead: laws-effects
