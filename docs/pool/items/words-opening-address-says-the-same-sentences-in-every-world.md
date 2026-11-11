@@ -8,7 +8,7 @@ size: L
 status: in-pr
 standard: 2
 claimed-by: claude (Words builder W2 for Fable B)
-pr:
+pr: 8743
 after:
 blocked-on:
 lead: words
