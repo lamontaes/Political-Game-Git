@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-bill-page-keeps-back-to-the-bills-and-government-keeps-a-caption
-pr:
+pr: #8494
 after:
 blocked-on:
 lead: screens
