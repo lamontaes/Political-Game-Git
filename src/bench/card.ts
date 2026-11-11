@@ -25,6 +25,7 @@ import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import { partText, screenLine, screenWays } from "../english/screen-words";
 import { framedByAge } from "../english/journal-words";
+import controls from "./data/controls.json" with { type: "json" };
 import {
   pronounSetOfGender,
   pronounWords,
@@ -790,9 +791,14 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
   // told before is told the second time as a second time ("again").
   const used = new Set<string>();
   const kinds = new Set<string>();
-  let lastYear: string | undefined;
-  let lastWhen: string | undefined;
-  let lastFramed = false;
+  // A screen tells the story in paragraphs by kind (`lifeGroups`), so the
+  // line before is the one before in the same paragraph.
+  const groupOf = (kind: string) =>
+    controls.lifeGroups.findIndex((kinds) => kinds.includes(kind));
+  const before = new Map<
+    number,
+    { year: string; when: string | undefined; framed: boolean }
+  >();
   return folded.flatMap((line) => {
     // The same record twice (a move the person's own facts and the moves
     // engine both keep, a school started twice) is said once.
@@ -838,13 +844,18 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // A sentence that says no time of its own opens on one: the year, the
     // same year as the line before, or their age then.
     const year = line.date.slice(0, 4);
+    const group = groupOf(line.key.split(".")[0]!);
+    const last = before.get(group);
+    const lastYear = last?.year;
+    const lastWhen = last?.when;
+    let framed = false;
+    let whenKey: string | undefined;
     // Not after a line that opened on a time, unless a year or more went by,
     // and never on a sentence that says how long ("worked for seven years").
     const gap = lastYear ? Number(year) - Number(lastYear) : Infinity;
     const frame =
       !/\{(?:years?|span)\}/.test(partText("person-history", wording.key)) &&
-      (!lastFramed || gap > 1);
-    lastFramed = false;
+      (!last?.framed || gap > 1);
     if (frame) {
       // Their age then, for what a person does at an age (school, a move,
       // work); a partner or a child is told by the year.
@@ -882,11 +893,11 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
           { text, sourceRecordIds: [line.recordId] },
           first ? { name: { text: teller.name } } : {},
         ).text;
-        lastWhen = when.key;
-        lastFramed = true;
+        whenKey = when.key;
+        framed = true;
       }
     }
-    lastYear = year;
+    before.set(group, { year, when: whenKey ?? lastWhen, framed });
     if (first) named = true;
     // The kind of record (born, school, work, office...) picks the
     // group a screen tells it in: the key's first part.

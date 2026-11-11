@@ -67,10 +67,12 @@ describe("a person's history on their card", () => {
       expect(line.kind, `${where}: ${line.text}`).toMatch(
         /^(born|school|moved|home|partner|child|work|business|loss|health|law|office|tie)$/,
       );
-    // Your own birth is said to you, not by your name.
+    // Your own birth is said to you, not by your name: by the piece that
+    // worded it ("You were born to him.", "In 2007, he had you.").
     const yours = card.history.filter((line) =>
-      line.text.startsWith("You were born"),
+      line.piece.startsWith("person-history.story.child.you."),
     );
+    for (const line of yours) expect(line.text, where).toMatch(/\byou\b/i);
     expect(yours, where).toHaveLength(1);
     expect(
       card.history.some((line) =>
