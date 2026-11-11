@@ -5,10 +5,10 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-docs-oct26-rules-match-pool-and-law-status
-pr: #6166
+pr: #8382
 after:
 blocked-on:
 lead: cto
