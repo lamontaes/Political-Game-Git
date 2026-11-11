@@ -732,6 +732,8 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
           usps: town.usps,
+          // The county's own ACS shares (a whole-state or island row reads its state's, else the nation's).
+          ...(/^\d{5}$/.test(town.county) ? { county: town.county } : {}),
           seed: input.seed,
           // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
           bankRoomMinor:
