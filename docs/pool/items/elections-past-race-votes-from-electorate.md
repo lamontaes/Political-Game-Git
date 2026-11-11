@@ -5,14 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/pool-elections-past-race-votes-from-electorate
 pr: #7088
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: governing
 milestone: play-first
-claimed-at: 2026-11-10T22:58:55.629Z
+claimed-at: 2026-11-11T07:04:36.589Z
 after:
 standard: 2
 model: sonnet
@@ -20,6 +20,9 @@ effort: low
 root: rc2-done-from-records
 checked: fable 2026-11-10
 branch: claude/pool-elections-past-race-votes-from-electorate
+merged-at: 2026-11-11T07:06:40.008Z
+seen-by: "sonnet-8597 (Claude Sonnet 5.5, Claude Code cloud)"
+seen-at: 2026-11-11T07:06:45.652Z
 ---
 
 **What.** A past race's printed vote count was the count of full people, not the simulated electorate's, and the headline said "Legislator" instead of the office and district. Owner, Nov 1 playtest of v0.73.0, on the opening's front page: "All 54 votes were cast. No, I can tell that's the generated number of people, not the simulated amount of votes. You see all of these are race for legislator." Each state legislative race printed 52 to 55 votes. The fix merged in PR #7088 (governing/past-race-votes), and the Nov 1 Puerto Rico note says the totals are right. What is left is the second-session check this item never got.
@@ -49,3 +52,17 @@ Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): replay tests pass on three seeds; needs a running-game session for pool seen, no code change. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:58 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
+
+Released by next (2026-11-11): no push to claude/pool-elections-past-race-votes-from-electorate since 2026-11-10 22:56 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 02:58 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
+
+Released (2026-11-11): Replayed by test only (details on #7088): past-legislature-votes and past-race-district tests pass on 3 fresh draws each; not read on the front page in the browser; pool seen refuses non-merged items. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 03:03 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
+
+Released by next (2026-11-11): no push to claude/pool-elections-past-race-votes-from-electorate since 2026-11-10 22:56 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-elections-past-race-votes-from-electorate and pull request #7088.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:04 UTC) on branch claude/pool-elections-past-race-votes-from-electorate.
+
+Seen in the game (2026-11-11, sonnet-8597 (Claude Sonnet 5.5, Claude Code cloud)): Plymouth NC 3753040 seed 3e0c945ed3c1; Suncrest WA 5368460 seed 4ceedcf44258; Millsboro DE 1047940 seed 798c884192d2, seed replay-a/b/c via drawPlace, main 65970ec3c31: Opening archive stories in three drawn places: every state legislative race prints a district-scale total (NC lower 1: 48,884, winner 29,072; NC upper 2: 115,562; WA lower 7: 39,315 and 40,941; WA upper 7: 83,081; DE lower 41: 5,854), never a full-person count, and names the office and district from the seat record (State Representative in District 1, State Senator in District 7). Plymouth NC county commission districts print only 89 to 94 votes (a local board race, outside this item); not checked further.

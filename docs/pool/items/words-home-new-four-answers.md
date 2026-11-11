@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/home-new-four-answers
-pr: 8162
+pr: #8311
 blocked-on:
 lead: words
 source: added with npm run pool -- add
