@@ -9,7 +9,8 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
-import { lawInForce } from "../core2/modules/laws";
+import { lawChain, lawInForce, stateLawInForce } from "../core2/modules/laws";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { BenchPlayer } from "./player";
 import { residentsRuntime } from "../core2/modules/residents";
 import { setBookkeeping } from "../core2/bookkeeping";
@@ -61,6 +62,43 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
       setBookkeeping(previous);
     }
   }, 240_000);
+
+  it("sets another state's law, and that state's law in force reads it", () => {
+    const api = coreAPI(core);
+    const own = lawChain(api).stateKey;
+    // Another of the 56, by the world's own seed (no state named here).
+    const states = corePlaceStateIdentities()
+      .map((row) => row.jurisdictionKey)
+      .filter((key) => key !== own)
+      .sort();
+    const other = states[parseInt(seed.slice(0, 6), 16) % states.length]!;
+    const before = stateLawInForce(api, other, "sales-tax");
+    const stateRate = (answer: typeof before) =>
+      answer.levels.find((l) => l.level === "state")?.row?.value ?? 0;
+    const raised = stateRate(before) + 2;
+    const { law } = dev.setLaw({
+      level: "state",
+      series: "sales-tax",
+      value: raised,
+      stateKey: other,
+    });
+    const after = stateLawInForce(api, other, "sales-tax");
+    const row = after.levels.find((l) => l.level === "state")?.row;
+    console.log(
+      `${world.place.displayName}: ${other} sales tax ${stateRate(before)} -> ${row?.value} (${law.id})`,
+    );
+    expect(row?.id).toBe(law.id);
+    expect(row?.value).toBe(raised);
+    // The town's own state keeps its chain's level; a state key there is refused.
+    expect(() =>
+      dev.setLaw({
+        level: "state",
+        series: "sales-tax",
+        value: 1,
+        stateKey: own,
+      }),
+    ).toThrow();
+  });
 
   it("sets a law the law engine reads and the minimum-wage raise follows", () => {
     const api = coreAPI(core);
