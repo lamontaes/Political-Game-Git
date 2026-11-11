@@ -3,4 +3,4 @@ id: screens-campaign-board
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+The campaign board now shows your team, who runs your campaign and who volunteers, and lists any debate waiting for your answer.
