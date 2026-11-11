@@ -14,7 +14,9 @@
  *     their kept decisions (each act's offered options with every reason, the
  *     trait reason first, or the chosen option's reasons once condensed);
  *   - a credit line's repricing: the line's rate history, each change with
- *     the central bank meeting behind it.
+ *     the central bank meeting behind it;
+ *   - a state of the country tier: its people and jobs, the part its played
+ *     town and county hold in full and the rest, which add to the state's.
  */
 import { coreAPI } from "../core2/state";
 import { parameter } from "../core2/parameters";
@@ -26,6 +28,7 @@ import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
   COUNTRY_SECTORS,
   MACRO_MODULE_ID,
+  countryStateParts,
   type CountrySector,
   type CountryState,
 } from "../core2/modules/macro";
@@ -678,6 +681,42 @@ function countryStatePanels(core: CoreState, state: CountryState): WhyPanel[] {
   ];
 }
 
+// ---- A state of the country tier: the part held in full --------------------
+
+/** A state's people and jobs: the part its played town and county hold in full, and the rest its cells step. */
+function countryStatePartPanels(
+  core: CoreState,
+  state: CountryState,
+): WhyPanel[] {
+  const parts = countryStateParts(coreAPI(core), state.key);
+  const name = STATE_NAMES[state.usps] ?? state.usps;
+  if (!parts) return [];
+  const rows = (of: "people" | "jobs"): WhyRow[] => [
+    { label: "the state", value: whole(parts.total[of]), id: parts.stateId },
+    {
+      label: "held in full (the played places)",
+      value: whole(parts.part[of]),
+      ...(parts.partId ? { id: parts.partId } : {}),
+    },
+    { label: "the rest of the state", value: whole(parts.rest[of]) },
+  ];
+  return [
+    {
+      title: `People in ${name}: the played places and the rest`,
+      rows: rows("people"),
+      ...(parts.partId
+        ? {}
+        : {
+            gap: "No place in this state is held in full: its cells are all of it.",
+          }),
+    },
+    {
+      title: `Jobs in ${name}: the played places and the rest`,
+      rows: rows("jobs"),
+    },
+  ];
+}
+
 // ---- The entry point -------------------------------------------------------
 
 export function whyPanels(
@@ -705,7 +744,10 @@ export function whyPanels(
   if (found.kind === "person")
     return [...ledgerPanels(core, id), ...decisionPanels(core, id)];
   if (found.engine === `${MACRO_MODULE_ID}.countryStates`)
-    return countryStatePanels(core, record as unknown as CountryState);
+    return [
+      ...countryStatePartPanels(core, record as unknown as CountryState),
+      ...countryStatePanels(core, record as unknown as CountryState),
+    ];
   if (found.engine === `${MACRO_MODULE_ID}.repricings`)
     return repricingPanels(core, String(record.facilityId));
   return [];

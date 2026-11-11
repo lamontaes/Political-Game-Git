@@ -71,7 +71,11 @@ import { collegeOf, graduationOf } from "../school-outcomes";
 import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
-import { regionalConditions, reviewWorkElsewhere } from "../jobs-elsewhere";
+import {
+  forgetWorkElsewhere,
+  regionalConditions,
+  reviewWorkElsewhere,
+} from "../jobs-elsewhere";
 import { livesElsewhere } from "./people";
 import {
   findPerQuarter,
@@ -4908,6 +4912,11 @@ export const JOBS_MODULE: CoreModule = {
       }
       return;
     }
+    // A death ends the working-life row of someone living elsewhere, whether or
+    // not the engine has opened its state yet.
+    if (event.kind === "life.death")
+      for (const personId of event.personIds)
+        forgetWorkElsewhere(api, personId);
     if (!store(api).table("state").get("jobs:state")) return;
     if (event.kind === "life.death") {
       for (const personId of event.personIds)

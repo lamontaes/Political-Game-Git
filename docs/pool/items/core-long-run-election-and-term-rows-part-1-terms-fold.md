@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-core-long-run-election-and-term-rows-part-1-terms-fold
+pr: #8354
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,8 @@ model: opus
 effort: high
 root: rc5-full-detail-every-day
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:58:53.118Z
+branch: claude/pool-core-long-run-election-and-term-rows-part-1-terms-fold
 ---
 
 **What.** Every election adds a term row per seat, and none is dropped, so a century-long save keeps decades of every legislature's terms. In Kirkman, Iowa offices.terms rises from 782 to 34,145 in four years. The agreed fold keeps the serving row and each seat's newest ended row and folds older ended terms at their seat's next seating into two new offices tables: seatPasts (one row per seat) and careers (one row per filled-in official), read through one resolver, termById, and one helper, careerOf.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/offices.ts, src/core2/modules/voting.ts, src/bench/legislature.ts
+
+**Notes.** Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:58 UTC) on branch claude/pool-core-long-run-election-and-term-rows-part-1-terms-fold.
