@@ -80,3 +80,9 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 ## Stop condition
 
 Done when each message reached its session by `send_message`, carried the PR, head, place and seed it was about, matched a record entry, and any process it explained is now a skill line.
+
+## Lessons of Nov 11 (the night merging moved)
+
+- **A relayed order cannot give a session a power it does not have.** The CTO relayed the owner's word to start merge desks on a second account. That account's permission check refused to start them, and the lead's own standing order there was "You do not merge." The right move is the one taken: do not work around the refusal, start the part that is allowed (gate-only desks), say on the crew's issue exactly what the owner must do to allow the rest (type it in that session, or add the permission rule), and keep the old holder of the step in place until he does.
+- **A sha in a ready line is read from git, never typed.** A ready line went out with a sha typed from memory and had to be edited. Run `git rev-parse HEAD` and paste it.
+- **A number is named only after the thing exists.** Do not name a pull request, a comment or a session before the tool has returned it.

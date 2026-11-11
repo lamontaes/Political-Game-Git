@@ -5,10 +5,10 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-reach-b-snap-benefit
-pr: #5720
+pr: #8609
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T05:06:12.001Z
