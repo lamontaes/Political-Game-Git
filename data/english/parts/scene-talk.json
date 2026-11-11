@@ -204115,6 +204115,66 @@
       }
     },
     {
+      "key": "scene-talk.reply-decline.that-money-doesn-t-buy-a-promise-and-i-d-say-the-same-to-anyone",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That {money} doesn't buy a promise, and I'd say the same to anyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-grateful-for-the-money-but-my-answer-is-no",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm grateful for the {money}, but my answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "donor-ask",
+          "key": "favor-asked",
+          "requiresFacts": ["gift"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder W6",
+      "date": "2026-11-11",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      },
+      "piece": {
+        "of": "donor-ask-reply-decline",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
       "key": "scene-talk.reply-decline.what-s-best-for-place-comes-first-and-that-s-my-answer",
       "move": "reply-decline",
       "kind": "spoken",
