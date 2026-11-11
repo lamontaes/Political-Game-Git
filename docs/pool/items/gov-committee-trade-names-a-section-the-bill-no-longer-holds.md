@@ -29,7 +29,7 @@ checked: fable 2026-11-10
 
 **Rules.** The chain is the acceptance: a trade for a vote is followed from the deal record to the section on the bill and to the member's floor vote, by record id, and a deal whose section is gone is not a kept deal. Ask why: the proof names the step that removed or never added the section. No dice.
 
-**Done when.** A second session runs `src/core2/legislature-committees.test.ts` with GOLDEN_PATH_SEED=0fa0de4be8c33033 (once the country-tier red is fixed on main) and on 10 fresh draws, and sees it pass. In a played world, the second session reads a budget bill whose committee traded a policy section, and sees every `accepted` trade-amendment matched by a section on the bill, or marked `ended` by the budget negotiation with its date, by bill and member record ids. The bill page in dev mode shows the trade's line as kept or ended.
+**Done when.** A second session runs `src/core2/legislature-committees.test.ts` with GOLDEN_PATH_SEED=0fa0de4be8c33033 (once the country-tier red is fixed on main) and on 10 fresh draws, and sees it pass. In a played world in a drawn place (named with its seed), the second session reads a budget bill whose committee traded a policy section, and sees every `accepted` trade-amendment matched by a section on the bill, or marked `ended` by the budget negotiation with its date, by bill and member record ids. The bill page in dev mode shows the trade's line as kept or ended.
 
 **Waits on.** Nothing.
 
