@@ -6,7 +6,12 @@
 // Run against a fresh bench: node src/bench/talk-history.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife, toReplies } from "./start-life.mjs";
+import {
+  finishTalk,
+  startLife,
+  toReplies,
+  someoneToTalkTo,
+} from "./start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -22,16 +27,40 @@ try {
     fresh: true,
   });
   console.log("Place:", await page.locator("#card-place").innerText());
-  const figure = page.locator("#people .talkable").first();
-  await figure.waitFor();
-  await figure.focus();
   // A person in the room is talked to by a key (owner, Oct 27: no Talk button).
-  await page.keyboard.press("Enter");
-  await page.locator("#talk:not([hidden])").waitFor();
+  // Someone whose talk offers replies: a talk that only tells something is
+  // played to its end and the next person in the room is asked.
+  let replying = false;
+  for (let hour = 0; hour < 12 && !replying; hour += 1) {
+    const people = await someoneToTalkTo(page);
+    const count = await people.count();
+    for (let at = 0; at < count && !replying; at += 1) {
+      await people.nth(at).focus();
+      await page.keyboard.press("Enter");
+      await page.locator("#talk:not([hidden])").waitFor();
+      replying = await toReplies(page);
+      if (!replying) await finishTalk(page);
+    }
+    // No one here has more to say than a line: an hour on, and ask again.
+    if (!replying) {
+      await page.locator("#hour").click();
+      await page.waitForFunction(
+        () => !document.getElementById("hour")?.disabled,
+      );
+      await finishTalk(page);
+    }
+  }
   // Two exchanges: pick the first reply twice.
   for (let turn = 0; turn < 2; turn++) {
     // A talk may open with lines and Continue before its replies.
-    assert.ok(await toReplies(page), "the talk ended with no reply to choose");
+    const offered = await toReplies(page);
+    console.log(
+      `turn ${turn + 1}: ${offered ? "replies offered" : "no replies"} (${await page
+        .locator("#talk-name")
+        .innerText()
+        .catch(() => "")})`,
+    );
+    assert.ok(offered, "the talk ended with no reply to choose");
     const reply = page.locator("#talk-choices .reply").first();
     const before = await page.locator("#talk-lines").innerText();
     await reply.click();
