@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-director-cap-on-scene-repeats
 pr: #8424

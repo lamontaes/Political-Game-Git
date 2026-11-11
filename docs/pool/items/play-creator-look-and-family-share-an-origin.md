@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-play-creator-look-and-family-share-an-origin
+pr: #8568
 after:
 blocked-on:
 lead: people
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 source: added with npm run pool -- add
+claimed-at: 2026-11-11T04:27:21.029Z
 ---
 
 **What.** Owner, Nov 8, 2:10 p.m.: "I'm Mexican and my son is white. I don't know how that happened." Measured Nov 10 in Blodgett Landing, New Hampshire (seed e2bab652-129f-4bca-8f56-eb77054e7f87): the creator gave the player the tan woman-slim, while her father, drawn from the household origin, is the pale blond man-slim. Each household member's pack person is narrowed by the household origin, but the player's is whatever they chose, so the family does not follow the player's choice. Seen: the player's own family in the room and on their cards, where parents and children look like they share the look the player chose.
