@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/housing-occupancy.ts, src/core2/housing-pipeline.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-WORLD-new-rental-move-coverage; waits on dwelling locations for the commute half.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have weighed commute and room in who takes a rental; commute is a slight estimate and no player sees the match.

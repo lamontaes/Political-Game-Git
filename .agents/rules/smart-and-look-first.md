@@ -12,7 +12,7 @@ An assignment is anything one session hands another: a pool item, a work order, 
 - **Realistic:** the model it was sized for and the helper count (default: none).
 - **Time-bound:** a time box in hours. When the box runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-An assignment missing any of the five is sent back to its writer, not worked. The pool item template (`docs/pool/README.md`) carries these five as fields; `npm run pool -- --check` flags an open item without a time box or a done-when.
+An assignment missing any of the five is sent back to its writer, not worked. The pool item template (`docs/pool/README.md`) carries these five as fields; `npm run pool -- --check` enforces part of this: a priority 1 or 2 item (or any play-first item) that is open or claimed needs a Done when of at least 25 words naming a check, and a Time box that names a number of hours (4 hours or less for play-first); an item at `standard: 2` also needs a Time box in hours and a second-session Done when naming a drawn place. The rest of the five is the writer's and the reader's to hold.
 
 ## Look before you ask, with proof
 
