@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-core-speed-journal-unposted-fund-changes
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ effort: low
 root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
-claimed-at: 2026-11-11T01:28:37.710Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-core-speed-journal-unposted-fund-changes
 ---
@@ -46,3 +46,5 @@ Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): the cut as written changes detailed receipts (records proof fails, Long Hill m7b); see the draft PR. Continue on branch claude/pool-core-speed-journal-unposted-fund-changes.
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:28 UTC) on branch claude/pool-core-speed-journal-unposted-fund-changes.
+
+Released (2026-11-11): re-offered by next after release; see draft PR 8433. Continue on branch claude/pool-core-speed-journal-unposted-fund-changes.
