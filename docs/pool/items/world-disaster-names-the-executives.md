@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-world-disaster-names-the-executives
-pr:
+pr: #8498
 blocked-on:
 after:
 model: sonnet
