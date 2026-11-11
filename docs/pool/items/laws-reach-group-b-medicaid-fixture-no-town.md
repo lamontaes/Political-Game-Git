@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
 pr: #8414
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc2-done-from-records
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T07:10:19.414Z
 branch: claude/pool-laws-reach-group-b-medicaid-fixture-no-town
 ---
 
@@ -48,3 +48,5 @@ Released by next (2026-11-11): no push to claude/pool-laws-reach-group-b-medicai
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:06 UTC) on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town.
 
 Released (2026-11-11): The Medicaid test passes on the named seed (26 of 32 in the file pass); six other tests in law-reach-group-b.test.ts fail on that seed and are separate items; see the note on #8414. Continue on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town and pull request #8414.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:10 UTC) on branch claude/pool-laws-reach-group-b-medicaid-fixture-no-town.
