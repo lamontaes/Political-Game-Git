@@ -46,8 +46,12 @@ function worldWithAsk(worldSeed: string, placeKey: string) {
   const post = api.postJournal.bind(api);
   api.postJournal = (entry) => {
     const id = String(entry.sourceRef.id);
+    // A campaign gift (campaigns.ts `donation:<filing>:<donor>:...`), not a
+    // cause group's (drives.ts, the character's own act while days run:
+    // core-player-autoplay-acts).
     if (
       id.startsWith("donation:") &&
+      !id.includes(":cause-group:") &&
       entry.postings.some(
         (row) =>
           row.deltaMinor < 0 &&
