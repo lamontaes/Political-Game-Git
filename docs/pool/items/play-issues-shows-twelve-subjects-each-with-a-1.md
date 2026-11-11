@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-issues-shows-twelve-subjects-each-with-a-1
-pr:
+pr: #8524
 after:
 blocked-on:
 lead: screens
