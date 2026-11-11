@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-people-protected-traits-on-record-part-1-race-on-record
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: high
 root: design-one-model-two-tiers
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:14:09.094Z
+branch: claude/pool-people-protected-traits-on-record-part-1-race-on-record
 ---
 
 **What.** The owner ruled on Oct 24 that sex and race go on each person's record (OWNER-DECISIONS.md, "Sex and race on the record"). Sex is recorded today; race is not. Give each full person a race drawn from the place's Census shares when the world generates who exists, consistent within a household by the data, and give counted groups the same shares times their count. Feeds: people-protected-traits-on-record.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/types.ts, src/core2/population.ts, src/core2/opening-origin.ts, src/core2/counted-groups.ts, src/core2/person-race.test.ts (new)
+
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:13 UTC) on branch claude/pool-people-protected-traits-on-record-part-1-race-on-record.
