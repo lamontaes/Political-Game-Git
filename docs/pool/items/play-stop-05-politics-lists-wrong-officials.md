@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
 pr: #8261
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T07:37:29.680Z
 branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 ---
 
@@ -79,3 +79,5 @@ Released (2026-11-11): Replayed headlessly in drawn places; evidence is on the i
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:31 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
 
 Released (2026-11-11): Seen on screen in one drawn place (two senators, one representative, state House with its split); mayor and every-party steps not confirmed; evidence on #8261. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:36 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
