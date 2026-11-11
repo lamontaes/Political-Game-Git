@@ -114,6 +114,29 @@ describe("a section reads the record's numbers", () => {
       })!.sections[0],
     ).toMatch(/to \$11 an hour, amending § 25-7-41\.$/);
   });
+  it("an act opens with a short title and a long title from its own name and purposes, and a local ordinance has neither", () => {
+    const question = "us-policy-positions:labor-workforce.raise-minimum-wage";
+    const bill = (kind: string) => ({
+      id: "bill:fixture-title",
+      number: "2026-5",
+      form: { kind, enactingClause: "Be it enacted by the Legislature" },
+      provisions: [
+        { kind: "policy-question", question, value: 1, operation: "enact" },
+      ],
+    });
+    const act = composeBill(bill("act"))!;
+    expect(act.shortTitle, act.title).toMatch(
+      /^This Act may be cited as the \u201C[^\u201D]+\u201D\.$/,
+    );
+    expect(act.longTitle, act.title).toMatch(
+      /^To provide for .+, and for other purposes\.$/,
+    );
+    expect(act.text.slice(1, 3)).toEqual([act.longTitle, act.shortTitle]);
+    const local = composeBill(bill("ordinance"))!;
+    expect(local.shortTitle).toBeNull();
+    expect(local.longTitle).toBeNull();
+    expect(local.text.join(" ")).not.toMatch(/may be cited as/);
+  });
   it("edge fixture: two steps on one law state its purpose once", () => {
     // A raise phased in by dated steps (governing phase B): "An ordinance to
     // set the minimum wage and to set the minimum wage." read it twice.
