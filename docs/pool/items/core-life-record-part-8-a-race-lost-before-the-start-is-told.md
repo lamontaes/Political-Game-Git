@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-core-life-record-part-8-a-race-lost-before-the-start-is-told
 pr: #8616

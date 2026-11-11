@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-long-run-controlled-sources-required-forever
-pr:
+pr: #8440
 after:
 blocked-on:
 lead: speed
