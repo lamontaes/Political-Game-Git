@@ -233,7 +233,9 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
       expect(said, here).toContain(money!.text);
       const namesAFact = (text: string) =>
         result.scene.facts.some(
-          (row) => row.text.length > 2 && text.includes(row.text),
+          (row) =>
+            row.text.length > 2 &&
+            text.toLowerCase().includes(row.text.toLowerCase()),
         );
       const root = talk.tree.replies.map((reply) => reply.line);
       expectUpToFourDifferent(root, here);
@@ -249,7 +251,9 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
           (fact) => fact.text.length > 2,
         ))
           expect(
-            root.filter((reply) => reply.text.includes(row.text)).length,
+            root.filter((reply) =>
+              reply.text.toLowerCase().includes(row.text.toLowerCase()),
+            ).length,
             `${here}: "${row.text}" in two replies: ${root.map((reply) => reply.text).join(" / ")}`,
           ).toBeLessThanOrEqual(1);
       // The donor's reason is their own: where they work and what the bill
