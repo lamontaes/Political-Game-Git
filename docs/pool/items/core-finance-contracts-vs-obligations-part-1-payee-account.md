@@ -5,8 +5,8 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-core-finance-contracts-vs-obligations-part-1-payee-account
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ model: sonnet
 effort: high
 root: none
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:59:45.105Z
 ---
 
 **What.** Finance contracts pay between a person or organization and another, resolved through core.people or core.organizations, while group B law reach pays benefits into a counted group's fund account, which is not an owner's main account. Before group B can move onto finance contracts, a contract needs a payee account (or the fund's owner id with the fund as its settlement account). This part adds that, with its own settlement and journal source kind, and tests it on a fund payee. Feeds: core-finance-contracts-vs-obligations
