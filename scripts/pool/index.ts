@@ -30,6 +30,7 @@ import {
 import {
   claimable,
   DEFAULT_ORDER,
+  inKind,
   makeOrder,
   type Order,
   readOrder,
@@ -39,6 +40,7 @@ import {
   needsCause,
   readRoots,
   repoAt,
+  feedsId,
   section,
   standardProblems,
 } from "./standard";
@@ -470,6 +472,13 @@ export function run(
   for (const i of items)
     for (const a of ids(i.after))
       if (!known.has(a)) errors.push(`${i.id}.md: after "${a}" is not an item`);
+  for (const i of items) {
+    const feeds = feedsId(
+      section(readFileSync(join(dir, `${i.id}.md`), "utf8"), "What"),
+    );
+    if (feeds && !known.has(feeds))
+      errors.push(`${i.id}.md: Feeds: "${feeds}" is not an item`);
+  }
   const index = buildIndex(items, readOrder(poolDir));
   const path = join(poolDir, "INDEX.md");
   if (check) {
@@ -726,13 +735,14 @@ const ADD_FLAGS = [
   "effort",
   "root",
   "lead",
+  "seen",
 ] as const;
 
 const TEMPLATE = (f: Record<string, string>, id: string): string => {
   const box = /^\d+(?:\.\d+)?$/.test(f.timebox)
     ? `${f.timebox} hours`
     : f.timebox;
-  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
+  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what} ${f.seen}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
 };
 
 /** What `seen` must be told: who looked, where, on which seed and commit, and what was on screen. */
@@ -929,7 +939,7 @@ export interface NextIO {
 }
 
 const NEXT_USAGE =
-  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--no-pr] [--dry-run]';
+  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--for <kind>] [--no-pr] [--dry-run]';
 /** The subject of a new item branch's first commit; any other commit on the branch means another agent started. */
 const startSubject = (id: string): string =>
   `${id}: start the branch with its release note`;
@@ -998,6 +1008,10 @@ function next(
   const at = level ? order.levels.indexOf(level) : -1;
   if (!level || at < 0)
     return `${NEXT_USAGE}\nThe tiers are ${tiers.tiers.map((x) => x.name).join(", ")}.`;
+  const kindName = f.for ?? "";
+  const kind = kindName ? order.kinds[kindName] : undefined;
+  if (kindName && !kind)
+    return `No kind of work is called "${kindName}". The kinds are ${Object.keys(order.kinds).join(", ") || "none"} (docs/pool/order.json).\n${NEXT_USAGE}`;
   const tier = tierOfLevel(level, tiers);
   const levels = order.levels.slice(0, at + 1).reverse();
   const prefix = branchPrefix(f["branch-prefix"], env);
@@ -1024,14 +1038,18 @@ function next(
     );
     const known = new Set(items.map((i) => i.id));
     const cmp = makeOrder(items, order);
-    const ready = items.filter((i) => claimable(i, onMain, known)).sort(cmp);
+    const ready = items
+      .filter((i) => claimable(i, onMain, known) && (!kind || inKind(i, kind)))
+      .sort(cmp);
     for (const l of levels) {
       const hit = ready.find((i) => i.model === l);
       if (hit) return hit;
     }
     return null;
   };
-  const none = `No item is ready for tier ${tier} or any tier below it.`;
+  const none = kind
+    ? `No ${kindName} item is left for your tier (${tier}) or any tier below it.`
+    : `No item is ready for tier ${tier} or any tier below it.`;
   const staleLine = (s: Stale): string =>
     `no push to ${s.branch || "its branch"} since ${when(s.last)}, more than twice its ${s.hours}-hour time box`;
 
@@ -1397,7 +1415,7 @@ export function command(
       );
     } else if (cmd === "add") {
       if (!id)
-        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
+        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> --seen '<Seen: ..., Feeds: <item id> ... or Guards: ...>' [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
       f.size = f.size || "M";
       const edit = (): void => {
         if (existsSync(itemPath(id))) throw new Error(`${id} already exists`);

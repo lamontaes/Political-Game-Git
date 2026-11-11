@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** No bill sets a charge's level: a government's charges move only with its budget's charges line (stopgap `SG-GOV-fee-level-by-bill`). The owner ruled the question Oct 24: yes, a council can set a fee level by bill where its powers allow; the fee is a law row the treasury reads. Let a council bill change a named fee's level in place data, read by the charge payment at the moment it is paid, so the payers pay the new level and the budget's charges line follows. The player would notice that raising a park or transit fee costs the people who use the park or ride.
+**What.** No bill sets a charge's level: a government's charges move only with its budget's charges line (stopgap `SG-GOV-fee-level-by-bill`). The owner ruled the question Oct 24: yes, a council can set a fee level by bill where its powers allow; the fee is a law row the treasury reads. Let a council bill change a named fee's level in place data, read by the charge payment at the moment it is paid, so the payers pay the new level and the budget's charges line follows. The player would notice that raising a park or transit fee costs the people who use the park or ride. Seen: a council bill that sets a fee level, and the payers paying the new level (owner, Oct 24: yes, a council can).
 
 **Cause.** Design: owner ruling Oct 24, "Fees set by bill: yes, a council can set a fee level by bill where its powers allow" (`docs/coordination/OWNER-DECISIONS.md`, line 669). Found in code: `src/core2/budgets-service-charges.ts` registers `SG-GOV-fee-level-by-bill` at line 232; row in `src/core2/data/stopgaps/gov.json`.
 

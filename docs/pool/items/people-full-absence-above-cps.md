@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Merger 0, Oct 26 source review: the cited 21.68 percent is job-weeks with any missed work segment, not the CPS absence measure. CPS Table 47 footnotes 1 and 2 select full-time wage-and-salary workers and main jobs, require fewer than 35 hours for included reasons, and exclude vacation and holidays (https://www.bls.gov/cps/cpsaat47.htm). Establish a comparable measure before attributing a CPS calibration gap; the historical diagnostic is retained, not treated as fivefold comparable evidence. PR #5796 labels the diagnostic explicitly and leaves research-residents-cadence-sourced open.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have brought full workers' missed-work weeks down to the CPS figure; the item's own measure was found not to be the CPS measure and no player sees a rate.

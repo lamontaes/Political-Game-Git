@@ -19,7 +19,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** M3-04's test sentence says an enacted ordinance reaches specific named people who are clickable, with the law on their records. Clicking a person opens `knownCard` (src/bench/card.ts, about line 657, served as `/api/known` at handler.ts about line 1238 and fetched by play.mjs about lines 974 and 1690), which has no law field at all; the only reader of the law-reach rows is `lawEffects` in `personCard` (about line 158, from `reachOn`), and `personCard` is fetched only for the player and read only for the name. So no screen shows a reached person's law. Add the law effect to the card a click actually opens (`knownCard`), worded, and test that a person the law reached shows it there and that a repeal ends it.
+**What.** M3-04's test sentence says an enacted ordinance reaches specific named people who are clickable, with the law on their records. Clicking a person opens `knownCard` (src/bench/card.ts, about line 657, served as `/api/known` at handler.ts about line 1238 and fetched by play.mjs about lines 974 and 1690), which has no law field at all; the only reader of the law-reach rows is `lawEffects` in `personCard` (about line 158, from `reachOn`), and `personCard` is fetched only for the player and read only for the name. So no screen shows a reached person's law. Add the law effect to the card a click actually opens (`knownCard`), worded, and test that a person the law reached shows it there and that a repeal ends it. Seen: the card of any clicked person, which shows the law that reached them.
 
 **Cause.** Found in code: src/bench/card.ts builds lawEffects from reachOn in personCard (line 190), while knownCard (line 1019), the card a click opens through handler.ts, returns no law field.
 

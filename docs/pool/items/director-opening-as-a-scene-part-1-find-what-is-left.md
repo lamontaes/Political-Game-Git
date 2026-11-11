@@ -5,7 +5,7 @@ area: director
 kind: research
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: pool/director-opening-as-a-scene-part-1-find-what-is-left
 pr: #8361
