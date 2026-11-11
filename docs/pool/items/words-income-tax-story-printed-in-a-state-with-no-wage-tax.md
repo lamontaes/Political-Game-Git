@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-income-tax-story-printed-in-a-state-with-no-wage-tax
-pr:
+pr: #8678
 after:
 blocked-on:
 lead: words
