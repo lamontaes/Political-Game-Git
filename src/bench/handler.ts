@@ -559,6 +559,14 @@ const ROUTES: readonly Route[] = [
           ? { director: state.director, ...(occasionId ? { occasionId } : {}) }
           : {},
       );
+      // A talk with no line is no talk (owner, Nov 1), on every road: a scene,
+      // the room, a workplace visit. Nothing opens, and the screen hands the
+      // room back.
+      if (!state.conversation.lines.length) {
+        state.conversation = undefined;
+        send(200, null);
+        return;
+      }
       send(200, talkView(state.conversation));
       return;
     },

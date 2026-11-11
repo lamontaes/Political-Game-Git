@@ -1385,11 +1385,13 @@ async function talkTo(otherId, momentId) {
   $("talk-name").textContent = "";
   // From a scene, the talk is about the scene's moment.
   const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
-  renderTalk(
-    await post(
-      `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
-    ),
+  const opened = await post(
+    `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
   );
+  renderTalk(opened);
+  // Nothing to say opens no box (the server answers none): the room is handed
+  // back, as after a talk's end.
+  if (!opened) await renderScene();
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
 // A line that does not read right is marked where it is said; no time passes.
