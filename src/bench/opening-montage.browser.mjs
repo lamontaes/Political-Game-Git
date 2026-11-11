@@ -71,7 +71,10 @@ try {
       /^oval-/,
       "the address does not start at the desk",
     );
-    assert.ok(beats[0].people >= 1, "the President is not on the strip at the desk");
+    assert.ok(
+      beats[0].people >= 1,
+      "the President is not on the strip at the desk",
+    );
     assert.ok(
       pictures.size >= 3,
       `only ${pictures.size} pictures: ${[...pictures]}`,
