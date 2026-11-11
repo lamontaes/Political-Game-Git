@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-government-staffing-ward-charter-no-employer
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T09:23:13.626Z
 branch: claude/pool-tests-government-staffing-ward-charter-no-employer
 ---
 
@@ -58,3 +58,5 @@ Released (2026-11-11): Cause does not hold (see earlier release note: no hire af
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:21 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
 
 Released (2026-11-11): The Cause does not hold (three releases say so); rewritten as Needs cause on pool/notes-2026-11-11-10 (31523b368aa9), not rebuilt. Continue on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 09:23 UTC) on branch claude/pool-tests-government-staffing-ward-charter-no-employer.
