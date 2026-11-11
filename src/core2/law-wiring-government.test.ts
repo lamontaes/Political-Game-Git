@@ -320,7 +320,25 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         // The administration line pays real staff: the employer is funded,
         // and the jobs engine fills the openings it posts from named and
         // counted seekers alike, each hire recorded.
+        // The funded opening is taken only by a seeker whose finding progress
+        // reaches one at a monthly jobs review (the 1st) while the opening is
+        // already past its vacancy wait (jobs.ts reviewRegionalFinds; 36 to 49
+        // days for a government, vacancyDays); a seeker who reaches one before
+        // that takes a regional job instead. So play on a week at a time, up
+        // to the longest wait, the month to the next review and two weekly
+        // rounds (98 days after the change), until the hire is recorded.
+        let playedDays = 35;
+        const hired = () =>
+          open(api, ADMIN).find((r) => r.what === "hired-on-budget-line");
+        while (playedDays < 98 && !hired()) {
+          advanceCore(core, next(api, 7));
+          playedDays += 7;
+        }
         const staffRows = open(api, ADMIN);
+        const firstHire = hired();
+        process.stdout.write(
+          `${where}: administration hire ${firstHire ? `${firstHire.targetId} at ${firstHire.id} by ${core.date}` : "none"}, ${playedDays} days after the change\n`,
+        );
         expect(
           staffRows.filter((r) => r.target === "organization").length,
           `${where}: administration staffing applied to an employer`,
