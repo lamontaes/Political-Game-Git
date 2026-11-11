@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-tests-world-moments-husk-mover-oak-grove
+pr: #8410
 after:
 blocked-on:
 model: sonnet
@@ -17,6 +17,8 @@ root: design-life-record
 source: added with npm run pool -- add
 lead: words
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:54:09.046Z
+branch: claude/pool-tests-world-moments-husk-mover-oak-grove
 ---
 
 **What.** Fresh root 7e53bd5ea7be7333 makes world-moments.test.ts draw Oak Grove, Tennessee and record person.moved-away:person_ae64f4784a9311d3:2025-05-28. At the end of the year, its general named-event delivery check finds no kept moment for person_ae64f4784a9311d3, now tier=husk, and no same-day moments. This fails identically on clean main e5c370fafa9bcba53a9a4440b1d298e4f077b261 and main-integrated PR #6113 e424fce935a449fb1d62f94798c20a1d522984bb. That assertion is unchanged by the PR; its separate relative-summary repair removes another baseline failure, so this missing actor moment remains independent.
@@ -40,3 +42,5 @@ checked: fable 2026-11-10
 **Notes (Fable, Nov 10, read in code, not run).** Delivery is not where the moment is lost. `onEvent` in src/director/ledger.ts (line 1701) puts the event on the mover's own book as named (lines 1715 to 1767), and the move's rule in src/director/data/director.json (line 1291) sizes it at `directorKinMovedImpact`, 0.29, on the feeling channel. The loss is after that, in `measureDay` (line 834) at the day's close, which reads the person as they are by then. Two places to print for this one record: the mover's trait weight for the feeling channel once they are of the light tier (`traitWeight`, line 1178; an impact of zero is skipped without a trace at line 1205), and the floor at line 1211 (`directorMomentFloor`, 0.11), which counts it under a label the test excuses only for a lost job.
 
 **Notes (cause finder, Nov 10).** Ran on main 6af036c7: world-moments.test.ts passes 5/5 with GOLDEN_PATH_SEED=7e53bd5ea7be7333 on both Oak Grove, Tennessee keys (4754640, which is the test's default draw, and 4754700). It also passes on a fresh root, a2d36c0b96390c19, which draws McKinnon, Wyoming (key 5649400, seed above). So the failure does not reproduce on main. On e5c370fa, in a slim worktree, it reproduces exactly: 2 failed, the same record and the same husk mover. Probes in that worktree only, never committed, logged `onEvent`, `measureDay`, the score and `forget` for this one person, and gave the dates and ranks in Cause. The second failure on that commit, the relatives check, was fixed since by the summary branch at lines 141 to 149 of the test. Still unknown: which change since Oct 26 stopped husks from gathering daily cause-group moments; this clone is shallow, so that was not bisected. It no longer matters for this fix.
+
+Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:54 UTC) on branch claude/pool-tests-world-moments-husk-mover-oak-grove.

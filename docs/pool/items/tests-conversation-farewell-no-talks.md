@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: merged
+status: done
 standard: 2
 claimed-by:
 pr: #8176
@@ -18,6 +18,8 @@ effort: low
 root: none
 checked: fable 2026-11-10
 merged-at: 2026-11-10T18:37:40.000Z
+seen-by: second-session-2
+seen-at: 2026-11-11T00:58:36.806Z
 ---
 
 **What.** src/director/conversation.test.ts "never parts with a word the talk already said" fails on main (fixed world, seed conversation-test): expected 0 to be greater than 0. Of the first 25 people the player knows, none reaches a farewell in 8 turns, and the first one's talk opens with no lines and no choices at all. The engine may be right to say nothing for a person with nothing on record, so the first question is whether the test picks people who have anything to say. The Notes record that run alone, or paired with any one earlier test, it passes, and that in the full file every known person opens an empty talk, so earlier tests leave something behind.
@@ -37,6 +39,8 @@ merged-at: 2026-11-10T18:37:40.000Z
 **Files.** src/director/conversation.ts, src/director/conversation.test.ts
 
 **Notes.** Filed by Lane 3 (Nov 4), found while checking lane3/everyday-answers; red on clean main (9e2f7a46). Unit tests don't run in main's Release workflow, so no red-main report named it.
+
+Seen in the game (2026-11-11, second-session-2): fixed world (conversation-test seed); drawn seeds e1e4e434a7f2 and 0cb6ae68a2cd, seed conversation-test; e1e4e434a7f2; 0cb6ae68a2cd, main 1eeb8f85: conversation.test.ts as a whole file passed all 21 tests on the fixed world and on two fresh seeds, including the farewell test
 
 **Notes.** Probe (Lane 3, Nov 4 UTC, main 9e2f7a46). The first five people the player knows, on 2021-01-10, are two housemates and three others in the same place, all alive, tier weekly. `openConversation` gives each 0 lines and 0 choices. `openConversation` has no early return, so the greeting (`words(..., "greet", "open", { statementsOnly: true })`) found no line and no subject offered a choice. Look at what `words()` reads for these speakers, and at the conversation bank since 9b34b8ec (talk after the address, Nov 1).
 

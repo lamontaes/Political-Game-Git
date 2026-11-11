@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** Resolve the stopgap row with the resolving change named, and extend src/core2/disaster-weather.test.ts to follow the chain by record id.
 
-**Time box.** 2 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-disasters-from-conditions (which waits on it); the disaster chain the weather test states.
 
 **Rules.** Every cut corner is a registered stopgap and a closed one says what closed it. The chain is the acceptance: the record, the damage, the payment and the person it reached, by record id.
 

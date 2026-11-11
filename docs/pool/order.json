@@ -2,6 +2,7 @@
   "about": "The order work is taken in, written down once (owner, Nov 10, 2026: \"does it have weights on what should be done first?\"). `npm run pool -- next` sorts by it and the index's Ready by model lists follow it. Change the order here, never in a prompt.",
   "levels": ["haiku", "sonnet", "opus", "fable"],
   "sortBy": [
+    "visible: what the player sees first (the `visible` block below). Reds on main and rules, checks and skills still come before everything; then play and screens work whose What says Seen: or says none of the three; then every other Seen: item; then Feeds:; then Guards:; then other items that say none.",
     "priority: 1 before 2 before 3. Priority 1 is a red on main or what the owner asked for now.",
     "class: rules, checks and skills first; then the critical path; then what stops play; then the rest.",
     "unblocks: the item more live items wait on comes first.",
@@ -9,6 +10,16 @@
     "size: S before M before L.",
     "id: alphabetical, so the order is the same for everyone."
   ],
+  "visible": {
+    "why": "Owner, Nov 11, 2026: \"Can you have Fable prioritize all of the visible changes\". Every builder's `next` hands out what the player sees before anything else. The speed lead keeps its own order, because speed is felt in every year.",
+    "first": ["rules-checks-skills"],
+    "reds": "(^|-)red(-|$)",
+    "playKind": "play"
+  },
+  "cap": {
+    "why": "Owner, Nov 11, 2026, with the CTO's proposal: while too many game pull requests are open, builders take no new items; they fix send-backs and bring their pull requests up to main. Reds on main and rules, checks and skills are still handed out. The number is the lead's to set; 150 because the desks gated about 40 game pull requests in the three hours before the ruling (skill pool-notes).",
+    "openGamePullRequests": 150
+  },
   "kinds": {
     "play": {
       "why": "Owner, Nov 10: \"the stuff I actually click and play\". Player-facing items only.",
