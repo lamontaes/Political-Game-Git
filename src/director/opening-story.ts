@@ -304,7 +304,13 @@ export function composeBlocks(
             said: new Set(memory.said),
           },
         };
-    return saidAs(into, person);
+    const said = saidAs(into, person);
+    // A slot here may stand where a subject pronoun cannot ("with he beside
+    // me"): the address says the role where the reader gives a pronoun.
+    const office = officeWords(person.officeKind);
+    return office && /^(he|she|they|him|her|them)$/i.test(said)
+      ? office.again
+      : said;
   };
   const tellOf = (facts: Facts): Facts =>
     Object.fromEntries(
