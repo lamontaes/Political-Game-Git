@@ -37,7 +37,7 @@ import {
 const ROOT = path.resolve(__dirname, "../../..");
 const run = freshRun();
 const tested = (rule: LineRule) =>
-  !["place", "judged"].includes(rule.test.kind);
+  !["place", "judged", "composed"].includes(rule.test.kind);
 
 describe("line rules: each rule does what it says", () => {
   it("flags every line it must catch and spares every line it must not", () => {
@@ -120,6 +120,10 @@ describe("line rules: each rule does what it says", () => {
     for (const rule of run.rules)
       if (rule.status === "awaiting-test")
         expect(["place", "judged"], rule.id).toContain(rule.test.kind);
+      else if (rule.test.kind === "composed")
+        // A composed rule reads whole texts, never a bank line: its checks are
+        // registered and fixture-tested in composed-rules.test.ts.
+        expect(rule.status, rule.id).not.toBe("enforced");
       else if (rule.test.kind === "judged") {
         // A judged rule leaves awaiting-test with one line it must catch, one
         // it must leave alone, and its first verdicts folded.

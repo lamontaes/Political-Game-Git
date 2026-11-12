@@ -48,6 +48,7 @@ Why not one rolling branch: it was tried on Nov 11 and failed twice in two hours
 4. If the commit is refused because the file changed under you, read it again from the branch, put your change on top of what is there, and commit again. Never overwrite another helper's paragraph.
 5. Post one line on the crew's issue: `<your prefix>: noted <item id> <the commit's full sha>` and the cause in two sentences. The line is how the lead and the CTO read your finding; the bundle is only how it reaches main.
 6. A note needs no release note of its own. The desk adds the hour's.
+7. Once an item is being built, its notes go to its pull request's branch, not the bundle. And a builder whose item reached main through a bundle merges main into the branch before posting ready and keeps both sides of the item file: on Nov 11 two passed words pull requests could not join their train because main's copy of their item and the branch's differed.
 
 ## Desk B, at the top of each hour
 
@@ -58,6 +59,7 @@ The hour's pull request is an ordinary pool-only pull request, and its head stop
 3. If the hour's release note is missing (`docs/release/changes/pool-notes-<date>-<hour>.md`, with only `id` and `impact: none` in the front matter and one sentence under it), say so; the lead or the first helper adds it.
 4. Post `Desk B: ready #<its number> <head sha>` with how many items it holds.
 5. A branch that conflicts with main (an item's status changed on main during the hour) goes back to the lead, who merges main into it and keeps both sides' lines.
+   The lead does not wait to be asked: at the top of the hour, before the desk gates, the lead merges main into the hour's branch, keeps both sides of any item a builder claimed or changed on main since the cut, runs `npm run pool -- --check`, and posts the new head. On Nov 11 two bundles in a row came back from the desk for one item each, the second an item `pool next` had handed out and taken back six times in forty minutes.
 6. An hour with no notes has no branch and no pull request.
 
 ## Whoever holds the merge step, once an hour
@@ -80,3 +82,7 @@ While more than **150 game pull requests are open**, `npm run pool -- next` hand
 ## Stop condition
 
 A note is delivered when its commit is on the hour's branch and its line is on the crew's issue. The hour is done when its pull request is merged.
+
+## A merger on any tool (Nov 11)
+
+A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with the pool check alone and merges it pinned to the head in the cut line. A bundle that touches a file outside `docs/pool/` and `docs/release/changes/` is sent back.
