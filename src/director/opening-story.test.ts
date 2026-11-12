@@ -69,7 +69,8 @@ describe("the opening story", () => {
       (row) =>
         row.level === "country" &&
         row.facts.some((key) => /^(context|meaning)-|-(up|down)$/.test(key)) &&
-        !row.facts.includes("today"),
+        // "today-clause" is the same sentence after an opener (W-E, Nov 12).
+        !row.facts.some((key) => key === "today" || key === "today-clause"),
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
@@ -92,17 +93,26 @@ describe("the opening story", () => {
     const country = story.address.sentences.filter(
       (row) => row.level === "country",
     );
-    // The theme's point opens on its context: how its question stands today,
-    // from the law in force, or a figure from the records (changed with the
-    // speech outline, Nov 12: before, the country's story ended on a claim
-    // about the year).
-    if (country.length)
+    // The theme's first point says how its question stands today, from the
+    // law in force, or gives a figure from the records (changed with the
+    // speech outline, Nov 12; since the W-E pass a point has four shapes, so
+    // its paragraph, not its first sentence, holds the context).
+    if (country.length) {
+      const part = country[0]!.part;
       expect(
-        country[0]!.facts.some(
-          (key) => key === "today" || /^context-/.test(key),
-        ),
+        country
+          .filter((row) => row.part === part)
+          .some((row) =>
+            row.facts.some(
+              (key) =>
+                key === "today" ||
+                key === "today-clause" ||
+                /^context-/.test(key),
+            ),
+          ),
         country[0]!.text,
       ).toBe(true);
+    }
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });

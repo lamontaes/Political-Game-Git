@@ -1017,6 +1017,31 @@ const CLOSES: [string[], string, string][] = [
   [
     FEDERAL,
     "polished",
+    "Let us {first-side}, and do it together. Thank you, and good night.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, we will keep faith with those who come after us. God bless you all.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, the generations after us will thank us for it. May God bless you, and may God bless the United States of America.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "We can {first-side}, and we'll all be better off. Thanks, everybody, and God bless.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "So let's {first-side} and get folks the better deal they've earned. Thank you all.",
+  ],
+  [
+    FEDERAL,
+    "polished",
     "If we {first-side}, this country will be the stronger for it. Thank you, and God bless America.",
   ],
   [
@@ -1052,6 +1077,23 @@ const CLOSES: [string[], string, string][] = [
 ];
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
+const GREETINGS: [string, string][] = [
+  ["plain", "Friends and neighbors, here and at home."],
+  ["plain", "Everybody here, and everybody back home."],
+  [
+    "polished",
+    "Members of Congress, distinguished guests, my fellow citizens.",
+  ],
+];
+for (const [voice, text] of GREETINGS)
+  ADD.push({
+    role: "salutation",
+    subjects: ["inaugural"],
+    voice,
+    text,
+    needs: [],
+    piece: { of: "opening-salutation", part: "opener" },
+  });
 // 15. A piece of these kinds written by this script whose words are no
 // longer in the lists above gives way to its rewording: closes, the today
 // openers, belief frames and clauses (a W-C belief by theme and lean among
@@ -1194,6 +1236,27 @@ bank.parts = bank.parts.filter((part) => {
   return true;
 });
 
+// 25. An ask that a belief may lead into is one clause after the belief's
+// comma: a core that runs a second clause after a semicolon ("I will not
+// sign legislation for {about}; should such a bill reach my desk, I will
+// veto it.") reads as a splice behind "Because I believe ...,". The second
+// clause folds into the first.
+const ONE_CLAUSE: Record<string, string> = {
+  "I will not sign legislation for {about}; should such a bill reach my desk, I will veto it.":
+    "I will veto any bill for {about} that reaches my desk.",
+  "the Congress can {to} with a single vote in each chamber; I ask that it take that vote.":
+    "I ask the Congress to take the single vote in each chamber that would {to}.",
+};
+for (const part of bank.parts) {
+  const to = ONE_CLAUSE[part.text];
+  if (to && hasRole(part, "ask")) {
+    part.text = to;
+    count("25. an ask that ran two clauses is said as one");
+  }
+}
+// 26. More sign-offs and greetings for the President, so a fixed formula
+// is not the same sentence in most addresses (opening-address-versions):
+// the closes below and greetings that list who is addressed.
 // 22. Removed by kind (owner's notes, Nov 12): the occasion's "what I learned
 // in my last office" says no belief ("We're not talking about any ideas that
 // this person believes in"); a greeting that is not a list of who is
