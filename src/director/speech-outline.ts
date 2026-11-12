@@ -826,13 +826,12 @@ export function subjectOf(question: string): string | null {
 export function themeOfQuestion(question: string): string | null {
   const subject = subjectOf(question);
   return (
-    Object.entries(OUTLINES.themes).find(
-      ([key, row]) =>
+    Object.keys(OUTLINES.themes).find(
+      (key) =>
         key !== "about" &&
-        Array.isArray(row) &&
         subject !== null &&
-        row.includes(subject),
-    )?.[P.zero] ?? null
+        subjectsOf(key).includes(subject),
+    ) ?? null
   );
 }
 
