@@ -63,6 +63,7 @@ import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
+import { JUSTICE_MODULE_ID } from "../core2/modules/justice";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
 import {
@@ -160,6 +161,7 @@ import { budgetPurposeSaid } from "../english/bill-names";
 import {
   properName,
   spoken,
+  spokenDate,
   spokenWhen,
   spokenWhenRow,
   stateInSentence,
@@ -1149,6 +1151,67 @@ function jobLost(
   };
 }
 
+/**
+ * What a court case is, from the justice engine's records (words composer):
+ * the offense as people say it, the trial day or a guilty plea, held before
+ * trial or out on bail and its amount, and for a conviction the sentence:
+ * its prison term, probation and fine. Each cites the case or its sentence.
+ */
+function caseFacts(
+  core: Readonly<CoreState>,
+  caseId: string,
+  eventId: string,
+): Facts {
+  if (!core.modules.has(JUSTICE_MODULE_ID)) return {};
+  const api = coreAPI(core as CoreState).moduleState(JUSTICE_MODULE_ID);
+  const row = api.table("cases").get(caseId) as
+    | {
+        id: string;
+        plea?: boolean;
+        trialDate?: string | null;
+        sentenceId?: string | null;
+      }
+    | undefined;
+  if (!row) return {};
+  const cites = [row.id, eventId];
+  const fact = (text: string, ids: readonly string[] = cites): Fact => ({
+    text,
+    sourceRecordIds: [...ids],
+  });
+  const facts: Facts = {};
+  const offense = RELATIVE_NEWS.offenses.bribery;
+  if (offense) facts.offense = fact(offense);
+  if (row.plea) facts.plea = fact("yes");
+  else if (row.trialDate && row.trialDate > core.date)
+    facts.trial = fact(spokenDate(row.trialDate, core.date));
+  const pretrial = core.durableLog.get(
+    `justice.pretrial:${row.id}` as never,
+  ) as { facts?: Readonly<Record<string, string>> } | undefined;
+  if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
+  else if (Number(pretrial?.facts?.bailMinor) > zero)
+    facts.bail = fact(moneySaid(Number(pretrial!.facts!.bailMinor)));
+  const sentence = row.sentenceId
+    ? (api.table("sentences").get(row.sentenceId) as
+        | {
+            id: string;
+            custodyMonths?: number;
+            probationMonths?: number;
+            fineMinor?: number;
+          }
+        | undefined)
+    : undefined;
+  if (sentence) {
+    const ids = [sentence.id, ...cites];
+    if ((sentence.custodyMonths ?? zero) > zero)
+      facts.term = fact(termSaid(sentence.custodyMonths!), ids);
+    if ((sentence.probationMonths ?? zero) > zero)
+      facts.probation = fact(termSaid(sentence.probationMonths!), ids);
+    if ((sentence.fineMinor ?? zero) > zero)
+      facts.fine = fact(moneySaid(sentence.fineMinor!), ids);
+  }
+  return facts;
+}
+
 const JUSTICE_SUBJECTS: Readonly<Record<string, string>> = {
   "feeling:event:justice.charged": "charge",
   "feeling:event:justice.convicted": "conviction",
@@ -1187,6 +1250,7 @@ function justiceSubjects(
       aboutId: moment.causeId,
       facts: {
         case: { text: "", sourceRecordIds: [moment.causeId, caseId] },
+        ...caseFacts(core, caseId, moment.causeId),
       },
     });
   }
