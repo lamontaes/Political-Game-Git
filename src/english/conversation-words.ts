@@ -39,6 +39,8 @@ export interface Move {
   stages?: string[];
   raises?: string;
   requiresFacts?: string[];
+  /** Facts whose presence holds the wording back. */
+  excludesFacts?: string[];
   /** Whom the sentence speaks of, when it opens with a pronoun. */
   pronoun?: "he" | "she" | "they";
   /** A bare question turned back ("And you?"), said after the plain answer. */
