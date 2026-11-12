@@ -1839,6 +1839,14 @@ export function composeJournal(
       const key = `moved|${movedTo}|${moment.date.slice(zero, P.two * P.two)}`;
       if (toldFacts.has(key)) continue;
       toldFacts.add(key);
+    } else if (moment.causeKind === "moved" && facts.place) {
+      // A move whose record names no destination is told by where the
+      // person lives now, which every such move shares: told once.
+      // stopgapId: SG-DIRECTOR-journal-life-gaps (the move's own destination
+      // is not on its record; the Journal tells one such move, not each).
+      const key = `moved|now|${facts.place.text}`;
+      if (toldFacts.has(key)) continue;
+      toldFacts.add(key);
     }
     const sign = [
       moment.causeKind,
@@ -2052,7 +2060,15 @@ export function composeJournal(
             ([name]) => !repeated.some(([gone]) => gone === name),
           ),
         );
-        const again = unit.retell(fewer);
+        // The employer first: a place may be said again where the line
+        // has no other way to say where.
+        const fewerButPlace = Object.fromEntries(
+          Object.entries(unit.facts).filter(
+            ([name]) =>
+              name === "place" || !repeated.some(([gone]) => gone === name),
+          ),
+        );
+        const again = unit.retell(fewerButPlace) ?? unit.retell(fewer);
         if (again) event = again;
       }
       let timed = false;

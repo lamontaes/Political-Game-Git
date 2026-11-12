@@ -4138,32 +4138,6 @@
       }
     },
     {
-      "key": "journal.moved-other-away.relation-moved-away",
-      "move": "moved-other-away",
-      "kind": "spoken",
-      "text": "{relation} moved away.",
-      "uses": [
-        {
-          "move": "moved-other-away",
-          "subject": "moved",
-          "role": "other",
-          "choice": "away",
-          "journal": [
-            {
-              "kindPrefix": "event:person.moved-away",
-              "field": "otherLine"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (pool item words-journal-household-move-line)",
-      "date": "2026-10-16",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.family-line-born.named-was-born",
       "move": "family-line-born",
       "kind": "spoken",
