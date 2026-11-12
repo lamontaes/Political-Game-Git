@@ -18,7 +18,6 @@ import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
 } from "../core2/modules/elections";
-import { PLACE_PRICES_MODULE_ID } from "../core2/modules/place-prices";
 import { personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
@@ -1557,16 +1556,15 @@ export function composeJournal(
     if (moment.causeKind === "event:law.effect-learned") {
       const moved = Number(logged?.facts?.movedMinor);
       const ruleId = logged?.facts?.priceRuleId;
-      const rule =
-        typeof ruleId === "string" && core.modules.has(PLACE_PRICES_MODULE_ID)
-          ? (coreAPI(core as CoreState)
-              .moduleState(PLACE_PRICES_MODULE_ID)
-              .table("rules")
-              .get(ruleId) as unknown as { good?: string } | undefined)
+      // The rule's id names its good (`<place>:<good>:<kind>`, the price
+      // engine's own key): read from the record, so the Journal loads no
+      // part of the price engine.
+      const bills = JOURNAL_OUTLINE.goodBills as Record<string, string>;
+      const good =
+        typeof ruleId === "string"
+          ? ruleId.split(":").find((part) => part !== "about" && bills[part])
           : undefined;
-      const bill = rule?.good
-        ? (JOURNAL_OUTLINE.goodBills as Record<string, string>)[rule.good]
-        : undefined;
+      const bill = good ? bills[good] : undefined;
       if (!bill || !Number.isFinite(moved) || moved === zero) return null;
       facts.bill = {
         text: bill,
