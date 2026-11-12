@@ -77,7 +77,7 @@ const HELPED_DAYS = 45;
 /**
  * The apartments a place of this size would start in the days played, at its
  * state's permit rate. The zoning laws act on apartment buildings, so a place
- * that would start fewer than two buildings has none to follow.
+ * that would start fewer than one building has none to follow.
  */
 function apartmentsPermitted(usps: string, people: number): number {
   const rates =
@@ -295,7 +295,7 @@ function play(
     core.placeMetadata?.housingState ?? "",
     people,
   );
-  if (apartments < 2 * UNITS_PER_BUILDING)
+  if (apartments < UNITS_PER_BUILDING)
     return `no subject: about ${Math.round(apartments)} apartments permitted in ${DAYS} days (${people} people)`;
 
   // The journal posts these cases cite, by the id of the payment that made them; for a lease, the latest settlement.
@@ -1062,7 +1062,7 @@ describe(`housing and credit laws reach people and move money (seed ${base})`, (
           people !== undefined &&
           (people < MIN_RENTERS ||
             apartmentsPermitted(place.state.replace(/^US-/, ""), people) <
-              2 * UNITS_PER_BUILDING)
+              UNITS_PER_BUILDING)
         )
           continue;
         built += 1;
