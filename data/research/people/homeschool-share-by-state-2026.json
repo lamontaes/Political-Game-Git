@@ -1,0 +1,267 @@
+{
+  "id": "homeschool-share-by-state-2026",
+  "publisher": "U.S. Census Bureau (Household Pulse Survey public-use files, 2022) scaled to NCES (National Household Education Survey, 2019)",
+  "retrievedOn": "2026-10-20",
+  "sourceReport": "docs/reports/homeschool-share-2026-10-20.md",
+  "sourceFile": "data/research/people/census-household-pulse-homeschool-replicate-errors-2023.json",
+  "definition": "A child not enrolled in public or private school, as the Pulse files define it (TENROLLHMSCH). The Pulse level (14.4 percent) is not read; the state share is the NHES national share, 0.028, times how far the state's Pulse share sits from the nation's, shrunk toward the nation by 40 households: state share = 0.028 x (n x state_pulse_share + 40 x national_pulse_share) / ((n + 40) x national_pulse_share).",
+  "limits": "State samples are small (25 to 263 household records); the relative pattern is from 2022 and the NHES anchor is 2019. The share calibrates the band a played town's schools report and never picks which family homeschools. A state the file lacks (the five territories) takes the median, marked ESTIMATED.",
+  "median": 0.0256,
+  "states": {
+    "US-AL": {
+      "share": 0.0207,
+      "householdRecords": 54,
+      "tag": "SOURCED"
+    },
+    "US-AK": {
+      "share": 0.0312,
+      "householdRecords": 50,
+      "tag": "SOURCED"
+    },
+    "US-AZ": {
+      "share": 0.0409,
+      "householdRecords": 75,
+      "tag": "SOURCED"
+    },
+    "US-AR": {
+      "share": 0.022,
+      "householdRecords": 32,
+      "tag": "SOURCED"
+    },
+    "US-CA": {
+      "share": 0.0291,
+      "householdRecords": 263,
+      "tag": "SOURCED"
+    },
+    "US-CO": {
+      "share": 0.034,
+      "householdRecords": 86,
+      "tag": "SOURCED"
+    },
+    "US-CT": {
+      "share": 0.0216,
+      "householdRecords": 93,
+      "tag": "SOURCED"
+    },
+    "US-DE": {
+      "share": 0.0222,
+      "householdRecords": 53,
+      "tag": "SOURCED"
+    },
+    "US-DC": {
+      "share": 0.0328,
+      "householdRecords": 25,
+      "tag": "SOURCED"
+    },
+    "US-FL": {
+      "share": 0.0211,
+      "householdRecords": 100,
+      "tag": "SOURCED"
+    },
+    "US-GA": {
+      "share": 0.0442,
+      "householdRecords": 98,
+      "tag": "SOURCED"
+    },
+    "US-HI": {
+      "share": 0.0364,
+      "householdRecords": 35,
+      "tag": "SOURCED"
+    },
+    "US-ID": {
+      "share": 0.0233,
+      "householdRecords": 63,
+      "tag": "SOURCED"
+    },
+    "US-IL": {
+      "share": 0.0329,
+      "householdRecords": 83,
+      "tag": "SOURCED"
+    },
+    "US-IN": {
+      "share": 0.0241,
+      "householdRecords": 98,
+      "tag": "SOURCED"
+    },
+    "US-IA": {
+      "share": 0.0238,
+      "householdRecords": 67,
+      "tag": "SOURCED"
+    },
+    "US-KS": {
+      "share": 0.0201,
+      "householdRecords": 85,
+      "tag": "SOURCED"
+    },
+    "US-KY": {
+      "share": 0.0256,
+      "householdRecords": 66,
+      "tag": "SOURCED"
+    },
+    "US-LA": {
+      "share": 0.0263,
+      "householdRecords": 76,
+      "tag": "SOURCED"
+    },
+    "US-ME": {
+      "share": 0.0316,
+      "householdRecords": 40,
+      "tag": "SOURCED"
+    },
+    "US-MD": {
+      "share": 0.0289,
+      "householdRecords": 98,
+      "tag": "SOURCED"
+    },
+    "US-MA": {
+      "share": 0.0255,
+      "householdRecords": 109,
+      "tag": "SOURCED"
+    },
+    "US-MI": {
+      "share": 0.0316,
+      "householdRecords": 110,
+      "tag": "SOURCED"
+    },
+    "US-MN": {
+      "share": 0.0221,
+      "householdRecords": 104,
+      "tag": "SOURCED"
+    },
+    "US-MS": {
+      "share": 0.0262,
+      "householdRecords": 51,
+      "tag": "SOURCED"
+    },
+    "US-MO": {
+      "share": 0.0243,
+      "householdRecords": 72,
+      "tag": "SOURCED"
+    },
+    "US-MT": {
+      "share": 0.0363,
+      "householdRecords": 41,
+      "tag": "SOURCED"
+    },
+    "US-NE": {
+      "share": 0.0256,
+      "householdRecords": 61,
+      "tag": "SOURCED"
+    },
+    "US-NV": {
+      "share": 0.0254,
+      "householdRecords": 76,
+      "tag": "SOURCED"
+    },
+    "US-NH": {
+      "share": 0.0302,
+      "householdRecords": 55,
+      "tag": "SOURCED"
+    },
+    "US-NJ": {
+      "share": 0.0255,
+      "householdRecords": 73,
+      "tag": "SOURCED"
+    },
+    "US-NM": {
+      "share": 0.0268,
+      "householdRecords": 44,
+      "tag": "SOURCED"
+    },
+    "US-NY": {
+      "share": 0.0348,
+      "householdRecords": 73,
+      "tag": "SOURCED"
+    },
+    "US-NC": {
+      "share": 0.0231,
+      "householdRecords": 55,
+      "tag": "SOURCED"
+    },
+    "US-ND": {
+      "share": 0.0422,
+      "householdRecords": 47,
+      "tag": "SOURCED"
+    },
+    "US-OH": {
+      "share": 0.0178,
+      "householdRecords": 56,
+      "tag": "SOURCED"
+    },
+    "US-OK": {
+      "share": 0.0221,
+      "householdRecords": 70,
+      "tag": "SOURCED"
+    },
+    "US-OR": {
+      "share": 0.0337,
+      "householdRecords": 78,
+      "tag": "SOURCED"
+    },
+    "US-PA": {
+      "share": 0.0361,
+      "householdRecords": 98,
+      "tag": "SOURCED"
+    },
+    "US-RI": {
+      "share": 0.0226,
+      "householdRecords": 38,
+      "tag": "SOURCED"
+    },
+    "US-SC": {
+      "share": 0.0196,
+      "householdRecords": 63,
+      "tag": "SOURCED"
+    },
+    "US-SD": {
+      "share": 0.0264,
+      "householdRecords": 40,
+      "tag": "SOURCED"
+    },
+    "US-TN": {
+      "share": 0.0391,
+      "householdRecords": 72,
+      "tag": "SOURCED"
+    },
+    "US-TX": {
+      "share": 0.0277,
+      "householdRecords": 196,
+      "tag": "SOURCED"
+    },
+    "US-UT": {
+      "share": 0.0283,
+      "householdRecords": 129,
+      "tag": "SOURCED"
+    },
+    "US-VT": {
+      "share": 0.0221,
+      "householdRecords": 37,
+      "tag": "SOURCED"
+    },
+    "US-VA": {
+      "share": 0.0233,
+      "householdRecords": 108,
+      "tag": "SOURCED"
+    },
+    "US-WA": {
+      "share": 0.0396,
+      "householdRecords": 132,
+      "tag": "SOURCED"
+    },
+    "US-WV": {
+      "share": 0.0217,
+      "householdRecords": 36,
+      "tag": "SOURCED"
+    },
+    "US-WI": {
+      "share": 0.0184,
+      "householdRecords": 54,
+      "tag": "SOURCED"
+    },
+    "US-WY": {
+      "share": 0.0245,
+      "householdRecords": 47,
+      "tag": "SOURCED"
+    }
+  }
+}

@@ -2180,6 +2180,22 @@ export function coreAPI(core: CoreState): CoreAPI {
  * record (trace audit item 2): who or what came in, why, and where. In the
  * town's own places it is a public record; elsewhere a plain one.
  */
+/**
+ * The record behind each entry that is about to be admitted: a producer names
+ * it (the birth, the founding, the move) just before it admits the person or
+ * the organization, and the entry record keeps it as a fact Trace opens.
+ */
+const entryCauses = new WeakMap<CoreState, Map<string, string>>();
+export function noteEntryCause(
+  core: CoreState,
+  entryId: string,
+  causeId: string,
+): void {
+  let causes = entryCauses.get(core);
+  if (!causes) entryCauses.set(core, (causes = new Map()));
+  causes.set(entryId, causeId);
+}
+
 function recordEntry(
   core: CoreState,
   entry: {
@@ -2193,6 +2209,8 @@ function recordEntry(
   if (core.date <= core.startedAt) return;
   const id = `${entry.kind}.recorded:${entry.id}:${core.date}`;
   if (core.eventIds.has(id)) return;
+  const causeId = entryCauses.get(core)?.get(entry.id);
+  entryCauses.get(core)?.delete(entry.id);
   coreAPI(core).emit({
     id,
     date: core.date,
@@ -2205,7 +2223,11 @@ function recordEntry(
       citation: `Entered the world: ${entry.reason}`,
     },
     publicRecord: core.visiblePlaceIds.has(entry.placeId),
-    facts: { recordId: entry.id, reason: entry.reason },
+    facts: {
+      recordId: entry.id,
+      reason: entry.reason,
+      ...(causeId ? { causeId } : {}),
+    },
   });
 }
 
