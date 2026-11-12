@@ -2298,6 +2298,40 @@ export function amendBudget(
 }
 
 /**
+ * A law's change to a government's revenue line in the budget in force: the
+ * aid a higher treasury pays a lower one (the treasury pays the line a twelfth
+ * a month, budgets-treasury.ts). The law's own applied row is the record.
+ */
+export function amendBudgetRevenue(
+  api: CoreAPI,
+  input: {
+    readonly governmentId: string;
+    readonly line: string;
+    readonly deltaMinor: number;
+  },
+): BudgetRow | null {
+  const gov = governmentOfJurisdiction(api, input.governmentId);
+  if (!gov) return null;
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const budget = table(api, "budgets").get(
+    `budget:${gov.id}:${fy}`,
+  ) as unknown as BudgetRow | undefined;
+  if (!budget) return null;
+  const amended: BudgetRow = {
+    ...budget,
+    revenueMinor: {
+      ...budget.revenueMinor,
+      [input.line]: Math.max(
+        0,
+        (budget.revenueMinor[input.line] ?? 0) + input.deltaMinor,
+      ),
+    },
+  };
+  table(api, "budgets").put(amended as unknown as ModuleRow);
+  return amended;
+}
+
+/**
  * The measure that last changed a government's spending line: the bill,
  * ordinance, act or adoption whose amendment the budget now stands on, with
  * the day it changed. Null while the line is as the world opened it.

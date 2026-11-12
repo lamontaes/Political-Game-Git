@@ -217,6 +217,12 @@
       "source": "Most U.S. transit agencies carry children under 5 free with a paying rider (APTA fare survey 2023); a fare-free policy reaches riders 5 and older.",
       "spread": [2, 6]
     },
+    "equalizedFundingSpendingShare": {
+      "value": 0.07,
+      "tag": "ESTIMATED",
+      "source": "Lafortune, Rothstein and Schanzenbach 2018 (AEJ: Applied): post-1990 school finance reforms raised state funding about $1,225 per pupil in the poorest fifth of districts and $527 in the richest, against average spending near $11,000, about 7 percent across a state (data/research/outcome-web/links.json, equalized-funding-to-spending). It sizes the state's pool of aid; the formula in school-aid decides each government's share.",
+      "spread": [0.04, 0.11]
+    },
     "teacherMinimumSalaryDollars": {
       "value": 50000,
       "tag": "SOURCED",
