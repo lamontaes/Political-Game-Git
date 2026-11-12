@@ -37,7 +37,7 @@ seen-at: 2026-11-11T00:43:26.185Z
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/election-day.test.ts, src/core2/voting.test.ts, src/director/primary-challenge.test.ts (the pattern, not changed)
+**Files.** src/bench/election-day.test.ts, src/core2/voting.test.ts
 
 **Notes.** Found Oct 26 by the traits lead while diagnosing #5979's golden-path red.
 

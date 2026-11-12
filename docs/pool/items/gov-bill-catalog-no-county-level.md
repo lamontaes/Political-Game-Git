@@ -34,6 +34,6 @@ claimed-at: 2026-11-11T06:00:24.863Z
 
 **Waits on.** Nothing.
 
-**Files.** src/core2/data/legislature/bill-catalog.json, src/core2/bill-catalog.ts, src/bench/legislature.ts, src/core2/policy-authority.ts, `src/director/government-scenes.test.ts` (removed)
+**Files.** src/core2/data/legislature/bill-catalog.json, src/core2/bill-catalog.ts, src/bench/legislature.ts, src/core2/policy-authority.ts
 
 **Notes.** Measured Oct 26 in Black Sands, Hawaii (key 1502832, world seed 1dbcd755...a2b4): county 0 catalog entries; city 1 allowed, 52 level-lacks-power, 5 state-preempts; state 58 allowed.

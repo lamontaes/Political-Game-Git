@@ -34,7 +34,7 @@ checked: fable 2026-11-10
 
 **Waits on.** Nothing. The bench staging of the election-result moment belongs to the play-first lane (Lane 4, src/bench/story.ts); no director file needs a change for it.
 
-**Files.** src/director/scene.ts, src/english/english-opening-speech.ts, data/english/parts/speech-stages.json, src/director/hearing-scenes.test.ts, src/director/data/director.json
+**Files.** src/director/scene.ts, src/english/english-opening-speech.ts, data/english/parts/speech-stages.json, src/director/data/director.json
 
 **Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.
 
