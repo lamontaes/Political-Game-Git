@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: done
 claimed-by:
-pr: #5710
+pr: #5793
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): docs/pool/items/pl
 Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): The generated-world interview/event proof now addresses the previous return. The new src/core2/campaign-day.ts raise-money loop [player, ...askedIds], however, calls askForDonation for the controlled candidate and immediately transfers their personal cash by a modeled donor amount. The unchanged control is Call donors and its view facts disclose no personal contribution. OWNER-DECISIONS.md:190 says the engine offers and the player decides; the money ruling permits own-campaign gifts but does not select them. Use the existing explicit donation action in src/bench/campaign.ts for self-funding (including in the test), or present an explicit personal-contribution choice with its amount before debiting it. Do not make the event proof pass by adding an unselected personal gift to a call day.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-21 from PR #5710 (branch claude/fs11vb-ev): The explicit contribute choice addresses the earlier unselected personal-gift return. The body still has no Done when evidence table required by .agents/skills/merger/SKILL.md section 2.5. Add rows mapping the drawn buildBenchWorld, candidate holding no seat, interview and event choices by control name, and each engine act/cause record id to campaign-day-controls.test.ts and the supplied Springville run. Keep the explicit amount choice and unconditional event proof. No local gate pass is claimed here.; finish on that branch, merge main into it first.
+
+Nov 10, 2026 (builder, play-campaign-interview-recheck): PR #5710 was absorbed into #5793 (merged Oct 22, 2026) and its send-back of Oct 21 (missing Done-when evidence table) is cleared by #5793's table, so `pr:` now reads #5793 and #5710 stays here as the first PR. #5793's rows: "Combined parent feature: a candidate with no seat takes interview and event controls in buildBenchWorld" (fileLocal excludes officeholders; play asserts no seat, checks the control names, requires an available interview, funds an available event through existing acts and takes it) and "Combined parent feature: actual interview and event causes named by id" (the interview must exist in interviewsFor; newly written speech causes equal the event's reached count and are nonempty). Fresh proof in that PR: Summit, South Carolina, US-SC (4570315), run seed 4a10490584c40563aaf32c2cc3d17e7a, place seed 458c5664388545419c54bfa112b6d68cae1379a97df30528e1153d8097c2fbba, with the filing, interview and three event cause ids named there.

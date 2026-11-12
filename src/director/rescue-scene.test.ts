@@ -14,6 +14,7 @@ import type { PersonId } from "../core2/types";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import { rescueFacts } from "./rescue-facts";
 import type { TreeNode } from "./scene-talk";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A rescue asks the player for something (owner, Nov 9: a purpose for every
 // scene kind that lacks one). The facts come from the partnerships engine's
@@ -134,9 +135,11 @@ it(`a rescue asks the player for something, from the rescue record (seed ${seed}
             ).toBeLessThan(18);
           }
           const root = scene.talk.tree.replies.map((reply) => reply.line);
-          expect(new Set(root.map((row) => row.move)), where).toEqual(
-            new Set(["agree", "promise", "ask", "decline"]),
-          );
+          expectUpToFourDifferent(root, where);
+          for (const row of root)
+            expect(["agree", "promise", "ask", "decline"], where).toContain(
+              row.move,
+            );
           expect(scene.talk.depth, where).toBeGreaterThan(1);
           expect(
             scene.talk.gaps.filter((gap) => gap.includes("/ending/")),

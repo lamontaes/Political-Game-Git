@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/housing-homeless.ts, src/core2/data/housing/shelter-beds.json, data/research/world/hud-hic-2025-beds-by-city.json, src/core2/data/stopgaps/world.json
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have counted shelter beds by city from HUD; the player reads a homeless count, not a bed census.

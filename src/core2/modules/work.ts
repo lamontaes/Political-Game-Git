@@ -1000,4 +1000,11 @@ export const WORK_MODULE: CoreModule = {
     runWorkPayrollDay(api);
     return attendance;
   },
+  // Results mode (time nobody watches): attendance is each worker's own dated
+  // decision and pay follows it, so a skipped month records no shift and pays
+  // no full worker; counted workers are paid by the residents engine.
+  onResultsMonth(api) {
+    // stopgapId: SG-SPEED-results-mode-work-attendance (a skipped month records no full worker's attendance and pays none)
+    api.stopgap("SG-SPEED-results-mode-work-attendance");
+  },
 };

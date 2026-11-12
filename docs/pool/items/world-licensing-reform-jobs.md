@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** Give licensed occupations a requirement row, and let the match read the repeal row in force so seekers without the license are matched and the pay reaches household income and the poverty measure. Resolve the stopgap row.
 
-**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the bill card's line for who a licensing repeal reached, and the household income and poverty share after it.
 
 **Rules.** An effect is a read, not a record: the jobs engine must read the law row at the moment it matches a seeker. Wire to the world: it applies to every licensed occupation, not one example. No dice: who is matched follows from skills, pay and the law in force.
 

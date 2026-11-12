@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/data/parameters.json, src/core2/emotion.ts
 
 **Notes.** Filed Oct 24 by the traits lead from the hardship-coping helper's played years.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced how long a layoff's distress lasts; the number may stay an estimate with its spread.

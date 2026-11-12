@@ -215,6 +215,8 @@
 /src/core2/modules/homeless-count.ts @lamontaes
 /src/core2/modules/coverage.ts @lamontaes
 /src/core2/modules/views.ts @lamontaes
+/src/core2/stance-listeners.ts @lamontaes
+/src/core2/views-keys.ts @lamontaes
 /src/core2/modules/speech.ts @lamontaes
 /src/core2/hearer-groups.ts @lamontaes
 /src/core2/modules/record.ts @lamontaes

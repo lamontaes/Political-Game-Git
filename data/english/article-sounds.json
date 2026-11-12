@@ -1,0 +1,5 @@
+{
+  "about": "Which article a word takes is decided by its first sound, not its first letter (lead, Nov 11: \"an union representative\"). A word that starts with a vowel letter but a consonant sound takes \"a\"; a word that starts with a consonant letter but a vowel sound takes \"an\". Each entry is the start of the word, lower case.",
+  "a": ["uni", "use", "usu", "uti", "ura", "eu", "ewe", "one", "once", "u.s."],
+  "an": ["hour", "honor", "honest", "heir", "herb"]
+}
