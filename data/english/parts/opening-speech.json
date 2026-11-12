@@ -81024,96 +81024,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.ask.both-inaugural-because-i-believe-families-not-government-know-best-theme-families-lean-right",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "Because I believe families, not government, know best what their children need,",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        },
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        }
-      ],
-      "voice": ["polished", "plain"],
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.both-inaugural-because-i-think-parents-ought-to-make-the-theme-families-lean-right",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "Because I think parents ought to make the big calls for their own kids,",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        },
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-families", "lean-right"]
-        }
-      ],
-      "voice": ["polished", "plain"],
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.both-inaugural-because-i-believe-we-hold-this-land-this-theme-land-lean-left",
       "move": "ask",
       "kind": "spoken",
@@ -81833,33 +81743,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.close.plain-inaugural-we-and-folks-will-feel-it-for-years-first-side",
-      "move": "close",
-      "kind": "spoken",
-      "text": "We {first-side}, and folks will feel it for years. Thank you all.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side"]
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close",
-          "requiresFacts": ["first-side"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.close.polished-state-of-the-state-if-we-this-state-will-be-the-stronger-first-side",
       "move": "close",
       "kind": "spoken",
@@ -81985,6 +81868,123 @@
       ],
       "voice": "plain",
       "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-folks-ought-to-make-the-theme-families-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think folks ought to make the big calls about their own lives,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-if-we-folks-will-feel-it-for-years-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, folks will feel it for years. Thank you all.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": ["first-side"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-families-not-government-know-best-theme-families-lean-right",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe families, not government, know best what they need,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-families", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
       "origin": "authored",
       "author": "Claude (Words builder W-C, speech outline)",
       "date": "2026-11-12"

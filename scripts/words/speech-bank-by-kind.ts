@@ -750,8 +750,8 @@ const BELIEFS: Record<string, Record<"left" | "right", [string, string]>> = {
       "Because I think every family deserves a fair shot at a good school, a doctor and a roof,",
     ],
     right: [
-      "Because I believe families, not government, know best what their children need,",
-      "Because I think parents ought to make the big calls for their own kids,",
+      "Because I believe families, not government, know best what they need,",
+      "Because I think folks ought to make the big calls about their own lives,",
     ],
   },
   land: {
@@ -888,7 +888,7 @@ const CLOSES: [string[], string, string][] = [
   [
     FEDERAL,
     "plain",
-    "We {first-side}, and folks will feel it for years. Thank you all.",
+    "If we {first-side}, folks will feel it for years. Thank you all.",
   ],
   [
     ["state-of-the-state"],
@@ -913,6 +913,20 @@ const CLOSES: [string[], string, string][] = [
 ];
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
+// 15. A W-C piece of these kinds whose words are no longer in the lists
+// above gives way to its rewording.
+const current = new Set(ADD.map((add) => add.text));
+bank.parts = bank.parts.filter((part) => {
+  const mine =
+    part.author === "Claude (Words builder W-C, speech outline)" &&
+    (hasRole(part, "close") ||
+      part.uses.some((use) =>
+        use.requiresFacts?.some((key) => key.startsWith("theme-")),
+      ));
+  if (!mine || current.has(part.text)) return true;
+  count("15. a piece of W-C's gives way to its rewording");
+  return false;
+});
 for (const add of ADD) {
   const key = `opening-speech.${add.role}.${Array.isArray(add.voice) ? "both" : add.voice}-${add.subjects[0]}-${slug(add.text)}-${slug(add.needs.join(" "))}`;
   if (keys.has(key) || texts.has(add.text.toLowerCase())) continue;
