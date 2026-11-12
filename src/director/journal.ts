@@ -51,7 +51,7 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName, spokenDate, stateInSentence } from "./words";
+import { properName, spokenDate, spokenWhen, stateInSentence } from "./words";
 import { graduationResults, schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
@@ -100,6 +100,13 @@ export interface JournalLine {
   link?: JournalLink;
   /** The line as the event tells it, before the words joining it to the line before ("Because of that, ..."). */
   plain?: string;
+  /**
+   * The line composed to stand alone, as a note shown without the lines
+   * before it (the Journal's toast): its own anchor in time ("Today, ...",
+   * "A few days ago, ...") on the event as told, never the words that join
+   * it to a line the reader is not shown. Set only for what happened in play.
+   */
+  alone?: string;
 }
 
 /**
@@ -1959,7 +1966,9 @@ export function composeJournal(
     // What a sentence is about: the last of the row's things it names.
     const focusOf = (text: string, before: string | undefined) =>
       things
-        .filter((key) => followFacts[key] && text.includes(followFacts[key].text))
+        .filter(
+          (key) => followFacts[key] && text.includes(followFacts[key].text),
+        )
         .sort(
           (a, b) =>
             text.lastIndexOf(followFacts[a]!.text) -
@@ -2275,7 +2284,58 @@ export function composeJournal(
     line.text = joined.text;
     line.sourceRecordIds = joined.sourceRecordIds;
   }
+  // A line of play composed to stand alone: a line that says its own time
+  // (an age, "Today I turned eighteen") stands as it is; any other opens on
+  // when it happened, said as people say it from the day it is read.
+  for (const line of kept.flatMap((chapter) => chapter.lines)) {
+    if (line.date < core.startedAt) continue;
+    const own = { ...line, text: line.plain ?? line.text };
+    const when = framed.has(line.id)
+      ? null
+      : render(
+          { part: "memoir", field: "noteWhen" },
+          {
+            when: {
+              text: spokenWhen(line.date, through),
+              sourceRecordIds: [line.id],
+            },
+          },
+          `${line.id}:note`,
+          line.sourceRecordIds,
+        );
+    line.alone = when
+      ? framedByAge(when, own, lineFacts.get(line.id) ?? {}).text
+      : own.text;
+  }
   return kept;
+}
+
+/**
+ * The Journal's note: the newest line of what happened or was learned in
+ * play, composed to stand alone (`alone`), for the toast and any other view
+ * that shows one line without the page. Null when nothing has happened
+ * since the life began: a line of the past (a job move years before) is the
+ * page's, never news.
+ */
+export function journalNote(
+  chapters: readonly JournalChapter[],
+): {
+  id: string;
+  date: IsoDate;
+  text: string;
+  sourceRecordIds: readonly string[];
+} | null {
+  let newest: JournalLine | undefined;
+  for (const line of chapters.flatMap((chapter) => chapter.lines))
+    if (line.alone && (!newest || line.date >= newest.date)) newest = line;
+  return newest
+    ? {
+        id: newest.id,
+        date: newest.date,
+        text: newest.alone!,
+        sourceRecordIds: newest.sourceRecordIds,
+      }
+    : null;
 }
 
 /** The names a record carries: its own id, its people and its facts' ids. */

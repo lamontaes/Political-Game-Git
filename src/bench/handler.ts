@@ -132,7 +132,7 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { chapterPicture } from "./journal-pictures";
-import { composeJournal } from "../director/journal";
+import { composeJournal, journalNote } from "../director/journal";
 import {
   fileForOffice,
   governmentView,
@@ -770,6 +770,26 @@ const ROUTES: readonly Route[] = [
           return picture ? { ...chapter, picture } : chapter;
         }),
       );
+      return;
+    },
+  },
+  {
+    // The Journal's note for the toast: the newest line of play, composed
+    // to stand alone (`journalNote`); null when nothing has happened yet.
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/journal/note",
+    run: async ({ url, send }) => {
+      if (!state.director) throw new Error("Generate a town first.");
+      const who = url.searchParams.get("id") ?? "";
+      const chapters = composeJournal(
+        requireCore(),
+        state.director,
+        who,
+        state.player?.packet && state.player.personId === who
+          ? { through: state.player.packet.at.date }
+          : {},
+      );
+      send(200, { note: journalNote(chapters) });
       return;
     },
   },

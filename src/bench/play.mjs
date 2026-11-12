@@ -625,16 +625,19 @@ function renderPacket(value) {
   if (packet) setClock(packet.at);
 }
 
-/** The newest line of the journal, bottom right. */
+/**
+ * The Journal's note, bottom right: the newest thing that happened or was
+ * learned in play, composed by the Journal to stand alone (`journalNote`).
+ */
 let shownJournalLine = "";
 $("journal-note-close").addEventListener("click", () =>
   hideToast($("journal-note")),
 );
 async function renderJournalNote() {
-  const chapters = await api(
-    `/api/journal?id=${encodeURIComponent(me.id)}`,
-  ).catch(() => []);
-  const line = chapters.at(-1)?.lines.at(-1)?.text ?? "";
+  const { note } = await api(
+    `/api/journal/note?id=${encodeURIComponent(me.id)}`,
+  ).catch(() => ({ note: null }));
+  const line = note?.text ?? "";
   $("journal-line").textContent = line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));

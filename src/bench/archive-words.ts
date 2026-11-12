@@ -56,10 +56,10 @@ export function wordArchiveStory(
       const told = archivedLawFacts(core, story);
       const text = told
         ? worded(
-              core,
-              story.id,
-              told.kind,
-              told.speaker || story.id,
+            core,
+            story.id,
+            told.kind,
+            told.speaker || story.id,
             told.facts,
           )
         : null;

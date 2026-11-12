@@ -22,7 +22,10 @@
     "job": "A job title with its article (\"a county clerk\"), from the job record.",
     "span": "How long something lasted, in months as people say it, from the dates on its record.",
     "next": "The employer someone went to next, from the record of their next job.",
-    "topic": "What a law no bill enacted is about, from its own record (\"electricity and the grid\").",
+    "amount": "How much a law moved what the person pays, rounded as people say it, from the learned-effect record.",
+    "good": "The bill or price a law moved, as the person says it (\"my electric bill\"), from the price rule the learned-effect record names.",
+    "does": "What someone does for work when it has no title people say (\"works outside the town\"), from the said-as reader.",
+    "when": "When something happened, as people say it from the day the Journal is read (\"today\", \"a few days ago\").",
     "signatures": "How many signed a recall petition, from the count's record.",
     "required": "How many signatures the law required, from the count's record.",
     "fewer": "How many fewer signed after the official heard the petitioners out, from the count's before and after.",
@@ -6593,84 +6596,6 @@
       }
     },
     {
-      "key": "journal.money-line-law-effect-learned.i-found-out-law-changed-what-i-pay",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I found out {law} changed what I pay.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.i-learned-law-is-behind-what-i-pay-now",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I learned {law} is behind what I pay now.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.now-i-know-law-is-why-my-costs-changed",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "Now I know {law} is why my costs changed.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (pool item words-law-effect-learned-journal)",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.home-line-siblings-older.named-were-already-here",
       "move": "home-line-siblings-older",
       "kind": "spoken",
@@ -7657,84 +7582,6 @@
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.the-rules-on-topic-changed-what-i-pay",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "The rules on {topic} changed what I pay.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.i-learned-the-law-on-topic-changed-my-costs",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "I learned the law on {topic} changed my costs.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
-      "key": "journal.money-line-law-effect-learned.that-law-on-topic-is-behind-what-i-pay-now",
-      "move": "money-line-law-effect-learned",
-      "kind": "spoken",
-      "text": "That law on {topic} is behind what I pay now.",
-      "uses": [
-        {
-          "move": "money-line-law-effect-learned",
-          "subject": "money",
-          "role": "line",
-          "choice": "law-effect-learned",
-          "journal": [
-            {
-              "kindPrefix": "event:law.effect-learned",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session (Claude Code)",
-      "date": "2026-10-28",
       "tag": {
         "move": "tell"
       }
@@ -10860,6 +10707,163 @@
       "origin": "authored",
       "author": "Words builder W8 (lead's follow-up to #8772: offices said the way people say them)",
       "date": "2026-11-11",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.law-added-amount-a-month-to-good",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "{law} added {amount} a month to {good}.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.law-took-amount-a-month-off-good",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "{law} took {amount} a month off {good}.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.i-learned-law-raised-good-by-amount-a-month",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "I learned {law} raised {good} by {amount} a month.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.money-line-law-effect-learned.i-learned-law-cut-good-by-amount-a-month",
+      "move": "money-line-law-effect-learned",
+      "kind": "spoken",
+      "text": "I learned {law} cut {good} by {amount} a month.",
+      "uses": [
+        {
+          "move": "money-line-law-effect-learned",
+          "subject": "money",
+          "role": "line",
+          "choice": "law-effect-learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-livelihood-outside.named-does",
+      "move": "work-line-livelihood-outside",
+      "kind": "spoken",
+      "text": "{named} {does}.",
+      "uses": [
+        {
+          "move": "work-line-livelihood-outside",
+          "subject": "work",
+          "role": "livelihood",
+          "choice": "livelihood",
+          "journal": [
+            {
+              "kindPrefix": "household:livelihood:outside",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-note-when.when",
+      "move": "memoir-note-when",
+      "kind": "spoken",
+      "text": "{when}.",
+      "uses": [
+        {
+          "move": "memoir-note-when",
+          "subject": "memoir",
+          "role": "noteWhen",
+          "choice": "note-when",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "noteWhen"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, unit 6)",
+      "date": "2026-11-12",
       "tag": {
         "move": "tell"
       }

@@ -242,8 +242,8 @@
       },
       "stageFact": "way",
       "stageWords": {
-        "more": "\\b(?:added|up)\\b",
-        "less": "\\b(?:off|down)\\b"
+        "more": "\\b(?:added|raised)\\b",
+        "less": "\\b(?:off|cut)\\b"
       },
       "entry": "story"
     },

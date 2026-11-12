@@ -3214,8 +3214,7 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
     // development"), which reads after "approves"; else by its subject, from
     // the one subject reader, never the catalog's label.
     const measure =
-      POLICIES[f.question ?? ""]?.purpose ??
-      storyTopicName(f.question ?? "");
+      POLICIES[f.question ?? ""]?.purpose ?? storyTopicName(f.question ?? "");
     if (yes === undefined || no === undefined || !body || !measure) return null;
     const margin = Math.abs(yes - no);
     return story(

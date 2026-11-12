@@ -1614,8 +1614,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     })(),
     // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
     pronouns: teller.words,
-    work:
-      (family || housemate || coworker) && job ? workSaid(core, job) : null,
+    work: (family || housemate || coworker) && job ? workSaid(core, job) : null,
     tie: tie
       ? {
           recordId: tie.id,

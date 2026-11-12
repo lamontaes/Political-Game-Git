@@ -341,13 +341,13 @@ export async function playLife(
 
   let lastNote = "";
   const newsSeen = new Set<string>();
-  /** The Journal's newest line and the night's news, as the toasts show them. */
+  /** The Journal's note and the night's news, as the toasts show them. */
   const toasts = async () => {
-    const chapters = ((await ask(
+    const { note: shown } = ((await ask(
       "GET",
-      `/api/journal?id=${encodeURIComponent(me)}`,
-    )) ?? []) as Json[];
-    const note = String(chapters.at(-1)?.lines?.at(-1)?.text ?? "");
+      `/api/journal/note?id=${encodeURIComponent(me)}`,
+    )) ?? {}) as Json;
+    const note = String(shown?.text ?? "");
     if (note && note !== lastNote)
       add("journal:note", [{ lines: [composedLine(note)], offered: [] }]);
     lastNote = note;
