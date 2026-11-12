@@ -80574,96 +80574,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.ask.both-inaugural-because-i-believe-government-belongs-to-everyone-it-theme-government-lean-left",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "Because I believe government belongs to everyone it serves, not to those who can pay for a hearing,",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        }
-      ],
-      "voice": ["polished", "plain"],
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.both-inaugural-because-i-think-government-ought-to-answer-to-theme-government-lean-left",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "Because I think government ought to answer to everybody, not just the folks with lawyers,",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-government", "lean-left"]
-        }
-      ],
-      "voice": ["polished", "plain"],
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.both-inaugural-because-i-believe-government-should-be-honest-with-theme-government-lean-right",
       "move": "ask",
       "kind": "spoken",
@@ -80741,51 +80651,6 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["theme-government", "lean-right"]
-        }
-      ],
-      "voice": ["polished", "plain"],
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.both-inaugural-because-i-believe-safety-and-fairness-go-together-theme-justice-lean-left",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "Because I believe safety and fairness go together, and the law earns trust only when it treats people alike,",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-justice", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-justice", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-justice", "lean-left"]
-        },
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["theme-justice", "lean-left"]
         }
       ],
       "voice": ["polished", "plain"],
@@ -81977,6 +81842,141 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["theme-families", "lean-right"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-government-belongs-to-everyone-it-theme-government-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe government belongs to everyone it serves and not just to those who can pay for a hearing,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-think-government-ought-to-answer-to-theme-government-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I think government ought to answer to everybody and not just the folks with lawyers,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-government", "lean-left"]
+        }
+      ],
+      "voice": ["polished", "plain"],
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.both-inaugural-because-i-believe-safety-and-fairness-go-together-theme-justice-lean-left",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "Because I believe safety and fairness go together and the law earns trust only when it treats people alike,",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["theme-justice", "lean-left"]
         }
       ],
       "voice": ["polished", "plain"],

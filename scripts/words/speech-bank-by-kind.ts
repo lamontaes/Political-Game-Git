@@ -726,8 +726,8 @@ const BELIEFS: Record<string, Record<"left" | "right", [string, string]>> = {
   },
   government: {
     left: [
-      "Because I believe government belongs to everyone it serves, not to those who can pay for a hearing,",
-      "Because I think government ought to answer to everybody, not just the folks with lawyers,",
+      "Because I believe government belongs to everyone it serves and not just to those who can pay for a hearing,",
+      "Because I think government ought to answer to everybody and not just the folks with lawyers,",
     ],
     right: [
       "Because I believe government should be honest with the people and small enough to answer for itself,",
@@ -736,7 +736,7 @@ const BELIEFS: Record<string, Record<"left" | "right", [string, string]>> = {
   },
   justice: {
     left: [
-      "Because I believe safety and fairness go together, and the law earns trust only when it treats people alike,",
+      "Because I believe safety and fairness go together and the law earns trust only when it treats people alike,",
       "Because I think you can't have real safety without fairness,",
     ],
     right: [

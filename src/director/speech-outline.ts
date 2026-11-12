@@ -134,6 +134,7 @@ const OUTLINES = outlineData as unknown as {
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
   themes: Readonly<Record<string, readonly string[] | string>>;
   subjectOfQuestion: Readonly<Record<string, string>>;
+  subjectPull: Readonly<Record<string, readonly string[] | string>>;
 };
 
 /** The outline row of a kind of speech. */
@@ -835,6 +836,21 @@ export function themeOfQuestion(question: string): string | null {
   );
 }
 
+/** How many named questions a theme holds, at every level. */
+function themeSize(theme: string): number {
+  return NAMED_QUESTIONS.filter(
+    (question) => themeOfQuestion(question) === theme,
+  ).length;
+}
+
+/** The mean number of named questions a theme holds. */
+const MEAN_THEME_SIZE =
+  NAMED_QUESTIONS.length /
+  Math.max(
+    P.one,
+    Object.keys(OUTLINES.themes).filter((key) => key !== "about").length,
+  );
+
 /** The subjects under a theme. */
 function subjectsOf(theme: string): readonly string[] {
   const row = OUTLINES.themes[theme];
@@ -871,13 +887,20 @@ function themeStands(
   official: OfficialRow | undefined,
   stands: readonly Stand[],
   theme: string,
+  person?: PersonState,
 ): Stand[] {
   const mine = (stand: Stand) => mineOf(official, stand);
+  // Among the rest, the subject the speaker's traits pull hardest toward.
+  const pull = (stand: Stand) => {
+    const facets = OUTLINES.subjectPull[subjectOf(stand.question) ?? ""];
+    return person && Array.isArray(facets) ? traitSum(person, facets) : P.zero;
+  };
   return stands
     .filter((stand) => themeOfQuestion(stand.question) === theme)
     .sort(
       (a, b) =>
         mine(b) - mine(a) ||
+        pull(b) - pull(a) ||
         Number(a.law.inForce) - Number(b.law.inForce) ||
         distinct(official, b) - distinct(official, a) ||
         a.question.localeCompare(b.question),
@@ -921,8 +944,14 @@ export function themeOf(
           // The speaker's own causes count where they reach a question this
           // speech can ask about: a signature issue in a subject the
           // speaker's level has no question in does not pull the theme.
-          w.signature.value *
-            under.filter((stand) => mineOf(official, stand) > P.zero).length +
+          // A theme that holds many questions is not favored for its size:
+          // the speaker's causes under it count against how many it holds.
+          (w.signature.value *
+            (official?.signature ?? []).filter(
+              (row) => themeOfQuestion(row.question) === theme,
+            ).length *
+            MEAN_THEME_SIZE) /
+            Math.max(P.one, themeSize(theme)) +
           (under.some((stand) => !stand.law.inForce)
             ? w.actable.value
             : P.zero) +
@@ -1080,7 +1109,7 @@ export function planSpeech(
   // repeal. The theme is the one with enough of them to make its points.
   const theme = themeOf(official, stands, country, federal, row.leastPoints);
   const pointStands = theme
-    ? themeStands(official, stands, theme).slice(P.zero, row.points)
+    ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
     : [];
   const asks = pointStands;
   // What the theme is about in the world's measures, the hardest first: the
@@ -1089,8 +1118,15 @@ export function planSpeech(
     (TOPIC_CLAIMS[topic] ?? []).some((key) => country.facts[key]) ||
     !!country.facts[`${topic}-better`] ||
     !!country.facts[`${topic}-worse`];
+  // An area of the term is context only where it went the wrong way: a
+  // point opens on what needs doing, never on an area that held still.
   const themeTopics = (theme ? subjectsOf(theme).flatMap(topicsOf) : [])
     .filter(held)
+    .filter(
+      (topic) =>
+        !(TERM_AREAS as readonly string[]).includes(topic) ||
+        hardness(country, topic) > P.zero,
+    )
     .sort(
       (a, b) =>
         hardness(country, b) - hardness(country, a) ||

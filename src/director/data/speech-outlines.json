@@ -263,5 +263,85 @@
     "us-federal-positions:social-insurance.raise-retirement-age": "social-insurance",
     "us-federal-positions:transport-water.expand-passenger-rail": "infrastructure",
     "us-federal-positions:agriculture.cut-farm-subsidies": "agriculture"
+  },
+  "subjectPull": {
+    "about": "Which subject under a theme a speaker leads with when none of their own causes is in it: the subject whose facets their recorded traits sum highest on (the traits are the speaker's record; no roll). The facets are the personality catalog's. TUNABLE: checked so that no question leads more than half of ten drawn addresses.",
+    "tag": "TUNABLE",
+    "healthcare": [
+      "personality-v1:facet-nurturing",
+      "personality-v1:facet-comforting",
+      "personality-v1:facet-tender-hearted"
+    ],
+    "education": [
+      "personality-v1:facet-studious",
+      "personality-v1:facet-analytical",
+      "personality-v1:facet-imaginative"
+    ],
+    "social-insurance": [
+      "personality-v1:facet-duty-bound",
+      "personality-v1:facet-meticulous",
+      "personality-v1:facet-contented"
+    ],
+    "housing": [
+      "personality-v1:facet-supportive",
+      "personality-v1:facet-affectionate"
+    ],
+    "rights": [
+      "personality-v1:facet-sincere",
+      "personality-v1:facet-sensitive"
+    ],
+    "taxes-finance": [
+      "personality-v1:facet-meticulous",
+      "personality-v1:facet-practical"
+    ],
+    "labor": [
+      "personality-v1:facet-work-centered",
+      "personality-v1:facet-supportive"
+    ],
+    "business": [
+      "personality-v1:facet-enterprising",
+      "personality-v1:facet-ambitious"
+    ],
+    "foreign-trade": [
+      "personality-v1:facet-competitive",
+      "personality-v1:facet-assertive"
+    ],
+    "government": [
+      "personality-v1:facet-sincere",
+      "personality-v1:facet-humble"
+    ],
+    "technology": [
+      "personality-v1:facet-analytical",
+      "personality-v1:facet-studious"
+    ],
+    "justice": [
+      "personality-v1:facet-duty-bound",
+      "personality-v1:facet-assertive"
+    ],
+    "energy-environment": [
+      "personality-v1:facet-imaginative",
+      "personality-v1:facet-philanthropic"
+    ],
+    "infrastructure": [
+      "personality-v1:facet-practical",
+      "personality-v1:facet-work-centered"
+    ],
+    "agriculture": [
+      "personality-v1:facet-practical",
+      "personality-v1:facet-contented"
+    ],
+    "immigration": [
+      "personality-v1:facet-friendly",
+      "personality-v1:facet-philanthropic"
+    ],
+    "defense": [
+      "personality-v1:facet-assertive",
+      "personality-v1:facet-competitive",
+      "personality-v1:facet-proud"
+    ],
+    "foreign-affairs": [
+      "personality-v1:facet-philanthropic",
+      "personality-v1:facet-mediating"
+    ]
   }
 }

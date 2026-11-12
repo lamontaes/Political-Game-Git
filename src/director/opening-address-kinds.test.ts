@@ -103,7 +103,12 @@ describe("the address picks its kind and subjects from the world", () => {
         where,
       ).toBe(true);
     }
-    expect(bad.addressKind, where).not.toBe(good.addressKind);
+    // A President whose full list of points makes the policy push score
+    // highest gives that address in any year, by the sliding scores and not
+    // by a gap (as local-address.test.ts allows); otherwise the kind follows
+    // the year.
+    if (bad.addressKind !== "policy" || good.addressKind !== "policy")
+      expect(bad.addressKind, where).not.toBe(good.addressKind);
   });
 
   it("holds a piece, in both voices, for every area's good and bad news", () => {
