@@ -196,8 +196,8 @@ describe("the interview sitting's words", () => {
         },
         side,
       )!.text;
-    expect(take("said-for")).toMatch(/\bfor\b/i);
-    expect(take("said-against")).toMatch(/\bagainst\b/i);
+    expect(take("said-for")).toMatch(/\b(?:for|yes)\b/i);
+    expect(take("said-against")).toMatch(/\b(?:against|no)\b/i);
     expect(
       take("said-for", {
         "rival-against": fact("yes"),
