@@ -25,6 +25,7 @@ import {
 } from "./modules/legislature";
 import type { LawRowInput } from "./laws-starting";
 import { searchCorePlaces } from "./place-lookup";
+import { withholdingFor } from "./tax-withholding";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -41,6 +42,21 @@ const graduatedStates = Object.keys(rows)
     ),
   )
   .filter((k) => k !== "US")
+  .sort();
+/** Places whose starting income tax is "none": the schedule holds no rated bracket. */
+const noIncomeTaxStates = Object.keys(rows)
+  .filter((k) => k !== "US")
+  .filter((k) => {
+    const row = rows[k]!.find(
+      (r) => r.series === "income-tax" && r.terms?.schedules,
+    );
+    const schedules = row?.terms?.schedules as
+      Record<string, { brackets?: { rate: number }[] }> | undefined;
+    return (
+      !!schedules &&
+      !Object.values(schedules).some((s) => (s.brackets ?? []).length > 0)
+    );
+  })
   .sort();
 function pick<T>(list: readonly T[], salt: string): T {
   const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
@@ -199,4 +215,42 @@ describe("a bill's sections", () => {
     expect(ordinance.effectiveSection?.kind, where).toBe("days-after-adoption");
     expect(ordinance.effectiveSection!.days).toBeGreaterThan(0);
   }, 600_000);
+
+  it("a first income tax where the starting row is none is flat, and withholds at the bill's rate", () => {
+    expect(
+      noIncomeTaxStates.length,
+      "starting rows with no income tax",
+    ).toBeGreaterThan(0);
+    for (const salt of ["a", "b"]) {
+      const state = pick(noIncomeTaxStates, `none:${salt}`);
+      const current = rows[state]!.find(
+        (r) => r.series === "income-tax" && r.terms?.schedules,
+      )!;
+      const where = `${state} (seed ${seed}:${salt})`;
+      const shaped = shapedRate(current, {
+        kind: "law-amount",
+        series: "income-tax",
+        value: 1,
+      })!;
+      expect(shaped.unit, where).toBe("percent-flat");
+      expect(shaped.terms.system, where).toBe("flat");
+      const row = {
+        ...current,
+        id: `law:${state}:income-tax:test-bill`,
+        value: 1,
+        unit: shaped.unit,
+        terms: shaped.terms,
+      };
+      const lines = withholdingFor({
+        paidMinor: 200_000,
+        periodDays: 14,
+        yearToDateMinor: 0,
+        incomeTax: { levels: [{ level: "state", row }] } as never,
+        socialSecurity: { levels: [] } as never,
+        medicare: { levels: [] } as never,
+      }).filter((l) => l.tax === "income");
+      expect(lines.length, where).toBe(1);
+      expect(lines[0]!.minor, where).toBe(2000);
+    }
+  });
 });

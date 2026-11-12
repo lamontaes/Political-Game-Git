@@ -11,6 +11,7 @@
  * full household, a residents flow for counted ones.
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
+import acs from "../../data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json" with { type: "json" };
 import type { FinanceContractInput } from "./finance-types";
 import { historicalMortgageRate, type MacroParameter } from "./macro-model";
 import type { ResidentFlowInput } from "./residents";
@@ -19,6 +20,91 @@ import { stopgap } from "./stopgaps";
 import type { IsoDate, Source } from "./types";
 
 const DATA = housingData.mortgage;
+/** Where a place's shares came from: its county's ACS row, its state's, or the nation's (estimated). */
+export interface MortgageShares {
+  readonly source: "county" | "state" | "nation";
+  /** The ACS row's key: the county's FIPS, the state's postal code, or "nation". */
+  readonly key: string;
+  readonly movedIn: readonly {
+    fromYear: number;
+    toYear: number;
+    share: number;
+  }[];
+  readonly ageBands: readonly {
+    minAge: number;
+    maxAgeExclusive: number | null;
+    mortgagedShare: number;
+  }[];
+}
+
+const ACS = acs as unknown as {
+  columns: string[];
+  nation: string;
+  states: Record<string, { row: string }>;
+  counties: Record<string, string>;
+};
+const column = (name: string) => ACS.columns.indexOf(name);
+const MOVED_IN = [
+  "movedIn2023Later",
+  "movedIn2020to2022",
+  "movedIn2010to2019",
+  "movedIn2000to2009",
+  "movedIn1990to1999",
+  "movedIn1989Earlier",
+];
+const BANDS = [
+  "15to34",
+  "35to44",
+  "45to54",
+  "55to59",
+  "60to64",
+  "65to74",
+  "75up",
+];
+
+/**
+ * The shares an opening reads for a place: who owes by householder age (ACS
+ * B25027) and when owners moved in (ACS B25038), from its county's row, its
+ * state's where the county has too few owners to publish a steady estimate,
+ * and the nation's (marked an estimate by the caller) where the ACS has no
+ * row, as for the island areas. The year ranges and age bands come from the
+ * housing data; only the shares change with the place.
+ */
+export function mortgageShares(
+  county: string | undefined,
+  usps: string,
+  p: MacroParameter,
+): MortgageShares {
+  const owners = (row: string) => Number(row.split("|")[column("owners")]);
+  const countyRow = county ? ACS.counties[county] : undefined;
+  const stateRow = ACS.states[usps]?.row;
+  let row: string, source: MortgageShares["source"], key: string;
+  if (countyRow && owners(countyRow) >= p("housingMortgageCountyMinOwners")) {
+    [row, source, key] = [countyRow, "county", county!];
+  } else if (stateRow) {
+    [row, source, key] = [stateRow, "state", usps];
+  } else {
+    [row, source, key] = [ACS.nation, "nation", "nation"];
+  }
+  const cells = row.split("|").map(Number);
+  const at = (name: string) => cells[column(name)] ?? 0;
+  const totalMoved = MOVED_IN.reduce((n, name) => n + at(name), 0);
+  const movedIn = DATA.movedIn.map((period, i) => ({
+    ...period,
+    share: totalMoved > 0 ? at(MOVED_IN[i]!) / totalMoved : period.share,
+  }));
+  const ageBands = DATA.ageBands.map((band, i) => {
+    const owing = at(`mortgaged${BANDS[i]}`),
+      free = at(`free${BANDS[i]}`);
+    return {
+      ...band,
+      mortgagedShare:
+        owing + free > 0 ? owing / (owing + free) : band.mortgagedShare,
+    };
+  });
+  return { source, key, movedIn, ageBands };
+}
+
 export const MORTGAGE_PREFIX = "mortgage:";
 export const MORTGAGE_TERMS_KEY = "housingMortgages";
 export const countedMortgageFlowId = (placeId: string, holderId: string) =>
@@ -66,8 +152,10 @@ export function openingMortgages(input: {
   startedAt: IsoDate;
   dueAt: IsoDate;
   bankId: string;
-  /** The state, for its house price index. */
+  /** The state, for its house price index and its ACS shares. */
   usps: string;
+  /** The town's five-digit county FIPS, for its ACS move-in and mortgage shares. */
+  county?: string;
   /** The world's seed, for its prices. */
   seed: string;
   /** What the town bank's capital lets it hold. */
@@ -92,7 +180,8 @@ export function openingMortgages(input: {
   const byAge = [...owners].sort(
     (a, b) => a.oldest - b.oldest || a.id.localeCompare(b.id),
   );
-  const periods = [...DATA.movedIn].sort((a, b) => a.fromYear - b.fromYear);
+  const shares = mortgageShares(input.county, input.usps, p);
+  const periods = [...shares.movedIn].sort((a, b) => a.fromYear - b.fromYear);
   const bought = new Map<string, number>();
   let cumulative = 0,
     k = 0;
@@ -116,7 +205,7 @@ export function openingMortgages(input: {
   });
   // In each age band, the band's share still owes: the most recent buyers, then the least cash.
   const owes = new Set<string>();
-  for (const band of DATA.ageBands) {
+  for (const band of shares.ageBands) {
     const inBand = owners.filter((owner) => {
       const age = year - owner.oldest;
       return (

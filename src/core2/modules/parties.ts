@@ -231,6 +231,8 @@ export function openParties(core: CoreState): void {
         placeId: town,
         name: `${party.name} Party`.replace(/Party Party$/, "Party"),
         kind: "political-party",
+        // The party's office, a place a member may go (play-join-a-party-has-no-scene-and-no-headquarters).
+        classification: "membership:political-party",
         liquidMinor: 0,
         source: { tag: "SOURCED", citation: party.source, asOf: core.date },
       });
@@ -256,9 +258,23 @@ export function openParties(core: CoreState): void {
         .table("town")
         .get("town") as unknown as { lean: number } | undefined
     )?.lean ?? 0;
+  // The player's party is the player's to choose (owner, Nov 8: "it says
+  // that I'm registered Democrat already"): they open with none.
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (player)
+    put(
+      api.moduleState(PARTIES_MODULE_ID).table("ties"),
+      player,
+      "no-party",
+      null,
+      personLean(core.people, player, townLean),
+      core.date,
+      "the-player-chooses",
+    );
   const adults = [...core.people.values()]
     .filter(
       (p) =>
+        p.id !== core.playerId &&
         p.alive &&
         p.placeId === town &&
         Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >=
@@ -429,6 +445,9 @@ export function partyAgreement(api: CoreAPI, personId: string): number | null {
  * loyalty and the party's other members read. Filing under the party's
  * label reads this membership (`checkEligibility`).
  */
+/** The record a person joining a party writes. */
+export const PARTY_JOINED = "party-joined";
+
 export function joinParty(
   api: CoreAPI,
   personId: string,
@@ -457,6 +476,35 @@ export function joinParty(
     : undefined;
   if (left && left.id !== party.id) api.leave(personId, left.organizationId);
   api.join(personId, party.organizationId);
+  // stopgapId: SG-PLAY-party-joined-scene-awaits-words
+  // Joining is an act at a place with a person: the record the director's
+  // scene, the journal and Travel read, at the party's office, with the
+  // party's leader (its chair) as the one who signs them up.
+  const greeter =
+    party.leaderId && api.state.people.has(party.leaderId)
+      ? party.leaderId
+      : null;
+  api.emit({
+    id: `party-joined:${personId}:${party.id}:${api.state.date}`,
+    date: api.state.date,
+    kind: PARTY_JOINED,
+    personIds: [
+      personId,
+      ...(greeter && greeter !== personId ? [greeter] : []),
+    ],
+    placeId: person.placeId,
+    source: {
+      tag: "SOURCED",
+      citation: `${party.name} membership (${party.source})`,
+      asOf: api.state.date,
+    },
+    facts: {
+      partyId: party.id,
+      party: party.name,
+      organizationId: party.organizationId,
+      ...(left && left.id !== party.id ? { leftPartyId: left.id } : {}),
+    },
+  });
   return { tie: partyTie(api, personId)!, agreement };
 }
 
@@ -854,6 +902,10 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         topic: topic.question,
         desiredChange: topic.want > 0 ? "enact" : "repeal",
         audienceIds,
+        occasion: {
+          recordId: `party-meeting:${party.id}:${date}`,
+          kind: "party-meeting",
+        },
       });
     api
       .moduleState(PARTIES_MODULE_ID)
