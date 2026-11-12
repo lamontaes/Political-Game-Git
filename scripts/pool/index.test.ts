@@ -424,6 +424,33 @@ describe("add", () => {
       );
       expect(written).toContain("**Time box.** 3 hours");
       expect(run(pool, true).errors).toEqual([]);
+      // The item is written as the repository's format check wants it: a
+      // title holding a double quote and an empty after (three items written
+      // by add failed main's Prettier check on Nov 12, 2026).
+      expect(
+        command([
+          "add",
+          "laws-quoted",
+          "--title",
+          'The "sales" law',
+          "--area",
+          "laws",
+          "--after",
+          "",
+          ...rest,
+          ...flagsOf(body),
+        ]),
+      ).toBeNull();
+      const quoted = readFileSync(
+        join(pool, "items", "laws-quoted.md"),
+        "utf8",
+      );
+      expect(quoted).toContain("title: 'The \"sales\" law'");
+      execFileSync(
+        "npx",
+        ["prettier", "--check", join(pool, "items", "laws-quoted.md")],
+        { cwd, stdio: "pipe" },
+      );
     } finally {
       process.chdir(cwd);
     }

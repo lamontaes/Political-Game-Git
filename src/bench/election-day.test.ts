@@ -168,6 +168,20 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
     );
     expect(day.canvass, `${where}: a candidate canvasses`).not.toBeNull();
     expect(day.ask.length, where).toBeGreaterThan(0);
+    // The same morning for the same person with no polling visit (they live outside the town
+    // the count reads): nothing is asked, and the day goes on to the count.
+    const away = electionDay(
+      core,
+      playerId!,
+      null,
+      false,
+      visit.record.electionDate,
+    );
+    expect(away.away, where).toBe(true);
+    expect(
+      away.ask,
+      `${where}: a vote is offered to someone who cannot vote`,
+    ).toEqual([]);
     const canvass = campaignDay(core, playerId!, {
       filingId: day.canvass!.filingId,
       kind: "canvass",

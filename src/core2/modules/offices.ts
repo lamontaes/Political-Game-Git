@@ -34,10 +34,10 @@ import { incompatibleOffices } from "../office-incompatibility";
  * election is put on the calendar (stand-in until M2's elections:
  * SG-GOV-special-election-appointee).
  */
-import { registerElectorate } from "../electorate";
+import { countedResidents, registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
 import { leanedScore } from "../trait-decisions";
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInPerson, registerModule } from "../state";
 import { makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -421,15 +421,45 @@ function municipalVacancyRule(stateUsps: string): VacancyRule {
   };
 }
 
-/** Residents who could hold a local seat, best suited first. */
-function suitedResidents(
+/** Someone who could hold a local seat: a full person, or a counted adult filled in only when seated. */
+export interface Suited {
+  readonly person: {
+    readonly id: string;
+    readonly traits: Readonly<Record<string, number>>;
+  };
+  readonly counted: boolean;
+  readonly fit: number;
+}
+
+/** How suited a resident is to a seat: the same three traits for everyone. */
+const seatFit = (traits: Readonly<Record<string, number>>) =>
+  (traits["people-mind-v1:sociability"] ?? 0) +
+  (traits["personality-v1:facet-duty-bound"] ?? 0) +
+  (traits["people-mind-v1:reliability"] ?? 0);
+
+/**
+ * Residents who could hold a local seat, best suited first, over the whole
+ * town (one model, two tiers): its full people and its counted adults, by the
+ * same three traits and the same ages. The player's family is weighed like
+ * anyone else. Read at the opening and at a vacancy filled without an
+ * election, never on an ordinary day. A counted adult is filled in only when
+ * seated (`seatSuited`). The one reader of who could hold a town post: the
+ * department heads' appointments read it too once gov-appointments-weigh-
+ * counted-adults is built.
+ */
+export function suitedResidents(
   api: CoreAPI,
   date: string,
   taken: ReadonlySet<string>,
   townPlaceId: string,
-) {
+): Suited[] {
+  const state = api.state as CoreState;
   const year = Number(date.slice(0, 4));
-  return [...(api.state as CoreState).people.values()]
+  const ofAge = (birthDate: string) => {
+    const age = year - Number(birthDate.slice(0, 4));
+    return age >= 25 && age < 81;
+  };
+  const full = [...state.people.values()]
     .filter((person) => {
       // Someone who moved away (an inactive record) lives elsewhere now; a
       // state's or another place's official lives there, not here.
@@ -443,7 +473,7 @@ function suitedResidents(
       // The player takes a seat by filing and winning, never by being the
       // resident the opening seats: a player the creator made 25 or older is
       // a resident this pick could reach.
-      if (person.id === (api.state as CoreState).playerId) return false;
+      if (person.id === state.playerId) return false;
       // Officeholders are fictional: a resident who happens to share a real
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
@@ -452,17 +482,47 @@ function suitedResidents(
       // pick by press job (a reporter put into an empty seat at the opening
       // was the defect); they may still run and win it at the ballot.
       if (pressConflict(api, person.id)) return false;
-      const age = year - Number(person.birthDate.slice(0, 4));
-      return age >= 25 && age < 81;
+      return ofAge(person.birthDate);
     })
-    .map((person) => ({
+    .map((person): Suited => ({
       person,
-      fit:
-        (person.traits["people-mind-v1:sociability"] ?? 0) +
-        (person.traits["personality-v1:facet-duty-bound"] ?? 0) +
-        (person.traits["people-mind-v1:reliability"] ?? 0),
-    }))
-    .sort((a, b) => b.fit - a.fit || a.person.id.localeCompare(b.person.id));
+      counted: false,
+      fit: seatFit(person.traits),
+    }));
+  // The town's counted adults, by the same traits (as staff posts read them).
+  const counted = countedResidents(state)
+    .filter(
+      (voter) =>
+        voter.placeId === townPlaceId &&
+        !taken.has(voter.id) &&
+        voter.id !== state.playerId &&
+        ofAge(voter.birthDate),
+    )
+    .map((voter): Suited => ({
+      person: { id: voter.id, traits: voter.traits },
+      counted: true,
+      fit: seatFit(voter.traits),
+    }));
+  return [...full, ...counted].sort(
+    (a, b) => b.fit - a.fit || a.person.id.localeCompare(b.person.id),
+  );
+}
+
+/**
+ * The person a suited resident is once seated: a counted adult is filled in
+ * now, matching what the records already say of their household and work;
+ * null when the filled-in person turns out to share a real officeholder's
+ * name or a press job, so the seat goes to the next best suited.
+ */
+export function seatSuited(api: CoreAPI, suited: Suited): string | null {
+  if (!suited.counted) return suited.person.id;
+  const person = fillInPerson(
+    api.state as CoreState,
+    suited.person.id as PersonId,
+  );
+  if (isRealOfficeholderName(person.givenName, person.familyName)) return null;
+  if (pressConflict(api, person.id)) return null;
+  return person.id;
 }
 
 function freshTermId(api: CoreAPI, seatId: string, date: string): string {
@@ -733,8 +793,16 @@ export function openOffices(core: CoreState, worldSeed: string): void {
       taken,
       place.context.jurisdiction.id,
     );
-    for (const [index, seat] of seats.entries()) {
-      const holder = residents[index];
+    let next = 0;
+    for (const seat of seats) {
+      // The best suited not yet seated; a counted adult is filled in now.
+      let holderId: string | null = null;
+      while (!holderId && next < residents.length) {
+        const suited = residents[next++]!;
+        if (taken.has(suited.person.id)) continue;
+        holderId = seatSuited(api, suited);
+      }
+      const holder = holderId ? { person: { id: holderId } } : undefined;
       if (holder) taken.add(holder.person.id);
       // A town with too few named residents for every seat has a named
       // official in the rest, as a vacancy with no resident to fill it does.
@@ -1542,8 +1610,9 @@ function fillVacancy(
               ) >= 0,
           )
         : undefined;
-    const term = holder
-      ? seatResident(api, office, seat, holder.person.id, date, reached)
+    const holderId = holder ? seatSuited(api, holder) : null;
+    const term = holderId
+      ? seatResident(api, office, seat, holderId, date, reached)
       : seatNamedOfficial(
           api,
           `${town.worldSeed}:${date}`,
