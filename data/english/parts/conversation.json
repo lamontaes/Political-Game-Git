@@ -54,7 +54,14 @@
     "who": "An office as its holder is said again (\"the governor\"), from data/english/said-as.json offices.",
     "body": "The local body that decided a measure, said as people say it (\"the county board\"), from data/english/said-as.json deciders.",
     "purpose": "What a budget line is for, from the bill catalog's budget row (data/english/bill-names.json).",
-    "amount": "A sum of money from a record, as people round it."
+    "amount": "A sum of money from a record, as people round it.",
+    "owed": "What a household owed its landlord, as people round it, from the housing engine's case at removal.",
+    "behind": "How many months of rent a sum owed comes to, as people say it (\"about two months\"), from the case's rent owed against the lease's monthly rent.",
+    "lost-at": "The employer of a job the speaker lost in the year before an eviction, from their own record of it ending.",
+    "host-place": "The town of the relative an evicted household moved in with, when it is not their own, from the housing status and the host household's record.",
+    "shelter-place": "The town whose shelter took an evicted household in, from the housing status record.",
+    "no-bed-place": "The town whose shelters had no bed for an evicted household, from the housing status record.",
+    "host": "The relative an evicted household moved in with, as the speaker names them with the possessive (\"my mother\"), from the housing status and the family record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -7860,12 +7867,6 @@
           "choice": "ask"
         },
         {
-          "move": "eviction-reply-answer-ask",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
-        {
           "move": "prison-news-reply-answer-ask",
           "subject": "prison-news-reply",
           "role": "answer",
@@ -8238,18 +8239,6 @@
           "choice": "comfort"
         },
         {
-          "move": "eviction-reply-answer-comfort",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-cause-reply-answer-comfort",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
           "move": "victimization-reply-answer-comfort",
           "subject": "victimization-reply",
           "role": "answer",
@@ -8339,18 +8328,6 @@
         {
           "move": "job-cause-reply-answer-comfort",
           "subject": "job-cause-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-reply-answer-comfort",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-cause-reply-answer-comfort",
-          "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
         },
@@ -9989,18 +9966,6 @@
           "choice": "comfort"
         },
         {
-          "move": "eviction-reply-answer-comfort",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-cause-reply-answer-comfort",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
           "move": "prison-news-reply-answer-comfort",
           "subject": "prison-news-reply",
           "role": "answer",
@@ -10023,6 +9988,13 @@
           "subject": "victimization-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "eviction-answer-comfort",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "comfort",
+          "excludesFacts": ["together"]
         }
       ],
       "transcriptsUsing": 622,
@@ -10913,12 +10885,6 @@
           "subject": "asked-mutual",
           "role": "answer",
           "choice": "turn"
-        },
-        {
-          "move": "eviction-reply-answer-ask",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "ask"
         }
       ],
       "transcriptsUsing": 956,
@@ -11681,12 +11647,6 @@
           "subject": "job-cause-reply",
           "role": "answer",
           "choice": "comfort"
-        },
-        {
-          "move": "eviction-reply-answer-comfort",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 4,
@@ -11717,18 +11677,6 @@
         {
           "move": "job-cause-reply-answer-comfort",
           "subject": "job-cause-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-reply-answer-comfort",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-cause-reply-answer-comfort",
-          "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
         }
@@ -11995,12 +11943,6 @@
           "subject": "job-hope-reply",
           "role": "answer",
           "choice": "help"
-        },
-        {
-          "move": "eviction-where-reply-answer-help",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "help"
         }
       ],
       "transcriptsUsing": 3,
@@ -12029,18 +11971,6 @@
         {
           "move": "job-hope-reply-answer-help",
           "subject": "job-hope-reply",
-          "role": "answer",
-          "choice": "help"
-        },
-        {
-          "move": "eviction-where-reply-answer-help",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "help"
-        },
-        {
-          "move": "eviction-reply-answer-help",
-          "subject": "eviction-reply",
           "role": "answer",
           "choice": "help"
         },
@@ -12081,20 +12011,8 @@
           "choice": "help"
         },
         {
-          "move": "eviction-where-reply-answer-help",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "help"
-        },
-        {
           "move": "death-news-reply-answer-help",
           "subject": "death-news-reply",
-          "role": "answer",
-          "choice": "help"
-        },
-        {
-          "move": "eviction-reply-answer-help",
-          "subject": "eviction-reply",
           "role": "answer",
           "choice": "help"
         }
@@ -12129,12 +12047,6 @@
           "subject": "job-hope-reply",
           "role": "answer",
           "choice": "help"
-        },
-        {
-          "move": "eviction-where-reply-answer-help",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "help"
         }
       ],
       "transcriptsUsing": 2,
@@ -12165,12 +12077,6 @@
           "subject": "job-hope-reply",
           "role": "answer",
           "choice": "help"
-        },
-        {
-          "move": "eviction-where-reply-answer-help",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "help"
         }
       ],
       "transcriptsUsing": 4,
@@ -12196,12 +12102,6 @@
       "kind": "spoken",
       "text": "How come?",
       "uses": [
-        {
-          "move": "eviction-reply-answer-ask",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
         {
           "move": "own-view-answer-why",
           "subject": "own-view",
@@ -12229,269 +12129,6 @@
         "key": "loss"
       },
       "bearing": "curious"
-    },
-    {
-      "key": "conversation.eviction-reply-answer-ask.what-do-you-mean",
-      "move": "eviction-reply-answer-ask",
-      "kind": "spoken",
-      "text": "What do you mean?",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-ask",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        }
-      ],
-      "transcriptsUsing": 105,
-      "bySource": {
-        "chrg": 10,
-        "house-oral": 11,
-        "nasa-oral": 70,
-        "senate-oral": 14
-      },
-      "source": {
-        "document": "HEARING WITH IRS WHISTLEBLOWERS ABOUT THE BIDEN CRIMINAL INVESTIGATION",
-        "date": "2023-07-19",
-        "granule": "CHRG-118hhrg53006",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53006/html/CHRG-118hhrg53006.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.eviction-reply-answer-where.where-are-we-going-to-go",
-      "move": "eviction-reply-answer-where",
-      "kind": "spoken",
-      "text": "Where are we going to go?",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-where",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "where"
-        },
-        {
-          "move": "eviction-cause-reply-answer-where",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "where"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "chrg": 1,
-        "house-oral": 1,
-        "nasa-oral": 1
-      },
-      "source": {
-        "document": "FINANCIAL SERVICES AND GENERAL GOVERNMENT APPROPRIATIONS FOR FISCAL YEAR 2023",
-        "date": "2022-05-03",
-        "granule": "CHRG-117shrg39104030",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg39104030/html/CHRG-117shrg39104030.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.eviction-reply-answer-where.where-are-we-going",
-      "move": "eviction-reply-answer-where",
-      "kind": "spoken",
-      "text": "Where are we going?",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-where",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "where"
-        },
-        {
-          "move": "eviction-cause-reply-answer-where",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "where"
-        }
-      ],
-      "transcriptsUsing": 13,
-      "bySource": {
-        "chrg": 4,
-        "nasa-oral": 9
-      },
-      "source": {
-        "document": "CONFIRMATION HEARING ON THE NOMINATION OF KASHYAP PRAMOD PATEL TO BE DIRECTOR OF THE FEDERAL BUREAU OF INVESTIGATION",
-        "date": "2025-01-30",
-        "granule": "CHRG-119shrg61322",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61322/html/CHRG-119shrg61322.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.eviction-reply-answer-where.where-do-we-go",
-      "move": "eviction-reply-answer-where",
-      "kind": "spoken",
-      "text": "Where do we go?",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-where",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "where"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "chrg": 8,
-        "nasa-oral": 1
-      },
-      "source": {
-        "document": "INVESTING IN AMERICA: HOW PRIVATE EQUITY EMPOWERS MAIN STREET",
-        "date": "2025-06-05",
-        "granule": "CHRG-119hhrg60591",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60591/html/CHRG-119hhrg60591.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.eviction-cause-reply-answer-where.what-are-we-going-to-do",
-      "move": "eviction-cause-reply-answer-where",
-      "kind": "spoken",
-      "text": "What are we going to do?",
-      "uses": [
-        {
-          "move": "eviction-cause-reply-answer-where",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "where"
-        }
-      ],
-      "transcriptsUsing": 67,
-      "bySource": {
-        "chrg": 10,
-        "house-oral": 3,
-        "nasa-oral": 51,
-        "senate-oral": 3
-      },
-      "source": {
-        "document": "chrg",
-        "date": "2024-09-16",
-        "granule": "CHRG-118hhrg57661",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57661/html/CHRG-118hhrg57661.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "ask",
-        "key": "loss"
-      },
-      "bearing": "nervous"
-    },
-    {
-      "key": "conversation.eviction-cause-reply-answer-comfort.its-not-your-fault",
-      "move": "eviction-cause-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "It's not your fault.",
-      "uses": [
-        {
-          "move": "eviction-cause-reply-answer-comfort",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "house-oral": 1,
-        "nasa-oral": 1
-      },
-      "source": {
-        "document": "NASA VIPER ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT DANIEL R. ANDREWS INTERVIEWED BY SANDRA JOHNSON SAN JOSE, CALIFORNIA – OCTOBER 4, 2022",
-        "date": "2022-10-04",
-        "granule": "andrewsdr-10-4-22",
-        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/andrewsdr-10-4-22.pdf",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.eviction-where-reply-answer-help.ill-help",
-      "move": "eviction-where-reply-answer-help",
-      "kind": "spoken",
-      "text": "I'll help.",
-      "uses": [
-        {
-          "move": "eviction-where-reply-answer-help",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "help"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "house-oral": 2
-      },
-      "source": {
-        "document": "The Honorable Shelley Berkley U.S. Representative of Nevada (1999–2013)",
-        "date": "2019-07-22",
-        "granule": "house-berkley-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/berkley-transcript/",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.eviction-where-reply-answer-comfort.itll-be-okay",
-      "move": "eviction-where-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "It'll be okay.",
-      "uses": [
-        {
-          "move": "eviction-where-reply-answer-comfort",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "nasa-oral": 3
-      },
-      "source": {
-        "document": "NASA ORAL HISTORY PROJECT EDITED ORAL HISTORY TRANSCRIPT RICHARD H. KOOS INTERVIEWED BY JENNIFER ROSS-NAZZAL HOUSTON, TEXAS – AUGUST 22, 2023",
-        "date": "2023-08-22",
-        "granule": "koosrh-8-22-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      },
-      "bearing": "tender"
     },
     {
       "key": "conversation.family-open-open.can-i-talk-to-you",
@@ -12709,136 +12346,6 @@
         "date": "2025-07-11",
         "granule": "DCPD-202500760",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500760/html/DCPD-202500760.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.eviction-raise.we-have-to-move",
-      "move": "eviction-raise",
-      "kind": "spoken",
-      "text": "We have to move.",
-      "uses": [
-        {
-          "move": "eviction-raise",
-          "subject": "eviction",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg-people": 1,
-        "dcpd": 4
-      },
-      "source": {
-        "document": "PERSPECTIVES ON THE FERTILIZER INDUSTRY: ENSURING A STABLE AND AFFORDABLE SUPPLY FOR AMERICAN PRODUCERS",
-        "date": "2026-05-12",
-        "granule": "CHRG-119shrg63764",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg63764/html/CHRG-119shrg63764.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.eviction-where-reply-answer-comfort.its-going-to-be-okay",
-      "move": "eviction-where-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "It's going to be okay.",
-      "uses": [
-        {
-          "move": "eviction-where-reply-answer-comfort",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "dcpd": 7,
-        "nasa-oral": 2
-      },
-      "source": {
-        "document": "Remarks on Efforts To Protect the United States Steel and Shipbuilding Industries in Pittsburgh, Pennsylvania",
-        "date": "2024-04-17",
-        "granule": "DCPD-202400306",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400306/html/DCPD-202400306.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.eviction-where-reply-answer-comfort.well-be-fine",
-      "move": "eviction-where-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "We'll be fine.",
-      "uses": [
-        {
-          "move": "eviction-where-reply-answer-comfort",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "comfort"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "dcpd": 2,
-        "nasa-oral": 2
-      },
-      "source": {
-        "document": "Remarks on Presenting the Public Safety Officer Medal of Valor",
-        "date": "2022-05-16",
-        "granule": "DCPD-202200407",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200407/html/DCPD-202200407.htm",
-        "license": "public domain (U.S. government work, 17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      },
-      "bearing": "tender"
-    },
-    {
-      "key": "conversation.eviction-where-reply-answer-comfort.well-figure-it-out",
-      "move": "eviction-where-reply-answer-comfort",
-      "kind": "spoken",
-      "text": "We'll figure it out.",
-      "uses": [
-        {
-          "move": "eviction-where-reply-answer-comfort",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-reply-answer-reassure",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "reassure"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 1,
-        "nasa-oral": 1,
-        "senate-oral": 1
-      },
-      "source": {
-        "document": "Remarks at a White House Coronavirus Task Force Press Briefing",
-        "date": "2020-04-03",
-        "granule": "DCPD-202000235",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202000235/html/DCPD-202000235.htm",
         "license": "public domain (U.S. government work, 17 U.S.C. 105)"
       },
       "tag": {
@@ -15214,12 +14721,6 @@
           "subject": "prison-news-reply",
           "role": "answer",
           "choice": "promise"
-        },
-        {
-          "move": "eviction-reply-answer-reassure",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "reassure"
         }
       ],
       "origin": "authored",
@@ -15948,72 +15449,6 @@
       }
     },
     {
-      "key": "conversation.eviction-raise.we-re-being-evicted",
-      "move": "eviction-raise",
-      "kind": "spoken",
-      "text": "We're being evicted.",
-      "uses": [
-        {
-          "move": "eviction-raise",
-          "subject": "eviction",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.eviction-raise.we-have-to-be-out-of-the-house",
-      "move": "eviction-raise",
-      "kind": "spoken",
-      "text": "We have to be out of the house.",
-      "uses": [
-        {
-          "move": "eviction-raise",
-          "subject": "eviction",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.eviction-raise.the-landlord-says-we-have-to-leave",
-      "move": "eviction-raise",
-      "kind": "spoken",
-      "text": "The landlord says we have to leave.",
-      "uses": [
-        {
-          "move": "eviction-raise",
-          "subject": "eviction",
-          "role": "raise",
-          "choice": "raise"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "solemn",
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
       "key": "conversation.victimization-raise.we-were-burglarized-when",
       "move": "victimization-raise",
       "kind": "spoken",
@@ -16286,197 +15721,6 @@
       "bearing": "solemn",
       "tag": {
         "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.eviction-reply-answer-brief.wait-we-have-to-move",
-      "move": "eviction-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Wait. We have to move?",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-brief",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "braced",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.eviction-reply-answer-brief.really-since-when",
-      "move": "eviction-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Really? Since when?",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-brief",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "braced",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.eviction-reply-answer-brief.oh-no-how-long-do-we-have",
-      "move": "eviction-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Oh, no. How long do we have?",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-brief",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "nervous",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.eviction-cause-reply-answer-brief.i-see-so-what-happens-now",
-      "move": "eviction-cause-reply-answer-brief",
-      "kind": "spoken",
-      "text": "I see. So what happens now?",
-      "uses": [
-        {
-          "move": "eviction-cause-reply-answer-brief",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "nervous",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.eviction-cause-reply-answer-brief.oh-i-didn-t-know-it-was-that-bad",
-      "move": "eviction-cause-reply-answer-brief",
-      "kind": "spoken",
-      "text": "Oh. I didn't know it was that bad.",
-      "uses": [
-        {
-          "move": "eviction-cause-reply-answer-brief",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "brief"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.eviction-where-reply-answer-ok.okay-tell-me-what-you-need",
-      "move": "eviction-where-reply-answer-ok",
-      "kind": "spoken",
-      "text": "Okay. Tell me what you need.",
-      "uses": [
-        {
-          "move": "eviction-where-reply-answer-ok",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "ok"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.eviction-where-reply-answer-ok.all-right-we-ll-make-it-work",
-      "move": "eviction-where-reply-answer-ok",
-      "kind": "spoken",
-      "text": "Alright. We'll make it work.",
-      "uses": [
-        {
-          "move": "eviction-where-reply-answer-ok",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "ok"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "calm",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.eviction-reply-answer-help.tell-me-what-i-can-do",
-      "move": "eviction-reply-answer-help",
-      "kind": "spoken",
-      "text": "Tell me what I can do.",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-help",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "help"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "conversation.eviction-reply-answer-reassure.we-ll-find-a-place",
-      "move": "eviction-reply-answer-reassure",
-      "kind": "spoken",
-      "text": "We'll find a place.",
-      "uses": [
-        {
-          "move": "eviction-reply-answer-reassure",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "reassure"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "comfort",
         "key": "loss"
       }
     },
@@ -16966,12 +16210,6 @@
           "choice": "ask"
         },
         {
-          "move": "eviction-reply-answer-ask",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
-        {
           "move": "prison-news-reply-answer-ask",
           "subject": "prison-news-reply",
           "role": "answer",
@@ -17039,18 +16277,6 @@
         {
           "move": "job-cause-reply-answer-comfort",
           "subject": "job-cause-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-reply-answer-comfort",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-cause-reply-answer-comfort",
-          "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
         },
@@ -17176,20 +16402,8 @@
           "choice": "help"
         },
         {
-          "move": "eviction-where-reply-answer-help",
-          "subject": "eviction-where-reply",
-          "role": "answer",
-          "choice": "help"
-        },
-        {
           "move": "death-news-reply-answer-help",
           "subject": "death-news-reply",
-          "role": "answer",
-          "choice": "help"
-        },
-        {
-          "move": "eviction-reply-answer-help",
-          "subject": "eviction-reply",
           "role": "answer",
           "choice": "help"
         }
@@ -17388,18 +16602,6 @@
           "choice": "comfort"
         },
         {
-          "move": "eviction-reply-answer-comfort",
-          "subject": "eviction-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
-          "move": "eviction-cause-reply-answer-comfort",
-          "subject": "eviction-cause-reply",
-          "role": "answer",
-          "choice": "comfort"
-        },
-        {
           "move": "prison-news-reply-answer-comfort",
           "subject": "prison-news-reply",
           "role": "answer",
@@ -17469,12 +16671,6 @@
         {
           "move": "job-lost-reply-answer-ask",
           "subject": "job-lost-reply",
-          "role": "answer",
-          "choice": "ask"
-        },
-        {
-          "move": "eviction-reply-answer-ask",
-          "subject": "eviction-reply",
           "role": "answer",
           "choice": "ask"
         },
@@ -37948,6 +37144,988 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.i-still-can-t-believe-they-put-us-out-when",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "I still can't believe they put us out {when}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["together"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.they-put-us-out-when-we-owed-owed",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "They put us out {when}. We owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["together", "owed"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.the-landlord-put-us-out-when-we-owed-owed",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "The landlord put us out {when}. We owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["owed"],
+          "excludesFacts": ["together", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.the-landlord-had-us-put-out-when-we-were-behind-behind",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "The landlord had us put out {when}. We were {behind} behind.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["behind"],
+          "excludesFacts": ["together", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.we-lost-our-place-when-behind-behind-on-the-rent",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "We lost our place {when}, {behind} behind on the rent.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["behind"],
+          "excludesFacts": ["together", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.the-landlord-put-me-out-when-i-owed-owed",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "The landlord put me out {when}. I owed {owed}.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["owed", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.the-landlord-had-me-put-out-when-i-was-behind-behind",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "The landlord had me put out {when}. I was {behind} behind.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["behind", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-say-core.i-lost-my-place-when-i-was-behind-behind-on-rent",
+      "move": "eviction-say-core",
+      "kind": "spoken",
+      "text": "I lost my place {when}. I was {behind} behind on rent.",
+      "uses": [
+        {
+          "move": "eviction-say-core",
+          "subject": "eviction-say",
+          "role": "core",
+          "requiresFacts": ["behind", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-answer-where.where-to-now",
+      "move": "eviction-answer-where",
+      "kind": "spoken",
+      "text": "Where to now?",
+      "uses": [
+        {
+          "move": "eviction-answer-where",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "where"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-answer-where.where-ll-you-stay",
+      "move": "eviction-answer-where",
+      "kind": "spoken",
+      "text": "Where'll you stay?",
+      "uses": [
+        {
+          "move": "eviction-answer-where",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "where",
+          "excludesFacts": ["together"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-answer-where.where-ll-we-sleep",
+      "move": "eviction-answer-where",
+      "kind": "spoken",
+      "text": "Where'll we sleep?",
+      "uses": [
+        {
+          "move": "eviction-answer-where",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "where",
+          "requiresFacts": ["together"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-answer-ask.how-d-it-happen",
+      "move": "eviction-answer-ask",
+      "kind": "spoken",
+      "text": "How'd it happen?",
+      "uses": [
+        {
+          "move": "eviction-answer-ask",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["lost-at"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-answer-help.need-help-moving",
+      "move": "eviction-answer-help",
+      "kind": "spoken",
+      "text": "Need help moving?",
+      "uses": [
+        {
+          "move": "eviction-answer-help",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "help",
+          "excludesFacts": ["together"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-answer-help.i-ll-help-carry",
+      "move": "eviction-answer-help",
+      "kind": "spoken",
+      "text": "I'll help carry.",
+      "uses": [
+        {
+          "move": "eviction-answer-help",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["together"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-answer-comfort.we-ll-manage",
+      "move": "eviction-answer-comfort",
+      "kind": "spoken",
+      "text": "We'll manage.",
+      "uses": [
+        {
+          "move": "eviction-answer-comfort",
+          "subject": "eviction",
+          "role": "answer",
+          "choice": "comfort",
+          "requiresFacts": ["together"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.at-host-s-in-host-place-until-we-find-something",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "At {host}'s, in {host-place}, until we find something.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host", "host-place"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.at-host-s-in-host-place-for-now",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "At {host}'s, in {host-place}, for now.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host", "host-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.host-is-taking-us-in-for-a-while",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "{host} is taking us in for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host"],
+          "excludesFacts": ["host-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.we-re-on-host-s-floor-until-something-opens-up",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "We're on {host}'s floor until something opens up.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host"],
+          "excludesFacts": ["host-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.we-re-staying-with-host-until-we-find-a-place",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "We're staying with {host} until we find a place.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host"],
+          "excludesFacts": ["host-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.host-is-taking-me-in-for-a-while",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "{host} is taking me in for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host", "alone"],
+          "excludesFacts": ["host-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.at-host-s-for-a-while",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "At {host}'s, for a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host", "alone"],
+          "excludesFacts": ["host-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.i-m-staying-with-host-until-i-find-a-place",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "I'm staying with {host} until I find a place.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["host", "alone"],
+          "excludesFacts": ["host-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-had-beds-so-that-s-where-we-are",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "The shelter in {shelter-place} had beds, so that's where we are.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["shelter-place"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-had-a-bed-for-me",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "The shelter in {shelter-place} had a bed for me.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["shelter-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.nowhere-yet-the-shelter-in-no-bed-place-was-full",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Nowhere yet. The shelter in {no-bed-place} was full.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["no-bed-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.i-don-t-know-every-bed-in-no-bed-place-was-taken",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "I don't know. Every bed in {no-bed-place} was taken.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["where"],
+          "requiresFacts": ["no-bed-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.i-lost-the-job-at-lost-at-and-the-rent-slipped",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "I lost the job at {lost-at}, and the rent slipped.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["lost-at"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.once-lost-at-let-me-go-we-couldn-t-catch-up",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Once {lost-at} let me go, we couldn't catch up.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["lost-at"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.once-lost-at-let-me-go-i-couldn-t-catch-up",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Once {lost-at} let me go, I couldn't catch up.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["lost-at", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.sure-it-s-all-going-to-host-s",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Sure. It's all going to {host}'s.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["host"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.thanks-the-shelter-in-shelter-place-takes-only-what-we-carry",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Thanks. The shelter in {shelter-place} takes only what we carry.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["shelter-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.thanks-but-there-s-no-bed-for-me-in-no-bed-place-yet",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Thanks, but there's no bed for me in {no-bed-place} yet.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["no-bed-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.thanks-we-owe-host-for-taking-us-in",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Thanks. We owe {host} for taking us in.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["together", "host"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.i-ll-be-fine-at-host-s-a-while",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "I'll be fine at {host}'s a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["host", "alone"],
+          "excludesFacts": ["together"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.we-ll-be-fine-at-host-s-a-while",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "We'll be fine at {host}'s a while.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["host"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.the-shelter-in-shelter-place-will-do-for-now",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "The shelter in {shelter-place} will do for now.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["shelter-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.i-ll-find-a-bed-somewhere-the-shelter-in-no-bed-place-is-full",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "I'll find a bed somewhere. The shelter in {no-bed-place} is full.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["no-bed-place", "alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.we-ll-find-beds-somewhere-the-shelter-in-no-bed-place-is-full",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "We'll find beds somewhere. The shelter in {no-bed-place} is full.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["no-bed-place"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.if-lost-at-had-kept-me-we-d-still-be-there",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "If {lost-at} had kept me, we'd still be there.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["lost-at"],
+          "excludesFacts": ["alone", "host", "shelter-place", "no-bed-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.if-lost-at-had-kept-me-i-d-still-be-there",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "If {lost-at} had kept me, I'd still be there.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["comfort"],
+          "requiresFacts": ["lost-at", "alone"],
+          "excludesFacts": ["host", "shelter-place", "no-bed-place"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.eviction-back-core.thanks-but-there-are-no-beds-for-us-in-no-bed-place-yet",
+      "move": "eviction-back-core",
+      "kind": "spoken",
+      "text": "Thanks, but there are no beds for us in {no-bed-place} yet.",
+      "uses": [
+        {
+          "move": "eviction-back-core",
+          "subject": "eviction-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["no-bed-place"],
+          "excludesFacts": ["alone"]
+        }
+      ],
+      "piece": {
+        "of": "eviction-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder W1 (eviction told through the composer)",
       "date": "2026-11-12"
     }
   ]
