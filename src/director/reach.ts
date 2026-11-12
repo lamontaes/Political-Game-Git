@@ -59,9 +59,7 @@ export function reachReport(
         fired: [],
         reason: "no cause is written for this type yet",
       };
-    const waiting = type.causes.filter((cause) => cause.awaitingProducer);
-    const live = type.causes.filter((cause) => !cause.awaitingProducer);
-    const matched = live.flatMap((cause) =>
+    const matched = type.causes.flatMap((cause) =>
       books.flatMap((book) =>
         book.moments.filter((moment) =>
           causeMatches(cause, book, moment, core),
@@ -73,15 +71,9 @@ export function reachReport(
       parts.push(
         `${matched.length} matching moment${matched.length === P.one ? "" : "s"} stayed journal lines under the person's pace or found no one to fill a role`,
       );
-    else if (live.length)
+    else
       parts.push(
-        `no record in the year matched: ${live.map(describeMatch).join(", ")}`,
-      );
-    if (waiting.length)
-      parts.push(
-        `waiting on a producer that is not built: ${[
-          ...new Set(waiting.map((cause) => cause.awaitingProducer)),
-        ].join(", ")}`,
+        `no record in the year matched: ${type.causes.map(describeMatch).join(", ")}`,
       );
     return { typeKey: type.key, fired: [], reason: parts.join("; ") };
   });

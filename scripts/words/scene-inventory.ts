@@ -56,6 +56,20 @@ interface Row {
   neededEngine?: string;
   reachNote?: string;
   computed?: Record<string, unknown>;
+  /** Deleted by the inventory's own pull request: its computed fields are as they were before. */
+  removed?: boolean;
+}
+interface Doc {
+  judgedAgainst?: string;
+  beforeDeletion?: Record<
+    string,
+    { rows: number; lines: number; counted: number }
+  >;
+  goldenPath?: { step: string; scenes: string }[];
+  neededLater?: string[];
+  awaitingWishes?: { type: string; records: string[] }[];
+  likedLinesRetired?: { scene: string; key: string; text: string }[];
+  rows: Row[];
 }
 
 const types = read("src/director/data/situation-types.json") as {
@@ -224,7 +238,7 @@ function reachOf(
 const WAIT_FAULT =
   "A non-interrupt moment is 'scene-waiting' (src/director/scheduling.ts, scheduleMoment's outcome), and nothing in src/bench plays one: only stops (registerInterrupts, src/director/ledger.ts) and the opening day's and election night's own routes open a staged scene (pool item director-a-waiting-scene-is-never-played).";
 
-const doc = read(JSON_FILE) as { rows: Row[] };
+const doc = read(JSON_FILE) as Doc;
 const byKey = new Map(doc.rows.map((r) => [r.key, r]));
 const seen = new Set<string>();
 const problems: string[] = [];
@@ -250,6 +264,7 @@ for (const t of types.types) {
     : reach.some((r) => r.plays === "maybe")
       ? "maybe"
       : "no";
+  delete row.removed;
   row.computed = {
     purpose: t.purpose ?? null,
     setting: t.setting,
@@ -270,6 +285,7 @@ for (const p of [...bankPurposes].sort()) {
     continue;
   }
   seen.add(p);
+  delete row.removed;
   row.computed = {
     purpose: p,
     playerReaches: row.reachNote ?? "",
@@ -277,7 +293,9 @@ for (const p of [...bankPurposes].sort()) {
   };
 }
 for (const r of doc.rows)
-  if (!seen.has(r.key))
+  if (!seen.has(r.key) && r.verdict === "DELETE" && r.computed)
+    r.removed = true;
+  else if (!seen.has(r.key))
     problems.push(
       `judgment for ${r.key}, which is neither a type nor an untyped purpose`,
     );
@@ -300,7 +318,7 @@ for (const r of doc.rows) {
 const tally: Record<string, { rows: number; lines: number; counted: number }> =
   {};
 for (const v of order) tally[v] = { rows: 0, lines: 0, counted: 0 };
-for (const r of doc.rows) tally[r.verdict]!.rows++;
+for (const r of doc.rows) if (!r.removed) tally[r.verdict]!.rows++;
 for (const p of bank.parts) {
   const vs = [...purposesOf(p)].map((x) => purposeVerdict.get(x) ?? "KEEP");
   const v = order.find((o) => vs.includes(o)) ?? "KEEP";
@@ -320,7 +338,58 @@ md.push(
   "A scene is kept when an engine's record causes it, it writes something back that another engine reads, and the player can reach it. Scenes whose matter is a tie (family, friends, a quarrel) write back through the closeness engine, which is the right reader; scenes whose matter is a vote, a bill, a race or a law must be read by that engine, and one that writes only time together is a scene that only talks.",
 );
 md.push("");
-md.push("## Totals");
+md.push(`Judged against ${doc.judgedAgainst ?? "main"}.`);
+md.push("");
+md.push("## The golden path, scene by scene");
+md.push("");
+md.push(
+  "The scene at each step of the player's path and its verdict. The gap from proposing an ordinance to people bringing it up is closed by the WIRE rows, in the order a bill meets them.",
+);
+md.push("");
+md.push("| Step | Scenes (verdict) |");
+md.push("|---|---|");
+const verdictOf = (key: string) => byKey.get(key)?.verdict ?? "?";
+for (const g of doc.goldenPath ?? [])
+  md.push(
+    `| ${g.step} | ${g.scenes
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean)
+      .map((k) => `${k} (${verdictOf(k)})`)
+      .join(", ")} |`,
+  );
+md.push("");
+md.push("## Needed later");
+md.push("");
+md.push(
+  "Scenes the story needs that no engine models yet; each names the engine it would need.",
+);
+md.push("");
+for (const r of doc.rows.filter((r) => r.neededEngine))
+  md.push(`- **${r.key}**: ${r.neededEngine}`);
+for (const n of doc.neededLater ?? []) md.push(`- ${n}`);
+md.push("");
+md.push(
+  "Records the types said they waited on (their `awaiting` lists and never-built `awaitingProducer` causes, removed from situation-types.json with this inventory), which no engine writes:",
+);
+md.push("");
+for (const w of doc.awaitingWishes ?? [])
+  md.push(`- **${w.type}** (${verdictOf(w.type)}): ${w.records.join(", ")}`);
+md.push("");
+if (doc.beforeDeletion) {
+  md.push("## Totals when judged, before the deletions");
+  md.push("");
+  md.push(
+    "| Verdict | Rows | Lines in scene-talk | Lines the no-insert guard counts |",
+  );
+  md.push("|---|---|---|---|");
+  for (const v of order) {
+    const b = doc.beforeDeletion[v]!;
+    md.push(`| ${v} | ${b.rows} | ${b.lines} | ${b.counted} |`);
+  }
+  md.push("");
+}
+md.push("## Totals now");
 md.push("");
 md.push(
   "| Verdict | Rows | Lines in scene-talk | Lines the no-insert guard counts |",
@@ -331,7 +400,7 @@ for (const v of order)
     `| ${v} | ${tally[v]!.rows} | ${tally[v]!.lines} | ${tally[v]!.counted} |`,
   );
 md.push(
-  `| All | ${doc.rows.length} | ${bank.parts.length} | ${totalCounted} |`,
+  `| All | ${doc.rows.filter((r) => !r.removed).length} | ${bank.parts.length} | ${totalCounted} |`,
 );
 md.push("");
 md.push(
@@ -348,7 +417,9 @@ md.push(
 md.push("");
 for (const v of order) {
   const rows = doc.rows.filter((r) => r.verdict === v);
-  md.push(`## ${v} (${rows.length})`);
+  md.push(
+    `## ${v} (${rows.length}${v === "DELETE" ? ", deleted with this inventory; their counts are as judged" : ""})`,
+  );
   md.push("");
   md.push(
     "| Scene | Cause | Writes back | Player reaches it | Engine that models it | Lines (all / counted) | Why |",
@@ -375,32 +446,18 @@ for (const v of order) {
   }
   md.push("");
 }
-md.push("## Needed later");
+md.push("## Lines the owner graded good, deleted with their scenes");
 md.push("");
 md.push(
-  "Scenes the story needs that no engine models yet; each names the engine it would need.",
+  "The owner graded these lines good (data/english/part-grades.json). They went with their scenes (lead's direction, Nov 12, 2026, under the owner's grant of the whole story that day); they are kept here so the move pieces that replace that kind of moment can learn from them.",
 );
 md.push("");
-for (const r of doc.rows.filter((r) => r.neededEngine))
-  md.push(`- **${r.key}**: ${r.neededEngine}`);
-for (const n of (doc as { neededLater?: string[] }).neededLater ?? [])
-  md.push(`- ${n}`);
-md.push("");
-md.push(
-  "Records the types themselves say they wait on (each type's `awaiting` in situation-types.json), which no engine writes; a type that stays keeps them as its marked list:",
-);
-md.push("");
-for (const t of types.types.filter(
-  (t, i, all) =>
-    t.awaiting?.length && all.findIndex((o) => o.key === t.key) === i,
-))
-  md.push(
-    `- **${t.key}** (${byKey.get(t.key)?.verdict ?? "?"}): ${t.awaiting!.map((a) => a.replace(/^record:/, "")).join(", ")}`,
-  );
+for (const l of doc.likedLinesRetired ?? [])
+  md.push(`- **${l.scene}**: "${l.text}" (\`${l.key}\`)`);
 md.push("");
 md.push("## Causes by type, with how each reaches the player");
 md.push("");
-for (const r of doc.rows.filter((r) => r.kind === "type")) {
+for (const r of doc.rows.filter((r) => r.kind === "type" && !r.removed)) {
   const c = r.computed as {
     causes: { cause: string; engine: string; record: string; how: string }[];
   };

@@ -39,7 +39,6 @@ const SEASON_TYPES = new Set([
   "debate-invite",
   "volunteer-offer",
   "rival-word",
-  "rival-filed",
 ]);
 const GAP_DAYS = 28;
 const daysBetween = (a: string, b: string) =>

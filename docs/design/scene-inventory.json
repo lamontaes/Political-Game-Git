@@ -1,4 +1,233 @@
 {
+  "judgedAgainst": "origin/main e19720ac58 (Nov 12, 2026), merged into this branch",
+  "beforeDeletion": {
+    "KEEP": {
+      "rows": 53,
+      "lines": 4410,
+      "counted": 3140
+    },
+    "WIRE": {
+      "rows": 28,
+      "lines": 2039,
+      "counted": 1591
+    },
+    "NEEDED-LATER": {
+      "rows": 2,
+      "lines": 80,
+      "counted": 75
+    },
+    "DELETE": {
+      "rows": 25,
+      "lines": 1509,
+      "counted": 1101
+    }
+  },
+  "goldenPath": [
+    {
+      "step": "Turn 18: the opening evening",
+      "scenes": "address"
+    },
+    {
+      "step": "Meet people",
+      "scenes": "first-meeting, becoming-friends, first-day"
+    },
+    {
+      "step": "Asked to run",
+      "scenes": "party-recruit, advice"
+    },
+    {
+      "step": "File where the place files",
+      "scenes": "filing-clerk, family-filing"
+    },
+    {
+      "step": "Campaign",
+      "scenes": "door-signature, door-ask, volunteer-offer, manager-offer, speech-afterward, interview-invite, interview-sitting, debate-invite, debate-sitting, rival-word, rally-opponent, donor-ask"
+    },
+    {
+      "step": "Win or lose",
+      "scenes": "race-won, race-lost, family-loss"
+    },
+    {
+      "step": "Take office",
+      "scenes": "swearing-in"
+    },
+    {
+      "step": "Propose an ordinance",
+      "scenes": "bill-carry"
+    },
+    {
+      "step": "Negotiate",
+      "scenes": "section-bargain, bill-held-chair, vote-asked, vote-sought, vote-confirmed"
+    },
+    {
+      "step": "Pass or fail",
+      "scenes": "floor-debate, desk-visit"
+    },
+    {
+      "step": "The town changes; people bring it up",
+      "scenes": "constituent-stop, town-hall-question, press-interview"
+    },
+    {
+      "step": "The next election uses the record",
+      "scenes": "recall"
+    }
+  ],
+  "neededLater": [
+    "**A court scene** (hearing, verdict): a prosecutor, a defense and a judge in the room, from the justice engine's charge and ruling records; courts come after early access (AGENTS.md).",
+    "**An obligations ledger** (betrayal, and every ending that keeps a promise or a favor): one reader of the promises and favors scene replies keep, so a broken word can come due (SG-WORDS-favor-promise-keeps-unread).",
+    "**A voter-roll record** (polling-place's poll-problem talk): who is on which precinct's list, in voting.ts."
+  ],
+  "likedLinesRetired": [
+    {
+      "scene": "family-win",
+      "key": "scene-talk.state-congratulate.office-you-really-did-it",
+      "text": "{office}. You really did it."
+    },
+    {
+      "scene": "family-win",
+      "key": "scene-talk.reply-thank.i-couldn-t-have-done-it-without-you",
+      "text": "I couldn't have done it without you."
+    },
+    {
+      "scene": "family-win",
+      "key": "scene-talk.reply-boast.not-bad-for-a-first-run-right",
+      "text": "Not bad for a first run, right?"
+    },
+    {
+      "scene": "party-ask",
+      "key": "scene-talk.follow-threaten.the-party-has-a-long-memory",
+      "text": "The party has a long memory."
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.reply-ask.why-me",
+      "text": "Why me?"
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.follow-answer.because-you-ve-been-on-the-fence-all-week-and-everybody-on-this-floor-",
+      "text": "Because you've been on the fence all week, and everybody on this floor knows it. You're the one I can still move."
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.reply-bargain.then-move-me-what-s-it-worth-to-you",
+      "text": "Then move me. What's it worth to you?"
+    },
+    {
+      "scene": "floor-vote",
+      "key": "scene-talk.reply-agree.done-put-it-in-writing-tonight",
+      "text": "Done. Put it in writing tonight."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.state-tell.i-won-the-office-race-first-i-still-can-t-quite-believe-it",
+      "text": "I won the {office} race, {first}. I still can't quite believe it."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.it-matters-to-me-whoever-won-i-live-under-what-they-decide",
+      "text": "It matters to me whoever won. I live under what they decide."
+    },
+    {
+      "scene": "public-hearing",
+      "key": "scene-talk.reply-thank.thank-you-chair",
+      "text": "Thank you, Chair."
+    },
+    {
+      "scene": "public-hearing",
+      "key": "scene-talk.reply-thank.thank-you-all",
+      "text": "Thank you all."
+    },
+    {
+      "scene": "public-hearing",
+      "key": "scene-talk.open-call-to-order.good-afternoon",
+      "text": "Good afternoon."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.of-course-i-care-who-won-theyre-the-ones-who-govern-me",
+      "text": "Of course I care who won. They're the ones who govern me."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.i-cant-say-im-filled-with-confidence",
+      "text": "I can't say I'm filled with confidence."
+    },
+    {
+      "scene": "race-told",
+      "key": "scene-talk.reply-tell.im-a-little-apprehensive",
+      "text": "I'm a little apprehensive."
+    },
+    {
+      "scene": "public-hearing (purpose hearing-testify; restored there Nov 8 from this key, data/english/grades/restored-liked-lines.json)",
+      "key": "hearing.thanks.thank-you-chair",
+      "text": "Thank you, Chair."
+    },
+    {
+      "scene": "public-hearing (purpose hearing-testify; restored there Nov 8 from this key, data/english/grades/restored-liked-lines.json)",
+      "key": "bank:hearing.thanks.thank-you-all",
+      "text": "Thank you all."
+    },
+    {
+      "scene": "public-hearing (purpose hearing-testify; restored there Nov 8 from this key, data/english/grades/restored-liked-lines.json)",
+      "key": "bank:hearing.chair-procedure.good-afternoon",
+      "text": "Good afternoon."
+    }
+  ],
+  "awaitingWishes": [
+    {
+      "type": "news-arrives",
+      "records": ["diagnosis-disclosed", "acceptance", "result"]
+    },
+    {
+      "type": "argument",
+      "records": [
+        "dispute-over-money",
+        "dispute-over-rules",
+        "dispute-over-belief"
+      ]
+    },
+    {
+      "type": "celebration",
+      "records": ["birthday-gathering"]
+    },
+    {
+      "type": "first-meeting",
+      "records": ["new-neighbor"]
+    },
+    {
+      "type": "first-day",
+      "records": ["school-started (a producer never built)"]
+    },
+    {
+      "type": "last-day",
+      "records": ["retirement", "quitting"]
+    },
+    {
+      "type": "betrayal",
+      "records": ["broken-undertaking", "lie-found-out", "secret-told"]
+    },
+    {
+      "type": "arrival",
+      "records": ["stepparent-arrives", "housemate-moves-in"]
+    },
+    {
+      "type": "advice",
+      "records": ["next-step (a producer never built)"]
+    },
+    {
+      "type": "warning",
+      "records": ["arrears", "eviction-notice", "conflict-escalating"]
+    },
+    {
+      "type": "reconciliation",
+      "records": ["help-after-quarrel"]
+    },
+    {
+      "type": "polling-place",
+      "records": ["polling-place", "election-day (a producer never built)"]
+    }
+  ],
   "rows": [
     {
       "key": "concession-taken",
@@ -29,7 +258,8 @@
           "onlyHere": 45,
           "onlyHereCounted": 35
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "race-won",
@@ -131,7 +361,8 @@
           "onlyHere": 88,
           "onlyHereCounted": 76
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "family-win",
@@ -162,7 +393,8 @@
           "onlyHere": 64,
           "onlyHereCounted": 58
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "family-loss",
@@ -231,7 +463,8 @@
           "onlyHere": 42,
           "onlyHereCounted": 33
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "run-doubt",
@@ -262,7 +495,8 @@
           "onlyHere": 21,
           "onlyHereCounted": 15
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "race-told",
@@ -300,16 +534,17 @@
           "onlyHere": 101,
           "onlyHereCounted": 53
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "filing",
       "kind": "type",
       "cause": "src/core2/modules/elections.ts (candidate-filed)",
-      "writes": "tie only",
+      "writes": "nothing an engine reads; it is the view of the player’s own filing and the petition record it opened (src/core2/modules/elections.ts petitionOf)",
       "models": "src/core2/modules/filing-clerk.ts; src/bench/filing.ts",
-      "verdict": "DELETE",
-      "why": "The clerk at the window is the filing screen (src/bench/filing.ts with src/director/filing-visit.ts, purpose filing-clerk); this type's venue setting is outside ownRecordSettings so it only waits, and its reply is read by no engine.",
+      "verdict": "KEEP",
+      "why": "Re-judged while building the deletion: it is the clerk’s talk right after the player files, telling the petition’s signatures and due day from its record and walking a first-time candidate through doors, money and the town’s paper (src/bench/filing-walkthrough.test.ts). Like the door scenes, it is the player’s own act shown from its record, and the owner named it twice (owner examples “Filing is a conversation at the clerk” and “Filing deliberately marked”). Its venue setting is outside ownRecordSettings, so where the filing screen has no counter it waits.",
       "computed": {
         "purpose": "filing-petition",
         "setting": ["venue"],
@@ -431,7 +666,8 @@
           "onlyHere": 42,
           "onlyHereCounted": 19
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "rival-word",
@@ -591,7 +827,7 @@
         "lines": {
           "all": 51,
           "counted": 37,
-          "onlyHere": 49,
+          "onlyHere": 50,
           "onlyHereCounted": 36
         }
       }
@@ -603,7 +839,7 @@
       "writes": "tie only; signed-up is unread",
       "models": "src/core2/modules/campaigns.ts (volunteer-offered)",
       "verdict": "DELETE",
-      "why": "A volunteer after a speech is volunteer-offer, whose reply campaigns.ts reads; this one waits unplayed (impact 0.15) and its sign-up is read by no engine.",
+      "why": "A volunteer after a speech is volunteer-offer, whose reply campaigns.ts reads; this one waits unplayed (impact 0.15) and its sign-up is read by no engine. Re-judged after #8596: that reader takes typeKey speech-afterward only, so nothing reads campaign-stop.",
       "computed": {
         "purpose": "rally-volunteer",
         "setting": ["public", "venue"],
@@ -625,16 +861,17 @@
           "onlyHere": 51,
           "onlyHereCounted": 45
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "speech-afterward",
       "kind": "type",
       "cause": "src/core2/modules/speech.ts (speech.heard)",
-      "writes": "tie only; a pledge is unread",
-      "models": "src/core2/modules/speech.ts, views.ts",
-      "verdict": "DELETE",
-      "why": "Another candidate asking the player for support writes nothing read (the speech already moved the listener's view in speech.ts) and waits unplayed (impact 0.15).",
+      "writes": "the pledge: src/core2/modules/campaigns.ts answerAskForVote keeps an accepting reply as the listener’s pledge, which the ballot reads (pledgesOf), citing the scene.reply (#8596, main e19720ac58)",
+      "models": "src/core2/modules/campaigns.ts (pledges), speech.ts",
+      "verdict": "WIRE",
+      "why": "Re-judged after main e19720ac58 (#8596): campaigns.ts now reads the reply as a pledge the ballot counts, so an engine stands behind it; it only waits unplayed (impact 0.15).",
       "computed": {
         "purpose": "ask-support",
         "setting": ["venue", "public"],
@@ -656,7 +893,8 @@
           "onlyHere": 54,
           "onlyHereCounted": 45
         }
-      }
+      },
+      "link": "cause:event:speech.heard joins ownRecordScenes (one data line; public and venue are met), so the listener meets the candidate that day; size S."
     },
     {
       "key": "rally-opponent",
@@ -731,8 +969,8 @@
         "lines": {
           "all": 332,
           "counted": 271,
-          "onlyHere": 265,
-          "onlyHereCounted": 215
+          "onlyHere": 267,
+          "onlyHereCounted": 217
         }
       }
     },
@@ -906,15 +1144,7 @@
         "setting": ["venue"],
         "timing": "at-cause",
         "rowsInTypesFile": 1,
-        "causes": [
-          {
-            "cause": "(any)",
-            "engine": "elections",
-            "record": "",
-            "how": "never staged: waits on a producer not built (election-day)",
-            "plays": "no"
-          }
-        ],
+        "causes": [],
         "playerReaches": "no (The visit plays through src/bench/polling.ts and election-night.ts; the type's own awaitingProducer election-day is never built.)",
         "lines": {
           "all": 64,
@@ -1136,8 +1366,8 @@
         "lines": {
           "all": 62,
           "counted": 49,
-          "onlyHere": 24,
-          "onlyHereCounted": 13
+          "onlyHere": 55,
+          "onlyHereCounted": 43
         }
       }
     },
@@ -1170,7 +1400,8 @@
           "onlyHere": 21,
           "onlyHereCounted": 3
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "floor-vote",
@@ -1201,7 +1432,8 @@
           "onlyHere": 109,
           "onlyHereCounted": 101
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "floor-debate",
@@ -1324,7 +1556,8 @@
           "onlyHere": 279,
           "onlyHereCounted": 198
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "public-hearing",
@@ -1355,7 +1588,8 @@
           "onlyHere": 112,
           "onlyHereCounted": 80
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "testimony-heard",
@@ -1386,7 +1620,8 @@
           "onlyHere": 7,
           "onlyHereCounted": 0
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "town-hall-question",
@@ -1415,8 +1650,8 @@
         "lines": {
           "all": 103,
           "counted": 61,
-          "onlyHere": 58,
-          "onlyHereCounted": 19
+          "onlyHere": 100,
+          "onlyHereCounted": 58
         }
       }
     },
@@ -1454,8 +1689,8 @@
         "lines": {
           "all": 103,
           "counted": 61,
-          "onlyHere": 58,
-          "onlyHereCounted": 19
+          "onlyHere": 100,
+          "onlyHereCounted": 58
         }
       }
     },
@@ -1499,7 +1734,7 @@
       "models": "src/core2/modules/public-action.ts",
       "verdict": "WIRE",
       "why": "An organizer warning the official before an action is public-action's; the official's answer should change it.",
-      "link": "public-action.ts reads cancelled or meeting-protesters from the reply; size M.",
+      "link": "public-action.ts reads the reply that calls the action off, or meeting-protesters; size M.",
       "computed": {
         "purpose": "protest-warning",
         "setting": ["home", "phone", "letter"],
@@ -1552,7 +1787,8 @@
           "onlyHere": 55,
           "onlyHereCounted": 49
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "veto",
@@ -1590,7 +1826,8 @@
           "onlyHere": 54,
           "onlyHereCounted": 50
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "desk-bill",
@@ -1628,7 +1865,8 @@
           "onlyHere": 122,
           "onlyHereCounted": 102
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "desk-visit",
@@ -1767,8 +2005,8 @@
         "lines": {
           "all": 436,
           "counted": 380,
-          "onlyHere": 423,
-          "onlyHereCounted": 368
+          "onlyHere": 424,
+          "onlyHereCounted": 369
         }
       }
     },
@@ -1833,8 +2071,8 @@
         "lines": {
           "all": 656,
           "counted": 526,
-          "onlyHere": 638,
-          "onlyHereCounted": 514
+          "onlyHere": 640,
+          "onlyHereCounted": 515
         }
       }
     },
@@ -1913,7 +2151,8 @@
           "onlyHere": 79,
           "onlyHereCounted": 52
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "swearing-in",
@@ -2166,7 +2405,8 @@
           "onlyHere": 27,
           "onlyHereCounted": 12
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "constituent-stop",
@@ -2296,34 +2536,6 @@
             "engine": "",
             "record": "",
             "how": "stops the day when a household member is in it (householdScenes)",
-            "plays": "yes"
-          },
-          {
-            "cause": "circumstance:price-moved-street",
-            "engine": "circumstance",
-            "record": "law.effect-learned",
-            "how": "stops the day: met where the player is (metWhereYouAre)",
-            "plays": "yes"
-          },
-          {
-            "cause": "circumstance:death-known-street",
-            "engine": "circumstance",
-            "record": "life.death",
-            "how": "stops the day: met where the player is (metWhereYouAre)",
-            "plays": "yes"
-          },
-          {
-            "cause": "circumstance:rent-news-street",
-            "engine": "circumstance",
-            "record": "news.read",
-            "how": "stops the day: met where the player is (metWhereYouAre)",
-            "plays": "yes"
-          },
-          {
-            "cause": "circumstance:national-news-street",
-            "engine": "circumstance",
-            "record": "news.read",
-            "how": "stops the day: met where the player is (metWhereYouAre)",
             "plays": "yes"
           }
         ],
@@ -2468,7 +2680,8 @@
           "onlyHere": 0,
           "onlyHereCounted": 0
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "visit",
@@ -2520,7 +2733,8 @@
           "onlyHere": 0,
           "onlyHereCounted": 0
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "prison-visit",
@@ -2534,7 +2748,7 @@
         "purpose": "prison-visit",
         "setting": ["venue"],
         "timing": "at-cause",
-        "rowsInTypesFile": 2,
+        "rowsInTypesFile": 1,
         "causes": [
           {
             "cause": "circumstance:held-known-visit",
@@ -2596,7 +2810,8 @@
           "onlyHere": 0,
           "onlyHereCounted": 0
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "verdict",
@@ -2648,7 +2863,8 @@
           "onlyHere": 0,
           "onlyHereCounted": 0
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "letter",
@@ -2844,7 +3060,7 @@
       "writes": "time together and any strain, to closeness (src/core2/closeness.ts) through replyInScene (src/director/purpose-scene.ts)",
       "models": "src/core2/closeness.ts",
       "verdict": "DELETE",
-      "why": "Its cause is the director's memory, not an engine record, and it waits under the interrupt line; kin-contact and letter carry the old tie.",
+      "why": "Decided by record (lead, Nov 12): no engine records a return. moves.ts writes only person.moved-away, lives and residents keep no moved-back record, and the one real return, a release from custody (justice.released), is already the return scene’s cause. Its own cause is the director’s re-entry echo, so DELETE stands.",
       "computed": {
         "purpose": "reunion-ask",
         "setting": ["public", "home", "other-home"],
@@ -2866,7 +3082,8 @@
           "onlyHere": 44,
           "onlyHereCounted": 19
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "betrayal",
@@ -2940,8 +3157,8 @@
         "lines": {
           "all": 45,
           "counted": 19,
-          "onlyHere": 43,
-          "onlyHereCounted": 17
+          "onlyHere": 44,
+          "onlyHereCounted": 18
         }
       }
     },
@@ -3211,13 +3428,6 @@
         "rowsInTypesFile": 1,
         "causes": [
           {
-            "cause": "(any)",
-            "engine": "",
-            "record": "",
-            "how": "never staged: waits on a producer not built (next-step)",
-            "plays": "no"
-          },
-          {
             "cause": "feeling:event:work.mentorship-formed",
             "engine": "partnerships",
             "record": "work.mentorship-formed",
@@ -3255,13 +3465,6 @@
         "timing": "effective-date",
         "rowsInTypesFile": 1,
         "causes": [
-          {
-            "cause": "(any)",
-            "engine": "",
-            "record": "",
-            "how": "never staged: waits on a producer not built (school-started)",
-            "plays": "no"
-          },
           {
             "cause": "money:job-started",
             "engine": "",
@@ -3476,7 +3679,7 @@
         "lines": {
           "all": 80,
           "counted": 69,
-          "onlyHere": 74,
+          "onlyHere": 75,
           "onlyHereCounted": 64
         }
       }
@@ -3548,7 +3751,8 @@
           "onlyHere": 110,
           "onlyHereCounted": 64
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "moving-goodbye",
@@ -3658,7 +3862,7 @@
         "lines": {
           "all": 189,
           "counted": 0,
-          "onlyHere": 187,
+          "onlyHere": 188,
           "onlyHereCounted": 0
         }
       }
@@ -3680,7 +3884,8 @@
           "onlyHere": 61,
           "onlyHereCounted": 47
         }
-      }
+      },
+      "removed": true
     },
     {
       "key": "election-night",
@@ -3737,8 +3942,8 @@
         "lines": {
           "all": 40,
           "counted": 20,
-          "onlyHere": 32,
-          "onlyHereCounted": 18
+          "onlyHere": 35,
+          "onlyHereCounted": 19
         }
       }
     },
@@ -3756,15 +3961,10 @@
         "lines": {
           "all": 111,
           "counted": 87,
-          "onlyHere": 104,
-          "onlyHereCounted": 84
+          "onlyHere": 107,
+          "onlyHereCounted": 85
         }
       }
     }
-  ],
-  "neededLater": [
-    "**A court scene** (hearing, verdict): a prosecutor, a defense and a judge in the room, from the justice engine's charge and ruling records; courts come after early access (AGENTS.md).",
-    "**An obligations ledger** (betrayal, and every ending that keeps a promise or a favor): one reader of the promises and favors scene replies keep, so a broken word can come due (SG-WORDS-favor-promise-keeps-unread).",
-    "**A voter-roll record** (polling-place's poll-problem talk): who is on which precinct's list, in voting.ts."
   ]
 }

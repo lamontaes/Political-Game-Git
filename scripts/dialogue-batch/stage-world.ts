@@ -75,12 +75,11 @@ export interface StageReport {
 }
 
 /**
- * Each type in the catalog, staged or skipped with why. A type none of whose
- * causes has a producer is awaiting it; one whose causes do and that did not
- * fire had no cause record in the year. Never invented.
+ * Each type in the catalog, staged or skipped with why: one that did not fire
+ * had no cause record in the year, or has no cause written. Never invented.
  */
 export function typeStatuses(
-  types: readonly Pick<SituationType, "key" | "causes" | "awaiting">[],
+  types: readonly Pick<SituationType, "key" | "causes">[],
   staged: readonly Pick<StagedScene, "typeKey">[],
 ): TypeStatus[] {
   const counts = new Map<string, number>();
@@ -89,20 +88,9 @@ export function typeStatuses(
   return types.map((type) => {
     const staged = counts.get(type.key) ?? 0;
     if (staged) return { key: type.key, staged };
-    const live = type.causes.filter((cause) => !cause.awaitingProducer);
-    const waiting = [
-      ...new Set(
-        type.causes.flatMap((cause) =>
-          cause.awaitingProducer ? [cause.awaitingProducer] : [],
-        ),
-      ),
-    ];
-    // A type with no cause names the record it waits for instead.
-    const reason = live.length
+    const reason = type.causes.length
       ? "no cause record fired in this year"
-      : waiting.length
-        ? `awaiting producer: ${waiting.join(", ")}`
-        : `awaiting ${(type.awaiting ?? []).join(", ") || "a cause record"}`;
+      : "no cause is written for this type";
     return { key: type.key, staged: 0, skipped: reason };
   });
 }

@@ -76,7 +76,7 @@
     "quote": "its dialogue is consequential: a family scene at home, or a tense floor vote where the goal is to convince one member to vote no on the amendment (the owner's example: McCain and the Obamacare repeal)",
     "source": "OD:304",
     "kind": "scene",
-    "types": ["floor-vote", "vote-asked", "section-bargain"],
+    "types": ["vote-asked", "section-bargain"],
     "why": "floor-switch / colleague vote-ask staged on amendment records; no explicit convince-to-vote-no goal"
   },
   {
@@ -206,7 +206,7 @@
     "quote": "there was no reason to have that dialogue. ... that's not like Wildermyth, because there was no reason to have that conversation. It was unnatural. Like, that scene was useless.",
     "source": "DR/words-household-filing-scene-has-a-purpose.md:18",
     "kind": "scene",
-    "types": ["family-filing", "family-win", "family-loss"],
+    "types": ["family-filing", "family-loss"],
     "why": "relative/you roles on candidate-filed and election-result"
   },
   {
@@ -266,7 +266,7 @@
     "quote": "a family member reacting to your filing, your win, your loss or your absence.",
     "source": "OD:390",
     "kind": "scene",
-    "types": ["family-filing", "family-win", "family-loss", "family-absence"],
+    "types": ["family-filing", "family-loss", "family-absence"],
     "why": "one family-* type per named event"
   },
   {
@@ -416,7 +416,7 @@
     "quote": "They loved you up there. What do you need from us this week?",
     "source": "OD:420",
     "kind": "scene",
-    "types": ["campaign-stop", "speech-afterward"],
+    "types": ["speech-afterward"],
     "why": "rally-volunteer on speech.heard; ask-support listener afterward"
   },
   {
@@ -506,7 +506,7 @@
     "quote": "See, there's nothing happening. This is where scenes should be happening. You know, getting ready for the election, having interviews, a debate, assembling, you know, an election team, meeting people,",
     "source": "DR/words-campaign-season-scenes-fill-the-months.md:18, OD:15",
     "kind": "scene",
-    "types": ["interview", "press-interview", "campaign-stop"],
+    "types": ["interview", "press-interview"],
     "why": "campaign-season types that exist; debate, team and others missing"
   },
   {
@@ -516,7 +516,7 @@
     "quote": "assembling, you know, an election team",
     "source": "same quote",
     "kind": "scene",
-    "types": ["manager-offer", "volunteer-offer", "staff-news"],
+    "types": ["manager-offer", "volunteer-offer"],
     "why": "the team forms from someone close who offers to run the campaign (manager-offer, onto its staff), people who offer to work after a speech (volunteer-offer) and the staff who bring news (staff-news); hiring a paid manager has no record yet"
   },
   {
@@ -556,7 +556,7 @@
     "quote": "Door knocking plays as a montage with porch scenes, not a tally.",
     "source": "OD:24, DR/words-door-knocking-montage-with-porch-scenes.md:18",
     "kind": "scene",
-    "types": ["first-meeting", "visit"],
+    "types": ["first-meeting"],
     "why": "canvass-visit causes on first-meeting and visit; no montage"
   },
   {
@@ -576,7 +576,7 @@
     "quote": "Campaign acts are scenes you go to (a venue for a speech, doors to knock, an interview, a debate).",
     "source": "OD:131, LAW:60",
     "kind": "scene",
-    "types": ["campaign-stop", "interview", "press-interview"],
+    "types": ["interview", "press-interview"],
     "why": "rally, interview types; no doors or debate"
   },
   {
@@ -626,7 +626,7 @@
     "quote": "the director gains public scenes (a rally, a march, a crowd, a speech to strangers).",
     "source": "OD:185",
     "kind": "scene",
-    "types": ["campaign-stop", "rally-opponent"],
+    "types": ["rally-opponent"],
     "why": "rally-volunteer and rally-opponent on campaign events; no march"
   },
   {
@@ -646,7 +646,7 @@
     "quote": "",
     "source": "OD:390",
     "kind": "scene",
-    "types": ["campaign-stop", "rally-opponent"],
+    "types": ["rally-opponent"],
     "why": "volunteer and opponent roles"
   },
   {
@@ -786,7 +786,7 @@
     "quote": "has purpose",
     "source": "PT:38",
     "kind": "scene",
-    "types": ["morning-after"],
+    "types": [],
     "why": "morning-after: the day after the count, someone who worked the campaign or lives with the candidate comes by (#6342)"
   },
   {
@@ -836,7 +836,7 @@
     "quote": "the mayor's desk with a bill waiting.",
     "source": "OD:390",
     "kind": "scene",
-    "types": ["desk-bill"],
+    "types": [],
     "why": "aide and you on bill-presented"
   },
   {
@@ -856,7 +856,7 @@
     "quote": "staff bringing bad news is a scene when a press record names the player or their bill.",
     "source": "OD:44",
     "kind": "scene",
-    "types": ["staff-news"],
+    "types": [],
     "why": "aide and you on press-story"
   },
   {
@@ -876,15 +876,7 @@
     "quote": "There can be multiple scenes. Multiple things can happen when writing a bill.",
     "source": "OD:480",
     "kind": "scene",
-    "types": [
-      "bill-carry",
-      "public-hearing",
-      "vote-asked",
-      "section-bargain",
-      "floor-vote",
-      "desk-bill",
-      "bill-signed"
-    ],
+    "types": ["bill-carry", "vote-asked", "section-bargain"],
     "why": "one type per bill stage"
   },
   {
@@ -894,7 +886,7 @@
     "quote": "Why me?",
     "source": "OD:461",
     "kind": "scene",
-    "types": ["floor-vote"],
+    "types": [],
     "why": "floor-switch"
   },
   {
@@ -924,7 +916,7 @@
     "quote": "",
     "source": "OD:19",
     "kind": "scene",
-    "types": ["floor-vote", "section-bargain", "veto"],
+    "types": ["section-bargain"],
     "why": "floor, bargain and veto types cover the named events; killed bills and pork missing"
   },
   {
@@ -934,7 +926,7 @@
     "quote": "the trial plays in scenes; then the player is gone for the sentence.",
     "source": "OD:201",
     "kind": "scene",
-    "types": ["hearing", "verdict"],
+    "types": [],
     "why": "justice.charged and convicted/acquitted causes"
   },
   {
@@ -1024,7 +1016,7 @@
     "quote": "most people's friends don't talk about laws that were passed. Usually... the news and social media and stuff.",
     "source": "OD:474",
     "kind": "scene",
-    "types": ["law-takes-effect"],
+    "types": [],
     "why": "law-reaches via law.effect-learned"
   },
   {
@@ -1104,7 +1096,7 @@
     "quote": "A public meeting's agenda comes from real local business: the ordinances filed.",
     "source": "PR-words:34",
     "kind": "scene",
-    "types": ["public-hearing"],
+    "types": [],
     "why": "hearing-testify on public-comment"
   },
   {

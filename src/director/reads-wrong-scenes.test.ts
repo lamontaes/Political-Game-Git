@@ -29,10 +29,6 @@ const SCENES = [
   "owed-apology",
   "conflict-accuse",
   "new-baby",
-  "story-read",
-  "race-told",
-  "rival-filed",
-  "morning-after",
   "victory-night",
   "swearing-in",
 ];
@@ -194,38 +190,5 @@ describe("what the owner flagged in batch 3, in the scenes merged on Nov 10", ()
         ),
     );
     expect(presumes.map((part) => part.text)).toEqual([]);
-  });
-
-  it("has enough ways to close a story-read talk that no close is the same words for every branch", () => {
-    // A talk has a close at the end of each branch, thirty-odd in a full tree
-    // (seed 211: 35). The English engine rotates the moves and shows a close
-    // not yet said in the talk, so the bank must hold several for each move
-    // a walk-away can end on, all in different words.
-    const closes = parts.filter((part) =>
-      part.uses.some(
-        (use) => use.purpose === "story-read" && use.step === "close",
-      ),
-    );
-    expect(new Set(closes.map((part) => part.text)).size).toBe(closes.length);
-    const forWalkAway = new Map<string, number>();
-    for (const part of closes)
-      for (const use of part.uses)
-        if (use.after === "leave")
-          forWalkAway.set(use.move, (forWalkAway.get(use.move) ?? 0) + 1);
-    expect([...forWalkAway.keys()].sort()).toEqual([
-      "accept",
-      "press",
-      "promise",
-      "thank",
-      "warn",
-    ]);
-    for (const [move, count] of forWalkAway)
-      expect(
-        count,
-        `closes for a walk-away, move ${move}`,
-      ).toBeGreaterThanOrEqual(3);
-    expect(
-      [...forWalkAway.values()].reduce((sum, n) => sum + n, 0),
-    ).toBeGreaterThanOrEqual(20);
   });
 });

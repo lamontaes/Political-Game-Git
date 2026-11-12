@@ -2,7 +2,7 @@
   "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 3423,
+  "judged": 2920,
   "no": {
     "005r70dinlx": {
       "keys": [
@@ -32,13 +32,6 @@
       ],
       "why": "The reply disagrees with something the line before never claimed."
     },
-    "03zzfn37j8w": {
-      "keys": [
-        "scene-talk.follow-promise.you-re-welcome",
-        "scene-talk.reply-accept.friday-i-ll-be-watching-for-it"
-      ],
-      "why": "A only says you're welcome; B refers to Friday with nothing to mean it."
-    },
     "04qttiyvz5v": {
       "keys": [
         "scene-talk.reply-leave.i-can-t-decide-this-right-now",
@@ -59,13 +52,6 @@
         "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first"
       ],
       "why": "A did not apologize; B says sorry doesn't tell who was involved."
-    },
-    "08rqe3gbsml": {
-      "keys": [
-        "scene-talk.reply-accept.get-me-the-list-i-ll-make-the-calls",
-        "scene-talk.follow-offer.we-rework-it-and-bring-it-back"
-      ],
-      "why": "A asks who to call first; B answers about reworking something."
     },
     "09bkodv88x4": {
       "keys": [
@@ -424,13 +410,6 @@
       ],
       "why": "The reply disagrees with something the line before never claimed."
     },
-    "11rgn4pordv": {
-      "keys": [
-        "scene-talk.reply-bargain.then-make-it-worth-something-what-s-on-the-table",
-        "scene-talk.follow-accept.done-don-t-look-at-me-when-it-posts"
-      ],
-      "why": "Answers \"what is on the table\" with \"Done\", as if an offer was made"
-    },
     "132szf5jj6e": {
       "keys": [
         "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight",
@@ -458,13 +437,6 @@
         "scene-talk.reply-agree.you-re-right-and-i-ll-do-it"
       ],
       "why": "A asks what is in the way; B agrees as if told something."
-    },
-    "168kqlawbzl": {
-      "keys": [
-        "scene-talk.follow-press.so-why-isn-t-anyone-doing-anything-about-story-we-re-the-ones-who-live-with-it",
-        "scene-talk.reply-disagree.we-can-both-read-it-and-not-agree"
-      ],
-      "why": "A asked why nobody acts; B talks about agreeing to disagree over a reading, which A did not raise."
     },
     "16jayhlgr3g": {
       "keys": [
@@ -620,13 +592,6 @@
       ],
       "why": "Nothing in A about voting or answering for votes."
     },
-    "1lwsh0goh9f": {
-      "keys": [
-        "scene-talk.follow-answer.because-you-ve-been-on-the-fence-all-week-and-everybody-on-this-floor-",
-        "scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no"
-      ],
-      "why": "B picks up the word 'afford', which A never said."
-    },
     "1mi4azccyr6": {
       "keys": [
         "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
@@ -654,13 +619,6 @@
         "scene-talk.follow-thank.good-we-ll-see-you-there"
       ],
       "why": "The reply says they will see the person there, but the line before was only about reading the pages."
-    },
-    "1oewefcggaq": {
-      "keys": [
-        "scene-talk.state-tell.can-i-tell-you-about-a-story-i-read-it-s-about-story",
-        "scene-talk.reply-disagree.i-saw-it-they-only-told-one-side-of-story-and-that-s-the-side-people-will-remember"
-      ],
-      "why": "A only asks to tell a story; B answers as if A had already told it."
     },
     "1ohl0yu5i6o": {
       "keys": [
@@ -788,13 +746,6 @@
       ],
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     },
-    "1zr7pc4slpb": {
-      "keys": [
-        "scene-talk.follow-press.so-why-isn-t-anyone-doing-anything-about-story-we-re-the-ones-who-live-with-it",
-        "scene-talk.reply-disagree.i-read-it-twice-i-still-don-t-buy-it"
-      ],
-      "why": "A asked why nobody acts; B answers about having read a piece and disagreeing, which A did not raise."
-    },
     "20nlb7s0urv": {
       "keys": [
         "scene-talk.reply-leave.let-me-call-you-back",
@@ -851,13 +802,6 @@
       ],
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
-    "25f0ya58g11": {
-      "keys": [
-        "scene-talk.follow-press.just-read-the-part-about-story-it-won-t-take-long",
-        "scene-talk.reply-agree.yeah-i-think-it-does-matter-i-just-didn-t-want-to-say-so"
-      ],
-      "why": "A only asks B to read; B admits it matters, which A never claimed."
-    },
     "25hgc4lmj4g": {
       "keys": [
         "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
@@ -907,13 +851,6 @@
       ],
       "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
-    "2bjeiczwavb": {
-      "keys": [
-        "scene-talk.reply-leave.i-m-sorry-i-can-t-get-into-this-right-now",
-        "scene-talk.close-thank.thanks-for-hearing-me-out-about-the-story-on-story"
-      ],
-      "why": "B thanks A for hearing it out when A just said they cannot get into it."
-    },
     "2busqwoqvx8": {
       "keys": [
         "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out",
@@ -928,13 +865,6 @@
       ],
       "why": "The reply treats a request for time as a refusal, and the line before refused nothing."
     },
-    "2dlc7ch7gh3": {
-      "keys": [
-        "scene-talk.follow-promise.you-re-welcome",
-        "scene-talk.reply-press.i-ve-heard-by-friday-before"
-      ],
-      "why": "'You're welcome' gives no Friday; B answers a promise never made."
-    },
     "2efd6mkrlgv": {
       "keys": [
         "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
@@ -948,13 +878,6 @@
         "scene-talk.close-thank.glad-you-re-joining-us-we-ll-do-paperwork-your-first-day"
       ],
       "why": "The reply treats a request for time as a yes, and the line before accepted nothing."
-    },
-    "2fqiwjuajcf": {
-      "keys": [
-        "scene-talk.follow-press.just-read-the-part-about-story-it-won-t-take-long",
-        "scene-talk.reply-agree.all-right-you-re-right-it-bothers-me-too"
-      ],
-      "why": "A only asks B to read; B agrees with a point and a worry A never stated."
     },
     "2fxwucgfci4": {
       "keys": [
@@ -985,5 +908,5 @@
       "why": "The line before asked when, and the reply neither says when nor sidesteps the question."
     }
   },
-  "yesHash": "0e5yde3grek"
+  "yesHash": "0dzkqoqkmxv"
 }
