@@ -335,13 +335,33 @@ export function composeLocalAddress(
     speakerId: speaker.id,
     sentences,
     text: sentences.map((row) => row.text).join(" "),
-    parts: [...new Set(sentences.map((row) => row.part))].map((part) =>
-      sentences
-        .filter((row) => row.part === part)
-        .map((row) => row.text)
-        .join(" "),
-    ),
+    parts: partsOf(sentences),
   };
+}
+
+/**
+ * The address in its parts, one per Continue. A greeting is never a part of
+ * its own: where the sentence its paragraph opened for was not said (no
+ * occasion from the records), it joins the next paragraph.
+ */
+function partsOf(sentences: readonly OpeningSentence[]): string[] {
+  const parts = [...new Set(sentences.map((row) => row.part))].map((part) =>
+    sentences.filter((row) => row.part === part),
+  );
+  const out: string[] = [];
+  let carried = "";
+  for (const rows of parts) {
+    const text = [carried, ...rows.map((row) => row.text)]
+      .filter(Boolean)
+      .join(" ");
+    if (rows.every((row) => row.level === "salutation")) carried = text;
+    else {
+      out.push(text);
+      carried = "";
+    }
+  }
+  if (carried) out.push(carried);
+  return out;
 }
 
 /**

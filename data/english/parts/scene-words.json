@@ -6679,10 +6679,10 @@
       }
     },
     {
-      "key": "scene-words.opening-heard-television.last-night-outlet-carried-speakers-occasion",
+      "key": "scene-words.opening-heard-television.last-night-you-watched-speakers-occasion-on-outlet",
       "move": "opening-heard-television",
       "kind": "spoken",
-      "text": "Last night {outlet} carried {speaker}'s {occasion}, and you watched it from the couch.",
+      "text": "Last night you watched {speaker}'s {occasion} on {outlet}.",
       "uses": [
         {
           "move": "opening-heard-television",
@@ -6702,7 +6702,7 @@
       "key": "scene-words.opening-heard-television.you-caught-speakers-occasion-on-outlet",
       "move": "opening-heard-television",
       "kind": "spoken",
-      "text": "Last night you caught {speaker}'s {occasion} on {outlet}.",
+      "text": "You caught {speaker}'s {occasion} on {outlet} last night.",
       "uses": [
         {
           "move": "opening-heard-television",
@@ -6722,7 +6722,7 @@
       "key": "scene-words.opening-heard-radio.last-night-speakers-occasion-came-over-outlet",
       "move": "opening-heard-radio",
       "kind": "spoken",
-      "text": "Last night {speaker}'s {occasion} came over {outlet}, and you listened from the kitchen.",
+      "text": "Last night {speaker}'s {occasion} came over {outlet}.",
       "uses": [
         {
           "move": "opening-heard-radio",
@@ -6762,7 +6762,7 @@
       "key": "scene-words.opening-heard-newspaper.outlet-prints-speakers-occasion-in-full",
       "move": "opening-heard-newspaper",
       "kind": "spoken",
-      "text": "This morning {outlet} prints {speaker}'s {occasion} in full, and you read it over breakfast.",
+      "text": "This morning {outlet} prints {speaker}'s {occasion} in full.",
       "uses": [
         {
           "move": "opening-heard-newspaper",
