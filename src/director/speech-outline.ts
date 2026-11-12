@@ -822,7 +822,7 @@ function shapeOrder(person: PersonState): string[] {
 
 /** The words a sentence's first word keeps its capital in after a comma. */
 const KEEPS_CAPITAL =
-  /^(?:I|Medicare|Medicaid|Washington|Congress|Social|American)\b/;
+  /^(?:I|Medicare|Medicaid|Washington|Congress|Social Security|American)\b/;
 
 /** A whole sentence as the clause it becomes after an opener and a comma ("Right now, the federal minimum wage ..."). */
 function clauseOf(sentence: string): string {
