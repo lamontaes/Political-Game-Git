@@ -29,6 +29,7 @@ import { stableHash } from "../core2/kernel/ids";
 
 export type { Fact };
 import { admittedParts, directorSlots } from "./bank-parts";
+import { sentenceStarts } from "./said-as";
 import {
   follows,
   REPLY_FOLLOWS,
@@ -538,7 +539,8 @@ export function wordSceneMove(input: {
   const part = parts.find((row) => row.key === line.variantKey);
   const tag = onlyTagged && part ? taggedBy(part) : undefined;
   return {
-    text: line.text,
+    // A slot that opens a sentence after another is capitalized as one.
+    text: sentenceStarts(line.text),
     pieceKey: part?.key ?? line.variantKey ?? "",
     step: (part?.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
       steps[zero]) as SceneTalkStep,
@@ -626,7 +628,9 @@ function joinedMove(
   const coreKey =
     line.parts.find((part) => part.part === "core")?.variantKey ?? "";
   const core = sentence.parts.core?.find((part) => part.key === coreKey);
-  const text = line.text.trim();
+  // A slot that opens a joined sentence ("... It goes to {agency}.") is
+  // capitalized as the sentence's first word.
+  const text = sentenceStarts(line.text.trim());
   return {
     text,
     pieceKey: coreKey,
