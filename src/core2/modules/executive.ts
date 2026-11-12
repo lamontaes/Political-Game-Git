@@ -44,7 +44,13 @@ import {
   countedJob,
   residentFacts,
 } from "./residents";
-import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain, lawInForce } from "./laws";
 import {
@@ -643,7 +649,16 @@ function fillTownPost(
     id: `appointed:${row.id}:${date}`,
     date,
     kind: "official-appointed",
-    personIds: [row.holderId],
+    // The one who chose is on the record too, so a scene can bring them the
+    // person next in line (named only when they are a full person).
+    personIds: [
+      row.holderId,
+      ...(appointer?.personId &&
+      appointer.personId !== row.holderId &&
+      api.state.people.has(appointer.personId as PersonId)
+        ? [appointer.personId as PersonId]
+        : []),
+    ],
     placeId: town,
     source: { tag: "SOURCED", citation: `Appointment ${row.id}`, asOf: date },
     publicRecord: true,
@@ -656,6 +671,11 @@ function fillTownPost(
       ...(named ? { filledIn: "counted" } : {}),
       // How many of the town's counted adults the post weighed.
       countedWeighed: String(input.counted.length),
+      // The people the appointer weighed, best first (the appointment row keeps their reasons).
+      ranked: appointment.reasons
+        .slice(0, 5)
+        .map((r) => r.candidateId)
+        .join(" "),
     },
   });
   // On the town government's payroll at a department head's pay.

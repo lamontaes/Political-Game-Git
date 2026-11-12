@@ -5,6 +5,8 @@ import {
   openingMove,
   type OpeningSpeechKind,
   type SpeechVoice,
+  partHolds,
+  partValues,
 } from "./english-opening-speech";
 import type { GroundedEnglishPacket } from "./grounded-english";
 
@@ -90,18 +92,23 @@ describe("the opening address's pieces", () => {
       if (part.piece?.part !== "core") continue;
       for (const use of part.uses) {
         if (!KINDS.includes(use.subject as OpeningSpeechKind)) continue;
-        const key = [
-          use.subject,
-          use.role,
-          part.addressKind ?? "",
-          part.voice,
-          part.topic ?? "",
-          (use.requiresFacts ?? [])
-            .filter((fact) => !part.text.includes(`{${fact}}`))
-            .sort()
-            .join("+"),
-        ].join(" ");
-        groups.set(key, [...(groups.get(key) ?? []), part.text]);
+        // A piece said in several voices or topics counts in each.
+        const topics = partValues(part.topic);
+        for (const voice of partValues(part.voice))
+          for (const topic of topics.length ? topics : [""]) {
+            const key = [
+              use.subject,
+              use.role,
+              part.addressKind ?? "",
+              voice,
+              topic,
+              (use.requiresFacts ?? [])
+                .filter((fact) => !part.text.includes(`{${fact}}`))
+                .sort()
+                .join("+"),
+            ].join(" ");
+            groups.set(key, [...(groups.get(key) ?? []), part.text]);
+          }
       }
     }
     const thin = [...groups]
@@ -121,7 +128,9 @@ describe("the opening address's pieces", () => {
       new Set(
         OPENING_SPEECH_BANK.parts
           .filter((part) => part.move === "subject")
-          .filter((part) => part.topic?.endsWith(end))
+          .filter((part) =>
+            partValues(part.topic).some((topic) => topic.endsWith(end)),
+          )
           .map((part) => part.text),
       );
     const hard = words(":hard");
@@ -177,7 +186,7 @@ describe("the opening address's pieces", () => {
           expect(
             OPENING_SPEECH_BANK.parts.filter(
               (part) =>
-                part.voice === voice &&
+                partHolds(part.voice, voice) &&
                 part.uses.some(
                   (use) => use.subject === kind && use.role === role,
                 ),
@@ -227,5 +236,32 @@ describe("the opening address's pieces", () => {
     expect(out).toContain("rent stabilization");
     expect(out.split("rent stabilization").length - 1).toBe(1);
     expect(said("inaugural", "polished", "ask", base)).toBeNull();
+  });
+});
+
+// A wording that reads the same in two voices or two topics is one piece that
+// lists them (the bank holds a text once; red on main after #8743).
+describe("one piece for every voice and topic it is said in", () => {
+  it("holds a value or a list", () => {
+    expect(partHolds("plain", "plain")).toBe(true);
+    expect(partHolds(["plain", "polished"], "polished")).toBe(true);
+    expect(partHolds(["plain"], "polished")).toBe(false);
+    expect(partHolds(undefined, "plain")).toBe(false);
+    expect(partValues(undefined)).toEqual([]);
+    expect(partValues("wages")).toEqual(["wages"]);
+  });
+  it("keeps each text once, and a shared one serves both voices", () => {
+    const texts = OPENING_SPEECH_BANK.parts.map((part) =>
+      part.text.toLowerCase(),
+    );
+    expect(new Set(texts).size).toBe(texts.length);
+    const shared = OPENING_SPEECH_BANK.parts.filter(
+      (part) => partValues(part.voice).length > 1,
+    );
+    expect(shared.length).toBeGreaterThan(0);
+    for (const part of shared) {
+      expect(partHolds(part.voice, "plain"), part.key).toBe(true);
+      expect(partHolds(part.voice, "polished"), part.key).toBe(true);
+    }
   });
 });
