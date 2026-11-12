@@ -1076,6 +1076,269 @@ export interface CountryStep {
   policyRate: number;
   /** The share of a state's jobs a recorded disaster ended this month. */
   jobsLost?: (state: CountryState) => number;
+  /**
+   * The places a state holds in full (the played town and its county): the part its cells
+   * held for them last month, taken out before the state steps, and the part their own
+   * records count today, put in after it. Only the rest of the state steps.
+   */
+  parts?: (
+    state: CountryState,
+  ) => { out: CountryPart; in: CountryPart } | undefined;
+}
+
+/**
+ * A part of a state its cells do not step: places simulated in full, counted from their own
+ * records. Adults by age band (in `COUNTRY_AGE_BANDS` order), at work and looking; children;
+ * the jobs they hold by sector; and their households' cash, whole dollars.
+ */
+export interface CountryPart {
+  people: number[];
+  workers: number[];
+  seekers: number[];
+  children: number;
+  jobs: BySector;
+  cash: number;
+}
+
+/** What a part's records count: the jobs whose employer has no sector of its own (work outside a recorded employer) are not yet given one. */
+export interface CountryPartCounts extends Omit<CountryPart, "jobs"> {
+  jobs: Partial<BySector>;
+  unsortedJobs: number;
+}
+
+/** A part's people, at work, looking and jobs: what it adds to its state's figures. */
+export function countryPartFigures(part: CountryPart) {
+  return {
+    population: sum(part.people) + part.children,
+    workers: sum(part.workers),
+    seekers: sum(part.seekers),
+    jobs: sum(COUNTRY_SECTORS.map((sector) => part.jobs[sector])),
+  };
+}
+
+/**
+ * The part as its state holds it: jobs with no sector of their own take the sectors the
+ * state's jobs are in, in the same shares; a band never holds more at work and looking than
+ * people.
+ */
+export function resolveCountryPart(
+  state: CountryState,
+  counts: CountryPartCounts,
+): CountryPart {
+  const total = sum(state.sectors.map((row) => row.jobs));
+  const jobs = zeroBySector();
+  for (const row of state.sectors)
+    jobs[row.sector] =
+      (counts.jobs[row.sector] ?? 0) +
+      (total > 0 ? (counts.unsortedJobs * row.jobs) / total : 0);
+  const workers = counts.workers.map((n, band) =>
+    Math.min(n, counts.people[band]!),
+  );
+  // A band that counted more workers than it has people is capped; the part's jobs go down by the
+  // same share, so a part never carries more jobs than workers whatever its counts.
+  const counted = sum(counts.workers);
+  const kept = sum(workers);
+  if (counted > kept && counted > 0)
+    for (const sector of COUNTRY_SECTORS) jobs[sector] *= kept / counted;
+  return {
+    people: [...counts.people],
+    workers,
+    seekers: counts.seekers.map((n, band) =>
+      Math.min(n, counts.people[band]! - workers[band]!),
+    ),
+    children: counts.children,
+    jobs,
+    cash: counts.cash,
+  };
+}
+
+/** Takes `amounts` out of `values` (one per band, each band's values listed in `bands`), each band's share by what each value holds; what a band cannot give comes from the others. Never below nothing, and a band that gives all it holds is left with exactly nothing, not a floating-point leftover. */
+function takeFrom(
+  values: number[],
+  bands: readonly (readonly number[])[],
+  amounts: readonly number[],
+): void {
+  let spill = 0;
+  bands.forEach((band, b) => {
+    const held = sum(band.map((at) => values[at]!));
+    const taken = Math.min(amounts[b]!, held);
+    spill += amounts[b]! - taken;
+    if (held > 0)
+      for (const at of band)
+        values[at] =
+          taken === held ? 0 : values[at]! - (taken * values[at]!) / held;
+  });
+  const left = sum(values);
+  const taken = Math.min(spill, left);
+  if (left > 0)
+    values.forEach(
+      (value, at) =>
+        (values[at] = taken === left ? 0 : value - (taken * value) / left),
+    );
+}
+
+/** Adds `amounts` to `values` (one per band), each band's share by what each value holds, evenly where the band holds nothing. */
+function addTo(
+  values: number[],
+  bands: readonly (readonly number[])[],
+  amounts: readonly number[],
+): void {
+  bands.forEach((band, b) => {
+    const held = sum(band.map((at) => values[at]!));
+    for (const at of band)
+      values[at]! +=
+        held > 0
+          ? (amounts[b]! * values[at]!) / held
+          : amounts[b]! / band.length;
+  });
+}
+
+/**
+ * What a state holds that grows with its people beyond its cells: its governments' books and
+ * what its owners are paid. Stopgap SG-NATION-town-part-scaled-books: a part's share of these
+ * (and of each sector's books, `scaleWithJobs`) goes with its people and jobs, not its own books.
+ */
+function scaleWithPeople(state: CountryState, factor: number): void {
+  const ledger = state.ledger;
+  ledger.cash *= factor;
+  ledger.budgetYear *= factor;
+  ledger.passedOn *= factor;
+  ledger.otherRevenue *= factor;
+  ledger.revenueMonths = ledger.revenueMonths.map((month) => month * factor);
+  state.ownersIncome *= factor;
+}
+
+/** What a sector holds that grows with its jobs: its cash, its sales and what its buyers ask. Pay, prices and what a worker makes stay. */
+function scaleWithJobs(row: SectorCell, factor: number): void {
+  row.cash *= factor;
+  row.sales *= factor;
+  row.expectedSales *= factor;
+  row.otherBuyers *= factor;
+}
+
+const bandsOf = (state: CountryState) =>
+  COUNTRY_AGE_BANDS.map((_, band) =>
+    state.cells.flatMap((cell, at) => (cell.band === band ? [at] : [])),
+  );
+
+/** Each cell's count of a kind, and its people neither at work nor looking. */
+const cellValues = (state: CountryState) => ({
+  workers: state.cells.map((cell) => cell.workers),
+  seekers: state.cells.map((cell) => cell.seekers),
+  idle: state.cells.map((cell) =>
+    Math.max(0, cell.people - cell.workers - cell.seekers),
+  ),
+  cash: state.cells.map((cell) => cell.cash),
+});
+const idleOf = (part: CountryPart) =>
+  part.people.map((n, band) =>
+    Math.max(0, n - part.workers[band]! - part.seekers[band]!),
+  );
+const setCells = (state: CountryState, values: ReturnType<typeof cellValues>) =>
+  state.cells.forEach((cell, at) => {
+    cell.workers = values.workers[at]!;
+    cell.seekers = values.seekers[at]!;
+    cell.people = cell.workers + cell.seekers + values.idle[at]!;
+    cell.cash = values.cash[at]!;
+  });
+
+/**
+ * Takes a part out of its state before the state steps: its people by band (at work, looking,
+ * neither), its children, its jobs by sector and its cash, and with them each sector's and
+ * the governments' share of what grows with jobs and people. What a band or a sector cannot
+ * give comes from the others, so the totals leave whole.
+ */
+/** A sector's books for one job: what grows with its jobs, divided by them. */
+interface BooksPerJob {
+  cash: number;
+  sales: number;
+  expectedSales: number;
+  otherBuyers: number;
+}
+
+function takeOutPart(
+  state: CountryState,
+  part: CountryPart,
+): Map<CountrySector, BooksPerJob> {
+  const people = countryPeople(state);
+  const bands = bandsOf(state);
+  const values = cellValues(state);
+  takeFrom(values.workers, bands, part.workers);
+  takeFrom(values.seekers, bands, part.seekers);
+  takeFrom(values.idle, bands, idleOf(part));
+  takeFrom(values.cash, [state.cells.map((_, at) => at)], [part.cash]);
+  setCells(state, values);
+  state.children -= Math.min(part.children, state.children);
+  if (people > 0) scaleWithPeople(state, countryPeople(state) / people);
+  const jobs = state.sectors.map((row) => row.jobs);
+  const before = sum(jobs);
+  takeFrom(
+    jobs,
+    state.sectors.map((_, at) => [at]),
+    state.sectors.map((row) => part.jobs[row.sector]),
+  );
+  // A sector the part takes in full keeps its books for one job, to give back with the part's
+  // jobs when it is put in: an emptied sector's books are never a leftover that a whole
+  // sector's jobs are later scaled from.
+  const emptied = new Map<CountrySector, BooksPerJob>();
+  state.sectors.forEach((row, at) => {
+    if (row.jobs > 0 && jobs[at] === 0)
+      emptied.set(row.sector, {
+        cash: row.cash / row.jobs,
+        sales: row.sales / row.jobs,
+        expectedSales: row.expectedSales / row.jobs,
+        otherBuyers: row.otherBuyers / row.jobs,
+      });
+    if (row.jobs > 0) scaleWithJobs(row, jobs[at]! / row.jobs);
+    row.jobs = jobs[at]!;
+  });
+  if (before > 0) state.openings *= sum(jobs) / before;
+  return emptied;
+}
+
+/** Puts a part into its state after the state steps: the state's figures are the rest and the part. Returns the sales it added, at their price and in real terms. */
+function putInPart(
+  state: CountryState,
+  part: CountryPart,
+  emptied: ReadonlyMap<CountrySector, BooksPerJob>,
+): { sales: number; real: number } {
+  const people = countryPeople(state);
+  const bands = bandsOf(state);
+  const values = cellValues(state);
+  addTo(values.workers, bands, part.workers);
+  addTo(values.seekers, bands, part.seekers);
+  addTo(values.idle, bands, idleOf(part));
+  addTo(values.cash, [state.cells.map((_, at) => at)], [part.cash]);
+  setCells(state, values);
+  state.children += part.children;
+  if (people > 0) scaleWithPeople(state, countryPeople(state) / people);
+  const before = sum(state.sectors.map((row) => row.jobs));
+  const added = { sales: 0, real: 0 };
+  for (const row of state.sectors) {
+    const jobs = row.jobs + part.jobs[row.sector];
+    const perJob = emptied.get(row.sector);
+    if (perJob) {
+      // The part's jobs come back with the books they took out; the rest keeps what it built
+      // from nothing in the month.
+      const sales = row.sales;
+      const back = part.jobs[row.sector];
+      row.cash += perJob.cash * back;
+      row.sales += perJob.sales * back;
+      row.expectedSales += perJob.expectedSales * back;
+      row.otherBuyers += perJob.otherBuyers * back;
+      added.sales += row.sales - sales;
+      added.real += row.price > 0 ? (row.sales - sales) / row.price : 0;
+    } else if (row.jobs > 0) {
+      const sales = row.sales;
+      scaleWithJobs(row, jobs / row.jobs);
+      added.sales += row.sales - sales;
+      added.real += row.price > 0 ? (row.sales - sales) / row.price : 0;
+    }
+    row.jobs = jobs;
+  }
+  const after = sum(state.sectors.map((row) => row.jobs));
+  if (before > 0) state.openings *= after / before;
+  return added;
 }
 
 /** One month for the whole country. Changes the tier in place and returns what the month came to. */
@@ -1087,7 +1350,17 @@ export function stepCountry(
   const { law, policyRate } = input;
   const months = rules.monthsPerYear;
   const first = tier.month === 0;
-  // The jobs each state's sectors held as the month opened, for what the month moved.
+  const parts = new Map(
+    tier.states.flatMap((state) => {
+      const part = input.parts?.(state);
+      return part ? [[state, part] as const] : [];
+    }),
+  );
+  const emptiedBy = new Map(
+    [...parts].map(([state, part]) => [state, takeOutPart(state, part.out)]),
+  );
+  // The jobs each state's sectors held as the month opened (the rest, once the parts held in
+  // full are out), for what the month moved.
   const jobsAtStart = tier.states.map((state) =>
     state.sectors.map((row) => row.jobs),
   );
@@ -1344,6 +1617,12 @@ export function stepCountry(
     state.ownersIncome = (paidOut * ownersOf(state, rules)) / owners;
   // The prices households and firms paid, and the price rises they come to expect.
   const prices = salesTotal > 0 ? pricedTotal / salesTotal : tier.priceIndex;
+  // The places held in full go back in: the nation's sales and output are the rest's and theirs.
+  for (const [state, part] of parts) {
+    const added = putInPart(state, part.in, emptiedBy.get(state)!);
+    salesTotal += added.sales;
+    realTotal += added.real;
+  }
   const inflationYear = (prices / tier.priceIndex) ** months - 1;
   for (const state of tier.states)
     // perception: the price rises people expect follow the rises they have lived through

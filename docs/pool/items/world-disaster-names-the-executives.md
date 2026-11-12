@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-world-disaster-names-the-executives
+pr: #8498
 blocked-on:
 after:
 model: sonnet
@@ -16,11 +16,13 @@ effort: medium
 root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27; probes of governors' and mayors' played years in Prospect and Hindman, Kentucky, Graball, Tennessee and Bismarck, North Dakota
 lead: laws-effects
-claimed-at:
+claimed-at: 2026-11-11T02:49:00.292Z
 checked: fable 2026-11-10
+branch: claude/pool-world-disaster-names-the-executives
+merged-at: 2026-11-12T19:13:09.777Z
 ---
 
-**What.** The hazard record for a declared disaster is written with no people on it (personIds empty), and in the probed years it appeared one to four times a year (four in Prospect and Hindman, Kentucky) without any executive's moments changing. Name the sitting mayor of an affected town, the county executive of an affected county and the governor of the state in personIds, and carry the disaster number and title in the facts it already has, so a first-hours scene can find its executive and its place. Until then an executive's first hours of a disaster cannot be a scene.
+**What.** The hazard record for a declared disaster is written with no people on it (personIds empty), and in the probed years it appeared one to four times a year (four in Prospect and Hindman, Kentucky) without any executive's moments changing. Name the sitting mayor of an affected town, the county executive of an affected county and the governor of the state in personIds, and carry the disaster number and title in the facts it already has, so a first-hours scene can find its executive and its place. Until then an executive's first hours of a disaster cannot be a scene. Seen: the first-hours scene where the mayor, county executive or governor meets a declared disaster.
 
 **Cause.** Found in code: the `begin` function in src/core2/modules/disasters.ts (line 454) emits hazard.disaster with personIds: []; it also takes the town from the player's current place (core.people.get(core.playerId).placeId), not from the damaged town. Evidence is in docs/design/scenes/from-life/executive-record-gaps.md.
 
@@ -37,3 +39,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/disasters.ts, src/director/data/director.json, docs/design/scenes/from-life/executive-record-gaps.md
 
 **Notes.** Evidence in docs/design/scenes/from-life/executive-record-gaps.md. Lead laws-effects.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:48 UTC) on branch claude/pool-world-disaster-names-the-executives.

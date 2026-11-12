@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-people-no-shared-school-or-work-between-people-at-the-start
+pr: #8487
 after:
 blocked-on:
 lead: lives
@@ -17,9 +17,12 @@ effort: medium
 root: design-life-record
 source: Story, Nov 10, 2026, on issue 7365, while writing the four different answers for everyday talk; filed by Fable
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T02:30:30.266Z
+branch: claude/pool-people-no-shared-school-or-work-between-people-at-the-start
+merged-at: 2026-11-12T18:26:25.954Z
 ---
 
-**What.** A talk can open on a school or a job two people shared. Story reports that in early play it never does: no world starts with former coworkers or schoolmates on record, so the questions "Remember that school?" and "Still there?" and their answers are never offered. A 17-year-old in a town with one high school should have schoolmates all around them.
+**What.** A talk can open on a school or a job two people shared. Story reports that in early play it never does: no world starts with former coworkers or schoolmates on record, so the questions "Remember that school?" and "Still there?" and their answers are never offered. A 17-year-old in a town with one high school should have schoolmates all around them. Seen: the talk lines "Remember that school?" and "Still there?", which never play today.
 
 **Cause.** Found in code: `sharedHistory` (src/core2/shared-history.ts, line 199) joins two people only through tables written in play. A shared school needs both to hold a row in the school engine's `attended` table (`attendedSchool`, line 54; written only for a student enrolled in play, src/core2/modules/school.ts lines 223 and 363) with the same school and exactly the same year. Shared work reads only the jobs in `core.jobs` (`sharedWork`, line 79). The simulated past writes each person's schools and jobs as records of their own: `school.started` (`SCHOOL_STARTED`, read by `schoolsAttended` in src/core2/past-school.ts) and `person.work-spell` (`PAST_WORK_SPELL` in src/core2/past-work.ts, with the employer's `organizationId`, `startedAt` and `endedAt`). `sharedHistory` reads neither, so two adults who went through the town's school in the same years, or worked for the same employer before the start, share nothing on record. The opening makes no schoolmate tie either: `openOpeningPeerTies` in src/core2/state.ts (line 271) marks stopgap SG-WIRE-PEOPLE-SCHOOLMATES with the comment that no schooling before the start is simulated, which is out of date. Read on main Nov 10; the rows were not counted in a run.
 
@@ -34,3 +37,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/director/conversation.ts, src/core2/shared-history.ts, src/core2/past-school.ts, src/core2/past-work.ts
+
+**Notes.** Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:30 UTC) on branch claude/pool-people-no-shared-school-or-work-between-people-at-the-start.

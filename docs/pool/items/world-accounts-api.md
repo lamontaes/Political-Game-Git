@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5176
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** core.md line 178; GOV already uses the API (budgets, official-pay, law-reach, retirement-claims). Checked Oct 15.
 
 **Proof of the first half (Oct 19, claude/world-accounts-api).** `node --max-old-space-size=8192 --import tsx scripts/core2-year/world-accounts-proof.ts` (added with this change) plays a year with every module installed and counts the journal by record-id head. A drawn place (Rhode Island, one year from January 21, 2025) shows, from the three engines named here: rent 1,652 (`rent:household_04ea68cd750a09ac@2025-02-01`), bank-deposit 951, mortgage 109, loan-payment 49 (`loan-payment:loan:household_04fef0cd751b99ce:2025-01-21:2025-02-01`), loan 17, owner-draw 202, outside-sales 1,696, profit-tax 12, construction 8, arrears 2 (`arrears:lease:household_04f7eacd751570ee:2025-06-11:person_6d6e10abcb38f3cd`), counsel 3. Named non-main accounts: 1,840 at the opening, 2,152 after the year. `addObligation` is used only by retirement-claims and law-reach group B; `accounts.open` only by group B and counted-money.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would move each loan's monthly payment onto the accounts obligation path with the same money moving and nothing different on any screen.

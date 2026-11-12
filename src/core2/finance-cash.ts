@@ -1857,7 +1857,7 @@ function creditTrigger(
       flow = residentsRuntime(session.core)?.flows.get(flowId);
     if (
       r.field(request, "triggerId") !==
-        `${r.field(cfg, "wageFlowDrawRequestPrefix")}${session.date}:${facilityId}:${flowId}` ||
+        `${r.field(cfg, "wageFlowDrawRequestPrefix")}${session.date}:${facilityId}:${flowId}@${flow?.creditNeed?.due}` ||
       !flow ||
       flow.kind !== "wages" ||
       flow.payerId !== r.field(facility, "borrowerId") ||
@@ -2756,11 +2756,14 @@ export function transferWageFlowCreditJournal(
     kind: cfg.relatedKinds.wageFlow,
     id: flowId,
   });
+  // Named by the payday it covers, as the payment is: a results-mode catch-up
+  // pays several skipped paydays of one flow on the same day.
+  const due = residentsRuntime(core)?.flows.get(flowId)?.creditNeed?.due;
   const request: FinanceCashCreditRequest = Object.freeze({
       facilityId,
       requestedMinor,
       reasonKey: r.field(r.field(session.policy()!, "reasons"), "borrowing"),
-      triggerId: `${cfg.wageFlowDrawRequestPrefix}${session.date}:${facilityId}:${flowId}`,
+      triggerId: `${cfg.wageFlowDrawRequestPrefix}${session.date}:${facilityId}:${flowId}@${due}`,
       repayment: false,
     }),
     relations: Relations = { records: [], required: [] };
