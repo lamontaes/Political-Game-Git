@@ -25,9 +25,7 @@ import {
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
-  FEDERAL_HOUSE,
-  FEDERAL_SENATE,
-  members,
+  bodyOf,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import {
@@ -547,16 +545,13 @@ class Reader {
   /** The body an office sits on ("Legislature of the Virgin Islands"), when its record names one. */
   body(officeId: string | undefined): string | null {
     if (!officeId) return null;
-    // A chamber of Congress has no office row of its own: it is named by a
-    // sitting member's office ("United States Senate").
-    if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE) {
-      const seated = members(this.api, officeId)[0]?.officeId;
-      return seated && seated !== officeId ? this.body(seated) : null;
-    }
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
     ) as unknown as { bodyName?: string; jurisdiction?: string } | undefined;
-    const name = office?.bodyName ?? null;
+    // A chamber with no office row of its own (Congress) is named by its
+    // body's record, as the legislature engine reads it.
+    const name =
+      office?.bodyName ?? bodyOf(this.api, officeId)?.bodyName ?? null;
     if (!name) return null;
     // A state's chamber is named with its state ("Connecticut House of Representatives"): the
     // record's body name alone ("House of Representatives") does not say which one voted.
@@ -884,16 +879,14 @@ const rollCall: Builder = (read, f) => {
  * The chamber a committee sits in, from the committee's own record (a state
  * or federal bill's chamber, or the town's body): where the bill goes next.
  */
-const committeeBody = (read: Reader, f: Record<string, string>): Facts => {
+const committeeBody = (read: Reader): Facts => {
   const row = read.row<{ chamber?: string }>(
     LEGISLATURE_MODULE_ID,
     "committees",
     read.sourceId,
   );
   const body = read.body(row?.chamber);
-  return body && row?.chamber
-    ? { body: read.fact(body, row.chamber) }
-    : read.billBody(f.billId);
+  return body && row?.chamber ? { body: read.fact(body, row.chamber) } : {};
 };
 
 const committee: Builder = (read, f) => {
@@ -904,7 +897,7 @@ const committee: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
-      ...committeeBody(read, f),
+      ...committeeBody(read),
       ...(f.committee ? { committee: read.fact(spaced(f.committee)) } : {}),
       ...(held
         ? { held: read.yes() }
@@ -929,7 +922,7 @@ const billFailed: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
-      ...committeeBody(read, f),
+      ...committeeBody(read),
       ...(yes !== undefined && no !== undefined
         ? { count: read.fact(`${yes} to ${no}`) }
         : {}),
@@ -972,7 +965,6 @@ const override: Builder = (read, f) =>
     "override",
     {
       ...read.billFacts(f.billId, f.number),
-      ...read.billBody(f.billId),
       [f.passed === "true" ? "passed" : "failed"]: read.yes(),
     },
     ["designation"],
@@ -3274,9 +3266,11 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
         count: read.fact(`${yes} to ${no}`),
         date: read.date(),
         [f.passed === "true" ? "passed" : "failed"]: read.yes(),
-        // The margin as the paper says it ("one", "three", "1,250").
-        ...(margin > 0 ? { margin: read.fact(count(margin)) } : {}),
-        ...(margin === 1 ? { "one-vote": read.yes() } : {}),
+        ...(margin === 1
+          ? { "one-vote": read.yes() }
+          : margin > 1
+            ? { margin: read.fact(count(margin)) }
+            : {}),
       },
       ["body", "measure"],
     );

@@ -12633,17 +12633,17 @@
       }
     },
     {
-      "key": "news.vacancy.a-special-election-will-fill-the-office-seat",
+      "key": "news.vacancy.a-special-election-on-when-will-fill-the-office-seat",
       "move": "vacancy",
       "kind": "written",
-      "text": "A special election will fill the {office} seat.",
+      "text": "A special election on {when} will fill the {office} seat.",
       "uses": [
         {
           "move": "vacancy",
           "subject": "news",
           "role": "vacancy",
           "choice": "lede",
-          "requiresFacts": ["special"]
+          "requiresFacts": ["special", "when"]
         }
       ],
       "origin": "authored",
@@ -12831,76 +12831,10 @@
       }
     },
     {
-      "key": "news.override-next.the-body-fell-short-so-the-veto-stands-and-the-bill-is-dead",
-      "move": "override-next",
-      "kind": "written",
-      "text": "The {body} fell short, so the veto stands and the bill is dead.",
-      "uses": [
-        {
-          "move": "override-next",
-          "subject": "news",
-          "role": "override-next",
-          "choice": "context",
-          "requiresFacts": ["failed", "body"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.override-next.without-enough-votes-in-the-body-the-bill-will-not-take-effect",
-      "move": "override-next",
-      "kind": "written",
-      "text": "Without enough votes in the {body}, the bill will not take effect.",
-      "uses": [
-        {
-          "move": "override-next",
-          "subject": "news",
-          "role": "override-next",
-          "choice": "context",
-          "requiresFacts": ["failed", "body"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.override-next.with-the-body-s-vote-the-bill-takes-effect-despite-the-veto",
-      "move": "override-next",
-      "kind": "written",
-      "text": "With the {body}'s vote, the bill takes effect despite the veto.",
-      "uses": [
-        {
-          "move": "override-next",
-          "subject": "news",
-          "role": "override-next",
-          "choice": "context",
-          "requiresFacts": ["passed", "body"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.vacancy-fill.under-the-rules-the-seat-stays-open-after-since",
+      "key": "news.vacancy-fill.the-seat-has-been-open-since-since-and-the-rules-leave-it-empty",
       "move": "vacancy-fill",
       "kind": "written",
-      "text": "Under the rules, the seat stays open after {since}.",
+      "text": "The seat has been open since {since}, and the rules leave it empty.",
       "uses": [
         {
           "move": "vacancy-fill",
@@ -12919,39 +12853,17 @@
       }
     },
     {
-      "key": "news.vacancy-fill.the-rules-leave-the-seat-empty-from-since-on",
-      "move": "vacancy-fill",
-      "kind": "written",
-      "text": "The rules leave the seat empty from {since} on.",
-      "uses": [
-        {
-          "move": "vacancy-fill",
-          "subject": "news",
-          "role": "vacancy-fill",
-          "choice": "context",
-          "requiresFacts": ["empty", "since"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.the-seat-opened-when-its-last-holder-died-on-vacated",
+      "key": "news.took-office-cause.before-died-in-office-on-vacated",
       "move": "took-office-cause",
       "kind": "written",
-      "text": "The seat opened when its last holder died on {vacated}.",
+      "text": "{before} died in office on {vacated}.",
       "uses": [
         {
           "move": "took-office-cause",
           "subject": "news",
           "role": "took-office-cause",
           "choice": "context",
-          "requiresFacts": ["died", "vacated"]
+          "requiresFacts": ["died", "before", "vacated"]
         }
       ],
       "origin": "authored",
@@ -12963,17 +12875,17 @@
       }
     },
     {
-      "key": "news.took-office-cause.its-last-holder-died-in-office-on-vacated",
+      "key": "news.took-office-cause.the-seat-opened-when-before-died-on-vacated",
       "move": "took-office-cause",
       "kind": "written",
-      "text": "Its last holder died in office on {vacated}.",
+      "text": "The seat opened when {before} died on {vacated}.",
       "uses": [
         {
           "move": "took-office-cause",
           "subject": "news",
           "role": "took-office-cause",
           "choice": "context",
-          "requiresFacts": ["died", "vacated"]
+          "requiresFacts": ["died", "before", "vacated"]
         }
       ],
       "origin": "authored",
@@ -12985,151 +12897,17 @@
       }
     },
     {
-      "key": "news.took-office-cause.the-seat-came-open-on-vacated-with-its-holders-death",
+      "key": "news.took-office-cause.before-moved-away-and-the-seat-fell-empty-on-vacated",
       "move": "took-office-cause",
       "kind": "written",
-      "text": "The seat came open on {vacated}, with its holder's death.",
+      "text": "{before} moved away, and the seat fell empty on {vacated}.",
       "uses": [
         {
           "move": "took-office-cause",
           "subject": "news",
           "role": "took-office-cause",
           "choice": "context",
-          "requiresFacts": ["died", "vacated"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.the-seat-opened-on-vacated-after-its-holder-moved-away",
-      "move": "took-office-cause",
-      "kind": "written",
-      "text": "The seat opened on {vacated}, after its holder moved away.",
-      "uses": [
-        {
-          "move": "took-office-cause",
-          "subject": "news",
-          "role": "took-office-cause",
-          "choice": "context",
-          "requiresFacts": ["moved", "vacated"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.took-office-cause.its-last-holder-moved-away-leaving-the-seat-empty-on-vacated",
-      "move": "took-office-cause",
-      "kind": "written",
-      "text": "Its last holder moved away, leaving the seat empty on {vacated}.",
-      "uses": [
-        {
-          "move": "took-office-cause",
-          "subject": "news",
-          "role": "took-office-cause",
-          "choice": "context",
-          "requiresFacts": ["moved", "vacated"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.vote-margin.it-carried-by-just-margin-vote",
-      "move": "vote-margin",
-      "kind": "written",
-      "text": "It carried by just {margin} vote.",
-      "uses": [
-        {
-          "move": "vote-margin",
-          "subject": "news",
-          "role": "vote-margin",
-          "choice": "context",
-          "requiresFacts": ["one-vote", "passed", "margin"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.vote-margin.it-fell-short-by-just-margin-vote",
-      "move": "vote-margin",
-      "kind": "written",
-      "text": "It fell short by just {margin} vote.",
-      "uses": [
-        {
-          "move": "vote-margin",
-          "subject": "news",
-          "role": "vote-margin",
-          "choice": "context",
-          "requiresFacts": ["one-vote", "failed", "margin"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-account.it-opened-in-opened-and-its-owner-is-retiring",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "It opened in {opened}, and its owner is retiring.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["retiring", "opened"],
-          "excludesFacts": ["owner", "years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (opus-d51c), Claude Opus 5.5",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-account.it-opened-in-opened-and-no-one-was-in-line-to-take-it-over",
-      "move": "closing-account",
-      "kind": "written",
-      "text": "It opened in {opened}, and no one was in line to take it over.",
-      "uses": [
-        {
-          "move": "closing-account",
-          "subject": "news",
-          "role": "closing-account",
-          "choice": "context",
-          "requiresFacts": ["no-successor", "opened"],
-          "excludesFacts": ["owner", "years"]
+          "requiresFacts": ["moved", "before", "vacated"]
         }
       ],
       "origin": "authored",
