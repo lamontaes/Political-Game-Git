@@ -1,8 +1,16 @@
 {
   "schema": "english-parts/1",
   "register": "hearing",
-  "description": "Hearing-room lines the owner graded good that no scene reads yet: a witness's yes, and thanks to a chair by title. Restored Nov 8, 2026 from the hearing bank deleted in 881e7c4f. Registered stopgap SG-WORDS-hearing-no-reader.",
-  "slots": {},
+  "description": "Hearing-room lines the owner graded good that no scene reads yet: a witness's yes, and thanks to a chair by title. Restored Nov 8, 2026 from the hearing bank deleted in 881e7c4f. Registered stopgap SG-WORDS-hearing-no-reader. Nov 11, 2026: chair questions, witness replies, a public-comment call and a recorded-vote announcement, each modeled on a sentence from a public House hearing transcript (source.pattern), for the committee-day reader of words-hearing-chair-question.",
+  "slots": {
+    "witness": "The witness's name as the chair addresses them (title and surname), from the hearing's witness record.",
+    "member": "A committee member's name as the chair addresses them (title and surname), from the committee's seat record.",
+    "section": "What one of the bill's sections does, in a few words (\"the minimum wage raise\"), from the bill's section record.",
+    "bill": "The bill's short title, from the bill record.",
+    "speaker": "A public-comment speaker's name (title and surname), from the meeting's public-comment statement.",
+    "yes": "The count of members voting yes, from the hearing's recorded vote.",
+    "no": "The count of members voting no, from the hearing's recorded vote."
+  },
   "maxWords": 12,
   "parts": [
     {
@@ -17,7 +25,9 @@
         "granule": "CHRG-119hhrg58904",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
       },
-      "tag": { "move": "answer" },
+      "tag": {
+        "move": "answer"
+      },
       "restoredOn": "2026-11-08",
       "restoredFrom": "bank:hearing.answer.yes-thank-you"
     },
@@ -56,6 +66,388 @@
       },
       "restoredOn": "2026-11-08",
       "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
+    },
+    {
+      "key": "hearing.chair-question.witness-how-would-this-bill-change-section",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "{witness}, how would this bill change {section}?",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "witness",
+          "side": "any",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "And how would this legislation improve the permitting process for these projects?"
+      },
+      "tag": {
+        "move": "chair-question"
+      }
+    },
+    {
+      "key": "hearing.chair-question.witness-do-you-agree-that-is-what-section-would-do",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "{witness}, do you agree that is what {section} would do?",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "witness",
+          "side": "any",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "Do you agree that that is what the bill does?"
+      },
+      "tag": {
+        "move": "chair-question"
+      }
+    },
+    {
+      "key": "hearing.chair-question.and-roughly-how-long-would-section-take-to-put-in-place",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "And roughly how long would {section} take to put in place?",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "witness",
+          "side": "any",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "And roughly how long does this take?"
+      },
+      "tag": {
+        "move": "chair-question"
+      }
+    },
+    {
+      "key": "hearing.chair-question.witness-how-would-section-help-the-people-you-represent",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "{witness}, how would {section} help the people you represent?",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "witness",
+          "side": "for",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "And how would this legislation improve the permitting process for these projects?"
+      },
+      "tag": {
+        "move": "chair-question"
+      }
+    },
+    {
+      "key": "hearing.chair-question.witness-what-would-you-change-about-section",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "{witness}, what would you change about {section}?",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "witness",
+          "side": "against",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing on H.R. 472, H.R. 1041, H.R. 740 and H.R. 1391, House Committee on Veterans' Affairs",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59865",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59865",
+        "pattern": "The VFW does not support this legislation."
+      },
+      "tag": {
+        "move": "chair-question"
+      }
+    },
+    {
+      "key": "hearing.chair-question.witness-what-is-your-main-concern-with-section",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "{witness}, what is your main concern with {section}?",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "witness",
+          "side": "against",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing on H.R. 472, H.R. 1041, H.R. 740 and H.R. 1391, House Committee on Veterans' Affairs",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59865",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59865",
+        "pattern": "The VFW does not support this legislation."
+      },
+      "tag": {
+        "move": "chair-question"
+      }
+    },
+    {
+      "key": "hearing.chair-question.member-do-you-have-questions-for-this-witness",
+      "move": "chair-question",
+      "kind": "spoken",
+      "text": "{member}, do you have questions for this witness?",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "member",
+          "side": "any",
+          "about": "bill"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "I now recognize Mr."
+      },
+      "tag": {
+        "move": "chair-question"
+      }
+    },
+    {
+      "key": "hearing.witness-reply.thank-you-for-the-question-we-support-section",
+      "move": "witness-reply",
+      "kind": "spoken",
+      "text": "Thank you for the question. We support {section}.",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "witness",
+          "side": "for",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing on H.R. 472, H.R. 1041, H.R. 740 and H.R. 1391, House Committee on Veterans' Affairs",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59865",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59865",
+        "pattern": "Chairman Bost, we are supportive of this legislation."
+      },
+      "tag": {
+        "move": "witness-reply"
+      }
+    },
+    {
+      "key": "hearing.witness-reply.yes-we-expect-section-to-help-the-people-we-serve",
+      "move": "witness-reply",
+      "kind": "spoken",
+      "text": "Yes. We expect {section} to help the people we serve.",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "witness",
+          "side": "for",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "Yes, I would agree."
+      },
+      "tag": {
+        "move": "witness-reply"
+      }
+    },
+    {
+      "key": "hearing.witness-reply.we-do-not-support-this-bill-as-written",
+      "move": "witness-reply",
+      "kind": "spoken",
+      "text": "We do not support this bill as written.",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "witness",
+          "side": "against",
+          "about": "bill"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing on H.R. 472, H.R. 1041, H.R. 740 and H.R. 1391, House Committee on Veterans' Affairs",
+        "date": "2025-02-25",
+        "granule": "CHRG-119hhrg59865",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59865",
+        "pattern": "The VFW does not support this legislation."
+      },
+      "tag": {
+        "move": "witness-reply"
+      }
+    },
+    {
+      "key": "hearing.witness-reply.it-is-unclear-how-section-would-be-paid-for",
+      "move": "witness-reply",
+      "kind": "spoken",
+      "text": "It is unclear how {section} would be paid for.",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "witness",
+          "side": "against",
+          "about": "section"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "It is unclear."
+      },
+      "tag": {
+        "move": "witness-reply"
+      }
+    },
+    {
+      "key": "hearing.chair-call-speaker.i-now-recognize-speaker-for-public-comment",
+      "move": "chair-call-speaker",
+      "kind": "spoken",
+      "text": "I now recognize {speaker} for public comment.",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "speaker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Legislative hearing, House Natural Resources Subcommittee on Water, Wildlife and Fisheries",
+        "date": "2025-01-23",
+        "granule": "CHRG-119hhrg58472",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58472",
+        "pattern": "I now recognize Mr."
+      },
+      "tag": {
+        "move": "chair-call-speaker"
+      }
+    },
+    {
+      "key": "hearing.chair-call-speaker.speaker-you-are-recognized",
+      "move": "chair-call-speaker",
+      "kind": "spoken",
+      "text": "{speaker}, you are recognized.",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "to": "speaker"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Markup, House Committee on Small Business",
+        "date": "2025-03-05",
+        "granule": "CHRG-119hhrg59817",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59817",
+        "pattern": "The Member is recognized."
+      },
+      "tag": {
+        "move": "chair-call-speaker"
+      }
+    },
+    {
+      "key": "hearing.chair-announce-vote.on-bill-the-ayes-are-yes-and-the-noes-are-no",
+      "move": "chair-announce-vote",
+      "kind": "spoken",
+      "text": "On {bill}, the ayes are {yes} and the noes are {no}.",
+      "uses": [
+        {
+          "subject": "hearing",
+          "role": "chair",
+          "about": "bill"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words writer for Fable B (hearing chair questions), from public hearing transcripts",
+      "date": "2026-11-11",
+      "source": {
+        "document": "Markup, House Committee on Small Business",
+        "date": "2025-03-05",
+        "granule": "CHRG-119hhrg59817",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59817",
+        "pattern": "Chairman, on this vote, the ayes are 25 and the noes are 0."
+      },
+      "tag": {
+        "move": "chair-announce-vote"
+      }
     }
   ]
 }
