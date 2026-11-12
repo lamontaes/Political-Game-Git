@@ -1,0 +1,39 @@
+{
+  "batch": "w2-scene-words-inserts",
+  "note": "Lines the owner graded good whose words gained an insert from the record (owner, Nov 11: every line through the English engine); each grade moves onto the line that now says it (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good).",
+  "grades": [
+    {
+      "i": 0,
+      "grade": "good",
+      "by": "owner (the ledger's grade); moved Nov 12, 2026 by Words builder W2 onto the line with the charge from the case record",
+      "line": "You have been charged with a crime.",
+      "note": "Kept: the same sentence now names the charge (owner, Nov 11: every line through the English engine, with inserts).",
+      "parts": [
+        "scene-words.cause-charged-self.you-have-been-charged-with-offense"
+      ],
+      "restoredFrom": "scene-words.cause-charged-self.you-have-been-charged-with-a-crime"
+    },
+    {
+      "i": 1,
+      "grade": "good",
+      "by": "owner (the ledger's grade); moved Nov 12, 2026 by Words builder W2 onto the line with the charge from the case record",
+      "line": "You have been convicted.",
+      "note": "Kept: the same sentence now names the charge (owner, Nov 11: every line through the English engine, with inserts).",
+      "parts": [
+        "scene-words.cause-convicted-self.you-have-been-convicted-of-offense"
+      ],
+      "restoredFrom": "scene-words.cause-convicted-self.you-have-been-convicted"
+    },
+    {
+      "i": 2,
+      "grade": "good",
+      "by": "owner (the ledger's grade); moved Nov 12, 2026 by Words builder W2 onto the line with the charge from the case record",
+      "line": "You have been acquitted.",
+      "note": "Kept: the same sentence now names the charge (owner, Nov 11: every line through the English engine, with inserts).",
+      "parts": [
+        "scene-words.cause-acquitted-self.you-have-been-acquitted-of-offense"
+      ],
+      "restoredFrom": "scene-words.cause-acquitted-self.you-have-been-acquitted"
+    }
+  ]
+}
