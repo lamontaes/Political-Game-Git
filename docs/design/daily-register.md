@@ -286,6 +286,7 @@ Every table a world keeps, as dev mode's records proof sees it (`src/bench/dev-p
 | `core2-campaigns-v1.messages`                    | flat  | measured flat over the years above          | 0 / 0 / 0 / 56                    | none needed                       |
 | `macro.countryBases`                             | flat  | measured flat over the years above          | 56 / 56 / 56 / 56                 | none needed                       |
 | `macro.countryStates`                            | flat  | measured flat over the years above          | 56 / 56 / 56 / 56                 | none needed                       |
+| `outside-budgets.shares`                         | flat  | a row per state, kept once                  | 55 / 55 / 55 / 55                 | none needed                       |
 | `candidacy.weighed`                              | flat  | measured flat over the years above          | 23 / 26 / 48 / 53                 | none needed                       |
 | `corruption.crimes`                              | flat  | measured flat over the years above          | 8 / 20 / 35 / 50                  | none needed                       |
 | `climate.months`                                 | flat  | measured flat over the years above          | 13 / 25 / 37 / 49                 | none needed                       |

@@ -391,7 +391,11 @@ export interface EndorsementRow {
   readonly organizationId: string | null;
   /** Who asked: the candidate; null when a group weighed the race itself. */
   readonly askerId: string | null;
-  readonly answer: "yes" | "no";
+  /** "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing. */
+  readonly answer: "yes" | "no" | "withdrawn";
+  /** The day a yes was withdrawn and the filing that ended it. */
+  readonly endedOn?: string;
+  readonly endedByFilingId?: string;
   readonly reason: EndorsementReason;
   /** The platform question the endorser disagrees with most, if any. */
   readonly issue: string | null;
@@ -564,7 +568,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
       : event.kind === "candidate-filed"
         ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
-        : answerOffer(api, event),
+        : (answerOffer(api, event), answerAskForVote(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -1887,6 +1891,29 @@ function leaveForOwnRun(api: CoreAPI, filingId: string): void {
       ],
     });
   }
+  // A yes they gave a rival in this race ends the day they file: they are no
+  // longer shown backing someone they run against, and a group whose speaker
+  // files no longer backs the rival. The row stays, ended and naming the filing.
+  for (const row of table(api, "endorsements").query("byContest", [
+    filing.contestId,
+  ]) as unknown as EndorsementRow[]) {
+    if (
+      row.answer !== "yes" ||
+      row.speakerId !== personId ||
+      row.candidateId === personId
+    )
+      continue;
+    const campaign = table(api, "campaigns").get(row.filingId) as unknown as
+      CampaignRow | undefined;
+    if (!campaign || rivalFiling(api, campaign, personId)?.id !== filing.id)
+      continue;
+    table(api, "endorsements").put({
+      ...row,
+      answer: "withdrawn",
+      endedOn: api.state.date,
+      endedByFilingId: filing.id,
+    } as unknown as ModuleRow);
+  }
 }
 
 /**
@@ -2511,6 +2538,60 @@ function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     volunteerIds: campaign.volunteerIds.filter((id) => id !== helperId),
     staffIds: campaign.staffIds.filter((id) => id !== helperId),
   });
+}
+
+/**
+ * A listener's answer to the candidate who came over after a speech they
+ * heard in person (the `speech-afterward` scene): a yes (an accepting move)
+ * is their word to that candidate in the race the candidate is running in
+ * that is still ahead, kept as the same pledge a yes at the door is, which
+ * the ballot reads (`pledgesOf`, `pledgeDoubt`). It cites the scene's
+ * `scene.reply` record as its cause, and replaces an earlier word to a rival
+ * in the same contest, as a door's does. A no or a deflection leaves things
+ * as they were.
+ */
+function answerAskForVote(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "speech-afterward") return;
+  const move = String(facts.move);
+  if (!ACCEPTING_MOVES.has(move)) return;
+  const speech = api.state.durableLog.get(String(facts.causeId ?? ""));
+  const candidateId = String(speech?.facts?.["views:speaker"] ?? "");
+  const voterId = event.personIds.find((id) => id !== candidateId);
+  if (!candidateId || !voterId) return;
+  // The race the candidate is running in that has not been decided yet.
+  const contests = elections(api, "contests");
+  const campaign = (table(api, "campaigns").rows() as unknown as CampaignRow[])
+    .filter((row) => row.candidateId === candidateId)
+    .filter(
+      (row) =>
+        ((
+          contests.get(row.contestId) as unknown as
+            { electionDate?: string } | undefined
+        )?.electionDate ?? "") >= api.state.date,
+    )
+    .sort((a, b) => a.contestId.localeCompare(b.contestId))[0];
+  if (!campaign) return;
+  const pledges = table(api, "pledges");
+  for (const earlier of pledgesOf(api, voterId))
+    if (
+      earlier.contestId === campaign.contestId &&
+      earlier.candidateId !== campaign.candidateId
+    )
+      pledges.remove(earlier.id);
+  pledges.put({
+    id: `${voterId}|${campaign.contestId}|${campaign.candidateId}`,
+    voterId,
+    candidateId: campaign.candidateId,
+    contestId: campaign.contestId,
+    date: api.state.date,
+    canvasserId: campaign.candidateId,
+    causeId: event.id,
+    firmness: Math.max(
+      0,
+      Math.min(1, Number(facts.firmness ?? api.parameter("one"))),
+    ),
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -4459,6 +4540,11 @@ export function makeStatements(
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
         groupUnwatched: true,
+        // The statement's own promise record: who, when, how, where, which question.
+        occasion: {
+          recordId: `promise:${campaign.candidateId}:${api.state.date}:${input.act}:${input.venue}:${statement.question}`,
+          kind: input.act,
+        },
       }),
     );
   }

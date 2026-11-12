@@ -943,4 +943,123 @@ describe("a candidate never helps a rival in their own race", () => {
     },
     TWIN_TIMEOUT,
   );
+
+  it(
+    "a person who endorsed a candidate and then files in that race no longer endorses them from the filing day, kept with the filing",
+    () => {
+      const tried: string[] = [];
+      for (let salt = 0; salt < GROUP_DRAWS; salt += 1) {
+        const drawn = rivalRace(salt);
+        if ("why" in drawn) {
+          tried.push(`${drawn.where}: ${drawn.why}`);
+          continue;
+        }
+        const { core, api, where, first, helper, manager } = drawn;
+        const fa = first.filing;
+        const who = [helper, manager].find((p) =>
+          askForEndorsement(api, fa.id, p.id),
+        );
+        if (!who) {
+          tried.push(`${where}: nobody not running endorsed ${fa.id}`);
+          continue;
+        }
+        const row = () =>
+          endorsementsOf(api, fa.id).find(
+            (r) => r.speakerId === who.id && r.organizationId === null,
+          )!;
+        expect(row().answer, `${where}: ${who.id} endorsed ${fa.id}`).toBe(
+          "yes",
+        );
+        const filed = file(api, who.id, fa.contestId, -1);
+        expect(filed, `${where}: ${who.id} files in ${fa.contestId}`).not.toBe(
+          null,
+        );
+        // The yes is ended the day they file, naming the filing.
+        expect(
+          {
+            answer: row().answer,
+            endedOn: row().endedOn,
+            endedByFilingId: row().endedByFilingId,
+          },
+          `${where}: ${row().id} after ${filed!.id}`,
+        ).toEqual({
+          answer: "withdrawn",
+          endedOn: core.date,
+          endedByFilingId: filed!.id,
+        });
+        expect(
+          endorsementsOf(api, fa.id).filter((r) => r.answer === "yes"),
+          `${where}: ${who.id} still endorses ${fa.id} with ${filed!.id} standing`,
+        ).not.toContainEqual(expect.objectContaining({ speakerId: who.id }));
+        expect(
+          askForEndorsement(api, fa.id, who.id),
+          `${where}: ${who.id} asked again to endorse ${fa.id}`,
+        ).toBe(false);
+        console.log(
+          `${where}: ${who.id} endorsed ${fa.id}, then filed ${filed!.id}`,
+        );
+        return;
+      }
+      throw new Error(
+        `no draw had a person endorse, then file:\n${tried.join("\n")}`,
+      );
+    },
+    TWIN_TIMEOUT,
+  );
+
+  it(
+    "a group whose speaker files in the race withdraws its backing of the candidate it had backed, kept with the filing",
+    () => {
+      const tried: string[] = [];
+      for (let salt = 0; salt < GROUP_DRAWS; salt += 1) {
+        const control = groupedRace(salt);
+        if ("why" in control) {
+          tried.push(`${control.where}: ${control.why}`);
+          continue;
+        }
+        const { group, side, a } = control;
+        campaignTurnPasses(control.core);
+        if (!groupBacking(control.api, a.filing.id, group.organizationId)) {
+          tried.push(`${control.where}: ${group.organizationId} backed nobody`);
+          continue;
+        }
+        if (!control.couldFile.has(group.speakerId!)) {
+          tried.push(`${control.where}: its speaker could not file`);
+          continue;
+        }
+        const label = `${control.where}: ${group.organizationId} (speaker ${group.speakerId}) backed ${a.filing.id}`;
+        const runs = file(
+          control.api,
+          group.speakerId!,
+          a.filing.contestId,
+          -side.position,
+          side.question,
+        );
+        if (!runs) {
+          tried.push(`${label}: the clerk refused its speaker's filing`);
+          continue;
+        }
+        expect(
+          groupBacking(control.api, a.filing.id, group.organizationId),
+          `${label}: still backs ${a.filing.id} with its speaker's ${runs.id} standing`,
+        ).toBe(null);
+        const ended = endorsementsOf(control.api, a.filing.id).find(
+          (r) =>
+            r.organizationId === group.organizationId &&
+            r.answer === "withdrawn",
+        );
+        expect(ended, `${label}: no withdrawn backing kept`).toBeDefined();
+        expect(
+          [ended!.endedOn, ended!.endedByFilingId],
+          `${label}: ${ended!.id}`,
+        ).toEqual([control.core.date, runs.id]);
+        console.log(`${label}, then its speaker filed ${runs.id}`);
+        return;
+      }
+      throw new Error(
+        `no draw had a group back a candidate whose speaker could then file:\n${tried.join("\n")}`,
+      );
+    },
+    TWIN_TIMEOUT,
+  );
 });
