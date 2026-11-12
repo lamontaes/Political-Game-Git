@@ -728,3 +728,36 @@ export function runComposedRules(
       return { rule: rule.id, read: texts.length, breaks };
     });
 }
+
+/** One rule's row in the baseline: texts read, breaks, and breaks per 100 texts. */
+export interface BaselineRow {
+  readonly read: number;
+  readonly breaks: number;
+  readonly per100: number;
+}
+
+/**
+ * Why a fresh run fails against the committed baseline, one line each: a
+ * rule whose rate rose, and a rule the baseline read texts for that now
+ * reads none or is missing. Reading nothing is lost coverage, never an
+ * improvement: a sampler that stops making a kind of text would otherwise
+ * report every rule about it at zero.
+ */
+export function baselineFailures(
+  committed: Readonly<Record<string, BaselineRow>>,
+  fresh: Readonly<Record<string, BaselineRow>>,
+): string[] {
+  const failures: string[] = [];
+  for (const [rule, was] of Object.entries(committed)) {
+    const now = fresh[rule];
+    if (was.read > 0 && (now === undefined || now.read === 0))
+      failures.push(
+        `COVERAGE: ${rule} read no texts; the baseline read ${was.read}. A rule that reads nothing has checked nothing.`,
+      );
+    else if (now !== undefined && now.per100 > was.per100)
+      failures.push(
+        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts`,
+      );
+  }
+  return failures;
+}
