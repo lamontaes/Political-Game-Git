@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-news-low-level-arrests-rate
 pr: #8438
@@ -19,6 +19,7 @@ root: rc3-thin-life-record
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T01:21:02.110Z
 branch: claude/pool-news-low-level-arrests-rate
+merged-at: 2026-11-12T23:19:00.244Z
 ---
 
 **What.** Once `justice-low-level-offenses` lands, the case flow counts minor quality-of-life arrests each month (`src/core2/public-safety.ts`, `lowLevelStreams`), and the outcome web keeps their rate as `justice.low-level-arrests`. No news topic reports that rate, so no person learns of it and the effect web's "knowing" point fails for the `police-to-low-level-arrests` link (measured by the low-level helper on a scratch run of the effect matrix, Oct 25). A person can attribute more or fewer minor arrests to the police line only after hearing of them.

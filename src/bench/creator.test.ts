@@ -18,9 +18,10 @@ import {
   lookForGender,
   moveAppearance,
   portraitFace,
+  lookFaces,
   readRecipe,
 } from "./appearance";
-import { bustChoices, bustOfLook, bustPerson } from "./bust";
+import { bustChoices, bustOfLook, bustPerson, bustTopColors } from "./bust";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -80,22 +81,38 @@ describe("the New game creator", () => {
     // able to change ties and stuff ... I want to see colors and stuff
     // changing as well". A row shows only where the bank paints the piece:
     // no tie is painted for the women.
-    expect(appearanceRows(hers, "female").map((row) => row.label)).toEqual([
+    // Owner, Nov 12: "two tabs, everyday and formal, bust flips between
+    // them": the everyday top and its color sit in the Everyday tab, the
+    // shirt, tie and jacket in the Formal tab, the rest in both.
+    const tabbed = (look: typeof hers, gender: string) =>
+      appearanceRows(look, gender).map((row) =>
+        row.tab ? `${row.tab}: ${row.label}` : row.label,
+      );
+    const henley = { ...hers, top: "henley", topColor: "green" };
+    expect(tabbed(henley, "female")).toEqual([
       "Skin",
       "Hair",
       "Hair color",
-      "Shirt",
-      "Jacket",
+      "everyday: Top",
+      "everyday: Top color",
+      "formal: Shirt",
+      "formal: Jacket",
     ]);
+    // A top painted in one color has no color row.
+    expect(
+      tabbed({ ...hers, top: "denim", topColor: undefined }, "female"),
+    ).not.toContain("everyday: Top color");
     const his = drawnAppearance("male", "seed", 0);
-    expect(appearanceRows(his, "male").map((row) => row.label)).toEqual([
+    expect(tabbed(his, "male")).toEqual([
       "Skin",
       "Hair",
       "Hair color",
       "Facial hair",
-      "Shirt",
-      "Tie",
-      "Jacket",
+      "everyday: Top",
+      "everyday: Top color",
+      "formal: Shirt",
+      "formal: Tie",
+      "formal: Jacket",
     ]);
     expect(appearanceRows(hers, "nonbinary")[0]!.label).toBe("Body");
 
@@ -131,6 +148,14 @@ describe("the New game creator", () => {
       expect(worn.seen.has("None"), piece).toBe(true);
       expect(worn.look, piece).toEqual(his);
     }
+    // The everyday tops: each whole top the set paints, and each top's colors.
+    const tops = steps(his, "top", choices.top.length);
+    expect(tops.seen.size).toBe(choices.top.length);
+    expect(tops.look.top).toBe(his.top);
+    const topColors = bustTopColors(bustPerson(his.person)!, his.top);
+    const colored = steps(his, "top-color", topColors.length);
+    expect(colored.seen.size).toBe(topColors.length);
+    expect(colored.look).toEqual(his);
     expect(steps(his, "skin", 3).seen.size).toBe(3);
     // A change of skin keeps the hairstyle and the facial hair; the hair's
     // color stays where the new skin's people have it.
@@ -139,7 +164,24 @@ describe("the New game creator", () => {
     expect(next.hair).toBe(his.hair);
     expect(next.face).toBe(his.face);
 
+    // The chosen top is saved in the look and is what the bust wears
+    // everyday; it stays put as the other rows move.
+    expect(his.top && his.topColor).toBeTruthy();
     expect(readRecipe(JSON.stringify(his))).toEqual(his);
+    const chosenTop = moveAppearance(his, "male", "top", 1);
+    expect(moveAppearance(chosenTop, "male", "hair", 1).top).toBe(
+      chosenTop.top,
+    );
+    const everyday = lookFaces(chosenTop).everyday!.bust.layers;
+    expect(
+      everyday.some((url) =>
+        url.endsWith(`/top-${chosenTop.top}-${chosenTop.topColor}.png`),
+      ),
+    ).toBe(true);
+    expect(everyday.some((url) => /\/(shirt|tie|jacket)-/.test(url))).toBe(
+      false,
+    );
+    expect(lookFaces(chosenTop).formal).toEqual(portraitFace(chosenTop));
     expect(() =>
       readRecipe(JSON.stringify({ ...his, person: "nobody" })),
     ).toThrow();
@@ -149,12 +191,20 @@ describe("the New game creator", () => {
       readRecipe(
         JSON.stringify({ person: his.person, hair: "x", face: "y", tie: "z" }),
       ),
-    ).toEqual({
+    ).toMatchObject({
       person: his.person,
       hair: choices.hair[0]!.key,
       hairColor: choices.hairColor[0]!.key,
       shirt: choices.shirt[0]!.key,
     });
+    const fallen = readRecipe(
+      JSON.stringify({ person: his.person, hair: "x", face: "y", tie: "z" }),
+    );
+    expect(fallen.face ?? fallen.tie ?? fallen.jacket).toBeUndefined();
+    // A top the set lacks falls back to the game's own pick for the look.
+    expect(choices.top.map((choice) => choice.key)).toContain(
+      readRecipe(JSON.stringify({ ...his, top: "ballgown" })).top,
+    );
 
     // The creator's bust is the look's own pieces in the clothes its rows
     // choose: the shirt, the tie where one is chosen, the jacket where one is.

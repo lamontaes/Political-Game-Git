@@ -97,6 +97,9 @@ export {
   type DepartureRate,
 } from "./past-moves";
 export {
+  COLLEGE_ENDED,
+  COLLEGE_STARTED,
+  SCHOOL_FINISHED,
   SCHOOL_STARTED,
   schoolHistory,
   schoolHistoryFor,

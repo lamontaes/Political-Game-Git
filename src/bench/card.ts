@@ -505,6 +505,12 @@ function lineOf(
         ? make("school.finished", { school })
         : null;
     }
+    // College before the start (the school pass's records): the fall it
+    // began, and its end, a bachelor's or the years without one.
+    case "school/college-started":
+      return make("school.college", {});
+    case "school/college-ended":
+      return make(facts.degree ? "school.degree" : "school.college-left", {});
     case "work/job-started": {
       const employer = orgName(facts.organizationId);
       if (!employer) {

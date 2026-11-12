@@ -24,14 +24,14 @@
  * (`pastWorkFor`), read against the openings the full people left.
  */
 import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import { decisionLean, traitLeanBetween } from "./trait-decisions";
+import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
+import { profileFor } from "./opening-profile";
 import {
   kindergartenYear,
   onCalendar,
   SCHOOL_STAGE_CALENDAR,
 } from "./past-school-calendar";
-import { decisionLean, traitLeanBetween } from "./trait-decisions";
-import jobsJson from "./data/jobs/jobs.json" with { type: "json" };
-import { profileFor } from "./opening-profile";
 import { countedHeadcountOf } from "./residents-economy";
 import {
   coarseSteps,
@@ -48,7 +48,7 @@ import {
 import { ownPastKind } from "./own-past-kinds";
 import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
-import { openingWorkStatus } from "./jobs-elsewhere";
+import { openingWorkStatus } from "./modules/jobs";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
 import { coreAPI } from "./state";
@@ -252,32 +252,68 @@ function firmsOf(api: CoreAPI): Firm[] {
   return firms.sort((a, b) => a.id.localeCompare(b.id));
 }
 
-/** The day a person is out of school, by the schooling their record gives. */
+/**
+ * A person's schooling level from their record (the opening profile's
+ * `profile:education` fact, the CES levels `no-college`, `some-college` and
+ * `college`), else what the profile gives them; null for a child.
+ */
+export function educationLevelOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+  /** The day the profile is read on: a relative elsewhere is read on the opening day. */
+  on: string = core.date,
+): string | undefined {
+  return (
+    (person.pastFacts?.find((row) => row.kind === "profile:education")?.facts
+      ?.level as string | undefined) ??
+    profileFor(person, core.seed, on)?.education
+  );
+}
+
+/** The years of college a level holds (IPEDS program lengths), 0 for none. */
+export function collegeYearsOf(
+  api: CoreAPI,
+  level: string | undefined,
+): number {
+  return level === "college"
+    ? api.parameter("pastWorkCollegeYears")
+    : level === "some-college"
+      ? api.parameter("pastWorkSomeCollegeYears")
+      : 0;
+}
+
+/** The last day of a person's high school, on the one calendar. */
+export function highSchoolEndOf(person: Readonly<PersonState>): string {
+  return onCalendar(
+    kindergartenYear(makeIsoDate(person.birthDate)) +
+      SCHOOL_STAGE_CALENDAR.endsAfterYears.high,
+    "ends",
+  );
+}
+
+/** The day a person is out of school: high school's end plus their college years. */
+export function schoolingEndsOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+  on: string = core.date,
+): string {
+  const api = coreAPI(core as CoreState);
+  return addDays(
+    makeIsoDate(highSchoolEndOf(person)),
+    Math.round(
+      collegeYearsOf(api, educationLevelOf(core, person, on)) *
+        api.parameter("daysPerMeanYear"),
+    ),
+  );
+}
+/** The day a person is out of school, by the schooling their record gives (the school pass's own day). */
 function entryOf(
   api: CoreAPI,
   person: PersonState,
   /** The day the person's schooling is read on (their profile's day). */
   on: IsoDate,
 ): IsoDate {
-  const p = (key: string) => api.parameter(key);
-  const graduated = onCalendar(
-    kindergartenYear(makeIsoDate(person.birthDate)) +
-      SCHOOL_STAGE_CALENDAR.endsAfterYears.high,
-    "ends",
-  );
-  const level =
-    (person.pastFacts?.find((row) => row.kind === "profile:education")?.facts
-      ?.level as string | undefined) ??
-    profileFor(person, api.state.seed, on)?.education;
-  const more =
-    level === "college"
-      ? p("pastWorkCollegeYears")
-      : level === "some-college"
-        ? p("pastWorkSomeCollegeYears")
-        : 0;
-  return makeIsoDate(
-    addDays(graduated, Math.round(more * p("daysPerMeanYear"))),
-  );
+  return makeIsoDate(schoolingEndsOf(api.state, person, on));
 }
 
 /** The person's day-one job, its start and pay, from the jobs engine's records. */

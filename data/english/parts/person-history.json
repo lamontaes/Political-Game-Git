@@ -5794,6 +5794,735 @@
       "author": "Words builder W8 (pool item words-life-story-has-one-wording-for-each-kind-of-event)",
       "date": "2026-11-11",
       "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.third",
+      "move": "story",
+      "text": "{who} started college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.they",
+      "move": "story",
+      "text": "They started college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.i",
+      "move": "story",
+      "text": "I started college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.third.w2",
+      "move": "story",
+      "text": "{who} enrolled in college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.they.w2",
+      "move": "story",
+      "text": "They enrolled in college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.i.w2",
+      "move": "story",
+      "text": "I enrolled in college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.third.w3",
+      "move": "story",
+      "text": "{who} began college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.they.w3",
+      "move": "story",
+      "text": "They began college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college.i.w3",
+      "move": "story",
+      "text": "I began college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third",
+      "move": "story",
+      "text": "{who} graduated from college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they",
+      "move": "story",
+      "text": "They graduated from college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i",
+      "move": "story",
+      "text": "I graduated from college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third.w2",
+      "move": "story",
+      "text": "{who} earned a bachelor's degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they.w2",
+      "move": "story",
+      "text": "They earned a bachelor's degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i.w2",
+      "move": "story",
+      "text": "I earned a bachelor's degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third.w3",
+      "move": "story",
+      "text": "{who} finished college with a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they.w3",
+      "move": "story",
+      "text": "They finished college with a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i.w3",
+      "move": "story",
+      "text": "I finished college with a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.third.w4",
+      "move": "story",
+      "text": "{who} got a college degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.they.w4",
+      "move": "story",
+      "text": "They got a college degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.degree.i.w4",
+      "move": "story",
+      "text": "I got a college degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third",
+      "move": "story",
+      "text": "{who} left college without a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they",
+      "move": "story",
+      "text": "They left college without a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i",
+      "move": "story",
+      "text": "I left college without a degree in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third.w2",
+      "move": "story",
+      "text": "{who} stopped going to college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they.w2",
+      "move": "story",
+      "text": "They stopped going to college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i.w2",
+      "move": "story",
+      "text": "I stopped going to college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third.w3",
+      "move": "story",
+      "text": "{who} left college in {year} before finishing.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they.w3",
+      "move": "story",
+      "text": "They left college in {year} before finishing.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i.w3",
+      "move": "story",
+      "text": "I left college in {year} before finishing.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.third.w4",
+      "move": "story",
+      "text": "{who} dropped out of college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.they.w4",
+      "move": "story",
+      "text": "They dropped out of college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.college-left.i.w4",
+      "move": "story",
+      "text": "I dropped out of college in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third",
+      "move": "story",
+      "text": "{who} moved to a new home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they",
+      "move": "story",
+      "text": "They moved to a new home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i",
+      "move": "story",
+      "text": "I moved to a new home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third.w2",
+      "move": "story",
+      "text": "{who} moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they.w2",
+      "move": "story",
+      "text": "They moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i.w2",
+      "move": "story",
+      "text": "I moved to another home in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.third.w3",
+      "move": "story",
+      "text": "{who} changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.they.w3",
+      "move": "story",
+      "text": "They changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.within.i.w3",
+      "move": "story",
+      "text": "I changed homes within {place} in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.third",
+      "move": "story",
+      "text": "{who} was widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.they",
+      "move": "story",
+      "text": "They were widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.i",
+      "move": "story",
+      "text": "I was widowed when {name} died in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.third.w2",
+      "move": "story",
+      "text": "{name} died in {year}, and {who} was widowed.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.they.w2",
+      "move": "story",
+      "text": "{name} died in {year}, and they were widowed.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.widowed.i.w2",
+      "move": "story",
+      "text": "{name} died in {year}, and I was widowed.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.third",
+      "move": "story",
+      "text": "{who} spent time in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.they",
+      "move": "story",
+      "text": "They spent time in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.i",
+      "move": "story",
+      "text": "I spent time in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.third.w2",
+      "move": "story",
+      "text": "{who} was in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.they.w2",
+      "move": "story",
+      "text": "They were in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.i.w2",
+      "move": "story",
+      "text": "I was in the hospital in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.third.w3",
+      "move": "story",
+      "text": "{who} had a hospital stay in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.they.w3",
+      "move": "story",
+      "text": "They had a hospital stay in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.health.hospital.i.w3",
+      "move": "story",
+      "text": "I had a hospital stay in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third",
+      "move": "story",
+      "text": "{who} joined the armed forces in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they",
+      "move": "story",
+      "text": "They joined the armed forces in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i",
+      "move": "story",
+      "text": "I joined the armed forces in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third.w2",
+      "move": "story",
+      "text": "{who} enlisted in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they.w2",
+      "move": "story",
+      "text": "They enlisted in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i.w2",
+      "move": "story",
+      "text": "I enlisted in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third.w3",
+      "move": "story",
+      "text": "{who} signed up for the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they.w3",
+      "move": "story",
+      "text": "They signed up for the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i.w3",
+      "move": "story",
+      "text": "I signed up for the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.third.w4",
+      "move": "story",
+      "text": "{who} went into the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.they.w4",
+      "move": "story",
+      "text": "They went into the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.enlisted.i.w4",
+      "move": "story",
+      "text": "I went into the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third",
+      "move": "story",
+      "text": "{who} left the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they",
+      "move": "story",
+      "text": "They left the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i",
+      "move": "story",
+      "text": "I left the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third.w2",
+      "move": "story",
+      "text": "{who} got out of the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they.w2",
+      "move": "story",
+      "text": "They got out of the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i.w2",
+      "move": "story",
+      "text": "I got out of the military in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third.w3",
+      "move": "story",
+      "text": "{who} finished {their} time in the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they.w3",
+      "move": "story",
+      "text": "They finished their time in the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i.w3",
+      "move": "story",
+      "text": "I finished my time in the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.third.w4",
+      "move": "story",
+      "text": "{who} was discharged from the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.they.w4",
+      "move": "story",
+      "text": "They were discharged from the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.service.discharged.i.w4",
+      "move": "story",
+      "text": "I was discharged from the service in {year}.",
+      "origin": "authored",
+      "author": "Words builder W2 (life records lines, Nov 12)",
+      "date": "2026-11-12",
+      "kind": "written"
     }
   ]
 }

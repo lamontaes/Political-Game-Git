@@ -19,6 +19,7 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import { taxIndexOf } from "../tax-index";
 import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
@@ -30,6 +31,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
+import { OFFICES_MODULE_ID } from "./offices";
 import { lawApplied } from "../law-reach/applied";
 import type {
   HistoryWriter,
@@ -101,6 +103,71 @@ export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 export const PAYROLL_TAX_SERIES: Readonly<Record<string, string | undefined>> =
   { "social-security": "social-security-tax", medicare: "medicare-tax" };
 const WITHHOLDING_KIND = "budgets:withholding";
+
+/**
+ * The sitting elected executive (mayor, county executive or governor) of a
+ * government's jurisdiction, if anyone serves; null for none. A cut to a line
+ * names them so the department it pays for can come to them.
+ */
+function sittingExecutiveOf(
+  api: CoreAPI,
+  gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
+): string | null {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  // The offices name a local government by its unit (the treasury's
+  // government key), a state by its key and the nation as "US".
+  const keys = [
+    api.state.organizations.get(gov.organizationId)?.governmentFacts
+      ?.governmentKey,
+    gov.id,
+    gov.jurisdictionId,
+  ];
+  let office: { id: string; kind: string } | undefined;
+  for (const key of keys) {
+    if (!key) continue;
+    office = (
+      offices.table("offices").query("byJurisdiction", [key]) as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    ).find((o) => /^(mayor|governor|county-executive|president)$/.test(o.kind));
+    if (office) break;
+  }
+  if (!office) return null;
+  for (const seat of offices
+    .table("seats")
+    .query("byOffice", [office.id]) as unknown as { id: string }[]) {
+    const term = (
+      offices
+        .table("terms")
+        .query("bySeatStatus", [seat.id, "serving"]) as unknown as {
+        personId: string;
+      }[]
+    )[0];
+    if (term?.personId) return term.personId;
+  }
+  return null;
+}
+
+/** The sitting executive, for a lowering change only (a raise names no one). */
+function executiveOfCut(
+  api: CoreAPI,
+  gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
+  delta: number,
+): string[] {
+  if (!(delta < 0)) return [];
+  const id = sittingExecutiveOf(api, gov);
+  return id ? [id] : [];
+}
+
+function executiveFact(
+  api: CoreAPI,
+  gov: Pick<GovernmentRow, "id" | "organizationId" | "jurisdictionId">,
+  delta: number,
+): { executiveId?: string } {
+  const [id] = executiveOfCut(api, gov, delta);
+  return id ? { executiveId: id } : {};
+}
 
 export interface GovernmentRow {
   readonly id: string;
@@ -1688,7 +1755,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         id: `budget-line-changed:${budget.id}:${line}:adopted`,
         date: api.state.date,
         kind: "budget-line-changed",
-        personIds: [],
+        personIds: executiveOfCut(api, gov, delta),
         placeId: lawChain(api).townPlaceId,
         source: {
           tag: "SOURCED",
@@ -1702,6 +1769,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           level: gov.level,
           line,
           deltaMinor: String(delta),
+          ...executiveFact(api, gov, delta),
           measureId: `budget:${gov.id}:${fy}`,
         },
       });
@@ -1933,6 +2001,7 @@ function withholdingDue(
     incomeTax: law("income-tax"),
     socialSecurity: law("social-security-tax"),
     medicare: law("medicare-tax"),
+    index: taxIndexOf(api),
   });
   return { lines, ytdId, ytd };
 }
@@ -2206,7 +2275,7 @@ export function amendBudget(
     id: `budget-line-changed:${budget.id}:${input.line}:${input.measureId}`,
     date: api.state.date,
     kind: "budget-line-changed",
-    personIds: [],
+    personIds: executiveOfCut(api, gov, input.deltaMinor),
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -2220,6 +2289,7 @@ export function amendBudget(
       level: gov.level,
       line: input.line,
       deltaMinor: String(input.deltaMinor),
+      ...executiveFact(api, gov, input.deltaMinor),
       measureId: input.measureId,
       carried: input.carry ? "yes" : "no",
     },
