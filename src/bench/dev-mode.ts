@@ -18,8 +18,10 @@ import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { isForgetDay } from "../core2/knowledge-retention";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
+import { STOPGAPS } from "../core2/stopgaps";
 import {
   considerBribe,
+  bribeRefusal,
   CORRUPTION_MODULE_ID,
   enactLaw,
   lawChain,
@@ -80,6 +82,7 @@ import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
 import {
   countryOpened,
+  countryTierProblems,
   countryOutlook,
   nationalPanel,
 } from "../core2/modules/macro";
@@ -1558,6 +1561,35 @@ export class DevMode {
     });
   }
 
+  /** Who has a say on a bill: the members of each chamber it passes through and the executive who signs it. */
+  billDeciders(billId: string) {
+    const api = this.api;
+    const bill = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error("No such bill.");
+    const out: { personId: string; name: string; body: string }[] = [];
+    for (const chamber of chambersOf(api, bill)) {
+      const body = bodyOf(api, chamber);
+      for (const term of members(api, chamber))
+        if (term.personId)
+          out.push({
+            personId: term.personId,
+            name: `${term.identity.givenName} ${term.identity.familyName}`,
+            body: body?.bodyName ?? body?.governmentName ?? "",
+          });
+    }
+    const executive = executiveOf(api, bill.bodyOfficeId).term;
+    if (executive?.personId)
+      out.push({
+        personId: executive.personId,
+        name: `${executive.identity.givenName} ${executive.identity.familyName}`,
+        body: executiveOf(api, bill.bodyOfficeId).office?.kind ?? "",
+      });
+    return out;
+  }
+
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
   wealthiest(count = 12) {
     return [...this.core.people.values()]
@@ -1598,8 +1630,12 @@ export class DevMode {
         ? { pick: { offer: true, take: input.answer === "takes" } }
         : {}),
     });
-    if (!record)
-      throw new Error("No bribe: the offerer has no money or someone is gone.");
+    if (!record) {
+      const refusal = bribeRefusal(this.api, input);
+      throw new Error(
+        refusal ?? "No bribe: the offerer has no money or someone is gone.",
+      );
+    }
     return {
       mark: this.mark("bribe", [record.id], {
         offererId: input.offererId,
@@ -1721,6 +1757,47 @@ export class DevMode {
       if (this.core.date.slice(0, 7) !== month) this.snapshot();
     }
     return { from, to: this.core.date, ms: Date.now() - started };
+  }
+
+  /** What a skipped year does not do, read from its registered stopgap. */
+  skipNotice(): string {
+    const row = STOPGAPS.find(
+      (entry) => entry.id === "SG-SPEED-results-mode-daily-work",
+    );
+    if (!row) throw new Error("The results-mode stopgap is not registered.");
+    return row.whatItFakes;
+  }
+
+  /**
+   * Skips one year of the played world in results mode (`advanceCore` with `results: true`): the
+   * game's date moves, only dated work and the monthly catch-up run (SG-SPEED-results-mode-daily-work).
+   * The played character finishes its day and the world takes the clock, as `advance` does; the
+   * player's clock binds again at the next play-screen advance. Not read-only: it writes facts.
+   * Refuses, saying why, while a stop or choice holds the clock. The client calls it once per year,
+   * so each finished year is a line of its own. Returns the dates, the seconds, the tier's own
+   * verdict and the stopgap's list of what a skipped year does not do.
+   */
+  runYear() {
+    try {
+      this.player?.release();
+    } catch {
+      return { ran: false as const, held: true as const };
+    }
+    if (snapshotExplicitControlV1(this.core).personId !== undefined)
+      return { ran: false as const, held: true as const };
+    const from = this.core.date;
+    const to = addDays(makeIsoDate(from), 365);
+    const started = Date.now();
+    advanceCore(this.core, to, { results: true });
+    const problems = countryTierProblems(this.api);
+    return {
+      ran: true as const,
+      from,
+      to: this.core.date,
+      seconds: (Date.now() - started) / 1000,
+      opened: countryOpened(this.api),
+      problems: problems.length,
+    };
   }
 
   /**

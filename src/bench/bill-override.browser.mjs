@@ -166,11 +166,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
     .click();
-  await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .first()
-    .waitFor();
+  await page.locator(".roster-screen.bills .roster-row").first().waitFor();
   // Two chambers can each have an "SB 2" with the same title: the bill is found by its place in the
   // list the Bills tab draws, which is the order the server follows them in.
   const place = await page.evaluate(async (id) => {
@@ -178,11 +174,18 @@ try {
     return list.findIndex((item) => item.id === id);
   }, result.billId);
   assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
+  // The bill by its own row in the list (the row carries the bill's id).
   await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .nth(place)
+    .locator(
+      `.roster-screen.bills .roster-row[data-key=${JSON.stringify(result.billId)}]`,
+    )
     .click();
+  // The page of that bill, not the one that was on screen before the click.
+  await page
+    .locator(
+      `.roster-screen.bills .roster-page[data-key=${JSON.stringify(result.billId)}]`,
+    )
+    .waitFor();
   // The veto message waits for the player's own vote on overriding it.
   await page.getByText("Override the veto", { exact: true }).waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/override-waiting.png` });

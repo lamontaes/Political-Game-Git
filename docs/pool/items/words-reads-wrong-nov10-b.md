@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: merged
+status: done
 claimed-by: story/reads-wrong-nov10-b
 pr: #8144
 blocked-on:
@@ -13,6 +13,8 @@ lead: words
 source: "second read-through of the Nov 10 scenes: the five that the first pass could not print in play (new baby, race told, apology, accusation, story-read), composed by their own tests on two seeds"
 claimed-at: 2026-11-10T13:00:00.000Z
 merged-at: 2026-11-10T12:41:14.126Z
+seen-by: second-session-2
+seen-at: 2026-11-11T01:25:49.008Z
 ---
 
 **What.** New baby (seeds 201 and 203), story-read (211, 212), race told (221, 222), apology (231, 232) and accusation (241, 242), every filled line of each scene's tree printed and read. Found and fixed, keys unchanged:
@@ -31,3 +33,5 @@ Race told and accusation read clean on both seeds (no name tag, stranger, "this 
 **Time box.** 1 hour.
 
 **You will see.** After "Could you do the dishes while I sit with Priya?": "Done. Sit down, and I'll take care of the rest."
+
+**Notes.** Seen in the game (2026-11-11, second-session-2): drawn seed 1611a4081e31 (test world), seed 1611a4081e31, main 32a6683b: reads-wrong-scenes.test.ts passed all 8 assertions including the new-baby, groceries and owed-apology checks on a fresh seed

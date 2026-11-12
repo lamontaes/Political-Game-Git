@@ -129,6 +129,62 @@ export function readRoots(poolDir: string): Set<string> | null {
   return ids;
 }
 
+export const SEEN_KINDS = ["Seen:", "Feeds:", "Guards:"] as const;
+export type SeenKind = (typeof SEEN_KINDS)[number];
+/** An item id: lowercase words joined by hyphens. */
+const ITEM_ID = /^[a-z0-9]+(?:-[a-z0-9]+)+/;
+/** Items still in the Nov 10 depth sweep are let through until it reaches them. */
+const NOT_YET_SWEPT = ["open", "claimed", "blocked", "in-pr"];
+/**
+ * The `checked:` value of every item that existed when the seen-line rule began.
+ * Such an item is not held to the rule yet. Delete this constant, and the
+ * exemption in standardProblems, when the depth sweep of Nov 10
+ * (docs/pool/DEPTH-SWEEP.md) is merged.
+ */
+export const SWEEP_PENDING_CHECKED = "fable 2026-11-10";
+
+/**
+ * Five items filed on Nov 10 before this rule, with no `checked:` field yet,
+ * that are on the depth sweep's lists: the sweep writes their sentence.
+ * Deleted with SWEEP_PENDING_CHECKED when the sweep is merged.
+ */
+export const SWEEP_PENDING_IDS: readonly string[] = [
+  "core2-three-test-files-cannot-load",
+  "laws-price-questions-without-an-axis",
+  "play-plain-text-check-stops-at-filing-counter",
+  "play-talk-no-say-nothing-when-nothing-left",
+  "pool-release-cause-differs-reoffered",
+];
+
+/**
+ * The sentence of a What section that says where the player sees the result
+ * (owner, Nov 10, 2026): it begins Seen:, Feeds: or Guards:, as the last
+ * sentence of the section or on a line of its own. Returns the kind and the
+ * rest of the sentence, or null.
+ */
+export function seenLine(
+  what: string,
+): { kind: SeenKind; rest: string } | null {
+  const lines = what.split(/\r?\n/).map((l) => l.trim());
+  const last =
+    what
+      .trim()
+      .split(/(?<=[.!?])\s+/)
+      .pop() ?? "";
+  for (const cand of [...lines, last]) {
+    const kind = SEEN_KINDS.find((k) => cand.startsWith(k));
+    if (kind) return { kind, rest: cand.slice(kind.length).trim() };
+  }
+  return null;
+}
+
+/** The item id a `Feeds:` line names, or null. */
+export const feedsId = (what: string): string | null => {
+  const s = seenLine(what);
+  if (s?.kind !== "Feeds:") return null;
+  return ITEM_ID.exec(s.rest)?.[0] ?? null;
+};
+
 /** Problems for an item that carries `standard`; none for an item without it. */
 export function standardProblems(
   file: string,
@@ -162,6 +218,22 @@ export function standardProblems(
       last = at;
       if (!section(text, name)) say(`section **${name}.** is empty`);
     }
+  }
+  const heldToSeen =
+    NOT_YET_SWEPT.includes(fm.status ?? "") &&
+    fm.checked !== SWEEP_PENDING_CHECKED &&
+    !SWEEP_PENDING_IDS.includes(id);
+  const what = section(text, "What");
+  if (heldToSeen && what) {
+    const seen = seenLine(what);
+    if (
+      !seen ||
+      (seen.kind === "Feeds:" && !feedsId(what)) ||
+      (seen.kind !== "Feeds:" && seen.rest.split(/\s+/).length < 4)
+    )
+      say(
+        "What must end with where the player sees it: a sentence that begins Seen:, Feeds: <item id> or Guards:",
+      );
   }
   const cause = section(text, "Cause");
   const kind = causeKind(text);
