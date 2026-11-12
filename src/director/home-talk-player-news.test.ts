@@ -138,8 +138,23 @@ it(`the house talks about the player's own news (seed ${seed})`, () => {
         }
       }
     }
-    if (!did.length)
-      passed.push(`${where}: no job offered and no race open in ${DAYS} days`);
+    if (!did.length) {
+      // Why nothing happened, from the records: the player's age, and the
+      // checks the clerk's answer found unmet on each race.
+      const born = core.people.get(playerId)!.birthDate;
+      const unmet = governmentView(core, playerId)
+        .contests.slice(0, 3)
+        .map(
+          (row) =>
+            `${row.contest.title}: ${row.checks
+              .filter((check) => !check.met)
+              .map((check) => check.rule)
+              .join("+")}`,
+        );
+      passed.push(
+        `${where}: no job offered and no race open in ${DAYS} days (player born ${born}; ${unmet.join("; ") || "no races listed"})`,
+      );
+    }
     process.stdout.write(
       `PLAYER-NEWS ${where}\n${did.join("\n") || "the player did nothing of note"}\n${played.join("\n")}\n`,
     );

@@ -1024,9 +1024,16 @@ export function baselineFailures(
       failures.push(
         `COVERAGE: ${rule} read no texts; the baseline read ${was.read}. A rule that reads nothing has checked nothing.`,
       );
-    else if (now !== undefined && now.per100 > was.per100)
+    // A rate rises only with its count where fewer texts were read (lead,
+    // Nov 12): fewer texts can neither fake a rise (the same breaks over a
+    // smaller count) nor hide one (more breaks in fewer texts is a rise).
+    else if (
+      now !== undefined &&
+      now.per100 > was.per100 &&
+      (now.read >= was.read || now.breaks > was.breaks)
+    )
       failures.push(
-        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts`,
+        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts (${was.breaks} -> ${now.breaks} breaks in ${was.read} -> ${now.read} texts)`,
       );
   }
   return failures;
