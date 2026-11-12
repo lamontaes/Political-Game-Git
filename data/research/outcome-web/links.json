@@ -1297,7 +1297,7 @@
       "who": "Pupils exposed to the district spending reform over childhood, with larger reported effects among low-income children.",
       "lagWhy": "The effect builds as a cohort's years of exposure accumulate. The web reads the mean of the cause over the previous 144 months (phaseInMonths), so a change moves a graduating class by the share of its twelve school years the change covered, and the full effect arrives twelve years after a sustained change.",
       "aboutZero": false,
-      "notes": "Runs in the new core (src/core2/data/outcome-web/coverage.json lists it as wired). The status above is the old engine's classifier, which does not know the schools line, and that engine does not run this link. Retargeted from school.years-completed, which no engine keeps, to the graduation share the school engine decides (decideSchoolOutcome in src/core2/school-outcomes.ts reads this link's factor by income fifth for each senior). The cause is the schools line of the town's city and county budgets above its Census base (budget.schools-added-pct in src/core2/gov-measures.ts): zero until a mayor or council enacts a change, so nothing moves until one does. Conversion: the paper's 2SLS coefficient on the log of average spending over ages 5 to 17 is 0.9523 for the probability of graduating, and it reads a 0.10 change as 10 percent, so 10 percent more in all twelve years is 9.5 points; per percent of spending that is 0.9523 points, and against the paper's 86% graduation rate a proportional change of 0.0111 per percent, the unit the web applies to a share outcome. The graduation columns are from the working paper (one version); its years-of-schooling estimate (0.27) differs from the published article's headline (0.31), and the published table was not reachable. Overlap: equalized-funding-to-graduation is the reduced form of the same chain through the equalize-school-funding law. The law does not move the schools line today (stopgap SG-SCHOOL-equalized-funding-budget), so the two do not count one dollar twice; when a handler moves the line for the law, that link must go.",
+      "notes": "Runs in the new core (src/core2/data/outcome-web/coverage.json lists it as wired). The status above is the old engine's classifier, which does not know the schools line, and that engine does not run this link. Retargeted from school.years-completed, which no engine keeps, to the graduation share the school engine decides (decideSchoolOutcome in src/core2/school-outcomes.ts reads this link's factor by income fifth for each senior). The cause is the schools line of the town's city and county budgets above its Census base (budget.schools-added-pct in src/core2/gov-measures.ts): zero until a mayor or council enacts a change, so nothing moves until one does. Conversion: the paper's 2SLS coefficient on the log of average spending over ages 5 to 17 is 0.9523 for the probability of graduating, and it reads a 0.10 change as 10 percent, so 10 percent more in all twelve years is 9.5 points; per percent of spending that is 0.9523 points, and against the paper's 86% graduation rate a proportional change of 0.0111 per percent, the unit the web applies to a share outcome. The graduation columns are from the working paper (one version); its years-of-schooling estimate (0.27) differs from the published article's headline (0.31), and the published table was not reachable. The equalize-school-funding law moves this line through state aid (src/core2/law-reach/group-b-school-aid.ts), so graduation follows the law through this link; its reduced form through the law was removed so the funding is not counted twice.",
       "range": [0.0045, 0.0177],
       "rangeSource": "Jackson, Johnson and Persico, NBER Working Paper 20847 (January 2015), Table 3 column 5 (2SLS, all children, probability of high school graduation): \"Ln(Spending)(age 5-17) 0.9523*** (0.2898)\". The 95% interval 0.9523 +/- 1.96 x 0.2898 is [0.384, 1.520] in the probability of graduation per unit of log spending; per percent of spending, over the 0.86 graduation rate of the paper's Table 1, that is [0.0045, 0.0177] as a proportional change per percent.",
       "phaseInMonths": 144,
@@ -3126,49 +3126,6 @@
       "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
-      "key": "equalized-funding-to-spending",
-      "status": "built",
-      "unsupportedReason": null,
-      "strength": "strong",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.07,
-      "per": "law in force",
-      "lagMonths": 12,
-      "group": "low-income districts",
-      "owner": "M",
-      "anchor": "Post-1990 school finance reforms brought sharp, immediate and lasting spending rises: about $1,200 more per pupil in low-income districts and about $500 in higher-income ones, against average spending near $11,000 a pupil, so about +7% across the state (low end the higher-income districts' rise, high end the low-income districts'). Conversion to a statewide share is ours, so provisional.",
-      "source": "Lafortune, Rothstein and Schanzenbach 2018 (AEJ: Applied)",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:education.equalize-school-funding",
-      "to": "school.spending-per-student",
-      "why": [
-        "An equalization act changes the allocation formula or appropriation for qualifying districts.",
-        "The formula redirects state aid because district taxable wealth otherwise limits locally raised resources.",
-        "The treasury can pay that aid only from an actual revenue appropriation or recorded borrowing.",
-        "The district receives resources only when the authorized transfer is made.",
-        "Bedrock is the legal allocation rule and treasury-to-district receipt; a binary act alone is not a dollar receipt."
-      ],
-      "conditions": {
-        "strongerWhen": [
-          "Low-property-wealth districts receive a larger formula increase."
-        ],
-        "weakerWhen": [
-          "A district was already above the new funding guarantee."
-        ],
-        "absentWhen": [
-          "No operative funding provision, appropriation or qualifying district is recorded."
-        ]
-      },
-      "reverseOnRepeal": "Repeal changes future allocation authority. It does not remove money already received by a district or supplies already bought. The existing aggregate law-answer reversal must not rewrite budget history.",
-      "who": "Qualifying districts and their enrolled pupils; residents funding the state budget bear the financing trade-off.",
-      "lagWhy": "The existing12-month lag stands for an allocation/budget cycle; it is not a verified causal delay. Team9 must provide timing and per-pupil funding contrast from the cited reform study.",
-      "aboutZero": false,
-      "range": [0.04, 0.11],
-      "notes": "Lafortune, Rothstein and Schanzenbach (AEJ: Applied 2018) report the spending gain by district mean income quintile (state funding $1,225 higher in first-quintile districts and $527, not significant, in fifth-quintile districts), which is a district's income, not a student's household income fifth, and the middle quintiles are shown only in a figure, so no moderator is set."
-    },
-    {
       "key": "end-cash-bail-to-pretrial-detention",
       "status": "outcome-not-produced",
       "unsupportedReason": "outcome-not-produced",
@@ -4214,85 +4171,6 @@
           "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
         }
       ]
-    },
-    {
-      "key": "equalized-funding-to-graduation",
-      "status": "built",
-      "unsupportedReason": null,
-      "strength": "moderate",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": 0.02,
-      "per": "law in force",
-      "lagMonths": 60,
-      "group": "students in low-income districts",
-      "owner": "M",
-      "anchor": "10% more per student every year raises completed schooling 0.31 years, far more for low-income children; statewide about +2% on the rate once cohorts pass through (size to confirm).",
-      "source": "Jackson, Johnson and Persico 2016 (QJE)",
-      "evidence": "provisional",
-      "from": "law:us-policy-positions:education.equalize-school-funding",
-      "to": "school.graduation-pct",
-      "range": [0.005, 0.04],
-      "why": [
-        "Additional district resources can change staffing and support available to enrolled pupils.",
-        "A pupil can persist when their own attendance, support and academic circumstances permit it.",
-        "Persistence creates additional completed school work and progress toward recorded requirements.",
-        "A diploma follows completion of those actual requirements.",
-        "Bedrock is an individual completed schooling record, not a random graduation-rate assignment."
-      ],
-      "conditions": {
-        "strongerWhen": [
-          "Resource-constrained, low-income pupils receive sustained exposure before completion."
-        ],
-        "weakerWhen": [
-          "Funding arrives late in the cohort schooling or support does not reach the pupil."
-        ],
-        "absentWhen": [
-          "The pupil has already graduated or attends an unaffected school."
-        ]
-      },
-      "reverseOnRepeal": "Repeal affects future support for still-enrolled cohorts. A completed diploma remains a historical fact and cannot be undone by a law-answer reversal.",
-      "who": "Exposed school-age cohorts, particularly the low-income districts studied; not all adult residents.",
-      "lagWhy": "The existing60-month lag represents progression toward completion. Actual ages, exposure years and completion dates must replace a generic five-year switch.",
-      "aboutZero": false,
-      "varies": [
-        {
-          "by": "incomeFifth",
-          "bands": [
-            {
-              "is": 0,
-              "weight": 1,
-              "share": 0.2
-            },
-            {
-              "is": 1,
-              "weight": 1,
-              "share": 0.2
-            },
-            {
-              "is": 2,
-              "weight": 0.5,
-              "share": 0.2
-            },
-            {
-              "is": 3,
-              "weight": 0,
-              "share": 0.2
-            },
-            {
-              "is": 4,
-              "weight": 0,
-              "share": 0.2
-            }
-          ],
-          "tag": "ESTIMATED",
-          "source": "Lafortune, Rothstein and Schanzenbach 2018, School Finance Reform and the Distribution of Student Achievement, AEJ: Applied Economics 10(2), abstract (https://www.aeaweb.org/articles?id=10.1257/app.20160567; NBER w22011)",
-          "quote": "\"reforms lead to sharp, immediate, and sustained increases in spending in low-income school districts.\" The abstract finds that achievement rose in \"these districts\" and that the rise phases in gradually over the years after each reform; it reports no gain for higher-income districts.",
-          "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
-        }
-      ],
-      "notes": "The reduced form of the spending chain through the law. school-spending-to-attainment is the same study (Jackson, Johnson and Persico) read from the schools budget line, which the law does not move today (stopgap SG-SCHOOL-equalized-funding-budget); when a handler moves the line for the law, this link goes in the same change so the funding is not counted twice."
     },
     {
       "key": "vouchers-to-math-proficiency",

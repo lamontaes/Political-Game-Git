@@ -11,7 +11,12 @@
  */
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
-import { governments, type GovernmentRow } from "../modules/budgets";
+import {
+  baseBudget,
+  governments,
+  type GovernmentRow,
+} from "../modules/budgets";
+import { budgetInForce } from "../budgets-treasury";
 import { lawChain } from "../modules/laws";
 import { regionOfPlace } from "../modules/regional";
 import type { CoreAPI, CoreState } from "../types";
@@ -71,14 +76,29 @@ export function schoolAidShares(api: CoreAPI): Map<string, number> {
     bases.calibration.factor *
     reachParameter("centsPerDollar");
   const need = schoolAidNeed(chain.stateKey, regionOfPlace(chain.townPlaceId));
+  // The town's governments carry its schools in proportion to what each
+  // spends on them a resident at the Census base, so the aid reaches the
+  // lines the school engine reads, and the per-resident rises add up to
+  // the pool's per-resident aid.
+  const carrying: { gov: GovernmentRow; perResident: number }[] = [];
   for (const gov of governments(api) as readonly GovernmentRow[]) {
     if (gov.level !== "city" && gov.level !== "county") continue;
     if (
       core.organizations.get(gov.organizationId)?.placeId !== chain.townPlaceId
     )
       continue;
-    out.set(gov.id, Math.round(perResident * gov.residents * need));
+    const budget = budgetInForce(api, gov.id);
+    if (!budget || !gov.residents) continue;
+    const line =
+      baseBudget(api, gov, budget.fiscalYear).spendingMinor.schools ?? 0;
+    if (line > 0) carrying.push({ gov, perResident: line / gov.residents });
   }
+  const carried = carrying.reduce((n, c) => n + c.perResident, 0);
+  for (const { gov, perResident: own } of carrying)
+    out.set(
+      gov.id,
+      Math.round(perResident * need * gov.residents * (own / carried)),
+    );
   return out;
 }
 
