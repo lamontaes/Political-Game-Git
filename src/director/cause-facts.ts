@@ -92,7 +92,7 @@ function givenSaid(core: Readonly<CoreState>, id: unknown): string | null {
 /**
  * The facts a moment's cause record holds, keyed by the slots the scene
  * bank's lines name: `office`, `bill`, `org`, `outlet`, `title`, `party`,
- * `offense`, `term`, `landlord`, `speaker`, `law` or `topic`.
+ * `offense`, `term`, `landlord`, `rival`, `speaker`, `law` or `topic`.
  */
 export function causeRecordFacts(
   core: Readonly<CoreState>,
@@ -128,6 +128,12 @@ export function causeRecordFacts(
     if (record.kind === "housing.eviction") {
       const landlord = orgSaid(core, record.topic);
       if (landlord) put("landlord", landlord.text, [landlord.id]);
+    }
+    // The rival a race's record names (who filed, whose message), in full.
+    const rival = facts.rivalId;
+    if (typeof rival === "string") {
+      const row = core.people.get(rival as PersonId);
+      if (row) put("rival", `${row.givenName} ${row.familyName}`, [rival]);
     }
     // Who gave the speech the moment is about, by first name: the scene's
     // first line names the one the player meets in full.

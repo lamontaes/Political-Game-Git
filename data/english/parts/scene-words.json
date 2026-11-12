@@ -31,6 +31,7 @@
     "offense": "The charge, from the case record.",
     "term": "The prison term as people say it, from the sentence record.",
     "speaker": "Who gave the speech, by first name, from the speech record.",
+    "rival": "A rival in the race by full name, from the filing or message record.",
     "landlord": "The landlord who evicted the household, from the eviction record."
   },
   "maxWords": 10,
@@ -2427,6 +2428,26 @@
       "date": "2026-11-12"
     },
     {
+      "key": "scene-words.lead-rival-word-alone.someone-has-come-by-with-word-of-what-rival-is-saying-in-the-race-for-office",
+      "move": "lead-rival-word-alone",
+      "text": "Someone has come by with word of what {rival} is saying in the race for {office}.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-rival-word-alone",
+          "subject": "lead",
+          "role": "rival-word",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
+    },
+    {
       "key": "scene-words.lead-rival-filed-other.other-has-news-about-the-race",
       "move": "lead-rival-filed-other",
       "kind": "spoken",
@@ -2445,6 +2466,26 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-rival-filed-alone.rival-has-filed-for-office",
+      "move": "lead-rival-filed-alone",
+      "text": "{rival} has filed for {office}.",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-rival-filed-alone",
+          "subject": "lead",
+          "role": "rival-filed",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "origin": "authored",
+      "author": "Words builder W2 (scene lines from the cause record)",
+      "date": "2026-11-12"
     },
     {
       "key": "scene-words.lead-rival-filed-alone.there-s-news-about-the-race-for-office",
