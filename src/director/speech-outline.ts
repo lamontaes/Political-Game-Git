@@ -61,6 +61,7 @@ import {
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
+import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
 import {
@@ -781,6 +782,39 @@ function hardness(country: Country, topic: string): number {
   return Math.min(P.one, (country.movement[topic] ?? P.zero) / scale);
 }
 
+/** The levels of government the bill catalog says may answer each question. */
+const QUESTION_LEVELS: ReadonlyMap<string, readonly string[]> = new Map(
+  (
+    billCatalog as unknown as {
+      subjects: {
+        topics: {
+          policies?: { question?: string; levels?: readonly string[] }[];
+        }[];
+      }[];
+    }
+  ).subjects.flatMap((subject) =>
+    subject.topics.flatMap((topic) =>
+      (topic.policies ?? []).flatMap((policy) =>
+        policy.question
+          ? [[policy.question, policy.levels ?? []] as const]
+          : [],
+      ),
+    ),
+  ),
+);
+
+/**
+ * Whether a speaker at this level speaks to a question: a question the
+ * catalog gives to the states as well as the nation is the governors' to
+ * speak to, so the President speaks only to the nation's own (owner, Nov 12:
+ * "If it's a federal law, it's a federal law"; its "today" sentence is about
+ * the states, not the country).
+ */
+function speaksTo(level: PolicyLevel, question: string): boolean {
+  const levels = QUESTION_LEVELS.get(question) ?? [];
+  return level !== "federal" || levels.every((row) => row === "federal");
+}
+
 /** The bill catalog's subject a question belongs to, or the one the outline gives a question the catalog leaves without. */
 export function subjectOf(question: string): string | null {
   return (
@@ -815,6 +849,19 @@ function distinct(official: OfficialRow | undefined, stand: Stand): number {
     : Math.abs(stand.stance);
 }
 
+/** How much a stand is the speaker's own cause: the question itself, and its subject, among their signature issues at any level. */
+function mineOf(official: OfficialRow | undefined, stand: Stand): number {
+  const signature = official?.signature ?? [];
+  return (
+    Number(signature.some((row) => row.question === stand.question)) +
+    Number(
+      signature.some(
+        (row) => subjectOf(row.question) === subjectOf(stand.question),
+      ),
+    )
+  );
+}
+
 /**
  * The points a theme can make for this speaker: each question under it they
  * hold a view on, open (an ask) or answered by the law in force (a law to
@@ -826,14 +873,7 @@ function themeStands(
   stands: readonly Stand[],
   theme: string,
 ): Stand[] {
-  const own = new Set((official?.signature ?? []).map((row) => row.question));
-  // The subjects the speaker's own causes are in, at any level.
-  const ownSubjects = new Set(
-    (official?.signature ?? []).map((row) => subjectOf(row.question)),
-  );
-  const mine = (stand: Stand) =>
-    Number(own.has(stand.question)) +
-    Number(ownSubjects.has(subjectOf(stand.question)));
+  const mine = (stand: Stand) => mineOf(official, stand);
   return stands
     .filter((stand) => themeOfQuestion(stand.question) === theme)
     .sort(
@@ -863,9 +903,6 @@ export function themeOf(
   least: number,
 ): string | null {
   const w = OUTLINES.theme;
-  const own = (official?.signature ?? []).map((row) =>
-    themeOfQuestion(row.question),
-  );
   const scored = Object.keys(OUTLINES.themes)
     .filter((key) => key !== "about")
     .map((theme) => {
@@ -882,7 +919,11 @@ export function themeOf(
         theme,
         enough: under.length >= least,
         score:
-          w.signature.value * own.filter((row) => row === theme).length +
+          // The speaker's own causes count where they reach a question this
+          // speech can ask about: a signature issue in a subject the
+          // speaker's level has no question in does not pull the theme.
+          w.signature.value *
+            under.filter((stand) => mineOf(official, stand) > P.zero).length +
           (under.some((stand) => !stand.law.inForce)
             ? w.actable.value
             : P.zero) +
@@ -1029,8 +1070,11 @@ export function planSpeech(
     ? countryFacts(core, speaker.serviceStart)
     : realmFacts(speaker.areas ?? []);
   const official = speaker.official;
+  const level = row.level;
   const stands = official
-    ? standsAt(api, official, row.level, speaker.jurisdiction)
+    ? standsAt(api, official, level, speaker.jurisdiction).filter((stand) =>
+        speaksTo(level, stand.question),
+      )
     : [];
   // Every question the speaker's level may answer and holds a view on: an
   // open one is an ask, one the law in force answers is a law to defend or

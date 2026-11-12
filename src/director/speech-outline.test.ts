@@ -9,11 +9,15 @@ import { officialsIn } from "../core2/modules/officials";
 import { placeStateKeys } from "../core2/places";
 import { coreStateName } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
-import { questionSubject } from "../english/policy-names";
-import { questionAbout, questionTo } from "../english/question-names";
+import {
+  questionAbout,
+  questionSide,
+  questionTo,
+  questionToday,
+} from "../english/question-names";
 import { composeLocalAddress } from "./local-address";
 import { composeOpeningStory } from "./opening-story";
-import { outlineOf } from "./speech-outline";
+import { outlineOf, themeOfQuestion } from "./speech-outline";
 
 // The one speech outline (words composer, unit 3; owner, Nov 12: "This should
 // apply to all speeches ... the problem is the engine"). Ten places drawn from
@@ -131,7 +135,7 @@ describe("every speech through the one outline planner", () => {
           const label = `${where}, the ${speech.who}'s address`;
           // One theme: every ask belongs to it.
           for (const ask of speech.asks)
-            if (questionSubject(ask) !== speech.theme)
+            if (themeOfQuestion(ask) !== speech.theme)
               failures.push(
                 `${label}: ask ${ask} is outside the theme ${speech.theme}`,
               );
@@ -175,7 +179,15 @@ describe("every speech through the one outline planner", () => {
           // names it in its own words.
           const withoutAsks = speech.asks.reduce(
             (text, ask) =>
-              [questionAbout(ask), questionTo(ask)].reduce(
+              [
+                questionAbout(ask),
+                questionTo(ask),
+                questionToday(ask, true),
+                questionToday(ask, false),
+                questionSide(ask, "for"),
+                questionSide(ask, "against"),
+                questionSide(ask, "repeal"),
+              ].reduce(
                 (rest, words) => (words ? rest.split(words).join("") : rest),
                 text,
               ),
