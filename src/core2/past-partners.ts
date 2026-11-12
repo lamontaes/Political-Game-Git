@@ -472,12 +472,15 @@ export function pastPartnersFor(
             before,
           )
         : undefined;
-    const past =
-      withParent ??
-      unrecorded ??
-      (alone.length
-        ? undefined
-        : earlierPartnership(core, person, before, since === null));
+    // A recorded other parent the dates cannot fit (one who died before the
+    // last child, say) leaves no earlier partner: a drawn name beside the
+    // record would contradict it.
+    const past = other
+      ? withParent
+      : (unrecorded ??
+        (alone.length
+          ? undefined
+          : earlierPartnership(core, person, before, since === null)));
     if (!past) continue;
     const gender = past.partnerSex as GenderIdentityKey;
     const named = drawCanonicalNamedIdentity(
