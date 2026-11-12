@@ -11,7 +11,7 @@
     "roads": "our roads",
     "environment": "the air and the water"
   },
-  "measuresAbout": "Each measure the term read keeps, as a speech names it after \"we have seen\" (\"we have seen rents here rise by about 9 percent\"): `said` is the noun phrase, and `share` is true for a measure that is itself a percent of people or things, said by where it stood and where it stands. Authored by the words builder (hurt terms), 2026-11-12; read by measureWords in src/english/area-names.ts.",
+  "measuresAbout": "Each measure the term read keeps, as a speech names it after \"we have seen\" (\"we have seen rents here rise by about 9 percent\"): `said` is the noun phrase, and `share` is true for a measure that is itself a percent of people or things, said by where it stood and where it stands. Authored by the words builder (hurt terms), November 12; read by measureWords in src/english/area-names.ts.",
   "measures": {
     "labor.unemployment-pct": {
       "said": "the share of people out of work",
