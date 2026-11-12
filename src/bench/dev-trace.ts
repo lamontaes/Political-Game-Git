@@ -11,6 +11,7 @@ import { CAMPAIGN_MONEY_KINDS } from "../core2/modules/campaigns";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
 import { residentsRuntime } from "../core2/modules/residents";
+import { raceById, VOTING_MODULE_ID } from "../core2/modules/voting";
 
 // The counted people's store and household, named through the residents entry
 // rather than their own file; the accounts module's id as the budgets family
@@ -115,6 +116,8 @@ export const ACCOUNT_ENGINE = "core.cashJournal.accounts";
 export const PLACE_ENGINE = "core.places";
 /** A payment the cash journal posted and no longer itemizes. */
 export const FOLDED_ENGINE = "core.cashJournal.folded";
+/** An outside race folded into its seat's newest race row (`foldOutsideRaces`). */
+export const FOLDED_RACE_ENGINE = `${VOTING_MODULE_ID}.races.past`;
 /** An id no store keeps, made by a view around the ids of records that are kept. */
 export const ID_PARTS_ENGINE = "id-parts";
 
@@ -515,6 +518,16 @@ function foldedReceipt(core: CoreState, id: string): FoundRecord | undefined {
   };
 }
 
+/** A folded outside race, found by its id inside its seat's newest race row. */
+function foldedRace(core: CoreState, id: string): FoundRecord | undefined {
+  if (!id.startsWith("race:") || !core.modules.has(VOTING_MODULE_ID))
+    return undefined;
+  const race = raceById(coreAPI(core), id);
+  return race
+    ? { engine: FOLDED_RACE_ENGINE, kind: "race-folded", record: race }
+    : undefined;
+}
+
 /**
  * One lookup's memory: a trace asks about the same ids many times (a
  * payment's postings share their opening pieces), so each id is looked up once.
@@ -552,7 +565,8 @@ class Lookup {
       obligation(core, id) ??
       this.history(id) ??
       pastFact(core, id) ??
-      foldedReceipt(core, id)
+      foldedReceipt(core, id) ??
+      foldedRace(core, id)
     );
   }
 

@@ -34,7 +34,8 @@
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on."
+    "missingPlace": "Choose where you are from to go on.",
+    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
   },
   "debate": {
     "title": "Debate invitation",
@@ -343,6 +344,13 @@
     "where": "Where",
     "any": "Any",
     "begun": "Begun for",
+    "came": "{record} came after {days} days",
+    "neverCame": "{record} never came in {days} days",
+    "states": {
+      "plays": "Plays now",
+      "waits": "Waits for a record",
+      "none": "Cannot be caused yet"
+    },
     "reasons": {
       "days": "Days passed",
       "event": "It happened",

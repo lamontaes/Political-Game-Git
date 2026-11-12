@@ -24,6 +24,7 @@ import {
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { isRealOfficeholderName } from "./officials-names";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import estimates from "../districts/place-district-estimates.generated.json" with { type: "json" };
 
 const START = "2026-01-05";
 const seed =
@@ -102,6 +103,61 @@ describe("M2-01 offices and seats, every level", () => {
           ),
       }),
     );
+  });
+
+  it("a place the Census district files do not know is covered by a U.S. House seat and a seat of each of its state's chambers, as an estimate", () => {
+    // Places created after the 2020 place list the district join was compiled
+    // from: their district is their county's (SG-OFFICE-place-district-from-county).
+    const known = estimates.estimates as Record<string, string>;
+    const places = [
+      ...new Set(
+        Object.keys(known)
+          .filter((key) => key.endsWith(":congressional"))
+          .map((key) => key.slice(0, key.indexOf(":"))),
+      ),
+    ].sort();
+    expect(places.length).toBeGreaterThan(400);
+    // Indiana and Pennsylvania hold most of them.
+    const indianaOrPennsylvania = places.filter((g) =>
+      ["18", "42"].includes(g.slice(0, 2)),
+    );
+    const drawn = [
+      pick(indianaOrPennsylvania, "estimated:0"),
+      pick(places, "estimated:1"),
+      pick(places, "estimated:2"),
+    ];
+    const read: string[] = [];
+    for (const placeKey of drawn) {
+      const where = `${placeKey}, seed ${seed}`;
+      const core = world(placeKey);
+      const seats = townSeats(coreAPI(core));
+      const covering = (kind: string) =>
+        seats.filter((s) => s.office.kind === kind && s.seat.district !== null);
+      const house = covering("us-house");
+      expect(house.length, `${where}: no U.S. House seat covers the town`).toBe(
+        1,
+      );
+      expect(
+        house[0]!.holder,
+        `${where}: the House seat has no holder`,
+      ).not.toBeNull();
+      const chambers = [
+        ["state-upper", "legislature-upper"],
+        ["state-lower", "legislature-lower"],
+      ] as const;
+      for (const [chamber, kind] of chambers) {
+        // Only a chamber the state elects by district has a district to estimate.
+        if (!known[`${placeKey}:${chamber}`]) continue;
+        expect(
+          covering(kind).length,
+          `${where}: no ${kind} seat covers the town`,
+        ).toBeGreaterThan(0);
+      }
+      read.push(
+        `${placeKey}: ${house[0]!.seat.id}${chambers.map(([c, k]) => (known[`${placeKey}:${c}`] ? `, ${covering(k)[0]?.seat.id}` : "")).join("")}`,
+      );
+    }
+    govReport("offices-estimated-districts", JSON.stringify({ seed, read }));
   });
 
   it("a holder's death opens a vacancy filled by that office's real rule", () => {

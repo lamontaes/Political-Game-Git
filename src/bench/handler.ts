@@ -117,6 +117,7 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
+  lookFaces,
   newGameFaces,
   portraitFace,
   readRecipe,
@@ -796,11 +797,12 @@ const ROUTES: readonly Route[] = [
             : readRecipe(q.get("recipe")!)
           : drawnAppearance(gender, seed, draw);
         const fitted = lookForGender(recipe, gender);
-        // The look, its rows and the bust every screen will draw for it.
+        // The look, its rows and the busts every screen will draw for it:
+        // in its everyday top and in its formal clothes (the creator's tabs).
         send(200, {
           recipe: fitted,
           rows: appearanceRows(fitted, gender),
-          face: portraitFace(fitted),
+          faces: lookFaces(fitted),
         });
       } else send(404, { error: "Unknown bench route." });
       return;

@@ -390,6 +390,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-property-tax-other-places-state-average",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1194,
+    "whatItFakes": "A home outside the played town is billed its state's average effective property tax rate, paid to its place's outside account, because no law row is kept for that place.",
+    "why": "Officials and other full people live in places the world does not govern at the town level; billing them the played town's rate was wrong, and billing nothing was wrong too (owner, Nov 5).",
+    "addedBy": "sonnet builder",
+    "addedAt": "2026-11-11",
+    "replacement": "The place's own property-tax law row and collector once other places keep law rows.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-business-compliance-cost",
     "kind": "assumed-data",
     "file": "src/core2/data/business/parameters.json",
@@ -607,6 +619,18 @@
     "addedAt": "2026-10-14",
     "replacement": "The town's income history before the start (from the opening's pre-start years), so growth is read from the first month. Deleted the invented neutral growth input and its published observation. Until comparable paid-income records exist, the national model omits local feedback. Actual observed growth still enters the same model; missing pre-start income history remains explicitly registered as SG-WORLD-macro-income-history. Resolved Nov 10, 2026: the town-growth feed is deleted with the national formula it fed; the national row is now the sum of every state kept as counts and stepped by the month (src/core2/country-model.ts), so no stand-in or local feedback input exists.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-WORLD-tax-index-january",
+    "kind": "approximation",
+    "file": "src/core2/tax-index.ts",
+    "line": 36,
+    "whatItFakes": "An indexed tax amount moves by prices (or average pay) in January of this year against January of its dollar year. The statutes use a year's average: the federal brackets the chained CPI-U over the twelve months to August of the year before (26 U.S.C. 1(f)), the wage base the national average wage index of two years before (42 U.S.C. 430), and each indexing state its own measure.",
+    "why": "The economy keeps one price index and one average hourly pay by month; one January reading per year moves the amounts once a year, as the law does, without a second series.",
+    "addedBy": "opus-5251 (money-tax-brackets-and-benefits-not-indexed-to-prices)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each law row names its own index and lag (the twelve-month average to August, or the wage index two years back), read from the economy's months.",
+    "status": "open"
   },
   {
     "id": "SG-WORLD-owner-decision-player-eviction",

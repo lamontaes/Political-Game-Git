@@ -397,7 +397,11 @@ export interface EndorsementRow {
   readonly organizationId: string | null;
   /** Who asked: the candidate; null when a group weighed the race itself. */
   readonly askerId: string | null;
-  readonly answer: "yes" | "no";
+  /** "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing. */
+  readonly answer: "yes" | "no" | "withdrawn";
+  /** The day a yes was withdrawn and the filing that ended it. */
+  readonly endedOn?: string;
+  readonly endedByFilingId?: string;
   readonly reason: EndorsementReason;
   /** The platform question the endorser disagrees with most, if any. */
   readonly issue: string | null;
@@ -585,7 +589,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
       : event.kind === "candidate-filed"
         ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
-        : answerOffer(api, event),
+        : (answerOffer(api, event), answerAskForVote(api, event)),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -1908,6 +1912,29 @@ function leaveForOwnRun(api: CoreAPI, filingId: string): void {
       ],
     });
   }
+  // A yes they gave a rival in this race ends the day they file: they are no
+  // longer shown backing someone they run against, and a group whose speaker
+  // files no longer backs the rival. The row stays, ended and naming the filing.
+  for (const row of table(api, "endorsements").query("byContest", [
+    filing.contestId,
+  ]) as unknown as EndorsementRow[]) {
+    if (
+      row.answer !== "yes" ||
+      row.speakerId !== personId ||
+      row.candidateId === personId
+    )
+      continue;
+    const campaign = table(api, "campaigns").get(row.filingId) as unknown as
+      CampaignRow | undefined;
+    if (!campaign || rivalFiling(api, campaign, personId)?.id !== filing.id)
+      continue;
+    table(api, "endorsements").put({
+      ...row,
+      answer: "withdrawn",
+      endedOn: api.state.date,
+      endedByFilingId: filing.id,
+    } as unknown as ModuleRow);
+  }
 }
 
 /**
@@ -1958,6 +1985,80 @@ export function volunteerReason(
   );
 }
 
+/** The kind of the record written when someone joins a campaign's volunteers. */
+export const VOLUNTEER_JOINED_EVENT = "campaign-volunteer-joined";
+/** The kind of the record written when a volunteer's reasons have weakened past giving evenings. */
+export const VOLUNTEER_LAPSED_EVENT = "campaign-volunteer-lapsed";
+
+/**
+ * Writes the record of someone joining a campaign: when, and the ask or the
+ * filing that brought them (`causeId`, the group speaker's id when a group's
+ * ask did, else the candidate's filing record).
+ */
+function recordVolunteerJoined(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  personId: string,
+  how: "asked" | "said-so" | "group-ask",
+  askerId?: string,
+): void {
+  // stopgapId: SG-CAMPAIGN-volunteer-joined-lapsed-unread
+  api.stopgap("SG-CAMPAIGN-volunteer-joined-lapsed-unread");
+  const date = api.state.date;
+  const person = api.state.people.get(personId);
+  const filed = api.state.durableLog.get(
+    `candidate-filed:${campaign.filingId}` as never,
+  );
+  api.emit({
+    id: `${VOLUNTEER_JOINED_EVENT}:${campaign.filingId}:${personId}`,
+    date,
+    kind: VOLUNTEER_JOINED_EVENT,
+    personIds: api.state.people.has(campaign.candidateId)
+      ? [campaign.candidateId as PersonId, personId as PersonId]
+      : [personId as PersonId],
+    placeId: townRow(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `${person?.givenName ?? ""} ${person?.familyName ?? ""} joins campaign ${campaign.filingId}`,
+      asOf: date,
+    },
+    facts: {
+      volunteerId: personId,
+      candidateId: campaign.candidateId,
+      campaignId: campaign.id,
+      filingId: campaign.filingId,
+      how,
+      causeId: askerId ?? (filed ? String(filed.id) : campaign.filingId),
+      ...(askerId ? { askerId } : {}),
+    },
+  });
+}
+
+/**
+ * Why a volunteer's reasons have weakened past giving evenings, or null while
+ * they hold. The reasons are the ones that brought them (`volunteerReason`:
+ * liking, closeness, family, against the hours their work takes); the cause
+ * named is the largest one working against them: their work's hours, a
+ * candidate they no longer like, or no closeness left to carry them.
+ */
+export function volunteerLapseReason(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+): "work-hours" | "cooled" | "distant" | null {
+  if (volunteerReason(api, campaign, person) > 0) return null;
+  const core = api.state as CoreState;
+  const warmth =
+    impressionOf(api, person.id, campaign.candidateId)?.warmth ?? 0;
+  const tie = closenessBetween(core, person.id, campaign.candidateId);
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(person.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const load = weeklyWork / campaignParameter("turnoutWorkWeekMinutes");
+  if (load >= Math.max(0, -warmth) && load >= tie) return "work-hours";
+  return warmth < 0 ? "cooled" : "distant";
+}
+
 /**
  * Ask someone to volunteer. They say yes when liking the candidate,
  * closeness, an outgoing or dutiful temperament (and, asked through a group
@@ -1992,11 +2093,19 @@ export function askToVolunteer(
         "decline",
         volunteerReason(api, campaign, person, ask),
       );
-  if (yes && !campaign.volunteerIds.includes(personId))
+  if (yes && !campaign.volunteerIds.includes(personId)) {
     save(api, {
       ...campaign,
       volunteerIds: [...campaign.volunteerIds, personId],
     });
+    recordVolunteerJoined(
+      api,
+      campaign,
+      personId,
+      ask ? "group-ask" : "asked",
+      ask?.askerId,
+    );
+  }
   return yes;
 }
 
@@ -2535,6 +2644,60 @@ function answerOffer(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 }
 
 /**
+ * A listener's answer to the candidate who came over after a speech they
+ * heard in person (the `speech-afterward` scene): a yes (an accepting move)
+ * is their word to that candidate in the race the candidate is running in
+ * that is still ahead, kept as the same pledge a yes at the door is, which
+ * the ballot reads (`pledgesOf`, `pledgeDoubt`). It cites the scene's
+ * `scene.reply` record as its cause, and replaces an earlier word to a rival
+ * in the same contest, as a door's does. A no or a deflection leaves things
+ * as they were.
+ */
+function answerAskForVote(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "speech-afterward") return;
+  const move = String(facts.move);
+  if (!ACCEPTING_MOVES.has(move)) return;
+  const speech = api.state.durableLog.get(String(facts.causeId ?? ""));
+  const candidateId = String(speech?.facts?.["views:speaker"] ?? "");
+  const voterId = event.personIds.find((id) => id !== candidateId);
+  if (!candidateId || !voterId) return;
+  // The race the candidate is running in that has not been decided yet.
+  const contests = elections(api, "contests");
+  const campaign = (table(api, "campaigns").rows() as unknown as CampaignRow[])
+    .filter((row) => row.candidateId === candidateId)
+    .filter(
+      (row) =>
+        ((
+          contests.get(row.contestId) as unknown as
+            { electionDate?: string } | undefined
+        )?.electionDate ?? "") >= api.state.date,
+    )
+    .sort((a, b) => a.contestId.localeCompare(b.contestId))[0];
+  if (!campaign) return;
+  const pledges = table(api, "pledges");
+  for (const earlier of pledgesOf(api, voterId))
+    if (
+      earlier.contestId === campaign.contestId &&
+      earlier.candidateId !== campaign.candidateId
+    )
+      pledges.remove(earlier.id);
+  pledges.put({
+    id: `${voterId}|${campaign.contestId}|${campaign.candidateId}`,
+    voterId,
+    candidateId: campaign.candidateId,
+    contestId: campaign.contestId,
+    date: api.state.date,
+    canvasserId: campaign.candidateId,
+    causeId: event.id,
+    firmness: Math.max(
+      0,
+      Math.min(1, Number(facts.firmness ?? api.parameter("one"))),
+    ),
+  } as unknown as ModuleRow);
+}
+
+/**
  * How much one offer of help matters to the candidate's story, from 0 to 1
  * (owner, Oct 27, 4 PM Eastern: "it shouldn't be stopped for literally every
  * single volunteer. Maybe some that matter. And that's only when you're doing
@@ -2690,6 +2853,7 @@ export function enlistVolunteer(
     ...campaign,
     volunteerIds: [...campaign.volunteerIds, personId],
   });
+  recordVolunteerJoined(api, campaign, personId, "said-so");
   return true;
 }
 
@@ -2814,6 +2978,37 @@ export function volunteerShifts(
       walked.has(id)
     )
       continue;
+    // A volunteer whose reasons have weakened past giving evenings is written
+    // down once, with the cause that weakened them (a record, not a roll).
+    const lapse = volunteerLapseReason(api, campaign, person);
+    if (
+      lapse &&
+      !api.state.durableLog.get(
+        `${VOLUNTEER_LAPSED_EVENT}:${filingId}:${id}` as never,
+      )
+    )
+      api.emit({
+        id: `${VOLUNTEER_LAPSED_EVENT}:${filingId}:${id}`,
+        date,
+        kind: VOLUNTEER_LAPSED_EVENT,
+        personIds: api.state.people.has(campaign.candidateId)
+          ? [campaign.candidateId as PersonId, person.id]
+          : [person.id],
+        placeId: townRow(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${person.givenName} ${person.familyName} stops giving evenings to campaign ${filingId}`,
+          asOf: date,
+        },
+        facts: {
+          volunteerId: id,
+          candidateId: campaign.candidateId,
+          campaignId: campaign.id,
+          filingId,
+          reason: lapse,
+          joinedId: `${VOLUNTEER_JOINED_EVENT}:${filingId}:${id}`,
+        },
+      });
     const hours = canvassHoursFree(api, person);
     if (hours <= 0) continue;
     // Each working day adds their share to what they are owed (starting
@@ -4500,6 +4695,11 @@ export function makeStatements(
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
         groupUnwatched: true,
+        // The statement's own promise record: who, when, how, where, which question.
+        occasion: {
+          recordId: `promise:${campaign.candidateId}:${api.state.date}:${input.act}:${input.venue}:${statement.question}`,
+          kind: input.act,
+        },
       }),
     );
   }
@@ -5648,6 +5848,42 @@ export interface CauseSummaryRow {
   >;
   /** The first door the candidate knocked on for this voter, if any. */
   readonly firstDoor: string | null;
+  /**
+   * The same sums for each of the candidate's campaigns, by filing id: the
+   * causes dated from the day they filed to that contest's election day,
+   * which is the window a race's standing reads (`contestStanding`), so a
+   * race's standing reads the same numbers before and after its causes fold.
+   */
+  readonly byFiling?: Readonly<Record<string, CauseSums>>;
+}
+
+/** What a run of folded causes adds up to for one voter. */
+export interface CauseSums {
+  readonly moved: number;
+  readonly acts: Readonly<
+    Record<string, { reached: number; warmer: number; cooler: number }>
+  >;
+}
+
+/** A candidate's campaigns as date windows: filed to election day, by filing id. */
+function campaignWindows(
+  api: CoreAPI,
+  candidateId: string,
+): readonly { id: string; from: string; through: string | undefined }[] {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+  const contests = elections(api, "contests");
+  return (
+    elections(api, "filings").query("byPerson", [
+      candidateId,
+    ]) as unknown as FilingRow[]
+  ).map((filing) => ({
+    id: filing.id,
+    from: filing.filedOn,
+    through: (
+      contests.get(filing.contestId) as unknown as
+        { electionDate?: string } | undefined
+    )?.electionDate,
+  }));
 }
 
 /** A candidate's folded causes, one row a voter. */
@@ -5754,6 +5990,7 @@ function foldCauses(
   const sourcesOf = new Map<string, Set<string>>();
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
+    const windows = campaignWindows(api, candidateId);
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -5775,6 +6012,26 @@ function foldCauses(
       > = {};
       for (const [act, count] of Object.entries(before?.acts ?? {}))
         acts[act] = { ...count };
+      const byFiling: Record<
+        string,
+        {
+          moved: number;
+          acts: Record<
+            string,
+            { reached: number; warmer: number; cooler: number }
+          >;
+        }
+      > = {};
+      for (const [filingId, sums] of Object.entries(before?.byFiling ?? {}))
+        byFiling[filingId] = {
+          moved: sums.moved,
+          acts: Object.fromEntries(
+            Object.entries(sums.acts).map(([act, count]) => [
+              act,
+              { ...count },
+            ]),
+          ),
+        };
       let sources = sourcesOf.get(voterId);
       if (!sources)
         sourcesOf.set(
@@ -5791,6 +6048,23 @@ function foldCauses(
         if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
         else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
         moved = moved + (row.warmthAfter - row.warmthBefore);
+        for (const window of windows) {
+          if (
+            row.date < window.from ||
+            (window.through !== undefined && row.date > window.through)
+          )
+            continue;
+          const sums = (byFiling[window.id] ??= { moved: 0, acts: {} });
+          const part = (sums.acts[row.act] ??= {
+            reached: 0,
+            warmer: 0,
+            cooler: 0,
+          });
+          part.reached += 1;
+          if (row.warmthAfter > row.warmthBefore) part.warmer += 1;
+          else if (row.warmthAfter < row.warmthBefore) part.cooler += 1;
+          sums.moved = sums.moved + (row.warmthAfter - row.warmthBefore);
+        }
         if (
           row.act === "door" &&
           row.actorId === candidateId &&
@@ -5809,6 +6083,7 @@ function foldCauses(
         moved,
         acts,
         firstDoor,
+        byFiling,
       } as unknown as ModuleRow);
     }
   }
