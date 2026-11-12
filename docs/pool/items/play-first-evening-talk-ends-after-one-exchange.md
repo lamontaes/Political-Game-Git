@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/first-evening-talk-ends-early
-pr:
+pr: #8893
 after:
 blocked-on:
 lead: words
