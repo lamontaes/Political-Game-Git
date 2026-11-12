@@ -12633,10 +12633,10 @@
       }
     },
     {
-      "key": "news.vacancy.a-special-election-on-when-will-fill-the-office-seat",
+      "key": "news.vacancy.a-special-election-on-when-will-fill-the-seat",
       "move": "vacancy",
       "kind": "written",
-      "text": "A special election on {when} will fill the {office} seat.",
+      "text": "A special election on {when} will fill the seat.",
       "uses": [
         {
           "move": "vacancy",
