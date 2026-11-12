@@ -348,26 +348,30 @@ export function bringItUp(
       )) ||
     say({ part: "change", eventKind: change.kind }, facts);
   if (first) lines.push(first);
-  // A printed story blames no one: the outlet only printed it.
+  // A printed story blames no one: the outlet only printed it. Someone who
+  // holds no cause, or none they can name, says nothing more ("I have no
+  // idea" answers nothing; owner, Nov 12, on non-replies): the change is
+  // told alone.
   const who =
     attribution.blamedId && !story ? nameOf(core, attribution.blamedId) : null;
-  const second = story
-    ? null
-    : say(
-        { part: "blame", how: attribution.how, named: !!who },
-        who
-          ? {
-              who: {
-                text: who,
-                sourceRecordIds: [attribution.sourceId ?? change.eventId],
-              },
-              whose: {
-                text: possessive(who),
-                sourceRecordIds: [attribution.sourceId ?? change.eventId],
-              },
-            }
-          : {},
-      );
+  const second =
+    story || attribution.how === "unknown" || !who
+      ? null
+      : say(
+          { part: "blame", how: attribution.how, named: !!who },
+          who
+            ? {
+                who: {
+                  text: who,
+                  sourceRecordIds: [attribution.sourceId ?? change.eventId],
+                },
+                whose: {
+                  text: possessive(who),
+                  sourceRecordIds: [attribution.sourceId ?? change.eventId],
+                },
+              }
+            : {},
+        );
   if (second) lines.push(second);
   // What was said reaches the listener: the change, and the blame if any.
   const speaker = core.people.get(speakerId)!;
@@ -386,7 +390,8 @@ export function bringItUp(
     placeId: speaker.placeId,
     facts: {
       [`${data.heardKey}:${change.eventId}`]: change.institutionId,
-      ...(attribution.blamedId
+      // A blame reaches the listener only when it was said aloud.
+      ...(attribution.blamedId && second
         ? { [`${data.blameKey}:${change.eventId}`]: attribution.blamedId }
         : {}),
     },
