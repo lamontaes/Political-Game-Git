@@ -41,10 +41,10 @@
       "note": "How many times an address says one of the world's names or subjects (the Vice President, the Speaker, the home state, the year's hardest and best subject) before it turns to the wordings that do without it; a name is said again only where no other wording can say the move. Real addresses name a home state or a running mate once or twice."
     },
     "subjectsSaid": {
-      "value": 3,
+      "value": 1,
       "tag": "TUNABLE",
-      "spread": "2 to 4",
-      "note": "How many times an address says the same words for one of the year's subjects (\"take-home pay\") before it turns to wordings with a different insert (words lead's read, Nov 11: \"a subject's word at most three times\")."
+      "spread": "1 to 2",
+      "note": "How many times an address names one of the theme's subjects in the same words (\"a stronger economy\") before it turns to wordings that say it another way; the greeting and the close may name it once more (owner, Nov 12: \"good news on a stronger economy ... feeling good about what's coming on a stronger economy ... report on a stronger economy\")."
     },
     "redraws": {
       "value": 6,

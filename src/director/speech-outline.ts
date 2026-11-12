@@ -54,6 +54,7 @@ import openingData from "./data/opening-story.json" with { type: "json" };
 import {
   NAMED_QUESTIONS,
   questionAbout,
+  questionSide,
   questionTo,
 } from "../english/question-names";
 import { questionSubject } from "../english/policy-names";
@@ -71,7 +72,6 @@ import {
   chooseAddressKind,
   type AddressKind,
 } from "./address-kind";
-import kindData from "./data/address-kinds.json" with { type: "json" };
 
 const N = (
   openingData as unknown as {
@@ -83,9 +83,6 @@ const N = (
     };
   }
 ).numbers;
-const KIND_DATA = kindData as unknown as {
-  kinds: Readonly<Record<AddressKind, { topics: number; tone?: number }>>;
-};
 
 /** The sections an outline row may hold, in the words of speech-outlines.json. */
 export type Section =
@@ -93,11 +90,9 @@ export type Section =
   | "occasion"
   | "creed"
   | "history"
-  | "record"
   | "theme"
   | "asks"
   | "people"
-  | "vice-president"
   | "states"
   | "call"
   | "hope"
@@ -125,11 +120,15 @@ interface Weight {
 const OUTLINES = outlineData as unknown as {
   kinds: Readonly<Record<string, OutlineRow>>;
   theme: Record<
-    "signature" | "stance" | "condition" | "contextYearsMin" | "lawYearsMax",
+    | "signature"
+    | "actable"
+    | "stance"
+    | "condition"
+    | "contextYearsMin"
+    | "lawYearsMax",
     Weight
   >;
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
-  titles: Readonly<Record<string, { first: string; after: string } | string>>;
 };
 
 /** The outline row of a kind of speech. */
@@ -138,14 +137,6 @@ export function outlineOf(kind: string): OutlineRow {
   const row = OUTLINES.kinds[kind];
   if (!row) throw new Error(`No speech outline for ${kind}`);
   return row;
-}
-
-/** The title a seat's holder is said with at first mention, and the role alone after. */
-export function seatTitle(
-  seat: string,
-): { first: string; after: string } | null {
-  const row = OUTLINES.titles[seat];
-  return row && typeof row !== "string" ? row : null;
 }
 
 /** The measures that bear on a subject of the bill catalog. */
@@ -323,10 +314,7 @@ function worldFacts(
     return row && person ? fact(fullName(person), row.id) : undefined;
   };
   const vice = named("US:vice-president");
-  if (vice) {
-    facts["vice-president"] = vice;
-    facts["vice-president-addressed"] = vice;
-  }
+  if (vice) facts["vice-president"] = vice;
   const speaker = named("US:us-house", (row) => row.leadership === "presiding");
   if (speaker) facts.speaker = speaker;
   const past = (kindKey: string) =>
@@ -679,9 +667,12 @@ export function standFacts(
     stand.power,
     stand.law.id,
   ];
+  const side = stand.stance > P.zero ? "for" : "against";
+  const sideWords = questionSide(stand.question, side);
   return {
     about: fact(questionAbout(stand.question)!, ...asked),
     to: fact(questionTo(stand.question)!, ...asked),
+    ...(sideWords ? { side: fact(sideWords, ...asked) } : {}),
     [stand.stance > P.zero ? "stance-for" : "stance-against"]: fact(
       "yes",
       ...asked,
@@ -798,11 +789,18 @@ export function themeOf(
   official: OfficialRow | undefined,
   open: readonly Stand[],
   country: Country,
+  national: boolean,
 ): string | null {
   const w = OUTLINES.theme;
-  const own = new Set((official?.signature ?? []).map((row) => row.question));
+  // The speaker's own causes, by subject, at whatever level they were drawn:
+  // a President whose signature issue is a state question still cares most
+  // about its subject.
+  const ownSubjects = (official?.signature ?? []).map((row) =>
+    questionSubject(row.question),
+  );
   const subjects = new Set<string>([
     ...open.map((stand) => questionSubject(stand.question) ?? ""),
+    ...ownSubjects.map((subject) => subject ?? ""),
     ...Object.keys(OUTLINES.topicsBySubject).filter((key) => key !== "about"),
   ]);
   subjects.delete("");
@@ -811,13 +809,10 @@ export function themeOf(
       const stands = open.filter(
         (stand) => questionSubject(stand.question) === subject,
       );
-      const signature = stands.filter((stand) =>
-        own.has(stand.question),
-      ).length;
+      const signature = ownSubjects.filter((row) => row === subject).length;
       // How far the speaker's own view on the subject stands from a
-      // centrist's: a question nearly everyone favors (the ban on stock
-      // trading by members of Congress) scores only for one who holds it
-      // unusually hard, so it cannot lead every speech.
+      // centrist's: a question nearly everyone favors scores only for one
+      // who holds it unusually hard.
       const stance = Math.max(
         P.zero,
         ...stands.map((stand) =>
@@ -826,14 +821,20 @@ export function themeOf(
             : Math.abs(stand.stance),
         ),
       );
-      const condition = Math.max(
-        P.zero,
-        ...topicsOf(subject).map((topic) => hardness(country, topic)),
-      );
+      // The world's condition decides only where it is the speaker's own: a
+      // national figure is nearly the same in every world, so it cannot pick
+      // the President's theme.
+      const condition = national
+        ? P.zero
+        : Math.max(
+            P.zero,
+            ...topicsOf(subject).map((topic) => hardness(country, topic)),
+          );
       return {
         subject,
         score:
           w.signature.value * signature +
+          (stands.length ? w.actable.value : P.zero) +
           w.stance.value * stance +
           w.condition.value * condition,
       };
@@ -1018,7 +1019,7 @@ export function planSpeech(
     : [];
   // The speaker asks only for what their level may answer and its law does not have yet.
   const open = stands.filter((stand) => !stand.law.inForce);
-  const theme = themeOf(official, open, country);
+  const theme = themeOf(official, open, country, federal);
   const asks = themeAsks(official, open, theme, row.asks);
   // What the theme is about in the world's measures, the hardest first.
   const held = (topic: string) =>
@@ -1132,23 +1133,12 @@ export function planSpeech(
         moves: [move("history")],
       },
     ],
-    // The year told as the speaker's own record: only the theme's measures,
-    // and only by one who governed it.
-    record: () =>
-      ownRecord && points.length
-        ? [
-            {
-              key: "record",
-              level: "country",
-              facts: themeFacts,
-              moves: [move("story-open")],
-            },
-          ]
-        : [],
-    // Each point: its context from the records over a span, the year's
-    // claim when the speaker governed it, then their stand.
+    // The point, one paragraph in order (owner, Nov 12: "disjointed
+    // statements put together"): its context from the records over a span,
+    // what that has meant for people, the year's claim when the speaker
+    // governed it, then their stand; the asks join it after.
     theme: () =>
-      points.map((topic, at) => ({
+      points.map((topic) => ({
         key: `point-${topic}`,
         level: "country" as const,
         facts: {
@@ -1157,11 +1147,8 @@ export function planSpeech(
         },
         moves: [
           move("context", { topic }),
+          move("meaning", { topic }),
           ...(ownRecord ? [move("story-says", { topic })] : []),
-          ...(at === points.length - P.one &&
-          (country.facts["mood-hard"] || KIND_DATA.kinds[addressKind].tone)
-            ? [move("story-turn")]
-            : []),
           // The stand: on the point itself where it went the wrong way, else
           // the speaker's stand in general terms.
           hardness(country, topic) > P.zero
@@ -1181,6 +1168,9 @@ export function planSpeech(
         return {
           key: `ask-${stand.question}`,
           level: "congress",
+          // The asks close the theme's paragraph, after its stand, and are
+          // one paragraph together: no ask stands alone.
+          joins: at > P.zero || points.length > P.zero,
           facts: {
             ...facts,
             ...(at === P.zero && !points.length ? lawContext(api, stand) : {}),
@@ -1212,17 +1202,6 @@ export function planSpeech(
         moves: [move("people")],
       },
     ],
-    "vice-president": () =>
-      officialsIn(api, "US:vice-president").length
-        ? [
-            {
-              key: "to-vp",
-              level: "vice-president",
-              facts: {},
-              moves: [move("to-vp")],
-            },
-          ]
-        : [],
     states: () => [
       {
         key: "to-states",
@@ -1275,11 +1254,13 @@ export function planSpeech(
   const world = federal
     ? worldFacts(core, person, kind, voice, country, points)
     : {};
-  // One paragraph per block; the occasion joins the greeting's paragraph and
-  // the close the one before it.
+  // One paragraph per block; the block after the greeting joins its
+  // paragraph, so the greeting never stands alone, and the close joins the
+  // one before it.
   let part = -P.one;
-  const blocks = drafts.map((draft): Block => {
-    if (!draft.joins || part < P.zero) part += P.one;
+  const blocks = drafts.map((draft, at): Block => {
+    const joins = draft.joins || drafts[at - P.one]?.key === "salutation";
+    if (!joins || part < P.zero) part += P.one;
     const { joins, ...rest } = draft;
     void joins;
     const facts = Object.fromEntries(

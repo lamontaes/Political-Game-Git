@@ -51,7 +51,6 @@ import {
   SHAPE,
   packet,
   planSpeech,
-  seatTitle,
   type Block,
   type Facts,
 } from "./speech-outline";
@@ -143,52 +142,36 @@ const INAUGURATION_EVENT = "inauguration";
 export const OPENING_ADDRESS_EVENT = "president.address";
 
 /** The world's names and subjects an address says no more often than `namesSaid` while another wording can do without them. */
-const WORLD_NAMES: readonly string[] = [
-  "vice-president",
-  "vice-president-addressed",
-  "speaker",
-  "prior-office",
-  "hardest",
-  "best",
-];
+const WORLD_NAMES: readonly string[] = ["prior-office", "hardest", "best"];
 
 /** The world's names that are never said more than `namesSaid` times unless a required move needs them: its people and the President's own office. */
-const PERSON_NAMES: readonly string[] = [
-  "vice-president",
-  "vice-president-addressed",
-  "speaker",
-  "prior-office",
-];
+const PERSON_NAMES: readonly string[] = ["prior-office"];
 
 /**
- * The people an address names, by fact key, with the seat whose title says
- * them (owner, Nov 12: "who's Kathryn Hansen?", "There needs to be pronouns
- * and titles."): "Vice President Kathryn Hansen" at first mention, "the Vice
- * President" after. The Vice President is said by the shared said-as reader
- * (src/english/said-as.ts) from the address's telling; the Speaker, whose
- * title is a leadership role the reader's office words do not hold yet, by
- * `sayPerson`. A key ending in `-addressed` speaks to the person and always
- * gives title and name.
+ * The people an address names, by the fact key of their slot (owner, Nov
+ * 12: "who's Kathryn Hansen?", "There needs to be pronouns and titles."). The
+ * shared said-as reader (src/english/said-as.ts) says each from the address's
+ * telling: "Vice President Kathryn Hansen" at first mention, then "the Vice
+ * President" or "she". A slot names the case its place in the sentence needs:
+ * `-object` ("with her beside me"), `-possessive` ("her counsel"); a slot
+ * ending `-addressed` speaks to the person, with title and name.
  */
-const SAID_AS: Readonly<Record<string, string>> = {
-  "vice-president": "US:vice-president",
-  "vice-president-addressed": "US:vice-president",
-  speaker: "US:us-house:presiding",
-};
+const PEOPLE: readonly string[] = ["vice-president", "speaker"];
+const CASES = {
+  "": "subject",
+  "-object": "object",
+  "-possessive": "possessive",
+  "-addressed": "subject",
+} as const;
 
-/** One person said as the telling has them so far: title and name first, the role after. */
-// stopgapId: SG-WORDS-speech-said-as-local
-export function sayPerson(
-  name: string,
-  seat: string,
-  telling: { readonly mentioned: ReadonlySet<string> },
-  addressed = false,
-): string {
-  const title = seatTitle(seat);
-  if (!title) return name;
-  return !addressed && telling.mentioned.has(seat)
-    ? title.after
-    : `${title.first} ${name}`;
+/** The person and the case a slot's fact key says, or null for a slot that is no person. */
+function personSlot(
+  key: string,
+): { person: string; ending: keyof typeof CASES } | null {
+  for (const person of PEOPLE)
+    for (const ending of Object.keys(CASES) as (keyof typeof CASES)[])
+      if (key === `${person}${ending}`) return { person, ending };
+  return null;
 }
 
 /** The times a lead-in may name, which its core then does not name again. */
@@ -277,20 +260,22 @@ export function composeBlocks(
   const named = new Map<string, number>();
   // The seats of the people already said in this address, so a person is
   // said by title and name once and by role after.
-  const mentioned = new Set<string>();
   // The address's telling: who speaks, to whom, and who it has said so far.
   const telling = tellingOf({
     speakerId: president.id,
     listenerId: core.playerId ?? president.id,
   });
-  /** A person as said-as words them now, without recording the mention unless `say`. */
+  /** A person as said-as words them now, in the slot's case; the mention is recorded only when `say`. */
   const viaSaidAs = (key: string, row: Facts[string], say: boolean) => {
+    const slot = personSlot(key);
     const id = row.sourceRecordIds[P.zero];
-    if (!id) return row.text;
+    if (!slot || !id) return row.text;
     const person = saidPersonOf(core, id, telling);
-    if (key.endsWith("-addressed")) {
+    if (slot.ending === "-addressed") {
       const office = officeWords(person.officeKind);
-      return office ? `${office.before} ${row.text}` : row.text;
+      return office
+        ? `${office.before} ${person.givenName} ${person.familyName}`
+        : row.text;
     }
     const memory = telling.text;
     const into = say
@@ -304,33 +289,29 @@ export function composeBlocks(
             said: new Set(memory.said),
           },
         };
-    const said = saidAs(into, person);
-    // A slot here may stand where a subject pronoun cannot ("with he beside
-    // me"): the address says the role where the reader gives a pronoun.
-    const office = officeWords(person.officeKind);
-    return office && /^(he|she|they|him|her|them)$/i.test(said)
-      ? office.again
-      : said;
+    return saidAs(into, person, { case: CASES[slot.ending] });
+  };
+  // Every person's slot in each case, from the one fact that names them.
+  const withCases = (facts: Facts): Facts => {
+    const all: Facts = { ...facts };
+    for (const person of PEOPLE) {
+      const row = facts[person];
+      if (!row) continue;
+      for (const ending of Object.keys(CASES))
+        all[`${person}${ending}`] ??= row;
+    }
+    return all;
   };
   const tellOf = (facts: Facts): Facts =>
     Object.fromEntries(
-      Object.entries(facts).map(([key, row]) => {
-        const seat = SAID_AS[key];
-        if (!seat || !row) return [key, row];
-        const text =
-          seat === "US:vice-president"
-            ? viaSaidAs(key, row, false)
-            : sayPerson(
-                row.text,
-                seat,
-                { mentioned },
-                key.endsWith("-addressed"),
-              );
-        return [key, { ...row, text }];
-      }),
+      Object.entries(withCases(facts)).map(([key, row]) =>
+        personSlot(key) && row
+          ? [key, { ...row, text: viaSaidAs(key, row, false) }]
+          : [key, row],
+      ),
     );
   // What each person or name counts as, so the said-as forms of one person count together.
-  const nameOf = (key: string, text: string) => SAID_AS[key] ?? text;
+  const nameOf = (key: string, text: string) => personSlot(key)?.person ?? text;
   // The runs of four words each sentence naming the Vice President said.
   const viceSaid: Set<string>[] = [];
   // The lead-ins said so far, by their words.
@@ -394,16 +375,22 @@ export function composeBlocks(
       // words ("take-home pay") at most `subjectsSaid` times, counted by the
       // words said; only a required move says one again.
       const counted = (key: string) =>
-        WORLD_NAMES.includes(key) || key.startsWith("say-");
+        WORLD_NAMES.includes(key) ||
+        !!personSlot(key) ||
+        key.startsWith("say-");
       const limit = (key: string) =>
-        PERSON_NAMES.includes(key)
+        PERSON_NAMES.includes(key) || personSlot(key)
           ? SHAPE.parameters.namesSaid.value -
-            (key === "vice-president" && vpAhead && block.key !== "to-vp"
+            (personSlot(key)?.person === "vice-president" &&
+            vpAhead &&
+            block.key !== "to-vp"
               ? P.one
               : P.zero)
-          : // The greeting and the close keep one say in reserve.
-            SHAPE.parameters.subjectsSaid.value -
-            (move.required || block.required ? P.zero : P.one);
+          : // A subject is named once, then said another way (owner, Nov
+            // 12: "good news on a stronger economy ... report on a stronger
+            // economy"); the greeting and the close may name it once more.
+            SHAPE.parameters.subjectsSaid.value +
+            (move.required || block.required ? P.one : P.zero);
       const within = (keys: (key: string) => boolean) =>
         Object.fromEntries(
           Object.entries(told).filter(
@@ -462,7 +449,10 @@ export function composeBlocks(
       const tries = [
         within(counted),
         ...(move.required || block.required || block.key === "to-vp"
-          ? [within((key) => PERSON_NAMES.includes(key)), told]
+          ? [
+              within((key) => PERSON_NAMES.includes(key) || !!personSlot(key)),
+              told,
+            ]
           : []),
       ].flatMap((facts) => {
         // The Vice President is not praised twice in the same words: a
@@ -507,11 +497,11 @@ export function composeBlocks(
               nameOf(key, text),
               (named.get(nameOf(key, text)) ?? P.zero) + P.one,
             );
-          const seat = SAID_AS[key];
-          if (seat) mentioned.add(seat);
           // The shared reader records the mention once the sentence said it.
-          if (seat === "US:vice-president" && block.facts[key])
-            viaSaidAs(key, block.facts[key]!, true);
+          const row = told[key];
+          const slot = personSlot(key);
+          if (slot && row && block.facts[slot.person])
+            viaSaidAs(key, block.facts[slot.person]!, true);
         }
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));

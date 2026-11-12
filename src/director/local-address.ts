@@ -182,6 +182,10 @@ export function composeLocalAddress(
     serviceStart: spoken.serviceStart,
     areas: realmRead(core, level, spoken.serviceStart),
   });
+  // A speech with nothing to say is not given: no theme from the records and
+  // nothing to ask (pool note on the pull request: no officials row holds a
+  // mayor's views, so a mayor has no stands to ask for).
+  if (!plan.theme && !plan.asks.length) return null;
   const sentences = composeBlocks(core, speaker, plan.blocks);
   if (!sentences?.length) return null;
   return {

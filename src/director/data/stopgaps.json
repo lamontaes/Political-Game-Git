@@ -1009,18 +1009,6 @@
     "status": "open"
   },
   {
-    "id": "SG-WORDS-speech-said-as-local",
-    "kind": "placeholder",
-    "file": "src/director/opening-story.ts",
-    "line": 1,
-    "whatItFakes": "The address says the Vice President and the Speaker by title and name at first mention and by role after through a small local reader (sayPerson, with titles in speech-outlines.json), not the shared said-as reader every composer will use.",
-    "why": "The shared reader (src/english/said-as.ts, words composer unit 1) was on another builder's branch, not on main, when the speech outline was built (Nov 12).",
-    "addedBy": "Words builder W-C",
-    "addedAt": "2026-11-12",
-    "replacement": "composeBlocks calls the shared saidAs with the address's telling, and the titles table in speech-outlines.json is deleted.",
-    "status": "open"
-  },
-  {
     "id": "SG-WORDS-speech-outline-other-kinds",
     "kind": "missing-hook",
     "file": "src/director/speech-outline.ts",

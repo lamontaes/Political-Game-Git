@@ -10,8 +10,24 @@ import yearData from "../../data/english/year-claims.json" with { type: "json" }
 import townData from "../../data/english/town-figures.json" with { type: "json" };
 
 const NAMES = data.names as Readonly<
-  Record<string, { readonly about: string; readonly to: string }>
+  Record<
+    string,
+    {
+      readonly about: string;
+      readonly to: string;
+      readonly for?: string;
+      readonly against?: string;
+    }
+  >
 >;
+
+/** The question as one side says it: what a supporter wants done, or what an opponent will stop ("stop raising tariffs"). */
+export function questionSide(
+  question: string,
+  side: "for" | "against",
+): string | null {
+  return NAMES[question]?.[side] ?? null;
+}
 
 /** The question as a noun phrase: "the bill is about {a higher minimum wage}". */
 export function questionAbout(question: string): string | null {

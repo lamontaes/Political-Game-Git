@@ -130,6 +130,74 @@ for (const part of bank.parts) {
   count("5. an announcing lead-in goes and its clause starts a sentence");
 }
 
+// 6. A person's slot names the case its place in the sentence needs, so the
+// said-as reader gives "her" after "with", never "she" (owner, Nov 12, on
+// "with he beside me"): possessive before "'s", object after any word that
+// is not a conjunction, subject at the start of a clause.
+const CONJUNCTIONS = new Set([
+  "and",
+  "but",
+  "that",
+  "because",
+  "when",
+  "while",
+  "as",
+  "if",
+  "so",
+  "or",
+  "where",
+  "until",
+  "since",
+]);
+for (const part of bank.parts) {
+  const before = part.text;
+  part.text = part.text
+    .replace(/\{(vice-president|speaker)\}'s\b/g, "{$1-possessive}")
+    .replace(
+      /(^|[^{}]*?)\b([A-Za-z']+) \{(vice-president|speaker)\}/g,
+      (whole, lead: string, word: string, who: string) =>
+        CONJUNCTIONS.has(word.toLowerCase())
+          ? whole
+          : `${lead}${word} {${who}-object}`,
+    );
+  if (part.text !== before) {
+    for (const use of part.uses)
+      if (use.requiresFacts)
+        use.requiresFacts = [...new Set(use.requiresFacts)];
+    count("6. a person's slot names its case (object or possessive)");
+  }
+}
+
+// 7. A whole greeting is its list of people and nothing after it: the
+// sentence that follows a split greeting only announces ("I'll keep this
+// practical tonight."), so it goes, and a greeting that became the same as
+// another of its kind is dropped.
+const greetings = new Set<string>();
+bank.parts = bank.parts.filter((part) => {
+  if (!hasRole(part, "salutation") || part.piece) return true;
+  const first = /^[^.!?]*[.!?]/.exec(part.text)?.[0];
+  if (first && first !== part.text) {
+    part.text = first;
+    count("7. a whole greeting keeps only its list of people");
+  }
+  const same = `${JSON.stringify(part.voice)}|${String(part.addressKind)}|${part.text}|${part.uses.map((use) => use.subject).join()}`;
+  if (greetings.has(same)) {
+    count("7. a greeting that became the same as another is dropped");
+    return false;
+  }
+  greetings.add(same);
+  return true;
+});
+
+// 8. No promise to come back and report (owner, Nov 12, on "I'll be back to
+// report on rising pay": "What do you mean?").
+bank.parts = bank.parts.filter((part) => {
+  if (!/\b(back to report|report back|be back to)\b/i.test(part.text))
+    return true;
+  count("8. a promise to come back and report is dropped");
+  return false;
+});
+
 // 4. The context pieces.
 const SLOTS: Record<string, string> = {
   "context-years":
@@ -140,6 +208,13 @@ const SLOTS: Record<string, string> = {
     "how many whole years the law in force on an ask has stood, from the laws engine's row",
   "vice-president-addressed":
     "the Vice President spoken to, said with title and name every time",
+  "vice-president-object":
+    "the Vice President where the sentence needs the object case (with her)",
+  "vice-president-possessive":
+    "the Vice President where the sentence needs the possessive (her counsel)",
+  side: "the question as the speaker's side says it (question-names.json `for` or `against`)",
+  "speaker-object": "the Speaker where the sentence needs the object case",
+  "speaker-possessive": "the Speaker where the sentence needs the possessive",
 };
 for (const [slot, about] of Object.entries(SLOTS))
   if (!bank.slots[slot]) bank.slots[slot] = about;
@@ -330,6 +405,277 @@ const slug = (text: string) =>
     .slice(0, 8)
     .join("-");
 const keys = new Set(bank.parts.map((part) => part.key));
+/** What the context has meant for people, the step between the context and the stand: [topic, subjects, voice, text]. */
+const MEANING: [string, string[], string, string][] = [
+  [
+    "inflation",
+    FEDERAL,
+    "polished",
+    "Over {context-years} years that adds up, and the same groceries, the same rent and the same tank of gas now cost a family far more than they did.",
+  ],
+  [
+    "inflation",
+    FEDERAL,
+    "plain",
+    "Add that up over {context-years} years, and the same cart of groceries costs a whole lot more than it used to.",
+  ],
+  [
+    "unemployment",
+    FEDERAL,
+    "polished",
+    "Behind that figure are {context-amount} of every hundred families who wake up wondering where the next paycheck will come from.",
+  ],
+  [
+    "unemployment",
+    FEDERAL,
+    "plain",
+    "That's {context-amount} out of every hundred folks waking up with no job to go to.",
+  ],
+  [
+    "mortgage",
+    FEDERAL,
+    "polished",
+    "At {context-amount} percent, a family pays thousands more each year for the same house, and many have stopped looking.",
+  ],
+  [
+    "mortgage",
+    FEDERAL,
+    "plain",
+    "At {context-amount} percent, a lot of young couples have quit looking at houses altogether.",
+  ],
+  [
+    "wages",
+    FEDERAL,
+    "polished",
+    "For a working family, each of those raises has had to stretch across {context-years} years of rising bills.",
+  ],
+  [
+    "wages",
+    FEDERAL,
+    "plain",
+    "For working folks, every raise has had to cover {context-years} years of rising bills.",
+  ],
+  [
+    "growth",
+    FEDERAL,
+    "polished",
+    "That growth is real, but over {context-years} years too little of it has reached the kitchen table.",
+  ],
+  [
+    "growth",
+    FEDERAL,
+    "plain",
+    "That's real growth, but over {context-years} years not enough of it has made it to the kitchen table.",
+  ],
+  [
+    "rent",
+    ALL,
+    "polished",
+    "Over {context-years} years, that has meant giving more of every paycheck to the landlord and keeping less for everything else.",
+  ],
+  [
+    "rent",
+    ALL,
+    "plain",
+    "That's {context-years} years of folks handing more of every check to the landlord.",
+  ],
+  [
+    "crime",
+    ALL,
+    "polished",
+    "Over {context-years} years, that has meant parents worrying a little more each time their children walk out the door.",
+  ],
+  [
+    "crime",
+    ALL,
+    "plain",
+    "That's {context-years} years of folks locking up a little tighter at night.",
+  ],
+  [
+    "schools",
+    ALL,
+    "polished",
+    "Over {context-years} years, that has meant classrooms asking less of our children than they deserve.",
+  ],
+  [
+    "schools",
+    ALL,
+    "plain",
+    "That's {context-years} years of kids getting less out of school than they should.",
+  ],
+  [
+    "health",
+    ALL,
+    "polished",
+    "Over {context-years} years, that has meant too many people waiting too long to see a doctor, or going without.",
+  ],
+  [
+    "health",
+    ALL,
+    "plain",
+    "That's {context-years} years of folks putting off the doctor because they couldn't get in.",
+  ],
+  [
+    "roads",
+    ALL,
+    "polished",
+    "Over {context-years} years, every pothole and closed bridge has cost a family time and money.",
+  ],
+  [
+    "roads",
+    ALL,
+    "plain",
+    "That's {context-years} years of potholes, detours and repair bills.",
+  ],
+  [
+    "environment",
+    ALL,
+    "polished",
+    "Over {context-years} years, families have paid for dirtier air and water with their health.",
+  ],
+  [
+    "environment",
+    ALL,
+    "plain",
+    "That's {context-years} years of folks breathing air that's worse than it should be.",
+  ],
+];
+/** Asks that say the speaker's side in so many words, from the question's own side form: [subjects, voice, side, text]. */
+const SIDED: [string[], string, "for" | "against", string][] = [
+  [
+    FEDERAL,
+    "polished",
+    "for",
+    "On {about}, I am for it, and I ask Congress to {side} and send me the bill to sign.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "for",
+    "On {about}, I'm for it: Congress, {side}, and I'll sign it.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "against",
+    "I am against {about}, and if Congress passes it, I will veto it.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "against",
+    "I'm against {about}, and if it gets to my desk, I'll veto it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "for",
+    "On {about}, I am for it, and I ask the legislature to {side} and send me the bill.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "for",
+    "On {about}, I'm for it: send me a bill to {side}, and I'll sign it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "against",
+    "I am against {about}, and if the legislature passes it, I will veto it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "against",
+    "I'm against {about}, and if it reaches my desk, I'll veto it.",
+  ],
+  [
+    ["town-address"],
+    "polished",
+    "for",
+    "On {about}, I am for it, and I ask the council to {side} this year.",
+  ],
+  [
+    ["town-address"],
+    "plain",
+    "for",
+    "On {about}, I'm for it: let's {side} this year.",
+  ],
+  [
+    ["town-address"],
+    "polished",
+    "against",
+    "I am against {about}, and I will ask the council to vote it down.",
+  ],
+  [
+    ["town-address"],
+    "plain",
+    "against",
+    "I'm against {about}, and I'll ask the council to vote it down.",
+  ],
+];
+for (const [subjects, voice, side, text] of SIDED) {
+  const key = `opening-speech.ask.${voice}-${side}-${subjects[0]}-${slug(text)}`;
+  if (keys.has(key)) continue;
+  bank.parts.push({
+    key,
+    move: "ask",
+    kind: "spoken",
+    text,
+    uses: subjects.map((subject) => ({
+      move: "ask",
+      subject,
+      role: "ask",
+      choice: "ask",
+      requiresFacts: [
+        `stance-${side}`,
+        "law-not-in-force",
+        "about",
+        ...(text.includes("{side}") ? ["side"] : []),
+      ],
+    })),
+    voice,
+    bearing: "firm",
+    piece: { of: "opening-ask", part: "core", required: true },
+    origin: "authored",
+    author: "Claude (Words builder W-C, speech outline)",
+    date: "2026-11-12",
+  });
+  keys.add(key);
+  count("4. an ask that says its side in so many words is added");
+}
+
+for (const [topic, subjects, voice, text] of MEANING) {
+  const key = `opening-speech.meaning.${voice}-${topic}-${slug(text)}`;
+  if (keys.has(key)) continue;
+  const needs = [
+    `context-${topic}`,
+    ...[...text.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]!),
+  ];
+  bank.parts.push({
+    key,
+    move: "meaning",
+    kind: "spoken",
+    text,
+    uses: subjects.map((subject) => ({
+      move: "meaning",
+      subject,
+      role: "meaning",
+      choice: "meaning",
+      requiresFacts: [...new Set(needs)],
+    })),
+    voice,
+    bearing: "calm",
+    topic,
+    origin: "authored",
+    author: "Claude (Words builder W-C, speech outline)",
+    date: "2026-11-12",
+  });
+  keys.add(key);
+  count("4. a meaning piece (what the context has meant for people) is added");
+}
+
 for (const [topic, subjects, voice, text, needs] of CONTEXT) {
   const key = `opening-speech.context.${voice}-${topic}-${slug(text)}`;
   if (keys.has(key)) continue;
