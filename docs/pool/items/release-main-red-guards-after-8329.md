@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/red-main-guards-after-8329
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+claimed-at: 2026-11-12T18:28:07.393Z
 ---
 
 **What.** The guards job is red for every pull request because two guards fail on main since #8329 (other states' budgets read the country tier's ledgers). tests/guards/families.test.ts reports src/core2/modules/outside-budgets.ts importing src/core2/country-model.ts from inside another family, and tests/guards/daily-register.test.ts reports no kept-table line for outside-budgets.shares (Calvin, Louisiana, DAILY_REGISTER_SEED=81a5e00eb1eed458). Merger codex-1251 found both on #7365 and #8580. Guards: the next pull request's guards job runs green so the owner's builds keep shipping. Guards: the other states' budgets the news and comparison screens read keep loading and shipping.
