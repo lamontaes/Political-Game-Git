@@ -131,7 +131,7 @@ for (const row of Object.values(data.names)) {
     for: row.to,
     against: `say no to ${row.about}`,
     repeal: `repeal ${(row as { law?: string }).law}`,
-    keep: `keep ${row.about} on the books`,
+    keep: `keep ${(row as { law?: string }).law} on the books`,
   };
   if (
     row.for !== sides.for ||

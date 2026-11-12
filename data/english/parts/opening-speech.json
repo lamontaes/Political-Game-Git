@@ -102544,441 +102544,6 @@
       }
     },
     {
-      "key": "opening-speech.ask.polished-inaugural-i-will-stand-by-and-i-will-veto-stance-for-law-in-force-about-about-one",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will stand by {about}, and I will veto any bill that would undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-inaugural-i-will-stand-by-and-i-will-veto-stance-for-law-in-force-about-about-many",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will stand by {about}, and I will veto any bill that would undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-many"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-inaugural-i-ll-keep-on-the-books-and-i-stance-for-law-in-force-about-about-one",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll keep {about} on the books, and I'll fight anybody who tries to undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-inaugural-i-ll-keep-on-the-books-and-i-stance-for-law-in-force-about-about-many",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll keep {about} on the books, and I'll fight anybody who tries to undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-many"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-state-of-the-state-i-will-keep-on-the-books-and-i-stance-for-law-in-force-about-about-one",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will keep {about} on the books, and I will veto any bill that would undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-state-of-the-state-i-will-keep-on-the-books-and-i-stance-for-law-in-force-about-about-many",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will keep {about} on the books, and I will veto any bill that would undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-stand-by-and-i-ll-veto-stance-for-law-in-force-about-about-one",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll stand by {about}, and I'll veto any bill that tries to undo it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-stand-by-and-i-ll-veto-stance-for-law-in-force-about-about-many",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll stand by {about}, and I'll veto any bill that tries to undo them.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-town-address-i-will-defend-before-the-council-stance-for-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will defend {about} before the council.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-town-address-i-m-going-to-keep-just-the-way-stance-for-law-in-force-about-about-one",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm going to keep {about} just the way it is.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-town-address-i-m-going-to-keep-just-the-way-stance-for-law-in-force-about-about-many",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm going to keep {about} just the way they are.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-for",
-            "law-in-force",
-            "about",
-            "about-many"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-town-address-i-will-ask-the-council-to-end-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will ask the council to end {about}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-town-address-i-ll-ask-the-council-to-end-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll ask the council to end {about}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.polished-ina-sta-all-core-i-oppose-about-and-i-will-use-the-veto-many",
       "move": "ask",
       "kind": "spoken",
@@ -111692,6 +111257,441 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-inaugural-i-will-stand-by-and-i-will-veto-stance-for-law-in-force-about-about-one",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will stand by {law-name}, and I will veto any bill that would undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-inaugural-i-will-stand-by-and-i-will-veto-stance-for-law-in-force-about-about-many",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will stand by {law-name}, and I will veto any bill that would undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-many"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-many"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-inaugural-i-ll-keep-on-the-books-and-i-stance-for-law-in-force-about-about-one",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll keep {law-name} on the books, and I'll fight anybody who tries to undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-inaugural-i-ll-keep-on-the-books-and-i-stance-for-law-in-force-about-about-many",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll keep {law-name} on the books, and I'll fight anybody who tries to undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-many"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-many"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-state-of-the-state-i-will-keep-on-the-books-and-i-stance-for-law-in-force-about-about-one",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will keep {law-name} on the books, and I will veto any bill that would undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-state-of-the-state-i-will-keep-on-the-books-and-i-stance-for-law-in-force-about-about-many",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will keep {law-name} on the books, and I will veto any bill that would undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-many"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-stand-by-and-i-ll-veto-stance-for-law-in-force-about-about-one",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll stand by {law-name}, and I'll veto any bill that tries to undo it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-stand-by-and-i-ll-veto-stance-for-law-in-force-about-about-many",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll stand by {law-name}, and I'll veto any bill that tries to undo them.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-many"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-town-address-i-will-defend-before-the-council-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will defend {law-name} before the council.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-town-address-i-m-going-to-keep-just-the-way-stance-for-law-in-force-about-about-one",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm going to keep {law-name} just the way it is.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-town-address-i-m-going-to-keep-just-the-way-stance-for-law-in-force-about-about-many",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'm going to keep {law-name} just the way they are.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-for",
+            "law-in-force",
+            "about",
+            "about-many"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-town-address-i-will-ask-the-council-to-end-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will ask the council to end {law-name}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-town-address-i-ll-ask-the-council-to-end-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll ask the council to end {law-name}.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": [

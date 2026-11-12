@@ -66,7 +66,7 @@
         }
       },
       "repeal": "repeal the mileage fee in place of the fuel tax",
-      "keep": "keep a mileage fee in place of the fuel tax on the books",
+      "keep": "keep the mileage fee in place of the fuel tax on the books",
       "family": "taxes",
       "pole": "a",
       "number": "one",
@@ -161,7 +161,7 @@
         }
       },
       "repeal": "repeal the law shifting highway money to transit",
-      "keep": "keep shifting highway money to transit on the books",
+      "keep": "keep the law shifting highway money to transit on the books",
       "family": "transit",
       "pole": "a",
       "number": "one",
@@ -211,7 +211,7 @@
         }
       },
       "repeal": "repeal the law expanding Medicaid",
-      "keep": "keep expanding Medicaid on the books",
+      "keep": "keep the law expanding Medicaid on the books",
       "family": "health",
       "pole": "a",
       "number": "one",
@@ -261,7 +261,7 @@
         }
       },
       "repeal": "repeal the work requirement for Medicaid",
-      "keep": "keep a work requirement for Medicaid on the books",
+      "keep": "keep the work requirement for Medicaid on the books",
       "family": "safety-net",
       "pole": "a",
       "number": "one",
@@ -311,7 +311,7 @@
         }
       },
       "repeal": "repeal the work requirement for assistance",
-      "keep": "keep a work requirement for assistance on the books",
+      "keep": "keep the work requirement for assistance on the books",
       "family": "safety-net",
       "pole": "a",
       "number": "one",
@@ -456,7 +456,7 @@
         }
       },
       "repeal": "repeal the higher minimum salary for teachers",
-      "keep": "keep a higher minimum salary for teachers on the books",
+      "keep": "keep the higher minimum salary for teachers on the books",
       "family": "schools",
       "pole": "a",
       "number": "one",
@@ -506,7 +506,7 @@
         }
       },
       "repeal": "repeal the income tax",
-      "keep": "keep an income tax on the books",
+      "keep": "keep the income tax on the books",
       "family": "taxes",
       "pole": "a",
       "number": "one",
@@ -551,7 +551,7 @@
         }
       },
       "repeal": "repeal the cap on property tax growth",
-      "keep": "keep a cap on property tax growth on the books",
+      "keep": "keep the cap on property tax growth on the books",
       "family": "taxes",
       "pole": "b",
       "number": "one",
@@ -596,7 +596,7 @@
         }
       },
       "repeal": "repeal the law taking the sales tax off groceries",
-      "keep": "keep taking the sales tax off groceries on the books",
+      "keep": "keep the law taking the sales tax off groceries on the books",
       "family": "taxes",
       "pole": "b",
       "number": "one",
@@ -646,7 +646,7 @@
         }
       },
       "repeal": "repeal the graduated income tax",
-      "keep": "keep a graduated income tax on the books",
+      "keep": "keep the graduated income tax on the books",
       "family": "taxes",
       "pole": "a",
       "number": "one",
@@ -691,7 +691,7 @@
         }
       },
       "repeal": "repeal the balanced budget rule",
-      "keep": "keep a balanced operating budget on the books",
+      "keep": "keep the balanced budget rule on the books",
       "family": "budget",
       "pole": "a",
       "number": "one",
@@ -736,7 +736,7 @@
         }
       },
       "repeal": "repeal the law funding pensions on schedule",
-      "keep": "keep funding pensions on schedule on the books",
+      "keep": "keep the law funding pensions on schedule on the books",
       "family": "budget",
       "pole": "a",
       "number": "one",
@@ -781,7 +781,7 @@
         }
       },
       "repeal": "repeal the reserve requirement",
-      "keep": "keep a minimum reserve balance on the books",
+      "keep": "keep the reserve requirement on the books",
       "family": "budget",
       "pole": "a",
       "number": "one",
@@ -826,7 +826,7 @@
         }
       },
       "repeal": "repeal the law allowing apartments in single-family neighborhoods",
-      "keep": "keep apartments in single-family neighborhoods on the books",
+      "keep": "keep the law allowing apartments in single-family neighborhoods on the books",
       "family": "housing",
       "pole": "a",
       "number": "many",
@@ -876,7 +876,7 @@
         }
       },
       "repeal": "repeal the affordable-housing requirement for new buildings",
-      "keep": "keep an affordable-housing requirement for new buildings on the books",
+      "keep": "keep the affordable-housing requirement for new buildings on the books",
       "family": "housing",
       "pole": "a",
       "number": "one",
@@ -976,7 +976,7 @@
         }
       },
       "repeal": "repeal the right to a lawyer for tenants facing eviction",
-      "keep": "keep a lawyer for tenants facing eviction on the books",
+      "keep": "keep the right to a lawyer for tenants facing eviction on the books",
       "family": "housing",
       "pole": "a",
       "number": "one",
@@ -1026,7 +1026,7 @@
         }
       },
       "repeal": "repeal the higher federal minimum wage",
-      "keep": "keep a higher federal minimum wage on the books",
+      "keep": "keep the higher federal minimum wage on the books",
       "family": "wages",
       "pole": "a",
       "number": "one",
@@ -1080,7 +1080,7 @@
         }
       },
       "repeal": "repeal the law letting cities set their own minimum wage",
-      "keep": "keep letting cities set their own minimum wage on the books",
+      "keep": "keep the law letting cities set their own minimum wage on the books",
       "family": "self-rule",
       "pole": "a",
       "number": "one",
@@ -1125,7 +1125,7 @@
         }
       },
       "repeal": "repeal the higher minimum wage",
-      "keep": "keep a higher minimum wage on the books",
+      "keep": "keep the higher minimum wage on the books",
       "family": "wages",
       "pole": "a",
       "number": "one",
@@ -1269,7 +1269,7 @@
         }
       },
       "repeal": "repeal the rule against asking about criminal records on state job applications",
-      "keep": "keep asking about criminal records on state job applications on the books",
+      "keep": "keep the rule against asking about criminal records on state job applications on the books",
       "family": "justice",
       "pole": "a",
       "number": "one",
@@ -1314,7 +1314,7 @@
         }
       },
       "repeal": "repeal the right-to-work rules",
-      "keep": "keep right-to-work rules on the books",
+      "keep": "keep the right-to-work rules on the books",
       "family": "unions",
       "pole": "b",
       "number": "many",
@@ -1404,7 +1404,7 @@
         }
       },
       "repeal": "repeal the cap on consumer loan rates",
-      "keep": "keep a cap on consumer loan rates on the books",
+      "keep": "keep the cap on consumer loan rates on the books",
       "family": "consumers",
       "pole": "a",
       "number": "one",
@@ -1449,7 +1449,7 @@
         }
       },
       "repeal": "repeal the law banning new gas hookups",
-      "keep": "keep banning new gas hookups on the books",
+      "keep": "keep the law banning new gas hookups on the books",
       "family": "energy",
       "pole": "a",
       "number": "one",
@@ -1499,7 +1499,7 @@
         }
       },
       "repeal": "repeal the law letting customers pick their electricity supplier",
-      "keep": "keep letting customers pick their electricity supplier on the books",
+      "keep": "keep the law letting customers pick their electricity supplier on the books",
       "family": "energy",
       "pole": "b",
       "number": "one",
@@ -1544,7 +1544,7 @@
         }
       },
       "repeal": "repeal the clean electricity standard",
-      "keep": "keep a clean electricity standard on the books",
+      "keep": "keep the clean electricity standard on the books",
       "family": "energy",
       "pole": "a",
       "number": "one",
@@ -1594,7 +1594,7 @@
         }
       },
       "repeal": "repeal the clean air plan for polluted counties",
-      "keep": "keep a clean air plan for polluted counties on the books",
+      "keep": "keep the clean air plan for polluted counties on the books",
       "family": "energy",
       "pole": "a",
       "number": "one",
@@ -1644,7 +1644,7 @@
         }
       },
       "repeal": "repeal the bottle deposit",
-      "keep": "keep a bottle deposit on the books",
+      "keep": "keep the bottle deposit on the books",
       "family": "land",
       "pole": "a",
       "number": "one",
@@ -1694,7 +1694,7 @@
         }
       },
       "repeal": "repeal the price on carbon",
-      "keep": "keep a price on carbon on the books",
+      "keep": "keep the price on carbon on the books",
       "family": "energy",
       "pole": "a",
       "number": "one",
@@ -1798,7 +1798,7 @@
         }
       },
       "repeal": "repeal the agreement to work with federal immigration enforcement",
-      "keep": "keep working with federal immigration enforcement on the books",
+      "keep": "keep the agreement to work with federal immigration enforcement on the books",
       "family": "immigration",
       "pole": "b",
       "number": "one",
@@ -1848,7 +1848,7 @@
         }
       },
       "repeal": "repeal the law ending cash bail",
-      "keep": "keep ending cash bail on the books",
+      "keep": "keep the law ending cash bail on the books",
       "family": "justice",
       "pole": "a",
       "number": "one",
@@ -1898,7 +1898,7 @@
         }
       },
       "repeal": "repeal the law restoring the vote after a sentence",
-      "keep": "keep restoring the vote after a sentence on the books",
+      "keep": "keep the law restoring the vote after a sentence on the books",
       "family": "justice",
       "pole": "a",
       "number": "one",
@@ -1943,7 +1943,7 @@
         }
       },
       "repeal": "repeal the higher age for juvenile court",
-      "keep": "keep a higher age for juvenile court on the books",
+      "keep": "keep the higher age for juvenile court on the books",
       "family": "justice",
       "pole": "a",
       "number": "one",
@@ -2038,7 +2038,7 @@
         }
       },
       "repeal": "repeal the permit rule for carrying a concealed gun",
-      "keep": "keep a permit to carry a concealed gun on the books",
+      "keep": "keep the permit rule for carrying a concealed gun on the books",
       "family": "guns",
       "pole": "a",
       "number": "one",
@@ -2088,7 +2088,7 @@
         }
       },
       "repeal": "repeal the higher age to buy a handgun",
-      "keep": "keep a higher age to buy a handgun on the books",
+      "keep": "keep the higher age to buy a handgun on the books",
       "family": "guns",
       "pole": "a",
       "number": "one",
@@ -2133,7 +2133,7 @@
         }
       },
       "repeal": "repeal the stand-your-ground rules",
-      "keep": "keep stand-your-ground rules on the books",
+      "keep": "keep the stand-your-ground rules on the books",
       "family": "guns",
       "pole": "b",
       "number": "many",
@@ -2318,7 +2318,7 @@
         }
       },
       "repeal": "repeal the photo ID law",
-      "keep": "keep photo ID to vote on the books",
+      "keep": "keep the photo ID law on the books",
       "family": "elections",
       "pole": "b",
       "number": "one",
@@ -2408,7 +2408,7 @@
         }
       },
       "repeal": "repeal the ban on lobbying after leaving office",
-      "keep": "keep a ban on lobbying after leaving office on the books",
+      "keep": "keep the ban on lobbying after leaving office on the books",
       "family": "ethics",
       "pole": "a",
       "number": "one",
@@ -2453,7 +2453,7 @@
         }
       },
       "repeal": "repeal the law giving towns more power",
-      "keep": "keep more local government power on the books",
+      "keep": "keep the law giving towns more power on the books",
       "family": "self-rule",
       "pole": "a",
       "number": "one",
@@ -2543,7 +2543,7 @@
         }
       },
       "repeal": "repeal the ban on discrimination in housing and work",
-      "keep": "keep a ban on discrimination in housing and work on the books",
+      "keep": "keep the ban on discrimination in housing and work on the books",
       "family": "civil-rights",
       "pole": "a",
       "number": "one",
@@ -2633,7 +2633,7 @@
         }
       },
       "repeal": "repeal the law restricting abortion",
-      "keep": "keep restricting abortion on the books",
+      "keep": "keep the law restricting abortion on the books",
       "family": "abortion",
       "pole": "a",
       "number": "one",
@@ -2768,7 +2768,7 @@
         }
       },
       "repeal": "repeal the consumer data privacy law",
-      "keep": "keep a consumer data privacy law on the books",
+      "keep": "keep the consumer data privacy law on the books",
       "family": "consumers",
       "pole": "a",
       "number": "one",
@@ -2863,7 +2863,7 @@
         }
       },
       "repeal": "repeal the law protecting farmland from development",
-      "keep": "keep protecting farmland from development on the books",
+      "keep": "keep the law protecting farmland from development on the books",
       "family": "land",
       "pole": "a",
       "number": "one",
@@ -2908,7 +2908,7 @@
         }
       },
       "repeal": "repeal the law raising the debt limit only with spending cuts to match",
-      "keep": "keep raising the debt limit only with spending cuts to match on the books",
+      "keep": "keep the law raising the debt limit only with spending cuts to match on the books",
       "family": "budget",
       "pole": "a",
       "number": "one",
@@ -2953,7 +2953,7 @@
         }
       },
       "repeal": "repeal the higher top income tax rate",
-      "keep": "keep a higher top income tax rate on the books",
+      "keep": "keep the higher top income tax rate on the books",
       "family": "taxes",
       "pole": "a",
       "number": "one",
@@ -2998,7 +2998,7 @@
         }
       },
       "repeal": "repeal the cap on consumer loan interest",
-      "keep": "keep a cap on consumer loan interest on the books",
+      "keep": "keep the cap on consumer loan interest on the books",
       "family": "consumers",
       "pole": "a",
       "number": "one",
@@ -3043,7 +3043,7 @@
         }
       },
       "repeal": "repeal the increase in defense spending",
-      "keep": "keep more defense spending on the books",
+      "keep": "keep the increase in defense spending on the books",
       "family": "world",
       "pole": "a",
       "number": "one",
@@ -3088,7 +3088,7 @@
         }
       },
       "repeal": "repeal the increase in foreign aid",
-      "keep": "keep more foreign aid on the books",
+      "keep": "keep the increase in foreign aid on the books",
       "family": "world",
       "pole": "a",
       "number": "one",
@@ -3133,7 +3133,7 @@
         }
       },
       "repeal": "repeal the higher tariffs",
-      "keep": "keep higher tariffs on the books",
+      "keep": "keep the higher tariffs on the books",
       "family": "trade",
       "pole": "a",
       "number": "many",
@@ -3187,7 +3187,7 @@
         }
       },
       "repeal": "repeal the law admitting more immigrants",
-      "keep": "keep admitting more immigrants on the books",
+      "keep": "keep the law admitting more immigrants on the books",
       "family": "immigration",
       "pole": "a",
       "number": "one",
@@ -3232,7 +3232,7 @@
         }
       },
       "repeal": "repeal the law letting Medicare negotiate drug prices",
-      "keep": "keep Medicare negotiating drug prices on the books",
+      "keep": "keep the law letting Medicare negotiate drug prices on the books",
       "family": "health",
       "pole": "a",
       "number": "one",
@@ -3282,7 +3282,7 @@
         }
       },
       "repeal": "repeal the higher retirement age",
-      "keep": "keep a higher retirement age on the books",
+      "keep": "keep the higher retirement age on the books",
       "family": "safety-net",
       "pole": "a",
       "number": "one",
@@ -3327,7 +3327,7 @@
         }
       },
       "repeal": "repeal the law forgiving student loans",
-      "keep": "keep forgiving student loans on the books",
+      "keep": "keep the law forgiving student loans on the books",
       "family": "schools",
       "pole": "a",
       "number": "one",
@@ -3422,7 +3422,7 @@
         }
       },
       "repeal": "repeal the law adding passenger rail",
-      "keep": "keep more passenger rail on the books",
+      "keep": "keep the law adding passenger rail on the books",
       "family": "transit",
       "pole": "a",
       "number": "one",
@@ -3517,7 +3517,7 @@
         }
       },
       "repeal": "repeal the law cutting farm subsidies",
-      "keep": "keep cutting farm subsidies on the books",
+      "keep": "keep the law cutting farm subsidies on the books",
       "family": "budget",
       "pole": "a",
       "number": "one",
@@ -3562,7 +3562,7 @@
         }
       },
       "repeal": "repeal the law making states share disaster costs",
-      "keep": "keep states sharing disaster costs on the books",
+      "keep": "keep the law making states share disaster costs on the books",
       "family": "budget",
       "pole": "a",
       "number": "one",
@@ -3607,7 +3607,7 @@
         }
       },
       "repeal": "repeal the shorter mandatory minimums",
-      "keep": "keep shorter mandatory minimum sentences on the books",
+      "keep": "keep the shorter mandatory minimums on the books",
       "family": "justice",
       "pole": "a",
       "number": "many",
@@ -3657,7 +3657,7 @@
         }
       },
       "repeal": "repeal the ban on stock trading by members of Congress",
-      "keep": "keep a ban on stock trading by members of Congress on the books",
+      "keep": "keep the ban on stock trading by members of Congress on the books",
       "family": "ethics",
       "pole": "a",
       "number": "one",
@@ -3702,7 +3702,7 @@
         }
       },
       "repeal": "repeal the national data privacy law",
-      "keep": "keep a national data privacy law on the books",
+      "keep": "keep the national data privacy law on the books",
       "family": "consumers",
       "pole": "a",
       "number": "one",

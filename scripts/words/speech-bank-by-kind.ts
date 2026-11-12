@@ -1251,6 +1251,8 @@ for (const [voice, side, law, text] of TIES)
     needs: [`stance-${side}`, law, "figure-ties", "context-years"],
   });
 // 20. A law in force is defended or repealed by what the speaker will do,
+// and named as the thing itself (`{law-name}`: "keep the law restricting
+// abortion on the books", never "keep restricting abortion on the books"),
 // never stated as a fact a belief could lead into ("Because I think ..., a
 // price on carbon is the law here"). `{it}` agrees with the name's number.
 const LAWS: [string[], string, string, string][] = [
@@ -1258,13 +1260,13 @@ const LAWS: [string[], string, string, string][] = [
     FEDERAL,
     "polished",
     "for",
-    "I will stand by {about}, and I will veto any bill that would undo {it}.",
+    "I will stand by {law-name}, and I will veto any bill that would undo {it}.",
   ],
   [
     FEDERAL,
     "plain",
     "for",
-    "I'll keep {about} on the books, and I'll fight anybody who tries to undo {it}.",
+    "I'll keep {law-name} on the books, and I'll fight anybody who tries to undo {it}.",
   ],
   [
     FEDERAL,
@@ -1282,13 +1284,13 @@ const LAWS: [string[], string, string, string][] = [
     ["state-of-the-state"],
     "polished",
     "for",
-    "I will keep {about} on the books, and I will veto any bill that would undo {it}.",
+    "I will keep {law-name} on the books, and I will veto any bill that would undo {it}.",
   ],
   [
     ["state-of-the-state"],
     "plain",
     "for",
-    "I'll stand by {about}, and I'll veto any bill that tries to undo {it}.",
+    "I'll stand by {law-name}, and I'll veto any bill that tries to undo {it}.",
   ],
   [
     ["state-of-the-state"],
@@ -1306,25 +1308,25 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "for",
-    "I will defend {about} before the council.",
+    "I will defend {law-name} before the council.",
   ],
   [
     ["town-address"],
     "plain",
     "for",
-    "I'm going to keep {about} just the way {it-is}.",
+    "I'm going to keep {law-name} just the way {it-is}.",
   ],
   [
     ["town-address"],
     "polished",
     "against",
-    "I will ask the council to end {about}.",
+    "I will ask the council to end {law-name}.",
   ],
   [
     ["town-address"],
     "plain",
     "against",
-    "I'll ask the council to end {about}.",
+    "I'll ask the council to end {law-name}.",
   ],
 ];
 for (const [subjects, voice, side, text] of LAWS)
