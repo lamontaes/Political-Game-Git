@@ -15,18 +15,60 @@ import { seatAct, seatView } from "../bench/legislature";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { commentOn } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
-import type { PersonId } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
+import { BenchPlayer } from "../bench/player";
+import { meetingAdjourn, meetingItem, meetingSceneView } from "../bench/office";
+import type { ScheduleEntry } from "./scheduling";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 8;
 const PAPER_DAYS = 10;
+/** The days the member plays after drafting, for the reporter's call to stop one. */
+const CALL_DAYS = 3;
+
+/**
+ * Plays the member's days as the bench does: Day, each stop's Continue (a
+ * sitting is sat with the member's own votes, as the meeting screen's "own"
+ * and Adjourn send it), each choice to the character's own pick. Every stop's
+ * record is handed to `onStop` before it is passed.
+ */
+function playDays(
+  core: CoreState,
+  player: BenchPlayer,
+  me: PersonId,
+  days: number,
+  onStop: (recordId: string) => void,
+): void {
+  for (let day = 0; day < days; day += 1) {
+    player.advance("day");
+    for (
+      let guard = 0;
+      guard < 200 &&
+      (player.packet?.kind === "stop" || player.packet?.kind === "choice");
+      guard += 1
+    ) {
+      const packet = player.packet;
+      if (packet.kind === "choice") {
+        player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+        continue;
+      }
+      for (const stop of packet.stop.modules) onStop(String(stop.recordId));
+      const meeting = meetingSceneView(core, me, packet.at.minuteOfDay);
+      if (meeting) {
+        for (const item of meeting.items)
+          if (!item.takenUp) meetingItem(core, meeting.id, item.billId, "own");
+        meetingAdjourn(core, meeting.id);
+      }
+      if (player.packet?.kind === "stop")
+        player.resume({ kind: "stop", pauseId: player.packet.pauseId });
+    }
+  }
+}
 
 /** The path that answers with `move`, then takes the first reply until the talk ends. */
 function pathOf(tree: TreeNode, move: string): number[] | null {
@@ -73,10 +115,11 @@ it(`what a member tells a reporter about their bill is in the paper's story (see
       tried.push(`${where}: no resident member of a body`);
       continue;
     }
-    // The member is the player here, as in a seated start.
+    // The player steps in as the member, as the Advanced start's "Play as"
+    // does (/api/play: BenchPlayer.select), and plays their days.
     const me = member.id as PersonId;
-    core.playerId = me;
-    director.watch(core, me);
+    const player = new BenchPlayer(core, director);
+    player.select(me);
     const seat = seatView(core, me);
     const body = seat.bodies[0]!;
     let bill = seatAct(core, me, {
@@ -100,18 +143,24 @@ it(`what a member tells a reporter about their bill is in the paper's story (see
       tried.push(`${where}: ${bill.status}, no introduction record`);
       continue;
     }
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    // One sitting a day: the reporter's scene that day covers every bill the
-    // member introduced (scheduling folds the rest into it).
-    const entry = director.ledger.people
-      .get(me)
-      ?.schedule.find(
-        (row) =>
-          row.momentId.includes(":office.introduced:") &&
-          row.bindings.some((b) => b.typeKey === "press-interview"),
-      );
+    // The reporter's call stops the member's day (one sitting a day: it
+    // covers every bill the member introduced that day).
+    const calls: ScheduleEntry[] = [];
+    playDays(core, player, me, CALL_DAYS, (recordId) => {
+      const row = director.ledger.people
+        .get(me)
+        ?.schedule.find((one) => one.momentId === recordId);
+      if (
+        row?.momentId.includes(":office.introduced:") &&
+        row.bindings.some((b) => b.typeKey === "press-interview")
+      )
+        calls.push(row);
+    });
+    const entry = calls[0];
     if (!entry) {
-      tried.push(`${where}: no reporter for ${bill.id}`);
+      tried.push(
+        `${where}: no reporter's call stopped the member's day within ${CALL_DAYS} days for ${bill.id}`,
+      );
       continue;
     }
     const scene = purposeScene(core, director, me, entry, {
@@ -140,7 +189,7 @@ it(`what a member tells a reporter about their bill is in the paper's story (see
       );
       continue;
     }
-    advanceCore(core, addDays(makeIsoDate(core.date), PAPER_DAYS));
+    playDays(core, player, me, PAPER_DAYS, () => {});
     const story = (
       api.moduleState(NEWS_MODULE_ID).table("stories").rows() as unknown as {
         id: string;

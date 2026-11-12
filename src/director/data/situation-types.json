@@ -3131,6 +3131,7 @@
     {
       "key": "press-interview",
       "receive": { "age": "any", "counterpart": "any", "seat": "any" },
+      "stopsDay": true,
       "roles": [
         {
           "key": "reporter",
