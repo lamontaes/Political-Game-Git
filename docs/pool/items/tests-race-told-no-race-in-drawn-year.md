@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: fix/race-told-seed
-pr:
+pr: 8899
 after:
 blocked-on:
 lead: words
