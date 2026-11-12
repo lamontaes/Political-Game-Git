@@ -158,7 +158,9 @@ it(`what a member tells a reporter about their bill is in the paper's story (see
     });
     const entry = calls[0];
     if (!entry) {
-      tried.push(`${where}: no reporter's call stopped the member's day within ${CALL_DAYS} days for ${bill.id}`);
+      tried.push(
+        `${where}: no reporter's call stopped the member's day within ${CALL_DAYS} days for ${bill.id}`,
+      );
       continue;
     }
     const scene = purposeScene(core, director, me, entry, {
