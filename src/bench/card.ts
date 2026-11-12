@@ -39,6 +39,7 @@ import {
   type PronounWords,
 } from "../english/pronoun-words";
 import { joinList } from "../english/bill-names";
+import { monthWords } from "../english/plain-words.mjs";
 import { spanSaid } from "../english/span-words";
 import {
   corePlaceByJurisdictionId,
@@ -1048,26 +1049,38 @@ function noJobLine(
   const kin = (household?.memberIds ?? [])
     .filter((id) => id !== person.id && core.people.get(id)?.alive)
     .map((id) => relationWord(core, id, relationOf(id)))
-    .filter((word): word is string => !!word)
-    .map((word) => `your ${word}`);
+    .filter((word): word is string => !!word);
+  // Each relation once, in the plural where there are more than one ("your
+  // daughters"), in the order the household lists them.
+  const said = [...new Set(kin)].map((word) =>
+    kin.filter((other) => other === word).length > 1
+      ? `your ${word.endsWith("child") ? `${word}ren` : `${word}s`}`
+      : `your ${word}`,
+  );
   const others = (household?.memberIds ?? []).filter(
     (id) => id !== person.id && core.people.get(id)?.alive,
   ).length;
-  const place = corePlaceByJurisdictionId(person.placeId as never);
+  // When their last job ended, from the job records: the fact a line about
+  // living alone with no job is about. No job on record, no line.
+  const lastJobEnded = [...core.jobs.values()]
+    .filter((job) => job.personId === person.id && job.endsAt)
+    .map((job) => job.endsAt!)
+    .sort()
+    .at(-1);
   const text =
     others && kin.length === others
       ? screenLine(
           "person-history",
           "person-history.summary.no-work.none.you",
           {
-            kin: joinList(kin, "or"),
+            kin: joinList(said, "or"),
           },
         )
-      : !others && place
+      : !others && lastJobEnded
         ? screenLine(
             "person-history",
             "person-history.summary.no-work.alone.you",
-            { place: place.displayName },
+            { month: monthWords(lastJobEnded) },
           )
         : null;
   return text ? { text, recordIds: household ? [household.id] : [] } : null;

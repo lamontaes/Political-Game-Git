@@ -497,7 +497,7 @@
     {
       "key": "person-history.summary.no-work.alone.you",
       "move": "summary",
-      "text": "You live alone in {place} and have no job.",
+      "text": "You live alone, and you have been out of work since {month}.",
       "origin": "authored",
       "author": "Words builder W2 (person-history inserts)",
       "date": "2026-11-12",
