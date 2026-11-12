@@ -34,6 +34,10 @@ export const PUBLIC_PAY_REVIEW = data.reviewKind;
 const EMPLOYER_LEVELS = data.employerLevels as Readonly<
   Record<string, LawLevelName>
 >;
+/** The highest level whose floors reach a class that is a government of its own (a school district). */
+const BOUND_BY = data.boundBy as unknown as Readonly<
+  Record<string, LawLevelName>
+>;
 /** Every public employer class, for screens that split public from private pay. */
 export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
@@ -83,7 +87,9 @@ function levelOf(
 ): LawLevelName | undefined {
   const core = api.state as CoreState;
   const org = core.organizations.get(organizationId);
-  const byClass = EMPLOYER_LEVELS[org?.classification ?? ""];
+  const byClass =
+    BOUND_BY[org?.classification ?? ""] ??
+    EMPLOYER_LEVELS[org?.classification ?? ""];
   if (byClass) return byClass;
   if (
     org?.kind !== "government-treasury" ||

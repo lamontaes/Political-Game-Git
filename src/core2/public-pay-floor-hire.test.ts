@@ -136,3 +136,70 @@ it("pays an aide hired in a played world at the floor from the day they are hire
   }
   throw new Error(`No drawn place hired an aide: ${tried.join("; ")}`);
 }, 1_800_000);
+
+// A school district is a government of its own under its state: a floor
+// enacted at the county or city does not reach its staff, and one enacted at
+// the state does (SG-GOV-public-pay-floor-owner).
+it("holds a school district's hire to a state floor and not to a city or county floor", () => {
+  const tried: string[] = [];
+  setBookkeeping(false);
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const seed = randomBytes(8).toString("hex");
+    const place = drawPlace(seed, "public-floor-school");
+    const where = `${place.name} [${place.key}], seed ${seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const classOf = (organizationId: string) =>
+      core.organizations.get(organizationId)?.classification ?? "";
+    const school = jobsAt(api, ["service:school", "service:public-school"])[0];
+    const town = jobsAt(api, [
+      "service:municipal-government",
+      "sector:local-government-office",
+    ])[0];
+    if (!school || !town) {
+      tried.push(`${where}: no school and town job`);
+      continue;
+    }
+    const lowPay = { hourlyMinor: 1_000, wageDailyMinor: 8_000 };
+    const enact = (level: string, measureId: string) => {
+      const row = lawChain(api).levels.find((l) => l.level === level);
+      if (!row) return false;
+      enactLaw(api, {
+        jurisdiction: row.jurisdiction,
+        level: row.level,
+        series: PUBLIC_PAY_FLOOR,
+        value: 90_000,
+        effectiveDate: core.date,
+        measureId,
+        citation: "Fixture: a public pay floor enacted at one level.",
+      });
+      return true;
+    };
+    if (!enact("city", "fixture:school-floor-city")) {
+      tried.push(`${where}: no city level`);
+      continue;
+    }
+    // A town employer is held to the city floor; the school district is not.
+    expect(
+      publicPayFloorHourly(api, town.organizationId, lowPay),
+      `${where}: ${classOf(town.organizationId)}`,
+    ).toBeGreaterThan(lowPay.hourlyMinor);
+    expect(
+      publicPayFloorHourly(api, school.organizationId, lowPay),
+      `${where}: ${classOf(school.organizationId)}`,
+    ).toBe(0);
+    if (!enact("state", "fixture:school-floor-state")) {
+      tried.push(`${where}: no state level`);
+      continue;
+    }
+    expect(
+      publicPayFloorHourly(api, school.organizationId, lowPay),
+      `${where}: ${classOf(school.organizationId)}`,
+    ).toBeGreaterThan(lowPay.hourlyMinor);
+    return;
+  }
+  throw new Error(`No drawn place had both: ${tried.join("; ")}`);
+}, 1_800_000);
