@@ -267,3 +267,45 @@ export function schoolsAttended(
   }
   return rows;
 }
+
+/** A run of school years at one school: its first and last school year (by calendar year the year starts in), and the record it opens on. */
+export interface SchoolSpan {
+  schoolId: string;
+  from: number;
+  to: number;
+  recordId: string;
+}
+
+/**
+ * The school years a person spent at each school, read from their school
+ * records: a record opens a run at its school, and the run lasts until the
+ * next record or, for the last one, until the person's last school year or
+ * today's school year, whichever comes first.
+ */
+export function schoolSpans(
+  core: Readonly<CoreState>,
+  personId: string,
+): SchoolSpan[] {
+  const person = core.people.get(personId as PersonId);
+  if (!person) return [];
+  const rows = schoolsAttended(core, personId);
+  if (!rows.length) return [];
+  const kindergarten = kindergartenYear(makeIsoDate(person.birthDate));
+  const today = Number(core.date.slice(0, 4));
+  const thisYear =
+    core.date.slice(5) >= data.schoolYear.firstDay ? today : today - 1;
+  const lastYear = Math.min(
+    kindergarten + SCHOOL_STAGE_CALENDAR.endsAfterYears.high - 1,
+    thisYear,
+  );
+  return rows.map((row, index) => {
+    const from = kindergarten + row.grade;
+    const next = rows[index + 1];
+    return {
+      schoolId: row.schoolId,
+      from,
+      to: next ? kindergarten + next.grade - 1 : lastYear,
+      recordId: row.recordId,
+    };
+  });
+}

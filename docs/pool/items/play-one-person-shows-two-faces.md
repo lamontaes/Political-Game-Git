@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-one-person-shows-two-faces
+pr: #8330
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4 "What a player sees", Pillar 6, and "Duplicate systems worth merging", item 4)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:33:20.543Z
 ---
 
 **What.** The audit measured on Nov 9 in Blodgett Landing, New Hampshire (a random world, no seed given) a 17-year-old player: "One person, two faces. The You screen's bust has light brown hair and pale skin. The Your life tab shows a full figure with black hair and tan skin. Her mother's bust resembles neither of them." The owner said the same on Nov 8, 2:10 p.m.: "I'm Mexican and my son is white. I don't know how that happened." The audit names the cause as duplicate drawing code: three ways to draw a face and six person cards. Fix the class: one face part and one picture source per person, read from that person's one looks record and used by every card, list, bust and menu; the other face parts and the duplicate cards are deleted.

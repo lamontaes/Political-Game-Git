@@ -5,10 +5,10 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-director-no-borrowed-small-talk
+pr: #8282
 after:
 blocked-on:
 model: sonnet
@@ -17,6 +17,8 @@ root: rc4-hand-written-words
 lead: words
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4 and the grading section, root causes 4 and 6)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:20:30.369Z
+branch: claude/pool-director-no-borrowed-small-talk
 ---
 
 **What.** A scene whose own lines are missing hands the player to everyday talk, and everyday talk says whatever is biggest on record, which has often been the President's address. The audit forced a serious illness on the player through dev mode in As Matuis, Northern Mariana Islands, and the mother's scene turned into replies about the President thirteen months after the address. On Nov 10's main (commit 8ac2262853) the scene tool shows 2 of 64 scenes still fall back (both news-arrives, the eviction news at home: Tesuque, New Mexico, seed 8a5d1fba28fc, 2026-11-21, and Odessa, Washington, seed fd7e212758b7, 2026-12-02), and the governor's address in Odessa played as narration alone. The fix is to remove the fallback: a scene whose own lines are missing does not play, its cause becomes a journal line, and the missing bank is reported by kind, purpose and step.
@@ -44,3 +46,5 @@ One trap in the tool: its console log prints the everyday talk it opens with eac
 Not verified: I did not reproduce the forced illness in As Matuis. `subjectsBetween` keeps the address as a subject for 14 days from the day it was given (`directorTalkAddressDays`, src/director/data/director.json), so a line about the President 13 months after the opening address needs explaining: either a later address was inside the window, or the reply came by another road. `openConversation` also carries a rule that a scene's talk keeps to its occasion and does not turn to small talk (near line 2287); the audit's runs show small talk got through it, and I did not find how. The builder reproduces both before deleting anything.
 
 Related: director-no-scene-without-a-purpose (the five kinds with no purpose), words-rejected-nov8-scene-still-plays (the lines themselves), words-talk-ends-as-soon-as-it-starts (the fallback talk closing at once), words-news-ask-gets-answer (blocked; an answer after family news), words-after-address-talk-follows (done; marked done, small talk about the address still showed in the audit).
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:20 UTC) on branch claude/pool-director-no-borrowed-small-talk.

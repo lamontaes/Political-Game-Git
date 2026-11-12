@@ -14,6 +14,8 @@ description: >
 
 # The rest of the country, as results
 
+**The country tier (`docs/design/country-tier.md`, Fable, Nov 10).** Every state is people and firms kept as counts with a state treasury, stepped monthly by the rules the town already uses, and the nation is the sum of the states; time can skip with results first. A new national or other-government module reads and writes that tier's rows (and the `national:<state>` place record) and does not keep its own national number or a second formula beside it. This skill's pattern (a state table, a monthly run, detail built on open) is how a module sits beside the tier. Take work with `docs/pool/START-A-BUILDER.md`; an item that says `Needs cause.` is not built.
+
 ## The pattern
 
 - **A module with a state table and a monthly run.** Register it in `src/bench/world.ts` next to its neighbors. A module needs at least one table ("Module state needs at least one table"). Schedule the next run with `api.moduleCalendar(ID).schedule`; its date must be strictly in the future, and `sourceRecordIds[0]` carries the row id when the work is for one row.
@@ -23,7 +25,7 @@ description: >
 
 ## The words
 
-- An event with `news: true` reaches the press wire and is printed. The printed-words test fails any printed story with no words. Give it a builder in `src/bench/printed-words.ts` that reuses an existing bank piece (the hazard bank tells a disaster under its state), or keep it off the wire in `wireItem` (`press-topics.ts`) with a registered stopgap until Words writes the pieces. The cabinet kinds and another state's measure result are held this way.
+- An event with `news: true` reaches the press wire and is printed. The printed-words test fails any printed story with no words. Give it a builder in `src/bench/printed-words.ts` that reuses an existing bank piece (the hazard bank tells a disaster under its state), or keep it off the wire in `wireItem` (`press-topics.ts`) with a registered stopgap and list the pieces it needs on the pull request; only the Story session writes lines under `data/english/parts/` (owner, Nov 10). The cabinet kinds and another state's measure result are held this way.
 - A bank with no place slot reads as local news; an outside story needs a place.
 
 ## The guards a new module trips
@@ -46,4 +48,4 @@ description: >
 
 - **Played world, drawn place.** `drawPlace(seed, label)` and `buildBenchWorld`, advance days, read the rows by id, and print one proof line (place, seed, record ids) with `process.stdout.write`; run with `--disableConsoleIntercept`. The wire drops old items, so check the wire the day the event happens.
 - **Speed.** `npm run speed:year -- --seed <s>` on main and on the branch, one process alone, two to four runs each, and report means or medians per year. Runs that overlap your own typecheck or git work are noise; zeroing the new effect and getting main's times separates cost from outcome.
-- **Fixes while the machine runs a long job.** Use `git worktree add ../wt-<name> <branch>` with `node_modules` symlinked; do not switch the main checkout under a running test or timing.
+- **Fixes while the machine runs a long job.** Do not switch the main checkout under a running test or timing. Work in a sparse copy that shares git objects and links `node_modules` (`helper-checkout`); never `git worktree add` or copy the repository on the owner's Mac, and a full copy is about 3.3 GB (owner, Oct 29).
