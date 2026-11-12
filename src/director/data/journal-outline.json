@@ -1,0 +1,59 @@
+{
+  "version": "journal-outline-v1",
+  "about": "The outline of a life as the Journal tells it (words composer, unit 6; docs/design/words-composer.md, part 3: 'A Journal paragraph and a news story have one'). Read by the one telling planner in src/director/journal.ts. The past is told in a few short paragraphs, one per stretch kind, in this order; what the player did in play is told after it, one paragraph per event or per race, in more detail. A record goes to the first paragraph whose `kinds` prefix its cause kind (or whose `beat` it carries), else to `family`. `young: true` takes every record from before the person came of voting age. A paragraph's sentences are the bank's (data/english/parts/journal.json); this file holds no sentence. A year in which nothing on record changed has no sentence: every sentence is a record.",
+  "paragraphs": [
+    {
+      "key": "roots",
+      "young": true,
+      "beat": "roots",
+      "kinds": [
+        "person.birth",
+        "household:raised-by",
+        "household:parent-apart",
+        "household:sibling",
+        "household:parents-met",
+        "household:school-started",
+        "school",
+        "event:school.finished",
+        "life:came-of-age"
+      ]
+    },
+    {
+      "key": "family",
+      "kinds": []
+    },
+    {
+      "key": "work",
+      "kinds": ["job-", "work:"]
+    },
+    {
+      "key": "now",
+      "beat": "work",
+      "kinds": ["household:livelihood"]
+    }
+  ],
+  "sayOnce": [
+    "employer",
+    "last-employer",
+    "lost-employer",
+    "next",
+    "place",
+    "moved-from",
+    "wage"
+  ],
+  "numberWords": [
+    "no",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve"
+  ]
+}
