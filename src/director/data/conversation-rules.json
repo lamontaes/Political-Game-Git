@@ -153,7 +153,7 @@
   },
   "answersTo": {
     "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
-    "news-ask-core": ["for", "against", "worked-there", "opinion", "why"]
+    "news-ask-core": ["for", "against", "why"]
   },
   "answeredBy": {
     "about": "Owner, Nov 11, 2026 (work talk names the employer, the job and how long): a question raised as a subject is answered by this fact of the other person's record. A reply that asks it is not offered when the line before already said it. Subject kinds and fact names only; no sentence.",

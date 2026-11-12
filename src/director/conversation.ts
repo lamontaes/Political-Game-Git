@@ -3176,6 +3176,15 @@ function mainTopic(
             SHARED_KINDS.includes(subject.kind)
           ? Number.MAX_VALUE
           : topicWeight(core, director, holderId, subject, data);
+    // A story's question already named in the house today is behind the
+    // player: a second housemate does not bring the same news (owner, Nov
+    // 12: "basically saying the same thing").
+    if (
+      subject.kind === "news" &&
+      !!subject.news?.question &&
+      heardNow.has(`${HEARD_QUESTION}${subject.news.question}`)
+    )
+      return;
     // Where someone stands never opens a talk (owner, Nov 12: "a statement
     // of politics from nowhere"): it comes up only after the news that is its
     // cause, told in the same talk (conversation-rules.json related.news).
