@@ -245,6 +245,15 @@ function shareHomeTime(api: CoreAPI): void {
         const family = a.familyIds.has(b.id);
         // Housemates who are not family start where living together settles.
         if (opening) {
+          // People who live together know each other's names: the household's
+          // own record is where they learned them.
+          if (!family)
+            api.meet(a.id, b.id, {
+              placeId: a.placeId,
+              sourceId: `household:${household.id}:opening`,
+              hours: p("zero"),
+              cause: ENCOUNTERS.causes.openingHome,
+            });
           if (!family && !core.relationships.has(pairKey(a.id, b.id)))
             api.relationship(
               a.id,
