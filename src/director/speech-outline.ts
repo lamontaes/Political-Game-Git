@@ -832,7 +832,7 @@ export function themeOfQuestion(question: string): string | null {
         Array.isArray(row) &&
         subject !== null &&
         row.includes(subject),
-    )?.[0] ?? null
+    )?.[P.zero] ?? null
   );
 }
 

@@ -71,7 +71,6 @@
       ],
       "voice": "polished",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -91,7 +90,6 @@
       ],
       "voice": "polished",
       "bearing": "braced",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -111,7 +109,6 @@
       ],
       "voice": "polished",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -131,7 +128,6 @@
       ],
       "voice": "polished",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -151,7 +147,6 @@
       ],
       "voice": "polished",
       "bearing": "braced",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -171,7 +166,6 @@
       ],
       "voice": "polished",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -311,7 +305,6 @@
       ],
       "voice": "plain",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -331,7 +324,6 @@
       ],
       "voice": "plain",
       "bearing": "braced",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -351,7 +343,6 @@
       ],
       "voice": "plain",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -371,7 +362,6 @@
       ],
       "voice": "plain",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -391,7 +381,6 @@
       ],
       "voice": "plain",
       "bearing": "braced",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -411,7 +400,6 @@
       ],
       "voice": "plain",
       "bearing": "solemn",
-      "addressKind": "crisis",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -523,46 +511,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.salutation.polished-sos-combative-members-of-the-legislature-my-fellow-citizens-i-did",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-combative-members-of-the-legislature-and-citizens-of-this-state",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and citizens of this state.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.salutation.polished-sos-combative-lawmakers-and-my-fellow-citizens-those-who-have-grown",
       "move": "salutation",
       "kind": "spoken",
@@ -577,47 +525,6 @@
       ],
       "voice": "polished",
       "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-combative-members-of-the-council-my-fellow-citizens-i-did",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-combative-members-of-the-council-and-neighbors-tonight-i-intend",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -637,7 +544,6 @@
       ],
       "voice": "polished",
       "bearing": "braced",
-      "addressKind": "combative",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -756,106 +662,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-combative-members-of-the-legislature-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-combative-folks-in-this-chamber-and-folks-at-home-i",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Folks in this chamber and folks at home.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-combative-everybody-here-and-everybody-watching-let-s-not-pretend",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Everybody here, and everybody watching.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-combative-members-of-the-council-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-combative-council-neighbors-i-m-going-to-say-some-things",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council, neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
       "bearing": "braced",
       "addressKind": "combative",
       "origin": "authored",
@@ -983,7 +789,6 @@
       ],
       "voice": "polished",
       "bearing": "tender",
-      "addressKind": "hopeful",
       "stages": ["chair-female"],
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
@@ -992,126 +797,6 @@
         "of": "opening-salutation",
         "part": "opener"
       }
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-hopeful-members-of-the-legislature-my-fellow-citizens-it-is",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-hopeful-members-of-the-legislature-and-citizens-of-this-state",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and citizens of this state.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-hopeful-lawmakers-and-my-fellow-citizens-thank-you-for-having",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Lawmakers, and my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-hopeful-members-of-the-council-my-fellow-citizens-it-is",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-hopeful-members-of-the-council-and-neighbors-i-am-glad",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-hopeful-council-members-and-my-fellow-residents-thank-you-for",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council members, and my fellow residents.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
     },
     {
       "key": "opening-speech.occasion.polished-sos-hopeful-i-come-before-you-glad-to-report-that-this",
@@ -1248,7 +933,6 @@
       ],
       "voice": "plain",
       "bearing": "glad",
-      "addressKind": "hopeful",
       "stages": ["chair-male"],
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
@@ -1257,106 +941,6 @@
         "of": "opening-salutation",
         "part": "opener"
       }
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-hopeful-members-of-the-legislature-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-hopeful-folks-in-this-chamber-and-folks-at-home-thank",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Folks in this chamber and folks at home.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-hopeful-everybody-here-and-everybody-watching-i-m-glad-to",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Everybody here, and everybody watching.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-hopeful-members-of-the-council-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-hopeful-council-neighbors-thank-you-very-much-i-m-hopeful",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council, neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
     },
     {
       "key": "opening-speech.salutation.plain-twn-hopeful-everybody-in-this-room-and-everybody-watching-i-m",
@@ -1373,7 +957,6 @@
       ],
       "voice": "plain",
       "bearing": "tender",
-      "addressKind": "hopeful",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -1480,126 +1063,6 @@
       "voice": "plain",
       "bearing": "tender",
       "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-victory-members-of-the-legislature-my-fellow-citizens-it-is",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-victory-members-of-the-legislature-and-citizens-of-this-state",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and citizens of this state.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-victory-lawmakers-and-my-fellow-citizens-we-said-what-we",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Lawmakers, and my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-victory-members-of-the-council-my-fellow-citizens-it-is",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-victory-members-of-the-council-and-neighbors-i-will-say",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-victory-council-members-and-my-fellow-residents-we-said-what",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council members, and my fellow residents.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "victory",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -1725,106 +1188,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.salutation.plain-sos-victory-members-of-the-legislature-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-victory-folks-in-this-chamber-and-folks-at-home-i",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Folks in this chamber and folks at home.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-victory-everybody-here-and-everybody-watching-we-said-we-d",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Everybody here, and everybody watching.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-victory-members-of-the-council-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-victory-council-neighbors-i-ll-say-it-right-at-the",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council, neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.salutation.plain-twn-victory-everybody-in-this-room-and-everybody-watching-we-said",
       "move": "salutation",
       "kind": "spoken",
@@ -1835,11 +1198,16 @@
           "subject": "town-address",
           "role": "salutation",
           "choice": "salutation"
+        },
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
         }
       ],
       "voice": "plain",
       "bearing": "calm",
-      "addressKind": "victory",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -1951,46 +1319,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.salutation.polished-sos-mourning-members-of-the-legislature-my-fellow-citizens-i-speak",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-mourning-members-of-the-legislature-and-citizens-of-this-state",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and citizens of this state.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.salutation.polished-sos-mourning-lawmakers-and-my-fellow-citizens-before-anything-else-tonight",
       "move": "salutation",
       "kind": "spoken",
@@ -2005,47 +1333,6 @@
       ],
       "voice": "polished",
       "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-mourning-members-of-the-council-my-fellow-citizens-i-speak",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-mourning-members-of-the-council-and-neighbors-i-will-keep",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -2065,7 +1352,6 @@
       ],
       "voice": "polished",
       "bearing": "tender",
-      "addressKind": "mourning",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -2177,46 +1463,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.salutation.plain-sos-mourning-members-of-the-legislature-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-mourning-folks-in-this-chamber-and-folks-at-home-it",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Folks in this chamber and folks at home.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.salutation.plain-sos-mourning-everybody-here-and-everybody-watching-before-anything-else-let",
       "move": "salutation",
       "kind": "spoken",
@@ -2231,47 +1477,6 @@
       ],
       "voice": "plain",
       "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-mourning-members-of-the-council-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-mourning-council-neighbors-it-s-a-hard-time-i-ll",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council, neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -2291,7 +1496,6 @@
       ],
       "voice": "plain",
       "bearing": "tender",
-      "addressKind": "mourning",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -2384,126 +1588,6 @@
       "voice": "plain",
       "bearing": "tender",
       "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-policy-members-of-the-legislature-my-fellow-citizens-i-come",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-policy-members-of-the-legislature-and-citizens-of-this-state",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and citizens of this state.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-sos-policy-lawmakers-and-my-fellow-citizens-i-will-not-take",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Lawmakers, and my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-policy-members-of-the-council-my-fellow-citizens-i-come",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, my fellow citizens.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-policy-members-of-the-council-and-neighbors-tonight-is-about",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.polished-twn-policy-council-members-and-my-fellow-residents-i-will-not",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council members, and my fellow residents.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "policy",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -2615,106 +1699,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.salutation.plain-sos-policy-members-of-the-legislature-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-policy-folks-in-this-chamber-and-folks-at-home-thank",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Folks in this chamber and folks at home.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-policy-everybody-here-and-everybody-watching-i-ll-keep-this",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Everybody here, and everybody watching.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-policy-members-of-the-council-and-everybody-who-came-out",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-policy-council-neighbors-thank-you-i-m-here-to-talk",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Council, neighbors.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "policy",
-      "origin": "authored",
-      "author": "Claude Sonnet 5.5 (night: story)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.salutation.plain-twn-policy-everybody-in-this-room-and-everybody-watching-i-ll",
       "move": "salutation",
       "kind": "spoken",
@@ -2729,7 +1713,6 @@
       ],
       "voice": "plain",
       "bearing": "calm",
-      "addressKind": "policy",
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08"
@@ -3605,25 +2588,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-sos-members-of-the-legislature-and-everybody-who-came-out-thank-you",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the legislature, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "state-of-the-state",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
       "bearing": "calm",
       "origin": "authored",
       "author": "Story (Claude Code)",
@@ -5091,25 +4055,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.salutation.plain-twn-members-of-the-council-and-everybody-who-came-out-thank-you",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Members of the council, and everybody who came out.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "town-address",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
       "bearing": "calm",
       "origin": "authored",
       "author": "Story (Claude Code)",
@@ -11789,28 +10734,6 @@
       "move": "salutation",
       "kind": "spoken",
       "text": "Folks.",
-      "uses": [
-        {
-          "move": "salutation",
-          "subject": "inaugural",
-          "role": "salutation",
-          "choice": "salutation"
-        }
-      ],
-      "voice": "plain",
-      "piece": {
-        "of": "opening-salutation",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.salutation.plain-ina-all-opener-friends",
-      "move": "salutation",
-      "kind": "spoken",
-      "text": "Friends.",
       "uses": [
         {
           "move": "salutation",
@@ -40488,36 +39411,6 @@
         }
       ],
       "voice": ["plain", "polished"],
-      "piece": {
-        "of": "opening-ask",
-        "part": "opener"
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder, opening address versions)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "opening-speech.ask.polished-ina-sta-all-opener-members-of-congress-first",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "First,",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["rank-first"]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["rank-first"]
-        }
-      ],
-      "voice": "polished",
       "piece": {
         "of": "opening-ask",
         "part": "opener"
@@ -81364,6 +80257,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
         }
       ],
       "voice": "plain",
@@ -81392,31 +80292,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-for-state-of-the-state-i-m-for-so-send-me-a-bill",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'm for {about}, so send me a bill to {side}, and I'll sign it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-not-in-force", "about", "side"]
-        }
-      ],
-      "voice": "plain",
       "bearing": "firm",
       "piece": {
         "of": "opening-ask",
@@ -82827,31 +81702,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.ask.polished-town-address-is-how-this-town-does-things-and-i-stance-for-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "{about} is how this town does things, and I will defend it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-for", "law-in-force", "about"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.plain-town-address-is-how-we-do-things-here-and-i-stance-for-law-in-force-about",
       "move": "ask",
       "kind": "spoken",
@@ -82866,31 +81716,6 @@
         }
       ],
       "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-C, speech outline)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-town-address-is-how-this-town-does-things-today-and-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "{about} is how this town does things today, and I will ask the council to end it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["stance-against", "law-in-force", "about"]
-        }
-      ],
-      "voice": "polished",
       "bearing": "firm",
       "piece": {
         "of": "opening-ask",
@@ -83075,10 +81900,60 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.close.polished-town-address-if-we-this-town-will-be-the-better-first-side",
+      "key": "opening-speech.ask.polished-town-address-is-how-our-town-does-things-and-i-stance-for-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is how our town does things, and I will defend it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-for", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-town-address-is-how-our-town-does-things-today-and-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "{about} is how our town does things today, and I will ask the council to end it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["stance-against", "law-in-force", "about"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-C, speech outline)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-town-address-if-we-our-town-will-be-the-better-first-side",
       "move": "close",
       "kind": "spoken",
-      "text": "If we {first-side}, this town will be the better for it. Thank you.",
+      "text": "If we {first-side}, our town will be the better for it. Thank you.",
       "uses": [
         {
           "move": "close",
@@ -83095,10 +81970,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.close.plain-town-address-let-s-and-this-town-s-better-off-first-side",
+      "key": "opening-speech.close.plain-town-address-let-s-and-our-town-s-better-off-first-side",
       "move": "close",
       "kind": "spoken",
-      "text": "Let's {first-side}, and this town's better off for it. Thank you.",
+      "text": "Let's {first-side}, and our town's better off for it. Thank you.",
       "uses": [
         {
           "move": "close",

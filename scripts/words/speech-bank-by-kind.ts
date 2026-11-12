@@ -393,6 +393,7 @@ const slug = (text: string) =>
     .slice(0, 8)
     .join("-");
 const keys = new Set(bank.parts.map((part) => part.key));
+const texts = new Set(bank.parts.map((part) => part.text.toLowerCase()));
 /** What the context has meant for people, the step between the context and the stand: [topic, subjects, voice, text]. */
 const MEANING: [string, string[], string, string][] = [
   [
@@ -605,7 +606,7 @@ const SIDED: [string[], string, "for" | "against", string][] = [
 ];
 for (const [subjects, voice, side, text] of SIDED) {
   const key = `opening-speech.ask.${voice}-${side}-${subjects[0]}-${slug(text)}`;
-  if (keys.has(key)) continue;
+  if (keys.has(key) || texts.has(text.toLowerCase())) continue;
   bank.parts.push({
     key,
     move: "ask",
@@ -636,7 +637,7 @@ for (const [subjects, voice, side, text] of SIDED) {
 
 for (const [topic, subjects, voice, text] of MEANING) {
   const key = `opening-speech.meaning.${voice}-${topic}-${slug(text)}`;
-  if (keys.has(key)) continue;
+  if (keys.has(key) || texts.has(text.toLowerCase())) continue;
   const needs = [
     `context-${topic}`,
     ...[...text.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]!),
@@ -666,7 +667,7 @@ for (const [topic, subjects, voice, text] of MEANING) {
 
 for (const [topic, subjects, voice, text, needs] of CONTEXT) {
   const key = `opening-speech.context.${voice}-${topic}-${slug(text)}`;
-  if (keys.has(key)) continue;
+  if (keys.has(key) || texts.has(text.toLowerCase())) continue;
   bank.parts.push({
     key,
     move: "context",
@@ -838,7 +839,7 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "for",
-    "{about} is how this town does things, and I will defend it.",
+    "{about} is how our town does things, and I will defend it.",
   ],
   [
     ["town-address"],
@@ -850,7 +851,7 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "against",
-    "{about} is how this town does things today, and I will ask the council to end it.",
+    "{about} is how our town does things today, and I will ask the council to end it.",
   ],
   [
     ["town-address"],
@@ -902,19 +903,19 @@ const CLOSES: [string[], string, string][] = [
   [
     ["town-address"],
     "polished",
-    "If we {first-side}, this town will be the better for it. Thank you.",
+    "If we {first-side}, our town will be the better for it. Thank you.",
   ],
   [
     ["town-address"],
     "plain",
-    "Let's {first-side}, and this town's better off for it. Thank you.",
+    "Let's {first-side}, and our town's better off for it. Thank you.",
   ],
 ];
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
 for (const add of ADD) {
   const key = `opening-speech.${add.role}.${Array.isArray(add.voice) ? "both" : add.voice}-${add.subjects[0]}-${slug(add.text)}-${slug(add.needs.join(" "))}`;
-  if (keys.has(key)) continue;
+  if (keys.has(key) || texts.has(add.text.toLowerCase())) continue;
   bank.parts.push({
     key,
     move: add.role,
@@ -953,6 +954,59 @@ for (const part of bank.parts) {
     count("11. an ask's announcement goes and the stand is said");
   }
 }
+
+// 12. A W-C piece that said "this town" (rule no-this-town) gives way to its
+// rewording above.
+bank.parts = bank.parts.filter((part) => {
+  if (
+    part.author === "Claude (Words builder W-C, speech outline)" &&
+    /\bthis town\b/.test(part.text)
+  ) {
+    count('12. a piece that said "this town" gives way to its rewording');
+    return false;
+  }
+  return true;
+});
+
+// 14. A greeting's list of people (a whole greeting cut to its list, or a
+// greeting's opener) is the same whatever kind of address follows it, so it
+// belongs to every kind (no addressKind); a greeting's core, which carries
+// the kind's mood, keeps its kind.
+for (const part of bank.parts)
+  if (
+    hasRole(part, "salutation") &&
+    part.piece?.part !== "core" &&
+    part.addressKind !== undefined
+  ) {
+    delete part.addressKind;
+    count("14. a greeting belongs to every kind of address");
+  }
+
+// 13. Pieces that became the same words (a title removed, a greeting cut)
+// are one piece: the first keeps every use of the others.
+const byText = new Map<string, Part>();
+bank.parts = bank.parts.filter((part) => {
+  const text = part.text.toLowerCase();
+  const kept = byText.get(text);
+  if (!kept) {
+    byText.set(text, part);
+    return true;
+  }
+  for (const use of part.uses)
+    if (
+      !kept.uses.some(
+        (row) => row.subject === use.subject && row.role === use.role,
+      )
+    )
+      kept.uses.push(use);
+  const voices = new Set([
+    ...(Array.isArray(kept.voice) ? kept.voice : [kept.voice]),
+    ...(Array.isArray(part.voice) ? part.voice : [part.voice]),
+  ]);
+  kept.voice = voices.size > 1 ? [...voices].sort() : [...voices][0]!;
+  count("13. a piece with the same words as another is merged into it");
+  return false;
+});
 
 // 10. A close that only thanks, and an against-wording that answers nothing
 // ("isn't the answer" to a question nobody asked), are not said: a close

@@ -279,6 +279,9 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
     for (const subject of SUBJECTS)
       for (const role of SHARED_ROLES) {
         if (!roleExists(subject, role)) continue;
+        // A greeting is a list of people and belongs to every kind (speech
+        // outline, Nov 12): it is counted with the general pieces, not here.
+        if (role === "salutation") continue;
         for (const kind of ADDRESS_KINDS)
           for (const voice of VOICES) {
             const own = OPENING_SPEECH_BANK.parts.filter(
@@ -331,6 +334,8 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             // A role whose pieces carry no fact and no stand is not offered
             // (speech outline, Nov 12).
             if (!move) continue;
+            // A greeting belongs to every kind (speech outline, Nov 12).
+            if (role === "salutation") continue;
             for (const variant of move.bank.parts.core!.variants) {
               const part = OPENING_SPEECH_BANK.parts.find(
                 (row) => row.key === variant.pieceKey,
