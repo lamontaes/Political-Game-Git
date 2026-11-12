@@ -75,6 +75,8 @@ interface Disaster {
 }
 
 interface Runtime {
+  /** The town the world opened in, whose FEMA figures these are: set at the first run, wherever the player lives later. */
+  town?: PlaceId;
   county?: string;
   countyOrgId?: string;
   townOrgId?: string;
@@ -113,7 +115,8 @@ function runtime(api: CoreAPI): Runtime {
   const known = runtimes.get(core);
   if (known) return known;
   const county = countyCode(core);
-  const town = core.people.get(core.playerId ?? "")?.placeId;
+  const town = (core.placeMetadata?.housingTown ??
+    core.people.get(core.playerId ?? "")?.placeId) as PlaceId | undefined;
   let countyOrgId: string | undefined, townOrgId: string | undefined;
   let treasuryId: string | undefined;
   for (const org of core.organizations.values()) {
@@ -158,6 +161,7 @@ function runtime(api: CoreAPI): Runtime {
     for (const row of rows[`${county.slice(0, 2)}000`] ?? []) add(row, true);
   }
   const rt: Runtime = {
+    ...(town ? { town } : {}),
     ...(county ? { county } : {}),
     ...(countyOrgId ? { countyOrgId } : {}),
     ...(townOrgId ? { townOrgId } : {}),
@@ -444,7 +448,7 @@ export function damagedHomesOf(
 
 function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
-  const town = core.people.get(core.playerId ?? "")?.placeId;
+  const town = rt.town;
   if (!town) return;
   api.stopgap(STOPGAP);
   api.emit({
@@ -573,8 +577,7 @@ function townShare(core: CoreState, town: PlaceId): number {
  */
 function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
-  const town = core.people.get(core.playerId ?? "")?.placeId as
-    PlaceId | undefined;
+  const town = rt.town;
   const row = townRow(rt, disaster);
   const pool = town ? residentsAccountFor(core, town) : undefined;
   if (!row || !town || !pool) return;
