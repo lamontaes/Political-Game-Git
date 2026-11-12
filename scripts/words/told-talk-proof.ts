@@ -56,8 +56,15 @@ for (let draw = 0; draw < draws; draw += 1) {
   );
   const told = new Set<string>();
   // Watched as the bench watches the player's household.
-  const watched = (core.households.get(core.people.get(playerId)!.householdId)
-    ?.memberIds ?? [playerId]) as PersonId[];
+  // For a job lost, the player's relatives are watched too (a lost job in
+  // one household in a year is rare; the player hears a relative's).
+  const player = core.people.get(playerId)!;
+  const watched = [
+    ...new Set([
+      ...(core.households.get(player.householdId)?.memberIds ?? [playerId]),
+      ...(kind === "job-lost" ? [...player.familyIds] : []),
+    ]),
+  ].filter((id) => core.people.has(id as PersonId)) as PersonId[];
   for (const id of watched)
     if (core.people.get(id)?.alive) director.watch(core, id);
   let talks = 0;

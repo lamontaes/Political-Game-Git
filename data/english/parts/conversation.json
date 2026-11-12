@@ -36211,10 +36211,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-losing-wage-an-hour-stings-but-i-ll-manage",
+      "key": "conversation.job-lost-back-core.thanks-losing-wage-an-hour-stings-but-i-ll-manage",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. Losing {wage} an hour stings, but I'll manage.",
+      "text": "Thanks. Losing {wage} an hour stings, but I'll manage.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -36235,10 +36235,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-keep-an-ear-out-for-work-in-place",
+      "key": "conversation.job-lost-back-core.thanks-keep-an-ear-out-for-work-in-place",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. Keep an ear out for work in {place}.",
+      "text": "Thanks. Keep an ear out for work in {place}.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -36259,10 +36259,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-years-years-there-and-it-s-just-over",
+      "key": "conversation.job-lost-back-core.thanks-years-years-there-and-it-s-just-over",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. {years} years there, and it's just over.",
+      "text": "Thanks. {years} years there, and it's just over.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -36283,10 +36283,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-nobody-thought-employer-would-close",
+      "key": "conversation.job-lost-back-core.thanks-nobody-thought-employer-would-close",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. Nobody thought {employer} would close.",
+      "text": "Thanks. Nobody thought {employer} would close.",
       "uses": [
         {
           "move": "job-lost-back-core",
@@ -36308,10 +36308,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.job-lost-back-core.thanks-you-i-never-thought-employer-would-let-me-go",
+      "key": "conversation.job-lost-back-core.thanks-i-never-thought-employer-would-let-me-go",
       "move": "job-lost-back-core",
       "kind": "spoken",
-      "text": "Thanks, {you}. I never thought {employer} would let me go.",
+      "text": "Thanks. I never thought {employer} would let me go.",
       "uses": [
         {
           "move": "job-lost-back-core",
