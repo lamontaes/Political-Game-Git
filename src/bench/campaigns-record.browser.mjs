@@ -105,26 +105,38 @@ try {
     .getByRole("button", { name: "Elections" })
     .click();
   await page.waitForTimeout(1200);
-  const race = page
-    .locator(".roster-entry, .roster button, [data-contest]")
-    .first();
-  await race.click();
-  await page.waitForTimeout(1200);
-  const text = await page.locator("#sheet-body").innerText();
+  const entries = page.locator(".roster-entry, .roster button, [data-contest]");
+  const total = await entries.count();
+  let text = "";
+  let shown = 0;
+  let rowTexts = [];
+  for (let at = 0; at < total; at += 1) {
+    await entries.nth(at).click();
+    await page.waitForTimeout(800);
+    const body = await page.locator("#sheet-body").innerText();
+    const hasRecord = /Your record in office/.test(body);
+    if (hasRecord && !text) {
+      text = body;
+      rowTexts = await page
+        .locator("[data-record-id]")
+        .evaluateAll((nodes) => nodes.map((node) => node.textContent ?? ""));
+      if (SHOTS)
+        await page.screenshot({ path: `${SHOTS}/campaigns-record.png` });
+    }
+    if (hasRecord) shown += 1;
+  }
   console.log("elections page:", text.replace(/\s+/g, " ").slice(0, 900));
-  if (SHOTS) await page.screenshot({ path: `${SHOTS}/campaigns-record.png` });
+  console.log(`record shown under ${shown} of ${total} races`);
+  assert.ok(
+    shown >= 1 && shown < total,
+    "the record shows under the player's own races only, not every race",
+  );
   assert.match(
     text,
     /Your record in office/,
     "the record section is on Campaigns",
   );
-  assert.ok(
-    (await page.locator("[data-record-id]").count()) > 0,
-    "each record row carries its record id",
-  );
-  const rowTexts = await page
-    .locator("[data-record-id]")
-    .evaluateAll((nodes) => nodes.map((node) => node.textContent ?? ""));
+  assert.ok(rowTexts.length > 0, "each record row carries its record id");
   for (const row of rowTexts)
     assert.doesNotMatch(
       row,

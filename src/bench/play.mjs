@@ -4719,7 +4719,7 @@ const sheets = {
         label: vote.number
           ? `${vote.number} · ${policyLabel(vote.question)}`
           : `${policyLabel(vote.question)} · ${dateWords(vote.date)}`,
-        value: `${vote.position > 0 ? (stance.for ?? "") : (stance.against ?? "")}${
+        value: `${vote.position > 0 ? labels.votedFor : labels.votedAgainst}${
           vote.passed === null
             ? ""
             : ` · ${vote.passed ? labels.votePassedResult : labels.voteAgainstResult}`
@@ -4805,7 +4805,10 @@ const sheets = {
           ? askPage(entry.ask)
           : [
               ...racePage(entry.race),
-              ...recordSection(await api(`/api/campaign/record?id=${me.id}`)),
+              ...(filed.has(entry.race.contestId) ||
+              entry.race.lastTime?.winnerId === me.id
+                ? recordSection(await api(`/api/campaign/record?id=${me.id}`))
+                : []),
             ],
     });
   },
