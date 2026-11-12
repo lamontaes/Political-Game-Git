@@ -568,11 +568,20 @@ function fileChanges(
     readonly barred: (question: string, direction: number) => boolean;
     /** A body that votes its own government's budget also takes up amendments to its lines. */
     readonly lines?: boolean;
+    /** Limit filings to strong priorities and spread sponsorships across members' capacity. */
+    readonly prioritize?: boolean;
   },
 ): Filed[] {
   const filers = input.filers.map((t) => filerOf(api, t));
   const leader = input.leader ? filerOf(api, input.leader) : null;
   const filed: Filed[] = [];
+  const sponsorLoad = new Map<string, number>();
+  const priorityCost = input.prioritize
+    ? campaignParameter("filingPriorityCost")
+    : 0;
+  const loadWeight = input.prioritize
+    ? campaignParameter("sponsorLoadWeight")
+    : 0;
   // The executive over the body brings what no member files, through the
   // member they ask (the player decides their own requests).
   const head = input.body ? executiveOf(api, input.body.id).term : undefined;
@@ -596,18 +605,25 @@ function fileChanges(
         // Nothing is filed in the player's name without them: they back it,
         // and file their own bills through the bill menu.
         if (isControlled(api, member)) continue;
+        const netReason = input.prioritize
+          ? reason - priorityCost - (sponsorLoad.get(member.key) ?? 0) * loadWeight
+          : reason;
+        if (netReason <= 0) continue;
         if (
-          reason > best ||
-          (reason === best && sponsor && member.key < sponsor.key)
+          netReason > best ||
+          (netReason === best && sponsor && member.key < sponsor.key)
         ) {
-          best = reason;
+          best = netReason;
           sponsor = member;
         }
       }
       if (!sponsor) {
+        const execReason = executive
+          ? filingReason(api, executive, question, direction, law)
+          : 0;
         if (
           !executive ||
-          filingReason(api, executive, question, direction, law) <= 0
+          execReason <= (input.prioritize ? priorityCost : 0)
         )
           continue;
         const request = proposeAsExecutive(api, {
@@ -621,15 +637,20 @@ function fileChanges(
               .get(request.billId) as unknown as BillRow)
           : undefined;
         if (!request || !drafted) continue;
+        const execSponsor =
+          filers.find((f) => f.key === request.memberId) ??
+          filerOf(
+            api,
+            input.filers.find((t) => memberKey(t) === request.memberId)!,
+          );
+        sponsorLoad.set(
+          execSponsor.key,
+          (sponsorLoad.get(execSponsor.key) ?? 0) + 1,
+        );
         filed.push({
           question,
           direction,
-          sponsor:
-            filers.find((f) => f.key === request.memberId) ??
-            filerOf(
-              api,
-              input.filers.find((t) => memberKey(t) === request.memberId)!,
-            ),
+          sponsor: execSponsor,
           cosponsors,
           leaderReason: leader
             ? filingReason(api, leader, question, direction, law)
@@ -638,6 +659,7 @@ function fileChanges(
         });
         continue;
       }
+      sponsorLoad.set(sponsor.key, (sponsorLoad.get(sponsor.key) ?? 0) + 1);
       filed.push({
         question,
         direction,
@@ -651,9 +673,10 @@ function fileChanges(
   }
   if (input.lines)
     filed.push(...fileLines(api, input.jurisdiction, filers, input.barred));
-  // The floor leader's calendar: the most backed first, a change weighing
-  // more as more of the town's residents live with what it touches; then the
-  // leader's own reasons.
+  // The floor leader's calendar: the leader's agenda first (bills the floor
+  // leader does not oppose), then the most backed, a change weighing more as
+  // more of the town's residents live with what it touches; then the leader's
+  // own reasons.
   const weight = campaignParameter("floorConcernWeight");
   const backing = new Map(
     filed.map((f) => [
@@ -664,6 +687,7 @@ function fileChanges(
   );
   filed.sort(
     (a, b) =>
+      (b.leaderReason >= 0 ? 1 : 0) - (a.leaderReason >= 0 ? 1 : 0) ||
       backing.get(b)! - backing.get(a)! ||
       b.leaderReason - a.leaderReason ||
       a.question.localeCompare(b.question),
@@ -1281,6 +1305,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           ),
         // A new session takes every bill up afresh.
         barred: () => false,
+        prioritize: true,
       })
     : [];
   const today = api.state.date;
@@ -1308,7 +1333,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       (federal
         ? campaignParameter("congressFloorDaysPerYear") / weeks
         : campaignParameter("legislativeDaysPerWeek")) *
-        campaignParameter("floorBillsPerLegislativeDay"),
+        campaignParameter("policyBillsPerLegislativeDay"),
     ),
   );
   const id = `session:${jurisdiction}:${conveneAt}`;

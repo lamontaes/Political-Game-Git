@@ -458,6 +458,24 @@
       "source": "How many bills a legislative chamber's floor takes up in one floor day (each bill reached is debated and voted on; the rest die at adjournment). Checked against official session totals: Kentucky 2024, 212 bills became law in 60 legislative days (3.5 a day, each passing both chambers); Florida 2024, 313 bills passed both chambers in a 60-day session (about 5 a day); the floor also takes up bills that fail (data/research/lawmaking-throughput/throughput-evidence.json).",
       "spread": [3, 12]
     },
+    "policyBillsPerLegislativeDay": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "source": "Share of a legislative floor day's agenda spent on tracked major policy-question bills rather than routine, local, technical, or budget measures. Calibrated against the State Policy Innovation and Diffusion database (Boehmke et al. 2020: >700 policies, ~24 states on average 1691-2017, at most ~6 tracked adoptions a state a year); at 4 legislative days a week, 0.75 gives 3 tracked policy-question bills a floor week.",
+      "spread": [0.25, 1.5]
+    },
+    "filingPriorityCost": {
+      "value": 1.15,
+      "tag": "TUNABLE",
+      "source": "Minimum conviction, constituent, and neighbor pull (filingReason) a state or federal legislator needs before spending legislative capital to file a tracked policy-question bill, instead of filing on every mild lean. Checked so only a member's strong priorities are filed.",
+      "spread": [0.4, 1.5]
+    },
+    "sponsorLoadWeight": {
+      "value": 0.35,
+      "tag": "TUNABLE",
+      "source": "How much each tracked policy-question bill a legislator already sponsors in a session reduces their remaining capacity to champion another, spreading sponsorships across members rather than one member carrying dozens of bills.",
+      "spread": [0.1, 0.6]
+    },
     "legislativeDaysPerWeek": {
       "value": 4,
       "tag": "TUNABLE",
