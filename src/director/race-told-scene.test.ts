@@ -50,39 +50,70 @@ const PROFILE = [
   "personality-v1:facet-sensitive",
 ];
 
-/** The last day a race may be held and still have its second day after (a player who ran hears it then) inside the played year. */
-const lastDayOfRace = () => addDays(makeIsoDate(gameStartDate()), DAYS - 3);
+/** The most weeks the new adult waits for a race to take their filing (as `src/bench/election-day.test.ts` waits). */
+const WEEKS = 60;
 
-/** The new adult filed for the soonest race held inside the year once they turn 18, or false. */
-function fileNewAdult(world: ReturnType<typeof buildBenchWorld>): boolean {
+/**
+ * The new adult filed for the soonest race they may enter, or why not. Every
+ * race opens its filing on its own day, so on the 18th birthday most places
+ * have none open yet (`drawn-place-tests`): the world runs a week at a time,
+ * up to WEEKS, until a race held inside the year that follows takes the
+ * filing, and the new adult then canvasses for signatures until the clerk's
+ * check. Returns null when they stand, else what was passed over.
+ */
+function fileNewAdult(
+  world: ReturnType<typeof buildBenchWorld>,
+): string | null {
   const { core, playerId } = world;
   const born = core.people.get(playerId as PersonId)!.birthDate;
   const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
   const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
   if (eighteen > core.date) advanceCore(core, eighteen);
-  const filed = [...playerContests(coreAPI(core))]
-    .filter((contest) => contest.electionDate <= lastDayOfRace())
-    .sort(
-      (a, b) =>
-        a.electionDate.localeCompare(b.electionDate) ||
-        a.id.localeCompare(b.id),
-    )
-    .find((contest) =>
-      ["petitioning", "on-ballot"].includes(
-        (
-          fileForOffice(core, playerId!, contest.id) as {
-            filing?: { status?: string };
-          }
-        ).filing?.status ?? "",
-      ),
-    );
-  if (!filed) return false;
-  // Filing is a petition: the new adult canvasses for signatures until the
-  // clerk's check, and stands only where it puts them on the ballot.
-  const petition = gatherSignatures(core, `filing:${filed.id}:${playerId}`);
-  return (
-    !petition || (!!petition.check && petition.check.valid >= petition.needed)
-  );
+  const refused = new Map<string, string>();
+  for (let week = 0; ; week += 1) {
+    // The last day a race may be held and still have its second day after
+    // (a player who ran hears it then) inside the year played from today.
+    const lastDay = addDays(makeIsoDate(core.date), DAYS - 3);
+    for (const contest of [...playerContests(coreAPI(core))]
+      .filter((row) => row.electionDate <= lastDay)
+      .sort(
+        (a, b) =>
+          a.electionDate.localeCompare(b.electionDate) ||
+          a.id.localeCompare(b.id),
+      )) {
+      const result = fileForOffice(core, playerId!, contest.id) as {
+        status?: string;
+        filing?: { status?: string };
+        unmet?: readonly { rule: string }[];
+      };
+      if (!["petitioning", "on-ballot"].includes(result.filing?.status ?? "")) {
+        refused.set(
+          contest.id,
+          (result.unmet ?? []).map((row) => row.rule).join("+") ||
+            String(result.status),
+        );
+        continue;
+      }
+      // Filing is a petition: the new adult canvasses for signatures until
+      // the clerk's check, and stands only where it puts them on the ballot.
+      const petition = gatherSignatures(
+        core,
+        `filing:${contest.id}:${playerId}`,
+      );
+      if (
+        !petition ||
+        (!!petition.check && petition.check.valid >= petition.needed)
+      )
+        return null;
+      return `the petition for ${contest.id} fell short on ${core.date} (${petition.check?.valid ?? 0} of ${petition.needed})`;
+    }
+    if (week >= WEEKS)
+      return `no race took the filing after ${WEEKS} weeks (reached ${core.date}); refused: ${
+        [...refused].map(([id, rule]) => `${id} (${rule})`).join(", ") ||
+        "none open"
+      }`;
+    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  }
 }
 
 /**
@@ -146,8 +177,9 @@ it(`the day after a count, someone tied to a candidate tells who won, and the re
       twoLevel: true,
       placeKey: place.key,
     });
-    if (!(attempt % 2) && !fileNewAdult(world)) {
-      tried.push(`${where}: no race to enter that year`);
+    const passed = attempt % 2 ? null : fileNewAdult(world);
+    if (passed) {
+      tried.push(`${where}: ${passed}`);
       continue;
     }
     const { core, director } = world;
