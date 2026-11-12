@@ -28,6 +28,7 @@ import {
   donationAsksView,
   campaignDay,
   campaignView,
+  playerRecord,
   debateAnswer,
   speechBegin,
   speechGive,
@@ -1765,6 +1766,15 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/campaign",
     run: async ({ url, send }) => {
       send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  // The player's record in office, as voters read it: what the Campaigns screen plans a re-run from.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/campaign/record",
+    run: async ({ url, send }) => {
+      send(200, playerRecord(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     },
   },
