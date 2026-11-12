@@ -51,9 +51,7 @@
     "today": "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
     "first-side": "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
     "today-clause": "the same sentence as `today`, in the case it takes after an opener and a comma",
-    "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
-    "it": "the pronoun for the point's question as an object (it, or them for a name that is several)",
-    "it-subject": "the pronoun for the point's question as a subject (it, or they for a name that is several)"
+    "belief": "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it"
   },
   "maxWords": 40,
   "mining": {
@@ -103239,88 +103237,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.ask.polished-inaugural-i-will-sign-the-repeal-of-the-day-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will sign the repeal of {about} the day Congress sends it to me.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about",
-            "about-one"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-inaugural-i-ll-sign-the-repeal-of-the-day-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll sign the repeal of {about} the day Congress sends it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "inaugural",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        },
-        {
-          "move": "ask",
-          "subject": "state-of-the-union",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.ask.polished-state-of-the-state-i-will-keep-on-the-books-and-i-stance-for-law-in-force-about-about-one",
       "move": "ask",
       "kind": "spoken",
@@ -103426,64 +103342,6 @@
             "law-in-force",
             "about",
             "about-many"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.polished-state-of-the-state-i-will-sign-the-repeal-of-when-the-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I will sign the repeal of {about} when the legislature sends it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "firm",
-      "piece": {
-        "of": "opening-ask",
-        "part": "core",
-        "required": true
-      },
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-sign-the-repeal-of-the-day-stance-against-law-in-force-about",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "I'll sign the repeal of {about} the day the legislature sends it.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "state-of-the-state",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": [
-            "stance-against",
-            "law-in-force",
-            "about"
           ]
         }
       ],
@@ -104914,7 +104772,7 @@
       "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-i-am-for-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "That is one more reason I am for {it}.",
+      "text": "That is one more reason I am for {about}.",
       "uses": [
         {
           "move": "tie",
@@ -104924,7 +104782,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -104935,7 +104794,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -104946,7 +104806,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -104957,7 +104818,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
@@ -104971,7 +104833,7 @@
       "key": "opening-speech.tie.plain-inaugural-that-s-a-big-part-of-why-i-stance-for-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "That's a big part of why I want {it}.",
+      "text": "That's a big part of why I want {about}.",
       "uses": [
         {
           "move": "tie",
@@ -104981,7 +104843,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -104992,7 +104855,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105003,7 +104867,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105014,7 +104879,8 @@
           "requiresFacts": [
             "stance-for",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
@@ -105025,10 +104891,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-keep-stance-for-law-in-force-figure-ties",
+      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-keep-stance-for-law-in-force-figure-ties-about",
       "move": "tie",
       "kind": "spoken",
-      "text": "That is one more reason to keep {it}.",
+      "text": "That is one more reason to keep {about}.",
       "uses": [
         {
           "move": "tie",
@@ -105038,7 +104904,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105049,7 +104916,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105060,7 +104928,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105071,7 +104940,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
@@ -105082,10 +104952,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.tie.plain-inaugural-that-s-why-i-m-standing-by-stance-for-law-in-force-figure-ties",
+      "key": "opening-speech.tie.plain-inaugural-that-s-why-i-m-standing-by-stance-for-law-in-force-figure-ties-about",
       "move": "tie",
       "kind": "spoken",
-      "text": "That's why I'm standing by {it}.",
+      "text": "That's why I'm standing by {about}.",
       "uses": [
         {
           "move": "tie",
@@ -105095,7 +104965,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105106,7 +104977,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105117,7 +104989,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105128,7 +105001,8 @@
           "requiresFacts": [
             "stance-for",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
@@ -105142,7 +105016,7 @@
       "key": "opening-speech.tie.polished-inaugural-would-only-add-to-that-burden-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "{it-subject} would only add to that burden.",
+      "text": "{about} would only add to that burden.",
       "uses": [
         {
           "move": "tie",
@@ -105152,7 +105026,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105163,7 +105038,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105174,7 +105050,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105185,7 +105062,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
@@ -105199,7 +105077,7 @@
       "key": "opening-speech.tie.plain-inaugural-would-only-make-that-worse-stance-against-law-not-in-force-figure-ties",
       "move": "tie",
       "kind": "spoken",
-      "text": "{it-subject} would only make that worse.",
+      "text": "{about} would only make that worse.",
       "uses": [
         {
           "move": "tie",
@@ -105209,7 +105087,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105220,7 +105099,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105231,7 +105111,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105242,7 +105123,8 @@
           "requiresFacts": [
             "stance-against",
             "law-not-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
@@ -105253,10 +105135,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-repeal-stance-against-law-in-force-figure-ties",
+      "key": "opening-speech.tie.polished-inaugural-that-is-one-more-reason-to-repeal-the-stance-against-law-in-force-figure-ties-about",
       "move": "tie",
       "kind": "spoken",
-      "text": "That is one more reason to repeal {it}.",
+      "text": "That is one more reason to repeal the law that brought in {about}.",
       "uses": [
         {
           "move": "tie",
@@ -105266,7 +105148,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105277,7 +105160,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105288,7 +105172,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105299,7 +105184,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
@@ -105310,10 +105196,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.tie.plain-inaugural-that-s-one-more-reason-to-get-rid-stance-against-law-in-force-figure-ties",
+      "key": "opening-speech.tie.plain-inaugural-that-s-one-more-reason-to-get-rid-stance-against-law-in-force-figure-ties-about",
       "move": "tie",
       "kind": "spoken",
-      "text": "That's one more reason to get rid of {it}.",
+      "text": "That's one more reason to get rid of {about}.",
       "uses": [
         {
           "move": "tie",
@@ -105323,7 +105209,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105334,7 +105221,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105345,7 +105233,8 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         },
         {
@@ -105356,12 +105245,497 @@
           "requiresFacts": [
             "stance-against",
             "law-in-force",
-            "figure-ties"
+            "figure-ties",
+            "about"
           ]
         }
       ],
       "voice": "plain",
       "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-inaugural-i-will-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will sign a repeal of the law that brought in {about} the day Congress sends it to me.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about",
+            "about-one"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-inaugural-i-ll-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll sign a repeal of the law that brought in {about} the day Congress sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "inaugural",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        },
+        {
+          "move": "ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.polished-state-of-the-state-i-will-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I will sign a repeal of the law that brought in {about} when the legislature sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.ask.plain-state-of-the-state-i-ll-sign-a-repeal-of-the-law-stance-against-law-in-force-about",
+      "move": "ask",
+      "kind": "spoken",
+      "text": "I'll sign a repeal of the law that brought in {about} the day the legislature sends it.",
+      "uses": [
+        {
+          "move": "ask",
+          "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": [
+            "stance-against",
+            "law-in-force",
+            "about"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-ask",
+        "part": "core",
+        "required": true
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-and-let-history-judge-us-by-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, and let history judge us by it. Thank you, and may God keep this country.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-we-will-have-done-right-by-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, we will have done right by this country. I thank you, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-let-us-and-begin-tomorrow-thank-you-my-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us {first-side}, and begin tomorrow. Thank you, my fellow Americans.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.polished-inaugural-if-we-this-will-be-a-better-nation-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "If we {first-side}, this will be a better nation for our children. Good night, and God bless you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-and-let-s-get-going-thanks-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, and let's get going. Thanks for listening, and God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-we-can-and-folks-will-see-the-difference-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We can {first-side}, and folks will see the difference. Take care, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-so-let-s-starting-tomorrow-thank-you-and-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "So let's {first-side}, starting tomorrow. Thank you, and good night.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.close.plain-inaugural-let-s-and-do-it-right-god-bless-first-side",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let's {first-side}, and do it right. God bless you, and thank you.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        },
+        {
+          "move": "close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close",
+          "requiresFacts": [
+            "first-side"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-good-people-of-this-country-here-and-at-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Good people of this country, here and at home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.plain-inaugural-folks-in-this-hall-and-folks-watching-at-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Folks in this hall, and folks watching at home.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-members-of-congress-honored-guests-and-fellow-citizens-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Members of Congress, honored guests, and fellow citizens across this land.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-distinguished-guests-and-my-fellow-citizens-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Distinguished guests, and my fellow citizens.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"

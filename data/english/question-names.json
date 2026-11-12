@@ -9,7 +9,7 @@
       "about": "free fares on public transit",
       "to": "make public transit free to ride",
       "for": "make public transit free to ride",
-      "against": "keep free fares on public transit off the books",
+      "against": "say no to free fares on public transit",
       "today": {
         "without": {
           "for": "Every rider pays a fare to get on the bus or the train, and for a lot of folks that fare adds up fast.",
@@ -20,7 +20,7 @@
           "against": "Nobody who rides the bus pays a fare, so every taxpayer covers the whole cost of running it."
         }
       },
-      "repeal": "repeal free fares on public transit",
+      "repeal": "repeal the law that brought in free fares on public transit",
       "keep": "keep free fares on public transit on the books",
       "family": "transit",
       "pole": "a",
@@ -31,7 +31,7 @@
       "about": "a mileage fee in place of the fuel tax",
       "to": "replace the fuel tax with a mileage fee",
       "for": "replace the fuel tax with a mileage fee",
-      "against": "keep a mileage fee in place of the fuel tax off the books",
+      "against": "say no to a mileage fee in place of the fuel tax",
       "today": {
         "without": {
           "for": "Roads are paid for by a tax on gas, and drivers of electric cars pay almost nothing toward them.",
@@ -42,7 +42,7 @@
           "against": "Drivers pay the state for every mile they drive, and the state keeps count of where their cars go."
         }
       },
-      "repeal": "repeal a mileage fee in place of the fuel tax",
+      "repeal": "repeal the law that brought in a mileage fee in place of the fuel tax",
       "keep": "keep a mileage fee in place of the fuel tax on the books",
       "family": "taxes",
       "pole": "a",
@@ -58,7 +58,7 @@
       "about": "public broadband",
       "to": "build public broadband",
       "for": "build public broadband",
-      "against": "keep public broadband off the books",
+      "against": "say no to public broadband",
       "today": {
         "without": {
           "for": "Whole neighborhoods can only get internet from one company, at whatever price it sets.",
@@ -69,7 +69,7 @@
           "against": "The government runs an internet network in competition with the companies that pay taxes here."
         }
       },
-      "repeal": "repeal public broadband",
+      "repeal": "repeal the law that brought in public broadband",
       "keep": "keep public broadband on the books",
       "family": "transit",
       "pole": "a",
@@ -80,7 +80,7 @@
       "about": "shifting highway money to transit",
       "to": "shift highway money to transit",
       "for": "shift highway money to transit",
-      "against": "keep shifting highway money to transit off the books",
+      "against": "say no to shifting highway money to transit",
       "today": {
         "without": {
           "for": "Nearly all of our road money goes to highways, and the buses get what's left.",
@@ -91,7 +91,7 @@
           "against": "Part of the money drivers pay for roads goes to buses and trains, while the roads wear down."
         }
       },
-      "repeal": "repeal shifting highway money to transit",
+      "repeal": "repeal the law that brought in shifting highway money to transit",
       "keep": "keep shifting highway money to transit on the books",
       "family": "transit",
       "pole": "a",
@@ -107,7 +107,7 @@
       "about": "expanding Medicaid",
       "to": "expand Medicaid eligibility",
       "for": "expand Medicaid eligibility",
-      "against": "keep expanding Medicaid off the books",
+      "against": "say no to expanding Medicaid",
       "today": {
         "without": {
           "for": "A worker can earn too much to get Medicaid and still too little to buy insurance.",
@@ -118,7 +118,7 @@
           "against": "Medicaid covers far more people than it was built for, and the bill keeps growing."
         }
       },
-      "repeal": "repeal expanding Medicaid",
+      "repeal": "repeal the law that brought in expanding Medicaid",
       "keep": "keep expanding Medicaid on the books",
       "family": "health",
       "pole": "a",
@@ -134,7 +134,7 @@
       "about": "a work requirement for Medicaid",
       "to": "require work for Medicaid",
       "for": "require work for Medicaid",
-      "against": "keep a work requirement for Medicaid off the books",
+      "against": "say no to a work requirement for Medicaid",
       "today": {
         "without": {
           "for": "A grown adult who can work can get Medicaid without working.",
@@ -145,7 +145,7 @@
           "against": "An adult can lose Medicaid over a missed form, even while they're looking for work."
         }
       },
-      "repeal": "repeal a work requirement for Medicaid",
+      "repeal": "repeal the law that brought in a work requirement for Medicaid",
       "keep": "keep a work requirement for Medicaid on the books",
       "family": "safety-net",
       "pole": "a",
@@ -161,7 +161,7 @@
       "about": "a work requirement for assistance",
       "to": "require work for cash assistance",
       "for": "require work for cash assistance",
-      "against": "keep a work requirement for assistance off the books",
+      "against": "say no to a work requirement for assistance",
       "today": {
         "without": {
           "for": "Cash assistance doesn't ask anything of the adults who can work.",
@@ -172,7 +172,7 @@
           "against": "A family in a hard stretch can lose its help over paperwork about a job search."
         }
       },
-      "repeal": "repeal a work requirement for assistance",
+      "repeal": "repeal the law that brought in a work requirement for assistance",
       "keep": "keep a work requirement for assistance on the books",
       "family": "safety-net",
       "pole": "a",
@@ -183,7 +183,7 @@
       "about": "universal preschool",
       "to": "offer preschool to every child",
       "for": "offer preschool to every child",
-      "against": "keep universal preschool off the books",
+      "against": "say no to universal preschool",
       "today": {
         "without": {
           "for": "Preschool is something a family pays for or does without.",
@@ -194,7 +194,7 @@
           "against": "Every taxpayer pays for preschool, whether a family wants it or not."
         }
       },
-      "repeal": "repeal universal preschool",
+      "repeal": "repeal the law that brought in universal preschool",
       "keep": "keep universal preschool on the books",
       "family": "schools",
       "pole": "a",
@@ -210,7 +210,7 @@
       "about": "public money for private schools",
       "to": "pay for private schooling with public money",
       "for": "pay for private schooling with public money",
-      "against": "keep public money for private schools off the books",
+      "against": "say no to public money for private schools",
       "today": {
         "without": {
           "for": "A family that picks a private school pays for it twice, in tuition and in taxes.",
@@ -221,7 +221,7 @@
           "against": "Money is pulled out of the public schools that most of our children attend."
         }
       },
-      "repeal": "repeal public money for private schools",
+      "repeal": "repeal the law that brought in public money for private schools",
       "keep": "keep public money for private schools on the books",
       "family": "schools",
       "pole": "b",
@@ -237,7 +237,7 @@
       "about": "a higher minimum salary for teachers",
       "to": "raise the minimum teacher salary",
       "for": "raise the minimum teacher salary",
-      "against": "keep a higher minimum salary for teachers off the books",
+      "against": "say no to a higher minimum salary for teachers",
       "today": {
         "without": {
           "for": "A starting teacher can earn less than a manager at the store down the road.",
@@ -248,7 +248,7 @@
           "against": "The state tells every district what it must pay, whatever its budget holds."
         }
       },
-      "repeal": "repeal a higher minimum salary for teachers",
+      "repeal": "repeal the law that brought in a higher minimum salary for teachers",
       "keep": "keep a higher minimum salary for teachers on the books",
       "family": "schools",
       "pole": "a",
@@ -264,7 +264,7 @@
       "about": "an income tax",
       "to": "adopt an income tax",
       "for": "adopt an income tax",
-      "against": "keep an income tax off the books",
+      "against": "say no to an income tax",
       "today": {
         "without": {
           "for": "There is no income tax here, so the sales tax hits working families hardest.",
@@ -275,7 +275,7 @@
           "against": "People here hand over part of every paycheck in income tax."
         }
       },
-      "repeal": "repeal an income tax",
+      "repeal": "repeal the law that brought in an income tax",
       "keep": "keep an income tax on the books",
       "family": "taxes",
       "pole": "a",
@@ -286,7 +286,7 @@
       "about": "a cap on property tax growth",
       "to": "cap how fast property taxes can grow",
       "for": "cap how fast property taxes can grow",
-      "against": "keep a cap on property tax growth off the books",
+      "against": "say no to a cap on property tax growth",
       "today": {
         "without": {
           "for": "A family's property tax can climb as fast as the assessor says.",
@@ -297,7 +297,7 @@
           "against": "The law caps the property tax, and schools and towns have less to work with."
         }
       },
-      "repeal": "repeal a cap on property tax growth",
+      "repeal": "repeal the law that brought in a cap on property tax growth",
       "keep": "keep a cap on property tax growth on the books",
       "family": "taxes",
       "pole": "b",
@@ -308,7 +308,7 @@
       "about": "taking the sales tax off groceries",
       "to": "exempt groceries from the sales tax",
       "for": "exempt groceries from the sales tax",
-      "against": "keep taking the sales tax off groceries off the books",
+      "against": "say no to taking the sales tax off groceries",
       "today": {
         "without": {
           "for": "A family pays sales tax on every loaf of bread and gallon of milk.",
@@ -319,7 +319,7 @@
           "against": "Groceries carry no sales tax, and the money has to come from somewhere else."
         }
       },
-      "repeal": "repeal taking the sales tax off groceries",
+      "repeal": "repeal the law that brought in taking the sales tax off groceries",
       "keep": "keep taking the sales tax off groceries on the books",
       "family": "taxes",
       "pole": "b",
@@ -335,7 +335,7 @@
       "about": "a graduated income tax",
       "to": "tax higher incomes at higher rates",
       "for": "tax higher incomes at higher rates",
-      "against": "keep a graduated income tax off the books",
+      "against": "say no to a graduated income tax",
       "today": {
         "without": {
           "for": "A cook and a company owner pay the same income tax rate.",
@@ -346,7 +346,7 @@
           "against": "Folks who earn more pay a higher rate the more they succeed."
         }
       },
-      "repeal": "repeal a graduated income tax",
+      "repeal": "repeal the law that brought in a graduated income tax",
       "keep": "keep a graduated income tax on the books",
       "family": "taxes",
       "pole": "a",
@@ -357,7 +357,7 @@
       "about": "a balanced operating budget",
       "to": "require a balanced operating budget",
       "for": "require a balanced operating budget",
-      "against": "keep a balanced operating budget off the books",
+      "against": "say no to a balanced operating budget",
       "today": {
         "without": {
           "for": "Nothing stops the budget from spending more than comes in.",
@@ -368,7 +368,7 @@
           "against": "The law makes the budget balance every year, even when a bad year means cutting services people count on."
         }
       },
-      "repeal": "repeal a balanced operating budget",
+      "repeal": "repeal the law that brought in a balanced operating budget",
       "keep": "keep a balanced operating budget on the books",
       "family": "budget",
       "pole": "a",
@@ -379,7 +379,7 @@
       "about": "funding pensions on schedule",
       "to": "fund public pensions on schedule",
       "for": "fund public pensions on schedule",
-      "against": "keep funding pensions on schedule off the books",
+      "against": "say no to funding pensions on schedule",
       "today": {
         "without": {
           "for": "The pension fund can be shorted whenever the budget gets tight.",
@@ -390,7 +390,7 @@
           "against": "The pension payment comes off the top, before schools and roads see a dollar."
         }
       },
-      "repeal": "repeal funding pensions on schedule",
+      "repeal": "repeal the law that brought in funding pensions on schedule",
       "keep": "keep funding pensions on schedule on the books",
       "family": "budget",
       "pole": "a",
@@ -401,7 +401,7 @@
       "about": "a minimum reserve balance",
       "to": "require a minimum reserve balance",
       "for": "require a minimum reserve balance",
-      "against": "keep a minimum reserve balance off the books",
+      "against": "say no to a minimum reserve balance",
       "today": {
         "without": {
           "for": "Nothing makes us keep money aside for a bad year.",
@@ -412,7 +412,7 @@
           "against": "The law locks money away in a reserve while needs go unmet."
         }
       },
-      "repeal": "repeal a minimum reserve balance",
+      "repeal": "repeal the law that brought in a minimum reserve balance",
       "keep": "keep a minimum reserve balance on the books",
       "family": "budget",
       "pole": "a",
@@ -423,7 +423,7 @@
       "about": "apartments in single-family neighborhoods",
       "to": "allow apartments in single-family zones",
       "for": "allow apartments in single-family zones",
-      "against": "keep apartments in single-family neighborhoods off the books",
+      "against": "say no to apartments in single-family neighborhoods",
       "today": {
         "without": {
           "for": "Most of our land is zoned so that nothing but a single house can go up on it, and rents keep climbing.",
@@ -434,7 +434,7 @@
           "against": "Apartment buildings can go up next door to families who bought in a neighborhood of single homes."
         }
       },
-      "repeal": "repeal apartments in single-family neighborhoods",
+      "repeal": "repeal the law that brought in apartments in single-family neighborhoods",
       "keep": "keep apartments in single-family neighborhoods on the books",
       "family": "housing",
       "pole": "a",
@@ -450,7 +450,7 @@
       "about": "an affordable-housing requirement for new buildings",
       "to": "require affordable units in new buildings",
       "for": "require affordable units in new buildings",
-      "against": "keep an affordable-housing requirement for new buildings off the books",
+      "against": "say no to an affordable-housing requirement for new buildings",
       "today": {
         "without": {
           "for": "A new apartment building can go up without a single unit a working family can afford.",
@@ -461,7 +461,7 @@
           "against": "Every new building has to rent some units at a loss, and fewer get built."
         }
       },
-      "repeal": "repeal an affordable-housing requirement for new buildings",
+      "repeal": "repeal the law that brought in an affordable-housing requirement for new buildings",
       "keep": "keep an affordable-housing requirement for new buildings on the books",
       "family": "housing",
       "pole": "a",
@@ -477,7 +477,7 @@
       "about": "rent stabilization",
       "to": "limit how much rents can rise",
       "for": "limit how much rents can rise",
-      "against": "keep rent stabilization off the books",
+      "against": "say no to rent stabilization",
       "today": {
         "without": {
           "for": "A landlord can raise the rent as much as they like when the lease runs out.",
@@ -488,7 +488,7 @@
           "against": "The state tells landlords what they can charge, and fewer new homes get built."
         }
       },
-      "repeal": "repeal rent stabilization",
+      "repeal": "repeal the law that brought in rent stabilization",
       "keep": "keep rent stabilization on the books",
       "family": "housing",
       "pole": "a",
@@ -504,7 +504,7 @@
       "about": "a lawyer for tenants facing eviction",
       "to": "guarantee tenants a lawyer in eviction cases",
       "for": "guarantee tenants a lawyer in eviction cases",
-      "against": "keep a lawyer for tenants facing eviction off the books",
+      "against": "say no to a lawyer for tenants facing eviction",
       "today": {
         "without": {
           "for": "Most tenants face an eviction in court without a lawyer.",
@@ -515,7 +515,7 @@
           "against": "Taxpayers pay for a lawyer to fight every eviction, and landlords wait months to be paid."
         }
       },
-      "repeal": "repeal a lawyer for tenants facing eviction",
+      "repeal": "repeal the law that brought in a lawyer for tenants facing eviction",
       "keep": "keep a lawyer for tenants facing eviction on the books",
       "family": "housing",
       "pole": "a",
@@ -531,7 +531,7 @@
       "about": "a higher federal minimum wage",
       "to": "raise the federal minimum wage",
       "for": "raise the federal minimum wage",
-      "against": "keep a higher federal minimum wage off the books",
+      "against": "say no to a higher federal minimum wage",
       "today": {
         "without": {
           "for": "The federal minimum wage has not gone up in years, while everything else has.",
@@ -542,7 +542,7 @@
           "against": "The federal minimum wage is higher than it was, and some of the first jobs young people take are gone."
         }
       },
-      "repeal": "repeal a higher federal minimum wage",
+      "repeal": "repeal the law that brought in a higher federal minimum wage",
       "keep": "keep a higher federal minimum wage on the books",
       "family": "wages",
       "pole": "a",
@@ -562,7 +562,7 @@
       "about": "letting cities set their own minimum wage",
       "to": "let cities set their own minimum wage",
       "for": "let cities set their own minimum wage",
-      "against": "keep letting cities set their own minimum wage off the books",
+      "against": "say no to letting cities set their own minimum wage",
       "today": {
         "without": {
           "for": "A city can't set a minimum wage of its own, whatever living there costs.",
@@ -573,7 +573,7 @@
           "against": "A business has to keep track of a different minimum wage in every town."
         }
       },
-      "repeal": "repeal letting cities set their own minimum wage",
+      "repeal": "repeal the law that brought in letting cities set their own minimum wage",
       "keep": "keep letting cities set their own minimum wage on the books",
       "family": "self-rule",
       "pole": "a",
@@ -584,7 +584,7 @@
       "about": "a higher minimum wage",
       "to": "raise the minimum wage",
       "for": "raise the minimum wage",
-      "against": "keep a higher minimum wage off the books",
+      "against": "say no to a higher minimum wage",
       "today": {
         "without": {
           "for": "Someone working full time at the minimum wage still can't cover rent.",
@@ -595,7 +595,7 @@
           "against": "The minimum wage is higher than it was, and some small businesses are hiring fewer people."
         }
       },
-      "repeal": "repeal a higher minimum wage",
+      "repeal": "repeal the law that brought in a higher minimum wage",
       "keep": "keep a higher minimum wage on the books",
       "family": "wages",
       "pole": "a",
@@ -615,7 +615,7 @@
       "about": "paid family leave",
       "to": "give workers paid family leave",
       "for": "give workers paid family leave",
-      "against": "keep paid family leave off the books",
+      "against": "say no to paid family leave",
       "today": {
         "without": {
           "for": "A worker who stays home with a new baby or a sick parent can lose a paycheck.",
@@ -626,7 +626,7 @@
           "against": "Every paycheck pays into a leave program, and small businesses have to cover for the time off."
         }
       },
-      "repeal": "repeal paid family leave",
+      "repeal": "repeal the law that brought in paid family leave",
       "keep": "keep paid family leave on the books",
       "family": "wages",
       "pole": "a",
@@ -637,7 +637,7 @@
       "about": "collective bargaining for public workers",
       "to": "let public workers bargain collectively",
       "for": "let public workers bargain collectively",
-      "against": "keep collective bargaining for public workers off the books",
+      "against": "say no to collective bargaining for public workers",
       "today": {
         "without": {
           "for": "Public workers can't bargain together over their pay.",
@@ -648,7 +648,7 @@
           "against": "Union contracts decide much of what the public payroll costs, and taxpayers pay the bill."
         }
       },
-      "repeal": "repeal collective bargaining for public workers",
+      "repeal": "repeal the law that brought in collective bargaining for public workers",
       "keep": "keep collective bargaining for public workers on the books",
       "family": "unions",
       "pole": "a",
@@ -659,7 +659,7 @@
       "about": "asking about criminal records on state job applications",
       "to": "bar state agencies from asking about criminal records on job applications",
       "for": "bar state agencies from asking about criminal records on job applications",
-      "against": "keep asking about criminal records on state job applications off the books",
+      "against": "say no to asking about criminal records on state job applications",
       "today": {
         "without": {
           "for": "A state job application can rule someone out over an old record before they get a hearing.",
@@ -670,7 +670,7 @@
           "against": "A state job application doesn't ask about a criminal record up front, and the state finds out late."
         }
       },
-      "repeal": "repeal asking about criminal records on state job applications",
+      "repeal": "repeal the law that brought in asking about criminal records on state job applications",
       "keep": "keep asking about criminal records on state job applications on the books",
       "family": "justice",
       "pole": "a",
@@ -681,7 +681,7 @@
       "about": "right-to-work rules",
       "to": "ban required union dues",
       "for": "ban required union dues",
-      "against": "keep right-to-work rules off the books",
+      "against": "say no to right-to-work rules",
       "today": {
         "without": {
           "for": "A worker in a union shop can be made to pay union dues.",
@@ -692,7 +692,7 @@
           "against": "A worker can take the raise the union won without paying a dime toward it."
         }
       },
-      "repeal": "repeal right-to-work rules",
+      "repeal": "repeal the law that brought in right-to-work rules",
       "keep": "keep right-to-work rules on the books",
       "family": "unions",
       "pole": "b",
@@ -703,7 +703,7 @@
       "about": "legal cannabis sales",
       "to": "legalize cannabis sales",
       "for": "legalize cannabis sales",
-      "against": "keep legal cannabis sales off the books",
+      "against": "say no to legal cannabis sales",
       "today": {
         "without": {
           "for": "Selling cannabis is a crime, and the money goes to the black market.",
@@ -714,7 +714,7 @@
           "against": "Cannabis is sold in stores up and down the street."
         }
       },
-      "repeal": "repeal legal cannabis sales",
+      "repeal": "repeal the law that brought in legal cannabis sales",
       "keep": "keep legal cannabis sales on the books",
       "family": "consumers",
       "pole": "b",
@@ -725,7 +725,7 @@
       "about": "a cap on consumer loan rates",
       "to": "cap interest rates on consumer loans",
       "for": "cap interest rates on consumer loans",
-      "against": "keep a cap on consumer loan rates off the books",
+      "against": "say no to a cap on consumer loan rates",
       "today": {
         "without": {
           "for": "A payday lender can charge hundreds of percent a year on a small loan.",
@@ -736,7 +736,7 @@
           "against": "The law caps loan interest, and families with poor credit can't find anyone who will lend to them."
         }
       },
-      "repeal": "repeal a cap on consumer loan rates",
+      "repeal": "repeal the law that brought in a cap on consumer loan rates",
       "keep": "keep a cap on consumer loan rates on the books",
       "family": "consumers",
       "pole": "a",
@@ -747,7 +747,7 @@
       "about": "banning new gas hookups",
       "to": "ban new gas hookups",
       "for": "ban new gas hookups",
-      "against": "keep banning new gas hookups off the books",
+      "against": "say no to banning new gas hookups",
       "today": {
         "without": {
           "for": "New buildings are still hooked up to gas.",
@@ -758,7 +758,7 @@
           "against": "A family building a home can't choose gas, even where it's the cheapest heat."
         }
       },
-      "repeal": "repeal banning new gas hookups",
+      "repeal": "repeal the law that brought in banning new gas hookups",
       "keep": "keep banning new gas hookups on the books",
       "family": "energy",
       "pole": "a",
@@ -774,7 +774,7 @@
       "about": "letting customers pick their electricity supplier",
       "to": "let customers pick their electricity supplier",
       "for": "let customers pick their electricity supplier",
-      "against": "keep letting customers pick their electricity supplier off the books",
+      "against": "say no to letting customers pick their electricity supplier",
       "today": {
         "without": {
           "for": "A family buys its power from one utility and has no other choice.",
@@ -785,7 +785,7 @@
           "against": "Companies sell power door to door, and some families end up paying more than they did."
         }
       },
-      "repeal": "repeal letting customers pick their electricity supplier",
+      "repeal": "repeal the law that brought in letting customers pick their electricity supplier",
       "keep": "keep letting customers pick their electricity supplier on the books",
       "family": "energy",
       "pole": "b",
@@ -796,7 +796,7 @@
       "about": "a clean electricity standard",
       "to": "require utilities to supply clean electricity",
       "for": "require utilities to supply clean electricity",
-      "against": "keep a clean electricity standard off the books",
+      "against": "say no to a clean electricity standard",
       "today": {
         "without": {
           "for": "Utilities can burn whatever is cheapest to make our power.",
@@ -807,7 +807,7 @@
           "against": "Utilities have to buy power by the state's formula, and families pay for it on every bill."
         }
       },
-      "repeal": "repeal a clean electricity standard",
+      "repeal": "repeal the law that brought in a clean electricity standard",
       "keep": "keep a clean electricity standard on the books",
       "family": "energy",
       "pole": "a",
@@ -823,7 +823,7 @@
       "about": "a clean air plan for polluted counties",
       "to": "require a clean air plan in polluted counties",
       "for": "require a clean air plan in polluted counties",
-      "against": "keep a clean air plan for polluted counties off the books",
+      "against": "say no to a clean air plan for polluted counties",
       "today": {
         "without": {
           "for": "A county with dirty air doesn't have to have a plan to clean it.",
@@ -834,7 +834,7 @@
           "against": "Counties answer to the state for every plant and every road, and the costs land on the businesses there."
         }
       },
-      "repeal": "repeal a clean air plan for polluted counties",
+      "repeal": "repeal the law that brought in a clean air plan for polluted counties",
       "keep": "keep a clean air plan for polluted counties on the books",
       "family": "energy",
       "pole": "a",
@@ -850,7 +850,7 @@
       "about": "a bottle deposit",
       "to": "charge a deposit on bottles",
       "for": "charge a deposit on bottles",
-      "against": "keep a bottle deposit off the books",
+      "against": "say no to a bottle deposit",
       "today": {
         "without": {
           "for": "Bottles and cans end up on roadsides with nothing to bring them back.",
@@ -861,7 +861,7 @@
           "against": "Every bottle and can at the store costs a family a few cents more."
         }
       },
-      "repeal": "repeal a bottle deposit",
+      "repeal": "repeal the law that brought in a bottle deposit",
       "keep": "keep a bottle deposit on the books",
       "family": "land",
       "pole": "a",
@@ -877,7 +877,7 @@
       "about": "a price on carbon",
       "to": "put a price on carbon",
       "for": "put a price on carbon",
-      "against": "keep a price on carbon off the books",
+      "against": "say no to a price on carbon",
       "today": {
         "without": {
           "for": "A company can put carbon into the air without paying a cent for it.",
@@ -888,7 +888,7 @@
           "against": "A charge on carbon is added to the price of power and gas, and families pay it."
         }
       },
-      "repeal": "repeal a price on carbon",
+      "repeal": "repeal the law that brought in a price on carbon",
       "keep": "keep a price on carbon on the books",
       "family": "energy",
       "pole": "a",
@@ -908,7 +908,7 @@
       "about": "civilian oversight of the police",
       "to": "give civilians oversight of the police",
       "for": "give civilians oversight of the police",
-      "against": "keep civilian oversight of the police off the books",
+      "against": "say no to civilian oversight of the police",
       "today": {
         "without": {
           "for": "The police answer only to themselves when a complaint comes in.",
@@ -919,7 +919,7 @@
           "against": "Officers answer to a board of people who have never worn the badge."
         }
       },
-      "repeal": "repeal civilian oversight of the police",
+      "repeal": "repeal the law that brought in civilian oversight of the police",
       "keep": "keep civilian oversight of the police on the books",
       "family": "justice",
       "pole": "a",
@@ -935,7 +935,7 @@
       "about": "working with federal immigration enforcement",
       "to": "partner with federal immigration enforcement",
       "for": "partner with federal immigration enforcement",
-      "against": "keep working with federal immigration enforcement off the books",
+      "against": "say no to working with federal immigration enforcement",
       "today": {
         "without": {
           "for": "Our police don't work with federal immigration agents.",
@@ -946,7 +946,7 @@
           "against": "Our police spend their time on immigration cases, and some neighbors are afraid to call them."
         }
       },
-      "repeal": "repeal working with federal immigration enforcement",
+      "repeal": "repeal the law that brought in working with federal immigration enforcement",
       "keep": "keep working with federal immigration enforcement on the books",
       "family": "immigration",
       "pole": "b",
@@ -962,7 +962,7 @@
       "about": "ending cash bail",
       "to": "end cash bail",
       "for": "end cash bail",
-      "against": "keep ending cash bail off the books",
+      "against": "say no to ending cash bail",
       "today": {
         "without": {
           "for": "Whether someone waits for trial in jail can come down to whether they can pay bail.",
@@ -973,7 +973,7 @@
           "against": "People charged with crimes walk out of jail before trial without putting up a dime."
         }
       },
-      "repeal": "repeal ending cash bail",
+      "repeal": "repeal the law that brought in ending cash bail",
       "keep": "keep ending cash bail on the books",
       "family": "justice",
       "pole": "a",
@@ -989,7 +989,7 @@
       "about": "restoring the vote after a sentence",
       "to": "restore the vote once a sentence is served",
       "for": "restore the vote once a sentence is served",
-      "against": "keep restoring the vote after a sentence off the books",
+      "against": "say no to restoring the vote after a sentence",
       "today": {
         "without": {
           "for": "Someone who has served their whole sentence still can't vote.",
@@ -1000,7 +1000,7 @@
           "against": "Someone convicted of a serious crime gets the vote back the day the sentence ends."
         }
       },
-      "repeal": "repeal restoring the vote after a sentence",
+      "repeal": "repeal the law that brought in restoring the vote after a sentence",
       "keep": "keep restoring the vote after a sentence on the books",
       "family": "justice",
       "pole": "a",
@@ -1011,7 +1011,7 @@
       "about": "a higher age for juvenile court",
       "to": "raise the age for juvenile court",
       "for": "raise the age for juvenile court",
-      "against": "keep a higher age for juvenile court off the books",
+      "against": "say no to a higher age for juvenile court",
       "today": {
         "without": {
           "for": "A seventeen-year-old can be tried as an adult.",
@@ -1022,7 +1022,7 @@
           "against": "A seventeen-year-old who commits a serious crime is handled as a child."
         }
       },
-      "repeal": "repeal a higher age for juvenile court",
+      "repeal": "repeal the law that brought in a higher age for juvenile court",
       "keep": "keep a higher age for juvenile court on the books",
       "family": "justice",
       "pole": "a",
@@ -1038,7 +1038,7 @@
       "about": "child access prevention for guns",
       "to": "require guns to be stored away from children",
       "for": "require guns to be stored away from children",
-      "against": "keep child access prevention for guns off the books",
+      "against": "say no to child access prevention for guns",
       "today": {
         "without": {
           "for": "Nothing requires a gun to be locked away from children.",
@@ -1049,7 +1049,7 @@
           "against": "The law tells a gun owner how to keep a gun in their own home."
         }
       },
-      "repeal": "repeal child access prevention for guns",
+      "repeal": "repeal the law that brought in child access prevention for guns",
       "keep": "keep child access prevention for guns on the books",
       "family": "guns",
       "pole": "a",
@@ -1060,7 +1060,7 @@
       "about": "a permit to carry a concealed gun",
       "to": "require a permit to carry a concealed gun",
       "for": "require a permit to carry a concealed gun",
-      "against": "keep a permit to carry a concealed gun off the books",
+      "against": "say no to a permit to carry a concealed gun",
       "today": {
         "without": {
           "for": "A person can carry a hidden gun without a permit.",
@@ -1071,7 +1071,7 @@
           "against": "A law-abiding adult has to ask permission to carry a gun for protection."
         }
       },
-      "repeal": "repeal a permit to carry a concealed gun",
+      "repeal": "repeal the law that brought in a permit to carry a concealed gun",
       "keep": "keep a permit to carry a concealed gun on the books",
       "family": "guns",
       "pole": "a",
@@ -1087,7 +1087,7 @@
       "about": "a higher age to buy a handgun",
       "to": "raise the age to buy a handgun",
       "for": "raise the age to buy a handgun",
-      "against": "keep a higher age to buy a handgun off the books",
+      "against": "say no to a higher age to buy a handgun",
       "today": {
         "without": {
           "for": "An eighteen-year-old can buy a handgun.",
@@ -1098,7 +1098,7 @@
           "against": "A grown adult of eighteen can't buy a handgun to protect themselves."
         }
       },
-      "repeal": "repeal a higher age to buy a handgun",
+      "repeal": "repeal the law that brought in a higher age to buy a handgun",
       "keep": "keep a higher age to buy a handgun on the books",
       "family": "guns",
       "pole": "a",
@@ -1109,7 +1109,7 @@
       "about": "stand-your-ground rules",
       "to": "remove the duty to retreat before using force",
       "for": "remove the duty to retreat before using force",
-      "against": "keep stand-your-ground rules off the books",
+      "against": "say no to stand-your-ground rules",
       "today": {
         "without": {
           "for": "A person attacked outside their home has a duty to retreat if they safely can.",
@@ -1120,7 +1120,7 @@
           "against": "A person can shoot first in a fight they could have walked away from."
         }
       },
-      "repeal": "repeal stand-your-ground rules",
+      "repeal": "repeal the law that brought in stand-your-ground rules",
       "keep": "keep stand-your-ground rules on the books",
       "family": "guns",
       "pole": "b",
@@ -1136,7 +1136,7 @@
       "about": "voting by mail for everyone",
       "to": "send every voter a mail ballot",
       "for": "send every voter a mail ballot",
-      "against": "keep voting by mail for everyone off the books",
+      "against": "say no to voting by mail for everyone",
       "today": {
         "without": {
           "for": "Most voters have to go to a polling place or ask for a ballot by mail.",
@@ -1147,7 +1147,7 @@
           "against": "Ballots go out in the mail to every name on the rolls, whether or not that person still lives there."
         }
       },
-      "repeal": "repeal voting by mail for everyone",
+      "repeal": "repeal the law that brought in voting by mail for everyone",
       "keep": "keep voting by mail for everyone on the books",
       "family": "elections",
       "pole": "a",
@@ -1158,7 +1158,7 @@
       "about": "automatic voter registration",
       "to": "register eligible voters automatically",
       "for": "register eligible voters automatically",
-      "against": "keep automatic voter registration off the books",
+      "against": "say no to automatic voter registration",
       "today": {
         "without": {
           "for": "A citizen has to sign up to vote before they can.",
@@ -1169,7 +1169,7 @@
           "against": "People are put on the voter rolls whether they asked to be or not."
         }
       },
-      "repeal": "repeal automatic voter registration",
+      "repeal": "repeal the law that brought in automatic voter registration",
       "keep": "keep automatic voter registration on the books",
       "family": "elections",
       "pole": "a",
@@ -1180,7 +1180,7 @@
       "about": "independent redistricting",
       "to": "draw district lines with an independent commission",
       "for": "draw district lines with an independent commission",
-      "against": "keep independent redistricting off the books",
+      "against": "say no to independent redistricting",
       "today": {
         "without": {
           "for": "The politicians draw their own district lines.",
@@ -1191,7 +1191,7 @@
           "against": "The lines are drawn by a commission no voter ever elected."
         }
       },
-      "repeal": "repeal independent redistricting",
+      "repeal": "repeal the law that brought in independent redistricting",
       "keep": "keep independent redistricting on the books",
       "family": "ethics",
       "pole": "a",
@@ -1202,7 +1202,7 @@
       "about": "photo ID to vote",
       "to": "require photo ID to vote",
       "for": "require photo ID to vote",
-      "against": "keep photo ID to vote off the books",
+      "against": "say no to photo ID to vote",
       "today": {
         "without": {
           "for": "A voter doesn't have to show a photo ID at the polls, so nobody checks who is casting the ballot.",
@@ -1213,7 +1213,7 @@
           "against": "A voter has to show a photo ID, and some folks without one are turned away."
         }
       },
-      "repeal": "repeal photo ID to vote",
+      "repeal": "repeal the law that brought in photo ID to vote",
       "keep": "keep photo ID to vote on the books",
       "family": "elections",
       "pole": "b",
@@ -1224,7 +1224,7 @@
       "about": "same-day voter registration",
       "to": "let people register and vote on the same day",
       "for": "let people register and vote on the same day",
-      "against": "keep same-day voter registration off the books",
+      "against": "say no to same-day voter registration",
       "today": {
         "without": {
           "for": "A citizen who misses the registration deadline can't vote that year.",
@@ -1235,7 +1235,7 @@
           "against": "People can sign up and vote on the same day, before anyone checks the rolls."
         }
       },
-      "repeal": "repeal same-day voter registration",
+      "repeal": "repeal the law that brought in same-day voter registration",
       "keep": "keep same-day voter registration on the books",
       "family": "elections",
       "pole": "a",
@@ -1246,7 +1246,7 @@
       "about": "a ban on lobbying after leaving office",
       "to": "bar former officials from lobbying",
       "for": "bar former officials from lobbying",
-      "against": "keep a ban on lobbying after leaving office off the books",
+      "against": "say no to a ban on lobbying after leaving office",
       "today": {
         "without": {
           "for": "An official can leave office on Friday and lobby their old colleagues on Monday.",
@@ -1257,7 +1257,7 @@
           "against": "The law tells a former official where they can work."
         }
       },
-      "repeal": "repeal a ban on lobbying after leaving office",
+      "repeal": "repeal the law that brought in a ban on lobbying after leaving office",
       "keep": "keep a ban on lobbying after leaving office on the books",
       "family": "ethics",
       "pole": "a",
@@ -1268,7 +1268,7 @@
       "about": "more local government power",
       "to": "give local governments more authority",
       "for": "give local governments more authority",
-      "against": "keep more local government power off the books",
+      "against": "say no to more local government power",
       "today": {
         "without": {
           "for": "A town has to ask the state's permission for most of what it wants to do.",
@@ -1279,7 +1279,7 @@
           "against": "Every town makes its own rules, and they change from one town line to the next."
         }
       },
-      "repeal": "repeal more local government power",
+      "repeal": "repeal the law that brought in more local government power",
       "keep": "keep more local government power on the books",
       "family": "self-rule",
       "pole": "a",
@@ -1290,7 +1290,7 @@
       "about": "term limits for legislators",
       "to": "limit how long legislators can serve",
       "for": "limit how long legislators can serve",
-      "against": "keep term limits for legislators off the books",
+      "against": "say no to term limits for legislators",
       "today": {
         "without": {
           "for": "A legislator can serve for as long as they keep winning.",
@@ -1301,7 +1301,7 @@
           "against": "The law throws out a legislator the voters want to keep."
         }
       },
-      "repeal": "repeal term limits for legislators",
+      "repeal": "repeal the law that brought in term limits for legislators",
       "keep": "keep term limits for legislators on the books",
       "family": "ethics",
       "pole": "a",
@@ -1312,7 +1312,7 @@
       "about": "a ban on discrimination in housing and work",
       "to": "ban discrimination in housing and at work",
       "for": "ban discrimination in housing and at work",
-      "against": "keep a ban on discrimination in housing and work off the books",
+      "against": "say no to a ban on discrimination in housing and work",
       "today": {
         "without": {
           "for": "A person can be turned away from a job or an apartment for who they are.",
@@ -1323,7 +1323,7 @@
           "against": "A small business owner can be taken to court for running things by their own conscience."
         }
       },
-      "repeal": "repeal a ban on discrimination in housing and work",
+      "repeal": "repeal the law that brought in a ban on discrimination in housing and work",
       "keep": "keep a ban on discrimination in housing and work on the books",
       "family": "civil-rights",
       "pole": "a",
@@ -1334,7 +1334,7 @@
       "about": "dedicated funding for parks",
       "to": "set aside money for parks",
       "for": "set aside money for parks",
-      "against": "keep dedicated funding for parks off the books",
+      "against": "say no to dedicated funding for parks",
       "today": {
         "without": {
           "for": "The parks get whatever is left at the end of the budget.",
@@ -1345,7 +1345,7 @@
           "against": "The parks get their money first, whatever else needs it."
         }
       },
-      "repeal": "repeal dedicated funding for parks",
+      "repeal": "repeal the law that brought in dedicated funding for parks",
       "keep": "keep dedicated funding for parks on the books",
       "family": "land",
       "pole": "a",
@@ -1356,7 +1356,7 @@
       "about": "restricting abortion",
       "to": "restrict abortion",
       "for": "restrict abortion",
-      "against": "keep restricting abortion off the books",
+      "against": "say no to restricting abortion",
       "today": {
         "without": {
           "for": "Abortion is legal here, through much of a pregnancy.",
@@ -1367,7 +1367,7 @@
           "against": "The law makes the decision about a pregnancy for a woman and her doctor."
         }
       },
-      "repeal": "repeal restricting abortion",
+      "repeal": "repeal the law that brought in restricting abortion",
       "keep": "keep restricting abortion on the books",
       "family": "abortion",
       "pole": "a",
@@ -1378,7 +1378,7 @@
       "about": "age checks for social media",
       "to": "require age checks for social media accounts",
       "for": "require age checks for social media accounts",
-      "against": "keep age checks for social media off the books",
+      "against": "say no to age checks for social media",
       "today": {
         "without": {
           "for": "A child can open a social media account in a minute with no one checking their age.",
@@ -1389,7 +1389,7 @@
           "against": "Every adult has to hand an ID to a website before they can post."
         }
       },
-      "repeal": "repeal age checks for social media",
+      "repeal": "repeal the law that brought in age checks for social media",
       "keep": "keep age checks for social media on the books",
       "family": "consumers",
       "pole": "a",
@@ -1400,7 +1400,7 @@
       "about": "limits on government facial recognition",
       "to": "limit how government uses facial recognition",
       "for": "limit how government uses facial recognition",
-      "against": "keep limits on government facial recognition off the books",
+      "against": "say no to limits on government facial recognition",
       "today": {
         "without": {
           "for": "Government agencies can scan a face in a crowd with no rules at all.",
@@ -1411,7 +1411,7 @@
           "against": "The law keeps police from using a tool that finds suspects fast."
         }
       },
-      "repeal": "repeal limits on government facial recognition",
+      "repeal": "repeal the law that brought in limits on government facial recognition",
       "keep": "keep limits on government facial recognition on the books",
       "family": "justice",
       "pole": "a",
@@ -1422,7 +1422,7 @@
       "about": "a consumer data privacy law",
       "to": "protect consumers' personal data",
       "for": "protect consumers' personal data",
-      "against": "keep a consumer data privacy law off the books",
+      "against": "say no to a consumer data privacy law",
       "today": {
         "without": {
           "for": "A company can sell what it knows about you without asking.",
@@ -1433,7 +1433,7 @@
           "against": "Every business, down to the corner shop, has paperwork to do over the data it keeps."
         }
       },
-      "repeal": "repeal a consumer data privacy law",
+      "repeal": "repeal the law that brought in a consumer data privacy law",
       "keep": "keep a consumer data privacy law on the books",
       "family": "consumers",
       "pole": "a",
@@ -1444,7 +1444,7 @@
       "about": "limits on pumping groundwater",
       "to": "limit how much groundwater can be pumped",
       "for": "limit how much groundwater can be pumped",
-      "against": "keep limits on pumping groundwater off the books",
+      "against": "say no to limits on pumping groundwater",
       "today": {
         "without": {
           "for": "Anyone with a well can pump as much groundwater as they like, and the wells are dropping.",
@@ -1455,7 +1455,7 @@
           "against": "The law tells a farmer how much water they can pump from their own well."
         }
       },
-      "repeal": "repeal limits on pumping groundwater",
+      "repeal": "repeal the law that brought in limits on pumping groundwater",
       "keep": "keep limits on pumping groundwater on the books",
       "family": "land",
       "pole": "a",
@@ -1471,7 +1471,7 @@
       "about": "protecting farmland from development",
       "to": "protect farmland from development",
       "for": "protect farmland from development",
-      "against": "keep protecting farmland from development off the books",
+      "against": "say no to protecting farmland from development",
       "today": {
         "without": {
           "for": "Good farmland can be paved over for the next subdivision.",
@@ -1482,7 +1482,7 @@
           "against": "A farmer can't sell their own land to the buyer who offers the most."
         }
       },
-      "repeal": "repeal protecting farmland from development",
+      "repeal": "repeal the law that brought in protecting farmland from development",
       "keep": "keep protecting farmland from development on the books",
       "family": "land",
       "pole": "a",
@@ -1493,7 +1493,7 @@
       "about": "raising the debt limit only with spending cuts to match",
       "to": "raise the debt limit only with spending cuts to match",
       "for": "raise the debt limit only with spending cuts to match",
-      "against": "keep raising the debt limit only with spending cuts to match off the books",
+      "against": "say no to raising the debt limit only with spending cuts to match",
       "today": {
         "without": {
           "for": "The debt limit can be raised without cutting a dollar of spending to match.",
@@ -1504,7 +1504,7 @@
           "against": "Paying bills we already owe now comes with cuts to programs people count on."
         }
       },
-      "repeal": "repeal raising the debt limit only with spending cuts to match",
+      "repeal": "repeal the law that brought in raising the debt limit only with spending cuts to match",
       "keep": "keep raising the debt limit only with spending cuts to match on the books",
       "family": "budget",
       "pole": "a",
@@ -1515,7 +1515,7 @@
       "about": "a higher top income tax rate",
       "to": "raise the top income tax rate",
       "for": "raise the top income tax rate",
-      "against": "keep a higher top income tax rate off the books",
+      "against": "say no to a higher top income tax rate",
       "today": {
         "without": {
           "for": "The top income tax rate is lower than it was a generation ago.",
@@ -1526,7 +1526,7 @@
           "against": "The top income tax rate is higher than it was, and the people who start businesses keep less."
         }
       },
-      "repeal": "repeal a higher top income tax rate",
+      "repeal": "repeal the law that brought in a higher top income tax rate",
       "keep": "keep a higher top income tax rate on the books",
       "family": "taxes",
       "pole": "a",
@@ -1537,7 +1537,7 @@
       "about": "a cap on consumer loan interest",
       "to": "cap the interest on consumer loans",
       "for": "cap the interest on consumer loans",
-      "against": "keep a cap on consumer loan interest off the books",
+      "against": "say no to a cap on consumer loan interest",
       "today": {
         "without": {
           "for": "There is no national cap on the interest a lender can charge.",
@@ -1548,7 +1548,7 @@
           "against": "A national cap limits loan interest, and families with poor credit can't find anyone who will lend to them."
         }
       },
-      "repeal": "repeal a cap on consumer loan interest",
+      "repeal": "repeal the law that brought in a cap on consumer loan interest",
       "keep": "keep a cap on consumer loan interest on the books",
       "family": "consumers",
       "pole": "a",
@@ -1559,7 +1559,7 @@
       "about": "more defense spending",
       "to": "grow defense spending",
       "for": "grow defense spending",
-      "against": "keep more defense spending off the books",
+      "against": "say no to more defense spending",
       "today": {
         "without": {
           "for": "Our defense budget is not keeping up with the threats we face.",
@@ -1570,7 +1570,7 @@
           "against": "We spend more on defense than we did, while needs at home wait."
         }
       },
-      "repeal": "repeal more defense spending",
+      "repeal": "repeal the law that brought in more defense spending",
       "keep": "keep more defense spending on the books",
       "family": "world",
       "pole": "a",
@@ -1581,7 +1581,7 @@
       "about": "more foreign aid",
       "to": "increase foreign aid",
       "for": "increase foreign aid",
-      "against": "keep more foreign aid off the books",
+      "against": "say no to more foreign aid",
       "today": {
         "without": {
           "for": "Foreign aid is less than one penny of every federal dollar.",
@@ -1592,7 +1592,7 @@
           "against": "We send more money abroad than we did, while families here go without."
         }
       },
-      "repeal": "repeal more foreign aid",
+      "repeal": "repeal the law that brought in more foreign aid",
       "keep": "keep more foreign aid on the books",
       "family": "world",
       "pole": "a",
@@ -1603,7 +1603,7 @@
       "about": "higher tariffs",
       "to": "raise tariffs",
       "for": "raise tariffs",
-      "against": "keep higher tariffs off the books",
+      "against": "say no to higher tariffs",
       "today": {
         "without": {
           "for": "Most goods come into this country with little or no tariff, and our factories pay for it.",
@@ -1614,7 +1614,7 @@
           "against": "Goods from abroad carry higher tariffs, and families pay more for them."
         }
       },
-      "repeal": "repeal higher tariffs",
+      "repeal": "repeal the law that brought in higher tariffs",
       "keep": "keep higher tariffs on the books",
       "family": "trade",
       "pole": "a",
@@ -1634,7 +1634,7 @@
       "about": "admitting more immigrants",
       "to": "admit more immigrants",
       "for": "admit more immigrants",
-      "against": "keep admitting more immigrants off the books",
+      "against": "say no to admitting more immigrants",
       "today": {
         "without": {
           "for": "People wait years, sometimes decades, to come here legally.",
@@ -1645,7 +1645,7 @@
           "against": "More people come here each year than we can take in."
         }
       },
-      "repeal": "repeal admitting more immigrants",
+      "repeal": "repeal the law that brought in admitting more immigrants",
       "keep": "keep admitting more immigrants on the books",
       "family": "immigration",
       "pole": "a",
@@ -1656,7 +1656,7 @@
       "about": "Medicare negotiating drug prices",
       "to": "let Medicare negotiate drug prices",
       "for": "let Medicare negotiate drug prices",
-      "against": "keep Medicare negotiating drug prices off the books",
+      "against": "say no to Medicare negotiating drug prices",
       "today": {
         "without": {
           "for": "Medicare pays whatever the drug companies ask for most medicines.",
@@ -1667,7 +1667,7 @@
           "against": "Washington sets what the drug companies get paid, and fewer new medicines are on the way."
         }
       },
-      "repeal": "repeal Medicare negotiating drug prices",
+      "repeal": "repeal the law that brought in Medicare negotiating drug prices",
       "keep": "keep Medicare negotiating drug prices on the books",
       "family": "health",
       "pole": "a",
@@ -1683,7 +1683,7 @@
       "about": "a higher retirement age",
       "to": "raise the retirement age",
       "for": "raise the retirement age",
-      "against": "keep a higher retirement age off the books",
+      "against": "say no to a higher retirement age",
       "today": {
         "without": {
           "for": "Full Social Security starts at sixty-seven, while the fund that pays it runs short.",
@@ -1694,7 +1694,7 @@
           "against": "Folks have to work longer than they planned before full Social Security starts."
         }
       },
-      "repeal": "repeal a higher retirement age",
+      "repeal": "repeal the law that brought in a higher retirement age",
       "keep": "keep a higher retirement age on the books",
       "family": "safety-net",
       "pole": "a",
@@ -1705,7 +1705,7 @@
       "about": "forgiving student loans",
       "to": "forgive student loans",
       "for": "forgive student loans",
-      "against": "keep forgiving student loans off the books",
+      "against": "say no to forgiving student loans",
       "today": {
         "without": {
           "for": "A young person can leave school owing more than their parents paid for a house.",
@@ -1716,7 +1716,7 @@
           "against": "Folks who never went to college, or who paid their loans off, are paying for other people's loans."
         }
       },
-      "repeal": "repeal forgiving student loans",
+      "repeal": "repeal the law that brought in forgiving student loans",
       "keep": "keep forgiving student loans on the books",
       "family": "schools",
       "pole": "a",
@@ -1727,7 +1727,7 @@
       "about": "housing vouchers for every family that qualifies",
       "to": "give a housing voucher to every family that qualifies",
       "for": "give a housing voucher to every family that qualifies",
-      "against": "keep housing vouchers for every family that qualifies off the books",
+      "against": "say no to housing vouchers for every family that qualifies",
       "today": {
         "without": {
           "for": "Most families who qualify for housing help sit on a waiting list for years.",
@@ -1738,7 +1738,7 @@
           "against": "Every family that qualifies gets a voucher, and the bill grows every year."
         }
       },
-      "repeal": "repeal housing vouchers for every family that qualifies",
+      "repeal": "repeal the law that brought in housing vouchers for every family that qualifies",
       "keep": "keep housing vouchers for every family that qualifies on the books",
       "family": "housing",
       "pole": "a",
@@ -1754,7 +1754,7 @@
       "about": "more passenger rail",
       "to": "expand passenger rail",
       "for": "expand passenger rail",
-      "against": "keep more passenger rail off the books",
+      "against": "say no to more passenger rail",
       "today": {
         "without": {
           "for": "A train is not a real choice for most trips in this country.",
@@ -1765,7 +1765,7 @@
           "against": "More of the country's travel money goes to trains few people ride."
         }
       },
-      "repeal": "repeal more passenger rail",
+      "repeal": "repeal the law that brought in more passenger rail",
       "keep": "keep more passenger rail on the books",
       "family": "transit",
       "pole": "a",
@@ -1776,7 +1776,7 @@
       "about": "limits on power plant carbon",
       "to": "limit carbon from power plants",
       "for": "limit carbon from power plants",
-      "against": "keep limits on power plant carbon off the books",
+      "against": "say no to limits on power plant carbon",
       "today": {
         "without": {
           "for": "Power plants can put as much carbon into the air as they like.",
@@ -1787,7 +1787,7 @@
           "against": "Power plants run under limits that close the ones that keep power cheap."
         }
       },
-      "repeal": "repeal limits on power plant carbon",
+      "repeal": "repeal the law that brought in limits on power plant carbon",
       "keep": "keep limits on power plant carbon on the books",
       "family": "energy",
       "pole": "a",
@@ -1803,7 +1803,7 @@
       "about": "cutting farm subsidies",
       "to": "cut farm subsidies",
       "for": "cut farm subsidies",
-      "against": "keep cutting farm subsidies off the books",
+      "against": "say no to cutting farm subsidies",
       "today": {
         "without": {
           "for": "The biggest farms collect the biggest checks from Washington.",
@@ -1814,7 +1814,7 @@
           "against": "Farm support is smaller than it was, and a bad year can cost a family its farm."
         }
       },
-      "repeal": "repeal cutting farm subsidies",
+      "repeal": "repeal the law that brought in cutting farm subsidies",
       "keep": "keep cutting farm subsidies on the books",
       "family": "budget",
       "pole": "a",
@@ -1825,7 +1825,7 @@
       "about": "states sharing disaster costs",
       "to": "have the states share more of disaster costs",
       "for": "have the states share more of disaster costs",
-      "against": "keep states sharing disaster costs off the books",
+      "against": "say no to states sharing disaster costs",
       "today": {
         "without": {
           "for": "Washington pays most of the cost when a disaster hits a state.",
@@ -1836,7 +1836,7 @@
           "against": "A state hit by a disaster is left with more of the bill."
         }
       },
-      "repeal": "repeal states sharing disaster costs",
+      "repeal": "repeal the law that brought in states sharing disaster costs",
       "keep": "keep states sharing disaster costs on the books",
       "family": "budget",
       "pole": "a",
@@ -1847,7 +1847,7 @@
       "about": "shorter mandatory minimum sentences",
       "to": "reduce mandatory minimum sentences",
       "for": "reduce mandatory minimum sentences",
-      "against": "keep shorter mandatory minimum sentences off the books",
+      "against": "say no to shorter mandatory minimum sentences",
       "today": {
         "without": {
           "for": "A judge has to hand down the same long sentence no matter the case.",
@@ -1858,7 +1858,7 @@
           "against": "Serious crimes can bring shorter sentences, depending on the judge."
         }
       },
-      "repeal": "repeal shorter mandatory minimum sentences",
+      "repeal": "repeal the law that brought in shorter mandatory minimum sentences",
       "keep": "keep shorter mandatory minimum sentences on the books",
       "family": "justice",
       "pole": "a",
@@ -1874,7 +1874,7 @@
       "about": "a ban on stock trading by members of Congress",
       "to": "ban members of Congress from trading stocks",
       "for": "ban members of Congress from trading stocks",
-      "against": "keep a ban on stock trading by members of Congress off the books",
+      "against": "say no to a ban on stock trading by members of Congress",
       "today": {
         "without": {
           "for": "A lawmaker in Washington can buy and sell stock in the very companies they write laws for.",
@@ -1885,7 +1885,7 @@
           "against": "Members of Congress can't own the same stocks every other American can."
         }
       },
-      "repeal": "repeal a ban on stock trading by members of Congress",
+      "repeal": "repeal the law that brought in a ban on stock trading by members of Congress",
       "keep": "keep a ban on stock trading by members of Congress on the books",
       "family": "ethics",
       "pole": "a",
@@ -1896,7 +1896,7 @@
       "about": "a national data privacy law",
       "to": "pass a national data privacy law",
       "for": "pass a national data privacy law",
-      "against": "keep a national data privacy law off the books",
+      "against": "say no to a national data privacy law",
       "today": {
         "without": {
           "for": "There is no national law that protects your personal data.",
@@ -1907,7 +1907,7 @@
           "against": "A national law decides how every business handles data, down to the smallest shop."
         }
       },
-      "repeal": "repeal a national data privacy law",
+      "repeal": "repeal the law that brought in a national data privacy law",
       "keep": "keep a national data privacy law on the books",
       "family": "consumers",
       "pole": "a",
@@ -1918,7 +1918,7 @@
       "about": "statehood for the nation's capital",
       "to": "make the nation's capital a state",
       "for": "make the nation's capital a state",
-      "against": "keep statehood for the nation's capital off the books",
+      "against": "say no to statehood for the nation's capital",
       "today": {
         "without": {
           "for": "The people who live in the nation's capital pay federal taxes and have no voting member in the House or the Senate.",
@@ -1929,7 +1929,7 @@
           "against": "The nation's capital is a state, with two Senators the founders never meant it to have."
         }
       },
-      "repeal": "repeal statehood for the nation's capital",
+      "repeal": "repeal the law that brought in statehood for the nation's capital",
       "keep": "keep statehood for the nation's capital on the books",
       "family": "self-rule",
       "pole": "a",

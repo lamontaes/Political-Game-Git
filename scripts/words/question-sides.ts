@@ -15,10 +15,11 @@
  * 2. `for`: make the question's noun phrase law ("make paid family leave the
  *    law") when its verb phrase is about a law of the land; otherwise the
  *    verb phrase itself, which already says what the supporter wants.
- * 3. `against`: keep the question's noun phrase off the books, while no law
- *    answers it yes ("keep higher tariffs off the books"); `repeal`, once one
- *    does ("repeal right-to-work rules"). ("stop raising tariffs" read as
- *    ceasing what was never begun.)
+ * 3. `against`: say no to the question's noun phrase, while no law answers
+ *    it yes ("say no to higher tariffs"; "keep ... off the books" fit few
+ *    questions, the words lead, Nov 12); `repeal`, once one does, names the
+ *    law, not the proposal ("repeal the law that brought in right-to-work
+ *    rules"). ("stop raising tariffs" read as ceasing what was never begun.)
  * 4. `today`: how the question stands now, one plain sentence for each state
  *    of the law (`without` while no law answers it yes, `with` once one
  *    does), from scripts/words/question-today.tsv, written for every
@@ -76,8 +77,8 @@ for (const [question, names] of Object.entries(RENAMED)) {
 for (const row of Object.values(data.names)) {
   const sides = {
     for: row.to,
-    against: `keep ${row.about} off the books`,
-    repeal: `repeal ${row.about}`,
+    against: `say no to ${row.about}`,
+    repeal: `repeal the law that brought in ${row.about}`,
     keep: `keep ${row.about} on the books`,
   };
   if (

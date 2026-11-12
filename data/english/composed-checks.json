@@ -1,6 +1,6 @@
 {
   "schema": "english-composed-checks/1",
-  "about": "What the composed checks (src/english/composed-checks.ts) read whole texts with: the numbers, each TUNABLE with the spread it is checked against, and the word lists, each from the owner's notes of Nov 11 and 12, 2026 or the words skill. Development-time only: no list here picks a line in play.",
+  "about": "What the composed checks (src/english/composed-checks.ts) read whole texts with: the numbers, each TUNABLE with the spread it is checked against, and the word lists, each from the owner's notes of Nov 11 and 12, 2026 or the words skill. Development-time only: no list here picks a line in play. Stopwords include comparatives (\"higher\", \"lower\", \"bigger\", \"fewer\"; \"more\" was already there): a comparative says how much, never what a speech is about, so the subject budget does not count it (W-E, Nov 12, when \"higher\" in three different questions' names counted as one subject four times).",
   "parameters": {
     "seriesMostParts": {
       "value": 3,
@@ -83,7 +83,9 @@
   },
   "placeSaidOnlyAs": {
     "note": "A place whose bare name means something else in a speech, with the spelling that means the place. Alone, the first is the federal capital, so the stray-place check counts only the spelling given here.",
-    "names": { "Washington": "Washington State" }
+    "names": {
+      "Washington": "Washington State"
+    }
   },
   "roleWords": [
     "President",
@@ -475,6 +477,15 @@
     "that's",
     "it's",
     "don't",
-    "won't"
+    "won't",
+    "higher",
+    "lower",
+    "bigger",
+    "smaller",
+    "less",
+    "fewer",
+    "larger",
+    "longer",
+    "shorter"
   ]
 }

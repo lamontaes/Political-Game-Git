@@ -257,9 +257,6 @@ const SLOTS: Record<string, string> = {
     "how the policy question stands today, by the law in force and as the speaker's side describes it (question-names.json `today`)",
   "today-clause":
     "the same sentence as `today`, in the case it takes after an opener and a comma",
-  it: "the pronoun for the point's question as an object (it, or them for a name that is several)",
-  "it-subject":
-    "the pronoun for the point's question as a subject (it, or they for a name that is several)",
   belief:
     "what the speaker believes, a clause worded from the belief-words pieces by the question's family and the speaker's pole of it",
   "first-side":
@@ -270,6 +267,8 @@ const SLOTS: Record<string, string> = {
 };
 for (const [slot, about] of Object.entries(SLOTS))
   if (bank.slots[slot] !== about) bank.slots[slot] = about;
+// Slots no piece names any more.
+for (const slot of ["it", "it-subject"]) delete bank.slots[slot];
 for (const slot of ["vice-president", "speaker"])
   bank.slots[slot] =
     `${bank.slots[slot]!.replace(/; said with.*$/, "")}; said with the seat's title at first mention and by role after (said-as)`;
@@ -884,46 +883,56 @@ const TIES: [string, string, string, string][] = [
     "polished",
     "for",
     "law-not-in-force",
-    "That is one more reason I am for {it}.",
+    "That is one more reason I am for {about}.",
   ],
-  ["plain", "for", "law-not-in-force", "That's a big part of why I want {it}."],
-  ["polished", "for", "law-in-force", "That is one more reason to keep {it}."],
-  ["plain", "for", "law-in-force", "That's why I'm standing by {it}."],
+  [
+    "plain",
+    "for",
+    "law-not-in-force",
+    "That's a big part of why I want {about}.",
+  ],
+  [
+    "polished",
+    "for",
+    "law-in-force",
+    "That is one more reason to keep {about}.",
+  ],
+  ["plain", "for", "law-in-force", "That's why I'm standing by {about}."],
   [
     "polished",
     "against",
     "law-not-in-force",
-    "{it-subject} would only add to that burden.",
+    "{about} would only add to that burden.",
   ],
   [
     "plain",
     "against",
     "law-not-in-force",
-    "{it-subject} would only make that worse.",
+    "{about} would only make that worse.",
   ],
   [
     "polished",
     "against",
     "law-in-force",
-    "That is one more reason to repeal {it}.",
+    "That is one more reason to repeal the law that brought in {about}.",
   ],
   [
     "plain",
     "against",
     "law-in-force",
-    "That's one more reason to get rid of {it}.",
+    "That's one more reason to get rid of {about}.",
   ],
 ];
-// The tie follows the ask, so the question is named once in a point and
-// the tie says "it" or "them" (`{it}`, `{it-subject}`: the pronoun for the
-// name's number, filled by the planner).
+// The tie follows the ask with the figure between them, so it names the
+// question again: a pronoun three sentences from its noun reads as nobody's
+// (the words lead, Nov 12). A modal ("would") agrees with either number.
 for (const [voice, side, law, text] of TIES)
   ADD.push({
     role: "tie",
     subjects: ALL,
     voice,
     text,
-    needs: [`stance-${side}`, law, "figure-ties"],
+    needs: [`stance-${side}`, law, "figure-ties", "about"],
   });
 // 20. A law in force is defended or repealed by what the speaker will do,
 // never stated as a fact a belief could lead into ("Because I think ..., a
@@ -945,13 +954,13 @@ const LAWS: [string[], string, string, string][] = [
     FEDERAL,
     "polished",
     "against",
-    "I will sign the repeal of {about} the day Congress sends it to me.",
+    "I will sign a repeal of the law that brought in {about} the day Congress sends it to me.",
   ],
   [
     FEDERAL,
     "plain",
     "against",
-    "I'll sign the repeal of {about} the day Congress sends it.",
+    "I'll sign a repeal of the law that brought in {about} the day Congress sends it.",
   ],
   [
     ["state-of-the-state"],
@@ -969,13 +978,13 @@ const LAWS: [string[], string, string, string][] = [
     ["state-of-the-state"],
     "polished",
     "against",
-    "I will sign the repeal of {about} when the legislature sends it.",
+    "I will sign a repeal of the law that brought in {about} when the legislature sends it.",
   ],
   [
     ["state-of-the-state"],
     "plain",
     "against",
-    "I'll sign the repeal of {about} the day the legislature sends it.",
+    "I'll sign a repeal of the law that brought in {about} the day the legislature sends it.",
   ],
   [
     ["town-address"],
@@ -1020,6 +1029,46 @@ for (const [subjects, voice, side, text] of LAWS)
       piece: { of: "opening-ask", part: "core", required: true },
     });
 const CLOSES: [string[], string, string][] = [
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, and let history judge us by it. Thank you, and may God keep this country.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, we will have done right by this country. I thank you, and God bless.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, and begin tomorrow. Thank you, my fellow Americans.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, this will be a better nation for our children. Good night, and God bless you.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side}, and let's get going. Thanks for listening, and God bless.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "We can {first-side}, and folks will see the difference. Take care, and God bless America.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "So let's {first-side}, starting tomorrow. Thank you, and good night.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side}, and do it right. God bless you, and thank you.",
+  ],
   [
     FEDERAL,
     "polished",
@@ -1084,6 +1133,13 @@ const CLOSES: [string[], string, string][] = [
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
 const GREETINGS: [string, string][] = [
+  ["plain", "Good people of this country, here and at home."],
+  ["plain", "Folks in this hall, and folks watching at home."],
+  [
+    "polished",
+    "Members of Congress, honored guests, and fellow citizens across this land.",
+  ],
+  ["polished", "Distinguished guests, and my fellow citizens."],
   ["plain", "Friends and neighbors, here and at home."],
   ["plain", "Everybody here, and everybody back home."],
   [

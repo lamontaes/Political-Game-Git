@@ -281,6 +281,12 @@ const FIXTURES: Record<
       text("speech:mayor", [
         ["Housing first. Rents rose. Homes are scarce. More are coming."],
       ]),
+      // A comparative is not a subject: "higher" in three questions' names.
+      text("speech:president", [
+        [
+          "A higher tax rate is wrong. A higher debt limit needs cuts. A higher wage costs jobs. Higher still is no answer.",
+        ],
+      ]),
     ),
   },
   "note-stands-alone": {
