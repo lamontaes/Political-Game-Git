@@ -54,6 +54,7 @@ import {
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceToFilingOpen } from "./gov-test-clock";
 
 const START = "2026-01-05";
 const seed =
@@ -77,7 +78,13 @@ function randomPlace(salt: string) {
   return pick(places, `place${salt}`);
 }
 
-/** Two residents filed for the soonest local or state race that takes both, or undefined. */
+/**
+ * Two residents filed for the soonest local or state race that takes both, or
+ * undefined. The world opens on the start date and a place whose filing
+ * windows open later (the nomination calendar's own dates) has nothing to
+ * file for that day, so the clock moves to the first day one opens, as a
+ * player there would wait for it.
+ */
 function filedRace(place: string) {
   const core = createLifeCore(
     buildPopulation({
@@ -92,6 +99,7 @@ function filedRace(place: string) {
   openElections(core);
   openCampaigns(core);
   openParties(core);
+  advanceToFilingOpen(core);
   const api = coreAPI(core);
   const adults = [...core.people.values()]
     .filter(
@@ -393,7 +401,9 @@ describe("a door yes is near-binding", () => {
       if (places >= 3) break;
       const world = filedRace(place);
       if (!world) {
-        lines.push(`${place}: no race two residents could file for`);
+        lines.push(
+          `${place}: no race two residents could file for (no window opens, or the first one refused two residents)`,
+        );
         continue;
       }
       const { core, api, contest, filed } = world;
