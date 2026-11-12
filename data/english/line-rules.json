@@ -4964,10 +4964,12 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
-      "note": "Awaits a tag: {home-state} is now the President's own home state from the President's record, so a line naming it is grounded; it is wrong only when that state is the player's, and no tag says so.",
-      "status": "awaiting-test",
+      "note": "Composed check: a speech naming a state that is not its own jurisdiction's (any state for the President's), or the President's naming the player's town. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "judged"
+        "kind": "composed",
+        "check": ["speech-names-no-stray-place"],
+        "applies": ["speech:president", "speech:governor", "speech:mayor"]
       }
     },
     {
@@ -5012,10 +5014,17 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check, partly: a subject's word said more than three times in one speech (words skill, Nov 11). Whether every point belongs to one theme needs the outline (design part 3). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["subject-budget"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
       }
     },
     {
@@ -5046,10 +5055,17 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check: the same ask said twice in one speech, by its subject words. That one ask leads the speeches of every world is read across draws by the run's table, not by a check. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["ask-said-once"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
       }
     },
     {
@@ -5095,10 +5111,11 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check (docs/design/words-composer.md, part 6): a full name twice on one screen, and a full name first said with no role or relationship about someone the listener was not given, over every kind of text. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["full-name-once-per-screen", "no-bare-full-name-unintroduced"]
       }
     },
     {
@@ -5122,10 +5139,11 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check: two full clauses joined by a comma, in every composed sentence. One tense in a sentence and sentences that follow one another are not built yet: a sound reader of tense needs the join's typed pieces (design part 4). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["no-comma-splice"]
       }
     },
     {
@@ -5171,10 +5189,15 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check: asking after someone who is in the room, and a housemate asking the player their work, home or name. A question about the world the listener holds no record of is not caught yet; it needs the telling (design part 1). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": [
+          "not-asked-after-while-present",
+          "housemate-does-not-ask-known-fact"
+        ],
+        "applies": ["talk:home", "talk:town", "scene"]
       }
     },
     {
@@ -5188,10 +5211,12 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check: a sentence (names set aside) said by one member of the player's household after another said it the same day. A different point said in other words is not caught. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["no-echo-between-speakers"],
+        "applies": ["talk:home", "talk:town", "scene"]
       }
     },
     {
@@ -5210,10 +5235,12 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check: a line looking ahead to a part of the day already here or over, or end-of-day talk in the morning, read against the minute it was said; and the same opener to the same person on three days of one week. Whose day it was (no job, no school) is not read yet. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["no-over-daypart", "no-daily-subject-loop"],
+        "applies": ["talk:home", "talk:town", "scene", "narration"]
       }
     },
     {
@@ -5227,10 +5254,12 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["no-non-reply"],
+        "applies": ["talk:home", "talk:town", "scene"]
       }
     },
     {
@@ -5261,10 +5290,12 @@
           "via": "2026-11-12-life-1 voice note"
         }
       ],
-      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
-      "status": "awaiting-test",
+      "note": "Composed check: a Journal note or news toast that opens leaning on a sentence it is shown without, or doubles a word. Whether it names its law and amount is not read yet. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "place"
+        "kind": "composed",
+        "check": ["note-stands-alone"],
+        "applies": ["journal:note", "news:toast"]
       }
     }
   ]

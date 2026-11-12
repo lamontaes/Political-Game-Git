@@ -634,6 +634,8 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
     const wrong = inContext.flatMap((row) => {
       if (row.status === "awaiting-test")
         return row.note?.trim() ? [] : [`${row.id} waits with no reason`];
+      // A composed rule reads whole texts; tests/guards/english/composed-rules.test.ts holds it.
+      if (row.test.kind === "composed") return [];
       const tested = ["phrases", "patterns", "sentences"].includes(
         row.test.kind,
       );
