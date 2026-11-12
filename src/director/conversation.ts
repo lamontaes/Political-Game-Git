@@ -1593,6 +1593,7 @@ function governmentNews(
     });
     const out: Facts = {
       first: calledBy(core, listener.id, speaker.id),
+      you: calledBy(core, speaker.id, listener.id),
     };
     let stage: string | null = null;
     let about: string | undefined;

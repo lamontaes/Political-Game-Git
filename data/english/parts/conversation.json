@@ -50,7 +50,11 @@
     "due": "When the rent is due, from today (\"tomorrow\", \"in three days\"), from the lease record.",
     "usual": "How long the speaker's shift usually runs (\"eight hours\"), from the job record's daily hours.",
     "age": "The age a person turned, from the paper's milestone birthday story.",
-    "office": "The office a race is for, as its contest record names it."
+    "office": "The office a race is for, as its contest record names it.",
+    "who": "An office as its holder is said again (\"the governor\"), from data/english/said-as.json offices.",
+    "body": "The local body that decided a measure, said as people say it (\"the county board\"), from data/english/said-as.json deciders.",
+    "purpose": "What a budget line is for, from the bill catalog's budget row (data/english/bill-names.json).",
+    "amount": "A sum of money from a record, as people round it."
   },
   "maxWords": 10,
   "lineWords": {
@@ -37444,6 +37448,507 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.who-talked-up-about-when",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "{who} talked up {about} {when}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["address"],
+          "requiresFacts": ["who", "about", "when", "official-for"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.who-came-out-against-about-when",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "{who} came out against {about} {when}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["address"],
+          "requiresFacts": ["who", "about", "when", "official-against"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.i-caught-who-s-speech-when-mostly-about",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "I caught {who}'s speech {when}. Mostly {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["address"],
+          "requiresFacts": ["who", "about", "when"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.i-went-to-the-town-hall-when-it-was-all-about",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "I went to the town hall {when}. It was all {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["meeting"],
+          "requiresFacts": ["about", "when"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.the-town-hall-when-was-packed-everyone-was-on-about",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "The town hall {when} was packed. Everyone was on {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["meeting"],
+          "requiresFacts": ["about", "when"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.i-read-body-went-with-purpose-amount-worth",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "I read {body} went with {purpose}, {amount} worth.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["budget"],
+          "requiresFacts": ["body", "purpose", "amount"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.it-was-in-the-paper-body-moved-amount-purpose",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "It was in the paper. {body} moved {amount}, {purpose}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["budget"],
+          "requiresFacts": ["body", "purpose", "amount"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.i-read-body-voted-through-about",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "I read {body} voted through {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["ordinance"],
+          "requiresFacts": ["body", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-core.it-was-in-the-paper-body-passed-about",
+      "move": "government-news-say-core",
+      "kind": "spoken",
+      "text": "It was in the paper. {body} passed {about}.",
+      "uses": [
+        {
+          "move": "government-news-say-core",
+          "subject": "government-news-say",
+          "role": "core",
+          "stages": ["ordinance"],
+          "requiresFacts": ["body", "about"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-m-all-for-it-you",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I'm all for it, {you}.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-it"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-closer.i-m-against-it-you-and-i-ll-say-so",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "I'm against it, {you}, and I'll say so.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "requiresFacts": ["wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-say-closer.we-ll-see-if-it-goes-anywhere-you",
+      "move": "government-news-say-closer",
+      "kind": "spoken",
+      "text": "We'll see if it goes anywhere, {you}.",
+      "uses": [
+        {
+          "move": "government-news-say-closer",
+          "subject": "government-news-say",
+          "role": "closer",
+          "stages": ["address", "meeting", "budget", "ordinance"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-say",
+        "part": "closer"
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-answer-for.sounds-right-to-me-first",
+      "move": "government-news-answer-for",
+      "kind": "spoken",
+      "text": "Sounds right to me, {first}.",
+      "uses": [
+        {
+          "move": "government-news-answer-for",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-answer-for.good-somebody-had-to-first",
+      "move": "government-news-answer-for",
+      "kind": "spoken",
+      "text": "Good. Somebody had to, {first}.",
+      "uses": [
+        {
+          "move": "government-news-answer-for",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "for",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-answer-against.that-seems-like-the-wrong-call-first",
+      "move": "government-news-answer-against",
+      "kind": "spoken",
+      "text": "That seems like the wrong call, {first}.",
+      "uses": [
+        {
+          "move": "government-news-answer-against",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-answer-against.i-don-t-like-the-sound-of-that-first",
+      "move": "government-news-answer-against",
+      "kind": "spoken",
+      "text": "I don't like the sound of that, {first}.",
+      "uses": [
+        {
+          "move": "government-news-answer-against",
+          "subject": "government-news",
+          "role": "answer",
+          "choice": "against",
+          "requiresFacts": ["first"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.then-we-agree-you-let-s-hope-it-sticks",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Then we agree, {you}. Let's hope it sticks.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-it"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.well-i-don-t-you-time-will-tell",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Well, I don't, {you}. Time will tell.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "requiresFacts": ["wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.same-here-you-i-hope-it-doesn-t-last",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Same here, {you}. I hope it doesn't last.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.i-think-it-s-right-you-we-ll-see-who-s-wrong",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "I think it's right, {you}. We'll see who's wrong.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "requiresFacts": ["wants-it"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.maybe-so-you-it-s-done-now-anyway",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Maybe so, {you}. It's done now, anyway.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["for"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.government-news-back-core.could-be-you-nobody-asked-us",
+      "move": "government-news-back-core",
+      "kind": "spoken",
+      "text": "Could be, {you}. Nobody asked us.",
+      "uses": [
+        {
+          "move": "government-news-back-core",
+          "subject": "government-news-back",
+          "role": "core",
+          "stages": ["against"],
+          "excludesFacts": ["wants-it", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "government-news-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: what a government did, brought up at home)",
       "date": "2026-11-12"
     }
   ]

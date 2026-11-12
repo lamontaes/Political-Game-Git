@@ -20,6 +20,8 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { fileForOffice, governmentView } from "../bench/government";
+import { officeholders } from "../bench/officeholders";
+import { BenchPlayer } from "../bench/player";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -32,6 +34,13 @@ import { noteHeard, openConversation, say } from "./conversation";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DRAWS = Number(process.env.TALK_DRAWS ?? 3);
+/**
+ * `PLAYER_AS=official` plays the bench's Advanced start: the player steps in
+ * as a serving officeholder who lives with someone (the first such, by the
+ * officeholders list), as the start screen offers. Nothing is staged: the
+ * records the house reads are the engines' own.
+ */
+const AS_OFFICIAL = process.env.PLAYER_AS === "official";
 const DAYS = 14;
 const EVENING = 20 * 60 + 30;
 const TURNS = 6;
@@ -64,7 +73,22 @@ it(`the house talks about the player's own news (seed ${seed})`, () => {
       placeKey: place.key,
     });
     const { core, director } = world;
-    const playerId = world.playerId! as PersonId;
+    let playerId = world.playerId! as PersonId;
+    if (AS_OFFICIAL) {
+      const held = officeholders(core).find((row) => {
+        const person = core.people.get(row.personId);
+        return (
+          !!person &&
+          [...(core.households.get(person.householdId)?.memberIds ?? [])]
+            .length > 1
+        );
+      });
+      if (held) {
+        new BenchPlayer(core, director).select(held.personId);
+        playerId = held.personId as PersonId;
+        (core as { playerId?: string }).playerId = playerId;
+      }
+    }
     director.watch(core, playerId);
     core.focusPersonIds.add(playerId);
     const api = coreAPI(core);
