@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-nation-other-states-change-laws-in-year-one-then-almost-never
 pr: #8482
@@ -19,6 +19,7 @@ root: design-country-tier
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T02:37:10.909Z
 branch: claude/pool-nation-other-states-change-laws-in-year-one-then-almost-never
+merged-at: 2026-11-12T19:01:20.017Z
 ---
 
 **What.** The other states' legislatures act once, at the start, and then stop. Measured in the Wickliffe, Oklahoma world (seed 8832429ff1e53841): 54 other states and territories changed 467 laws in the first year, and fourteen states capped property tax growth in the same year. In the ten years after, the whole country changed 41 laws: 1, 15, 5, 15, 0, 1, 3, 1, 0 and 0. Over the eighteen years after the first, the count was 54 laws. Read in the code: on the day a session convenes the engine walks the yes-or-no questions once, and a change passes if each chamber has more members leaning yes than no and the governor agrees. Public opinion, the state's economy and lobbying are not inputs. So the year-one flood is the starting law being brought into line with the members' leanings all at once, and after that a state changes a law only when an election changes its members. The owner's finish line, at least 40 states changing a law in force in a played year, is met in year one only, by the flood. Fix it at the cause for every state and territory: what a legislature takes up in a session follows from what moved in that state since its last one (its people's opinion, its economy and budget, organized pressure, who won seats), so laws change in every year for a recorded reason and the first year is not a one-time sort. Seen: the paper's stories of other states passing laws in every year, not only the first (the country tier is on the critical path).

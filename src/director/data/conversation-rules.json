@@ -142,6 +142,7 @@
     "mutual": ["family"],
     "news": ["address"],
     "address": ["news"],
+    "address-point": ["news", "own-view"],
     "job-lost": ["job-hope"],
     "eviction": ["eviction-where"]
   },

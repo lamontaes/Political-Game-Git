@@ -110,6 +110,22 @@ export async function devWatchSections({ labels, playerId }) {
       { className: "scroll" },
       table(
         [
+          { name: labels.year, value: (r) => r.year },
+          { name: labels.stateChanges, value: (r) => r.changes },
+          { name: labels.statesChanging, value: (r) => r.states },
+          {
+            name: labels.record,
+            value: (r) => idList(r.recordIds.slice(0, 12), open),
+          },
+        ],
+        view.states ?? [],
+      ),
+    ),
+    el(
+      "div",
+      { className: "scroll" },
+      table(
+        [
           { name: labels.date, value: (r) => r.date },
           { name: labels.kind, value: (r) => r.kind },
           { name: labels.record, value: (r) => idLink(r.id, open) },
