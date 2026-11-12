@@ -26,6 +26,7 @@ import {
 import { restoreWorld, snapshotWorld } from "../core2/snapshot";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
+import { properName } from "../director/words";
 
 const DRAWS = 3;
 /** The game opens in January 2025; fourteen months on is the item's finish line. */
@@ -217,6 +218,13 @@ describe("Metrics reads the registry in a played world", () => {
       const books = [...budgetsOf(api, (own[0] ?? { id: "" }).id)].sort(
         (a, b) => b.fiscalYear - a.fiscalYear,
       )[0];
+      // The books are headed by the name of the government they were read from.
+      if (books)
+        expect(
+          (view.sections.find((s) => s.key === "budget") as { name?: string })
+            .name,
+          where,
+        ).toBe(properName(own[0]!.name));
       if (books)
         expect(rowOf(view, "budget", "revenue")?.now, where).toBe(
           Object.values(books.revenueMinor).reduce((n, minor) => n + minor, 0),

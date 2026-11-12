@@ -1,6 +1,7 @@
 import { outputReads, readOutputNumber } from "../core2/output-number-readers";
 import { METRICS_SECTIONS, OUTPUT_NUMBERS } from "../core2/output-numbers";
 import type { CoreState } from "../core2/types";
+import { properName } from "../director/words";
 
 /**
  * How the place is doing: this year beside last. Every row is one registered output number
@@ -11,15 +12,19 @@ import type { CoreState } from "../core2/types";
 export function metricsView(core: CoreState, placeId: string) {
   const reads = outputReads(core, placeId);
   return {
-    sections: METRICS_SECTIONS.map((key) => ({
-      key,
-      rows: OUTPUT_NUMBERS.flatMap((number) => {
+    sections: METRICS_SECTIONS.map((key) => {
+      // The government whose books a section shows, named as the record names it: a town run
+      // by its county reads the county's name, never the town's.
+      let name: string | undefined;
+      const rows = OUTPUT_NUMBERS.flatMap((number) => {
         const shown = number.metrics;
         if (shown?.section !== key) return [];
         const read = readOutputNumber(reads, number.id);
         if (!read || (shown.absentWhenZero && !(read.now > 0))) return [];
         // The people behind a small town's count ("13 of 86 looking for work").
         const of = shown.of ? read.inputs[shown.of] : undefined;
+        const government = read.inputs.government;
+        if (typeof government === "string") name = properName(government);
         return [
           {
             key: shown.key,
@@ -29,7 +34,8 @@ export function metricsView(core: CoreState, placeId: string) {
             ...(typeof of === "number" ? { of } : {}),
           },
         ];
-      }),
-    })).filter((section) => section.rows.length),
+      });
+      return { key, ...(name ? { name } : {}), rows };
+    }).filter((section) => section.rows.length),
   };
 }

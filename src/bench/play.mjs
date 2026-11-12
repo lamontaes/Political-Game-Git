@@ -3801,7 +3801,8 @@ const sheets = {
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
-        words[section.key],
+        // A section that shows one government's books is headed by that government's name.
+        section.name ?? words[section.key],
         ...section.rows.map((row) => {
           const moved = row.before === null ? null : row.now - row.before;
           const direction =

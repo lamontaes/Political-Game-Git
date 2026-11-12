@@ -154,8 +154,11 @@ function stateMonths(reads: OutputReads) {
 
 /**
  * The played town's own government: the city, township or county whose
- * jurisdiction is the place (a town with no city government is run by its
- * county, which then carries the town's jurisdiction). Never another town's.
+ * jurisdiction is the place. A county beside a city carries the county's own
+ * jurisdiction, so it is never picked for a town that has a city; a town with
+ * no city government is run by its county, which then carries the town's
+ * jurisdiction, and a screen names that government as the county it is.
+ * Never another town's.
  */
 export function townGovernment(
   api: CoreAPI,
@@ -164,7 +167,7 @@ export function townGovernment(
   if (!(api.state as CoreState).modules.has("core2-budgets-v1"))
     return undefined;
   const local = governments(api).filter(
-    (row) => row.jurisdictionId === placeId || row.id === placeId,
+    (row) => row.jurisdictionId === placeId,
   );
   return (
     local.find((row) => row.level === "city") ??
@@ -197,6 +200,7 @@ function townBudget(reads: OutputReads) {
       recordId: latest.id,
       beforeRecordId: prior?.id ?? null,
       fiscalYear: latest.fiscalYear,
+      government: gov.name,
     };
   });
 }
@@ -271,7 +275,7 @@ const READERS: Readonly<
           budget.before?.[key],
           budget.recordId,
           budget.beforeRecordId,
-          { fiscalYear: budget.fiscalYear },
+          { fiscalYear: budget.fiscalYear, government: budget.government },
         )
       : null;
   },
