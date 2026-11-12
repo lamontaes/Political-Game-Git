@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-results-mode-payroll-retry
-pr:
+pr: 8932
 after:
 blocked-on:
 lead: speed
