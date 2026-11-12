@@ -1,6 +1,6 @@
 ---
 id: core-life-record-part-14-a-past-that-moves-views
-title: "The life record, part 12: big events in a past move a person's views, either way, from the records"
+title: "The life record, part 14: big events in a past move a person's views, either way, from the records"
 area: people
 kind: feature
 priority: 1
