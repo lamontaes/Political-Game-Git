@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: R1 (Fable A's builder)
 pr:
 after:
 blocked-on:
@@ -35,3 +35,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/budgets-public-pay.test.ts, src/core2/town-workplaces.ts, src/core2/public-work-pay.ts
 
 **Notes.** Cause found (Nov 11, 2026, cause finder for Fable B): built Alega's world through the test's own route on main b957363c and listed the organizations holding a public pay authority: the one is the state office above. The test is stale, not the opening.
+
+**Notes (Nov 12, R1).** Built the Fix on branch claude/pool-tests-budgets-public-pay-alega-has-a-public-employer. A bisect of Alega's world (seed f3d402dc6d11da2e) from the commit that pinned the empty case (7210819d2b) to main 8a68ab2bd4 found it opens with zero public employers at some later commits and one at others (4dde32a74c, b2be97ea25 and f882a12a81 held zero; f5e2d54710, Oct 28, "sector mix ... drawn from its seed", is the first that held one). Whether a small place opens with a state office is drawn from its world's seed, so no pinned seed could have kept the empty case; the check in every drawn world replaces it.
