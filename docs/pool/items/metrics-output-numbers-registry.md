@@ -34,4 +34,4 @@ source: docs/design/output-numbers.md (#8926), owner's ask of Nov 12
 
 **Files.** src/core2/modules/world-metrics.ts, src/core2/modules/outcome-web.ts, src/core2/outcome-web-model.ts, src/bench/metrics.ts, src/bench/play.mjs, src/core2/data/output-numbers.json (new), src/core2/output-numbers.ts (new)
 
-**Notes.** From docs/design/output-numbers.md (#8926), owner's ask of Nov 12.
+**Notes.** From docs/design/output-numbers.md (#8926), owner's ask of Nov 12. Owner, Nov 12, 3:43 p.m. (CTO line on issue 8928): the plan is approved as written, and a small town shows its own count with the people behind it ("13 of 86 looking for work"), never a blend and never the county's figure.
