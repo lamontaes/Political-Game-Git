@@ -178,5 +178,16 @@
     "addedAt": "2026-11-08",
     "replacement": "Roles from the place's own records where they exist (the municipal governance and special-district data), and a county share of party activity from state party-registration counts.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-past-read-where-opened",
+    "kind": "partial-model",
+    "file": "src/core2/past-work.ts",
+    "whatItFakes": "A relative living elsewhere has their whole past read against the place they live in when their card is first opened. One who moved in play before the player opened them is schooled and worked where they live now, not where they lived on the opening day.",
+    "why": "The moves engine keeps a relative's moves in play as events, and the past's one reader of where someone lived (residenceOn) reads only the moves before the start.",
+    "addedBy": "opus-5251 (life-relatives-who-live-elsewhere-have-a-past)",
+    "addedAt": "2026-11-10",
+    "replacement": "residenceOn reads a relative's moves in play as well, so their past is read against the place they lived on the opening day whenever they are opened.",
+    "status": "open"
   }
 ]

@@ -30,7 +30,9 @@ import { leanedYes } from "../trait-decisions";
 import { lawChain, lawInForce } from "./laws";
 import { raiseOne } from "../wage-floor";
 import { townSeats, type TermRow } from "./offices";
-import { touchImpression } from "./campaigns";
+import { impressionOf, touchImpression } from "./campaigns";
+import { countedLean } from "./views";
+import { keepsWhy } from "../why-kept";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
 import { JOBS_MODULE_ID, recordReferral } from "./jobs";
 import { residentsRuntime } from "./residents";
@@ -57,6 +59,14 @@ export interface CaseRow {
   readonly problem: Problem;
   /** How hard it presses on them, from their records, in [0, 1]. */
   readonly severity: number;
+  /**
+   * How close they stood to the official when they brought it, before the
+   * visit: the standing the office's decision reads, the same for a counted
+   * resident (who has no ties) as for a full person.
+   */
+  readonly standing: number;
+  /** The office's sense of duty on the case when it was decided, its recorded reason. */
+  readonly duty?: number | null;
   readonly facts: Readonly<Record<string, string | number>>;
   readonly opened: string;
   readonly respondBy: string;
@@ -80,7 +90,19 @@ export const CASES_MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => caseWork(api, work),
+  onFillIn: (api, filled) => tiesFromCases(api, filled.memberIds),
 };
+
+/** Who brings a case: a full person, or a counted resident by what their record keeps. */
+export interface CaseSeeker {
+  readonly id: string;
+  readonly traits: Readonly<Record<string, number>>;
+  /** A counted resident's lean, the one their view gets when filled in; absent for a full person. */
+  readonly countedLean?: number;
+}
+
+/** The time a visit to the office adds to the resident's tie with the official, in hours. */
+const VISIT_HOURS = 0.05;
 
 const table = (api: CoreAPI) => api.moduleState(CASES_MODULE_ID).table("cases");
 
@@ -269,9 +291,10 @@ export function bringCases(api: CoreAPI): void {
     bringCase(api, person, problem, pool, town);
   }
   // The wider population brings problems from the same records: a counted
-  // resident out of work, with the cushion their group's fund leaves them. A
-  // case that reaches an official fills the resident in first, so the case,
-  // the relationship and the view of the official land on a full person.
+  // resident out of work, with the cushion their group's fund leaves them.
+  // They stay counted (two-level population, owner, Oct 11): the case is kept
+  // by their id and decided by the same rule, and they are filled in only
+  // when the official who hears it is the player, or the player opens them.
   if (local.length)
     for (const seeker of countedOutOfWork(api, town)) {
       if (recent(seeker.personId)) continue;
@@ -288,8 +311,17 @@ export function bringCases(api: CoreAPI): void {
         )
       )
         continue;
-      const person = fillInPerson(api.state as CoreState, seeker.personId);
-      bringCase(api, person, seeker.problem, local, town);
+      bringCase(
+        api,
+        {
+          id: seeker.personId,
+          traits: seeker.traits,
+          countedLean: seeker.lean,
+        },
+        seeker.problem,
+        local,
+        town,
+      );
     }
 }
 
@@ -308,6 +340,8 @@ function countedOutOfWork(
   traits: Readonly<Record<string, number>>;
   /** How closely they follow politics: their survey cell's (state and age). */
   engagement: number;
+  /** Their lean, the one their view gets when they are filled in. */
+  lean: number;
   problem: {
     problem: Problem;
     severity: number;
@@ -358,9 +392,11 @@ function countedOutOfWork(
       Math.min(1, 1 - months / campaignParameter("caseCushionMonths")),
     );
     if (severity <= 0) continue;
+    const facts = store.factsOf(m);
     out.push({
       personId: seeker.personId,
-      traits: store.packedTraits(m),
+      traits: facts.traits,
+      lean: countedLean(api, facts),
       engagement:
         engagementOf(state, {
           id: seeker.personId,
@@ -380,7 +416,7 @@ function countedOutOfWork(
 /** A resident brings a problem to the official they know best: the case, their standing with them, their argument. */
 function bringCase(
   api: CoreAPI,
-  person: Readonly<PersonState>,
+  person: CaseSeeker,
   problem: {
     problem: Problem;
     severity: number;
@@ -410,12 +446,21 @@ function bringCase(
       ) ||
       a.id.localeCompare(b.id),
   )[0]!;
+  // A counted resident whose case reaches an official the player holds or
+  // deals with (`keepsWhy`: the player, their family, the people they know)
+  // is someone the player can meet there, so filled in now, before the
+  // visit; anyone else stays counted, kept by their id.
+  const met =
+    !api.state.people.has(person.id) && keepsWhy(state, official.personId!);
+  if (met) fillInPerson(state, person.id);
+  const full = api.state.people.has(person.id);
   const row: CaseRow = {
     id: `case:${person.id}:${api.state.date}`,
     personId: person.id,
     officialId: official.personId!,
     problem: problem.problem,
     severity: problem.severity,
+    standing: level.get(official.id)!,
     facts: problem.facts,
     opened: api.state.date,
     respondBy: addDays(api.state.date, campaignParameter("caseResponseDays")),
@@ -430,7 +475,8 @@ function bringCase(
     id: `office-approached:${row.id}`,
     date: api.state.date,
     kind: "office.approached",
-    personIds: [row.officialId, person.id],
+    // A counted resident is named in the facts only, as no person yet.
+    personIds: full ? [row.officialId, person.id] : [row.officialId],
     placeId: town,
     facts: {
       caseId: row.id,
@@ -445,7 +491,8 @@ function bringCase(
       asOf: api.state.date,
     },
   });
-  api.relationship(person.id, official.personId!, "contact", 0.05);
+  if (full)
+    api.relationship(person.id, official.personId!, "contact", VISIT_HOURS);
   // Bringing the problem makes the resident's case on its question to the
   // official, who is moved by the resident's standing with them.
   const argues = PROBLEM_QUESTIONS[row.problem];
@@ -458,6 +505,7 @@ function bringCase(
       topic: argues.question,
       desiredChange: argues.desiredChange,
       citation: `Constituent case ${row.id}`,
+      ...(full ? {} : { countedSpeakerLean: person.countedLean }),
     });
   api.moduleCalendar(CASES_MODULE_ID).schedule({
     key: `case-due:${row.id}`,
@@ -521,8 +569,7 @@ export function caseDuty(
   return (
     base +
     campaignParameter("caseHelpSeverityWeight") * row.severity +
-    campaignParameter("caseHelpStandingWeight") *
-      closenessBetween(api.state as CoreState, officialId, row.personId) -
+    campaignParameter("caseHelpStandingWeight") * row.standing -
     campaignParameter("caseHelpLoadWeight") *
       caseLoad(api, openCasesOf(api, officialId, row.id))
   );
@@ -576,10 +623,11 @@ function officeHandles(api: CoreAPI, row: CaseRow): void {
       staffed.help ? "help" : "decline",
       "staff",
       staffed.stafferId,
+      own.duty,
     );
     return;
   }
-  resolve(api, row, own.decision, "office");
+  resolve(api, row, own.decision, "office", null, own.duty);
 }
 
 /** The player's (or any official's) decision on a case in their office. */
@@ -587,10 +635,12 @@ export function handleCase(
   api: CoreAPI,
   caseId: string,
   decision: "help" | "decline",
+  /** The official's own sense of duty, where their character decided it. */
+  duty: number | null = null,
 ): CaseRow | null {
   const row = table(api).get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "open") return row ?? null;
-  return resolve(api, row, decision, "official");
+  return resolve(api, row, decision, "official", null, duty);
 }
 
 function resolve(
@@ -599,6 +649,7 @@ function resolve(
   decision: "help" | "decline",
   by: "official" | "office" | "staff",
   stafferId: string | null = null,
+  duty: number | null = null,
 ): CaseRow {
   let outcome: string;
   if (decision === "help" && row.problem === "paid-under-minimum-wage") {
@@ -623,21 +674,55 @@ function resolve(
     status: decision === "help" ? "helped" : "declined",
     handledBy: by,
     stafferId,
+    duty,
     outcome,
   };
   table(api).put(done as unknown as ModuleRow);
+  // stopgapId: SG-GOV-counted-case-view-kept-on-the-case
+  // A counted resident has no impression of their own until filled in; the
+  // case row keeps what the fill-in reads (`tiesFromCases`).
+  caseImpression(api, done);
+  return done;
+}
+
+/** How a decided case moves the resident's view of the official. */
+function caseImpression(api: CoreAPI, row: Readonly<CaseRow>): void {
   touchImpression(api, {
     voterId: row.personId,
     officialId: row.officialId,
     act: "constituent-case",
     target:
-      decision === "help"
+      row.status === "helped"
         ? campaignParameter("caseHelpedWarmth")
         : -campaignParameter("caseHelpedWarmth"),
     weight: row.severity * campaignParameter("caseWeight"),
     rapport: 0,
   });
-  return done;
+}
+
+/**
+ * A counted resident just filled in gets what their kept cases say: the tie
+ * the visit made with the official and, for a decided case, the view it
+ * moved. Only where they hold neither yet, so a person returned to the counts
+ * and filled in again is not moved twice.
+ */
+function tiesFromCases(api: CoreAPI, ids: readonly string[]): void {
+  const state = api.state as CoreState;
+  for (const id of ids)
+    for (const row of table(api).query("byPerson", [
+      id,
+    ]) as unknown as CaseRow[]) {
+      if (!state.people.get(row.officialId)?.alive || id === row.officialId)
+        continue;
+      const pair =
+        id < row.officialId
+          ? `${id}:${row.officialId}`
+          : `${row.officialId}:${id}`;
+      if (!state.relationships.has(pair))
+        api.relationship(id, row.officialId, "contact", VISIT_HOURS);
+      if (row.status !== "open" && !impressionOf(api, id, row.officialId))
+        caseImpression(api, row);
+    }
 }
 
 /**

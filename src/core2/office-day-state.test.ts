@@ -14,7 +14,11 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
 import { leaderOf } from "./modules/leadership";
 import {
   draftBill,
@@ -54,6 +58,26 @@ interface WeekRow {
   tag: string;
 }
 
+/**
+ * A serving holder's state office when it is the played state's own and the
+ * holder is a person in the world. Another state's legislators are recorded
+ * husks until something opens them (officials.ts `seatAll`, since Nov 8): no
+ * person and no office day of their own, so a test that acts on an office
+ * takes the played state's.
+ */
+function ownStateOffice(
+  api: ReturnType<typeof coreAPI>,
+  personId: string,
+): StateOffice | null {
+  const office = stateOfficeOf(api, personId);
+  if (!office || !api.state.people.has(personId)) return null;
+  const row = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(office.officeId);
+  return isOutsideOffice(api, row) ? null : office;
+}
+
 /** Plays one place; false where its offices data seats no state legislator or no governor (a territory's legislature). */
 function playPlace(seed: string, skipped: string[]): boolean {
   const place = drawPlace(seed, "office-state");
@@ -71,7 +95,7 @@ function playPlace(seed: string, skipped: string[]): boolean {
   const offices = new Map<string, StateOffice>();
   for (const term of terms) {
     if (term.status !== "serving" || !term.personId) continue;
-    const office = stateOfficeOf(api, term.personId);
+    const office = ownStateOffice(api, term.personId);
     if (office) offices.set(`${office.role}:${office.personId}`, office);
   }
   const legislator = [...offices.values()].find((o) => o.role === "legislator");
@@ -158,7 +182,10 @@ it("gives a state legislator and the governor a calendar from the place's data, 
 it("a state legislator's district office decides one case at office hours and leaves the other to the office, each read by the resident's impression", () => {
   const skipped: string[] = [];
   for (let attempt = 0; attempt < 5; attempt++) {
-    const seed = randomBytes(8).toString("hex");
+    // The first draw replays GOLDEN_PATH_SEED when it is given (red-main).
+    const seed =
+      (attempt === 0 && process.env.GOLDEN_PATH_SEED) ||
+      randomBytes(8).toString("hex");
     const place = drawPlace(seed, "office-district");
     const where = `${place.name} [${place.key}], seed ${seed}`;
     setBookkeeping(false);
@@ -174,7 +201,7 @@ it("a state legislator's district office decides one case at office hours and le
     let legislator: StateOffice | undefined;
     for (const term of terms) {
       if (term.status !== "serving" || !term.personId) continue;
-      const office = stateOfficeOf(api, term.personId);
+      const office = ownStateOffice(api, term.personId);
       if (office?.role === "legislator") legislator = office;
     }
     const officials = new Set(terms.map((t) => t.personId));
@@ -182,7 +209,9 @@ it("a state legislator's district office decides one case at office hours and le
       .filter((p) => p.alive && p.tier !== "husk" && !officials.has(p.id))
       .slice(0, 2);
     if (!legislator || residents.length < 2) {
-      skipped.push(where);
+      skipped.push(
+        `${where}: ${legislator ? "fewer than two residents" : "no legislator of the played state who is a person"}`,
+      );
       continue;
     }
     // The first district day on the legislator's calendar.
@@ -201,6 +230,7 @@ it("a state legislator's district office decides one case at office hours and le
         officialId: legislator!.personId,
         problem: "looking-for-work",
         severity: 0.5,
+        standing: 0,
         facts: { cushionMonths: 1 },
         opened: core.date,
         respondBy,
@@ -248,6 +278,9 @@ it("a state legislator's district office decides one case at office hours and le
     const left = allCases(api).find((row) => row.id === waiting.id)!;
     expect(left.status, where).not.toBe("open");
     expect(["staff", "office"], where).toContain(left.handledBy);
+    process.stdout.write(
+      `DISTRICT ${where}; passed over: ${skipped.join("; ") || "none"}\n`,
+    );
     return;
   }
   throw new Error(`No drawn place seated a legislator: ${skipped.join("; ")}`);
@@ -261,7 +294,10 @@ it("a state legislator's district office decides one case at office hours and le
 it("a floor leader's answer to a member's request decides whether the bill is on the floor's agenda, and keeps the reasons", () => {
   const skipped: string[] = [];
   for (let attempt = 0; attempt < 6; attempt++) {
-    const seed = randomBytes(8).toString("hex");
+    // The first draw replays GOLDEN_PATH_SEED when it is given (red-main).
+    const seed =
+      (attempt === 0 && process.env.GOLDEN_PATH_SEED) ||
+      randomBytes(8).toString("hex");
     const place = drawPlace(seed, "office-leader");
     const where = `${place.name} [${place.key}], seed ${seed}`;
     setBookkeeping(false);
@@ -278,16 +314,16 @@ it("a floor leader's answer to a member's request decides whether the bill is on
       | {
           chamber: string;
           leader: string;
-          ally: StateOffice;
-          rival: StateOffice;
+          allies: StateOffice[];
+          rivals: StateOffice[];
         }
       | undefined;
     for (const term of terms) {
       if (term.status !== "serving" || !term.personId) continue;
-      const office = stateOfficeOf(api, term.personId);
+      const office = ownStateOffice(api, term.personId);
       if (office?.role !== "legislator") continue;
       const leader = leaderOf(api, office.officeId, "majority-leader");
-      if (!leader) continue;
+      if (!leader || !core.people.has(leader)) continue;
       const roll = members(api, office.officeId);
       const party = roll.find((t) => memberKey(t) === leader)?.party;
       const people = roll
@@ -297,17 +333,23 @@ it("a floor leader's answer to a member's request decides whether the bill is on
             core.people.has(t.personId) &&
             memberKey(t) !== leader,
         )
-        .map((t) => ({ t, office: stateOfficeOf(api, t.personId!) }))
+        .map((t) => ({ t, office: ownStateOffice(api, t.personId!) }))
         .filter((row) => row.office?.role === "legislator");
-      const ally = people.find((row) => row.t.party === party)?.office;
-      const rival = people.find((row) => row.t.party !== party)?.office;
-      if (ally && rival) {
-        found = { chamber: office.officeId, leader, ally, rival };
+      const allies = people
+        .filter((row) => row.t.party === party)
+        .map((row) => row.office!);
+      const rivals = people
+        .filter((row) => row.t.party !== party)
+        .map((row) => row.office!);
+      if (allies.length && rivals.length) {
+        found = { chamber: office.officeId, leader, allies, rivals };
         break;
       }
     }
     if (!found) {
-      skipped.push(where);
+      skipped.push(
+        `${where}: no chamber of the played state with a leader, an ally and a rival who are people`,
+      );
       continue;
     }
     const answer = lawHere(api).find((row) => row.value !== null);
@@ -324,10 +366,32 @@ it("a floor leader's answer to a member's request decides whether the bill is on
           },
         ],
       });
-    const friendly = bill(found.ally);
-    const hostile = bill(found.rival);
-    const yes = askLeaderForHearing(api, found.ally.personId, friendly.id);
-    const no = askLeaderForHearing(api, found.rival.personId, hostile.id);
+    // The leader's answer follows party, tie and the leader's own traits, so a
+    // leader can refuse their own party (Wilton, Maine, seed ebb34a0caa68857a:
+    // party 1, tie 0, traits -1.21). Members of the leader's party ask in turn
+    // until one is granted, the other side's until one is refused; a leader who
+    // grants or refuses no one is named and the next place drawn.
+    const askInTurn = (asking: readonly StateOffice[], wanted: boolean) => {
+      for (const member of asking) {
+        const drafted = bill(member);
+        const answer = askLeaderForHearing(api, member.personId, drafted.id);
+        if (answer.granted === wanted) return { member, drafted, answer };
+      }
+      return undefined;
+    };
+    const granted = askInTurn(found.allies, true);
+    const refused = askInTurn(found.rivals, false);
+    if (!granted || !refused) {
+      skipped.push(
+        `${where}: the leader ${granted ? "refused no one of the other party" : `granted no one of their own party (${found.allies.length} asked)`}`,
+      );
+      continue;
+    }
+    const friendly = granted.drafted;
+    const hostile = refused.drafted;
+    const yes = granted.answer;
+    const no = refused.answer;
+    const rival = refused.member;
     expect(yes.granted, where).toBe(true);
     expect(no.granted, where).toBe(false);
     expect(yes.leaderId, where).toBe(found.leader);
@@ -355,11 +419,7 @@ it("a floor leader's answer to a member's request decides whether the bill is on
       });
       if (!dealt.accepted) continue;
       offered = true;
-      const again = reanswerLeaderRequest(
-        api,
-        found.rival.personId,
-        hostile.id,
-      )!;
+      const again = reanswerLeaderRequest(api, rival.personId, hostile.id)!;
       expect(again.offer?.kind, where).toBe(kind);
       expect(again.offer?.earlierReasons, where).toEqual(no.reasons);
       expect(again.reasons.offer, where).toBeGreaterThan(0);
@@ -384,7 +444,7 @@ it("a floor leader's answer to a member's request decides whether the bill is on
       // own answer), and a deal recorded the way offerDeal records an
       // accepted favor is read again and cited (an edge-case fixture).
       expect(
-        reanswerLeaderRequest(api, found.rival.personId, hostile.id)?.reasons,
+        reanswerLeaderRequest(api, rival.personId, hostile.id)?.reasons,
         where,
       ).toEqual(no.reasons);
       const legislature = api.moduleState(LEGISLATURE_MODULE_ID);
@@ -407,24 +467,23 @@ it("a floor leader's answer to a member's request decides whether the bill is on
       } as never);
       legislature.table("obligations").put({
         id: `obligation:${hostile.id}:${found.leader}:${index}`,
-        owedBy: found.rival.personId,
+        owedBy: rival.personId,
         owedTo: found.leader,
         kind: "favor",
         billId: hostile.id,
         date: api.state.date,
         settled: false,
       } as never);
-      const again = reanswerLeaderRequest(
-        api,
-        found.rival.personId,
-        hostile.id,
-      )!;
+      const again = reanswerLeaderRequest(api, rival.personId, hostile.id)!;
       expect(again.offer?.obligationId, where).toBe(
         `obligation:${hostile.id}:${found.leader}:${index}`,
       );
       expect(again.reasons.offer, where).toBeGreaterThan(0);
       expect(again.offer?.earlierReasons, where).toEqual(no.reasons);
     }
+    process.stdout.write(
+      `LEADER ${where}; passed over: ${skipped.join("; ") || "none"}\n`,
+    );
     return;
   }
   throw new Error(
@@ -503,4 +562,10 @@ it("dev start seats the player through the offices term writer: serving term end
   expect(core.durableLog.has(`took-office:${mine.seatId}:${date}`), where).toBe(
     true,
   );
+  // Another engine reads the seated term: a month on, the state office day
+  // still finds the player in that term, by its record id.
+  advanceCore(core, addDays(makeIsoDate(core.date), 30));
+  const later = stateOfficeOf(api, player.id);
+  expect(later?.personId, `${where}: the state office day`).toBe(player.id);
+  expect(later?.termId, `${where}: the term read`).toBe(mine.id);
 });

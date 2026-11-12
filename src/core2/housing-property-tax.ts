@@ -58,6 +58,9 @@ export function registerPropertyTax(source: TermsSource): void {
 
 const RATES = taxData.byState as Record<string, number>;
 
+/** Where the state averages come from (ACS, by state). */
+export const PROPERTY_TAX_AVERAGE_SOURCE = taxData.source;
+
 /** The state's average effective rate on owner-occupied homes, as an annual share of value. */
 export function stateEffectiveRate(usps: string): number {
   return RATES[usps] ?? taxData.national;

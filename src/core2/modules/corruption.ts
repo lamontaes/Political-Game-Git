@@ -231,11 +231,39 @@ export function offerValues(
   };
 }
 
+/**
+ * Whether the official has a say over what is asked for: a module that knows a kind of subject
+ * (the legislature, for a bill) answers with the reason the official has none, or null.
+ */
+export type BribeScope = (
+  api: CoreAPI,
+  subjectId: string,
+  officialId: string,
+) => string | null;
+const scopes: BribeScope[] = [];
+/** Registered by the module's opening, once however often it opens. */
+export function registerBribeScope(scope: BribeScope): void {
+  if (!scopes.includes(scope)) scopes.push(scope);
+}
+/** In words, why this official cannot be bribed for this subject; null when they can (or nothing knows the subject). */
+export function bribeRefusal(
+  api: CoreAPI,
+  ask: Pick<BribeAsk, "officialId" | "subjectId">,
+): string | null {
+  for (const scope of scopes) {
+    const reason = scope(api, ask.subjectId, ask.officialId);
+    if (reason) return reason;
+  }
+  return null;
+}
+
 /** Someone who wants a favor may offer a bribe; the official may take it. */
 export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
   const offerer = api.state.people.get(ask.offererId);
   const official = api.state.people.get(ask.officialId);
   if (!offerer?.alive || !official?.alive) return null;
+  // An official with no say over the subject cannot sell it: no offer, no record, no money.
+  if (bribeRefusal(api, ask)) return null;
   const amount = Math.min(
     offerer.liquidMinor,
     Math.round(ask.stakeMinor * c(api, "bribeShareOfStake")),

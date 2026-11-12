@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { checkAmericanEnglish } from "../../scripts/prose-eval/american-english";
 import { billNameFor, billNameOf, billTitleOf } from "./bill-names";
+import federalQuestions from "../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 
 const questions: { question: string; name: string }[] = [];
 const walk = (value: unknown): void => {
@@ -14,6 +15,25 @@ const walk = (value: unknown): void => {
   }
 };
 walk(billCatalog);
+
+// A law's catalog name is read as words by the news: never a field name such as stateSenate.
+const lawNames: string[] = [];
+const walkLaws = (value: unknown): void => {
+  if (Array.isArray(value)) value.forEach(walkLaws);
+  else if (value && typeof value === "object") {
+    const row = value as { kind?: string; name?: string };
+    if (row.kind === "law-amount" && row.name) lawNames.push(row.name);
+    Object.values(value).forEach(walkLaws);
+  }
+};
+walkLaws(billCatalog);
+
+describe("law names in the catalog", () => {
+  it("read as words, with no camel-case field name", () => {
+    expect(lawNames.length).toBeGreaterThan(20);
+    for (const name of lawNames) expect(name).not.toMatch(/[a-z][A-Z]/);
+  });
+});
 
 describe("bill names", () => {
   it("names every policy question a bill can enact or repeal, and never by its description", () => {
@@ -32,6 +52,17 @@ describe("bill names", () => {
     }
     // Every name is its own: no two policies, enacted or repealed, share one.
     expect(titles.size).toBe(questions.length * 2);
+  });
+  it("names every federal question Congress files on, enacted or repealed", () => {
+    // Congress files bills on every question in the federal record; one with
+    // no name leaves its bill untitled (red on main, Nov 11: Kettle River,
+    // Minnesota, "has no title"). The next question added fails here.
+    const unnamed = federalQuestions.questions
+      .map((row) => row.question)
+      .filter((question) =>
+        [false, true].some((repeal) => !billNameFor(question, "act", repeal)),
+      );
+    expect(unnamed).toEqual([]);
   });
 
   it("puts the bill's own form word after the name", () => {

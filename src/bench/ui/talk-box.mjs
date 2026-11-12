@@ -78,14 +78,14 @@ function gradeControl({ labels, send }) {
 }
 
 /**
- * The head every speaking panel carries: a face, a name and what they are. The ids are
- * `<prefix>-who`, `-bust`, `-name` and `-role`, which the play screen fills.
+ * The head every speaking panel carries: a name and what they are (the speaker's face is
+ * on the strip of busts above the box, ui/bust-strip.mjs). The ids are `<prefix>-who`,
+ * `-name` and `-role`, which the play screen fills.
  */
 export function speakerHead(prefix, { role = true } = {}) {
   return el(
     "div",
     { id: `${prefix}-who`, className: "who" },
-    el("div", { id: `${prefix}-bust`, className: "bust" }),
     el(
       "div",
       {},
