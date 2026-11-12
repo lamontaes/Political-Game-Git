@@ -70,5 +70,17 @@
     "addedAt": "2026-11-11",
     "replacement": "The Story session's person-history.said.<kind> pieces (one per kind a speaker can say: partner.home, partner.moved-in, partner.engaged, partner.married, partner.separated, child.born), which whatPeopleSay already reads first.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-news-opens-on-town-paper",
+    "kind": "partial-model",
+    "file": "src/bench/archive-words.ts",
+    "line": 175,
+    "whatItFakes": "News puts first the local outlets the player follows this week (press.ts followersOf), else the town's paper of record (townOutlet), and keeps that order while the game is open; the press settles who follows what weekly by lean, so a player who changes papers sees the change only after reopening the game, and nothing records that a household subscribes.",
+    "why": "play-nov8-news-opens-on-a-different-paper-each-time asks News to open on the paper the household follows and keep it while the game is open; the press keeps followers per person, settled weekly, not a household subscription that holds.",
+    "addedBy": "play-nov8-news-opens-on-a-different-paper-each-time",
+    "addedAt": "2026-11-11",
+    "replacement": "A press-engine record of the outlets each household reads, kept steady from week to week (subscriptions by household, set by its own habits and money; followersOf as its start), which News reads to choose the paper in front.",
+    "status": "open"
   }
 ]

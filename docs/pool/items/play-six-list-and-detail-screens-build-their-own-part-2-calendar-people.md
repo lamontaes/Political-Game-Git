@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-play-six-list-and-detail-screens-build-their-own-part-2-calendar-people
 pr: #8819
@@ -18,6 +18,7 @@ root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T13:27:30.705Z
+merged-at: 2026-11-11T15:03:44.848Z
 ---
 
 **What.** The Calendar and People screens each build their own list-beside-detail layout. Move both onto `rosterScreen` with the same rows and words as before, and delete their old builders and styles. Nothing a player can do or read changes. Every row must still open its detail on a click.

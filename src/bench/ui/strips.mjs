@@ -5,6 +5,7 @@
 // right, each a header strip of its own depth under a broken gold outline.
 // Every screen of that look builds from these parts, never its own markup.
 import { el } from "./dom.mjs";
+import { picture } from "./picture.mjs";
 import { rosterScreen } from "./roster-screen.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
@@ -95,7 +96,7 @@ export function stripScreen({ name, role, face, columns }) {
   );
 }
 
-/** Perk rows: the leaning's name, how strong it runs, and its line in the first person. */
+/** Perk rows: the leaning's name, how strong it runs, and its line where it has one. */
 export function perkList(rows) {
   return el(
     "div",
@@ -110,7 +111,7 @@ export function perkList(rows) {
           el("b", { textContent: row.name }),
           ...(row.strength ? [el("span", { textContent: row.strength })] : []),
         ),
-        el("p", { textContent: row.line }),
+        ...(row.line ? [el("p", { textContent: row.line })] : []),
       ),
     ),
   );
@@ -517,6 +518,15 @@ export function journalScreen({ chapters, labels, yearOf }) {
       stripSection(
         2,
         chapter.title,
+        // The picture of the place the chapter's lines happened in; none on record, no slot.
+        ...(chapter.picture
+          ? [
+              picture({
+                src: chapter.picture.url,
+                className: "journal-picture",
+              }),
+            ]
+          : []),
         // Two columns and a drop cap only where the words fill them: a short
         // chapter is one column and a one-line first paragraph has no drop cap.
         el(

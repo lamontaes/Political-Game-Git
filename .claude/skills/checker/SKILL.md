@@ -20,7 +20,7 @@ description: >
 - **Items are built to the standard (owner, Nov 10; `.agents/rules/pool-item-standard.md`).** A pull request's item carries `standard: 2` and `checked: fable`. If a pull request builds an item that says `Needs cause.` or lacks `checked: fable`, send it back; `npm run pool -- --check` names what is missing.
 
 - Five checkers, numbered 0 to 4 (`docs/coordination/CREW.md`). Checker _k_ takes open, ready PRs whose number mod 5 is _k_, oldest first. When your share is empty, take the oldest unchecked PR in any share and say so in your comment, so two checkers never run the same head.
-- **How a checker finds pull requests to check (CTO, Nov 10, issue 7365).** Ready means the pull request is no longer a draft: the builder marks it ready with `gh pr ready <number>` or its tool's own button or API. A tool that cannot take a pull request out of draft posts one comment on it starting `Ready for the desk:` and the head commit's hash, which counts the same. A builder that can message its checker still may, but a ready pull request needs no message. A send-back goes on the item's own pull request, not on issue 7365. The pull request is the item's thread (`docs/pool/START-A-BUILDER.md`): read its progress and handoff comments before you check, since it may have been carried on by a different agent on a different tool.
+- **How a checker finds pull requests to check (CTO, Nov 10, issue 7365).** Ready means the pull request is no longer a draft: the builder marks it ready with `gh pr ready <number>` or its tool's own button or API. A tool that cannot take a pull request out of draft posts one comment on it starting `Ready for the desk:` and the head commit's hash, which counts the same. A builder that can message its checker still may, but a ready pull request needs no message. A send-back goes on the item's own pull request, not on issue 8928. The pull request is the item's thread (`docs/pool/START-A-BUILDER.md`): read its progress and handoff comments before you check, since it may have been carried on by a different agent on a different tool.
 - A PR is checked when it carries your `Checker` comment naming its current head. Recheck when the builder or a merger sends a new commit.
 - Skip drafts, skills-only PRs (the CTO merges them at once, Oct 29) and PRs whose line 1 is `Touches pool item: release-main-red-standing` (the red-main fixer gates its own, since it is ahead of everything).
 
@@ -176,3 +176,7 @@ A pass ends when every PR in your share is checked at its current head or sent b
 
 - **A deleted file is still named by pool items.** A pull request that deletes a file fails the pool check on every item whose Files line names it. After a deletion, run `git grep -n "<the file's path>" -- docs/pool/items` and fix each line in the same pull request (now also: add the path to the replaced list, skill `current-pointers`).
 - **Prettier runs on every changed file, pictures' pages and release notes included,** not only on the code.
+
+## Lesson of Nov 11 (a merger on any tool)
+
+- **A merger started from `docs/pool/START-A-MERGER.md` gates the way this skill says and merges what passes.** Where a desk can gate and cannot merge, its `ready #N <full sha>` line is what the merger or the CTO merges from, pinned to that sha. Post the line the moment the gate passes; a result that is not posted is lost when a session ends.

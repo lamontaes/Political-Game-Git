@@ -128,8 +128,10 @@
     "why": "The shell runs outside the game, where the English engine is not loaded; the owner ordered a plain dialog telling the player what the Mac install does (Oct 14, 2026).",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "Shell lines drawn from an English-engine bank shipped beside the client, read by main.mjs.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: Shell lines drawn from an English-engine bank shipped beside the client, read by main.mjs.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-windows-package-allowed-to-fail",
@@ -176,8 +178,10 @@
     "why": "The records name the place but hold no count for it; the creator must show a number (estimate, never unknown) and the real count needs research per place.",
     "addedBy": "claude/quirky-ride-vrwwz4-play-stop-14",
     "addedAt": "2026-10-25",
-    "replacement": "A sourced count for each of the 34 places (Census 2020 decennial or the base's own published figure), after which the estimate branch is deleted.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: A sourced count for each of the 34 places (Census 2020 decennial or the base's own published figure), after which the estimate branch is deleted.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-opening-venue-has-no-inauguration-record",
@@ -200,8 +204,10 @@
     "why": "The core keeps no wake or sleep time for a person; work shifts start and end, but nothing says when anyone gets up.",
     "addedBy": "claude/integration-clock-and-hours",
     "addedAt": "2026-10-27",
-    "replacement": "A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: A person's own wake time from their work schedule, household and age (American Time Use Survey sleep and waking hours by age and employment), read by the bench's day driver and the director's openedAt.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-room-condition-rule",
@@ -212,8 +218,10 @@
     "why": "The art session painted lived-in and rundown versions of the home rooms (art/backdrops, Oct 28) and the housing module keeps value, rent and tenure but no repair state.",
     "addedBy": "people-in-rooms builder",
     "addedAt": "2026-10-28",
-    "replacement": "A dwelling condition the housing module keeps (repairs, landlord upkeep, age of the building), read here in place of the third.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: A dwelling condition the housing module keeps (repairs, landlord upkeep, age of the building), read here in place of the third.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-plate-overflow-spots",
@@ -224,8 +232,10 @@
     "why": "The plates for the opening rooms paint a few people each (art/people-rooms/spots, Oct 28); the rooms seat more, and dropping the old spots would leave people unplaced.",
     "addedBy": "people-in-rooms builder",
     "addedAt": "2026-10-28",
-    "replacement": "A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: A fuller plate for each such room (every seat of the gallery or crowd painted with a mannequin), measured by the art session; the importer then keeps no old spot.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-region-states",
@@ -236,8 +246,10 @@
     "why": "The art session painted eight regional rebuilds of four places (Oct 28); no record of a place's regional character exists to read.",
     "addedBy": "people-in-rooms builder",
     "addedAt": "2026-10-28",
-    "replacement": "Each place's own architectural region in the place records (or a finer list per county), read here in place of the state list.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: Each place's own architectural region in the place records (or a finer list per county), read here in place of the state list.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-people-pack-six",
@@ -248,8 +260,10 @@
     "why": "Pack v3 ships six people (owner, Oct 29: six now, six more faces follow as manifest rows) and five mannequin plates; the CTO adds plates golden path first.",
     "addedBy": "claude/people-pack-v3",
     "addedAt": "2026-10-29",
-    "replacement": "More people (ages, faces, skin) and more plates as manifest rows and plate files; no code change.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: More people (ages, faces, skin) and more plates as manifest rows and plate files; no code change.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-people-pack-v4-pose-gaps",
@@ -260,8 +274,10 @@
     "why": "The art session drew the standard poses for some people first (pack v4 README); the rest follow as manifest rows.",
     "addedBy": "claude/people-pack-v4",
     "addedAt": "2026-10-29",
-    "replacement": "A `stand`, `couch` and `gesture` figure for every pack person at the five angles, added as manifest rows (pool item people-pack-v4-pose-gaps); no code change.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: A `stand`, `couch` and `gesture` figure for every pack person at the five angles, added as manifest rows (pool item people-pack-v4-pose-gaps); no code change.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-people-everyday-falls-back-to-work",
@@ -272,8 +288,10 @@
     "why": "A view never drops someone the simulation put in the scene (CTO ruling, Oct 29, on the owner's everyday-and-work-clothes ruling); the pack's everyday kit is painted in fewer poses than the work looks.",
     "addedBy": "claude/people-pack-v4",
     "addedAt": "2026-10-29",
-    "replacement": "An everyday figure for every pack person in every pose a plate uses (talk and listen on chairs, couch, write at a desk, stand), added as manifest rows; then `dressOrder.everyday` drops its work dresses in data.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: An everyday figure for every pack person in every pose a plate uses (talk and listen on chairs, couch, write at a desk, stand), added as manifest rows; then `dressOrder.everyday` drops its work dresses in data.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-government-judicial-no-judges",
@@ -296,8 +314,10 @@
     "why": "People are drawn only on a plate (owner, Oct 28 and 29), and only house-suburban-living of the house living rooms has one; without the preference about a third of opening evenings drew nobody and nobody could be talked to (people-home-plates).",
     "addedBy": "claude/people-home-plated-room-first",
     "addedAt": "2026-10-30",
-    "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-campaign-acts-buttons",
@@ -320,8 +340,10 @@
     "why": "Going to a closed office plays the visit at its next opening (owner, Nov 1); only some clerks are full people with work spans, and an office with no record of hours must still have some, never none.",
     "addedBy": "play-offices-keep-their-hours (Claude Sonnet 5.5, play-first lane)",
     "addedAt": "2026-11-01",
-    "replacement": "Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
   },
   {
     "id": "SG-PLAY-trip-time-average",
@@ -332,7 +354,21 @@
     "why": "The Coordinator ruled on Nov 8 that visits, talks and travel spend game time from the existing clock; a talk spends its lines, but a trip's distance and an errand's own hours are not in the records yet.",
     "addedBy": "jobs/clock-spends-time",
     "addedAt": "2026-11-08",
-    "replacement": "A trip spending the distance between the two places at the place's travel speed and a visit its errand's hours by kind of place, each read from the records and spent through player.spend.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game’s answer. Was: A trip spending the distance between the two places at the place's travel speed and a visit its errand's hours by kind of place, each read from the records and spent through player.spend.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-play"
+  },
+  {
+    "id": "SG-PLAY-campaign-ask-on-screen",
+    "kind": "partial-model",
+    "file": "src/bench/play.mjs",
+    "line": 4414,
+    "whatItFakes": "A candidate's ask for money reaches the player as a request on the Campaigns screen (the candidate, the race, the sum they would give by their own reasons and the cash they hold, with Give, an amount and Decline), not as a conversation or letter the director stages.",
+    "why": "play-campaign-ask-reaches-player asks for the request in a conversation or a letter; the director's letter is a relative's (letter-facts.ts) and a talk whose replies move money needs a situation type and bank lines the words session writes.",
+    "addedBy": "play-campaign-ask-reaches-player",
+    "addedAt": "2026-11-11",
+    "replacement": "A director situation type that stages the ask record (core2-campaigns-v1 asks) as a talk with the candidate or a letter from them, whose replies call answerDonationAsk, with lines from the English engine.",
     "status": "open"
   },
   {
@@ -351,12 +387,12 @@
     "id": "SG-PLAY-creator-bust-choices",
     "kind": "placeholder-art",
     "file": "src/bench/appearance.ts",
-    "line": 22,
-    "whatItFakes": "The creator offers what the bust bank paints today (round 3): three skins, six hairstyles in the two or three colors painted for that skin and, for a man, a beard or a mustache. The approved creator mock (docs/mocks/2026-11-08-front, fr-creator) also shows Face, Shirt, Jacket and Tie, which the bank has no separate pieces for; a bust wears the first top its person would wear where they are seen, so clothes are not chosen.",
-    "why": "Owner, Nov 7 and Nov 10, 2026: busts, never full figures; full bodies come back after early access. The bank (art/busts/v1) holds rounds 1 and 2 of the painting.",
+    "line": 24,
+    "whatItFakes": "The creator offers what the bust bank paints today (rounds 3 and 4): three skins, six hairstyles in the two or three colors painted for that skin, a beard or a mustache for a man, and the clothes a person dresses up in, a shirt, a tie and a jacket, each in its painted colors. The approved creator mock (docs/mocks/2026-11-08-front, fr-creator) also shows a Face row, which the bank has no pieces for, and everyday clothes are not chosen: away from work a bust wears one of the bank's everyday tops, set from the look itself.",
+    "why": "Owner, Nov 7 and Nov 10, 2026: busts, never full figures; full bodies come back after early access. The bank (art/busts/v1) holds rounds 3 and 4 of the painting; round 4 (clothes as layers in colors) went in on Nov 11 on his word, \"put these in the morning build.\"",
     "addedBy": "claude/fable-b-creator-on-busts",
     "addedAt": "2026-11-11",
-    "replacement": "The layered clothes of docs/art/busts-spec.md, spec 2 (shirt, tie and jacket pieces in painted colors), as rows in art/busts/v1/manifest.json, with a Shirt, a Tie and a Jacket row in the creator.",
+    "replacement": "Face pieces in the bank with a Face row in the creator, and an Everyday row when the owner asks to choose everyday clothes; each is rows in art/busts/v1/manifest.json and no code.",
     "status": "open"
   }
 ]

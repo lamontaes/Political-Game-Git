@@ -139,12 +139,34 @@ it(`the first evening's journal names the family from their records (seed ${seed
 // on that parent's own work record, as people say it; no job title carries a
 // capital inside a sentence.
 const LIVES = 10;
+/** Draws that once failed, kept as cases (seed and life, as the test draws them). */
+const KNOWN_DRAWS = [
+  "3ce58b155d125aeb788fea59f8353c954131e6f3:work:0",
+  // Stowe, Vermont: "My father DeAndre ..." (a capital inside a name).
+  "0da7d0ae7277eff20bce2be78ff0923fcf5a106a:work:1",
+  // Winter Harbor, Maine: a father who changed jobs and holds a county seat
+  // ("County Commissioner" mid-sentence).
+  "aa73e37ebdc41b538771fe51249d8514cb45eea4:work:7",
+];
+/**
+ * A note's sentences: split after a stop, never after an initial such as the
+ * "U.S." in "U.S. Virgin Islands".
+ */
+const sentencesOf = (text: string) =>
+  text.split(/(?<=[.!?])(?<!(?:^|[\s.])[A-Z]\.)\s+(?=[A-Z"])/);
 it(`the first note says each thing once and names each parent's employer (seed ${seed})`, () => {
   const evidence: string[] = [];
   let parentJobs = 0;
-  for (let life = 0; life < LIVES; life += 1) {
-    const place = drawPlace(`${seed}:work:${life}`, "journal-opening-work");
-    const where = `${place.name} (${place.key}), seed ${seed}:work:${life}`;
+  // Ten fresh draws, and the draws that once failed (Tutu, U.S. Virgin
+  // Islands: "U.S." is an initial, not a sentence's end; Stowe, Vermont:
+  // "DeAndre" is one name).
+  const draws = [
+    ...Array.from({ length: LIVES }, (_, life) => `${seed}:work:${life}`),
+    ...KNOWN_DRAWS,
+  ];
+  for (const draw of draws) {
+    const place = drawPlace(draw, "journal-opening-work");
+    const where = `${place.name} (${place.key}), seed ${draw}`;
     setBookkeeping(false);
     const { core, director, playerId } = buildBenchWorld(
       place.seed,
@@ -160,7 +182,7 @@ it(`the first note says each thing once and names each parent's employer (seed $
     const lines = opening!.lines;
     // No sentence twice, in the note or across its entries.
     const sentences = lines.flatMap((row) =>
-      row.text.split(/(?<=[.!?])\s+/).map((said) => said.toLowerCase()),
+      sentencesOf(row.text).map((said) => said.toLowerCase()),
     );
     const twice = sentences.filter(
       (said, at) => sentences.indexOf(said) !== at,
@@ -173,10 +195,12 @@ it(`the first note says each thing once and names each parent's employer (seed $
     for (const row of lines.filter((line) =>
       line.momentIds.some((id) => id.startsWith("livelihood:")),
     )) {
-      const said = row.text.split(/(?<=[.!?])\s+/);
+      const said = sentencesOf(row.text);
       const subjects = said.map(
         (sentence) =>
-          /^My [a-z]+(?: [a-z]+)? ([A-Z][a-z]+)\b/.exec(sentence)?.[1],
+          // A given name may carry a capital inside ("DeAndre") or an
+          // apostrophe or hyphen.
+          /^My [a-z]+(?: [a-z]+)? ([A-Z][\w'-]*)/.exec(sentence)?.[1],
       );
       expect(subjects, `${where}: "${row.text}"`).not.toContain(undefined);
       expect(
@@ -203,12 +227,21 @@ it(`the first note says each thing once and names each parent's employer (seed $
         parentJobs += 1;
       }
     }
-    // A job title is said in lower case inside a sentence.
+    // A job title is said in lower case inside a sentence. It is matched as
+    // whole words: a body's own name may hold it ("the Board of County
+    // Commissioners of Hancock County", Winter Harbor, Maine, seed
+    // aa73e37ebdc41b538771fe51249d8514cb45eea4:work:7), and that is a name.
     for (const id of core.households.get(player.householdId)?.memberIds ?? []) {
       const job = core.jobs.get(core.people.get(id)?.jobId ?? "");
       if (!job || jobSaid(job.title) === job.title) continue;
+      const title = new RegExp(
+        `\\b${job.title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+      );
       for (const row of lines)
-        expect(row.text, `${where}: "${job.title}"`).not.toContain(job.title);
+        expect(
+          row.text,
+          `${where}: "${job.title}" in "${row.text}"`,
+        ).not.toMatch(title);
     }
     evidence.push(`${where}: ${lines.map((row) => `"${row.text}"`).join(" ")}`);
   }

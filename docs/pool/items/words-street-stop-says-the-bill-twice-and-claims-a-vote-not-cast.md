@@ -43,3 +43,5 @@ claimed-at:
 **Files.** data/english/parts/scene-talk.json, src/director/data/purpose-arcs.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/english/bank-line.ts, src/director/constituent-stop-scene.test.ts (new)
 
 **Notes.** Written by the lead (Fable B), Nov 11, 11:08 UTC, from the walk's picture and log and the bank. The picture is the walk's sixth (the street, Anthony Cabrera). The lines under data/english/parts/ are written by a Words builder under the Words ruling of Nov 11, with `Review: words` in the pull request.
+
+**Notes (Fable B, Nov 11, 16:20 UTC: seen again).** Lino Lakes, Minnesota, seed 046d2235-27df-4daa-a680-423d6f24d0d7, stepping in as council member Astrid Shelton on main 382123f701. On January 24, four days in and before the player had been held at any meeting or cast any vote, Kristen Ortiz stopped them: "You didn't give us the vote on Ordinance 2025-3, Astrid. I only wanted you to know it was noticed." The first meeting that held the player was February 4. The builder checks whose vote that record is: one the seat's holder cast before the player stepped in, or one cast for the player without a stop.

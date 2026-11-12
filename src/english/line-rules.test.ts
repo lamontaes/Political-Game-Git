@@ -634,6 +634,8 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
     const wrong = inContext.flatMap((row) => {
       if (row.status === "awaiting-test")
         return row.note?.trim() ? [] : [`${row.id} waits with no reason`];
+      // A composed rule reads whole texts; tests/guards/english/composed-rules.test.ts holds it.
+      if (row.test.kind === "composed") return [];
       const tested = ["phrases", "patterns", "sentences"].includes(
         row.test.kind,
       );
@@ -701,20 +703,45 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
   });
 
   it("a body is called the board only where its name is on record; the vote board is left alone", () => {
+    // The three talk lines this rule used to flag (the filing clerk's "the
+    // board sets the town's budget" and two more) were rewritten to read the
+    // body's name in #8750 (2a68588939), so the bank holds none now. The rule
+    // is held by its own cases here, never by a count of bank lines.
     const talk = bank("scene-talk");
     const rule = byId.get("body-named-as-place-names-it")!;
-    const keys = flagged("body-named-as-place-names-it", talk);
-    expect(keys.length).toBe(3);
-    for (const key of keys) {
-      const p = talk.find((one) => one.key === key)!;
-      expect(
-        p.uses.some((use) =>
-          ((use.excludesFacts as string[] | undefined) ?? []).includes("body"),
-        ),
-        key,
-      ).toBe(true);
-    }
-    // The same words in a spot that does not exclude the body's name are not flagged.
+    const clerk = {
+      bank: "scene-talk",
+      key: "fixture.clerk",
+      kind: "",
+      move: "",
+      text: "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign.",
+      uses: [
+        {
+          subject: "scene",
+          role: "asker",
+          purpose: "filing-clerk",
+          excludesFacts: ["body"],
+        },
+      ],
+    } as RulePiece;
+    expect(ruleFlags(rule, clerk)).toBe(true);
+    // The same words where the body's name is not excluded are not flagged.
+    expect(
+      ruleFlags(rule, {
+        ...clerk,
+        uses: [{ subject: "scene", role: "asker", purpose: "filing-clerk" }],
+      } as RulePiece),
+    ).toBe(false);
+    // A line that names the body through its slot is not flagged.
+    expect(
+      ruleFlags(rule, {
+        ...clerk,
+        text: "The {body} sets the budget and passes the local laws.",
+      }),
+    ).toBe(false);
+    // It flags nothing the bank holds now.
+    expect(flagged("body-named-as-place-names-it", talk)).toEqual([]);
+    // The vote board's tally line is left alone.
     const tally = talk.find((p) => /^The board shows every name/.test(p.text))!;
     expect(ruleFlags(rule, tally)).toBe(false);
     expect(rule.status).toBe("rewrite");

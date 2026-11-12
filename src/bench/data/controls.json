@@ -34,7 +34,8 @@
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on."
+    "missingPlace": "Choose where you are from to go on.",
+    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
   },
   "debate": {
     "title": "Debate invitation",
@@ -45,6 +46,17 @@
   },
   "raceStanding": {
     "title": "Where the race stands"
+  },
+  "campaignAsks": {
+    "title": "Asking you for money",
+    "race": "Running for",
+    "asked": "Asked",
+    "suggested": "You would give",
+    "cash": "You have",
+    "amount": "Amount in dollars",
+    "give": "Give",
+    "decline": "Decline",
+    "notGiven": "You can't give that sum."
   },
   "speech": {
     "begin": "Give a speech",
@@ -165,6 +177,7 @@
     "whoIs": "Who {lower} is",
     "whoAre": "Who they are",
     "howISee": "How I see {object}",
+    "howISeeThem": "How I see them",
     "betweenUs": "Between us",
     "lifeStory": "{possessive} story",
     "lifeStoryThey": "Their story",
@@ -306,7 +319,10 @@
     "evidence": "Evidence",
     "missing": "Missing module",
     "piece": "Piece",
-    "running": "Running modules"
+    "running": "Running modules",
+    "year": "Year",
+    "stateChanges": "Laws other states changed",
+    "statesChanging": "States that changed one"
   },
   "devRecords": {
     "title": "Records",
@@ -332,6 +348,13 @@
     "where": "Where",
     "any": "Any",
     "begun": "Begun for",
+    "came": "{record} came after {days} days",
+    "neverCame": "{record} never came in {days} days",
+    "states": {
+      "plays": "Plays now",
+      "waits": "Waits for a record",
+      "none": "Cannot be caused yet"
+    },
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
@@ -487,7 +510,9 @@
     "sign": "Signed",
     "veto": "Vetoed",
     "speakFor": "Speak for",
-    "speakAgainst": "Speak against"
+    "speakAgainst": "Speak against",
+    "spokeFor": "Spoke for",
+    "spokeAgainst": "Spoke against"
   },
   "filing": {
     "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
@@ -552,7 +577,19 @@
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
-    "officeHours": "Office hours"
+    "officeHours": "Office hours",
+    "aides": "Your staff",
+    "hire": "Hire",
+    "aideRole": "Aide",
+    "reasons": {
+      "work": "Work",
+      "reach": "Lives near",
+      "workingAge": "Age for the work",
+      "known": "Knows you",
+      "family": "Family"
+    },
+    "fromKnown": "Someone you know",
+    "fromApplicant": "Applied"
   },
   "officeStops": {
     "aYear": "a year",
@@ -709,6 +746,7 @@
     "mild": "Moderate",
     "views": "Politics",
     "viewUnknown": "You don't know where they stand yet.",
+    "viewAbout": "Cares most about {about}.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -725,7 +763,8 @@
     "title": "News",
     "nation": "Nation",
     "briefs": "Briefs",
-    "noStoryText": "The paper ran this story as a headline only; the full account has not come in."
+    "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
+    "nothingYet": "Nothing in print yet."
   },
   "jobs": {
     "work": "Work",
@@ -890,7 +929,18 @@
     "fiscalYear": "fiscal year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
-    "subjects": "Subjects"
+    "subjects": "Subjects",
+    "lawDid": {
+      "title": "What this did",
+      "from": "from {date}",
+      "until": "until {date}",
+      "repealed": "Repealed",
+      "noOneYet": "It has reached no one yet.",
+      "fullHere": "{n} people here",
+      "fullElsewhere": "{n} people elsewhere",
+      "counted": "{n} more in households here",
+      "stopped": "stopped {date}"
+    }
   },
   "results": {
     "you": "You",
@@ -965,6 +1015,17 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
+    "yourRecord": "Your record in office",
+    "recordVotes": "Votes you cast",
+    "recordBills": "Bills you sponsored",
+    "recordPromises": "Promises you made",
+    "promiseKept": "Kept",
+    "promiseBroken": "Broken",
+    "promiseOpen": "Still open",
+    "votedFor": "You voted for it",
+    "votedAgainst": "You voted against it",
+    "voteAgainstResult": "it failed",
+    "votePassedResult": "it passed",
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",

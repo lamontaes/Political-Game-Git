@@ -1,6 +1,7 @@
 {
   "about": "Which records a person remembers, and as what (design: docs/design/life-record.md). `events` are records made in play; a person named by one keeps it on their own list (src/core2/person-life.ts). `past` are the facts a person is built with and `history` the records of the simulated past; the reader joins all three into one life. `life` is the kind of event, `what` the event within it. `who` says which of the people a record names remember it: `named` (each of them), `not` with a fact (each but the one that fact names), or `kin-of-named` (the family of the person named, for a death). `facts` are the record's own fields kept as what the event changed. `notTold` names each record kind about a person that is told on no list, with the reason (a kind ending in * is a prefix); the test src/core2/life-kinds-told.test.ts fails on a kind that is in neither. `keeps` orders the kinds from the last a person lets go of to the first, for when a list is over its cap.",
   "keeps": [
+    "death",
     "loss",
     "child",
     "partner",
@@ -115,6 +116,14 @@
       "life": "loss",
       "what": "died",
       "who": "kin-of-named",
+      "facts": ["causeOfDeath"]
+    },
+    {
+      "record": "life.death",
+      "life": "death",
+      "what": "died",
+      "who": "named",
+      "evenDead": true,
       "facts": ["causeOfDeath"]
     },
     {
@@ -989,9 +998,29 @@
       "what": "started"
     },
     {
+      "kind": "school.finished",
+      "life": "school",
+      "what": "finished"
+    },
+    {
+      "kind": "school.college-started",
+      "life": "school",
+      "what": "college-started"
+    },
+    {
+      "kind": "school.college-ended",
+      "life": "school",
+      "what": "college-ended"
+    },
+    {
       "kind": "person.moved-in",
       "life": "move",
       "what": "moved-in"
+    },
+    {
+      "kind": "person.moved-within",
+      "life": "move",
+      "what": "moved-within"
     },
     {
       "kind": "family.partnered",

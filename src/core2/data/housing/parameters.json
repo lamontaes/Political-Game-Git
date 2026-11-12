@@ -36,6 +36,12 @@
     "tag": "SOURCED",
     "citation": "NAR 2025 Profile of Home Buyers and Sellers: the median first-time buyer is 40 (data/research/housing/nar-2025-down-payments.json)."
   },
+  "housingMortgageCountyMinOwners": {
+    "value": 1000,
+    "tag": "TUNABLE",
+    "role": "opening",
+    "citation": "A county with fewer owner households than this reads its state's ACS row for the move-in and mortgage shares: the published county estimates carry wide margins at small counts (data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json, limits). Checked against the state row's share of owners with a loan, which the county shares must stay near in a county this size."
+  },
   "housingOwnerMinimumAge": {
     "value": 18,
     "tag": "SOURCED",

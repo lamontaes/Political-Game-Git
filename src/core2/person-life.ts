@@ -73,6 +73,8 @@ interface EventRow {
     readonly own?: string;
     readonly other?: string;
   };
+  /** The named person keeps this row although they are no longer alive (their own death is recorded after they stop being alive). */
+  readonly evenDead?: boolean;
   readonly facts: readonly string[];
   readonly topicAs?: string;
 }
@@ -248,7 +250,7 @@ function rememberRow(
   }
   for (const id of rememberers(core, event, row)) {
     const person = core.people.get(id) as Rememberer | undefined;
-    if (!person?.alive) continue;
+    if (!person || (!person.alive && !row.evenDead)) continue;
     if (person.remembered?.some((held) => held.id === event.id)) continue;
     const own = { ...kept };
     if (row.counts?.own && typeof counts[id] === "number")

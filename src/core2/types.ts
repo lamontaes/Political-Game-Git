@@ -1284,8 +1284,9 @@ export interface CoreAPI {
    * People leaving town for another place (moves): each takes the new place
    * and county and leaves the town's place index. When they are the whole
    * household, the household goes with them under its own id; otherwise they
-   * leave it for `householdId`, a new household at the new place. None may
-   * still hold a job here.
+   * leave it for `householdId`, a new household at the new place, and a
+   * recorded income award of theirs is paid into it. None may still hold a
+   * job here.
    */
   relocatePeopleV1(input: {
     personIds: readonly PersonId[];
@@ -1300,7 +1301,9 @@ export interface CoreAPI {
    * households they were in. Each moving household's share of the everyday
    * spending follows them, the home obligations they shared (the lease) are
    * paid by the household they now belong to, and one left with no payer
-   * ends. A household left with no member keeps its record and ends its own
+   * ends. A recorded income award (a pension, Social Security) is paid into
+   * the household its person joins, as it is when people relocate. A
+   * household left with no member keeps its record and ends its own
    * obligations; an owned home is for the caller to sell first. All movers
    * must be living full people at the same place.
    */
