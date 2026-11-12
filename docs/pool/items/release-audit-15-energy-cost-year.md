@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-release-audit-15-energy-cost-year
 pr: #8705
 blocked-on:
@@ -19,6 +19,7 @@ lead: laws-effects
 after:
 checked: fable 2026-11-10
 branch: claude/pool-release-audit-15-energy-cost-year
+merged-at: 2026-11-12T22:00:34.734Z
 ---
 
 **What.** businessEnergyCostYear works out what a law that prices energy would cost a business over a year. It keeps its own small table of the clean-electricity and carbon-price rows, while the monthly settlement reads the same two laws from the PRICE_LAWS table, so the two can drift apart. Make the year cost read the one rule the settlement reads, and prove with a test that the year cost equals twelve months of the settlement. Also decide on purpose that employers without books never organize, and write that decision in the item notes. Seen: the yearly energy cost a clean-electricity or carbon-price law puts on a business, in the law's reach card, which must equal twelve months of what the business pays.
