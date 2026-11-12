@@ -3928,6 +3928,10 @@ function leaveUnplacedWork(
     return age >= from && (age < below || (x === m && leftAge));
   };
   if (!open(m)) return;
+  // Their regional work, if any, leaves with them: its later stop takes
+  // nothing more off the household.
+  if (rt.regionalGains.has(store.ids[m]!))
+    rt.regionalGains.set(store.ids[m]!, 0);
   const members = store.countedMembers(h).filter(open).length;
   if (members > 0)
     shedUnplacedWorkers(rt, h, h.unplacedWorkers / members, date);

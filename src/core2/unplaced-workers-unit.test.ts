@@ -249,30 +249,37 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
 
   // ---- Skipped: results mode runs no module's day, and the residents engine
   // catches up on the first of each month; members who passed working age on
-  // any skipped day still take their share of the work with them. This
-  // keeps the looser bound of a whole worker over: in Fort Plain, New York
-  // (seed 708dcedf017ce5453a47) one record of 1.5 households kept 1.00
-  // workers with no working-age member after the skipped days, a path of the
-  // working-age exit, not of regional work.
+  // any skipped day still take their share of the work with them, dated the
+  // day they passed it. The check reads the world once that catch-up has run
+  // (the day after the first of the month after the skipped days): before it, a member who
+  // passed working age since the last first still holds their work (Fort
+  // Plain, New York, seed 708dcedf017ce5453a47: person_e865f61eebdd47f5, born
+  // 1961-04-21, in regional work since 2025-02-01, turned 65 on 2026-04-21,
+  // and household_66e03fb6984e2f6b was read on 2026-04-25 with 1.00 workers
+  // and no working-age member; on May 1 the catch-up takes the worker off).
+  // A household whose every working-age member left that way holds none.
   advanceCore(core, addDays(makeIsoDate(core.date), SKIPPED_DAYS), {
     results: true,
   });
+  const settled = new Date(`${core.date.slice(0, 7)}-01T00:00:00Z`);
+  settled.setUTCMonth(settled.getUTCMonth() + 1, 2);
+  advanceCore(core, settled.toISOString().slice(0, 10), { results: true });
   report(`after ${SKIPPED_DAYS} skipped days`);
   const overSkipped: string[] = [];
   let skippedRecords = 0;
   for (const h of store.liveHouseholds()) {
     if (!(store.weightOf(h) > 1)) continue;
     skippedRecords += 1;
-    if (h.unplacedWorkers >= workingAge(h) + 1)
+    if (h.unplacedWorkers > workingAge(h) + 1e-9)
       overSkipped.push(
         `${h.id} (weight ${store.weightOf(h).toFixed(1)}): ${h.unplacedWorkers.toFixed(2)} workers, ${workingAge(h)} working-age members`,
       );
   }
   process.stdout.write(
-    `UNPLACED WORKERS after ${SKIPPED_DAYS} skipped days: of ${skippedRecords} records of more than one household, ${overSkipped.length} hold a worker more than their working-age members\n`,
+    `UNPLACED WORKERS after ${SKIPPED_DAYS} skipped days: of ${skippedRecords} records of more than one household, ${overSkipped.length} hold more workers than their working-age members\n`,
   );
   expect(
     overSkipped.slice(0, 8),
-    `${overSkipped.length} records of more than one household hold a whole worker more than their working-age members after ${SKIPPED_DAYS} skipped days (${where})`,
+    `${overSkipped.length} records of more than one household hold more workers than their working-age members after ${SKIPPED_DAYS} skipped days (${where})`,
   ).toEqual([]);
 }, 1_800_000);
