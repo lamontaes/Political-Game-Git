@@ -8,7 +8,7 @@ size: M
 status: in-pr
 standard: 2
 claimed-by: R1 (Fable A's builder)
-pr:
+pr: 8882
 after:
 blocked-on:
 lead: core
