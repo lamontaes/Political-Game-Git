@@ -132,7 +132,7 @@ it("an employer short on two skipped paydays draws its savings once for each, by
 
 // The world where the run first stopped, as a labeled case beside the drawn
 // ones: 400 played days, then the skipped days of the out-of-town workers'
-// test (src/core2/unplaced-workers-unit.test.ts, GOLDEN_PATH_SEED
+// unit test that pull request 8886 adds (GOLDEN_PATH_SEED
 // e24e25a7-6895-424e-a65d-ea8567e62726).
 it("Escalon, California's skipped months finish with every savings draw named by its payday", () => {
   setBookkeeping(false);
