@@ -195,7 +195,14 @@ try {
       await page.waitForTimeout(400);
     }
   };
+  // Escape closes the top open thing and opens Options only when nothing is
+  // open, so a sheet left open (Travel, after the filing counter) is closed first.
+  const optionsFree = async () => {
+    if (await page.locator("#sheet-close").isVisible())
+      await page.locator("#sheet-close").click();
+  };
   // A seat the player may file for has its window open: the world runs until one does (dev mode, on the Calendar).
+  await optionsFree();
   await devModeOn(page);
   const opened = await devRunUntilMayFile(page);
   assert.equal(opened.reason, "event", "no seat opened its filing window");
@@ -224,6 +231,7 @@ try {
     document.getElementById("card-name").textContent.trim(),
   );
   console.log("Place:", await page.locator("#card-place").innerText());
+  await optionsFree();
   await devModeOn(page);
   await devRunUntilMayFile(page);
   await devModeOff(page);
