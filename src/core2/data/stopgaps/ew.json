@@ -30,60 +30,70 @@
     "id": "SG-EW-HEALTH-death-cause",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
-    "line": 1,
-    "whatItFakes": "Every death now carries a cause (overdose, youth firearm homicide, firearm suicide, motor vehicle, other) from NCHS 2023 shares by age, and the web's overdose, youth firearm and traffic links move those shares. What stays unwired: deaths under age 10 from firearms (the source reports none under 10, so the child access law reaches no toddler), the age split inside the 10 to 24 firearm band (ages 20 to 24 take the band's share although the web acts to 19), and counted people have no substance-use-disorder condition so none ranks first for an overdose.",
+    "line": 97,
+    "whatItFakes": "Every death carries a cause (overdose, youth firearm homicide, firearm suicide, motor vehicle, other) from NCHS 2023 shares by age, and the web's overdose, youth firearm and traffic links move those shares; a full person with the substance-use-disorder condition takes an overdose first. What stays unwired: deaths under age 10 from firearms (the source reports none under 10, so the child access law reaches no toddler), the age split inside the 10 to 24 firearm band (ages 20 to 24 take the band's share although the web acts to 19), and counted people have no substance-use-disorder condition so none ranks first for an overdose.",
     "why": "The source tables give firearm deaths for ages 10 to 24 as one band and report nothing under 10; drug overdose deaths are reported from 15; counted people hold no conditions.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Single-age firearm and overdose death counts from CDC WONDER (underlying cause, one-year ages 0 to 24), and a condition record on counted people.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Single-age firearm and overdose death counts from CDC WONDER (underlying cause, one-year ages 0 to 24), and a condition record on counted people.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-condition-record",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
-    "line": 76,
+    "line": 98,
     "whatItFakes": "Child asthma (gas-hookup-ban-to-child-asthma), Medicare out-of-pocket drug cost (drug-negotiation-to-out-of-pocket) and low birth weight from drinking-water violations (water-violations-to-infant-health) move only the web's number. (A teen's past-month cannabis use is now the health engine's record: SG-HEALTH-youth-cannabis-record-unread.)",
     "why": "No condition, prescription or birth-weight record exists for a child's asthma, an enrollee's drug spending or a newborn; condition-pack.ts holds adult chronic conditions only.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "A childhood asthma condition and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A childhood asthma condition and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-unsized-links",
     "kind": "missing-data",
     "file": "src/core2/health-web.ts",
-    "line": 77,
+    "line": 99,
     "whatItFakes": "Congestion to premature births (congestion-to-premature-births), heat to deaths (heat-to-deaths) and eviction to hospital visits (eviction-to-hospital-visits) have no researched size, and coverage to blood pressure (coverage-to-blood-pressure) and a recession to total mortality (recession-to-total-mortality) find about zero, so nothing moves.",
     "why": "Three links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Sized links from fetched research, then the death and birth engines read them like the wired ones.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-person-level",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
-    "line": 78,
+    "line": 100,
     "whatItFakes": "Coverage to catastrophic bills (coverage-to-catastrophic-bills) and depression (coverage-to-depression); childhood food stamps to adult health (child-food-stamps-to-adult-health); the earned income credit to low birth weight (eitc-to-low-birthweight) are person-level links with no cause recorded on the person.",
     "why": "A person's coverage history, displacement, weekly hours, childhood benefit years and a birth weight are not stored.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor. The reader is the monthly look in src/core2/modules/health.ts (refreshWebFactors), which books a per-person factor from health-own.ts (plan.own): coverage-to-mortality-55-64, job-loss-to-death-risk and long-hours-to-heart-and-stroke are read that way now (carriedBy in data/research/outcome-web/links.json), and the links still waiting here are read the same way once the person's record exists (a stored coverage history for catastrophic bills and depression, childhood benefit years, a birth weight).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Records on the person for each cause, read by the health engine's hazard like the web's death factor. The reader is the monthly look in src/core2/modules/health.ts (refreshWebFactors), which books a per-person factor from health-own.ts (plan.own): coverage-to-mortality-55-64, job-loss-to-death-risk and long-hours-to-heart-and-stroke are read that way now (carriedBy in data/research/outcome-web/links.json), and the links still waiting here are read the same way once the person's record exists (a stored coverage history for catastrophic bills and depression, childhood benefit years, a birth weight).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-marriage-equality-cause",
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
-    "line": 91,
+    "line": 96,
     "whatItFakes": "The marriage-equality-to-coverage link (marriage-equality-to-coverage) has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
     "why": "Nothing in the core records law.marriage-equality, the link's cause; the web does not run a link whose cause it cannot read.",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
-    "replacement": "A recorded marriage-equality law the web reads as the link's cause (a spouse's employer plan then covers a same-sex spouse through the coverage engine), or the link graded not applicable because the law is national and does not change in play.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A recorded marriage-equality law the web reads as the link's cause (a spouse's employer plan then covers a same-sex spouse through the coverage engine), or the link graded not applicable because the law is national and does not change in play.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   }
 ]
