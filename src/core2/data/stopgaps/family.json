@@ -8,8 +8,10 @@
     "why": "The research (the Census supplemental measure, 2021 against 2022) is one program's before and after at its own amounts, not a rate per dollar, and the game has no child benefit for it to scale.",
     "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
     "addedAt": "2026-10-29",
-    "replacement": "A child benefit (a law question or bill-catalog policy) paid to each household by its children through the law reach's money group, as the welfare line pays (src/core2/law-reach/group-b-money.ts); the poverty count (householdPoverty in src/core2/world-poverty.ts) then reads it as income, so the link is carried by the payment, not run by the web.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A child benefit (a law question or bill-catalog policy) paid to each household by its children through the law reach's money group, as the welfare line pays (src/core2/law-reach/group-b-money.ts); the poverty count (householdPoverty in src/core2/world-poverty.ts) then reads it as income, so the link is carried by the payment, not run by the web.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-FAMILY-birth-bonus-not-paid",
@@ -20,19 +22,23 @@
     "why": "Milligan's estimate holds around Quebec's own schedule, by parity and in Canadian dollars, so no per-dollar size carries over to a game bill of another amount.",
     "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
     "addedAt": "2026-10-29",
-    "replacement": "A birth-bonus bill that pays each household on a birth; the link is then sized from that amount through Milligan's benefit elasticity (0.107) and read where births are decided (src/core2/births-plan.ts and src/core2/births-counted.ts already read the web's births.rate factor).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A birth-bonus bill that pays each household on a birth; the link is then sized from that amount through Milligan's benefit elasticity (0.107) and read where births are decided (src/core2/births-plan.ts and src/core2/births-counted.ts already read the web's births.rate factor).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-FAMILY-marriage-not-recorded",
     "kind": "missing-engine",
     "file": "src/core2/modules/renewal.ts",
     "line": 620,
-    "whatItFakes": "Marriage equality's effect on same-sex marriages (marriage-equality-to-marriages) moves nothing: marriage equality is not a law question the game holds and has been national law since 2015, so no place differs on it (graded cause cannot vary, the CTO's ruling of Oct 29 in OWNER-DECISIONS.md); the core keeps no marriage (couples exist as the opening drew them, stopgap SG-TRAITS-partnerships-no-engine); and nothing counts same-sex marriages by place.",
+    "whatItFakes": "Marriage equality's effect on same-sex marriages (marriage-equality-to-marriages) moves nothing: it is national law since 2015 that no place differs on (the CTO's ruling of Oct 29), no marriage law is read when two people marry, and nothing counts same-sex marriages by place because no person carries an orientation record and a partner met in play is always of the other sex (SG-LIVES-partner-same-sex). Weddings themselves now happen in play (partnerships.ts).",
     "why": "How marriage works in play is not yet decided (OWNER-DECISIONS.md, Marriage and children), and no engine decides who partners or marries.",
     "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
     "addedAt": "2026-10-29",
-    "replacement": "A marriage engine that reads the marriage law in force when two people decide to marry, counting same-sex marriages by place from those records; the link then takes a size in that count's unit.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Once adults carry an orientation record and partnering reads it, partnerships.ts counts same-sex marriages by place from its own wedding records, and the link takes a size in that count's unit.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   }
 ]

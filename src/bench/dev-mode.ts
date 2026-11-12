@@ -1293,7 +1293,14 @@ export class DevMode {
           : type.causes.some((c) => c.match)
             ? "moment"
             : null);
-      return { key: type.key, causeRecords, waiting, recipe };
+      // What dev mode can do for it: bring it about now (an engine's own function), run the world
+      // until its cause record comes, or nothing (no engine writes its cause yet).
+      const state = !recipe
+        ? ("none" as const)
+        : recipe === "wait" || recipe === "moment"
+          ? ("waits" as const)
+          : ("plays" as const);
+      return { key: type.key, causeRecords, waiting, recipe, state };
     });
   }
 

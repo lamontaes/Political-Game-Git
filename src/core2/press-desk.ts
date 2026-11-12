@@ -22,7 +22,7 @@ import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
 import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
-import { OFFICES_MODULE_ID } from "./modules/offices";
+import { OFFICES_MODULE_ID, servingTermsOf } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./law-reach/host";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
@@ -585,17 +585,21 @@ function isBudgetBill(api: CoreAPI, item: WireItem): boolean {
  * Whether a named official serves in a federal or state office (a president, a
  * governor): public figures by their office, though they are not full people.
  */
-function holdsHighOffice(api: CoreAPI, id: string): boolean {
+export function holdsHighOffice(api: CoreAPI, id: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const term = offices
+  // The id names the term the official was first seated on, which a re-election or a move to
+  // another seat ends: the terms the person serves now (`servingTermsOf`) are what they hold.
+  const minted = offices
     .table("terms")
     .get(id.slice("official:".length)) as unknown as
-    { status?: string; officeId: string } | undefined;
-  if (term?.status !== "serving") return false;
-  const office = offices.table("offices").get(term.officeId) as unknown as
-    { level?: string } | undefined;
-  return office?.level === "federal" || office?.level === "state";
+    { personId: string } | undefined;
+  if (!minted) return false;
+  return servingTermsOf(api, minted.personId).some((term) => {
+    const office = offices.table("offices").get(term.officeId) as unknown as
+      { level?: string } | undefined;
+    return office?.level === "federal" || office?.level === "state";
+  });
 }
 
 /** Whether the person serves a term in a local (not a state or federal) office. */
