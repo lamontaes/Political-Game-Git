@@ -1,5 +1,5 @@
 ---
-id: laws-reach-b-snap-benefit
+id: laws-reach-b-snap-member-stop
 impact: minor
 section: Fixed
 title: A work requirement stops one adult's share of food aid, not the whole household
