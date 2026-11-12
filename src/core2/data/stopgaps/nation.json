@@ -4,11 +4,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/outside-budgets.ts",
     "line": 1,
-    "whatItFakes": "Another state's budget year after the opening is its Census base moved line by line by the state's own base (jobs times pay, prices) and tax rates in force, with spending balanced to revenue; no act of the legislature adds to a spending line, no treasury, reserve or federal formula beyond the Medicaid match moves anything, and no money is paid.",
-    "why": "Only the town's chain has treasuries and a budget process; the other states' legislatures pass acts as results (world-legislating) and no budget bill yet.",
+    "whatItFakes": "Another state's budget year after the opening is a view of its ledger in the country tier: its income, profit and general sales tax lines and its spending are the state government's share of the tier's state-and-local figures, a share fixed from the published lines at the tier's first month; every other revenue line (selective sales taxes, property, fees, federal aid and the rest) is held at its published opening value as an estimate, and spending keeps the published mix of lines. No act of the legislature adds to a spending line, and no money is paid.",
+    "why": "The tier models only the income, profit and sales taxes and keeps state and local governments together; only the town's chain has treasuries and a budget process, and the other states' legislatures pass acts as results (world-legislating) and no budget bill yet.",
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
-    "replacement": "Each spending line moved by the state's enacted acts and formulas (aid rules, enrollment, caseload), reserves and debt service, and the legislature's budget act as a result; money paid when a state is opened.",
+    "replacement": "The tier keeps state and local ledgers apart and models the other revenue lines; each spending line moved by the state's enacted acts and formulas (aid rules, enrollment, caseload), reserves and debt service, and the legislature's budget act as a result; money paid when a state is opened.",
     "status": "open"
   },
   {

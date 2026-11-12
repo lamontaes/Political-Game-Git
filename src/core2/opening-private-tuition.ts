@@ -11,6 +11,7 @@
 import { placeStateKey } from "./place-map";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
+import homeschool from "../../data/research/people/homeschool-share-by-state-2026.json" with { type: "json" };
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { worldLevel, worldRate } from "./world-draw";
@@ -33,6 +34,26 @@ export function publishedPrivateShareOf(
     state ?? ""
   ];
   return row?.share ?? shares.median;
+}
+
+/**
+ * The share of school-age children homeschooled in a place's state (Census
+ * Household Pulse, scaled to NCES NHES; data/research/people/homeschool-
+ * share-by-state-2026.json); the median, marked an estimate, where the state
+ * has no row (the territories). It calibrates the band a town's schools
+ * report and never picks which family homeschools.
+ */
+export function homeschoolShareOf(
+  placeId: string | undefined,
+  worldPlaceKey: string | undefined,
+): { share: number; estimated: boolean; state: string | null } {
+  const state = placeStateKey(placeId) ?? placeStateKey(worldPlaceKey);
+  const row = (
+    homeschool.states as Readonly<Record<string, { share: number }>>
+  )[state ?? ""];
+  return row
+    ? { share: row.share, estimated: false, state }
+    : { share: homeschool.median, estimated: true, state };
 }
 
 /**
@@ -83,6 +104,9 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
     input.placeMetadata?.placeKey,
     input.seed,
   );
+  // The private share is of enrolled students: homeschooled children are in
+  // neither the public nor the private school (state share, Household Pulse).
+  const home = homeschoolShareOf(undefined, input.placeMetadata?.placeKey);
   const contracts: FinanceContractInput[] = [];
   const sorted = [...schools].sort((a, b) => a.id.localeCompare(b.id));
   const town = new Set(schools.map((row) => row.placeId));
@@ -130,7 +154,7 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
     const total = families.reduce((sum, row) => sum + row.children, 0);
     // The town's private share of its school-age children, at least one family
     // where a private school stands.
-    const quota = Math.max(1, Math.round(total * share));
+    const quota = Math.max(1, Math.round(total * (1 - home.share) * share));
     const ranked = [...families].sort(
       (a, b) =>
         b.cashPerChild - a.cashPerChild || a.home.id.localeCompare(b.home.id),
@@ -176,6 +200,14 @@ export function withPrivateTuition(input: CoreInput): CoreInput {
   }
   return {
     ...input,
+    // The world reports the homeschool share it used for its state.
+    placeMetadata: {
+      ...(input.placeMetadata ?? {}),
+      homeschoolShare: String(home.share),
+      homeschoolShareSource: home.estimated
+        ? "ESTIMATED: the median of the states (no state row)"
+        : `SOURCED: ${home.state} (Census Household Pulse scaled to NCES NHES)`,
+    },
     finance: {
       ...input.finance,
       contracts: [...input.finance.contracts, ...contracts],

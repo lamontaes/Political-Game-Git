@@ -577,7 +577,12 @@ export function composeSceneTalk(
       round: zero,
       ...(use.after ? { after: use.after } : {}),
       ...(use.outcome ? { outcome: use.outcome } : {}),
-      parts: [worded.pieceKey],
+      // The piece the line answers by first: a joined sentence's core, then
+      // the other pieces it was made of.
+      parts: [
+        worded.pieceKey,
+        ...(worded.pieceKeys ?? []).filter((k) => k !== worded.pieceKey),
+      ],
       slotRecordIds: [...worded.slotRecordIds],
       ...(worded.tag ? { tag: worded.tag } : {}),
       asks: worded.asks,

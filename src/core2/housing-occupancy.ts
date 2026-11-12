@@ -20,6 +20,7 @@ import { stableHash } from "./kernel/ids";
 import { nextDue } from "./housing-homeless";
 import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
+import { assistanceIncomeByHousehold } from "./law-reach/group-b-money";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CountedHousehold } from "./counted-groups";
@@ -69,6 +70,10 @@ export function tenants(api: CoreAPI): Tenant[] {
   const months = api.parameter("macroMonthsPerYear");
   const days = api.parameter("jobsDaysPerYear");
   const rows: Tenant[] = [];
+  // Cash assistance counts as income where HUD ranks a household for a voucher
+  // (24 CFR 5.609), full and counted households alike: a household living on
+  // it does not rank as having none. Yearly by household, so a month's is a twelfth.
+  const assistance = assistanceIncomeByHousehold(c);
   const retirement = new Map<string, number>();
   for (const contract of c.finance.contracts.values())
     if (
@@ -108,7 +113,7 @@ export function tenants(api: CoreAPI): Tenant[] {
       leaseId: lease.id,
       landlordId: lease.payeeId,
       rentMinor: lease.amountMinor,
-      incomeMinor: income,
+      incomeMinor: income + (assistance.get(house.id) ?? 0) / months,
     });
   }
   const rt = residentsRuntime(c);
@@ -133,7 +138,9 @@ export function tenants(api: CoreAPI): Tenant[] {
         leaseId: flow.id,
         landlordId: flow.payeeId,
         rentMinor: flow.amountMinor,
-        incomeMinor: householdIncome(rt, house) / months,
+        incomeMinor:
+          householdIncome(rt, house) / months +
+          (assistance.get(house.id) ?? 0) / months,
       });
     }
   return rows;

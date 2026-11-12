@@ -22,6 +22,7 @@ import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import { stakeholders } from "./family-stake";
 import { attendedSchool } from "../core2/past";
 import type { Moment, PersonLedger } from "./types";
+import { LETTER_TYPE, letterFacts } from "./letter-facts";
 
 const zero = P.zero;
 const one = P.one;
@@ -100,8 +101,61 @@ export interface SituationCause {
   setting?: readonly string[];
 }
 
+/** Who may receive a scene (director-casting-rule-on-every-scene-kind): read before a cast is staged. */
+export interface ReceiveRule {
+  /** "any": no age rule beyond the type's own causes. */
+  age: "any";
+  /** "apart": the one who comes, calls or asks does not live with the person. */
+  counterpart: "any" | "apart";
+  /** "serving": a seat or chamber setting is staged only for someone who holds an office. */
+  seat: "any" | "serving";
+}
+
+/** Settings at an office's seat: the chamber and the members' own seats. */
+const SEAT_SETTINGS: ReadonlySet<string> = new Set(["seat", "chamber"]);
+
+/**
+ * Whether a cast may be staged for the person whose scene it is, by the
+ * type's receive rule: the asker does not live with them where the rule says
+ * apart, and a seat or chamber scene reaches only someone serving in office.
+ */
+export function receives(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  rule: ReceiveRule | undefined,
+  askerIds: readonly PersonId[],
+  settingKind: string,
+): boolean {
+  const person = core.people.get(personId);
+  if (!person) return false;
+  if (rule?.counterpart === "apart") {
+    const home = new Set(
+      core.households.get(person.householdId)?.memberIds ?? [],
+    );
+    if (askerIds.some((id) => id !== personId && home.has(id))) return false;
+  }
+  if (SEAT_SETTINGS.has(settingKind) && !serving(core, personId)) return false;
+  return true;
+}
+
+/** Whether a person serves a term in any office now. */
+function serving(core: Readonly<CoreState>, personId: PersonId): boolean {
+  const api = coreAPI(core as CoreState);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [personId]) as unknown as { status: string }[]
+  ).some((term) => term.status === "serving");
+}
+
 export interface SituationType {
   key: string;
+  /** The role that comes, calls or asks. */
+  asker?: string;
+  /** Who may receive the scene; a cast that breaks it goes to the journal. */
+  receive?: ReceiveRule;
   roles: readonly SituationRole[];
   setting: readonly string[];
   timing: string;
@@ -228,6 +282,12 @@ export interface ScheduleEntry {
   rank: number;
   pace: number;
   bindings: SceneBinding[];
+  /**
+   * The types this cause bound that were held back, and why: the type's
+   * season was full (`season-cap`), or a letter would have asked the same with
+   * nothing on record since (`nothing-changed`). The journal tells these.
+   */
+  heldBack?: { typeKey: string; reason: "season-cap" | "nothing-changed" }[];
   /**
    * The bound scenes with a purpose the player has answered, by type: a
    * record that stages several plays each in turn, the next once one ends.
@@ -882,10 +942,74 @@ export function scheduleMoment(
     )
       for (const typeKey of new Set(entry.bindings.map((row) => row.typeKey)))
         inSeason.set(typeKey, (inSeason.get(typeKey) ?? zero) + one);
+  // A cast the type's receive rule refuses goes to the journal: nobody who
+  // lives with the person comes to the house, and a seat scene reaches only
+  // someone in office.
+  const receivable = (row: SceneBinding) => {
+    const type = library.types.find((t) => t.key === row.typeKey);
+    const askerIds = type?.asker
+      ? (row.roles.find((role) => role.role === type.asker)?.personIds ?? [])
+      : [];
+    return receives(
+      core,
+      book.personId,
+      type?.receive,
+      askerIds,
+      row.setting.kind,
+    );
+  };
+  // A letter from a writer whose earlier letter was already staged plays
+  // again only with something on record since: news of the writer's life, a
+  // birthday they missed at the reader's table or their own birthday near
+  // (letter-facts.ts). The same ask with nothing changed goes to the journal.
+  const lettered = new Set(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date <= moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) =>
+        entry.bindings
+          .filter((row) => row.typeKey === LETTER_TYPE)
+          .map((row) => castOf(row)),
+      ),
+  );
+  const sameLetter = (row: SceneBinding) => {
+    if (row.typeKey !== LETTER_TYPE || !lettered.has(castOf(row))) return false;
+    const writer = row.roles.find((role) => role.role === "writer")?.personIds[
+      zero
+    ];
+    const reader = row.roles.find((role) => role.role === "reader")?.personIds[
+      zero
+    ];
+    if (!writer || !reader) return false;
+    const said = letterFacts(
+      core,
+      LETTER_TYPE,
+      moment.causeId,
+      writer,
+      reader,
+      () => null,
+    );
+    return Object.keys(said).length === zero;
+  };
+  const seasonFull = (row: SceneBinding) =>
+    (inSeason.get(row.typeKey) ?? zero) >= library.scheduling.seasonCap.value;
+  const heldBack = wanted.flatMap(
+    (row): NonNullable<ScheduleEntry["heldBack"]> =>
+      seasonFull(row)
+        ? [{ typeKey: row.typeKey, reason: "season-cap" }]
+        : sameLetter(row)
+          ? [{ typeKey: row.typeKey, reason: "nothing-changed" }]
+          : [],
+  );
+  const held = new Set(heldBack.map((row) => row.typeKey));
   const bindings = wanted.filter(
     (row) =>
-      (inSeason.get(row.typeKey) ?? zero) <
-        library.scheduling.seasonCap.value &&
+      receivable(row) &&
+      !held.has(row.typeKey) &&
       (eachCause(row) ||
         (!sittingToday.has(castOf(row)) &&
           !sittingToday.has(windowKey(row, moment.id)))),
@@ -995,6 +1119,7 @@ export function scheduleMoment(
     rank,
     pace,
     bindings,
+    ...(heldBack.length ? { heldBack } : {}),
     ...(found.length ? {} : { coverage }),
   };
 }

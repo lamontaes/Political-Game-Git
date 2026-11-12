@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-campaign-endorser-who-files-withdraws
 pr: #8406
 after:
@@ -18,6 +18,7 @@ effort: medium
 root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T00:50:44.722Z
+merged-at: 2026-11-12T20:21:10.519Z
 ---
 
 **What.** campaign-candidates-never-help-a-rival takes a new filer off their rivals' volunteers and staff on the day they file, and stops them giving, hosting or endorsing from then on. But a person-to-person yes given before they filed still stands, because askForEndorsement returns any held yes (src/core2/modules/campaigns.ts line 5081), and a group whose speaker later files keeps the endorsement it gave. So a candidate can be shown endorsing the opponent they are running against.

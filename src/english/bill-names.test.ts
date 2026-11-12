@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { checkAmericanEnglish } from "../../scripts/prose-eval/american-english";
 import { billNameFor, billNameOf, billTitleOf } from "./bill-names";
+import federalQuestions from "../../data/research/campaigns/federal-questions-2026.json" with { type: "json" };
 
 const questions: { question: string; name: string }[] = [];
 const walk = (value: unknown): void => {
@@ -32,6 +33,17 @@ describe("bill names", () => {
     }
     // Every name is its own: no two policies, enacted or repealed, share one.
     expect(titles.size).toBe(questions.length * 2);
+  });
+  it("names every federal question Congress files on, enacted or repealed", () => {
+    // Congress files bills on every question in the federal record; one with
+    // no name leaves its bill untitled (red on main, Nov 11: Kettle River,
+    // Minnesota, "has no title"). The next question added fails here.
+    const unnamed = federalQuestions.questions
+      .map((row) => row.question)
+      .filter((question) =>
+        [false, true].some((repeal) => !billNameFor(question, "act", repeal)),
+      );
+    expect(unnamed).toEqual([]);
   });
 
   it("puts the bill's own form word after the name", () => {

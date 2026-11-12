@@ -2,9 +2,10 @@
 name: pool-notes
 description: >
   How pool-only changes for Our Civic Duty reach main: cause write-ups, new
-  items, status notes and relabels go as commits on one rolling branch,
-  `pool/notes`, with one pull request open, gated by Desk B and merged by the
-  CTO once an hour (owner, Nov 11), instead of one pull request each. Also the
+  items, status notes and relabels go as commits on the hour's own branch
+  (named for the date and the hour), with one pull request for the hour,
+  gated by Desk B and merged once an hour (owner, Nov 11), instead of one
+  pull request each. Also the
   cap on new work while too many game pull requests are open. Use before you
   commit any change that touches only `docs/pool/items`, when you are Desk B
   or the CTO at the top of the hour, and before a builder takes a new item.
@@ -33,26 +34,37 @@ What does not go in it:
 - **Rules, checks, skills and docs.** Each keeps its own pull request and merges first (owner, Nov 10).
 - **Anything under `src`, `data`, `art`, `tests` or `scripts`.**
 
+## The hour's branch
+
+Each hour has its own branch, cut from main and named for the hour it closes in UTC: `pool/notes-<date>-<hour>`. A note committed at 08:20 UTC on Nov 11 goes to `pool/notes-2026-11-11-09`. After 09:00 nobody commits to that branch; a late note goes to the next hour's.
+
+Why not one rolling branch: it was tried on Nov 11 and failed twice in two hours. Helpers commit all hour, so its head moved under every gate. And main takes each bundle as one squashed commit, so the rolling branch then conflicted with main on every file touched again.
+
 ## How a helper adds a note
 
 1. Write the item to the standard and check it in your own copy: `npm run pool -- --check` shows nothing new against main, and prettier passes on the file.
-2. Commit the one file to the branch `pool/notes` through GitHub's contents API (the GitHub tool's `create_or_update_file`; read the file on `pool/notes` first for its `sha` when the item already exists there). One item file per commit. The message is `pool: <item id>: <what changed in five words>`. Do not push a branch of your own and do not open a pull request.
-3. If the commit is refused because the file changed under you, read it again from `pool/notes`, put your change on top of what is there, and commit again. Never overwrite another helper's paragraph.
-4. Post one line on the crew's issue: `<your prefix>: noted <item id> <the commit's full sha>` and the cause in two sentences. The line is how the lead and the CTO read your finding; the bundle is only how it reaches main.
-5. A note needs no release note of its own. The bundle carries one.
-
-If `pool/notes` does not exist when you come to commit (the hour's merge just happened), wait two minutes and try again; Desk B cuts the new one. Do not create it yourself.
+2. Find the hour's branch. If it does not exist yet, create it from main (the GitHub tool's `create_branch` with `from_branch: main`), and after your first commit open its pull request: title `pool: the notes of <hour>:00 UTC, <date>`, line 1 `Touches pool item: this hour's notes; nothing built.`, not a draft.
+3. Commit the one file to that branch through GitHub's contents API (the GitHub tool's `create_or_update_file`; read the file on the branch first for its `sha` when it exists). One item file per commit. The message is `pool: <item id>: <what changed in five words>`. Do not push a branch of your own and do not open any other pull request.
+4. If the commit is refused because the file changed under you, read it again from the branch, put your change on top of what is there, and commit again. Never overwrite another helper's paragraph.
+5. Post one line on the crew's issue: `<your prefix>: noted <item id> <the commit's full sha>` and the cause in two sentences. The line is how the lead and the CTO read your finding; the bundle is only how it reaches main.
+6. A note needs no release note of its own. The desk adds the hour's.
+7. Once an item is being built, its notes go to its pull request's branch, not the bundle. And a builder whose item reached main through a bundle merges main into the branch before posting ready and keeps both sides of the item file: on Nov 11 two passed words pull requests could not join their train because main's copy of their item and the branch's differed.
 
 ## Desk B, at the top of each hour
 
-1. Fetch `pool/notes` and merge main into it in your own tree. Run `npm run pool -- --check` and prettier on the items it changes. Fix what is mechanical (formatting, a path that needs ` (new)`); for anything else, revert that one commit on the branch and tell its author on the crew's issue with the check's own words.
-2. Post `Desk B: ready #<the bundle's number> <full head sha>` with how many items it holds.
-3. After the CTO merges it: cut `pool/notes` again from main, add the hour's release note (`docs/release/changes/pool-notes-<date>-<hour>.md`, with only `id` and `impact: none` in the front matter and one sentence under it), and open the next pull request. Its line 1 is `Touches pool item: many (the hour's pool notes; nothing built).` and its title is `pool notes: <date>, <hour> UTC`.
-4. An hour with no commits has no bundle to gate. Leave the open pull request as it is.
+The hour's pull request is an ordinary pool-only pull request, and its head stops moving at the top of the hour.
 
-## The CTO, once an hour
+1. A few minutes past the hour, gate it as you gate any pool-only pull request: main merged in, `npm run pool -- --check`, prettier, the release check, the guards.
+2. A commit that fails: tell its author on the crew's issue with the check's own words. The author fixes it with a new commit on the same branch; gate what changed since.
+3. If the hour's release note is missing (`docs/release/changes/pool-notes-<date>-<hour>.md`, with only `id` and `impact: none` in the front matter and one sentence under it), say so; the lead or the first helper adds it.
+4. Post `Desk B: ready #<its number> <head sha>` with how many items it holds.
+5. A branch that conflicts with main (an item's status changed on main during the hour) goes back to the lead, who merges main into it and keeps both sides' lines.
+   The lead does not wait to be asked: at the top of the hour, before the desk gates, the lead merges main into the hour's branch, keeps both sides of any item a builder claimed or changed on main since the cut, runs `npm run pool -- --check`, and posts the new head. On Nov 11 two bundles in a row came back from the desk for one item each, the second an item `pool next` had handed out and taken back six times in forty minutes.
+6. An hour with no notes has no branch and no pull request.
 
-Merge the bundle on the head Desk B posted. A note that waits an hour costs nothing; a note that merges unread costs a builder's day. If the bundle is red, merge nothing and say which commit Desk B should take out.
+## Whoever holds the merge step, once an hour
+
+Merge the hour's pull request on the sha Desk B posted. A note that waits an hour costs nothing; a note that merges unread costs a builder's day. If the bundle is red, merge nothing and say which commit the author should fix.
 
 ## The cap on new work
 
@@ -69,4 +81,8 @@ While more than **150 game pull requests are open**, `npm run pool -- next` hand
 
 ## Stop condition
 
-A note is delivered when its commit is on `pool/notes` and its line is on the crew's issue. The hour is done when the bundle is merged and the next one is open.
+A note is delivered when its commit is on the hour's branch and its line is on the crew's issue. The hour is done when its pull request is merged.
+
+## A merger on any tool (Nov 11)
+
+A merger started from `docs/pool/START-A-MERGER.md` gates the hour's bundle with the pool check alone and merges it pinned to the head in the cut line. A bundle that touches a file outside `docs/pool/` and `docs/release/changes/` is sent back.
