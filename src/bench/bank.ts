@@ -15,6 +15,7 @@ const NOT_SPENDING = new Set([
   "bank-withdrawal",
   "credit.personal-loan",
   "credit.personal-repayment",
+  "loan-payment",
 ]);
 
 interface SpendingLine {
