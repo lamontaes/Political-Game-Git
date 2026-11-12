@@ -8,7 +8,7 @@ size: S
 status: in-pr
 standard: 2
 claimed-by: fix/comment-printed-seed
-pr:
+pr: 8900
 after:
 blocked-on:
 lead: words
