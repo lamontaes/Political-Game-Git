@@ -297,6 +297,8 @@
 # The clock, the world and places (clock-places)
 /src/core2/modules/world.ts @lamontaes
 /src/core2/modules/world-metrics.ts @lamontaes
+/src/core2/output-numbers.ts @lamontaes
+/src/core2/output-number-readers.ts @lamontaes
 /src/core2/modules/disasters.ts @lamontaes
 /src/core2/life.ts @lamontaes
 /src/core2/calendar.ts @lamontaes

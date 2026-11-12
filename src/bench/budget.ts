@@ -1,3 +1,4 @@
+import { townGovernment } from "../core2/output-number-readers";
 import { coreAPI } from "../core2/state";
 import {
   budgetPriorities,
@@ -231,7 +232,7 @@ function chiefOf(core: CoreState, governmentId: string, viewerId: string) {
 /** Every government over the town, its latest budget, and the player's taxes. */
 export function budgetView(core: CoreState, personId: string) {
   if (!core.modules.has("core2-budgets-v1"))
-    return { governments: [], withholding: null };
+    return { townGovernmentId: undefined, governments: [], withholding: null };
   const api = coreAPI(core);
   const executive = executiveOf(core, personId);
   const withheld = withholdingOf(api, personId);
@@ -241,7 +242,11 @@ export function budgetView(core: CoreState, personId: string) {
       const key = `${line.level} ${line.tax}`;
       byLine[key] = (byLine[key] ?? 0) + line.minor;
     }
+  const home = core.people.get(personId as never)?.placeId;
   return {
+    // The town's own books: the government whose jurisdiction is the place the person lives in
+    // (its city, or the county that runs a town with no city government), never another town's.
+    townGovernmentId: home ? townGovernment(api, home)?.id : undefined,
     governments: governments(api).map((gov) => {
       const years = [...budgetsOf(api, gov.id)].sort(
         (a, b) => b.fiscalYear - a.fiscalYear,
