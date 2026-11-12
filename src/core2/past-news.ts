@@ -99,6 +99,8 @@ export function buildNewsArchive(
         winnerId: election.winnerId,
         winnerVotes: String(election.candidates[0]!.votes),
         totalVotes: String(election.totalVotes),
+        // The count this world's total was drawn around; never printed as it.
+        sourceVotes: String(election.sourceVotes),
       },
       { personIds: [election.winnerId] },
     );
