@@ -255,17 +255,20 @@
   "pastHospitalStayShare18to44": {
     "value": 0.058,
     "tag": "SOURCED",
-    "citation": "National Center for Health Statistics, Summary Health Statistics: National Health Interview Survey, 2018, Table P-10a (fetched Nov 11, 2026, https://ftp.cdc.gov/pub/HEALTH_STATISTICS/NCHS/NHIS/SHS/2018_SHS_Table_P-10.pdf): share with one or more overnight hospital stays in the past 12 months, 18-44 years: none 94.2 percent, so 5.8 percent had one or more. Stays for childbirth are included and emergency-room nights excluded; read with pastHospitalStayNotBirthShare."
+    "citation": "National Center for Health Statistics, Summary Health Statistics: National Health Interview Survey, 2018, Table P-10a (fetched Nov 11, 2026, https://ftp.cdc.gov/pub/HEALTH_STATISTICS/NCHS/NHIS/SHS/2018_SHS_Table_P-10.pdf): share with one or more overnight hospital stays in the past 12 months, 18-44 years: none 94.2 percent, so 5.8 percent had one or more. Stays for childbirth are included and emergency-room nights excluded; read with pastHospitalStayNotBirthShare.",
+    "role": "coefficient"
   },
   "pastHospitalStayShare45to64": {
     "value": 0.077,
     "tag": "SOURCED",
-    "citation": "National Center for Health Statistics, Summary Health Statistics: National Health Interview Survey, 2018, Table P-10a (fetched Nov 11, 2026, https://ftp.cdc.gov/pub/HEALTH_STATISTICS/NCHS/NHIS/SHS/2018_SHS_Table_P-10.pdf): share with one or more overnight hospital stays in the past 12 months, 45-64 years: none 92.3 percent, so 7.7 percent had one or more. Stays for childbirth are included and emergency-room nights excluded; read with pastHospitalStayNotBirthShare."
+    "citation": "National Center for Health Statistics, Summary Health Statistics: National Health Interview Survey, 2018, Table P-10a (fetched Nov 11, 2026, https://ftp.cdc.gov/pub/HEALTH_STATISTICS/NCHS/NHIS/SHS/2018_SHS_Table_P-10.pdf): share with one or more overnight hospital stays in the past 12 months, 45-64 years: none 92.3 percent, so 7.7 percent had one or more. Stays for childbirth are included and emergency-room nights excluded; read with pastHospitalStayNotBirthShare.",
+    "role": "coefficient"
   },
   "pastHospitalStayShare65Plus": {
     "value": 0.167,
     "tag": "SOURCED",
-    "citation": "National Center for Health Statistics, Summary Health Statistics: National Health Interview Survey, 2018, Table P-10a (fetched Nov 11, 2026, https://ftp.cdc.gov/pub/HEALTH_STATISTICS/NCHS/NHIS/SHS/2018_SHS_Table_P-10.pdf): share with one or more overnight hospital stays in the past 12 months, 65 years and over: none 83.3 percent, so 16.7 percent had one or more. Stays for childbirth are included and emergency-room nights excluded; read with pastHospitalStayNotBirthShare."
+    "citation": "National Center for Health Statistics, Summary Health Statistics: National Health Interview Survey, 2018, Table P-10a (fetched Nov 11, 2026, https://ftp.cdc.gov/pub/HEALTH_STATISTICS/NCHS/NHIS/SHS/2018_SHS_Table_P-10.pdf): share with one or more overnight hospital stays in the past 12 months, 65 years and over: none 83.3 percent, so 16.7 percent had one or more. Stays for childbirth are included and emergency-room nights excluded; read with pastHospitalStayNotBirthShare.",
+    "role": "coefficient"
   },
   "pastHospitalStayNotBirthShare": {
     "value": 0.851,
@@ -277,6 +280,7 @@
       "high": 1,
       "unit": "share",
       "citation": "From all stays (1) to a quarter less."
-    }
+    },
+    "role": "coefficient"
   }
 }
