@@ -465,23 +465,40 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
         api = coreAPI(core);
       const where = `${world.place.displayName} (seed ${seed})`;
       const me = core.playerId!;
-      // The earliest race the player may enter, filed for at once, as the
-      // filing screen files (`fileForOffice`).
+      // The earliest race the player may enter, filed for as the filing
+      // screen files (`fileForOffice`). Every race opens its filing on its
+      // own real day, so wait a week at a time until one takes the filing,
+      // up to the last filing deadline the calendar holds (drawn-place-tests).
+      const lastDeadline = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as { filingDeadline: string }[]
+      )
+        .map((c) => c.filingDeadline)
+        .sort()
+        .at(-1);
       let filing: FilingRow | undefined;
-      for (const contest of openContests(api)
-        .filter((c) => playerMayFileFor(api, c.id))
-        .sort(
-          (a, b) =>
-            a.electionDate.localeCompare(b.electionDate) ||
-            a.id.localeCompare(b.id),
-        )) {
-        const result = fileForOffice(core, me, contest.id);
-        if (result.status === "refused") continue;
-        filing = result.filing;
-        break;
+      for (;;) {
+        for (const contest of openContests(api)
+          .filter((c) => playerMayFileFor(api, c.id))
+          .sort(
+            (a, b) =>
+              a.electionDate.localeCompare(b.electionDate) ||
+              a.id.localeCompare(b.id),
+          )) {
+          const result = fileForOffice(core, me, contest.id);
+          if (result.status === "refused") continue;
+          filing = result.filing;
+          break;
+        }
+        if (filing || !lastDeadline || core.date >= lastDeadline) break;
+        advanceCore(core, addDays(makeIsoDate(core.date), 7));
       }
       if (!filing) {
-        tried.push(`${where}: no race the player could enter`);
+        tried.push(
+          `${where}: no race the player could enter by ${core.date} (last filing deadline ${lastDeadline ?? "none"})`,
+        );
         continue;
       }
       const contestId = filing.contestId;
