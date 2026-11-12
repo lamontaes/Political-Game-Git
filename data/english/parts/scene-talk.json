@@ -192862,7 +192862,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.1",
+      "key": "scene-talk.reply-answer.on-record-1",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I voted for {bill}, and I'd vote for it again.",
@@ -192891,7 +192891,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.2",
+      "key": "scene-talk.reply-answer.on-record-2",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Put me down as a yes on {bill}. You can print that.",
@@ -192920,7 +192920,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.3",
+      "key": "scene-talk.reply-answer.on-record-3",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I'm for {bill}, and I'll own it.",
@@ -192949,7 +192949,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.4",
+      "key": "scene-talk.reply-answer.on-record-4",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I backed {bill} because {about} is overdue here.",
@@ -192978,7 +192978,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.5",
+      "key": "scene-talk.reply-answer.on-record-5",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I'm for {bill}. It does what it says on {about}.",
@@ -193007,7 +193007,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.6",
+      "key": "scene-talk.reply-answer.on-record-6",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My vote on {bill} was yes, and I meant it.",
@@ -193036,7 +193036,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.7",
+      "key": "scene-talk.reply-answer.on-record-7",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I voted against {bill}, and I'd do it again.",
@@ -193065,7 +193065,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.8",
+      "key": "scene-talk.reply-answer.on-record-8",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I'm a no on {bill}. Print it.",
@@ -193094,7 +193094,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.9",
+      "key": "scene-talk.reply-answer.on-record-9",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I couldn't vote for {bill}, not as it was written.",
@@ -193123,7 +193123,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.10",
+      "key": "scene-talk.reply-answer.on-record-10",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I said no to {bill}, and I'll tell anyone in {place} why.",
@@ -193152,7 +193152,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.11",
+      "key": "scene-talk.reply-answer.on-record-11",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My vote on {bill} was no, and I meant it.",
@@ -193181,7 +193181,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.12",
+      "key": "scene-talk.reply-answer.on-record-12",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I'm against {bill}. I won't vote for {about}.",
@@ -193210,7 +193210,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.13",
+      "key": "scene-talk.reply-answer.on-record-13",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Here's what I think of {story}: I'll judge it by what it does in {place}.",
@@ -193238,7 +193238,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.14",
+      "key": "scene-talk.reply-answer.on-record-14",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "On {story}, I'll say it plainly: I want to see the numbers first.",
@@ -193266,7 +193266,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.15",
+      "key": "scene-talk.reply-answer.on-record-15",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I'll answer for {story} the way I'd answer anyone in {place}.",
@@ -193294,7 +193294,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.16",
+      "key": "scene-talk.reply-answer.on-record-16",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Here's my answer.",
@@ -193305,7 +193305,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "requiresFacts": ["stand-for"]
+          "requiresFacts": ["own-vote"]
         }
       ],
       "origin": "authored",
@@ -193322,7 +193322,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.17",
+      "key": "scene-talk.reply-answer.on-record-17",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Plainly?",
@@ -193333,7 +193333,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "requiresFacts": ["stand-for"]
+          "requiresFacts": ["own-vote"]
         }
       ],
       "origin": "authored",
@@ -193350,7 +193350,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.18",
+      "key": "scene-talk.reply-answer.on-record-18",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I'll say it straight.",
@@ -193361,7 +193361,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "requiresFacts": ["stand-for"]
+          "requiresFacts": ["own-vote"]
         }
       ],
       "origin": "authored",
@@ -193378,7 +193378,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.19",
+      "key": "scene-talk.reply-answer.on-record-19",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Put this down.",
@@ -193389,7 +193389,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "requiresFacts": ["stand-for"]
+          "requiresFacts": ["own-vote"]
         }
       ],
       "origin": "authored",
@@ -193406,122 +193406,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.20",
+      "key": "scene-talk.reply-answer.on-record-20",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Here's my answer.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "on-record",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "requiresFacts": ["stand-against"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 4, on-record move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "on-record"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "on-record.reply-answer",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.on-record.reply-answer.21",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Plainly?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "on-record",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "requiresFacts": ["stand-against"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 4, on-record move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "on-record"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "on-record.reply-answer",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.on-record.reply-answer.22",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I'll say it straight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "on-record",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "requiresFacts": ["stand-against"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 4, on-record move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "on-record"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "on-record.reply-answer",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.on-record.reply-answer.23",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Put this down.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "on-record",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "requiresFacts": ["stand-against"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 4, on-record move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "on-record"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "on-record.reply-answer",
-        "part": "opener"
-      }
-    },
-    {
-      "key": "scene-talk.on-record.reply-answer.24",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "Yes.",
+      "text": "It's still yes.",
       "uses": [
         {
           "subject": "scene",
@@ -193547,7 +193435,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.25",
+      "key": "scene-talk.reply-answer.on-record-21",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Even so.",
@@ -193576,7 +193464,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.26",
+      "key": "scene-talk.reply-answer.on-record-22",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I've thought about that.",
@@ -193605,10 +193493,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.27",
+      "key": "scene-talk.reply-answer.on-record-23",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "No.",
+      "text": "Still no.",
       "uses": [
         {
           "subject": "scene",
@@ -193634,7 +193522,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.28",
+      "key": "scene-talk.reply-answer.on-record-24",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Not as it's written.",
@@ -193663,7 +193551,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.29",
+      "key": "scene-talk.reply-answer.on-record-25",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I've heard that one.",
@@ -193692,7 +193580,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.30",
+      "key": "scene-talk.reply-answer.on-record-26",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Fine.",
@@ -193720,10 +193608,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.31",
+      "key": "scene-talk.reply-answer.on-record-27",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "All right.",
+      "text": "Alright, here it is.",
       "uses": [
         {
           "subject": "scene",
@@ -193748,10 +193636,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.32",
+      "key": "scene-talk.reply-answer.on-record-28",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Then here it is.",
+      "text": "Then here it is, plainly.",
       "uses": [
         {
           "subject": "scene",
@@ -193776,7 +193664,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.1",
+      "key": "scene-talk.reply-refuse.on-record-1",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "Look.",
@@ -193803,10 +193691,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.2",
+      "key": "scene-talk.reply-refuse.on-record-2",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Not now.",
+      "text": "Not right now.",
       "uses": [
         {
           "subject": "scene",
@@ -193830,10 +193718,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.3",
+      "key": "scene-talk.reply-refuse.on-record-3",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "No.",
+      "text": "Not out here.",
       "uses": [
         {
           "subject": "scene",
@@ -193857,7 +193745,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.33",
+      "key": "scene-talk.reply-answer.on-record-29",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I've believed in {about} for a long time.",
@@ -193885,7 +193773,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.34",
+      "key": "scene-talk.reply-answer.on-record-30",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I think {about} is right for {place}.",
@@ -193913,7 +193801,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.35",
+      "key": "scene-talk.reply-answer.on-record-31",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I've never been sold on {about}.",
@@ -193941,7 +193829,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.36",
+      "key": "scene-talk.reply-answer.on-record-32",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I don't think {about} is right for {place}.",
@@ -193969,7 +193857,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.37",
+      "key": "scene-talk.reply-answer.on-record-33",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "People in {place} asked me for it, and I listened.",
@@ -193997,7 +193885,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.38",
+      "key": "scene-talk.reply-answer.on-record-34",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Most of the people who called my office about it wanted it.",
@@ -194025,7 +193913,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.39",
+      "key": "scene-talk.reply-answer.on-record-35",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "People in {place} told me they didn't want it.",
@@ -194053,7 +193941,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.40",
+      "key": "scene-talk.reply-answer.on-record-36",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Most of the calls I got about it were against it.",
@@ -194081,7 +193969,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.41",
+      "key": "scene-talk.reply-answer.on-record-37",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "The section I asked for is in it now.",
@@ -194109,7 +193997,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.42",
+      "key": "scene-talk.reply-answer.on-record-38",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "It has the change I fought for, so it has my vote.",
@@ -194137,7 +194025,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.43",
+      "key": "scene-talk.reply-answer.on-record-39",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My caucus stood together on it, and so did I.",
@@ -194165,7 +194053,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.44",
+      "key": "scene-talk.reply-answer.on-record-40",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My party lined up behind it, and I agree with them.",
@@ -194193,7 +194081,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.45",
+      "key": "scene-talk.reply-answer.on-record-41",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My caucus stood together against it, and so did I.",
@@ -194221,7 +194109,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.46",
+      "key": "scene-talk.reply-answer.on-record-42",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My party lined up against it, and I agree with them.",
@@ -194249,7 +194137,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.47",
+      "key": "scene-talk.reply-answer.on-record-43",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I voted the same way the last time {about} came up.",
@@ -194260,7 +194148,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "requiresFacts": ["stand-for", "reason-record"]
+          "requiresFacts": ["own-vote", "reason-record"]
         }
       ],
       "origin": "authored",
@@ -194277,7 +194165,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.48",
+      "key": "scene-talk.reply-answer.on-record-44",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "It's how I've voted on {about} before.",
@@ -194288,7 +194176,7 @@
           "step": "reply",
           "move": "answer",
           "role": "asked",
-          "requiresFacts": ["stand-for", "reason-record"]
+          "requiresFacts": ["own-vote", "reason-record"]
         }
       ],
       "origin": "authored",
@@ -194305,63 +194193,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-answer.49",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "I voted the same way the last time {about} came up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "on-record",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "requiresFacts": ["stand-against", "reason-record"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 4, on-record move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "on-record"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.on-record.reply-answer.50",
-      "move": "reply-answer",
-      "kind": "spoken",
-      "text": "It's how I've voted on {about} before.",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "on-record",
-          "step": "reply",
-          "move": "answer",
-          "role": "asked",
-          "requiresFacts": ["stand-against", "reason-record"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 4, on-record move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "answer",
-        "key": "on-record"
-      },
-      "bearing": "calm",
-      "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
-      }
-    },
-    {
-      "key": "scene-talk.on-record.reply-stall.1",
+      "key": "scene-talk.reply-stall.on-record-1",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Ask me after {bill} comes to a vote.",
@@ -194390,7 +194222,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.2",
+      "key": "scene-talk.reply-stall.on-record-2",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Give me until the vote on {bill}. Then you'll have it.",
@@ -194419,7 +194251,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.3",
+      "key": "scene-talk.reply-stall.on-record-3",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "I'll have something on {bill} the day it's voted on.",
@@ -194448,7 +194280,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.4",
+      "key": "scene-talk.reply-stall.on-record-4",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Ask me once {bill} is signed or vetoed.",
@@ -194477,7 +194309,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.5",
+      "key": "scene-talk.reply-stall.on-record-5",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "{bill} is on the desk now. Ask me when it's off.",
@@ -194506,7 +194338,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.6",
+      "key": "scene-talk.reply-stall.on-record-6",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Wait for the signature on {bill}. Then ask me.",
@@ -194535,7 +194367,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.7",
+      "key": "scene-talk.reply-stall.on-record-7",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Ask me once {bill} has been working a few months.",
@@ -194564,7 +194396,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.8",
+      "key": "scene-talk.reply-stall.on-record-8",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Give {bill} a season. Then ask the people it was for.",
@@ -194593,7 +194425,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.9",
+      "key": "scene-talk.reply-stall.on-record-9",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Let {bill} run a while. Then we'll talk.",
@@ -194622,7 +194454,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.10",
+      "key": "scene-talk.reply-stall.on-record-10",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Ask me after the override vote on {bill}.",
@@ -194651,7 +194483,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.11",
+      "key": "scene-talk.reply-stall.on-record-11",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "There's an override vote on {bill} coming. After that.",
@@ -194680,7 +194512,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.12",
+      "key": "scene-talk.reply-stall.on-record-12",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Wait for the override vote on {bill}. Then I'll talk.",
@@ -194709,7 +194541,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.13",
+      "key": "scene-talk.reply-stall.on-record-13",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "{bill} is done. Ask me when {about} is back on the agenda.",
@@ -194738,7 +194570,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.14",
+      "key": "scene-talk.reply-stall.on-record-14",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Ask me the next time {about} is on the agenda. It will be.",
@@ -194767,7 +194599,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.15",
+      "key": "scene-talk.reply-stall.on-record-15",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "{bill} lost. Talk to me when there's a new one.",
@@ -194796,7 +194628,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.16",
+      "key": "scene-talk.reply-stall.on-record-16",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Give me a week on {story}.",
@@ -194824,7 +194656,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.17",
+      "key": "scene-talk.reply-stall.on-record-17",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "I want to hear from people in {place} on {story} first.",
@@ -194852,7 +194684,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-stall.18",
+      "key": "scene-talk.reply-stall.on-record-18",
       "move": "reply-stall",
       "kind": "spoken",
       "text": "Ask me about {story} next week, when there's more to say.",
@@ -194880,7 +194712,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-deflect.1",
+      "key": "scene-talk.reply-deflect.on-record-1",
       "move": "reply-deflect",
       "kind": "spoken",
       "text": "What matters about {bill} is {about}, not who voted which way.",
@@ -194908,7 +194740,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-deflect.2",
+      "key": "scene-talk.reply-deflect.on-record-2",
       "move": "reply-deflect",
       "kind": "spoken",
       "text": "The question isn't my vote. It's whether {about} works for {place}.",
@@ -194936,7 +194768,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-deflect.3",
+      "key": "scene-talk.reply-deflect.on-record-3",
       "move": "reply-deflect",
       "kind": "spoken",
       "text": "Write about what {bill} does for {place}, not about me.",
@@ -194964,7 +194796,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-deflect.4",
+      "key": "scene-talk.reply-deflect.on-record-4",
       "move": "reply-deflect",
       "kind": "spoken",
       "text": "Ask the sponsor about {bill}. I'm here for {place}.",
@@ -194992,7 +194824,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-deflect.5",
+      "key": "scene-talk.reply-deflect.on-record-5",
       "move": "reply-deflect",
       "kind": "spoken",
       "text": "Look at what {bill} does before you look at me.",
@@ -195020,7 +194852,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-deflect.6",
+      "key": "scene-talk.reply-deflect.on-record-6",
       "move": "reply-deflect",
       "kind": "spoken",
       "text": "Read {bill}. It's shorter than your last story.",
@@ -195048,7 +194880,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-deflect.7",
+      "key": "scene-talk.reply-deflect.on-record-7",
       "move": "reply-deflect",
       "kind": "spoken",
       "text": "The text of {bill} is public. I'd start there.",
@@ -195076,7 +194908,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.4",
+      "key": "scene-talk.reply-refuse.on-record-4",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "I won't comment on {bill} today.",
@@ -195104,7 +194936,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.5",
+      "key": "scene-talk.reply-refuse.on-record-5",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "My office will send {outlet} something in writing.",
@@ -195132,7 +194964,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.6",
+      "key": "scene-talk.reply-refuse.on-record-6",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "I'm not answering questions about {bill} today.",
@@ -195160,7 +194992,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.7",
+      "key": "scene-talk.reply-refuse.on-record-7",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "Not on {bill}, not today.",
@@ -195188,7 +195020,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.8",
+      "key": "scene-talk.reply-refuse.on-record-8",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "I've said what I'm going to say about {bill}.",
@@ -195216,7 +195048,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.9",
+      "key": "scene-talk.reply-refuse.on-record-9",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "You won't get a quote on {bill} out of me.",
@@ -195244,7 +195076,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.10",
+      "key": "scene-talk.reply-refuse.on-record-10",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "It's still on the floor's calendar.",
@@ -195272,7 +195104,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.11",
+      "key": "scene-talk.reply-refuse.on-record-11",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "There's a vote coming first.",
@@ -195300,7 +195132,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.12",
+      "key": "scene-talk.reply-refuse.on-record-12",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "It's on the desk now, and that's where the answer is.",
@@ -195328,7 +195160,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-refuse.13",
+      "key": "scene-talk.reply-refuse.on-record-13",
       "move": "reply-refuse",
       "kind": "spoken",
       "text": "There's an override vote coming.",
@@ -195356,7 +195188,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confront.1",
+      "key": "scene-talk.reply-confront.on-record-1",
       "move": "reply-confront",
       "kind": "spoken",
       "text": "You've got {bill} wrong, and you know it.",
@@ -195384,7 +195216,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confront.2",
+      "key": "scene-talk.reply-confront.on-record-2",
       "move": "reply-confront",
       "kind": "spoken",
       "text": "You'd write it the same way whatever I said about {bill}.",
@@ -195412,7 +195244,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confront.3",
+      "key": "scene-talk.reply-confront.on-record-3",
       "move": "reply-confront",
       "kind": "spoken",
       "text": "Why does {outlet} only ask me about {bill}?",
@@ -195440,7 +195272,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confront.4",
+      "key": "scene-talk.reply-confront.on-record-4",
       "move": "reply-confront",
       "kind": "spoken",
       "text": "{outlet} made up its mind about {bill} before you got here.",
@@ -195468,7 +195300,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confront.5",
+      "key": "scene-talk.reply-confront.on-record-5",
       "move": "reply-confront",
       "kind": "spoken",
       "text": "The count was {floor-count}. Read the roll before you write about it.",
@@ -195497,7 +195329,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confront.6",
+      "key": "scene-talk.reply-confront.on-record-6",
       "move": "reply-confront",
       "kind": "spoken",
       "text": "It was {floor-count}. Ask the other side why, not just me.",
@@ -195526,7 +195358,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-leave.1",
+      "key": "scene-talk.reply-leave.on-record-1",
       "move": "reply-leave",
       "kind": "spoken",
       "text": "That's all you get on {bill} today.",
@@ -195554,7 +195386,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-leave.2",
+      "key": "scene-talk.reply-leave.on-record-2",
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I've got a meeting. Call my office about {bill}.",
@@ -195582,7 +195414,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-leave.3",
+      "key": "scene-talk.reply-leave.on-record-3",
       "move": "reply-leave",
       "kind": "spoken",
       "text": "We're done with {bill} for today.",
@@ -195610,7 +195442,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-leave.4",
+      "key": "scene-talk.reply-leave.on-record-4",
       "move": "reply-leave",
       "kind": "spoken",
       "text": "{outlet} has my answer. Excuse me.",
@@ -195638,7 +195470,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-leave.5",
+      "key": "scene-talk.reply-leave.on-record-5",
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I'm late. Walk with me if it's about {bill}.",
@@ -195666,7 +195498,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-leave.6",
+      "key": "scene-talk.reply-leave.on-record-6",
       "move": "reply-leave",
       "kind": "spoken",
       "text": "I've said all I'm saying about {story}. Excuse me.",
@@ -195694,7 +195526,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-boast.1",
+      "key": "scene-talk.reply-boast.on-record-1",
       "move": "reply-boast",
       "kind": "spoken",
       "text": "Check back on {bill} in a year. You'll see I was right.",
@@ -195722,7 +195554,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-boast.2",
+      "key": "scene-talk.reply-boast.on-record-2",
       "move": "reply-boast",
       "kind": "spoken",
       "text": "Write that {bill} works. Then come back and check.",
@@ -195750,7 +195582,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-boast.3",
+      "key": "scene-talk.reply-boast.on-record-3",
       "move": "reply-boast",
       "kind": "spoken",
       "text": "Mark the day you asked me about {bill}. I'll be proven right.",
@@ -195778,7 +195610,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-boast.4",
+      "key": "scene-talk.reply-boast.on-record-4",
       "move": "reply-boast",
       "kind": "spoken",
       "text": "I voted the same way on {about} last time, and I was right then too.",
@@ -195807,7 +195639,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-boast.5",
+      "key": "scene-talk.reply-boast.on-record-5",
       "move": "reply-boast",
       "kind": "spoken",
       "text": "It went down {floor-count}, and I was on the right side of it.",
@@ -195836,7 +195668,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-boast.6",
+      "key": "scene-talk.reply-boast.on-record-6",
       "move": "reply-boast",
       "kind": "spoken",
       "text": "It passed {floor-count}. I counted those votes myself.",
@@ -195865,7 +195697,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-boast.7",
+      "key": "scene-talk.reply-boast.on-record-7",
       "move": "reply-boast",
       "kind": "spoken",
       "text": "{floor-count}, and I was on the right side of it.",
@@ -195894,7 +195726,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.1",
+      "key": "scene-talk.reply-lie.on-record-1",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "I've been for {about} from the start.",
@@ -195923,7 +195755,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.2",
+      "key": "scene-talk.reply-lie.on-record-2",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "I never had a problem with {bill}.",
@@ -195952,7 +195784,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.3",
+      "key": "scene-talk.reply-lie.on-record-3",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "Nobody fought harder for {bill} than I did.",
@@ -195981,7 +195813,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.4",
+      "key": "scene-talk.reply-lie.on-record-4",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "I had doubts about {bill} all along.",
@@ -196010,7 +195842,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.5",
+      "key": "scene-talk.reply-lie.on-record-5",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "I was never really for {about}.",
@@ -196039,7 +195871,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.6",
+      "key": "scene-talk.reply-lie.on-record-6",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "I only voted for {bill} because the rest did.",
@@ -196068,7 +195900,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.7",
+      "key": "scene-talk.reply-lie.on-record-7",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "Nobody in {place} has called me upset about {bill}.",
@@ -196096,7 +195928,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.8",
+      "key": "scene-talk.reply-lie.on-record-8",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "Every member I talked to was fine with {bill}.",
@@ -196124,7 +195956,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-lie.9",
+      "key": "scene-talk.reply-lie.on-record-9",
       "move": "reply-lie",
       "kind": "spoken",
       "text": "Not one person in {place} has complained about {story}.",
@@ -196152,10 +195984,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confess.1",
+      "key": "scene-talk.reply-confess.on-record-1",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "All right. I said more about {bill} than I should have.",
+      "text": "Alright. I said more about {bill} than I should have.",
       "uses": [
         {
           "subject": "scene",
@@ -196180,7 +196012,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confess.2",
+      "key": "scene-talk.reply-confess.on-record-2",
       "move": "reply-confess",
       "kind": "spoken",
       "text": "Fine. Not everyone in {place} is happy with {bill}.",
@@ -196208,7 +196040,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confess.3",
+      "key": "scene-talk.reply-confess.on-record-3",
       "move": "reply-confess",
       "kind": "spoken",
       "text": "Fair. I got ahead of myself on {bill}.",
@@ -196236,7 +196068,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confess.4",
+      "key": "scene-talk.reply-confess.on-record-4",
       "move": "reply-confess",
       "kind": "spoken",
       "text": "Okay. Some of {bill} is still being fought over.",
@@ -196264,10 +196096,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.reply-confess.5",
+      "key": "scene-talk.reply-confess.on-record-5",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "All right. I didn't tell you the whole of it on {story}.",
+      "text": "Alright. I didn't tell you the whole of it on {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -196292,7 +196124,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.1",
+      "key": "scene-talk.follow-accept.on-record-1",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Then I'll write that you declined to talk about {bill}.",
@@ -196321,7 +196153,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.2",
+      "key": "scene-talk.follow-accept.on-record-2",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "{outlet} will say you had no comment on {bill}.",
@@ -196350,7 +196182,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.3",
+      "key": "scene-talk.follow-accept.on-record-3",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll leave room in the story on {bill} in case you call.",
@@ -196379,7 +196211,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.4",
+      "key": "scene-talk.follow-accept.on-record-4",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Then the story on {story} says you wouldn't talk.",
@@ -196408,7 +196240,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.5",
+      "key": "scene-talk.follow-accept.on-record-5",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Then I'll write that you're waiting on what happens to {bill}.",
@@ -196437,7 +196269,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.6",
+      "key": "scene-talk.follow-accept.on-record-6",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll ask about {bill} again, then. It's on my calendar.",
@@ -196466,7 +196298,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.7",
+      "key": "scene-talk.follow-accept.on-record-7",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Fine. I'll print that you're not ready to talk about {story}.",
@@ -196495,7 +196327,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.8",
+      "key": "scene-talk.follow-accept.on-record-8",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Then I'll quote {bill} and let readers judge.",
@@ -196524,7 +196356,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.9",
+      "key": "scene-talk.follow-accept.on-record-9",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "I'll write what {bill} does, and that you pointed me to it.",
@@ -196553,7 +196385,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.10",
+      "key": "scene-talk.follow-accept.on-record-10",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Fine. The story on {story} runs with what's on the record.",
@@ -196582,7 +196414,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.11",
+      "key": "scene-talk.follow-accept.on-record-11",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "A year, then. I'll check {bill} against what you said.",
@@ -196611,7 +196443,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.12",
+      "key": "scene-talk.follow-accept.on-record-12",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Bold. That's going in about {bill} exactly like that.",
@@ -196640,7 +196472,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.13",
+      "key": "scene-talk.follow-accept.on-record-13",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Then I'll print what you said about {bill}, as you said it.",
@@ -196669,7 +196501,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.14",
+      "key": "scene-talk.follow-accept.on-record-14",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Noted. That's going in about {story}, on the record.",
@@ -196698,7 +196530,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.15",
+      "key": "scene-talk.follow-accept.on-record-15",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Thank you. I'll print the corrected version on {bill}.",
@@ -196727,7 +196559,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.16",
+      "key": "scene-talk.follow-accept.on-record-16",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "That's the honest version of {story}, and it's going in.",
@@ -196756,7 +196588,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.17",
+      "key": "scene-talk.follow-accept.on-record-17",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "Okay. That's what goes in about {bill}.",
@@ -196785,7 +196617,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-accept.18",
+      "key": "scene-talk.follow-accept.on-record-18",
       "move": "follow-accept",
       "kind": "spoken",
       "text": "I can work with that on {story}.",
@@ -196814,10 +196646,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.1",
+      "key": "scene-talk.follow-thank.on-record-1",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you.",
+      "text": "Many thanks.",
       "uses": [
         {
           "subject": "scene",
@@ -196842,7 +196674,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.2",
+      "key": "scene-talk.follow-thank.on-record-2",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Thanks.",
@@ -196870,7 +196702,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.3",
+      "key": "scene-talk.follow-thank.on-record-3",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Appreciate it.",
@@ -196898,7 +196730,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.4",
+      "key": "scene-talk.follow-thank.on-record-4",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "I'll put in that you're for {bill}.",
@@ -196928,7 +196760,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.5",
+      "key": "scene-talk.follow-thank.on-record-5",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "That's clear enough on {bill}.",
@@ -196958,7 +196790,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.6",
+      "key": "scene-talk.follow-thank.on-record-6",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Your yes on {bill} goes in as you said it.",
@@ -196988,7 +196820,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.7",
+      "key": "scene-talk.follow-thank.on-record-7",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "I'll put in that you're against {bill}.",
@@ -197018,10 +196850,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.8",
+      "key": "scene-talk.follow-thank.on-record-8",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's clear enough on {bill}.",
+      "text": "I have your no on {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -197048,7 +196880,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.9",
+      "key": "scene-talk.follow-thank.on-record-9",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Your no on {bill} goes in as you said it.",
@@ -197078,7 +196910,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.10",
+      "key": "scene-talk.follow-thank.on-record-10",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "That's what I needed on {story} for {outlet}.",
@@ -197107,7 +196939,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.11",
+      "key": "scene-talk.follow-thank.on-record-11",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "You stopped to talk about {story}. Not everyone does.",
@@ -197136,7 +196968,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.12",
+      "key": "scene-talk.follow-thank.on-record-12",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Then I'll put what you said about {bill} in the story.",
@@ -197165,7 +196997,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-thank.13",
+      "key": "scene-talk.follow-thank.on-record-13",
       "move": "follow-thank",
       "kind": "spoken",
       "text": "Okay. What you said on {story} is on the record.",
@@ -197194,7 +197026,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-press.1",
+      "key": "scene-talk.follow-press.on-record-1",
       "move": "follow-press",
       "kind": "spoken",
       "text": "Everyone in {place} can read how you voted on {bill}. They can't read why.",
@@ -197222,7 +197054,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-press.2",
+      "key": "scene-talk.follow-press.on-record-2",
       "move": "follow-press",
       "kind": "spoken",
       "text": "Not answering about {bill} is an answer too.",
@@ -197250,7 +197082,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-press.3",
+      "key": "scene-talk.follow-press.on-record-3",
       "move": "follow-press",
       "kind": "spoken",
       "text": "People in {place} will ask me about {bill}. What do I tell them?",
@@ -197278,7 +197110,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-press.4",
+      "key": "scene-talk.follow-press.on-record-4",
       "move": "follow-press",
       "kind": "spoken",
       "text": "A statement about {bill} doesn't answer questions. You do.",
@@ -197306,7 +197138,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-press.5",
+      "key": "scene-talk.follow-press.on-record-5",
       "move": "follow-press",
       "kind": "spoken",
       "text": "It was {floor-count}. The people on the losing side want to know why.",
@@ -197335,7 +197167,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-press.6",
+      "key": "scene-talk.follow-press.on-record-6",
       "move": "follow-press",
       "kind": "spoken",
       "text": "The roll on {bill} was {floor-count}. You were part of that.",
@@ -197364,7 +197196,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.1",
+      "key": "scene-talk.follow-ask.on-record-1",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "Even if {bill} costs you votes in {place}?",
@@ -197394,7 +197226,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.2",
+      "key": "scene-talk.follow-ask.on-record-2",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "What do you say to people in {place} who didn't want {bill}?",
@@ -197424,7 +197256,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.3",
+      "key": "scene-talk.follow-ask.on-record-3",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "Who in {place} does {bill} help first?",
@@ -197454,7 +197286,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.4",
+      "key": "scene-talk.follow-ask.on-record-4",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "What would it take to get you to yes on {bill}?",
@@ -197484,7 +197316,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.5",
+      "key": "scene-talk.follow-ask.on-record-5",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "What do you say to people in {place} who wanted {bill}?",
@@ -197514,7 +197346,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.6",
+      "key": "scene-talk.follow-ask.on-record-6",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "Is there a version of {about} you would vote for?",
@@ -197544,7 +197376,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.7",
+      "key": "scene-talk.follow-ask.on-record-7",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "Can I quote you on {story}?",
@@ -197573,7 +197405,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.8",
+      "key": "scene-talk.follow-ask.on-record-8",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "And if {story} doesn't go the way you say?",
@@ -197602,7 +197434,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.9",
+      "key": "scene-talk.follow-ask.on-record-9",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "So you overstated it. What's the true version of {bill}?",
@@ -197631,7 +197463,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-ask.10",
+      "key": "scene-talk.follow-ask.on-record-10",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "What should people in {place} believe about {bill}, then?",
@@ -197660,7 +197492,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-answer.1",
+      "key": "scene-talk.follow-answer.on-record-1",
       "move": "follow-answer",
       "kind": "spoken",
       "text": "I'm not taking sides on {bill}. I'm asking because people will ask me.",
@@ -197689,7 +197521,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-answer.2",
+      "key": "scene-talk.follow-answer.on-record-2",
       "move": "follow-answer",
       "kind": "spoken",
       "text": "Everything I have on {bill} is on the record. I'd rather print your answer than guess.",
@@ -197718,7 +197550,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-answer.3",
+      "key": "scene-talk.follow-answer.on-record-3",
       "move": "follow-answer",
       "kind": "spoken",
       "text": "Nothing about {story} is written yet. You can change it.",
@@ -197747,7 +197579,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-answer.4",
+      "key": "scene-talk.follow-answer.on-record-4",
       "move": "follow-answer",
       "kind": "spoken",
       "text": "I'm asking every member about {bill}, not just you.",
@@ -197776,7 +197608,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-confront.1",
+      "key": "scene-talk.follow-confront.on-record-1",
       "move": "follow-confront",
       "kind": "spoken",
       "text": "The roll on {bill} doesn't say that.",
@@ -197805,7 +197637,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.follow-confront.2",
+      "key": "scene-talk.follow-confront.on-record-2",
       "move": "follow-confront",
       "kind": "spoken",
       "text": "That isn't what the record on {bill} shows.",
@@ -197834,7 +197666,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-thank.1",
+      "key": "scene-talk.close-thank.on-record-1",
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thanks. The story on {bill} runs in {outlet} tomorrow.",
@@ -197862,7 +197694,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-thank.2",
+      "key": "scene-talk.close-thank.on-record-2",
       "move": "close-thank",
       "kind": "spoken",
       "text": "Appreciate it. {outlet} runs it in the morning.",
@@ -197890,7 +197722,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-thank.3",
+      "key": "scene-talk.close-thank.on-record-3",
       "move": "close-thank",
       "kind": "spoken",
       "text": "Thanks. Your answer on {story} goes in tomorrow's story.",
@@ -197918,7 +197750,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-promise.1",
+      "key": "scene-talk.close-promise.on-record-1",
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll read you your quotes on {bill} before it runs.",
@@ -197946,7 +197778,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-promise.2",
+      "key": "scene-talk.close-promise.on-record-2",
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll send you what I write about {bill}.",
@@ -197974,7 +197806,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-promise.3",
+      "key": "scene-talk.close-promise.on-record-3",
       "move": "close-promise",
       "kind": "spoken",
       "text": "I'll check what you said about {story}, and then I'll print it.",
@@ -198002,7 +197834,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-accept.1",
+      "key": "scene-talk.close-accept.on-record-1",
       "move": "close-accept",
       "kind": "spoken",
       "text": "Then the story on {bill} runs without your side.",
@@ -198030,7 +197862,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-accept.2",
+      "key": "scene-talk.close-accept.on-record-2",
       "move": "close-accept",
       "kind": "spoken",
       "text": "Then {outlet} runs it without you.",
@@ -198058,7 +197890,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-warn.1",
+      "key": "scene-talk.close-warn.on-record-1",
       "move": "close-warn",
       "kind": "spoken",
       "text": "The story on {bill} runs either way.",
@@ -198086,7 +197918,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-warn.2",
+      "key": "scene-talk.close-warn.on-record-2",
       "move": "close-warn",
       "kind": "spoken",
       "text": "I'll be at the next meeting asking about {bill}.",
@@ -198114,10 +197946,10 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-warn.3",
+      "key": "scene-talk.close-warn.on-record-3",
       "move": "close-warn",
       "kind": "spoken",
-      "text": "{outlet} runs it tonight, with or without you.",
+      "text": "{outlet} runs it tomorrow, with or without you.",
       "uses": [
         {
           "subject": "scene",
@@ -198142,7 +197974,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-warn.4",
+      "key": "scene-talk.close-warn.on-record-4",
       "move": "close-warn",
       "kind": "spoken",
       "text": "The questions about {story} don't go away because you walked past them.",
@@ -198170,7 +198002,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-warn.5",
+      "key": "scene-talk.close-warn.on-record-5",
       "move": "close-warn",
       "kind": "spoken",
       "text": "I'll write that you walked off when I asked about {bill}.",
@@ -198199,7 +198031,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-warn.6",
+      "key": "scene-talk.close-warn.on-record-6",
       "move": "close-warn",
       "kind": "spoken",
       "text": "Walk away if you want. {bill} walks with you.",
@@ -198228,7 +198060,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-press.1",
+      "key": "scene-talk.close-press.on-record-1",
       "move": "close-press",
       "kind": "spoken",
       "text": "My number's on the card if you want to add anything about {bill}.",
@@ -198256,7 +198088,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-press.2",
+      "key": "scene-talk.close-press.on-record-2",
       "move": "close-press",
       "kind": "spoken",
       "text": "Call {outlet} if you change your mind about {bill}.",
@@ -198284,7 +198116,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.close-press.3",
+      "key": "scene-talk.close-press.on-record-3",
       "move": "close-press",
       "kind": "spoken",
       "text": "You know where to find me when you're ready to talk about {story}.",
@@ -198312,7 +198144,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.open-greet.1",
+      "key": "scene-talk.open-greet.on-record-1",
       "move": "open-greet",
       "kind": "spoken",
       "text": "It's about {bill}.",
@@ -198340,7 +198172,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.open-greet.2",
+      "key": "scene-talk.open-greet.on-record-2",
       "move": "open-greet",
       "kind": "spoken",
       "text": "This is about {story}.",
@@ -198368,7 +198200,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.open-greet.3",
+      "key": "scene-talk.open-greet.on-record-3",
       "move": "open-greet",
       "kind": "spoken",
       "text": "{outlet} is running something on {bill}.",
@@ -198396,7 +198228,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.beat-beat.1",
+      "key": "scene-talk.beat-beat.on-record-1",
       "move": "beat-beat",
       "kind": "written",
       "text": "Another reporter hears {bill} and drifts over.",
@@ -198424,7 +198256,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.beat-beat.2",
+      "key": "scene-talk.beat-beat.on-record-2",
       "move": "beat-beat",
       "kind": "written",
       "text": "Somewhere behind {name}, a camera clicks twice.",
@@ -198452,7 +198284,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.beat-beat.3",
+      "key": "scene-talk.beat-beat.on-record-3",
       "move": "beat-beat",
       "kind": "written",
       "text": "{name} writes fast, then looks up.",
@@ -198480,7 +198312,7 @@
       }
     },
     {
-      "key": "scene-talk.on-record.beat-beat.4",
+      "key": "scene-talk.beat-beat.on-record-4",
       "move": "beat-beat",
       "kind": "written",
       "text": "A staffer hovers at your elbow while {name} writes.",

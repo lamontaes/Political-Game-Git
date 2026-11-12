@@ -5300,6 +5300,30 @@
       }
     },
     {
+      "id": "offered-replies-are-different-choices",
+      "says": "The replies offered on one screen are different moves in different words: no two open with the same sentence, and no line says one sentence twice in a row.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "Maya and Logan... basically saying the same thing.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "the same bullshit I talked about yesterday with the just non-replies.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check (words composer, unit 4: scene steps said as moves joined from pieces): two offered replies that open with the same sentence, and a line whose joined pieces say one sentence twice (\"Thanks. Thanks.\"). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["offered-replies-differ", "no-sentence-twice-in-a-line"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
       "id": "pictures-show-who-the-text-names",
       "says": "Pictures shown with a speech show the people the speech names, when it names them.",
       "judges": "set",

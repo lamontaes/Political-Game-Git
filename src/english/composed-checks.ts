@@ -894,6 +894,66 @@ export const organizationNamedOnce: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- offered-replies-differ, no-sentence-twice-in-a-line ----
+
+const sameWords = (text: string): string =>
+  plainSentence(plainQuotes(text)).toLowerCase();
+
+/**
+ * Two replies offered on one screen that say the same thing: the same words,
+ * or the same first sentence (scene standard: a reply the player is offered
+ * is a real choice, and two offered replies never mean the same thing).
+ */
+export const offeredRepliesDiffer: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const seen = new Map<string, string>();
+    for (const reply of screen.offered) {
+      const first = sameWords(reply.split(/(?<=[.?!])\s+/)[zero] ?? reply);
+      const twin = seen.get(first);
+      if (twin !== undefined)
+        found.push(
+          breakOf(
+            "offered-replies-differ",
+            text,
+            at,
+            "two offered replies open with the same sentence",
+            `${twin} / ${reply}`,
+          ),
+        );
+      else seen.set(first, reply);
+    }
+  });
+  return found;
+};
+
+/**
+ * One speaker's line that says the same sentence twice in a row ("Thanks.
+ * Thanks. ..."), the mark of two joined pieces that each carry it.
+ */
+export const noSentenceTwiceInALine: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      line.sentences.forEach((sentence, k) => {
+        if (
+          k > zero &&
+          sameWords(sentence) === sameWords(line.sentences[k - one]!)
+        )
+          found.push(
+            breakOf(
+              "no-sentence-twice-in-a-line",
+              text,
+              at,
+              "the same sentence twice in a row",
+              line.text,
+            ),
+          );
+      });
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -914,6 +974,8 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "answer-adds-something": answerAddsSomething,
   "vote-month-on-calendar": voteMonthOnCalendar,
   "organization-named-once": organizationNamedOnce,
+  "offered-replies-differ": offeredRepliesDiffer,
+  "no-sentence-twice-in-a-line": noSentenceTwiceInALine,
 };
 
 /** A composed rule's checks, as a list. */

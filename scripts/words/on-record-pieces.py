@@ -17,7 +17,7 @@ The splice, in one pass:
   2. drops those purposes' uses from a counted line other purposes still use;
   3. carries each line the owner graded good into the set as an opener (its
      key and grade kept: never dropped);
-  4. appends the pieces below, keyed `scene-talk.on-record.<step>-<move>.<n>`.
+  4. appends the pieces below, keyed `scene-talk.<step>-<move>.on-record-<n>`.
 
   python3 scripts/words/on-record-pieces.py           # splice
   python3 scripts/words/on-record-pieces.py --dry     # counts only
@@ -77,21 +77,18 @@ add("reply", "answer", A, "core", "calm", [
 # Openers: short, by side, so no one wording leads every answer.
 add("reply", "answer", A, "opener", "calm", [
     "Here's my answer.", "Plainly?", "I'll say it straight.", "Put this down.",
-], ["stand-for"])
+], ["own-vote"])
 add("reply", "answer", A, "opener", "calm", [
-    "Here's my answer.", "Plainly?", "I'll say it straight.", "Put this down.",
-], ["stand-against"])
-add("reply", "answer", A, "opener", "calm", [
-    "Yes.", "Even so.", "I've thought about that.",
+    "It's still yes.", "Even so.", "I've thought about that.",
 ], ["stand-for"], after="ask")
 add("reply", "answer", A, "opener", "calm", [
-    "No.", "Not as it's written.", "I've heard that one.",
+    "Still no.", "Not as it's written.", "I've heard that one.",
 ], ["stand-against"], after="ask")
 add("reply", "answer", A, "opener", "calm", [
-    "Fine.", "All right.", "Then here it is.",
+    "Fine.", "Alright, here it is.", "Then here it is, plainly.",
 ], after="answer")
 add("reply", "refuse", A, "opener", "guarded", [
-    "Look.", "Not now.", "No.",
+    "Look.", "Not right now.", "Not out here.",
 ])
 # The reason, from the member's own position on the bill.
 add("reply", "answer", A, "reason", "calm", [
@@ -125,11 +122,7 @@ add("reply", "answer", A, "reason", "calm", [
 add("reply", "answer", A, "reason", "calm", [
     "I voted the same way the last time {about} came up.",
     "It's how I've voted on {about} before.",
-], ["stand-for", "reason-record"])
-add("reply", "answer", A, "reason", "calm", [
-    "I voted the same way the last time {about} came up.",
-    "It's how I've voted on {about} before.",
-], ["stand-against", "reason-record"])
+], ["own-vote", "reason-record"])
 
 # ---- defer: what comes next (reply: stall) ----
 add("reply", "stall", A, "core", "guarded", [
@@ -256,11 +249,11 @@ add("reply", "lie", A, "core", "calm", [
 
 # ---- confess, once caught ----
 add("reply", "confess", A, "core", "contrite", [
-    "All right. I said more about {bill} than I should have.",
+    "Alright. I said more about {bill} than I should have.",
     "Fine. Not everyone in {place} is happy with {bill}.",
     "Fair. I got ahead of myself on {bill}.",
     "Okay. Some of {bill} is still being fought over.",
-    "All right. I didn't tell you the whole of it on {story}.",
+    "Alright. I didn't tell you the whole of it on {story}.",
 ])
 
 # ---- the reporter: accept what was given ----
@@ -299,7 +292,7 @@ add("follow", "accept", R, "core", "calm", [
 
 # ---- the reporter thanks for the answer, naming it ----
 add("follow", "thank", R, "opener", "calm", [
-    "Thank you.",
+    "Many thanks.",
     "Thanks.",
     "Appreciate it.",
 ], after="answer")
@@ -310,7 +303,7 @@ add("follow", "thank", R, "core", "calm", [
 ], ["stand-for"], after="answer")
 add("follow", "thank", R, "core", "calm", [
     "I'll put in that you're against {bill}.",
-    "That's clear enough on {bill}.",
+    "I have your no on {bill}.",
     "Your no on {bill} goes in as you said it.",
 ], ["stand-against"], after="answer")
 add("follow", "thank", R, "core", "calm", [
@@ -386,7 +379,7 @@ add("close", "accept", R, "core", "calm", [
 add("close", "warn", R, "core", "guarded", [
     "The story on {bill} runs either way.",
     "I'll be at the next meeting asking about {bill}.",
-    "{outlet} runs it tonight, with or without you.",
+    "{outlet} runs it tomorrow, with or without you.",
     "The questions about {story} don't go away because you walked past them.",
 ])
 add("close", "warn", R, "core", "guarded", [
@@ -458,7 +451,7 @@ def main():
     kept, deleted, trimmed, carried = [], 0, 0, 0
     for x in bank["parts"]:
         # A second run replaces the set's own pieces rather than adding twins.
-        if x["key"].startswith(f"scene-talk.{SET}."):
+        if x["key"].startswith(f"scene-talk.{SET}.") or f".{SET}-" in x["key"]:
             continue
         # A carried liked opener: its conditions as this script last set them.
         if x["text"] in LIKED_AS and x.get("piece", {}).get("of", "").startswith(f"{SET}."):
@@ -518,7 +511,7 @@ def main():
             assert INSERT.search(text), text
         kept.append(
             {
-                "key": f"scene-talk.{SET}.{step}-{move}.{n}",
+                "key": f"scene-talk.{step}-{move}.{SET}-{n}",
                 "move": f"{step}-{move}",
                 "kind": "spoken" if role != "narrator" else "written",
                 "text": text,

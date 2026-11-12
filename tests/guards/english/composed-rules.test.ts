@@ -220,6 +220,42 @@ const FIXTURES: Record<
       electionDates: ["2025-11-04"],
     },
   },
+  "offered-replies-differ": {
+    catches: sampleOf({
+      ...text("scene", [[["rep", "Where are you on the ordinance?"]]]),
+      screens: [
+        {
+          lines: [composedLine("Where are you on the ordinance?", "rep")],
+          offered: [
+            "I voted for it. The town asked me to.",
+            "I voted for it. I'd do it again.",
+          ],
+        },
+      ],
+    }),
+    spares: sampleOf({
+      ...text("scene", [[["rep", "Where are you on the ordinance?"]]]),
+      screens: [
+        {
+          lines: [composedLine("Where are you on the ordinance?", "rep")],
+          offered: [
+            "I voted for it. The town asked me to.",
+            "Ask me once it's signed.",
+          ],
+        },
+      ],
+    }),
+  },
+  "no-sentence-twice-in-a-line": {
+    catches: sampleOf(
+      text("scene", [
+        [["rep", "Thanks. Thanks. Your yes goes in as you said it."]],
+      ]),
+    ),
+    spares: sampleOf(
+      text("scene", [[["rep", "Thanks. Your yes goes in as you said it."]]]),
+    ),
+  },
   "organization-named-once": {
     catches: sampleOf(
       talk("dad", [
