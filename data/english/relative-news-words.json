@@ -1,5 +1,5 @@
 {
-  "about": "How people at home say what happened to a relative, in talk, from the health engine's records (Words builder W1, Nov 12, 2026). A cause of death is said only where people say it plainly to family; the rest are told by the age at death alone. An illness is said by its common name. Read by src/director/conversation.ts (relativeNews). Words only; no sentence.",
+  "about": "How people at home say what happened to a relative, in talk, from the health engine's records (Words builder W1, Nov 12, 2026). A cause of death is said only where people say it plainly to family; the rest are told by the age at death alone. An illness is said by its common name. Read by src/director/conversation.ts (relativeNews). Words only; no sentence. A stroke is told without its name, since \"It's a stroke\" is not how people say it.",
   "deathCauses": {
     "motor-vehicle": "a car crash",
     "drug-overdose": "an overdose"
@@ -8,7 +8,6 @@
     "heart-disease": "heart disease",
     "cancer": "cancer",
     "copd": "COPD",
-    "stroke": "a stroke",
     "diabetes": "diabetes"
   },
   "offenses": {
