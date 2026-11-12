@@ -33645,10 +33645,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-i-d-vote-for-it",
+      "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-for-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "There was a story on {about} {ran}. I'd vote for it.",
+      "text": "{about} made the news {ran}. I'm for it.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -33711,10 +33711,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-i-d-vote-against-it",
+      "key": "conversation.news-ask-core.about-made-the-news-ran-i-m-against-it",
       "move": "news-ask-core",
       "kind": "spoken",
-      "text": "There was a story on {about} {ran}. I'd vote against it.",
+      "text": "{about} made the news {ran}. I'm against it.",
       "piece": {
         "of": "news-ask",
         "part": "core",
@@ -33777,10 +33777,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-back-core.not-in-what-i-read-to-me-about-is-the-right-call",
+      "key": "conversation.news-back-core.not-that-i-read-about-is-the-right-call",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "Not in what I read. To me {about} is the right call.",
+      "text": "Not that I read. {about} is the right call.",
       "piece": {
         "of": "news-back",
         "part": "core",
@@ -33821,10 +33821,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.news-back-core.not-in-what-i-read-to-me-about-costs-more-than-it-s-worth",
+      "key": "conversation.news-back-core.not-that-i-read-about-costs-more-than-it-s-worth",
       "move": "news-back-core",
       "kind": "spoken",
-      "text": "Not in what I read. To me {about} costs more than it's worth.",
+      "text": "Not that I read. {about} costs more than it's worth.",
       "piece": {
         "of": "news-back",
         "part": "core",
