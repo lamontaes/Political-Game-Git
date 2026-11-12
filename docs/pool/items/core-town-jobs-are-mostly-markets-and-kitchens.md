@@ -1,6 +1,6 @@
 ---
 id: core-town-jobs-are-mostly-markets-and-kitchens
-title: "A new life's town offers almost only market and kitchen jobs, and people placed nowhere show as \"works outside the town\""
+title: 'A new life''s town offers almost only market and kitchen jobs, and people placed nowhere show as "works outside the town"'
 area: core
 kind: bug
 priority: 1
@@ -9,7 +9,7 @@ status: open
 standard: 2
 claimed-by:
 pr:
-after: 
+after:
 blocked-on:
 lead: jobs
 model: opus
