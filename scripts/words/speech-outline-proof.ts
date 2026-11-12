@@ -22,7 +22,6 @@ import {
 } from "../../src/director/local-speeches";
 import { coreAPI } from "../../src/core2/state";
 import { townSeats } from "../../src/core2/modules/offices";
-import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { advanceCore } from "../../src/core2/life";
 import { addDays } from "../../src/core2/kernel/dates";
 import type { PersonId } from "../../src/core2/types";

@@ -50,6 +50,7 @@ import type {
   GroundedEnglishPacket,
 } from "../english/grounded-english";
 import { composeAddress } from "../english/english-composition";
+import { SUBJECT_WORDS } from "../english/composed-checks";
 import {
   openingMove,
   type OpeningLevel,
@@ -68,7 +69,6 @@ import {
   questionTo,
   questionLaw,
   questionReasons,
-  questionToday,
   questionTodayWordings,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
@@ -909,6 +909,25 @@ function shapeOrder(person: PersonState): string[] {
 const KEEPS_CAPITAL =
   /^(?:I|Medicare|Medicaid|Washington|Congress|Social Security|American)\b/;
 
+/**
+ * The wordings of how a question stands that make a different point from the
+ * belief said beside them (the words lead, Nov 12: "judged by people who
+ * have done the job" followed at once by "to people who know the work"): the
+ * ones that share the fewest subject words with the belief, by the composed
+ * check's own reader, in their order. Every wording when there is no belief.
+ */
+function apartFrom(
+  wordings: readonly string[],
+  belief: string | null,
+): string[] {
+  if (!belief) return [...wordings];
+  const own = new Set(SUBJECT_WORDS.of(belief));
+  const shared = (text: string) =>
+    new Set(SUBJECT_WORDS.of(text).filter((word) => own.has(word))).size;
+  const least = Math.min(...wordings.map(shared));
+  return wordings.filter((text) => shared(text) === least);
+}
+
 /** A whole sentence as the clause it becomes after an opener and a comma ("Right now, the federal minimum wage ..."). */
 function clauseOf(sentence: string): string {
   return KEEPS_CAPITAL.test(sentence)
@@ -1633,12 +1652,30 @@ export function planSpeech(
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
+    const belief = family
+      ? beliefWords(
+          core,
+          person.id,
+          kind,
+          voice,
+          family.family,
+          side === "for" ? family.forPole : family.forPole === "a" ? "b" : "a",
+          stand.question,
+          side,
+          beliefsSaid,
+          beliefsHere,
+        )
+      : null;
+    const todays = apartFrom(
+      questionTodayWordings(stand.question, stand.law.inForce, side),
+      belief?.text ?? null,
+    );
     return {
       question: stand.question,
       shape: order[at % order.length]!,
       side,
-      today: questionToday(stand.question, stand.law.inForce, side),
-      todays: questionTodayWordings(stand.question, stand.law.inForce, side),
+      today: todays[P.zero] ?? null,
+      todays,
       family: family?.family ?? null,
       pole: family
         ? side === "for"
@@ -1649,24 +1686,7 @@ export function planSpeech(
         : null,
       figure: topicOf.get(stand.question) ?? null,
       number: questionNumber(stand.question),
-      belief: family
-        ? beliefWords(
-            core,
-            person.id,
-            kind,
-            voice,
-            family.family,
-            side === "for"
-              ? family.forPole
-              : family.forPole === "a"
-                ? "b"
-                : "a",
-            stand.question,
-            side,
-            beliefsSaid,
-            beliefsHere,
-          )
-        : null,
+      belief,
     };
   });
   type Draft = Omit<Block, "part"> & { readonly joins?: boolean };

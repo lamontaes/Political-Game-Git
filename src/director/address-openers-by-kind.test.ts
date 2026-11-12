@@ -259,6 +259,13 @@ const WORLD_TEXT: Record<string, string> = {
   "home-state": "a home state",
   hardest: "finding work",
   best: "take-home pay",
+  // A governor's or a local head's place, theme, body and office (speech
+  // outline, Nov 12: the opening names the place and the theme; a local
+  // address speaks to the body the records seat).
+  "realm-name": "Riverton",
+  "theme-name": "our schools",
+  body: "the council",
+  "office-title": "mayor",
 };
 const WORLD = Object.fromEntries(
   Object.entries(WORLD_TEXT).map(([key, text]) => [
@@ -340,6 +347,10 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
               const part = OPENING_SPEECH_BANK.parts.find(
                 (row) => row.key === variant.pieceKey,
               )!;
+              // A piece that names the place and the theme from the records
+              // serves every kind that has no wording of its own left (speech
+              // outline, Nov 12).
+              if (!part.addressKind) continue;
               expect(part.addressKind, variant.key).toBe(kind);
               const other = seen.get(part.text);
               // A greeting is its list of people (speech outline, Nov 12), and
