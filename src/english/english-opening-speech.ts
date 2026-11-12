@@ -88,6 +88,8 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   creed: "tell",
   unity: "promise",
   "story-open": "tell",
+  // A point's context from the world's records over a span (speech-outline.ts).
+  context: "tell",
   "story-says": "tell",
   "story-turn": "tell",
   pledge: "promise",
