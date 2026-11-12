@@ -5,9 +5,9 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/pool-gov-seated-governor-appointment-job-ends
+pr: #8668
 blocked-on:
 standard: 2
 model: sonnet
@@ -17,7 +17,7 @@ source: governing lead, Oct 30 (found in phase A runs)
 lead: governing
 after:
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T05:46:29.249Z
 branch: claude/pool-gov-seated-governor-appointment-job-ends
 ---
 

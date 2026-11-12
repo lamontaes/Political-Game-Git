@@ -34,7 +34,8 @@
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on."
+    "missingPlace": "Choose where you are from to go on.",
+    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
   },
   "debate": {
     "title": "Debate invitation",
@@ -45,6 +46,17 @@
   },
   "raceStanding": {
     "title": "Where the race stands"
+  },
+  "campaignAsks": {
+    "title": "Asking you for money",
+    "race": "Running for",
+    "asked": "Asked",
+    "suggested": "You would give",
+    "cash": "You have",
+    "amount": "Amount in dollars",
+    "give": "Give",
+    "decline": "Decline",
+    "notGiven": "You can't give that sum."
   },
   "speech": {
     "begin": "Give a speech",
@@ -73,7 +85,7 @@
   "campaignUnavailable": {
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
-    "eventMoney": "Hall {price} \u00b7 campaign {cash}",
+    "eventMoney": "The hall costs {price}. The campaign has {cash}.",
     "forumHeld": "You hosted a forum today",
     "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
@@ -165,6 +177,7 @@
     "whoIs": "Who {lower} is",
     "whoAre": "Who they are",
     "howISee": "How I see {object}",
+    "howISeeThem": "How I see them",
     "betweenUs": "Between us",
     "lifeStory": "{possessive} story",
     "lifeStoryThey": "Their story",
@@ -302,7 +315,10 @@
     "evidence": "Evidence",
     "missing": "Missing module",
     "piece": "Piece",
-    "running": "Running modules"
+    "running": "Running modules",
+    "year": "Year",
+    "stateChanges": "Laws other states changed",
+    "statesChanging": "States that changed one"
   },
   "devRecords": {
     "title": "Records",
@@ -328,6 +344,13 @@
     "where": "Where",
     "any": "Any",
     "begun": "Begun for",
+    "came": "{record} came after {days} days",
+    "neverCame": "{record} never came in {days} days",
+    "states": {
+      "plays": "Plays now",
+      "waits": "Waits for a record",
+      "none": "Cannot be caused yet"
+    },
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
@@ -483,9 +506,12 @@
     "sign": "Signed",
     "veto": "Vetoed",
     "speakFor": "Speak for",
-    "speakAgainst": "Speak against"
+    "speakAgainst": "Speak against",
+    "spokeFor": "Spoke for",
+    "spokeAgainst": "Spoke against"
   },
   "filing": {
+    "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
     "status": {
       "petitioning": "Collecting signatures",
       "on-ballot": "You are on the ballot",
@@ -547,7 +573,19 @@
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
-    "officeHours": "Office hours"
+    "officeHours": "Office hours",
+    "aides": "Your staff",
+    "hire": "Hire",
+    "aideRole": "Aide",
+    "reasons": {
+      "work": "Work",
+      "reach": "Lives near",
+      "workingAge": "Age for the work",
+      "known": "Knows you",
+      "family": "Family"
+    },
+    "fromKnown": "Someone you know",
+    "fromApplicant": "Applied"
   },
   "officeStops": {
     "aYear": "a year",
@@ -577,13 +615,13 @@
   },
   "bill": {
     "open": "Read the bill",
-    "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
     "where": "Where it is",
     "bill": "The bill",
     "vote": "The vote",
     "estimate": "What it would do",
+    "noFigure": "No dollar figure on record for this section.",
     "amends": "Amends",
     "from": "from",
     "to": "to",
@@ -620,8 +658,11 @@
     "federal": "Federal"
   },
   "travel": {
+    "memberHere": "Your party's office",
     "filing": "Filing office",
     "go": "Go to",
+    "home": "Home",
+    "goHome": "Go home",
     "open": "Open now",
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
@@ -699,6 +740,7 @@
     "mild": "Moderate",
     "views": "Politics",
     "viewUnknown": "You don't know where they stand yet.",
+    "viewAbout": "Cares most about {about}.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -715,7 +757,8 @@
     "title": "News",
     "nation": "Nation",
     "briefs": "Briefs",
-    "noStoryText": "The paper ran this story as a headline only; the full account has not come in."
+    "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
+    "nothingYet": "Nothing in print yet."
   },
   "jobs": {
     "work": "Work",
@@ -811,6 +854,8 @@
     "inForce": "In force",
     "coming": "Coming",
     "changed": "What changed",
+    "repeal": "Repeal",
+    "repealElsewhere": "Only {body} can repeal this law",
     "revenue": "Revenue",
     "spending": "Spending",
     "balance": "Balance",
@@ -834,22 +879,7 @@
       "legislative": "Legislative",
       "executive": "Executive"
     },
-    "meets": "Meets {schedule}",
-    "meetsWeekly": "every {weekday}",
-    "meetsTwice": "the {first} and {second} {weekday} of the month",
-    "meetsMonthly": "the {first} {weekday} of the month",
-    "weekdays": [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday"
-    ],
-    "ordinals": ["1st", "2nd", "3rd", "4th", "5th"],
     "nextMeeting": "next meeting {date}",
-    "nextElection": "next election {date}",
     "seatsTotal": "{n} seats",
     "recentVotes": "Recent votes",
     "noVotes": "No roll calls on record yet",
@@ -872,7 +902,6 @@
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
     "officers": "Officers",
-    "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
     "partySince": "{party} \u00b7 since {date}",
@@ -895,7 +924,17 @@
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
     "subjects": "Subjects",
-    "backToGovernment": "Back to the government"
+    "lawDid": {
+      "title": "What this did",
+      "from": "from {date}",
+      "until": "until {date}",
+      "repealed": "Repealed",
+      "noOneYet": "It has reached no one yet.",
+      "fullHere": "{n} people here",
+      "fullElsewhere": "{n} people elsewhere",
+      "counted": "{n} more in households here",
+      "stopped": "stopped {date}"
+    }
   },
   "results": {
     "you": "You",
@@ -970,6 +1009,17 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
+    "yourRecord": "Your record in office",
+    "recordVotes": "Votes you cast",
+    "recordBills": "Bills you sponsored",
+    "recordPromises": "Promises you made",
+    "promiseKept": "Kept",
+    "promiseBroken": "Broken",
+    "promiseOpen": "Still open",
+    "votedFor": "You voted for it",
+    "votedAgainst": "You voted against it",
+    "voteAgainstResult": "it failed",
+    "votePassedResult": "it passed",
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",
@@ -986,6 +1036,10 @@
     "bad": "Bad",
     "note": "One word",
     "saved": "Graded"
+  },
+  "here": {
+    "label": "Here",
+    "more": "and {count} more"
   },
   "talkBox": {
     "continue": "Continue",
@@ -1086,6 +1140,7 @@
     "since": "since last year"
   },
   "titles": {
+    "watch": "Watch",
     "people": "People",
     "who": "You",
     "money": "Money and property",
@@ -1195,10 +1250,6 @@
     "callOverride": "Take up the veto message"
   },
   "billFollow": {
-    "open": "Read the bill",
-    "back": "Back to the bills",
-    "reaches": "Reaches your town",
-    "yourMembers": "Your members",
     "empty": "No bill is before your town, county, state or Congress yet."
   },
   "frontTitles": {
@@ -1215,9 +1266,14 @@
     "spent": "Spent",
     "volunteers": "Volunteers",
     "doors": "Doors knocked",
+    "signatures": "Signatures",
+    "signaturesHeld": "{signed} of {needed}, due {date}",
+    "clerkCount": "The clerk's count",
+    "clerkCounted": "{valid} counted, {struck} struck",
     "endorsements": "Endorsements",
     "go": "Go",
     "howLong": "How long",
+    "notToday": "Not today",
     "groupOut": "Out and about",
     "groupAsk": "Ask",
     "groupMoney": "Money",
@@ -1272,7 +1328,8 @@
     "to": "to",
     "notVoting": "Didn't vote",
     "noParty": "No party",
-    "yours": "Your member"
+    "yours": "Your member",
+    "yourMembers": "Your members"
   },
   "devBill": {
     "title": "Dev mode",

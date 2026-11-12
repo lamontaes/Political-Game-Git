@@ -11,6 +11,7 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { spokenDesignation } from "../english/bill-names";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A committee that holds a bill without a hearing is a scene for the people its
 // record names. The legislature records the hold (bill-held-in-committee, with
@@ -84,11 +85,11 @@ it(`a held bill is a hearing ask for the chair and a push for a member, from its
           result.scene.talk.lines.some((line) => line.text.includes(said)),
           `${where}: ${personId}`,
         ).toBe(true);
-        // Four replies, four stances.
-        const stances = new Set(
-          result.scene.talk.tree.replies.map((reply) => reply.line.move),
+        // Up to four replies, all different stances (owner, Nov 10).
+        expectUpToFourDifferent(
+          result.scene.talk.tree.replies.map((reply) => reply.line),
+          `${where}: ${personId}`,
         );
-        expect(stances.size, `${where}: ${personId}`).toBe(4);
         // The member is told whom to press, by name.
         if (typeKey === "bill-held-member")
           expect(fact("chair")?.recordIds).toContain(chair);

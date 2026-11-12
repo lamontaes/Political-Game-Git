@@ -5,11 +5,11 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
 pr: #8261
 after:
-blocked-on:
+blocked-on: parties-list-shows-ballot-lines-as-parties
 standard: 2
 model: sonnet
 effort: low
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:25:19.732Z
+claimed-at: 2026-11-11T07:49:52.989Z
 branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 ---
 
@@ -65,3 +65,23 @@ Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Same replay note as before. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 03:25 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-05-politics-lists-wrong-officials since 2026-11-10 23:00 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:26 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Replayed headlessly in three drawn places (no screens): senators and legislators now right except Tocsin, Indiana, which lists no U.S. representative or state legislator among its seats, and no drawn place had a mayor; evidence on #8261. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:28 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Replayed headlessly in drawn places; evidence is on the item's PR; not a played check with screens. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 07:31 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): Seen on screen in one drawn place (two senators, one representative, state House with its split); mayor and every-party steps not confirmed; evidence on #8261. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:36 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
+
+Released (2026-11-11): A split parent (parts -a and -b carry the work; the CTO sets it done) handed out while the game PR cap is on; nothing to build here. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:49 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.

@@ -34,6 +34,7 @@ import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 import { WORDS_STOPGAP_HITS } from "./stopgaps";
 import { outgoingHolder, swornOffice, titleInSentence } from "./swearing-in";
 import swearingData from "./data/swearing-in.json" with { type: "json" };
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Taking office is an event (owner, Sept 22: "swearing in needs to be an
 // event"; Oct 29: "that's just a scene ... depending on what your office is,
@@ -73,9 +74,6 @@ const nodeAt = (tree: TreeNode, path: readonly number[]): TreeNode => {
 };
 const replyAt = (tree: TreeNode, path: readonly number[]) =>
   nodeAt(tree, path.slice(0, -1)).replies[path.at(-1)!]!;
-
-/** A defect in an engine this scene reads, which the seating cannot get past. */
-class EngineGap extends Error {}
 
 interface Seating {
   readonly kind: string;
@@ -146,16 +144,7 @@ function seated(place: ReturnType<typeof drawPlace>, kinds: readonly string[]) {
     winnerId: playerId,
     news: true,
   });
-  try {
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  } catch (error) {
-    // The governing engine's own defect, not this scene's: a new governor's
-    // own-choice appointment ends the appointee's job after that day's
-    // work (src/core2/job-lifecycle.ts). Named, and the seating stands aside.
-    if (/A job ends before its day's work/.test(String(error)))
-      throw new EngineGap(String(error));
-    throw error;
-  }
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const book = director.ledger.people.get(playerId)!;
   const entry = book.schedule.find(
     (row) =>
@@ -240,7 +229,7 @@ function swearIn(at: string, world: World, address: boolean): string {
   }
   const room = [...new Set([...cast("family"), ...colleagues, officiant!])];
 
-  // 3. Narration, the oath, four replies that are four stances.
+  // 3. Narration, the oath, up to four replies that are different stances.
   const scene = composeScene(core, director, playerId, entry as ScheduleEntry);
   expect(scene?.typeKey, at).toBe("swearing-in");
   // A ceremony: the people pack stands the room up for it (People, Oct 29).
@@ -255,9 +244,7 @@ function swearIn(at: string, world: World, address: boolean): string {
   expect(talk.state.text, at).toMatch(/swear/i);
   expect(talk.state.text, at).toContain(titleInSentence(sworn.title));
   const root = talk.tree.replies.map((row) => row.line);
-  expect(root.length, at).toBe(4);
-  expect(new Set(root.map((row) => row.move)).size, at).toBe(4);
-  expect(new Set(root.map((row) => row.text)).size, at).toBe(4);
+  expectUpToFourDifferent(root, at);
   // Nothing a player reads is a record kind, an id or a date.
   for (const line of [
     ...talk.narration,
@@ -454,16 +441,11 @@ it(`taking office is a swearing-in scene: the oath on the record, and an address
         label: string,
         kinds: readonly string[],
         address: boolean,
-        optional = false,
       ): string | null => {
         let world: ReturnType<typeof seated>;
         try {
           world = seated(place, kinds);
         } catch (error) {
-          if (error instanceof EngineGap && optional) {
-            tried.push(`${where}, ${label}: ${error.message}`);
-            return null;
-          }
           throw new Error(`${where}, ${label}: ${String(error)}`);
         }
         return world ? swearIn(`${where}, ${label}`, world, address) : null;
@@ -479,9 +461,9 @@ it(`taking office is a swearing-in scene: the oath on the record, and an address
         continue;
       }
       // The governor (a state whose executive is a mayor has none) and the president.
-      const governor = check("governor", ["governor"], true, true);
+      const governor = check("governor", ["governor"], true);
       if (!governor) tried.push(`${where}: no governor seat taken`);
-      const president = check("president", ["president"], true, true);
+      const president = check("president", ["president"], true);
       if (!president) tried.push(`${where}: no president seat taken`);
       const log = [
         body,

@@ -5,10 +5,10 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-web-fare-free-riders-reach-nothing
+pr: #8716
 after:
 blocked-on:
 lead: effects
@@ -17,7 +17,7 @@ effort: low
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:34:47.182Z
 branch: claude/pool-web-fare-free-riders-reach-nothing
 ---
 

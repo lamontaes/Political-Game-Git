@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
+pr: #8670
 after:
 blocked-on:
 lead: lives
@@ -17,6 +17,8 @@ effort: high
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T06:03:12.138Z
+branch: claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people
 ---
 
 **What.** The owner, Nov 8: "None of my history is simulated. I can't see anything that my character went through. No, a girlfriend or a car accident or college or whatever." The past now tells school, work and moves. Nothing in it happened between people or to a body. Seen: a person's card, which now tells an earlier partner and a serious illness or injury (owner, Nov 8).
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing. The life record's steps it waited on are on main (pull requests #8115 and #8139, which holds #8123). The build does not wait for lines: its pull request names each spot that needs them, and Story writes them after.
 
 **Files.** src/core2/person-life.ts (new), src/core2/past-work.ts, src/core2/modules/partnerships.ts, src/core2/modules/health.ts
+
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 06:03 UTC) on branch claude/pool-core-life-record-part-6-the-past-holds-what-happened-between-people.

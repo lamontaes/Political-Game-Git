@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/fable-b2-issues-filters
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -18,7 +18,7 @@ root: rc7-player-cannot-drive
 milestone: play-first
 source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T02:00:55.780Z
+claimed-at:
 branch: claude/fable-b2-issues-filters
 ---
 
@@ -45,3 +45,5 @@ branch: claude/fable-b2-issues-filters
 **Notes.** Released by next (2026-11-11): no push to claude/fable-b2-issues-filters since 2026-11-10 18:00 UTC, more than twice its 4-hour time box. Continue on branch claude/fable-b2-issues-filters.
 
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 02:00 UTC) on branch claude/fable-b2-issues-filters.
+
+Released by next (2026-11-11): no push to claude/fable-b2-issues-filters since 2026-11-10 18:00 UTC, more than twice its 4-hour time box. Continue on branch claude/fable-b2-issues-filters.

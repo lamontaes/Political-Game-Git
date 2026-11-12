@@ -30,6 +30,8 @@ The message mechanics (the one tool that reaches another session, who gets which
 - **The CTO relays nothing by hand.** The pool item with `lead:` is what carries a need to its role. At each pass the CTO reads `PROGRESS.md`, then the channel, then rewrites `MERGE-FIRST.md`, and answers every `Needs from others:` line in its own section, addressed to the role that asked. A question a standing rule answers is ruled by the CTO and recorded in `docs/coordination/OWNER-DECISIONS.md`; only the owner's own calls go to him.
 - **Rulings live in one place:** `docs/coordination/OWNER-DECISIONS.md` for the owner's and the CTO's rulings; `docs/play-first/LAW.md` for the game-as-played law the lane follows. The channel points at them; it never holds a ruling alone.
 
+- **Pool-only changes are commits on the hour's branch, `pool/notes-<date>-<hour>`, never a pull request each (owner, Nov 11).** The line on the crew's issue is how a finding is read; the bundle is how it reaches main. Skill `pool-notes`.
+
 ## What a block says
 
 ```

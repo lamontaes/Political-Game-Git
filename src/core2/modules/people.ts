@@ -16,7 +16,6 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { stopgap } from "../stopgaps";
 import { REMEMBERED_RECORD_KINDS, rememberEvent } from "../person-life";
 import {
   addDays,
@@ -60,7 +59,7 @@ import type {
   Relationship,
 } from "../types";
 import { offer } from "./life";
-import { departureRateFor } from "./moves";
+import { departureRateFor, livesElsewhere } from "./moves";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
 import { registerWorldMapPart } from "../snapshot";
@@ -172,7 +171,12 @@ export {
 } from "../closeness";
 // The vote record's id and rows, the key people of the opening and the school
 // measure's id and rows, for readers outside the family.
-export { RECORD_MODULE_ID, votesOf, type VoteRecordRow } from "./record";
+export {
+  RECORD_MODULE_ID,
+  promisesOf,
+  votesOf,
+  type VoteRecordRow,
+} from "./record";
 export { keyPeopleOf } from "../opening-key-people";
 // The town's moves, for the screens that count them: counted households'
 // move records and a named resident's moved-away event.
@@ -188,7 +192,7 @@ export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
-export { ENCOUNTERS } from "../encounters";
+export { ENCOUNTERS, meetInTalk } from "../encounters";
 // Disputes between two people from layoffs and evictions, for the world that opens them.
 export { openGrievance } from "./grievance";
 // A household's month of income (its open jobs and income awards), for
@@ -568,8 +572,9 @@ export function partneredForFilledIn(
 /**
  * A person's whole past, once (the owner's ruling, Nov 9, 2026: each person's
  * past covers their whole life, coarse, written only when they are opened or
- * met): where they lived, their schools and their working life from their
- * birth to the day before the world's opening, by the passes the run uses
+ * met, a relative living elsewhere included): where they lived, their
+ * schools and their working life from their birth to the day before the
+ * world's opening, by the passes the run uses
  * with the person's own window. Moves first, since school and work are placed
  * by where they lived. Opening them again does nothing; the rows are the same
  * whenever and however a person is opened (the world's seed and the person's
@@ -578,27 +583,29 @@ export function partneredForFilledIn(
 export function openWholePast(core: CoreState, personId: PersonId): void {
   const person = core.people.get(personId);
   if (!person || !preStartWindowOf(core)) return;
-  // A relative living elsewhere (husk tier) gets the day they left the
-  // household's town and their school years there; the working-life run
-  // covers only people living where the world keeps businesses, so their
-  // work since waits for that place's records.
-  if (person.tier === "husk") {
-    // stopgapId: SG-P15-kin-light-past
-    stopgap("SG-P15-kin-light-past", core);
-  }
+  // A relative living elsewhere is opened the same way, one card at a time;
+  // the inactive tier's other people (the counts, the central bank) are not.
+  if (person.tier === "husk" && !livesElsewhere(core, person)) return;
   pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
 }
 
-/** The people the player starts out knowing: their household and everyone they know, opened at the opening. */
+/**
+ * The people the player starts out knowing: their household and everyone they
+ * know, opened at the opening. A relative living elsewhere is not: their past
+ * is written when their card is first opened, so the opening costs no more.
+ */
 export function openStartingCircle(core: CoreState): void {
   const player = core.playerId ? core.people.get(core.playerId) : undefined;
   if (!player) return;
   const circle = new Set<PersonId>([player.id, ...player.knownIds]);
   for (const id of core.households.get(player.householdId)?.memberIds ?? [])
     circle.add(id as PersonId);
-  for (const id of [...circle].sort()) openWholePast(core, id);
+  for (const id of [...circle].sort()) {
+    const person = core.people.get(id);
+    if (person?.tier !== "husk") openWholePast(core, id);
+  }
 }
 
 export const PEOPLE_MODULE: PreStartModule = {

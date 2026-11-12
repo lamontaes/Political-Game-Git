@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: merged
 claimed-by: claude/pool-finance-close-employer-no-current-receipt
-pr:
+pr: #8661
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -18,6 +18,7 @@ effort: medium
 root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:29:40.941Z
+merged-at: 2026-11-12T21:06:54.941Z
 ---
 
 **What.** A played world dies in Superior, Colorado: `closeEmployer` finds no current unfunded obligation receipt. In Superior, Colorado (GEOID 0875640, place seed a352f38e75486e3885a7fdd8f2dc6c1112a2e6da7628ff7c20dc4aca4c849a54, drawn by salt incumb-B:2, purpose incumbency-totals) a played world with every module installed (`buildBenchWorld`, bookkeeping off) threw "Closure requires an actual current unfunded obligation receipt." at `closeEmployer` within three years. Found by the governing lead's Runner B, Nov 1 16:18 UTC. A PR merged on Nov 1 (#7044, per the draft sorting) may have fixed it, but the thrown message is still in the code, so the fix has not been confirmed by a replay.

@@ -42,3 +42,7 @@ branch: claude/pool-outcome-causes-housing-disaster-justice
 Released (2026-11-11): 8-hour item adding three new cause measures and kept outcomes across the disaster, justice and school engines; not started. Continue on branch claude/pool-outcome-causes-housing-disaster-justice.
 
 Released (2026-11-11): second read: each of the three links needs a new thing, not a map entry: release-lower-level-to-larceny has no law in the bill catalog to be its cause (no low-level-offense reclassification policy exists among the justice-public-safety questions), heat-to-learning needs school.learning and school.ac-share kept (neither is in outcome-web.json), disaster-to-public-transfers needs gov.nondisaster-transfers kept; crime.property is already kept; 8 hours across three engines. Continue on branch claude/pool-outcome-causes-housing-disaster-justice.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-outcome-causes-housing-disaster-justice.
+
+Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-outcome-causes-housing-disaster-justice.

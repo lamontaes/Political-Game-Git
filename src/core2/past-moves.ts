@@ -116,10 +116,9 @@ function moveRecords(
   };
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
   for (const person of people) {
-    // A relative living elsewhere is run only when opened (their own past):
-    // when they left the household's town is the same rule, from the parent
-    // who lives there.
-    if (!person.alive || (!worldFrom && person.tier === "husk")) continue;
+    // The run over everyone skips relatives living elsewhere; their own past,
+    // opened one at a time, runs the same rule against the place they live.
+    if (!person.alive || (person.tier === "husk" && !worldFrom)) continue;
     // A child comes with the parent who moved, never alone.
     const born = makeIsoDate(person.birthDate);
     if (addDays(born, Math.round(grown * daysPerYear)) > window.through)

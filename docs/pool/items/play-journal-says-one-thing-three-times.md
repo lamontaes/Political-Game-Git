@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-journal-says-one-thing-three-times
-pr:
+pr: #8642
 after:
 blocked-on:
 lead: words

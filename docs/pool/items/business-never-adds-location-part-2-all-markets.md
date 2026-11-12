@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-business-never-adds-location-part-2-all-markets
-pr:
+pr: #8667
 after:
 blocked-on:
 lead: jobs
