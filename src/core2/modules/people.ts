@@ -49,6 +49,7 @@ import {
   type HistoryWriter,
   type PreStartModule,
   type PreStartWindow,
+  pastServiceFor,
 } from "../past-module";
 import type {
   ActOffer,
@@ -580,6 +581,7 @@ export function openWholePast(core: CoreState, personId: PersonId): void {
   pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
+  pastServiceFor(core, [person], PEOPLE_MODULE_ID);
 }
 
 /** The people the player starts out knowing: their household and everyone they know, opened at the opening. */
