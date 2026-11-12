@@ -1496,7 +1496,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1508,7 +1508,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -2243,18 +2243,6 @@
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
     "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
-    "status": "open"
-  },
-  {
-    "id": "SG-JUSTICE-visiting-access-record-only",
-    "kind": "missing-engine",
-    "file": "src/core2/modules/justice.ts",
-    "line": 1615,
-    "whatItFakes": "An official's referral for a relative of someone in custody earns a visiting-access record the next day, but no other engine reads it yet: a visit does not change the relative's tie to the person in custody, the person's conduct or their release.",
-    "why": "The justice engine keeps custody as a term served, with no model of visits; what a visit changes is a design call the item gov-constituent-case-family-in-custody did not settle.",
-    "addedBy": "sonnet-95c2",
-    "addedAt": "2026-11-11",
-    "replacement": "A reader of `justice.visiting-access` (relationship contact, conduct and release timing) in the engines that own them.",
     "status": "open"
   },
   {
