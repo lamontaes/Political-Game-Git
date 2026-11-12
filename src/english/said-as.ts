@@ -285,3 +285,33 @@ export function wordPersonSlots(
   }
   return out + text.slice(at);
 }
+
+/**
+ * A subject said in a slot that the reader words once the line is composed:
+ * in full (`full`, "raise the debt limit") the first time the line says it,
+ * and by its short form ("do that") once the line already said it, in full
+ * or by its name (`named`, "raising the debt limit"). One line never says
+ * the same subject twice (owner, Nov 12: "saying the full name every time").
+ */
+export function subjectSlot(full: string, named: string): string {
+  return `\u27e8${full}|${named}\u27e9`;
+}
+
+const SUBJECT_SLOT = /\u27e8([^|\u27e9]+)\|([^\u27e9]*)\u27e9/g;
+
+/** Words every subject slot in a composed text (`subjectSlot`). */
+export function wordSubjectSlots(text: string): string {
+  let out = "";
+  let at = 0;
+  for (const match of text.matchAll(SUBJECT_SLOT)) {
+    const [whole, full, named] = match;
+    out += text.slice(at, match.index);
+    at = match.index! + whole.length;
+    const before = out.toLowerCase();
+    const said =
+      before.includes(full!.toLowerCase()) ||
+      (!!named && before.includes(named.toLowerCase()));
+    out += said ? data.subject.again : full;
+  }
+  return out + text.slice(at);
+}

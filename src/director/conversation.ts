@@ -146,6 +146,8 @@ import {
   personSlot,
   sentenceStarts,
   wordPersonSlots,
+  wordSubjectSlots,
+  subjectSlot,
 } from "../english/said-as";
 import { saidPersonOf } from "./said-person";
 import {
@@ -1129,20 +1131,26 @@ function printedHeard(
   if (!director?.storyWords || !core.modules.has(NEWS_MODULE_ID)) return null;
   const since = addDays(makeIsoDate(core.date), -recentDays());
   for (const story of storiesHeard(coreAPI(core), speakerId, since)) {
-    const subject = printedSubject(core, story, director);
+    const subject = printedSubject(core, story, director, speakerId);
     if (subject) return subject;
   }
   return null;
 }
 
 /**
- * One printed story as a subject: its headline and the outlet that printed
- * it, or null where it is not a printed story or has no headline in words.
+ * One printed story as a subject the teller can raise: what it is about, by
+ * the policy question it names, said as people say it, with where the teller
+ * stands on that question from their own record. News is told in a person's
+ * own words, never read out as a headline (owner, Nov 12: "sworn in, gives
+ * inaugural address. What do you make of that?"): a story that names no
+ * question, or one the teller holds no view on, is not raised in talk. This
+ * holds for every kind of printed story, by what it is about.
  */
 function printedSubject(
   core: Readonly<CoreState>,
   story: Story,
   director: Director | undefined,
+  tellerId: PersonId,
 ): Subject | null {
   const words = director?.storyWords;
   if (!words || story.kind !== PRINTED_STORY) return null;
@@ -1167,20 +1175,27 @@ function printedSubject(
     // The policy question the story is about, as people say it, where the
     // story names one ("a mileage fee in place of the fuel tax").
     const about = story.topic ? questionAbout(story.topic) : null;
+    if (!about) return null;
+    const news = { question: story.topic! };
+    // What the teller makes of it: their side on the question, from their
+    // own view record. None, and they have nothing of their own to say.
+    const stake = newsStake(core, tellerId, {
+      id: `news:${story.id}`,
+      kind: "news",
+      news,
+      facts: {},
+    });
+    if (stake.reason !== "stance") return null;
     return {
       id: `news:${story.id}`,
       kind: "news",
       aboutId: story.id,
-      ...(about ? { news: { question: story.topic! } } : {}),
+      news,
       facts: {
-        ...(about
-          ? { about: { text: about, sourceRecordIds: [story.id] } }
-          : {}),
-        // As a person says it: a bill by what it does, not its number.
-        headline: {
-          text: said.spoken ?? said.headline,
-          sourceRecordIds: cited,
-        },
+        about: { text: about, sourceRecordIds: [story.id] },
+        ...stakeMarks(stake, "their-"),
+        // A printed story, told by what it is about (never its headline).
+        story: { text: "", sourceRecordIds: cited },
         storyId: { text: "", sourceRecordIds: [story.id] },
         // The day it ran, said in passing ("yesterday", "on Monday").
         ran: {
@@ -2156,7 +2171,13 @@ function pointSubject(
   // What the President would do, and the President's side, for a policy
   // point; a year point is something the address said happened. Their own
   // stand, which the words follow.
-  if (pick.point.to) facts.to = { text: pick.point.to, sourceRecordIds: said };
+  // The act is a subject slot: said in full the first time the line says
+  // the point, "do that" once the opener already named it.
+  if (pick.point.to)
+    facts.to = {
+      text: subjectSlot(pick.point.to, pick.point.about),
+      sourceRecordIds: said,
+    };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
@@ -2475,10 +2496,10 @@ function playerFacts(
     // No stake in it: the player may say they have no view yet.
     if (stake.reason === "none")
       facts["my-none"] = { text: "yes", sourceRecordIds: [playerId] };
-    // One screen names a thing once: where the headline already says the
+    // One screen names a thing once: where the teller already said the
     // question, a stand names the person told instead.
     const other = otherId ? core.people.get(otherId) : undefined;
-    if (headlineSays(last.facts) && other?.givenName) {
+    if (aboutToldBy(last.facts) && other?.givenName) {
       facts["about-said"] = { text: "yes", sourceRecordIds: [last.subject.id] };
       facts.first = calledBy(core, playerId, other.id as PersonId);
     } else
@@ -3365,7 +3386,7 @@ function openConversationNow(
       ? storiesHeard(coreAPI(core), otherId).find((row) => row.id === storyId)
       : undefined;
     const headline = story
-      ? printedSubject(core, story, conversation.director)
+      ? printedSubject(core, story, conversation.director, otherId)
       : null;
     const news =
       headline ??
@@ -3555,6 +3576,11 @@ function laterMentions(
   conversation: Conversation,
   from: number,
 ): void {
+  // A subject a line already said is said short the second time.
+  for (const line of conversation.lines.slice(from))
+    line.text = wordSubjectSlots(line.text);
+  for (const choice of [...conversation.choices, ...conversation.lies])
+    choice.text = wordSubjectSlots(choice.text);
   const id = conversation.director?.ledger.opening?.president.id;
   const role = officeWords("president")?.again;
   if (!id || !role) return;
@@ -5012,11 +5038,9 @@ const OWN_VIEW_BACK = "own-view-back";
 /** The subject the other person's answer to a reply on news is composed under. */
 const NEWS_BACK = "news-back";
 
-/** Whether a story's headline already says the question it is about. */
-function headlineSays(facts: Facts): boolean {
-  const about = facts.about?.text;
-  const headline = facts.headline?.text;
-  return !!about && !!headline?.toLowerCase().includes(about.toLowerCase());
+/** Whether the teller already said the question a printed story is about: its lines tell it by that question. */
+function aboutToldBy(facts: Facts): boolean {
+  return !!facts.story && !!facts.about;
 }
 /** The player's replies on news that take a side on the story's question. */
 const NEWS_SIDES: readonly string[] = ["for", "against"];
@@ -5054,9 +5078,9 @@ function answerNews(
       ? { "their-none": { text: "yes", sourceRecordIds: [otherId] } }
       : {}),
     [`said-${choice.move}`]: { text: "yes", sourceRecordIds: [eventId] },
-    // One screen names a thing once: where the headline already says the
+    // One screen names a thing once: where the teller already said the
     // question, the answer says "it" and gives what else the story holds.
-    [headlineSays(last.facts) ? "about-said" : "about-unsaid"]: {
+    [aboutToldBy(last.facts) ? "about-said" : "about-unsaid"]: {
       text: "yes",
       sourceRecordIds: [eventId],
     },

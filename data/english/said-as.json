@@ -90,6 +90,10 @@
       "again": "the council president"
     }
   },
+  "subject": {
+    "about": "How a line says a subject it already said (src/english/said-as.ts wordSubjectSlots): the point's act the second time one line names it (owner, Nov 12: \"saying the full name every time\").",
+    "again": "do that"
+  },
   "relation": {
     "yours": "your {relation} {given}",
     "mine": "my {relation} {given}",

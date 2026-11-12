@@ -8589,7 +8589,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "opinion",
-          "requiresFacts": ["my-none"]
+          "requiresFacts": ["my-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "transcriptsUsing": 2084,
@@ -8647,7 +8648,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "opinion",
-          "requiresFacts": ["my-none"]
+          "requiresFacts": ["my-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "transcriptsUsing": 49,
@@ -8683,7 +8685,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "opinion",
-          "requiresFacts": ["my-none"]
+          "requiresFacts": ["my-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "transcriptsUsing": 70,
@@ -8720,7 +8723,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "opinion",
-          "requiresFacts": ["my-none"]
+          "requiresFacts": ["my-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "transcriptsUsing": 355,
@@ -8763,7 +8767,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "opinion",
-          "requiresFacts": ["my-none"]
+          "requiresFacts": ["my-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "transcriptsUsing": 18,
@@ -8802,7 +8807,8 @@
           "subject": "news",
           "role": "answer",
           "choice": "opinion",
-          "requiresFacts": ["my-none"]
+          "requiresFacts": ["my-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "transcriptsUsing": 323,
@@ -16541,144 +16547,6 @@
       "bearing": "glad"
     },
     {
-      "key": "conversation.news-raise-heard.did-you-see-the-outlet-headline",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Did you see the {outlet}? {headline}.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["headline", "paper"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-raise-heard.i-saw-it-in-the-outlet-headline",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "I saw it in the {outlet}: {headline}.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["headline", "paper"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-raise-heard.headline-it-was-in-the-outlet",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "{headline}. It was in the {outlet}.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["headline", "paper"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-raise-heard.outlet-had-it-headline",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "{outlet} had it: {headline}.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["headline", "broadcast"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-raise-heard.i-heard-it-on-outlet-headline",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "I heard it on {outlet}: {headline}.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["headline", "broadcast"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
-      "key": "conversation.news-raise-heard.have-you-seen-this-headline",
-      "move": "news-raise-heard",
-      "kind": "spoken",
-      "text": "Have you seen this? {headline}.",
-      "uses": [
-        {
-          "move": "news-raise-heard",
-          "subject": "news",
-          "role": "raise",
-          "choice": "heard",
-          "requiresFacts": ["headline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      },
-      "bearing": "braced"
-    },
-    {
       "key": "conversation.ack-reply-right.i-know-love",
       "move": "ack-reply-right",
       "kind": "spoken",
@@ -16902,28 +16770,6 @@
         "key": "household"
       },
       "bearing": "glad"
-    },
-    {
-      "key": "conversation.quiet-answer-talk.sit-with-me-a-minute",
-      "move": "quiet-answer-talk",
-      "kind": "spoken",
-      "text": "Sit with me a minute?",
-      "uses": [
-        {
-          "move": "quiet-answer-talk",
-          "subject": "quiet",
-          "role": "answer",
-          "choice": "talk"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "reply",
-        "key": "household"
-      },
-      "bearing": "curious"
     },
     {
       "key": "conversation.quiet-answer-talk.i-missed-you-today",
@@ -28264,116 +28110,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.news-ask-core.headline-what-do-you-make-of-that",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "{headline}. What do you make of that?",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["headline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-ask-core.you-saw-that-outlet-story-what-did-you-think",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "You saw that {outlet} story? What did you think?",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["headline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-ask-core.what-did-you-think-of-the-outlet-story",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "What did you think of the {outlet} story?",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["headline", "paper"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-ask-core.where-are-you-on-about-after-that-story",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "Where are you on {about}, after that story?",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["headline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-ask-core.that-story-on-about-what-do-you-make-of-it",
-      "move": "news-ask-core",
-      "kind": "spoken",
-      "text": "That story on {about}, what do you make of it?",
-      "piece": {
-        "of": "news-ask",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-ask-core",
-          "subject": "news-ask",
-          "role": "core",
-          "requiresFacts": ["headline"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.news-back-core.same-here-i-heard-it-when-and-thought-so-too",
       "move": "news-back-core",
       "kind": "spoken",
@@ -30826,94 +30562,6 @@
           "role": "answer",
           "choice": "against",
           "requiresFacts": ["my-against", "about-said"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.they-didn-t-get-into-the-why-it-ran-ran",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "They didn't get into the why. It ran {ran}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-why", "about-said", "ran"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.just-that-it-s-happening-it-ran-ran",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "Just that it's happening. It ran {ran}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-why", "about-said", "ran"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.that-s-all-they-gave-it-it-ran-ran",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "That's all they gave it. It ran {ran}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-why", "about-said", "ran"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-news-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.news-back-core.no-reason-in-it-that-i-saw-it-ran-ran",
-      "move": "news-back-core",
-      "kind": "spoken",
-      "text": "No reason in it that I saw. It ran {ran}.",
-      "piece": {
-        "of": "news-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "news-back-core",
-          "subject": "news-back",
-          "role": "core",
-          "requiresFacts": ["said-why", "about-said", "ran"]
         }
       ],
       "origin": "authored",
@@ -33973,6 +33621,226 @@
       "origin": "authored",
       "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
       "date": "2026-11-11"
+    },
+    {
+      "key": "conversation.news-ask-core.i-read-about-about-ran-i-m-for-it-myself",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I read about {about} {ran}. I'm for it, myself.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-i-d-vote-for-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "There was a story on {about} {ran}. I'd vote for it.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-ask-core.about-was-in-the-news-ran-about-time-i-say",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "{about} was in the news {ran}. About time, I say.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-ask-core.i-read-about-about-ran-i-m-against-it-myself",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "I read about {about} {ran}. I'm against it, myself.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-ask-core.there-was-a-story-on-about-ran-i-d-vote-against-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "There was a story on {about} {ran}. I'd vote against it.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-ask-core.about-was-in-the-news-ran-i-don-t-like-it",
+      "move": "news-ask-core",
+      "kind": "spoken",
+      "text": "{about} was in the news {ran}. I don't like it.",
+      "piece": {
+        "of": "news-ask",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-ask-core",
+          "subject": "news-ask",
+          "role": "core",
+          "requiresFacts": ["story", "their-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.the-story-didn-t-say-i-ve-been-for-it-for-years",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The story didn't say. I've been for {about} for years.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "about-said", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.not-in-what-i-read-to-me-about-is-the-right-call",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not in what I read. To me {about} is the right call.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "about-said", "their-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.the-story-didn-t-say-i-ve-been-against-it-for-years",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "The story didn't say. I've been against {about} for years.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "about-said", "their-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.not-in-what-i-read-to-me-about-costs-more-than-it-s-worth",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not in what I read. To me {about} costs more than it's worth.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-why", "about-said", "their-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
     }
   ]
 }
