@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-nov8-thirteen-points-need-a-played-check
+pr: #8594
 after:
 blocked-on:
 standard: 2
@@ -17,7 +17,8 @@ root: rc2-done-from-records
 lead: play-first
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6 and "What I ran, and what I could not verify")
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T04:51:08.605Z
+branch: claude/pool-play-nov8-thirteen-points-need-a-played-check
 ---
 
 **What.** The audit counted 13 of the 72 defects from the owner's Nov 8 playtest as ones only a running game can settle, and said to count all 13 open until each is shown fixed on screen. The audit did not list them, so the Notes below carry a fresh reading of main on Nov 10: thirteen points where the code now carries a change aimed at the point, but the point is about how something looks, moves or plays, or its cause was never traced, so reading cannot close it. The job is one sitting in the running game that looks at each of the thirteen and marks it fixed with a screenshot, or files it as its own item with what was seen. Nothing is built here; a point found still broken becomes a new item named `play-nov8-<short-name>` with the screenshot.
@@ -57,3 +58,13 @@ How the count compares: read against main on Nov 10 for this item, the 72 points
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 01:18 UTC) on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.
 
 Released (2026-11-11): a builder claimed this and did not start it (its draft said so and left the claim in place); Fable B released it so another builder can take it.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:35 UTC) on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.
+
+Released (2026-11-11): Replay-only (build nothing): thirteen screenshots in two places for an 8-hour sitting in the browser; not started. Continue on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:50 UTC) on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.
+
+Released (2026-11-11): Not started: an 8-hour sitting over thirteen screens with a screenshot each, in a drawn place and in Manchester CT; claimed by next for sonnet-95c2 and released unstarted so another session can take it. Continue on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:51 UTC) on branch claude/pool-play-nov8-thirteen-points-need-a-played-check.

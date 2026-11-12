@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by:
-pr: 8172
+pr: #8172
 after:
 blocked-on:
 lead: jobs
@@ -17,6 +17,7 @@ effort: medium
 root: design-country-tier
 source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+merged-at: 2026-11-10T22:56:19.000Z
 ---
 
 **What.** The country tier keeps every state's employers by sector. The town keeps its businesses by kind. Nothing says which sector a kind belongs to, so a town seller cannot be matched to the buyers its state and the nation hold. This part adds that one table.
@@ -34,3 +35,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/data/business-books.json, src/core2/business-books.ts, src/core2/country-model.ts
+
+**Notes (Fable B, Nov 10, marked merged by hand).** Pull request 8172 merged at 2026-11-10 22:56 UTC and built this item, but the item stayed in review: its `pr:` field held the number with no `#`, which the merge's flip does not match, and the pull request's first line named no item (pool item pool-merge-does-not-flip-an-item-whose-pr-field-has-no-hash). A second session's check in the game is still owed.

@@ -17,8 +17,6 @@ import { coreAPI } from "./state";
 // account on the journal, and what the treasury couldn't cover is a record
 // the month's close carries.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-/** The recorded repro of the empty case: Alega, American Samoa, whose opening holds no public employer. */
-const EMPTY_SEED = "f3d402dc6d11da2e";
 const DRAWS = 6;
 
 interface Payroll {
@@ -33,7 +31,7 @@ interface Payroll {
 }
 
 /** One drawn world: the opening's public employers, and ninety days of what their treasuries paid. */
-function play(drawSeed: string, label: string, playIt: boolean): Payroll {
+function play(drawSeed: string, label: string): Payroll {
   const place = drawPlace(drawSeed, label);
   const where = `${place.name} (${place.key}), seed ${drawSeed}, world ${place.seed}`;
   setBookkeeping(false);
@@ -56,10 +54,26 @@ function play(drawSeed: string, label: string, playIt: boolean): Payroll {
     short: 0,
     ledger: 0,
   };
-  if (!employers.length) return empty;
+  // Every drawn world, a place with no public employer included: each public
+  // employer's authority is linked to its treasury, and no treasury link
+  // names an authority no organization holds (the outside account's own
+  // authority is held by the outside account).
   const links = publicPayTreasuries(core);
   for (const employer of employers)
-    expect(links.has(employer.publicPayAuthority!.id), employer.id).toBe(true);
+    expect(
+      links.has(employer.publicPayAuthority!.id),
+      `${where}: ${employer.id} linked to a treasury`,
+    ).toBe(true);
+  const held = new Set(
+    [...core.organizations.values()].flatMap((row) =>
+      row.publicPayAuthority ? [row.publicPayAuthority.id] : [],
+    ),
+  );
+  expect(
+    [...links.keys()].filter((id) => !held.has(id)),
+    `${where}: treasury links to an authority no organization holds`,
+  ).toEqual([]);
+  if (!employers.length) return empty;
   // What the treasuries paid out on each authority's own commitments.
   const commitments = new Map(
     employers.flatMap((employer) =>
@@ -73,7 +87,7 @@ function play(drawSeed: string, label: string, playIt: boolean): Payroll {
   ).length;
   // The world is eligible from its opening records (an employer with a live
   // worker), never from what play produced.
-  if (!playIt || !live) return { ...empty, commitments: live };
+  if (!live) return { ...empty, commitments: live };
   const fromTreasury = new Map<string, number>();
   const post = api.postJournal.bind(api);
   api.postJournal = (entry) => {
@@ -149,7 +163,7 @@ function play(drawSeed: string, label: string, playIt: boolean): Payroll {
 it(`an opening public employer's wages come out of its government's treasury, in a drawn place (seed ${seed})`, () => {
   const passedOver: string[] = [];
   for (let draw = 0; draw < DRAWS; draw += 1) {
-    const result = play(`${seed}:${draw}`, "budgets-public-pay", true);
+    const result = play(`${seed}:${draw}`, "budgets-public-pay");
     if (!result.employers || !result.commitments) {
       passedOver.push(
         `${result.where}: ${result.employers} public employers, ${result.commitments} live workers at the opening`,
@@ -162,8 +176,9 @@ it(`an opening public employer's wages come out of its government's treasury, in
       result.paydays + (result.short > 0 ? 1 : 0),
       `${result.where}: a payday from the treasury or a recorded shortfall`,
     ).toBeGreaterThan(0);
-    console.log(
-      `WIRED ${result.where}: ${result.employers} employers, ${result.paydays} payday entries, ${result.drawn} minor from the treasury, ${result.short} recorded short, ledger ${result.ledger}`,
+    // Written to stdout so the witness place prints on a passing run too.
+    process.stdout.write(
+      `WIRED ${result.where}: ${result.employers} employers, ${result.paydays} payday entries, ${result.drawn} minor from the treasury, ${result.short} recorded short, ledger ${result.ledger}; passed over: ${passedOver.join("; ") || "none"}\n`,
     );
     return;
   }
@@ -172,12 +187,10 @@ it(`an opening public employer's wages come out of its government's treasury, in
   );
 }, 1_800_000);
 
-// The empty case is a negative input stated outright: a world with no public
-// employer holds no authority to pay, and it is not the positive case above.
-it("a world whose opening has no public employer holds no authority a treasury must fund (Alega, American Samoa)", () => {
-  const result = play(EMPTY_SEED, "budgets-public-pay", false);
-  expect(
-    result.employers,
-    `${result.where}: opening public employers (zero is the recorded case)`,
-  ).toBe(0);
-}, 900_000);
+// There is no pinned empty case any more (Nov 12, 2026): Alega, American
+// Samoa was kept as a place whose opening holds no public employer, until the
+// opening began seating state offices wherever a place has state jobs
+// (src/core2/town-workplaces.ts, `state-office`); its world now opens with
+// organization_cfb8ee9fbc7ff656, "American Samoa State Offices in Alega".
+// A place with no public employer may no longer exist, so the empty case is
+// the check in `play` above, which holds in every drawn world.

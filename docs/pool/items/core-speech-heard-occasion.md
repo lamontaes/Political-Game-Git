@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-core-speech-heard-occasion
 pr: #8497
@@ -18,6 +18,7 @@ lead: words
 source: added with npm run pool -- add
 claimed-at: 2026-11-11T02:24:38.141Z
 checked: fable 2026-11-10
+merged-at: 2026-11-12T19:56:39.179Z
 ---
 
 **What.** The item's title is the whole request: a heard speech says what it was given at (campaign, meeting remark, hearing). Every section of the original draft said TODO, so nobody has said who reads the occasion, which record carries it, or what changes for the player when it is there. src/core2/modules/speech.ts and src/core2/modules/news.ts carry no occasion field today, and docs/design/life-record.md does not mention speeches heard. This item stays unbuilt until the cause is found: someone must name the reader of a speech's occasion (a journal line, a card, a scene, a stance) first.

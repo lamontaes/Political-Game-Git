@@ -22,7 +22,7 @@ try {
     fresh: true,
   });
   console.log("Place:", await page.locator("#card-place").innerText());
-  const figure = page.locator("#people .talkable").first();
+  const figure = page.locator("#here .busts-person.talkable").first();
   await figure.waitFor();
   await figure.focus();
   // A person in the room is talked to by a key (owner, Oct 27: no Talk button).

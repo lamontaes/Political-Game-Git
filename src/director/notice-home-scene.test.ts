@@ -197,7 +197,7 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
               : "between"
         }\n`,
       );
-      // The four answers are four moves.
+      // Up to four answers, all different moves.
       const root = scene.talk.tree.replies.map((reply) => reply.line);
       expect(new Set(root.map((row) => row.move)).size, where).toBe(
         root.length,

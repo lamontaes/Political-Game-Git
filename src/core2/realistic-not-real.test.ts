@@ -143,6 +143,67 @@ export const NOT_YET: Readonly<Record<string, readonly number[]>> = {
 const DELEGATE_DISTRICT = 98;
 
 const seed = process.env.REALISTIC_SEED ?? randomBytes(8).toString("hex");
+/**
+ * The most of a world's past races of a thousand votes or more whose count
+ * may equal another world's by chance (row 44), rounded up per world, so one
+ * chance repeat passes and a pattern of repeats fails. Measured Nov 12, 2026
+ * over ten draws (Fairacres NM, Gibsonburg OH, Dover NH, Boyce LA, Bend OR,
+ * Bangor MI, Thomasville AL, Alega AS, North Falmouth MA, Westminster CO):
+ * 0 of 87 large races shared a count; this is the 95% upper limit for 0 of
+ * 87 (3 of 87). By arithmetic a band of 1.36% to 4% either side holds about
+ * 0.053 of a race's votes in whole counts, so a 6,845-vote race repeats about
+ * once in 360 pairs of worlds.
+ */
+const SAME_COUNT_SHARE = 3 / 87;
+
+/**
+ * Row 44's per-race check: each race must carry its source count as a
+ * positive whole number, and the world's count must not be it. A race with
+ * no source count, or one that is not a whole positive count, is named, never
+ * passed (a missing field read as a number is NaN, which no count equals).
+ */
+function sourceCountProblems(
+  ids: readonly string[],
+  totals: ReadonlyMap<string, number>,
+  sources: ReadonlyMap<string, string | undefined>,
+): string[] {
+  const problems: string[] = [];
+  for (const id of ids) {
+    const raw = sources.get(id);
+    const source = raw === undefined || raw.trim() === "" ? NaN : Number(raw);
+    if (!Number.isInteger(source) || source <= 0)
+      problems.push(`${id}: source count ${String(raw)} is not a whole count`);
+    else if (totals.get(id) === source)
+      problems.push(`${id}: prints its source count ${source}`);
+  }
+  return problems;
+}
+
+// The controls for row 44's guard, with no world: a missing or malformed
+// source count is refused, and so is a count equal to its source (the
+// merger's reproduction on #8884: Carolina, Rhode Island's 6,845).
+it("row 44's source-count guard refuses a missing source and a printed one", () => {
+  const id = "prior-election:seat:US-RI:lower:039:0:2024-11-05";
+  const totals = new Map([[id, 6845]]);
+  expect(sourceCountProblems([id], totals, new Map())).toEqual([
+    `${id}: source count undefined is not a whole count`,
+  ]);
+  expect(
+    sourceCountProblems([id], totals, new Map([[id, "NaN"]])),
+  ).toHaveLength(1);
+  expect(
+    sourceCountProblems([id], totals, new Map([[id, "6845.5"]])),
+  ).toHaveLength(1);
+  expect(sourceCountProblems([id], totals, new Map([[id, "0"]]))).toHaveLength(
+    1,
+  );
+  expect(sourceCountProblems([id], totals, new Map([[id, "6845"]]))).toEqual([
+    `${id}: prints its source count 6845`,
+  ]);
+  expect(
+    sourceCountProblems([id], new Map([[id, 6731]]), new Map([[id, "6845"]])),
+  ).toEqual([]);
+});
 const place = drawPlace(seed, "realistic-not-real");
 const where = `${place.name} (${place.key}), seed ${seed}`;
 
@@ -795,10 +856,14 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
 
   it("past races' votes cast and the national polls on policy questions (audit rows 44 and 48)", () => {
     // Row 44: every race before the start both worlds hold, as the paper
-    // printed it (the one place the game keeps a past race's votes cast). A
-    // recorded total (a House, Senate or presidential race) is the same in
-    // every world unless drawn, so each race of a thousand votes or more must
-    // differ (a race of a few hundred can land on the same count twice).
+    // printed it (the one place the game keeps a past race's votes cast).
+    // Each world's count is drawn once around the count it stands on (the
+    // recorded total, or the electorate's ballots times turnout), which no
+    // world prints as its own (CTO, Nov 12, 2026, on the owner's "realistic,
+    // not real"). Two worlds' counts of the same race may land on the same
+    // whole number by chance (a band of a few percent around 6,845 votes
+    // holds about 360 counts), so across the large races only a small share
+    // may coincide: SAME_COUNT_SHARE, measured over ten draws.
     const races = (core: CoreState) =>
       new Map(
         coreAPI(core)
@@ -809,6 +874,16 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
           .filter((facts) => facts.recordKind === "election-result")
           .map((facts) => [facts.contestId!, Number(facts.totalVotes)]),
       );
+    const sources = (core: CoreState) =>
+      new Map(
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows()
+          .map((row) => row.facts as Record<string, string>)
+          .filter((facts) => facts.recordKind === "election-result")
+          .map((facts) => [facts.contestId!, facts.sourceVotes]),
+      );
     const racesA = races(a),
       racesB = races(b);
     const shared = [...racesA.keys()].filter((id) => racesB.has(id));
@@ -816,8 +891,20 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
     const large = shared.filter(
       (id) => racesA.get(id)! >= 1000 && racesB.get(id)! >= 1000,
     );
-    for (const id of large)
-      expect(racesA.get(id), `${where} row 44 ${id}`).not.toBe(racesB.get(id));
+    for (const [world, held] of [
+      [a, racesA],
+      [b, racesB],
+    ] as const) {
+      expect(
+        sourceCountProblems(large, held, sources(world)),
+        `${where} row 44: races with no source count or printing it`,
+      ).toEqual([]);
+    }
+    const same = large.filter((id) => racesA.get(id) === racesB.get(id));
+    expect(
+      same.length,
+      `${where} row 44: ${same.length} of ${large.length} large races share a count between the two worlds (${same.join(", ")})`,
+    ).toBeLessThanOrEqual(Math.ceil(large.length * SAME_COUNT_SHARE));
     const cast = (held: Map<string, number>) =>
       shared.reduce((n, id) => n + held.get(id)!, 0);
     // Row 48: every question's national polled share.

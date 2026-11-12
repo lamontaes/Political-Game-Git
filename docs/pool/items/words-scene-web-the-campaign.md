@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/pool-words-scene-web-the-campaign
 pr: #8369
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-11T04:27:15.810Z
 after:
 standard: 2
 model: sonnet
@@ -53,3 +53,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Claimed by next for sonnet-cbfb (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:24 UTC) on branch claude/pool-words-scene-web-the-campaign.
 
 Released (2026-11-11): another session already pushed this item's packets on the branch (PR 8369); nothing left for a second builder. Continue on branch claude/pool-words-scene-web-the-campaign and pull request #8369.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:27 UTC) on branch claude/pool-words-scene-web-the-campaign.

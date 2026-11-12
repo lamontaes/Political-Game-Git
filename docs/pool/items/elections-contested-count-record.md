@@ -5,10 +5,10 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-elections-contested-count-record
+pr: #8573
 after:
 blocked-on:
 model: opus
@@ -16,8 +16,9 @@ effort: high
 root: rc9-place-facts-one-default
 source: "Helper B, Oct 27, episode docs/design/scenes/from-life/concession-call-received.md"
 lead: laws
-claimed-at:
+claimed-at: 2026-11-11T04:39:38.658Z
 checked: fable 2026-11-10
+branch: claude/pool-elections-contested-count-record
 ---
 
 **What.** Today a close race is counted once and that is the end of it: the elections engine keeps no record of a recount, so a loser who says he will not concede yet has nothing to wait for. The owner ruled on Nov 10, 2026: "Recount by own states rules." Build the simple version. Each state's own rule is one row of data: the margin under which a recount is automatic, whether a trailing candidate may ask for one and inside what margin, and how many days it takes. When a race's count ends inside the automatic margin, a recount record opens by itself. Where the law lets a candidate ask, the trailing candidate decides, and the player is offered that choice on election night when it is his own race. The recount runs the same count again and confirms it, the result is certified when the recount ends, and the paper and the election night scene say a recount is on. Court challenges to a count are not part of this item; they are `elections-count-challenge-in-court`, after early access. Seen: election night after the player's own close race, where a recount is called or he may ask for one, the paper's story that a recount is on, and the certified result that cites it.
@@ -39,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Found while building words-scene-concession-received; the not-yet-conceding replies end in the strained-tie label only.
 
 **Notes (Fable B, Nov 10, the owner's answer).** Owner, Nov 10, 2026, about 7:16 p.m.: "Recount by own states rules. You need a 2000 to be able to happen. And sure, yeah, court after early access." This item was rewritten to the simple version that day; the court fight over a count is `elections-count-challenge-in-court`.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 04:39 UTC) on branch claude/pool-elections-contested-count-record.

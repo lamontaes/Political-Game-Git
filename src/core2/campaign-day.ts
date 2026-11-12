@@ -19,6 +19,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   causeSummariesOf,
   donationAnswer,
+  askPlayerForMoney,
   type DonationWhy,
   unitPrice,
   askCircleToSign,
@@ -567,11 +568,25 @@ export function contestStanding(
       .table("filings")
       .query("byContest", [contestId]) as unknown as FilingRow[]
   ).filter(standing);
+  const electionDate = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .get(contestId) as unknown as { electionDate: string } | undefined
+  )?.electionDate;
   return filings.map((filing) => {
-    const rows = api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("causes")
-      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
+    // This contest's own campaign: from the day the candidate filed for it to
+    // its election day. A race they ran before reaches this one only through
+    // what people remember of them (their warmth), never as this race's
+    // standing.
+    const inCampaign = (date: string) =>
+      date >= filing.filedOn && (!electionDate || date <= electionDate);
+    const rows = (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("causes")
+        .query("byCandidate", [filing.personId]) as unknown as CauseRow[]
+    ).filter((row) => inCampaign(row.date));
     const acts = new Map<
       string,
       { act: string; reached: number; warmer: number; cooler: number }
@@ -580,6 +595,7 @@ export function contestStanding(
     const moved = new Map<string, number>();
     // Closed races' causes, folded with the same sums in the same order.
     for (const summary of causeSummariesOf(api, filing.personId)) {
+      if (summary.through < filing.filedOn) continue;
       for (const [act, count] of Object.entries(summary.acts)) {
         const entry = acts.get(act) ?? {
           act,
@@ -941,6 +957,17 @@ export function takeCampaignDayChoice(
   }
 
   if (choice === "raise-money") {
+    // A world candidate whose list reaches the controlled person asks them as a
+    // request they answer (play-campaign-ask-reaches-player); their money moves
+    // only by that answer, so they stay out of the asks below.
+    const playerId = (api.state as CoreState).playerId;
+    if (
+      world &&
+      playerId &&
+      reachablePeople(api, campaign).includes(playerId) &&
+      askableFor(api, campaign)(playerId)
+    )
+      askPlayerForMoney(api, filingId, playerId);
     const { pool, askable } = peopleToAsk(api, campaign, world);
     const asks = Math.min(askable.length, asksPerSession(hours));
     // Walk the list from where the last session stopped (the campaign's own

@@ -13,7 +13,7 @@ description: >
 
 # Heavy runs
 
-Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A path-check on a town of about 6,000 voters takes 1,200 to 3,700 seconds and holds 4 to 8 GB.
+Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1, and by the nightly 20-year game on Nov 10. The habits hold on any tool; the commands are plain shell. A path-check on a town of about 6,000 voters takes 1,200 to 3,700 seconds and holds 4 to 8 GB.
 
 ## Before the run
 
@@ -42,7 +42,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 
 - **CI's heap is the default, about 2.2 GB.** Reproduce a CI out-of-memory with `env -u NODE_OPTIONS`. The container has no `/usr/bin/time`, so record a run's peak by polling its process tree's memory every two seconds: walk `pgrep -P` from the run's PID and sum `ps -o rss=`. On Nov 1, law-wiring-housing.test.ts died at the default heap on main and ran to the end on the closed-race fold.
 - **Never switch branches in a copy that a run or an agent is reading.** The pool CLI checks out a temporary branch in the copy it runs in, so run pool commands from an idle copy.
-- **A cloud copy is shallow, so `git fetch origin main` can pull hundreds of thousands of objects** (Nov 3: 385,472 objects, the pack grew to 4.1 GB, three minutes). Every `npm run pool` claim or status runs that fetch. Batch pool edits into one commit on a branch made at `origin/main` (or the scratch-index method in `cto`) instead of one command per item, and start no browser or heavy run in that copy while a pool command runs.
+- **A cloud copy is shallow, so `git fetch origin main` can pull hundreds of thousands of objects** (Nov 3: 385,472 objects, the pack grew to 4.1 GB, three minutes). Every `npm run pool` claim, `next` or status runs that fetch (`next` is the builder's way to take work, `docs/pool/START-A-BUILDER.md`). Batch pool edits into one commit on a branch made at `origin/main` (or the scratch-index method in `cto`) instead of one command per item, and start no browser or heavy run in that copy while a pool command runs.
 - **The storage guard refuses the bench without the override** once free disk drops under its 25 GiB reserve: `[storage-guard] Refused test: needs 1.0 GiB, but only 0 B is usable`. Every command that starts the bench, including a `setsid nohup npm run bench` restart, carries `OCD_STORAGE_OVERRIDE`.
 - **A "does it load" check of a probe is a world too.** Any script that imports the bench builds a whole world before its first line of output, so `timeout 60 node --import tsx probe.ts` beside a 20-year run and a probe was a third world, and the kernel killed the 20-year run at year 10 (Nov 10). Two worlds already running means no third, not even for a minute: check a new probe with `npx tsc --noEmit` or `eslint`, or start it only when a slot frees. The guards, `new-game-check` and any vitest that builds a world count the same (the same day, the guards beside two worlds killed both).
 - **A watch on a log stays silent if any stage of its pipe buffers.** `tail -F log | grep --line-buffered X | cut -c1-200` delivered nothing for 30 minutes while the run wrote its year lines (Nov 10): `cut` holds its output until its buffer fills. Keep `grep --line-buffered` as the last stage (or put `stdbuf -oL` in front of every later stage), and when a watch is silent longer than one step of the run, read the log directly before assuming the run hung.

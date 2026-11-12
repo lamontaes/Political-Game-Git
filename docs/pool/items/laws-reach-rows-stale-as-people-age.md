@@ -5,13 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr: #5403
+claimed-by: claude/pool-laws-reach-rows-stale-as-people-age
+pr: #8576
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:41:52.247Z
 after:
 lead: laws-effects
 model: sonnet

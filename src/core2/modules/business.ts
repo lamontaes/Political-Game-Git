@@ -8,6 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { BUSINESS_MODULE_ID } from "../business-module-id";
+import { noteEntryCause } from "../state";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
@@ -2102,6 +2103,12 @@ function found(
   if (scale <= 0 || (fullStaff > 0 && scale < Math.min(1, 1 / fullStaff)))
     return false;
   const share = equal * scale;
+  // The entry record names the founding it is the entry of.
+  noteEntryCause(
+    api.state as CoreState,
+    id,
+    `event:organization.founded:${id}`,
+  );
   api.addOrganization({
     id,
     placeId: market.placeId,
@@ -2470,6 +2477,13 @@ function businessHistory(
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const start = makeIsoDate(c.date);
+  const firstJobStarts = new Map<string, string>();
+  for (const commitment of c.work.commitments.values()) {
+    const heldFrom = commitment.heldSince ?? commitment.startsAt;
+    const held = firstJobStarts.get(commitment.organizationId);
+    if (!held || heldFrom < held)
+      firstJobStarts.set(commitment.organizationId, heldFrom);
+  }
   const source = {
     tag: "ESTIMATED" as const,
     asOf: c.date,
@@ -2482,10 +2496,24 @@ function businessHistory(
       p("businessOldestFirmYears"),
       Math.log(q) / Math.log(1 - exit),
     );
-    const foundedAt = makeIsoDate(
+    const ranked = makeIsoDate(
       addDays(start, -Math.round(years * p("jobsDaysPerYear"))),
     );
-    store(api).table("ages").put({ id: firm.id, foundedAt, ageYears: years });
+    // No firm is founded after its own workers began there: the founding
+    // reads the earliest start of a job held in it (the date the opening's
+    // one rule gave the worker, `openingJobStart`).
+    const firstJob = firstJobStarts.get(firm.id);
+    const foundedAt = firstJob && firstJob < ranked ? firstJob : ranked;
+    store(api)
+      .table("ages")
+      .put({
+        id: firm.id,
+        foundedAt,
+        ageYears:
+          foundedAt === ranked
+            ? years
+            : daysBetweenText(foundedAt, c.date) / p("jobsDaysPerYear"),
+      });
     if (foundedAt >= window.from && foundedAt <= window.through)
       history.record({
         id: `business.founded:${firm.id}`,

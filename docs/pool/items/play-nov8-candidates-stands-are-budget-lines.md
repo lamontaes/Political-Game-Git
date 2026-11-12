@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-nov8-candidates-stands-are-budget-lines
-pr:
+pr: #8564
 after:
 blocked-on:
 standard: 2

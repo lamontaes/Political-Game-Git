@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-release-audit-15-energy-cost-year
+pr: #8705
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:25:54.141Z
 standard: 2
 model: sonnet
 effort: medium
@@ -18,6 +18,7 @@ root: none
 lead: laws-effects
 after:
 checked: fable 2026-11-10
+branch: claude/pool-release-audit-15-energy-cost-year
 ---
 
 **What.** businessEnergyCostYear works out what a law that prices energy would cost a business over a year. It keeps its own small table of the clean-electricity and carbon-price rows, while the monthly settlement reads the same two laws from the PRICE_LAWS table, so the two can drift apart. Make the year cost read the one rule the settlement reads, and prove with a test that the year cost equals twelve months of the settlement. Also decide on purpose that employers without books never organize, and write that decision in the item notes. Seen: the yearly energy cost a clean-electricity or carbon-price law puts on a business, in the law's reach card, which must equal twelve months of what the business pays.
@@ -39,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Item 15 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:25 UTC) on branch claude/pool-release-audit-15-energy-cost-year.

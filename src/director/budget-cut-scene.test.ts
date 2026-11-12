@@ -22,6 +22,7 @@ import type { Fact } from "../english/scene-talk-words";
 import { SITUATION_LIBRARY } from "./scheduling";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { purposeScene } from "./purpose-scene";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The department head argues a cut (episode budget-cut-department-head,
 // docs/design/scenes/from-life/budget-cut-department-head.md). When the
@@ -215,11 +216,11 @@ it(`a cut to a line brings its department head to the executive, seed ${seed}`, 
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
       );
 
-    // Four replies, four stances: four different moves, four different lines.
+    // Up to four replies, all different stances: different moves, different lines (owner, Nov 10).
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["agree", "refuse", "bargain", "ask"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["agree", "refuse", "bargain", "ask"], where).toContain(row.move);
     expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
 
     // A different speaker says it differently: across trait profiles the

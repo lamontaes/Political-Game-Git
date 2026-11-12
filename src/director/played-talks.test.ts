@@ -32,6 +32,13 @@ interface Turn {
 
 const YES_NO = /^(yes|no|yeah|nope)\b/i;
 
+/** The calendar day after an ISO date. */
+function dayAfter(iso: string): string {
+  const at = new Date(`${iso.slice(0, 10)}T00:00:00Z`);
+  at.setUTCDate(at.getUTCDate() + 1);
+  return at.toISOString().slice(0, 10);
+}
+
 /**
  * Whether a played talk counts as one run to its close, and what it breaks.
  * It counts only with lines from both people, at least one reply the player
@@ -178,9 +185,12 @@ describe("talks in a played year", () => {
           const records = [
             ...new Set(talk.lines.flatMap((line) => line.sourceRecordIds)),
           ];
-          // A talk opens on its scene's day, never after the world moved on.
+          // A talk opens on its scene's day, or, for a record made during
+          // the day, at the player's next day start (the day after), never
+          // after the world moved on further.
           const late =
-            String(core.date) === staged.date
+            String(core.date) === staged.date ||
+            String(core.date) === dayAfter(staged.date)
               ? []
               : [`opened on ${core.date}, staged for ${staged.date}`];
           played.push({

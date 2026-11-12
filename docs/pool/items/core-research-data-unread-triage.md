@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 3
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-research-data-unread-triage
 pr: #5076
 after:
 blocked-on:
@@ -16,7 +16,7 @@ effort: low
 root: none
 lead: researcher
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T04:50:48.751Z
 checked: fable 2026-11-10
 ---
 

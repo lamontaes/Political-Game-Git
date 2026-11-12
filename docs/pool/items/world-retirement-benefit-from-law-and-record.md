@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/retirement-claims.ts, src/core2/social-security-law.ts, src/core2/data/laws/social-security-ages.json, src/core2/data/laws/starting-law.json, src/core2/data/opening-income.json, src/core2/retirement-benefit-formula.test.ts (new), src/core2/data/stopgaps/core.json
 
 **Notes.** Split from world-stopgap-retirement-claims-program-stand-in by pool feeder Oct 20.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sized a pension from the Social Security formula; no player sees a retiree's formula, and the stand-in item it closed is dropped.

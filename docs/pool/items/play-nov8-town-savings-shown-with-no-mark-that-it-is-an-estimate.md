@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-nov8-town-savings-shown-with-no-mark-that-it-is-an-estimate
+pr: #8598
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point C22, partly fixed)
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T04:34:04.157Z
 ---
 
 **What.** The owner, Nov 8, about 2:10 p.m. (v0.94.0, Manchester, Connecticut), on Budgets: "I can't really see any information about any of this stuff." The CTO's note (point C22): a town shows "Savings $318.1M" and dev text. Two of the three parts are fixed (a line the government spends nothing on is no longer listed, and "in force at the opening" is gone). The Savings row still prints the cash in the government's accounts, and on day one that cash is an opening estimate from one state's local observations, but the screen shows it as a settled fact with no mark that it is an estimate. A figure the player sees that starts from an estimate should be marked as one, in words, until play has replaced it.

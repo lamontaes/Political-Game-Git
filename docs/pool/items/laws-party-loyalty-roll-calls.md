@@ -19,6 +19,7 @@ effort: medium
 root: rc9-place-facts-one-default
 size: M
 checked: fable 2026-11-10
+branch: claude/pool-laws-party-loyalty-roll-calls
 ---
 
 **What.** State legislators' party loyalty runs on one shared weight, `weights.statePartyLoyalty` (value 1, in src/core2/data/officials/officials.json, read in src/core2/modules/officials.ts where a member's party term is scaled). It is checked against the federal party-unity figure (about 0.90) because the state roll-call input is not in the repository (stopgap SG-LAWS-state-party-loyalty-target). The owner's Oct 15 ruling lets the Shor-McCarty dataset calibrate this one parameter with nothing shipped; the replacement calibrates each chamber from its own public roll-call records. A player would see members of each chamber vote with or against their party the way that chamber really does. The sibling laws-party-loyalty-roll-call-weighing is proposed to merge here.
@@ -45,3 +46,5 @@ Sent back 2026-10-21 from PR #5521 (branch claude/political-game-pool-yucp92-rr)
 Sent back 2026-10-21 from PR #5159 (branch claude/political-game-pool-l9cym2): The restored stopgap row and removal of owner/date notes answer the prior send-back. The remaining calibration acceptance is unmet: state-chamber-loyalty.json:4 still says each legislature's own roll calls will be collected later, while docs/coordination/OWNER-DECISIONS.md:245 requires this input to be weighted against those roll calls. No new owner permission is needed for the already-ruled route. docs/pool/items/laws-party-loyalty-roll-calls.md:20 also requires a one-year drawn-world chamber-vote record ID showing the calibrated parameter being read; the body supplies no such place/seed/record chain and admits the roll-call comparison is not done. Complete those proofs and keep SG-LAWS-state-party-loyalty-target open until the replacement is demonstrated. Correct the chamber inventory too: the body says Nebraska is absent, but the new table at :118 includes NE.lower=0.6, while :47 contains HI.lower only. The 98 values therefore do not represent the claimed set of partisan state chambers. Morning review blocks this head; no local gate pass is claimed.; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Released (2026-11-11): Needs sourced per-chamber roll-call unity rates for about 99 state chambers fetched from public records; prior attempts were sent back for unsourced values, and a one-session fetch of that dataset is not attainable here. Continue on branch claude/pool-laws-party-loyalty-roll-calls and pull request #5521.

@@ -1,7 +1,11 @@
 {
   "schema": "english-pulled/1",
   "pulled": {},
-  "waiting": {},
+  "waiting": {
+    "scene-talk.follow-answer.because-those-three-can-t-afford-a-yes-and-you-can": [
+      "trade-not-bribe"
+    ]
+  },
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
@@ -13,14 +17,8 @@
     "conversation.job-new-detail-reply-answer-brief.well-it-s-a-start": [
       "no-filler"
     ],
-    "opening-speech.families.plain-ina-sta-if-you-ve-been-up-at-night-this-year-doing-the-math-on-your": [
+    "opening-speech.creed.polished-ina-sta-hopeful-core-a-free-and-hardworking-people-will-keep-best-moving": [
       "no-stock-phrases"
-    ],
-    "opening-speech.families.polished-ina-sta-to-every-parent-who-lay-awake-this-year-wondering-how-to-mak": [
-      "no-stock-phrases"
-    ],
-    "opening-speech.salutation.plain-ina-well-here-we-are-thank-you-for-being-here": [
-      "no-filler"
     ],
     "scene-talk.close-accept.all-right-i-hear-you": ["no-stock-phrases"],
     "scene-talk.close-accept.all-right-i-ll-let-you-go": [

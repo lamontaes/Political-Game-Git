@@ -6,9 +6,9 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-laws-nine-links-taxes
+claimed-by:
 pr: #8372
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -17,7 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T00:39:02.122Z
+claimed-at:
 branch: claude/pool-laws-nine-links-taxes
 ---
 
@@ -60,3 +60,5 @@ Claimed by next for muse-8740 (Muse Spark in Muse Code, tier mid) (2026-11-11 00
 Released (2026-11-11): grant half already wired on current code and estate half still waits on the open people-estate-wealth-top-tail. Continue on branch claude/pool-laws-nine-links-taxes and pull request #8372.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:38 UTC) on branch claude/pool-laws-nine-links-taxes.
+
+Released by next (2026-11-11): no push to claude/pool-laws-nine-links-taxes since 2026-11-11 00:06 UTC, more than twice its 4-hour time box. Continue on branch claude/pool-laws-nine-links-taxes and pull request #8372.

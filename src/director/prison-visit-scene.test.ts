@@ -21,6 +21,7 @@ import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 import type { TreeNode } from "./scene-talk";
 import type { ScheduleEntry } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // The player visits someone they know whom the justice engine holds, and the
 // person inside asks for something real (owner, Nov 9: a purpose for every
@@ -258,9 +259,11 @@ it(`a prison visit is about the term and what the person inside asks, from the r
         expect(narration, where).toMatch(/guard/);
         // Four ways to answer, and a branch deeper than one.
         const root = scene.talk.tree.replies.map((reply) => reply.line);
-        expect(new Set(root.map((row) => row.move)), where).toEqual(
-          new Set(["agree", "promise", "ask", "decline"]),
-        );
+        expectUpToFourDifferent(root, where);
+        for (const row of root)
+          expect(["agree", "promise", "ask", "decline"], where).toContain(
+            row.move,
+          );
         expect(scene.talk.depth, where).toBeGreaterThan(1);
         expect(
           scene.talk.gaps.filter((gap) => gap.includes("/ending/")),

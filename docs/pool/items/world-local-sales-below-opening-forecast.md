@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Give each missing buyer class a sourced customer (household Consumer Expenditure categories for retail, firms buying legal, accounting, telecom and construction services, county construction awards), or size each book to the buyers the opening can name. Built in three parts: household categories for retail, firms as buyers of services, and the remaining classes with the stopgap closed.
 
-**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop. Seen: a played town's population and jobs on the Metrics tab, which shrink 10 to 15 percent in the first year.
 
 **Rules.** Research before building: every customer class added cites its source and spread, and real rates check totals and never pick one firm's outcome. One model, two tiers: counted buyers and full buyers are read with the same rule, times their count. Wire to the world: each added buyer is a purchase flow another engine reads, by record id.
 

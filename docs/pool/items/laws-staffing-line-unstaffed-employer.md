@@ -5,13 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-staffing-line-unstaffed-employer
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T06:21:19.010Z
 after:
 lead: laws-effects
 model: sonnet
@@ -41,3 +41,7 @@ branch: claude/pool-laws-staffing-line-unstaffed-employer
 Analysis (claude pool worker, Oct 27; released unbuilt, more than the S/3-hour box). Two gaps, not one. (1) Funding: in `staffing` (src/core2/law-reach/group-a-staffing.ts, about line 197) an employer's funded positions are `baseStaff * ratio`, and for an unstaffed employer `baseStaff` is 0, so positions stay 0 however much the line rises. The no-employer branch already has the money-based formula, `(spendingMinor[line] - base) / publicPositionAnnualMinor`; an unstaffed employer would use the same, split among the town's unstaffed employers of that kind. (2) Hiring: the calendar worker (`onReachCalendar(STAFFING_KIND ...)`, about line 309) posts openings only from `staff[0]?.jobId ?? counted[0]?.id`, a job to copy for title, occupation, pay, schedule and commitment (`postFundedOpenings` in src/core2/modules/jobs.ts line 3640 copies them from `templateJobId`). A volunteer company has no job, and no other employer's job is the right occupation, so the opening cannot be posted. That needs a sourced role for the line (firefighter, police officer: title, occupation classification and BLS OEWS wage, hours of a public-safety week), either as `staffing.<line>.role` data in src/core2/data/law-reach beside `employers` and `levels`, or taken from `src/simulation/living-world/town-employment.ts`'s occupation tables, with a template job built through `startPublicJob` so payroll, commitment and the pay authority exist. Build order for whoever takes it: the role data with its citation first (researcher), then (1), then a template-less post path in `postFundedOpenings`, then the test in budget-line-staffing.test.ts that names the drawn place (White Meadow Lake, New Jersey and Henderson, Louisiana showed it Oct 24) and fails without the change.
 
 Released (2026-11-11): 6-hour item needing a new sourced role data row and payroll template; not started. Continue on branch claude/pool-laws-staffing-line-unstaffed-employer.
+
+Released (2026-11-11): Not built: the funding half alone (money-based positions for an employer with no paid staff, split among the town's unstaffed employers, group-a-staffing.ts line ~197) would write a positions record no engine reads, because hiring copies a template job and a volunteer company has none; the item is one unit with the sourced role row (title, occupation, BLS OEWS wage, public-safety hours) and startPublicJob template, which is the 6-hour part and needs a researched wage row first. Continue on branch claude/pool-laws-staffing-line-unstaffed-employer.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:21 UTC) on branch claude/pool-laws-staffing-line-unstaffed-employer.

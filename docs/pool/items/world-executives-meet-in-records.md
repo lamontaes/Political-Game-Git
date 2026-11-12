@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Record a meeting naming both executives and the cause record (disaster request, grant, shared disaster) in src/core2/modules/meetings.ts, called from the executive and disaster modules, and add the director moment for each executive.
 
-**Time box.** 5 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: a scene of a mayor and the governor, or the governor and the president, meeting over a disaster request or a grant (the owner asked for it).
 
 **Rules.** Simulate it, don't ask: executives meet when a recorded cause (a disaster, a grant, a mandate) puts a decision between their governments, never on a timer or a chance. Wire to the world: the meeting is read by the director, which stages a scene. One rule, all 56 places: no place is named.
 

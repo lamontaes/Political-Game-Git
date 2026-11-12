@@ -4,9 +4,9 @@ title: "A reunion over a shared cause talks about the cause, not the old school"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/pool-words-reunion-talks-the-shared-cause
-pr:
+pr: #8476
 blocked-on:
 milestone:
 source: "words batch-12 reading, Oct 15"

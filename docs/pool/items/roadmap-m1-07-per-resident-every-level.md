@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-roadmap-m1-07-per-resident-every-level
-pr:
+pr: #8566
 blocked-on:
 after: roadmap-m1-housing-budgets-business-commands
 source: added with npm run pool -- add

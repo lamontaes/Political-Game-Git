@@ -27,7 +27,7 @@ checked: fable 2026-11-10
 
 **Fix.** Let counted renters and arriving households buy new houses under the full-household affordability rule, using the counted-renters-buy mechanic, and resolve SG-WORLD-housing-new-home-buyers.
 
-**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the town's housing numbers, where new houses sit unsold because only full renter households ever buy one.
 
 **Rules.** One model, two tiers: counted renters and arriving households buy under the same affordability rule as full ones. Sliding scales and causes: buying follows income, savings and price. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
