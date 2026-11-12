@@ -133,6 +133,10 @@
     "player-news": {
       "kind": "player-news",
       "stage": "default"
+    },
+    "government-news": {
+      "kind": "government-news",
+      "stage": "default"
     }
   },
   "follows": {
@@ -301,6 +305,10 @@
       "tell": "answer",
       "ask": "request"
     },
+    "government-news": {
+      "for": "agree",
+      "against": "disagree"
+    },
     "eviction": {
       "ask": "request",
       "where": "request",
@@ -448,6 +456,7 @@
       "rent-due",
       "news-touch",
       "player-news",
+      "government-news",
       "eviction"
     ],
     "againAfterDays": {
@@ -699,6 +708,16 @@
       "tag": "TUNABLE",
       "spread": [0.5, 2],
       "checkedAgainst": "The views engine's lean runs from very liberal to very conservative in whole steps; a step apart across the middle is the other side (views.ts labels)."
+    }
+  },
+  "governmentNews": {
+    "about": "Words composer (owner's golden path: \"the town visibly changes, people bring it up\"; lead, Nov 12). What a government did, brought up at home by a housemate with a source on record for it: an address they heard (any level's head of government, by the office that gave it, said by role), a local budget line or ordinance that carried, from the story they read (their news.read record), or a town hall they attended (its record names them). With the question it was about, their own side on it from the views engine, said as a stand; with no side of theirs, two beats. Told once by the house; someone too young for stands does not raise it. Whom it reached is not read yet (stopgap SG-DIRECTOR-town-change-reach-unread). Names and numbers only; no sentence.",
+    "levels": ["county", "local", "town", "city", "state"],
+    "withinDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [3, 14],
+      "checkedAgainst": "What government did is talked over in the week after the paper has it or the address is given (the same window as the player's own news, playerNews.withinDays)."
     }
   }
 }

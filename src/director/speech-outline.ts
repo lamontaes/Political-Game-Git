@@ -4,7 +4,7 @@
  * just for the president's speech. This should apply to all speeches ... the
  * problem is the engine"). The President's inaugural and State of the Union,
  * a governor's State of the State and a mayor's State of the City are each a
- * row of `data/speech-outlines.json`: its sections in order, how many points
+ * row of `src/director/data/speech-outlines.json`: its sections in order, how many points
  * and asks it carries, whether its asks are numbered and whether the past
  * year may be told as the speaker's own record. The planner reads the row and
  * the world and returns the blocks `composeBlocks` words:
@@ -31,11 +31,13 @@ import { historyMonths, monthKey, shiftMonth } from "../core2/macro-model";
 import type { MacroMonth } from "../core2/macro-model";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
-import { ownStance } from "../core2/officials-roster";
-import { PRESIDENT_FACT } from "../core2/officials-president";
+import { ownStance, PRESIDENT_FACT } from "../core2/modules/officials";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
-import type { LawRowInput } from "../core2/laws-starting";
+import {
+  policyAuthority,
+  type LawRowInput,
+  type PolicyLevel,
+} from "../core2/modules/laws";
 import type { CoreAPI, CoreState, PersonState } from "../core2/types";
 import type { EntityId } from "../core2/kernel/brands";
 import type {
