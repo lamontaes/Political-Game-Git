@@ -47,11 +47,24 @@ export function commaSplices(text: string): string[] {
   return text.split(/(?<=[.!?])\s+/).filter((sentence) => {
     const parts = sentence.split(/,\s+/);
     if (parts.length > 3) return false;
+    // The clause before the comma is read from where it starts: a list
+    // inside a "Because ..." clause ("affordable, reliable energy") keeps
+    // the clause subordinate (W-F, Nov 12).
+    const clauseBefore = (at: number) => {
+      let from = at - 1;
+      while (
+        from > 0 &&
+        !CLAUSE_START.test(parts[from]!) &&
+        !SUBORDINATE.test(parts[from]!)
+      )
+        from -= 1;
+      return parts.slice(from, at).join(", ");
+    };
     return parts.some(
       (part, at) =>
         at > 0 &&
         CLAUSE_START.test(part) &&
-        !SUBORDINATE.test(parts[at - 1]!) &&
+        !SUBORDINATE.test(clauseBefore(at)) &&
         FINITE.test(parts[at - 1]!),
     );
   });
