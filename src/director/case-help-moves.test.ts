@@ -66,11 +66,20 @@ const run = (drawSeed: string, decision: "help" | "decline"): string | null => {
   const me = member.id as PersonId;
   core.playerId = me;
   director.watch(core, me);
+  const cases = coreAPI(core).moduleState(CASES_MODULE_ID).table("cases");
+  // A visit whose case the office has not already decided by its deadline.
+  const open = (momentId: string) =>
+    (
+      cases.get(momentId.slice(momentId.indexOf("case:"))) as
+        CaseRow | undefined
+    )?.status === "open";
   const find = () =>
     director.ledger.people
       .get(me)
-      ?.schedule.find((row) =>
-        row.bindings.some((b) => b.typeKey === "office-hours"),
+      ?.schedule.find(
+        (row) =>
+          row.bindings.some((b) => b.typeKey === "office-hours") &&
+          open(row.momentId),
       );
   let entry = find();
   for (let day = 0; day < DAYS && !entry; day++) {
