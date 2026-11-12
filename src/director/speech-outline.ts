@@ -38,6 +38,7 @@ import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import {
   BUDGETS_MODULE_ID,
   budgetsOf,
+  governmentOfJurisdiction,
   governments,
 } from "../core2/modules/budgets";
 import { DISASTERS_MODULE_ID, townDisasters } from "../core2/modules/disasters";
@@ -913,8 +914,9 @@ const KEEPS_CAPITAL =
  * The wordings of how a question stands that make a different point from the
  * belief said beside them (the words lead, Nov 12: "judged by people who
  * have done the job" followed at once by "to people who know the work"): the
- * ones that share the fewest subject words with the belief, by the composed
- * check's own reader, in their order. Every wording when there is no belief.
+ * ones that share the fewest subject words with the belief and what the
+ * speech said before it, by the composed check's own reader, in their order.
+ * Every wording when nothing was said before.
  */
 function apartFrom(
   wordings: readonly string[],
@@ -955,6 +957,7 @@ function beliefWords(
   side: "for" | "against",
   said: string[],
   thisSpeech: Set<string>,
+  spokenBefore: string | null = null,
 ): { text: string; piece: string } | null {
   const move = openingMove(kind, voice, "belief-words");
   if (!move) return null;
@@ -978,9 +981,19 @@ function beliefWords(
   );
   // A principle said already in this speech gives way to another, then to
   // the side's own reason: no frame or belief twice in one speech.
-  const variants = move.bank.parts.core.variants.filter(
+  const fitting = move.bank.parts.core.variants.filter(
     (variant) => allowed.has(variant.key) && !thisSpeech.has(variant.key),
   );
+  // Of those, the ones that say least of what the speech already said.
+  const textOf = (key: string) =>
+    OPENING_SPEECH_BANK.parts.find((row) => row.key === key)?.text ?? "";
+  const apart = new Set(
+    apartFrom(
+      fitting.map((variant) => textOf(variant.key)),
+      spokenBefore,
+    ),
+  );
+  const variants = fitting.filter((variant) => apart.has(textOf(variant.key)));
   const own = reason
     ? { text: reason, piece: `reason:${question}:${side}` }
     : null;
@@ -1315,9 +1328,10 @@ function conditionFacts(
   const api = coreAPI(core);
   const out: Facts = {};
   const band = OUTLINES.conditions.budgetEvenBand.value;
-  const government = core.modules.has(BUDGETS_MODULE_ID)
-    ? (governments(api).find((row) => row.jurisdictionId === jurisdiction) ??
-      (local
+  // The engine's own reader of the government a jurisdiction names.
+  const government = jurisdiction
+    ? (governmentOfJurisdiction(api, jurisdiction) ??
+      (local && core.modules.has(BUDGETS_MODULE_ID)
         ? governments(api).find(
             (row) => row.level === (level === "county" ? "county" : "city"),
           )
@@ -1649,6 +1663,8 @@ export function planSpeech(
   // The beliefs this speaker said before, in earlier addresses, then here.
   const beliefsSaid = earlierAddressPieces(core, person.id);
   const beliefsHere = new Set<string>();
+  // What the points planned so far say, in order.
+  const spoken: string[] = [];
   const planned: PlannedPoint[] = pointStands.map((stand, at) => {
     const side = stand.stance > P.zero ? "for" : "against";
     const family = questionFamily(stand.question);
@@ -1664,11 +1680,19 @@ export function planSpeech(
           side,
           beliefsSaid,
           beliefsHere,
+          spoken.join(" ") || null,
         )
       : null;
+    // How it stands, in the wordings that say least of what the belief
+    // beside it and the points before it already said.
     const todays = apartFrom(
       questionTodayWordings(stand.question, stand.law.inForce, side),
-      belief?.text ?? null,
+      [belief?.text, ...spoken].filter(Boolean).join(" ") || null,
+    );
+    spoken.push(
+      ...[belief?.text, todays[P.zero]].filter(
+        (text): text is string => !!text,
+      ),
     );
     return {
       question: stand.question,

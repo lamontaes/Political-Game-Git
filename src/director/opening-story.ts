@@ -265,7 +265,8 @@ function composeAddressOf(
  */
 /** The roles of sentences that only set the scene, left out rather than say a subject word past its budget. */
 const LEFT_OUT_PAST_BUDGET: readonly string[] = [
-  "today",
+  // How a point's question stands today is never left out: every point
+  // says it (the words lead, Nov 12: context, stand, ask).
   "meaning",
   "tie",
   "context",
@@ -582,8 +583,8 @@ export function composeBlocks(
           )
             said = again;
         }
-        // A sentence that only sets the scene (how things stand, a figure,
-        // a condition, a hope) and would still say a subject word past the
+        // A sentence that only sets the scene (a figure, a condition, a
+        // hope) and would still say a subject word past the
         // budget after its redraws is left out: the point stands on its
         // belief and its ask (speech-has-one-theme).
         if (

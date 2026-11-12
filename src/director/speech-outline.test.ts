@@ -206,9 +206,13 @@ describe("every speech through the one outline planner", () => {
               failures.push(`${name}: shape ${point.shape} is used twice`);
             pointShapes.add(point.shape);
             // 1. The context's side is the ask's side, and it is said.
+            // Any of the side's wordings: the planner says the one that makes
+            // a different point from the belief beside it (words builder,
+            // Nov 12: "judged by people who have done the job" then "to
+            // people who know the work").
             const forms = (side: "for" | "against") =>
-              [true, false].map((law) =>
-                questionToday(point.question, law, side),
+              [true, false].flatMap((law) =>
+                questionTodayWordings(point.question, law, side),
               );
             const otherSide = point.side === "for" ? "against" : "for";
             if (!point.today || !forms(point.side).includes(point.today))
