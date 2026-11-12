@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: R1 (Fable A's builder)
-pr: 8884
+pr: #8884
 after:
 blocked-on:
 lead: governing
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: the lead (Fable A), Nov 12, 2026, on the CTO's line on #7365 (comment 6822377628)
+merged-at: 2026-11-12T14:53:19.580Z
 ---
 
 **What.** Guards: the game may calibrate on real numbers and never reproduce them (CTO, Nov 12, 2026, #7365 comment 6822377628). `src/core2/realistic-not-real.test.ts` line 820 (row 44, past races) builds the same place with two seeds and requires every past race of a thousand votes or more to differ between the two worlds. It fails on clean main in two drawn places. Carolina, Rhode Island (4412340), REALISTIC_SEED=1f847ff6f693efc1: prior-election:seat:US-RI:lower:039:0:2024-11-05 has 6,731 votes in both worlds (Deterministic validation 43204347616 on main 3ed3915c59). Leusoali'i, American Samoa (territory:AS:leusoalii), REALISTIC_SEED=970a2d32fc2d63f1: prior-election:seat:US-AS:lower:At-large:0:2024-11-05 has 10,488 votes in both worlds (Merger codex-4629, #7365 comment 6817215400, on main cd2f4a44f8). Both are lower-house seats.
