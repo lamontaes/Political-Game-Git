@@ -19,7 +19,9 @@ import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import vacancyDuration from "../data/jobs/vacancy-duration.json" with { type: "json" };
 import openingsRate from "../data/jobs/openings-rate.json" with { type: "json" };
-import type { Parameter } from "../parameters";
+import { parameter, type Parameter } from "../parameters";
+import { townWorkplaceWeights } from "../town-employment-mix";
+import { TOWN_WORKPLACES } from "../town-workplaces";
 import { stopgap } from "../stopgaps";
 import {
   decisionLean,
@@ -1099,6 +1101,95 @@ function open(api: CoreAPI): void {
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   scheduleReview(api);
   scheduleWeek(api);
+}
+
+/** A role of the county's work, merged across the kinds of workplace that list it. */
+export interface CommuterRole {
+  readonly title: string;
+  readonly occupation: string;
+  readonly share: number;
+  readonly minAge: number;
+}
+const commuterRolesByPlace = new WeakMap<
+  CoreState,
+  Map<string, readonly CommuterRole[]>
+>();
+
+/** Every role of the place's county mix, with its share of the county's jobs. */
+function commuterRoles(
+  core: CoreState,
+  placeId: string,
+): readonly CommuterRole[] {
+  let byPlace = commuterRolesByPlace.get(core);
+  if (!byPlace) commuterRolesByPlace.set(core, (byPlace = new Map()));
+  const known = byPlace.get(placeId);
+  if (known) return known;
+  const weights = townWorkplaceWeights(placeId as EntityId, core.seed);
+  const total = [...weights.values()].reduce(
+    (sum, value) => sum + Math.max(0, value),
+    0,
+  );
+  const roles = new Map<string, CommuterRole>();
+  for (const workplace of TOWN_WORKPLACES) {
+    const weight = Math.max(0, weights.get(workplace.key) ?? 0);
+    const roleTotal = workplace.roles.reduce((sum, row) => sum + row.weight, 0);
+    if (weight <= 0 || total <= 0 || roleTotal <= 0) continue;
+    for (const row of workplace.roles) {
+      if (row.weight <= 0) continue;
+      const key = `${row.title}|${row.occupation}`;
+      const share = ((weight / total) * row.weight) / roleTotal;
+      const prior = roles.get(key);
+      roles.set(key, {
+        title: row.title,
+        occupation: row.occupation,
+        share: (prior?.share ?? 0) + share,
+        minAge: Math.max(
+          prior?.minAge ?? 0,
+          row.minAge ?? parameter("childUpperAge"),
+        ),
+      });
+    }
+  }
+  const list = [...roles.values()].sort((a, b) =>
+    a.title.localeCompare(b.title),
+  );
+  byPlace.set(placeId, list);
+  return list;
+}
+
+/**
+ * The work a resident who commutes out of the town does: of the county's
+ * roles they are old enough for, the one furthest below its share of the
+ * county's jobs among the place's commuters today, then by title. Nothing is
+ * drawn: the place's commuters together follow the county's mix of work
+ * (nurses, teachers, plant workers and drivers, not only clerks), and the
+ * same person filled in again takes the same place in it. Null where the
+ * place has no sourced mix.
+ */
+export function commuterRole(
+  core: CoreState,
+  placeId: string,
+  employerId: string,
+  age: number,
+): CommuterRole | null {
+  const roles = commuterRoles(core, placeId).filter((row) => age >= row.minAge);
+  if (!roles.length) return null;
+  const held = new Map<string, number>();
+  let commuters = 0;
+  for (const job of core.jobs.values()) {
+    if (job.endsAt !== undefined || job.organizationId !== employerId) continue;
+    if (!job.id.startsWith("job:commuter:")) continue;
+    const key = `${job.title}|${job.occupationClassification ?? ""}`;
+    held.set(key, (held.get(key) ?? 0) + 1);
+    commuters += 1;
+  }
+  const shareTotal = roles.reduce((sum, row) => sum + row.share, 0);
+  const short = (row: CommuterRole) =>
+    (row.share / shareTotal) * (commuters + 1) -
+    (held.get(`${row.title}|${row.occupation}`) ?? 0);
+  return [...roles].sort(
+    (a, b) => short(b) - short(a) || a.title.localeCompare(b.title),
+  )[0]!;
 }
 
 /** The share of an employer's work that stands open on any day: its industry's JOLTS openings rate. */

@@ -1,4 +1,3 @@
-import { OUTSIDE_MARKET_KIND } from "../core2/opening-outside-market";
 import { servingTermsOf } from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
@@ -66,15 +65,15 @@ const CLOSEST = 8;
 /** A person card: who they are, from their records only. */
 /**
  * The name of the employer a job is with, as a card says it; none for work
- * outside the town, whose payer is the place's outside account ("Buyers and
- * sellers outside the town") and not anyone's workplace.
+ * paid by an outside account (the place's buyers and sellers outside the
+ * town), which is nobody's workplace (the rule talk keeps, `employerFact`).
  */
 function employerName(
   core: CoreState,
   organizationId: string,
 ): string | undefined {
   const organization = core.organizations.get(organizationId);
-  return organization && organization.kind !== OUTSIDE_MARKET_KIND
+  return organization && organization.outsideFlow === undefined
     ? organization.name
     : undefined;
 }
@@ -1050,7 +1049,7 @@ function noJobLine(
   const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
   // Work outside the town has no workplace to name: the line without one is told.
-  if (earner && job && employer && employer.kind !== OUTSIDE_MARKET_KIND) {
+  if (earner && job && employer && employer.outsideFlow === undefined) {
     const text = screenLine(
       "person-history",
       "person-history.summary.no-work.earner.you",
