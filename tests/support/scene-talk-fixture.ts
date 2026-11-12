@@ -77,6 +77,7 @@ export const facts: Record<string, Fact> = {
   section: fact("2"),
   chair: fact("Lee Ortiz"),
   office: fact("county commissioner"),
+  seat: fact("the seat"),
   place: fact("the town"),
   money: fact("$500"),
   outlet: fact("the Courier"),

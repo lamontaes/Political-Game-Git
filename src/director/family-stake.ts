@@ -13,6 +13,7 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { moneySaid, votesSaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
+import { properName } from "./words";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
@@ -122,6 +123,10 @@ function filingStakeOf(
     );
   if (filer.jobId && children.length) {
     const child = children[zero]!;
+    const job = core.jobs.get(filer.jobId);
+    const employer = job
+      ? core.organizations.get(job.organizationId)
+      : undefined;
     stakes.push({
       kind: "time",
       strength: RULES.timeStrength.value,
@@ -131,6 +136,16 @@ function filingStakeOf(
           recordIds: [causeId, child.id, filer.jobId],
         },
         child: { text: child.givenName, recordIds: [child.id] },
+        // Where the filer works, whose hours the campaign's evenings come
+        // out of, by its name on record.
+        ...(employer
+          ? {
+              employer: {
+                text: properName(employer.name),
+                recordIds: [filer.jobId, employer.id],
+              },
+            }
+          : {}),
       },
     });
   }

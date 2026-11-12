@@ -102,22 +102,6 @@
       "rewrites": ["It'd be like, what, did you just decide this without me?"]
     },
     {
-      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-the-paychecks-don-t-and-the-race-runs-remainin",
-      "id": "4.2",
-      "spans": [
-        {
-          "start": 0,
-          "end": 115,
-          "strength": -0.75
-        }
-      ],
-      "note": "4.2, how would they know how much the race costs?",
-      "rewrites": [
-        "But it'd be like 4.2, can we even afford this?",
-        "That would be more realistic."
-      ]
-    },
-    {
       "key": "scene-talk.state-ask.you-filed-fine-tell-me-who-has-child-the-nights-you-re-out",
       "id": "4.3",
       "spans": [
@@ -128,30 +112,6 @@
         }
       ],
       "note": "4.3 is not good."
-    },
-    {
-      "key": "scene-talk.reply-request.will-you-help-with-the-campaign-i-ll-keep-the-money-out-of-it-if-you-do",
-      "id": "5.1",
-      "spans": [
-        {
-          "start": 0,
-          "end": 73,
-          "strength": -1
-        }
-      ],
-      "note": "Does not make any sense."
-    },
-    {
-      "key": "scene-talk.reply-request.i-need-you-with-me-on-this-can-you-take-the-school-nights-when-i-m-out",
-      "id": "5.2",
-      "spans": [
-        {
-          "start": 0,
-          "end": 72,
-          "strength": -1
-        }
-      ],
-      "note": "That doesn't make any sense."
     },
     {
       "key": "scene-talk.close-warn.i-hope-you-know-what-this-costs-you",

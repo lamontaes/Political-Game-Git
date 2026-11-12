@@ -121,6 +121,9 @@ it("stages the filing talk only for a relative with a stake, and records what th
   let sawPutOff = false;
   let sawStrain = false;
   const notes: string[] = [];
+  // The replies a money household and a child household heard.
+  const moneyReplies = new Set<string>();
+  const timeReplies = new Set<string>();
   for (
     let attempt = 0;
     attempt < ATTEMPTS && !(sawEnlist && sawPutOff);
@@ -176,7 +179,7 @@ it("stages the filing talk only for a relative with a stake, and records what th
       // The opener says it, in her own words: money or time, from the record.
       const opener = scene.talk.state.text;
       if (stakeFact!.key === "stake-money")
-        expect(opener, here).toMatch(/savings|saved|money/i);
+        expect(opener, here).toMatch(/savings|saved|money|afford/i);
       else
         expect(opener, here).toContain(
           core.people.get(
@@ -196,7 +199,50 @@ it("stages the filing talk only for a relative with a stake, and records what th
         here,
       );
       for (const move of moves)
-        expect(["tell", "request", "comfort", "deflect"], here).toContain(move);
+        expect(["tell", "request", "promise", "deflect"], here).toContain(move);
+      // A promise about the stake is always offered beside asking for help.
+      expect(moves, here).toEqual(
+        expect.arrayContaining(["request", "promise"]),
+      );
+      // The talk names this household's own stake, from its records: the
+      // relative's question names the days the savings last or the child,
+      // and the request and the promise each name a fact of the stake. No two
+      // replies carry the same insert (one screen names a thing once).
+      const factText = (key: string) =>
+        scene.facts.find((row) => row.key === key)?.text;
+      const reply = (move: string) =>
+        scene.talk.tree.replies.find((row) => row.line.move === move)?.line
+          .text ?? "";
+      // Speech never quotes how long the savings last (the owner's rule
+      // no-figures-people-would-not-know); the days the race has left are
+      // said instead.
+      if (stakeFact!.key === "stake-money") {
+        expect(opener, here).toContain(factText("remaining")!);
+        expect(reply("request"), here).toContain(factText("remaining")!);
+        if (factText("cushion") !== factText("remaining"))
+          for (const row of scene.talk.lines.filter(
+            (line) => line.role !== "narrator",
+          ))
+            expect(row.text, here).not.toContain(factText("cushion")!);
+      } else {
+        expect(reply("request"), here).toContain(factText("child")!);
+        const employer = factText("employer");
+        if (employer) expect(reply("promise"), here).toContain(employer);
+      }
+      // The seat is named in full once (the relative's question) and short
+      // after; no two replies name it.
+      const officeText = factText("seat") ?? factText("office");
+      if (officeText)
+        expect(
+          scene.talk.tree.replies.filter((row) =>
+            row.line.text.includes(officeText),
+          ).length,
+          `${here}: the office named in more than one reply: ${scene.talk.tree.replies.map((row) => row.line.text).join(" | ")}`,
+        ).toBeLessThanOrEqual(1);
+      for (const row of scene.talk.tree.replies)
+        (stakeFact!.key === "stake-money" ? moneyReplies : timeReplies).add(
+          row.line.text,
+        );
       // The player's replies name a body only where it is the office they
       // filed for, and claim no span of years the records do not hold.
       const office = (
@@ -244,13 +290,15 @@ it("stages the filing talk only for a relative with a stake, and records what th
               scene.askerId,
             );
           else if (answered?.move === "promise") {
-            expect(before, here).not.toContain(scene.askerId);
             expect(after, `${here}: said yes, not counted`).toContain(
               scene.askerId,
             );
-            expect(core.durableLog.get(id!)?.facts?.enlisted, here).toBe(
-              filing.id,
-            );
+            // Enlisted by this reply, unless a path played earlier in the
+            // same scene went through the same request and promise.
+            if (!before.includes(scene.askerId))
+              expect(core.durableLog.get(id!)?.facts?.enlisted, here).toBe(
+                filing.id,
+              );
             sawEnlist = true;
             notes.push(
               `${here}: ${answered.speaker} answered "${answered.text}" and is counted a volunteer (${id})`,
@@ -339,6 +387,12 @@ it("stages the filing talk only for a relative with a stake, and records what th
       }
     }
   }
+  // A household short on savings and one with a young child never hear the
+  // same reply.
+  expect(
+    [...moneyReplies].filter((text) => timeReplies.has(text)),
+    `seed ${seed}`,
+  ).toEqual([]);
   console.log(notes.join("\n"));
   if (process.env.SCENE_LOG)
     writeFileSync(process.env.SCENE_LOG, notes.join("\n"));
