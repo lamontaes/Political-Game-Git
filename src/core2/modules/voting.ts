@@ -4109,7 +4109,7 @@ function startRecount(api: CoreAPI, row: RecountRow): RecountRow {
       recount: row.kind,
       leaderId: row.leaderId,
       trailingId: row.trailingId,
-      margin: row.margin,
+      margin: String(row.margin),
       ends: row.ends,
       ...(row.requestedBy ? { requestedBy: row.requestedBy } : {}),
     },
