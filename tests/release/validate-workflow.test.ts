@@ -90,13 +90,13 @@ describe("deterministic validation workflow capacity", () => {
   });
 
   it("preserves trusted checkout, action versions, and exact PR-head refs", () => {
-    expect(validate.match(/actions\/checkout@v7/g)).toHaveLength(3);
+    expect(validate.match(/actions\/checkout@v7/g)).toHaveLength(4);
     expect(
       validate.match(
         /ref: \$\{\{ github\.event\.pull_request\.head\.sha \|\| github\.sha \}\}/g,
       ),
     ).toHaveLength(2);
-    expect(validate.match(/actions\/setup-node@v7/g)).toHaveLength(3);
+    expect(validate.match(/actions\/setup-node@v7/g)).toHaveLength(4);
     expect(validate).toContain(
       "ref: ${{ github.event.pull_request.head.sha || github.sha }}",
     );
