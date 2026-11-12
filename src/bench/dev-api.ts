@@ -309,6 +309,9 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET bill-deciders":
+      send(200, mode.billDeciders(q("billId")));
+      return true;
     case "GET wealthiest":
       send(200, mode.wealthiest());
       return true;

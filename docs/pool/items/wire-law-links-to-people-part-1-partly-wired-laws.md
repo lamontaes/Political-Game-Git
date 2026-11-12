@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-wire-law-links-to-people-part-1-partly-wired-laws
 pr: #8523
@@ -17,7 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T03:29:55.975Z
+claimed-at: 2026-11-11T08:05:05.798Z
 branch: claude/pool-wire-law-links-to-people-part-1-partly-wired-laws
 ---
 
@@ -38,3 +38,7 @@ branch: claude/pool-wire-law-links-to-people-part-1-partly-wired-laws
 **Files.** src/core2/law-reach/applied.ts, scripts/law-wiring/matrix.ts, scripts/law-wiring/check.ts, docs/reports/law-wiring-matrix.json
 
 **Notes.** Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:29 UTC) on branch claude/pool-wire-law-links-to-people-part-1-partly-wired-laws.
+
+Released (2026-11-11): opus-5251 stopped under the cap on new work (Nov 11); the draft PR and its branch keep the work and a handoff note; claiming it takes the branch. Continue on branch claude/pool-wire-law-links-to-people-part-1-partly-wired-laws and pull request #8523.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:05 UTC) on branch claude/pool-wire-law-links-to-people-part-1-partly-wired-laws.
