@@ -320,7 +320,25 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         // The administration line pays real staff: the employer is funded,
         // and the jobs engine fills the openings it posts from named and
         // counted seekers alike, each hire recorded.
+        // The funded opening is taken only by a seeker whose finding progress
+        // reaches one at a monthly jobs review (the 1st) while the opening is
+        // already past its vacancy wait (jobs.ts reviewRegionalFinds; 36 to 49
+        // days for a government, vacancyDays); a seeker who reaches one before
+        // that takes a regional job instead. So play on a week at a time, up
+        // to the longest wait, the month to the next review and two weekly
+        // rounds (98 days after the change), until the hire is recorded.
+        let playedDays = 35;
+        const hired = () =>
+          open(api, ADMIN).find((r) => r.what === "hired-on-budget-line");
+        while (playedDays < 98 && !hired()) {
+          advanceCore(core, next(api, 7));
+          playedDays += 7;
+        }
         const staffRows = open(api, ADMIN);
+        const firstHire = hired();
+        process.stdout.write(
+          `${where}: administration hire ${firstHire ? `${firstHire.targetId} at ${firstHire.id} by ${core.date}` : "none"}, ${playedDays} days after the change\n`,
+        );
         expect(
           staffRows.filter((r) => r.target === "organization").length,
           `${where}: administration staffing applied to an employer`,
@@ -682,8 +700,25 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             open(api, key).map((r: LawAppliedRow) => r.id),
             `${where}: ${key} ended after repeal`,
           ).toEqual([]);
+        // The treasury ends a row for a law that no longer raises a line at its
+        // month's close (the 1st; budgets-treasury.ts endLineLaws), so play past
+        // the next close before reading the staffing rows.
+        const afterClose = addDays(
+          makeIsoDate(`${api.state.date.slice(0, "YYYY-MM".length)}-01`),
+          33,
+        ).slice(0, "YYYY-MM".length);
+        advanceCore(core, makeIsoDate(`${afterClose}-02`));
+        // What the test added is what ends: the staffing hired on its raise and
+        // every row its own measure carries. A row for a budget bill the world's
+        // own body enacted and carried (a different measure, which the close
+        // keeps paying) is the town's baseline, not this test's staffing.
+        const OWN_MEASURE = "law-wiring-government-admin";
         expect(
-          open(api, ADMIN).filter((r) => r.target === "organization"),
+          open(api, ADMIN).filter(
+            (r) =>
+              r.target === "organization" &&
+              (r.what === "hired-on-budget-line" || r.lawId === OWN_MEASURE),
+          ),
           `${where}: staffing ended when the line returned to base`,
         ).toEqual([]);
         return;
