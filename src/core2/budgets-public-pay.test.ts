@@ -176,8 +176,9 @@ it(`an opening public employer's wages come out of its government's treasury, in
       result.paydays + (result.short > 0 ? 1 : 0),
       `${result.where}: a payday from the treasury or a recorded shortfall`,
     ).toBeGreaterThan(0);
-    console.log(
-      `WIRED ${result.where}: ${result.employers} employers, ${result.paydays} payday entries, ${result.drawn} minor from the treasury, ${result.short} recorded short, ledger ${result.ledger}`,
+    // Written to stdout so the witness place prints on a passing run too.
+    process.stdout.write(
+      `WIRED ${result.where}: ${result.employers} employers, ${result.paydays} payday entries, ${result.drawn} minor from the treasury, ${result.short} recorded short, ledger ${result.ledger}; passed over: ${passedOver.join("; ") || "none"}\n`,
     );
     return;
   }
