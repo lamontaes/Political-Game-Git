@@ -2451,6 +2451,156 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
   return [...byPlace.values()];
 }
 
+/** The places' own people as the country tier counts a state's: adults by its age bands, children, who is at work (by employer) and looking, and their cash. */
+export interface ResidentsPart {
+  /** Adults in each of the tier's age bands. */
+  adults: number[];
+  children: number;
+  workers: number[];
+  seekers: number[];
+  /** Workers by their employer's id; work outside a recorded employer under "". */
+  workersByEmployer: Map<string, number>;
+  /** The county sample's workers, by the NAICS sector of the county employer each works at. */
+  workersByIndustry: Map<string, number>;
+  /** Their households' cash, minor units. */
+  cashMinor: number;
+}
+
+/**
+ * The people of a set of places, full people and counted ones by the same rules, each counted
+ * record times the households it stands for: their age bands, who holds a job (once, at the
+ * job that stands for the most of them), works for the county employer its household's record
+ * names, or works outside a recorded employer, who is looking
+ * (a seeker's row in the jobs engine without a job), and what their accounts hold. Read on a
+ * month's first day from the records the engines keep today; it walks no history.
+ */
+export function residentsPart(
+  core: CoreState,
+  placeIds: ReadonlySet<string>,
+  bands: readonly string[],
+): ResidentsPart {
+  const at = makeIsoDate(core.date);
+  const part: ResidentsPart = {
+    adults: bands.map(() => 0),
+    children: 0,
+    workers: bands.map(() => 0),
+    seekers: bands.map(() => 0),
+    workersByEmployer: new Map(),
+    workersByIndustry: new Map(),
+    cashMinor: 0,
+  };
+  const bandOf = (birthDate: string) =>
+    bands.indexOf(ageBandOf(ageOn(birthDate, at)));
+  const atWork = (
+    band: number,
+    employer: string,
+    heads: number,
+    by = part.workersByEmployer,
+  ) => {
+    if (band < 0 || heads <= 0) return;
+    part.workers[band]! += heads;
+    by.set(employer, (by.get(employer) ?? 0) + heads);
+  };
+  const api = coreAPI(core);
+  const balance = (owner: string) => {
+    const account = core.cashJournal.residualAccountByOwner.get(owner);
+    return account ? api.accounts().balance(account) : 0;
+  };
+  // Full people: one job each, the first that is open.
+  const fullJob = new Map<string, string>();
+  for (const job of core.jobs.values())
+    if (job.endsAt === undefined && !fullJob.has(job.personId))
+      fullJob.set(job.personId, job.organizationId);
+  const heads = new Map<string, { band: number; heads: number }>();
+  for (const person of core.people.values()) {
+    // A demoted person is counted again: their group counts them.
+    if (!person.alive || isDemoted(person) || !placeIds.has(person.placeId))
+      continue;
+    const band = bandOf(person.birthDate);
+    if (band < 0) part.children += 1;
+    else part.adults[band]! += 1;
+    heads.set(person.id, { band, heads: 1 });
+    const employer = fullJob.get(person.id);
+    if (employer !== undefined) atWork(band, employer, 1);
+    part.cashMinor += balance(person.id);
+  }
+  const rt = runtimes.get(core);
+  if (rt) {
+    const store = rt.store;
+    const unplacedPool: number[] = bands.map(() => 0);
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    for (const h of store.liveHouseholds()) {
+      if (!placeIds.has(h.placeId)) continue;
+      const weight = store.weightOf(h);
+      const best = new Map<string, { heads: number; employer: string }>();
+      for (const job of h.jobs) {
+        const flow = rt.wageFlowByJob.get(job.id);
+        if (job.endsAt !== undefined || !flow || flow.endedAt) continue;
+        const n = store.headsOfJob(h, job.id);
+        if (n > (best.get(job.personId)?.heads ?? 0))
+          best.set(job.personId, { heads: n, employer: job.organizationId });
+      }
+      const open: number[] = [];
+      const adults: number[] = [];
+      for (const m of store.countedMembers(h)) {
+        const id = store.ids[m]!;
+        const full = core.people.get(id);
+        if (full && !isDemoted(full)) continue;
+        const age = ageOn(store.born[m]!, at);
+        const band = bands.indexOf(ageBandOf(age));
+        if (band < 0) part.children += weight;
+        else {
+          part.adults[band]! += weight;
+          adults.push(band);
+        }
+        heads.set(id, { band, heads: weight });
+        const job = best.get(id);
+        // A county sample worker's employer is its household's record of the county's employment.
+        const county = h.employment?.find((row) => row.personId === id);
+        // A counted job's heads can exceed the household's weight (a hire stands for the
+        // position's heads): the member is at work for no more people than they stand for.
+        if (job) atWork(band, job.employer, Math.min(job.heads, weight));
+        else if (county)
+          atWork(band, county.sector, weight, part.workersByIndustry);
+        else if (band >= 0 && age >= from && age < below) open.push(band);
+      }
+      // Its workers outside a recorded employer are its working-age members without a job, shared alike.
+      const unplaced = h.unplacedWorkers * weight;
+      const among = open.length ? open : adults;
+      for (const band of among) unplacedPool[band]! += unplaced / among.length;
+    }
+    // A band holds no more workers than it has adults: the unplaced share fills only what its
+    // recorded jobs leave of them.
+    unplacedPool.forEach((pool, band) => {
+      const room = Math.max(0, part.adults[band]! - part.workers[band]!);
+      atWork(band, "", Math.min(pool, room));
+    });
+    for (const [group, fund] of rt.funds)
+      if (placeIds.has(store.groups[group]?.placeId ?? "") && rt.api)
+        part.cashMinor += rt.api.accounts().balance(fund);
+  }
+  // Looking: a seeker's row in either of the jobs engine's tables, each person once.
+  if (core.modules.has("jobs")) {
+    const looked = new Set<string>();
+    for (const table of ["seekers", "countedSeekers"])
+      for (const row of api
+        .moduleState("jobs")
+        .table(table)
+        .rows() as unknown as {
+        personId: string;
+        employed?: boolean;
+      }[]) {
+        const who = heads.get(row.personId);
+        if (row.employed || !who || who.band < 0 || looked.has(row.personId))
+          continue;
+        looked.add(row.personId);
+        part.seekers[who.band]! += who.heads;
+      }
+  }
+  return part;
+}
+
 export interface MarketEntry {
   organizationId: string;
   placeId: PlaceId;

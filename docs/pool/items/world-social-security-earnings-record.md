@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/employer-taxes.ts, src/core2/modules/retirement-claims.ts, src/core2/residents-economy.ts, src/core2/earnings-record.ts (new), src/core2/earnings-record.test.ts (new)
 
 **Notes.** Split from world-stopgap-retirement-claims-program-stand-in by pool feeder Oct 20.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded every worker's covered earnings by year; only the dropped benefit formula reads it.

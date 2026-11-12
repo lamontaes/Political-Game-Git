@@ -5,10 +5,10 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on: outcome-causes-health-programs-part-1-coverage-links, outcome-causes-health-programs-part-2-earned-income-credit-link, outcome-causes-health-programs-part-3-lead-and-abortion-links
+blocked-on: outcome-causes-health-programs-part-1-coverage-links, outcome-causes-health-programs-part-2-earned-income-credit-link
 source: "split from core-outcome-causes-recorded, Oct 19"
 claimed-at:
 after:
@@ -32,8 +32,10 @@ checked: fable 2026-11-10
 
 **Done when.** A second session runs a one-year played world (buildBenchWorld) in a drawn place and a seed the builder did not choose (both named in the PR body) and sees each of the seven links move its outcome after its lag when its cause changes, named by the engine's record id, the link key and the web month record id. coverage.json shows all seven under wired.
 
-**Waits on.** Its three parts: outcome-causes-health-programs-part-1-coverage-links, outcome-causes-health-programs-part-2-earned-income-credit-link and outcome-causes-health-programs-part-3-lead-and-abortion-links.
+**Waits on.** Its two parts: outcome-causes-health-programs-part-1-coverage-links and outcome-causes-health-programs-part-2-earned-income-credit-link. Part 3 (the lead and abortion links) was dropped in the depth sweep on Nov 10, 2026.
 
 **Files.** src/core2/modules/outcome-web.ts, src/core2/data/outcome-web/outcome-web.json, src/core2/data/outcome-web/coverage.json, src/core2/modules/health.ts
 
 **Notes.** No engine pays an earned income credit yet (no module mentions it), so that link also needs the credit built in the government area first. Split from core-outcome-causes-recorded, which was really three bounded pieces (found building it: engine measures are read from world-metrics month fields, government measures from `gov-measures.ts`, and a wired link also needs a kept outcome, so no link is a one-line change). The links' sizes and anchors are in data/research/outcome-web/links.json.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A roll-up of three parts; the coverage links are kept in part 1 and the rest is dropped or borderline on its own part, and no player sees the roll-up.
