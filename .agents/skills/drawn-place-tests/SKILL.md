@@ -29,6 +29,7 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
+8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
 
 ## Before you call a red a flake
 

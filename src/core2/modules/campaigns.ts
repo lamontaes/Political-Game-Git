@@ -391,7 +391,11 @@ export interface EndorsementRow {
   readonly organizationId: string | null;
   /** Who asked: the candidate; null when a group weighed the race itself. */
   readonly askerId: string | null;
-  readonly answer: "yes" | "no";
+  /** "withdrawn": a yes ended on the day its speaker filed in the same race (`endedByFilingId`); nothing reads it as a backing. */
+  readonly answer: "yes" | "no" | "withdrawn";
+  /** The day a yes was withdrawn and the filing that ended it. */
+  readonly endedOn?: string;
+  readonly endedByFilingId?: string;
   readonly reason: EndorsementReason;
   /** The platform question the endorser disagrees with most, if any. */
   readonly issue: string | null;
@@ -1886,6 +1890,29 @@ function leaveForOwnRun(api: CoreAPI, filingId: string): void {
         },
       ],
     });
+  }
+  // A yes they gave a rival in this race ends the day they file: they are no
+  // longer shown backing someone they run against, and a group whose speaker
+  // files no longer backs the rival. The row stays, ended and naming the filing.
+  for (const row of table(api, "endorsements").query("byContest", [
+    filing.contestId,
+  ]) as unknown as EndorsementRow[]) {
+    if (
+      row.answer !== "yes" ||
+      row.speakerId !== personId ||
+      row.candidateId === personId
+    )
+      continue;
+    const campaign = table(api, "campaigns").get(row.filingId) as unknown as
+      CampaignRow | undefined;
+    if (!campaign || rivalFiling(api, campaign, personId)?.id !== filing.id)
+      continue;
+    table(api, "endorsements").put({
+      ...row,
+      answer: "withdrawn",
+      endedOn: api.state.date,
+      endedByFilingId: filing.id,
+    } as unknown as ModuleRow);
   }
 }
 
@@ -5664,6 +5691,42 @@ export interface CauseSummaryRow {
   >;
   /** The first door the candidate knocked on for this voter, if any. */
   readonly firstDoor: string | null;
+  /**
+   * The same sums for each of the candidate's campaigns, by filing id: the
+   * causes dated from the day they filed to that contest's election day,
+   * which is the window a race's standing reads (`contestStanding`), so a
+   * race's standing reads the same numbers before and after its causes fold.
+   */
+  readonly byFiling?: Readonly<Record<string, CauseSums>>;
+}
+
+/** What a run of folded causes adds up to for one voter. */
+export interface CauseSums {
+  readonly moved: number;
+  readonly acts: Readonly<
+    Record<string, { reached: number; warmer: number; cooler: number }>
+  >;
+}
+
+/** A candidate's campaigns as date windows: filed to election day, by filing id. */
+function campaignWindows(
+  api: CoreAPI,
+  candidateId: string,
+): readonly { id: string; from: string; through: string | undefined }[] {
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+  const contests = elections(api, "contests");
+  return (
+    elections(api, "filings").query("byPerson", [
+      candidateId,
+    ]) as unknown as FilingRow[]
+  ).map((filing) => ({
+    id: filing.id,
+    from: filing.filedOn,
+    through: (
+      contests.get(filing.contestId) as unknown as
+        { electionDate?: string } | undefined
+    )?.electionDate,
+  }));
 }
 
 /** A candidate's folded causes, one row a voter. */
@@ -5770,6 +5833,7 @@ function foldCauses(
   const sourcesOf = new Map<string, Set<string>>();
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
+    const windows = campaignWindows(api, candidateId);
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -5791,6 +5855,26 @@ function foldCauses(
       > = {};
       for (const [act, count] of Object.entries(before?.acts ?? {}))
         acts[act] = { ...count };
+      const byFiling: Record<
+        string,
+        {
+          moved: number;
+          acts: Record<
+            string,
+            { reached: number; warmer: number; cooler: number }
+          >;
+        }
+      > = {};
+      for (const [filingId, sums] of Object.entries(before?.byFiling ?? {}))
+        byFiling[filingId] = {
+          moved: sums.moved,
+          acts: Object.fromEntries(
+            Object.entries(sums.acts).map(([act, count]) => [
+              act,
+              { ...count },
+            ]),
+          ),
+        };
       let sources = sourcesOf.get(voterId);
       if (!sources)
         sourcesOf.set(
@@ -5807,6 +5891,23 @@ function foldCauses(
         if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
         else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
         moved = moved + (row.warmthAfter - row.warmthBefore);
+        for (const window of windows) {
+          if (
+            row.date < window.from ||
+            (window.through !== undefined && row.date > window.through)
+          )
+            continue;
+          const sums = (byFiling[window.id] ??= { moved: 0, acts: {} });
+          const part = (sums.acts[row.act] ??= {
+            reached: 0,
+            warmer: 0,
+            cooler: 0,
+          });
+          part.reached += 1;
+          if (row.warmthAfter > row.warmthBefore) part.warmer += 1;
+          else if (row.warmthAfter < row.warmthBefore) part.cooler += 1;
+          sums.moved = sums.moved + (row.warmthAfter - row.warmthBefore);
+        }
         if (
           row.act === "door" &&
           row.actorId === candidateId &&
@@ -5825,6 +5926,7 @@ function foldCauses(
         moved,
         acts,
         firstDoor,
+        byFiling,
       } as unknown as ModuleRow);
     }
   }
