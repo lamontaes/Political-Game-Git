@@ -18,7 +18,7 @@ root: rc8-law-judged-by-paperwork
 source: stand-in triage Nov 10 (SG-SCHOOL-equalized-funding-budget, SG-SCHOOL-spending-line-for-per-pupil)
 ---
 
-**What.** Two school stand-ins are one gap. The equalize-school-funding law never moves the town's schools budget line, so spending per student ignores the law. And the cause of the spending-to-graduation link is the schools line above its Census base, which equals the study's per-pupil change only while enrollment stays put.
+**What.** Two school stand-ins are one gap. The equalize-school-funding law never moves the town's schools budget line, so spending per student ignores the law. And the cause of the spending-to-graduation link is the schools line above its Census base, which equals the study's per-pupil change only while enrollment stays put. Seen: a town's schools budget line and its spending per student change after the equalize-school-funding law takes effect, and again when students arrive or leave.
 
 **Cause.** Found in code: src/core2/school-outcomes.ts line 902 (`api.stopgap(data.stopgaps.equalizedFunding)`) in the function that builds the spending measure: no law handler calls `moveBudget` (src/core2/law-reach/group-b-money.ts line 1554) for the equalize-school-funding law, so the web's link equalized-funding-to-spending moves only its own number. src/core2/school-budget-line.ts line 28 (`schoolsLineAboveBase`) reads the line above base, not spending per enrolled student, so students arriving or leaving do not register.
 
