@@ -76,7 +76,7 @@ import {
 } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { lastVoteOn, recordVote } from "./record";
+import { lastVoteOn, recordVote, type VoteRecordRow } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
@@ -3925,12 +3925,34 @@ export function holdFloorDebate(
   );
 }
 
-/** One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way. */
+/** A member's side of one question of a roll, held until the roll's outcome is known. */
+type RollRecordRow = Omit<VoteRecordRow, "id" | "date" | "question" | "passed">;
+
+/**
+ * Writes a closed roll's member rows to the record, each with the roll's own
+ * outcome: whether the chamber carried the bill (a tie the presiding officer
+ * broke against it and the Senate's cloture shortfall both fail it). The
+ * outcome is written here once, when the tally closes, and every view of a
+ * member's vote reads it from the row.
+ */
+export function recordRoll(
+  api: CoreAPI,
+  rows: readonly RollRecordRow[],
+  carried: boolean,
+): void {
+  for (const row of rows) recordVote(api, { ...row, passed: carried });
+}
+
+/**
+ * One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way.
+ * The members' record rows come back with the count, for `recordRoll` to write once the roll's outcome is decided.
+ */
 function chamberVote(
   api: CoreAPI,
   bill: BillRow,
   officeId: string,
-): { yes: number; no: number } {
+): { yes: number; no: number; rows: RollRecordRow[] } {
+  const rows: RollRecordRow[] = [];
   let yes = 0;
   let no = 0;
   const seated = members(api, officeId);
@@ -4003,7 +4025,7 @@ function chamberVote(
     } as unknown as ModuleRow);
     for (const stance of billStances(api, bill)) {
       if (vote !== "abstain" && vote !== "absent")
-        recordVote(api, {
+        rows.push({
           personId: key,
           body: officeId,
           billId: bill.id,
@@ -4012,7 +4034,6 @@ function chamberVote(
             question: stance.question,
             position: vote === "yes" ? stance.position : -stance.position,
           },
-          passed: null,
         });
     }
   }
@@ -4045,7 +4066,7 @@ function chamberVote(
       no: String(no),
     },
   });
-  return { yes, no };
+  return { yes, no, rows };
 }
 
 export interface CommitteeRecord {
@@ -4371,6 +4392,11 @@ function committeeStage(
           // A witness paid under the proposed floor speaks for the raise.
           desiredChange: question.position > 0 ? "enact" : "repeal",
           audienceIds: room.filter((id) => id !== w.personId),
+          // The hearing's own record, written below (`committee:<bill>:<chamber>`).
+          occasion: {
+            recordId: `committee:${bill.id}:${chamber}`,
+            kind: "committee-hearing",
+          },
         });
   }
   // Markup: the committee's holdouts trade for sections of their own, and
@@ -5087,6 +5113,10 @@ function reportStudy(api: CoreAPI, studyId: string): void {
         topic: study.topic,
         desiredChange: finding > 0 ? "enact" : "repeal",
         audienceIds: audience,
+        occasion: {
+          recordId: `study-reported:${studyId}`,
+          kind: "study-reported",
+        },
       });
     }
   }
@@ -5173,7 +5203,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       breaker !== null && memberPosition(api, bill.id, breaker).total > 0;
     const tally =
       breaker === null
-        ? counted
+        ? { yes: counted.yes, no: counted.no }
         : {
             yes: counted.yes + (breakerYes ? 1 : 0),
             no: counted.no + (breakerYes ? 0 : 1),
@@ -5197,6 +5227,8 @@ function countVote(api: CoreAPI, billId: string): BillRow {
           members(api, chamber).length *
             campaignParameter("senateClotureShare"),
         );
+    // The roll is closed: its member rows go to the record with the outcome.
+    recordRoll(api, counted.rows, !(tally.yes <= tally.no || cloture));
     if (tally.yes <= tally.no || cloture) {
       const failed: BillRow = {
         ...bill,

@@ -8,6 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { BUSINESS_MODULE_ID } from "../business-module-id";
+import { noteEntryCause } from "../state";
 import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
@@ -1791,8 +1792,10 @@ function foundings(api: CoreAPI): void {
         a.row.kindId.localeCompare(b.row.kindId),
     )
     .map(({ row }) => row);
-  // Nothing below changes between markets (a founding returns out of this
-  // function), so what does not depend on the market is worked out once.
+  // What does not depend on the market is worked out once, as the month stands
+  // when the pass begins. A founding in one market does not stop the others
+  // being weighed; the one thing it changes for them is who is free to found
+  // (`founded`: nobody founds twice in a month).
   const monthlyPay = new Map<string, number>();
   const rt = residentsRuntime(c);
   for (const jobId of rt?.wageFlowByJob.keys() ?? []) {
@@ -1880,8 +1883,13 @@ function foundings(api: CoreAPI): void {
     }
     return out;
   };
-  // An unaffordable market does not prevent an entrant in another market.
-  for (const market of markets) {
+  // Who has founded or opened a location this month, so one person does not
+  // found twice.
+  const founded = new Set<string>();
+  // An unaffordable market does not prevent an entrant in another market, and
+  // neither does a founding in one: each market is weighed, and founds at most
+  // once a month.
+  markets: for (const market of markets) {
     const gaps = gapsOf(market);
     // Owners of the kind's businesses anywhere, strongest books first.
     const growers = ownerRows
@@ -1906,7 +1914,7 @@ function foundings(api: CoreAPI): void {
     const decided = new Set<string>();
     for (const grower of growers) {
       const ownerId = grower.owner.person.id;
-      if (decided.has(ownerId)) continue;
+      if (decided.has(ownerId) || founded.has(ownerId)) continue;
       decided.add(ownerId);
       const selected = chooseAct(c, ownerId, [
         option(0, {}),
@@ -1926,7 +1934,10 @@ function foundings(api: CoreAPI): void {
         fundsMinor: Math.max(0, grower.cash - grower.cushion),
         strength: grower.strength,
       });
-      if (opened) return;
+      if (opened) {
+        founded.add(ownerId);
+        continue markets;
+      }
     }
     for (const person of peopleInOrder) {
       const age =
@@ -1935,6 +1946,7 @@ function foundings(api: CoreAPI): void {
         !person.alive ||
         person.placeId !== market.placeId ||
         owners.has(person.id) ||
+        founded.has(person.id) ||
         age < p("businessFounderMinimumAge") ||
         age >= p("businessFounderMaximumAge")
       )
@@ -1961,12 +1973,16 @@ function foundings(api: CoreAPI): void {
       if (result.selected!.definition.id !== businessData.actions.found.id)
         continue;
       // A failed capital check must not block another willing founder.
-      if (found(api, person.id, market)) return;
+      if (found(api, person.id, market)) {
+        founded.add(person.id);
+        continue markets;
+      }
     }
     // The wider population weighs it by the same reasons, as summed pulls (stopgap), until filled in.
     if (!c.modules.has("jobs")) continue;
     const rows: { id: string; score: number }[] = [];
     for (const row of countedCandidates(market.placeId)) {
+      if (founded.has(row.id)) continue;
       rows.push({
         id: row.id,
         score:
@@ -1980,7 +1996,10 @@ function foundings(api: CoreAPI): void {
       });
     }
     for (const founder of strongestPulls(api, "found", rows)) {
-      if (found(api, founder.id, market)) return;
+      if (found(api, founder.id, market)) {
+        founded.add(founder.id);
+        continue markets;
+      }
     }
   }
 }
@@ -2102,6 +2121,12 @@ function found(
   if (scale <= 0 || (fullStaff > 0 && scale < Math.min(1, 1 / fullStaff)))
     return false;
   const share = equal * scale;
+  // The entry record names the founding it is the entry of.
+  noteEntryCause(
+    api.state as CoreState,
+    id,
+    `event:organization.founded:${id}`,
+  );
   api.addOrganization({
     id,
     placeId: market.placeId,

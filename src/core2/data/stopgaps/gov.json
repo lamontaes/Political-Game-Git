@@ -1148,7 +1148,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Appointed attorneys general and territorial attorneys general as offices in the offices data, with their appointing rule.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "prosecutorFor (src/core2/justice-law.ts) reads the governor's appointed attorney general from the state cabinet (appointmentsIn, post attorney-general, data/research/executive/executive-powers-2026.json) where there is neither an elected county prosecutor nor an elected attorney general; the office stays empty, with no person, until the cabinet is filled.",
+    "resolvedAt": "2026-11-11"
   },
   {
     "id": "SG-GOV-justice-bribery-grade",
