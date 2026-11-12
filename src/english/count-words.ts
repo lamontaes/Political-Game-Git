@@ -62,6 +62,7 @@ export function filedSaid(count: number): string {
 
 const MINUTES_PER_HOUR = 60;
 const HOURS_ON_A_CLOCK = 12;
+const MONTHS_PER_YEAR = 12;
 const HOURS_IN_A_DAY = 24;
 
 /**
@@ -102,4 +103,21 @@ export function daysSaid(days: number): string {
     "{count}",
     days <= HOURS_ON_A_CLOCK ? data.clock.numbers[days]! : String(days),
   );
+}
+
+/** A length of time in months as people say it: "a month", "eight months", "a year", "three years". */
+export function termSaid(months: number): string {
+  const count = Math.max(1, Math.round(months));
+  const said = (n: number) =>
+    n <= HOURS_ON_A_CLOCK ? data.clock.numbers[n]! : String(n);
+  const term = data.term as Readonly<Record<string, string>>;
+  if (count % MONTHS_PER_YEAR === 0) {
+    const years = count / MONTHS_PER_YEAR;
+    return years === 1
+      ? term.year!
+      : term.years!.replace("{count}", said(years));
+  }
+  return count === 1
+    ? term.month!
+    : term.months!.replace("{count}", said(count));
 }
