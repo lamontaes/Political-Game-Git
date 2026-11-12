@@ -118809,7 +118809,7 @@
       "key": "opening-speech.occasion.polished-state-of-the-state-i-have-come-to-speak-to-about-because-realm-name-theme-name",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I have come to speak to {realm-name} about {theme-name}, because it reaches every family here.",
+      "text": "I have come to speak to {realm-name} about {theme-name}, because it bears on every family here.",
       "uses": [
         {
           "move": "occasion",

@@ -1694,7 +1694,7 @@ const LOCAL_OPENINGS: [string, string][] = [
   ],
   [
     "polished",
-    "I have come to speak to {realm-name} about {theme-name}, because it reaches every family here.",
+    "I have come to speak to {realm-name} about {theme-name}, because it bears on every family here.",
   ],
   ["plain", "I want to talk to you tonight, {realm-name}, about {theme-name}."],
   [
