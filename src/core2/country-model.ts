@@ -703,8 +703,15 @@ function demands(
         : households + rules.investGoods[sector] * invested;
   }
   // The federal budget's purchases from this state's sectors, line by line.
+  // A sector with no jobs left in the state (a played part has taken them all)
+  // sells nothing to the budget: its dollars would pile up as sales no one is
+  // there to make, and come back inflated with the part's books.
   for (const line of law.federalSpendingYear(state))
-    if (line.to !== "households" && line.to !== "elsewhere")
+    if (
+      line.to !== "households" &&
+      line.to !== "elsewhere" &&
+      state.sectors.some((row) => row.sector === line.to && row.jobs > TINY)
+    )
       bySector[line.to] += line.dollarsYear / rules.monthsPerYear;
   return {
     incomes: got,
