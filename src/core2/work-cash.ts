@@ -560,13 +560,17 @@ function prunePriorSource(
 ): void {
   if (!priorId) return;
   const prior = core.work.cashSources.get(priorId);
+  // A controlled person's prior source is released like any other once the next
+  // one for the same commitment has posted (it was kept whole only while it was
+  // the latest).
   if (
     !prior ||
-    retainedHas.call(retainedControlledSources, prior) ||
     core.work.detailedResults.has(priorId) ||
     core.durableLog.has(prior.selectionId)
   )
     return;
+  // It no longer needs its full record: the provider reads the mark below.
+  WeakSet.prototype.delete.call(retainedControlledSources, prior);
   if (core.cashJournal.requiredBySource.get(prior.kind)?.has(prior.id))
     api.releaseJournalSource({ kind: prior.kind, id: prior.id });
   releaseCompositeFinanceCreditSources(core, api, prior.credits);
