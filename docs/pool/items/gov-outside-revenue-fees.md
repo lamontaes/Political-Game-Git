@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #8399
 blocked-on:
@@ -52,5 +52,7 @@ Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), t
 Released (2026-11-11): Cause no longer matches main (see PR #8399); set to Needs cause. Continue on branch claude/pool-gov-outside-revenue-fees and pull request #8399.
 
 Nov 11 (CTO): the Fix above is set to the standard text because the Cause now reads "Needs cause." The fix written before the cause stopped reproducing, kept for whoever finds the new cause: Charge each fee to the households and businesses that use the service, on the day of use at the price the law and budget set, into the issuing government's treasury. Include the public-safety permit fee (taken from the dropped gov-permit-fee-to-treasury). Delete the fee share of the monthly plug.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Fee payment by use is already built in the done items gov-outside-revenue-fees-wiring, -named-payers and -data; what is left is removing an outside share nobody reads.
 
 Nov 11 (cause finder for Fable B): measured one played year on main b6ce398c52 in Jane Lew, West Virginia (seed f82d361b5e5231df). Every charges and fees dollar is paid by named payers and matched in check 6. No fee dollar is left in the monthly plug. Check 6 still fails, but on the `outside-revenue` plug for the other revenue lines (gov-outside-revenue-retire-plug and gov-outside-revenue-real-payers) and on unmatched household living and medical spending, not on fees. I propose dropping this item. The court and jail costs paid to the outside are the one public-safety line left unmatched; that row is in the Fix in case the CTO keeps the item.

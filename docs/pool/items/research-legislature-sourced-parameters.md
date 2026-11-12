@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -47,3 +47,5 @@ Oct 24, 2026: split. PR 5862 (item research-legislature-committee-town-law-table
 Sent back 2026-10-23 from PR #5862 (branch claude/dreamy-tesla-bgi3ui-legislature): local-ordinance-style-2026.json:508-513 applies a city-only clause to Nebraska villages although statute17-613 requires the chairperson/board-of-trustees alternative; preserve that scoped alternative and validate it; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced stopgap numbers to exact values; a number may stay an estimate and no player sees the added precision.
