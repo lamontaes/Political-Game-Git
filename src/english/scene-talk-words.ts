@@ -297,11 +297,23 @@ export function fitting(
   return scoredFits(
     use,
     facts,
-    (part) => !part.piece && keep(part),
+    (part) => wholeLine(part) && keep(part),
     parts,
     verdicts,
+    true,
   ).parts;
 }
+
+/**
+ * A shared move set's piece (a liked line carried as a set's opener) is
+ * still a whole line for the purposes that name it directly: "People say a
+ * lot of things." opens the on-record set's deflection and is still said
+ * whole to a colleague's confrontation over a vote. Any other piece is never
+ * said whole.
+ */
+const carriedWhole = (part: BankPart) =>
+  !!part.piece && part.uses.some((u) => u.set) && part.uses.some((u) => !u.set);
+const wholeLine = (part: BankPart) => !part.piece || carriedWhole(part);
 
 /** The closest-fitting pieces and how closely they fit (-1 when none do). */
 function scoredFits(
@@ -310,13 +322,16 @@ function scoredFits(
   keep: (part: BankPart) => boolean,
   parts: readonly BankPart[],
   verdicts: ReplyFollowsTable,
+  whole = false,
 ): { parts: BankPart[]; specific: number } {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
   const fits = parts.filter(keep).flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
+    // Said whole, a carried piece answers only to its own purposes' uses.
     let specific = -one;
     for (const u of part.uses)
-      specific = Math.max(specific, useFit(u, use, steps, facts));
+      if (!(whole && part.piece && u.set))
+        specific = Math.max(specific, useFit(u, use, steps, facts));
     return specific < zero ? [] : [{ part, specific }];
   });
   const answered = use.afterPiece;
@@ -436,9 +451,10 @@ export function wordSceneMove(input: {
   const whole = scoredFits(
     use,
     facts,
-    (part) => !part.piece && keepPart(part),
+    (part) => wholeLine(part) && keepPart(part),
     pool,
     verdicts,
+    true,
   );
   const every = whole.parts;
   // Sentences joined from pieces fit as closely as their core; one that fits
