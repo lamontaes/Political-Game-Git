@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-life-relatives-who-live-elsewhere-have-a-past
-pr:
+pr: #8275
 after:
 blocked-on:
 lead: fable

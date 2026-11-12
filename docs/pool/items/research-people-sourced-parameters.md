@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -51,3 +51,5 @@ Oct 24, 2026: split. PR 5868 (item research-people-births-volunteer-rows) delive
 Sent back 2026-10-23 from PR #5868 (branch claude/dreamy-tesla-bgi3ui-people): The table leaves renewalReviewDays, fourteen weights and all seven stopgap resolutions unmet; route the completed parameter subset to bounded acceptance while retaining unidentified and mechanic work open; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced the births, drives, kin and views numbers; they may stay estimates with their spreads.

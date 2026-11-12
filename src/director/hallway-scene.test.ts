@@ -17,6 +17,7 @@ import type { Moment } from "./types";
 import { purposeScene, replyInScene, typeForCause } from "./purpose-scene";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A word in the hallway (situation type `hallway`, purpose `hallway-word`).
 // The three causes that fire it, each with its own key so the speaker comes
@@ -208,11 +209,11 @@ function check(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
       );
 
-    // Four replies, four stances: four different moves, four different lines.
+    // Up to four replies, all different stances: different moves, different lines (owner, Nov 10).
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["tell", "ask", "promise", "refuse"]),
-    );
+    expectUpToFourDifferent(root, where);
+    for (const row of root)
+      expect(["tell", "ask", "promise", "refuse"], where).toContain(row.move);
     expect(new Set(root.map((row) => row.text)).size, where).toBe(root.length);
 
     // The reply is written back: a record that names the cause, and the tie.
@@ -272,9 +273,9 @@ function check(
         `${where}: ${key}`,
       ).toBe(true);
       const rootReplies = out.talk.tree.replies.map((row) => row.line);
-      expect(new Set(rootReplies.map((row) => row.move)), key).toEqual(
-        new Set(["tell", "ask", "promise", "refuse"]),
-      );
+      expectUpToFourDifferent(rootReplies, key);
+      for (const row of rootReplies)
+        expect(["tell", "ask", "promise", "refuse"], key).toContain(row.move);
       expect(new Set(rootReplies.map((row) => row.text)).size, key).toBe(
         rootReplies.length,
       );

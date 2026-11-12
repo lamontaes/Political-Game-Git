@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: merged
+claimed-by: claude/pool-play-officeholder-hires-aide
+pr: #8376
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,9 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T00:15:23.048Z
+branch: claude/pool-play-officeholder-hires-aide
+merged-at: 2026-11-11T15:04:33.584Z
 ---
 
 **What.** The staff engine's review hires aides for every town officeholder except the player, since no engine decides for the controlled person, and no bench control calls the hire, so a player who wins a seat never has an aide. Every scene cast from the officeholder's staff then skips the player: the staffer bringing a story against them, the aide at the desk, a referred constituent case. The office screen should list the people the staff engine would weigh for the player, with the reasons it gives, and let the player hire one, paid from the same post the engine's hires are.
@@ -36,3 +39,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/office.ts, src/bench/handler.ts, src/bench/play.mjs, src/core2/modules/staff.ts, src/bench/data/controls.json
 
 **Notes.** TODO
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 00:15 UTC) on branch claude/pool-play-officeholder-hires-aide.
