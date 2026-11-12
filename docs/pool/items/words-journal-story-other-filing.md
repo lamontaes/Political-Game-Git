@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: merged
+status: done
 claimed-by: story/journal-story-other-filing
 pr: #8212
 blocked-on:
@@ -13,6 +13,8 @@ lead: words
 source: "journal-story.test.ts 'opens no chapter on someone else's filing or oath' red on clean main, seed 9d265ce046a38771"
 claimed-at: 2026-11-10T16:00:00.000Z
 merged-at: 2026-11-10T21:48:28.868Z
+seen-by: second-session-2
+seen-at: 2026-11-11T03:10:27.681Z
 ---
 
 **Measured:** Barnesville, Maryland (2404475), JOURNAL_STORY_SEED=9d265ce046a38771, draw `:others:0`. The player Emily Roman (person_eb2c714a9b36db41, born 2007-03-20) has an aunt, Emily Roman (person_0c21b4e2ea99b9c3, born 1988-03-04), whose death on 2026-10-03 is the moment `person_eb2c714a9b36db41:2026-10-03:life.death:person_0c21b4e2ea99b9c3:2026-10-03`. Its journal row (event:life.death, `turn: true`, `turnFor: self-or-kin`, title `{{other}}`) opened a chapter titled "Emily" (a kin turn), and the test (chapter titles must name no other person) found another Emily in the world (person_2c056601ebfa84ad, Emily Petty, born 2019-05-06): "chapter "Emily" opens on ...life.death...: expected 'person_2c056601ebfa84ad' to be undefined".
@@ -28,3 +30,5 @@ merged-at: 2026-11-10T21:48:28.868Z
 **Time box.** 1 hour.
 
 **You will see.** The aunt's death is a line in the chapter the player is living, not a chapter titled "Emily".
+
+**Notes.** Seen in the game (2026-11-11, second-session-2): drawn test worlds, seed 9d265ce046a38771, f03b165432, da7487b206, main 67947ae8: the someone-else's-filing journal test passed on the named seed and two fresh seeds when run alone, and the English guards passed 64 tests; run inside the whole file it once failed

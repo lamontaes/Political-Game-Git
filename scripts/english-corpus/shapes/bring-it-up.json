@@ -101,47 +101,6 @@
         "I think {who} is behind it.",
         "I blame {who} for it."
       ]
-    },
-    {
-      "move": "blame-unknown-unknown",
-      "subject": "blame",
-      "role": "unknown",
-      "choice": "unknown",
-      "candidates": [
-        "I don't know who's behind it.",
-        "I don't know who did it.",
-        "I don't know why.",
-        "Nobody knows why.",
-        "I don't know what happened.",
-        "Nobody knows what happened.",
-        "I don't know who's responsible.",
-        "I don't know who to blame.",
-        "Nobody knows.",
-        "I have no idea.",
-        "I don't know.",
-        "Who knows?",
-        "I don't know why they closed.",
-        "I don't know what happened there."
-      ]
-    },
-    {
-      "move": "blame-hearer-react",
-      "subject": "blame",
-      "role": "hearer",
-      "choice": "react",
-      "candidates": [
-        "Really?",
-        "Is that right?",
-        "That's too bad.",
-        "That's a shame.",
-        "That's terrible.",
-        "I didn't know that.",
-        "I hadn't heard that.",
-        "I heard that too.",
-        "That's what I heard.",
-        "I don't believe it.",
-        "That's not what I heard."
-      ]
     }
   ]
 }

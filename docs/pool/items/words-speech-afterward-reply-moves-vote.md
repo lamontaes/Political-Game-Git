@@ -5,19 +5,20 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: merged
+claimed-by: claude/pool-words-speech-afterward-reply-moves-vote
+pr: #8596
 blocked-on:
 source: "filed by the words-and-scenes lead, Oct 26, while answering the send-back on #6136"
 lead: effects
-claimed-at:
+claimed-at: 2026-11-11T04:43:46.115Z
 after:
 standard: 2
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+merged-at: 2026-11-12T20:08:19.260Z
 ---
 
 **What.** After a campaign speech heard in the room, the candidate comes over and asks for your vote (`speech-afterward`, #6136). The player's reply ("You've got my vote.", "I still don't see it your way.") is recorded as a `scene.reply` event, and the core's relationship writer reads it as time together with the candidate. Nothing reads the stance itself. A promise of a vote changes no vote intent, no impression of the candidate, and no later choice, so the reply is a record nobody else reads (AGENTS.md, "An effect is a read, not a record").

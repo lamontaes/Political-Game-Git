@@ -1252,11 +1252,10 @@
     "why": "Appointed attorneys general and territorial prosecutors are not in the offices data.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Appointed attorneys general and territorial attorneys general as offices in the offices data, with their appointing rule.",
+    "replacement": "Appointed attorneys general and territorial attorneys general as offices in the offices data, with their appointing rule.",
     "status": "resolved",
-    "resolvedAt": "2026-11-10",
-    "resolvedBy": "stand-in-triage-t1",
-    "resolution": "Seen nowhere on the golden path and asked for by no ruling (owner, Nov 10)."
+    "resolution": "prosecutorFor (src/core2/justice-law.ts) reads the governor's appointed attorney general from the state cabinet (appointmentsIn, post attorney-general, data/research/executive/executive-powers-2026.json) where there is neither an elected county prosecutor nor an elected attorney general; the office stays empty, with no person, until the cabinet is filled.",
+    "resolvedAt": "2026-11-11"
   },
   {
     "id": "SG-GOV-justice-bribery-grade",
@@ -2457,5 +2456,17 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T2"
+  },
+  {
+    "id": "SG-GOV-counted-case-view-kept-on-the-case",
+    "kind": "partial-model",
+    "file": "src/core2/modules/constituent-cases.ts",
+    "line": 678,
+    "whatItFakes": "A counted resident's case moves no view of the official while they stay counted: the case row keeps the outcome, and their impression of the official and their tie to them are written only when they are filled in, dated the day of the fill-in. A counted group's ballot does not read the cases its members brought.",
+    "why": "Counted residents keep no impression of an official of their own, and the counted electorate's warmth toward a candidate is read from the town's named adults (voting.ts, townContacts). Filling a resident in to hold the view was the largest part of a played year's memory growth (play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth).",
+    "addedBy": "opus-5251",
+    "addedAt": "2026-11-11",
+    "replacement": "The counted electorate reads its members' decided cases as warmth toward the official, times their count, by the same rule touchImpression applies to a full person.",
+    "status": "open"
   }
 ]

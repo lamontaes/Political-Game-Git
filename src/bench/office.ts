@@ -4,7 +4,7 @@
  * bill reaches it, and what stops the player. Records and control names
  * only; the words of each act come from the engines that kept them.
  */
-import { billTitleOf } from "../english/bill-names";
+import { billTitleOf, spokenDesignation } from "../english/bill-names";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import {
   leavePostOpen,
@@ -40,6 +40,12 @@ import {
   pendingGovernorOrders,
 } from "../core2/modules/executive";
 import { policyNames } from "./words";
+import {
+  hireReasons,
+  hireStaff,
+  servingStaffOf,
+  staffCandidates,
+} from "../core2/modules/staff";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
@@ -85,7 +91,9 @@ export function billItem(core: CoreState, bill: BillRow) {
     billId: bill.id,
     // The bill's real name from its title record, never its description.
     title: billTitleOf(bill)?.title ?? null,
-    number: bill.number,
+    // The number as a clerk reads it ("Ordinance 2025-6"): a bare "2025-6"
+    // under a title reads as a date (owner, Nov 11).
+    number: spokenDesignation(bill.number, bill.form.kind),
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
     // Opening the bill is meeting the people who spoke on it: a speaker still in the wider
@@ -222,6 +230,27 @@ export function deskDecide(core: CoreState, billId: string, how: string) {
   throw new Error("Unknown desk decision.");
 }
 
+/**
+ * Whatever holds the player's clock now, left to the character: a meeting's
+ * agenda voted by the character's own choice and adjourned, the bills on the
+ * desk signed or vetoed by the character's own lean, and a state legislator's
+ * waiting hearing or session day done on their own choice. A held stop stays
+ * until its owner releases it, so a check that presses on through a week
+ * answers it here, the way a player who leaves it to the character would.
+ */
+export function leaveHoldsToCharacter(core: CoreState, holderId?: string) {
+  const api = coreAPI(core);
+  const meeting = meetingInProgress(api);
+  if (meeting) {
+    for (const billId of meeting.agenda)
+      takeUpItem(api, meeting.id, billId, "own");
+    adjourn(api, meeting.id);
+  }
+  for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+  if (holderId)
+    for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
+}
+
 /** The office panel: the seat as a job, the next meetings, what stops the player, and the acts kept. */
 export function officeView(core: CoreState, personId: string) {
   const api = coreAPI(core);
@@ -262,6 +291,10 @@ export function officeView(core: CoreState, personId: string) {
         };
       }),
     })),
+    // The aides who serve now and the people the staff engine would weigh for the post, best first by its own score, each with its reasons.
+    aides: jobs.length
+      ? aidesView(core, personId)
+      : { serving: [], candidates: [] },
     // The budget the official may send now, line by line, with the change set for each (null outside the season).
     budget: budgetToSend(core, personId),
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
@@ -299,6 +332,61 @@ export function officeView(core: CoreState, personId: string) {
       .sort((a, b) => b.date.localeCompare(a.date))
       .slice(0, 20),
   };
+}
+
+/** The most candidates the office screen lists for the player's staff. Engineering value (a screen's page). */
+const AIDE_CANDIDATES_SHOWN = 8;
+
+/** The player's aides serving now, and the staff engine's own candidates for the post with the reasons it weighs. */
+function aidesView(core: CoreState, personId: string) {
+  const api = coreAPI(core);
+  // The engine can return one person twice (a counted resident and the person
+  // filled in from them); the screen offers each person once.
+  const seen = new Set<string>();
+  const ranked = staffCandidates(api, personId)
+    .filter(
+      (candidate) =>
+        !seen.has(candidate.personId) && seen.add(candidate.personId),
+    )
+    .map((candidate) => ({ candidate, ...hireReasons(candidate) }))
+    .sort(
+      (a, b) =>
+        b.score - a.score ||
+        a.candidate.personId.localeCompare(b.candidate.personId),
+    )
+    .slice(0, AIDE_CANDIDATES_SHOWN);
+  return {
+    serving: servingStaffOf(api, personId).map((row) => ({
+      id: row.personId,
+      name: personName(core, row.personId),
+      role: row.role,
+    })),
+    candidates: ranked.map(({ candidate, score, reasons }) => ({
+      id: candidate.personId,
+      // A counted resident is filled in as the person they are the moment the player's office weighs them.
+      name: personName(
+        core,
+        personOrFillIn(core, candidate.personId)?.id ?? candidate.personId,
+      ),
+      from: candidate.from,
+      family: !!candidate.familyLinkId,
+      score,
+      reasons,
+    })),
+  };
+}
+
+/** The player hires one of the staff engine's candidates as an aide, paid from the same post the engine's own hires are. */
+export function hireAide(core: CoreState, personId: string, hireId: string) {
+  const api = coreAPI(core);
+  if (!staffCandidates(api, personId).some((row) => row.personId === hireId))
+    throw new Error("Not someone this office could hire.");
+  const row = hireStaff(api, {
+    officialId: personId,
+    personId: hireId,
+    role: "aide",
+  });
+  return { staffId: row.id, view: officeView(core, personId) };
 }
 
 /** The player picks who the next "name a department head" names to an open post; left alone, the official's own first choice stands. */

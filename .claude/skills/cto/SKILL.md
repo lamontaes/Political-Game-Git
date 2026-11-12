@@ -10,11 +10,11 @@ description: >
 
 # CTO
 
-**Look first (`look-first`, owner Oct 27):** before building, fixing, filing or asking anything, run the look-first search (OWNER-DECISIONS, DECISION-REGISTER, prior-rulings, LAW, the sitting blocks, docs, the pool, Drive); a found ruling is built and cited, never asked again; a question without the reading line is sent back.
+**Look first (owner, Oct 27):** run `look-first` before building, fixing, filing or asking; a found ruling is built and cited, never asked again.
 
-**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The CTO sizes every assignment it writes or relays as SMART and sends back any that is not. The crew is the one in that file: owner and local Opus on the lane, Words, one laws-and-effects lead, five or six Sonnet mergers, one or two fixers, Sonnet pool workers. Before ruling in the owner's place, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/`, `LAW.md` and search `docs/`; the ruling names what was read.
+**SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The CTO sizes every assignment it writes or relays as SMART and sends back any that is not. The crew of Oct 26 is in that file; who is running now is `docs/coordination/CREW.md`. Before ruling in the owner's place, read `OWNER-DECISIONS.md` whole, `DECISION-REGISTER.md`, `docs/coordination/prior-rulings/`, `LAW.md` and search `docs/`; the ruling names what was read.
 
-Current as of 2026-10-27, 04:50 UTC (owner, Oct 24: "play first", "simulate it, don't ask", "sessions never message each other"; the play-first lane, PR #5963)
+Current as of 2026-11-10 (owner, Oct 24: "play first", "simulate it, don't ask"; sessions may message each other since Oct 29; the Nov 10 rulings below).
 
 The CTO keeps the work moving and the owner informed. Whoever the owner appoints holds the role, on any account. The whole handoff is this file, `AGENTS.md`, `.agents/rules/how-we-talk.md`, `docs/pool/README.md`, the top of `docs/coordination/OWNER-DECISIONS.md`, `docs/play-first/PROGRESS.md` and the newest report in `docs/reports/`. Nothing lives only in a previous CTO's memory.
 
@@ -22,18 +22,25 @@ The CTO keeps the work moving and the owner informed. Whoever the owner appoints
 
 Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions message the CTO, the CTO messages them, and sessions whose work meets message each other (owner, Oct 29; `how-we-talk`, `docs/coordination/CREW.md`); the files stay the record, so the pass is still reading three files and writing two, plus keeping CREW.md current whenever a session starts or stops.
 
+**Nov 10 rulings that change the pass.**
+
+- **Rules, checks and skills merge first (owner, Nov 10).** `MERGE-FIRST.md` puts any pull request that adds or changes a rule, a check (test, guard, gate, workflow), a skill, or something every other change runs through (speed, a shared engine) ahead of every other pull request; one whose files such a rule judges merges after it and passes it. If such a pull request is red or conflicted, its author fixes it ahead of other work.
+- **Every item meets the standard (`.agents/rules/pool-item-standard.md`).** `standard: 2`, a cause that begins `Found in code:`, `Measured:`, `Design:` or `Needs cause.`, a fix, a time box, a model and an effort. An item that says `Needs cause.` is never built; only items marked `checked: fable` are taken. Builders take work with `npm run pool -- next --model <level>` (`docs/pool/START-A-BUILDER.md`), which claims the next item in the written order and opens its draft pull request.
+- **The pull request is the item's thread.** Progress, questions, send-backs and the handoff note go on it; issue 8928 is for crew-wide lines only (#7365 was the line until Nov 12, 2026; it is near GitHub's comment cap). Read an item's pull request before you ask its builder anything.
+- **Words are split by role.** Only the Story session writes lines under `data/english/parts/`; rules, checks, the pulled list and judgments are built by the words-machine builders (`words-engine`).
+
 ```
 - [ ] `docs/play-first/PROGRESS.md` first: newest handoff lines, `needs-from:` lines to turn into pool items with `lead:` set, items stuck past 3 hours
 - [ ] The channel `docs/coordination/LEADS-2026-10-24.md`: every role's newest block; answer each `Needs from others:` line in the CTO section, addressed to the role
 - [ ] Rewrite `docs/coordination/MERGE-FIRST.md`: lane PRs first, then what unblocks the most
 - [ ] Clock (`date`) and weekly usage; above ~75% go lean
 - [ ] Merges in the last hours; none means a merger died: find which; audit a sample (`merge-audit`)
-- [ ] Mergers alive, each in its share (PR number modulo the number running; five on Oct 26)
+- [ ] Mergers alive, each in its share (PR number modulo the number running; `CREW.md` lists them)
 - [ ] Leads: laws, traits, speed, m0-m2, effects (Opus, at most two Sonnet helpers each); their matrices and open PRs (`wiring-audit`); Words (Opus medium)
 - [ ] Every area the owner is complaining about has a running lead with a channel block in the last 4 hours. On Oct 26 words, scenes and the shared screen system had none while the owner named them the biggest problem. A role silent 4 hours is not running: give its sent-back PRs to a `pr-fixer` and propose a replacement to the owner
 - [ ] `docs/coordination/playtest/`: the owner's newest sitting block. Turn its stops into assignments unless the block reserves them ("drafts only", "Fable decides"); record its rulings first
 - [ ] `MERGE-FIRST.md` older than 4 hours is rewritten; the owner's repeated complaints go first
-- [ ] Pool: INDEX counts; open must never hit 0 while builders run; every item carries `lead:`; lane items carry `milestone: play-first`
+- [ ] Pool: INDEX counts; open items that are `checked: fable` must never hit 0 while builders run; the written order is `docs/pool/order.json` (landing with the builder page); every item carries `lead:`; lane items carry `milestone: play-first`
 - [ ] Stuck work: send-backs nobody answers (give to a `pr-fixer`), fixer PRs into PR branches, stale claims (older than 60 minutes, no branch, no PR: release); in-pr items whose PR is closed, merged elsewhere, or a draft with no push in 72 hours go back to open (Oct 26: 59 of 97 in-pr items sat on four idle drafts)
 - [ ] **Lessons loop (owner, Oct 27: "update skills, make new skills; that's how this is supposed to work").** Any send-back reason that appears twice in a day, any cause of a red main, any question a session asked that a ruling already answered, and any gap the owner names in a sitting becomes a line in the skill that should have prevented it (or a new skill) in the same pass, mirrored to `.claude/skills/`, with `npm run test:skill-ops` run. Name the lesson and the skill in the CTO block. Oct 26-27 examples: the title rotation and the desktop smoke check (`merger`, `play-first`); two writers in one checkout (`.agents/rules/smart-and-look-first.md`); the generated pool index conflicting every PR (take main's, regenerate on main); a merged play item flipping to done (`merger` step 8)
 - [ ] Scenes: the words-and-scenes lead's newest block names the real-life episode it worked (`scenes-from-life`); a pass with no episode is a pass with no new scene
@@ -47,7 +54,7 @@ The CTO merges only its own docs, skill and pool PRs, and every session's `skill
 - **The play-first lane** (`docs/play-first/`, skill `play-first`): the only writer in `src/bench`; may edit `src/director`, `src/english` and `data/english` for lane items with the Words session's review (`Review: words`); many agents in turn, SMART and time-boxed; the lane's law is `LAW.md`, which the CTO writes only after `OWNER-DECISIONS.md` has the ruling.
 - **Leads** own their matrices (`wiring-audit`, `lead-session`); the CTO sizes each job and proposes lead model and helper count to the owner, who picks.
 - **Mergers** (`merger`): a share each by PR number modulo the number running, plus a recheck merger when named; `MERGE-FIRST.md` first; head-pinned; screenshots required for play items; English lines the grade ledger lets play are never a send-back. Their comments start with their prefix so audits can tell them apart.
-- **Words** (`words-engine`): Opus medium; scenes graded by voice note, not batches; reviews lane PRs marked `Review: words`.
+- **Words** (`words-engine`): Story writes the lines (Nov 10) and reviews lane PRs marked `Review: words`; scenes are graded by voice note, not batches; a grade becomes a rule a program tests, not a line-by-line review.
 - **Researchers** (`researcher`), **fixers** (`pr-fixer`): one item at a time, from the pool and `MERGE-FIRST.md`.
 - **Orders** live in files: a pool item, a skill, `docs/play-first/ORDER.md` or `docs/work-orders/<name>-<date>.md`. A chat message is not an order.
 - **Codespace lanes stop** on the 4-hour idle timer, counted from the owner's last browser use; `gh codespace list`. The owner restarts their agents.
@@ -100,6 +107,8 @@ Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>"
 - **Load the checkers evenly by message** (`crew-messages`): read the open PRs by number mod 5, move the oldest from a long queue to an idle checker, and tell both. A checker already mid-gate keeps the PR.
 - **Merging many skills PRs at once:** merge the ones that touch different files first, then each of the rest after merging main into its branch. Where two PRs added sections at the same spot, keep both. Where they rewrote the same line (a numbered step), keep-both duplicates it: rebuild that one line from both sides' facts (Nov 1, `session-start` steps 2 and 6). After the batch, run `npm run release:check -- --mode pr` on main as well as `test:skill-ops`: the skill test never reads declarations, and on Nov 2 two skills PRs that passed it broke the release check (an `impact: none` declaration carrying `section` and `title`, and an id an earlier release had already consumed, `skills-red-main-nov1-lessons`). Fix each on main at once: make the note bare, or rename the file and its id.
 
+In plain words for a tool that is not Claude: "message a session" means the tool your platform gives you to reach it, or a comment on its pull request; "stop order" means the same text pushed to the leads channel and the item's pull request.
+
 ## The prompt
 
 > Read AGENTS.md and .agents/skills/cto/SKILL.md in lamontaes/Political-Game-Git. You are the acting CTO until the owner says otherwise.
@@ -108,3 +117,5 @@ Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>"
 > Record every owner ruling in OWNER-DECISIONS.md the same hour; rule what a standing rule answers; simulate it, don't ask.
 > Report to the owner the way civic-reports says, the play-first lane first.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+
+- **Once an hour, merge the pool notes bundle** (owner, Nov 11: "it's only worth merging things in the game") on the head Desk B posted, and say in the count how many game pull requests are open and whether the cap of 150 is on. Skill `pool-notes`.

@@ -5,10 +5,10 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-medicaid-expansion-federal-share-is-the-regular-match
+pr: #8529
 after:
 blocked-on:
 lead: laws
@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T03:30:24.123Z
 ---
 
 **What.** When the Medicaid expansion pays coverage, the federal government's share is taken at the state's regular match: 65.13 percent in Prescott, Michigan (seed a91c03e7d2b84f10) and 57.52 percent in Uehling, Nebraska (seed 5e27b0c4196fd3a8), measured in the health-schools year runs (found by the health-schools helper, Oct 25). Federal law pays a higher share for the expansion population: 90 percent from 2020 on (42 U.S.C. 1396d(y)(1), from the lead's memory; confirm against the statute's text). With the regular match, every expansion state's treasury pays several times what it should, which feeds its budget, its taxes and the outcome web. Seen: the state's Medicaid cost on its budget (federal share is 65% where the law pays 90%).

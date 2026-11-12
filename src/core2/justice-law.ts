@@ -12,6 +12,7 @@ import rows from "./data/justice/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, Source } from "./types";
 import { lawChain } from "./modules/laws";
+import { appointmentsIn, EXECUTIVE_MODULE_ID } from "./modules/executive";
 import {
   OFFICES_MODULE_ID,
   servingTermsOf,
@@ -59,10 +60,14 @@ function servingTerm(api: CoreAPI, officeId: string): TermRow | undefined {
   return undefined;
 }
 
+/** The cabinet post that prosecutes where no county prosecutor or elected attorney general does. */
+const APPOINTED_PROSECUTOR_POST = "attorney-general";
+
 /**
  * The town's prosecutor: the county's elected prosecutor where the offices
  * data has one, else the state attorney general (who prosecutes statewide in
- * the states with no county prosecutor), else a stand-in office.
+ * the states with no county prosecutor), else the governor's appointed
+ * attorney general from the state cabinet.
  */
 export function prosecutorFor(api: CoreAPI): ProsecutorOffice {
   const chain = lawChain(api);
@@ -99,8 +104,31 @@ export function prosecutorFor(api: CoreAPI): ProsecutorOffice {
         : { tag: "SOURCED", citation: office.source, asOf: date },
     };
   }
-  // stopgapId: SG-GOV-justice-prosecutor-stand-in
-  api.stopgap("SG-GOV-justice-prosecutor-stand-in");
+  // Neither an elected county prosecutor nor an elected attorney general: the
+  // governor's appointed attorney general (the state cabinet's post, from
+  // data/research/executive/executive-powers-2026.json) prosecutes statewide.
+  const appointed = api.state.modules.has(EXECUTIVE_MODULE_ID)
+    ? appointmentsIn(api, chain.stateKey).find(
+        (row) => row.post === APPOINTED_PROSECUTOR_POST,
+      )
+    : undefined;
+  if (appointed)
+    return {
+      officeId: appointed.id,
+      level: "state",
+      termId: null,
+      personId: appointed.holderId as PersonId,
+      party: null,
+      source: {
+        tag: "ESTIMATED",
+        citation: `The state's attorney general, appointed by ${appointed.appointedBy} (appointment ${appointed.id}, executive-powers-2026 cabinet).`,
+        asOf: date,
+        estimatedFrom: "data/research/executive/executive-powers-2026.json",
+      },
+    };
+  // The post is not yet filled (the cabinet is drawn when the governor's
+  // term begins): the office exists, its seat is empty, and nothing is
+  // prosecuted by a person until it is filled.
   return {
     officeId: `prosecutor:${chain.stateKey}`,
     level: "state",
@@ -110,9 +138,9 @@ export function prosecutorFor(api: CoreAPI): ProsecutorOffice {
     source: {
       tag: "ESTIMATED",
       citation:
-        "The state's prosecutor, standing in where the offices data has neither a county prosecutor nor an attorney general.",
+        "The state's appointed attorney general (data/research/executive/executive-powers-2026.json); the post is not yet filled.",
       asOf: date,
-      estimatedFrom: "SG-GOV-justice-prosecutor-stand-in",
+      estimatedFrom: "data/research/executive/executive-powers-2026.json",
     },
   };
 }

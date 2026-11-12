@@ -1,8 +1,10 @@
 /**
  * A builder's own house buys its materials outside the town, and a property
- * tax with no payee of its own goes to the outside: both pay the town's own
- * outside market, never a public employer that also carries an outside flow
- * (a government's opening employer does, as its zero-stock paying authority).
+ * tax with no payee of its own goes to the outside: both pay the outside
+ * account of the place they are for (the town's own outside market for the
+ * town's homes, a home elsewhere's own place for that home), never a public
+ * employer that also carries an outside flow (a government's opening
+ * employer does, as its zero-stock paying authority).
  * Played in Marlborough, New Hampshire, where the first such organization in
  * the place is the state offices, and in a town drawn from all 56 places.
  */
@@ -22,6 +24,8 @@ interface Paid {
   readonly to: string;
   readonly kind?: string;
   readonly placeId?: string;
+  /** For a property tax, the place the paying home is in. */
+  readonly homePlaceId?: string;
 }
 
 /** Every construction and property-tax payment to an account with an outside flow, over `days` of play. */
@@ -51,13 +55,22 @@ function outsidePayments(
     for (const posting of input.postings) {
       if (posting.deltaMinor <= 0) continue;
       const org = ownerOf(posting.accountId);
-      if (org?.outsideFlow !== undefined)
+      if (org?.outsideFlow !== undefined) {
+        const homeId = id.startsWith("property-tax:")
+          ? [...core.households.keys()].find((h) =>
+              id.startsWith(`property-tax:${h}:`),
+            )
+          : undefined;
         paid.push({
+          ...(homeId
+            ? { homePlaceId: core.households.get(homeId)!.placeId }
+            : {}),
           entry: `${input.id} ${id}`,
           to: org.id,
           kind: org.kind,
           placeId: org.placeId,
         });
+      }
     }
   });
   try {
@@ -68,17 +81,23 @@ function outsidePayments(
   return { where, townId: world.placeId, paid };
 }
 
-/** Each payment reached this town's own outside market. */
+/**
+ * Each payment reached the outside account of its own place: the town's
+ * outside market for construction and the town's homes, and the paying home's
+ * own place for a home elsewhere (a state average, no law row kept there).
+ */
 function expectTownOutsideMarket(run: ReturnType<typeof outsidePayments>) {
   for (const row of run.paid) {
-    expect(
-      row.kind,
-      `${run.where}: ${row.entry} paid ${row.to}, not the town's outside market`,
-    ).toBe(OUTSIDE_MARKET_KIND);
+    const own = row.homePlaceId ?? run.townId;
     expect(
       row.placeId,
-      `${run.where}: ${row.entry} paid ${row.to}, another place's outside market`,
-    ).toBe(run.townId);
+      `${run.where}: ${row.entry} paid ${row.to}, another place's outside account (its home is in ${own})`,
+    ).toBe(own);
+    if (own === run.townId)
+      expect(
+        row.kind,
+        `${run.where}: ${row.entry} paid ${row.to}, not the town's outside market`,
+      ).toBe(OUTSIDE_MARKET_KIND);
   }
   process.stdout.write(
     `housing-outside-market-payee: ${run.where}: ${run.paid.length} payments to ${run.paid[0]!.to}, first ${run.paid[0]!.entry}\n`,

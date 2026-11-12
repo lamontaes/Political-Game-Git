@@ -99,7 +99,8 @@ describe("labor links that wait, and why", () => {
         const row = (
           stopgaps as { id: string; status?: string; whatItFakes?: string }[]
         ).find((one) => one.id === stopgapId)!;
-        expect(row.status, stopgapId).toBe("open");
+        // Open, or dropped by the Nov 10 stand-in triage (the estimate stays).
+        expect(["open", "resolved"], stopgapId).toContain(row.status);
         expect(row.whatItFakes, stopgapId).toContain(`(${key})`);
         const web = link(key);
         if (stopgapId === "SG-LABOR-unsized-links")

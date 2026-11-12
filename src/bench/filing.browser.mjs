@@ -264,6 +264,36 @@ try {
     ["petitioning", "on-ballot"].includes(result?.filing?.status),
     `the filing was refused: ${JSON.stringify(result?.unmet ?? result)}`,
   );
+  // A petition is shown from its record: the signatures the clerk will count
+  // and the last day, at the counter; the held count and the deadline on the
+  // campaign board's data.
+  if (result.filing.status === "petitioning") {
+    assert.ok(
+      result.petition?.needed > 0 && result.petition?.due,
+      `a petitioning filing carries its petition: ${JSON.stringify(result.petition)}`,
+    );
+    await page.waitForFunction(
+      (needed) =>
+        document.body.innerText
+          .toLowerCase()
+          .includes(`signatures the clerk will count: ${needed}`),
+      result.petition.needed,
+    );
+    const board = await (
+      await page.request.get(
+        `${base}/api/campaign?id=${encodeURIComponent(
+          (await (await page.request.get(`${base}/api/title`)).json()).life
+            .personId,
+        )}`,
+      )
+    ).json();
+    const held = board.campaigns?.[0]?.petition;
+    assert.equal(held?.needed, result.petition.needed, "the board's count");
+    assert.equal(held?.due, result.petition.due, "the board's deadline");
+    console.log(
+      `Petition ${held.id}: ${held.signed} of ${held.needed} by ${held.due}`,
+    );
+  }
   // The party on the filing is the resident's tie on record (joined now, or
   // held before), never a form's.
   const me = (await (await page.request.get(`${base}/api/title`)).json()).life

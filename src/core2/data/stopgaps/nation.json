@@ -4,8 +4,8 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/outside-budgets.ts",
     "line": 1,
-    "whatItFakes": "Another state's budget year after the opening is its Census base moved line by line by the state's own base (jobs times pay, prices) and tax rates in force, with spending balanced to revenue; no act of the legislature adds to a spending line, no treasury, reserve or federal formula beyond the Medicaid match moves anything, and no money is paid.",
-    "why": "Only the town's chain has treasuries and a budget process; the other states' legislatures pass acts as results (world-legislating) and no budget bill yet.",
+    "whatItFakes": "Another state's budget year after the opening is a view of its ledger in the country tier: its income, profit and general sales tax lines and its spending are the state government's share of the tier's state-and-local figures, a share fixed from the published lines at the tier's first month; every other revenue line (selective sales taxes, property, fees, federal aid and the rest) is held at its published opening value as an estimate, and spending keeps the published mix of lines. No act of the legislature adds to a spending line, and no money is paid.",
+    "why": "The tier models only the income, profit and sales taxes and keeps state and local governments together; only the town's chain has treasuries and a budget process, and the other states' legislatures pass acts as results (world-legislating) and no budget bill yet.",
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
     "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each spending line moved by the state's enacted acts and formulas (aid rules, enrollment, caseload), reserves and debt service, and the legislature's budget act as a result; money paid when a state is opened.",
@@ -197,6 +197,30 @@
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
     "replacement": "Pool item core-country-tier-moves-one-holder: the counted-moves engine reads each state's people and place constants from the tier, and its pinned departures are deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-town-part-unsorted-jobs",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/macro.ts",
+    "line": 290,
+    "whatItFakes": "A town or county worker the records place at no employer (the opening's workers outside a recorded firm, commuters among them), or at an employer whose classification and kind have no sector in the tables, is counted in the state's sectors in the shares the state's jobs are in, not in the industry they work in.",
+    "why": "The opening records those workers only as a count per household and pays them from the place's outside account; no record says which industry they work in.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Each such worker's industry drawn at the opening from the county's recorded employment by sector (the survey the county sample already reads) and kept on the household, with every employer classification given a row in business-books.json or src/core2/data/country/employer-sectors.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-town-part-scaled-books",
+    "kind": "faked-mechanic",
+    "file": "src/core2/country-model.ts",
+    "line": 1189,
+    "whatItFakes": "When the played town and its county are taken out of their state, the state's government books and what its owners are paid leave in proportion to the people taken out, and each sector's cash, sales and buyers in proportion to the jobs taken out; they are not read from the town's own treasuries, firms' books and sales.",
+    "why": "The country tier's cells hold a state's governments and firms as one ledger and one cell per sector; the town's treasuries and firms keep their own books in other units and no reader yet turns them into the tier's lines.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "The town's own treasuries' revenue and spending and its firms' sales and cash, read from their books each month and taken out of the state's ledger and sectors line by line.",
     "status": "open"
   }
 ]
