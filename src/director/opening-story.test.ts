@@ -84,7 +84,11 @@ describe("the opening story", () => {
     // The party creed says the President's own party (an Oct 28 voice note:
     // the speech reads the President's party, traits and the world), and the
     // country's story ends on what the President will do about it.
-    expect(levels).toContain("occasion");
+    // The occasion is said where one of its pieces fits the record; since
+    // the speech outline (Nov 12) a piece that carries nothing is not
+    // picked, so an address may open straight from its greeting into its
+    // first point.
+    expect(levels).toContain("country");
     const country = story.address.sentences.filter(
       (row) => row.level === "country",
     );
