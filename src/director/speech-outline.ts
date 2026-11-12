@@ -793,6 +793,7 @@ function hardness(country: Country, topic: string): number {
  * measures went the wrong way). Ties go by the subject's id. Null when nothing
  * scores.
  */
+// stopgapId: SG-WORDS-speech-theme-weights
 export function themeOf(
   official: OfficialRow | undefined,
   open: readonly Stand[],
@@ -813,9 +814,17 @@ export function themeOf(
       const signature = stands.filter((stand) =>
         own.has(stand.question),
       ).length;
+      // How far the speaker's own view on the subject stands from a
+      // centrist's: a question nearly everyone favors (the ban on stock
+      // trading by members of Congress) scores only for one who holds it
+      // unusually hard, so it cannot lead every speech.
       const stance = Math.max(
         P.zero,
-        ...stands.map((stand) => Math.abs(stand.stance)),
+        ...stands.map((stand) =>
+          official
+            ? Math.abs(stand.stance - ownStance(P.zero, [], stand.question))
+            : Math.abs(stand.stance),
+        ),
       );
       const condition = Math.max(
         P.zero,

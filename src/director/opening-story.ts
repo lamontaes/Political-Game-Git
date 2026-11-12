@@ -43,6 +43,9 @@ import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { P } from "../core2/parameters";
+import { officeWords, saidAs } from "../english/said-as";
+import { tellingOf } from "../english/telling";
+import { saidPersonOf } from "./said-person";
 import type { AddressKind } from "./address-kind";
 import {
   SHAPE,
@@ -161,8 +164,11 @@ const PERSON_NAMES: readonly string[] = [
  * The people an address names, by fact key, with the seat whose title says
  * them (owner, Nov 12: "who's Kathryn Hansen?", "There needs to be pronouns
  * and titles."): "Vice President Kathryn Hansen" at first mention, "the Vice
- * President" after. A key ending in `-addressed` speaks to the person and
- * always gives title and name. A stand-in for the shared said-as reader.
+ * President" after. The Vice President is said by the shared said-as reader
+ * (src/english/said-as.ts) from the address's telling; the Speaker, whose
+ * title is a leadership role the reader's office words do not hold yet, by
+ * `sayPerson`. A key ending in `-addressed` speaks to the person and always
+ * gives title and name.
  */
 const SAID_AS: Readonly<Record<string, string>> = {
   "vice-president": "US:vice-president",
@@ -272,24 +278,49 @@ export function composeBlocks(
   // The seats of the people already said in this address, so a person is
   // said by title and name once and by role after.
   const mentioned = new Set<string>();
+  // The address's telling: who speaks, to whom, and who it has said so far.
+  const telling = tellingOf({
+    speakerId: president.id,
+    listenerId: core.playerId ?? president.id,
+  });
+  /** A person as said-as words them now, without recording the mention unless `say`. */
+  const viaSaidAs = (key: string, row: Facts[string], say: boolean) => {
+    const id = row.sourceRecordIds[P.zero];
+    if (!id) return row.text;
+    const person = saidPersonOf(core, id, telling);
+    if (key.endsWith("-addressed")) {
+      const office = officeWords(person.officeKind);
+      return office ? `${office.before} ${row.text}` : row.text;
+    }
+    const memory = telling.text;
+    const into = say
+      ? telling
+      : {
+          ...telling,
+          text: {
+            ...memory,
+            mentions: new Map(memory.mentions),
+            fullNamed: new Set(memory.fullNamed),
+            said: new Set(memory.said),
+          },
+        };
+    return saidAs(into, person);
+  };
   const tellOf = (facts: Facts): Facts =>
     Object.fromEntries(
       Object.entries(facts).map(([key, row]) => {
         const seat = SAID_AS[key];
-        return seat && row
-          ? [
-              key,
-              {
-                ...row,
-                text: sayPerson(
-                  row.text,
-                  seat,
-                  { mentioned },
-                  key.endsWith("-addressed"),
-                ),
-              },
-            ]
-          : [key, row];
+        if (!seat || !row) return [key, row];
+        const text =
+          seat === "US:vice-president"
+            ? viaSaidAs(key, row, false)
+            : sayPerson(
+                row.text,
+                seat,
+                { mentioned },
+                key.endsWith("-addressed"),
+              );
+        return [key, { ...row, text }];
       }),
     );
   // What each person or name counts as, so the said-as forms of one person count together.
@@ -472,6 +503,9 @@ export function composeBlocks(
             );
           const seat = SAID_AS[key];
           if (seat) mentioned.add(seat);
+          // The shared reader records the mention once the sentence said it.
+          if (seat === "US:vice-president" && block.facts[key])
+            viaSaidAs(key, block.facts[key]!, true);
         }
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));

@@ -201,10 +201,24 @@
     }
   },
   "theme": {
-    "about": "How the one theme is picked from the speaker's own record and their world (owner, Nov 12: 'There's no theme for the speech. That's a problem.'). Every subject of the bill catalog scores: each of the speaker's signature issues in it that their level can answer (`signature`), how strongly they hold the strongest open question in it (`stance`, 0 to 1), and how far the subject's measures moved the wrong way in their world (`condition`, the move over its change scale, at most 1). The highest score is the theme; a tie goes by the subject's id. A signature issue outweighs a strong stance, so one question that most speakers favor cannot lead every speech. No roll.",
-    "signature": { "value": 1, "tag": "TUNABLE", "spread": "0.5 to 2" },
-    "stance": { "value": 0.25, "tag": "TUNABLE", "spread": "0.1 to 0.5" },
-    "condition": { "value": 0.75, "tag": "TUNABLE", "spread": "0.25 to 1.5" },
+    "about": "How the one theme is picked from the speaker's own record and their world (owner, Nov 12: 'There's no theme for the speech. That's a problem.'). Every subject of the bill catalog scores: each of the speaker's signature issues in it that their level can answer (`signature`), how far their view on its strongest open question stands from a centrist's (`stance`), and how far the subject's measures moved the wrong way in their world (`condition`, the move over its change scale, at most 1). The highest score is the theme; a tie goes by the subject's id. A signature issue outweighs a strong stance, so one question that most speakers favor cannot lead every speech. No roll.",
+    "signature": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "0.5 to 2"
+    },
+    "stance": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "0.5 to 2",
+      "note": "Per unit of how far the speaker's stance on the subject's strongest open question stands from a centrist's (ownStance at lean 0)."
+    },
+    "condition": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": "0.1 to 0.75",
+      "note": "The macro year is close to the same in every world (real months with small offsets), so the world's condition weighs less than the speaker's own record."
+    },
     "contextYearsMin": {
       "value": 2,
       "tag": "TUNABLE",
@@ -236,6 +250,9 @@
       "first": "Vice President",
       "after": "the Vice President"
     },
-    "US:us-house:presiding": { "first": "Speaker", "after": "the Speaker" }
+    "US:us-house:presiding": {
+      "first": "Speaker",
+      "after": "the Speaker"
+    }
   }
 }

@@ -117,6 +117,19 @@ bank.parts = bank.parts.filter((part) => {
   return true;
 });
 
+// 5. A lead-in that only announces the next clause goes (words skill, Nov 11:
+// "A lead-in does work or it goes"), and the clause it announced starts its
+// own sentence, so no comma joins two full clauses.
+for (const part of bank.parts) {
+  const announced = /, and I'll tell you, (\S)/;
+  if (!announced.test(part.text)) continue;
+  part.text = part.text.replace(
+    announced,
+    (_, letter: string) => `. ${letter.toUpperCase()}`,
+  );
+  count("5. an announcing lead-in goes and its clause starts a sentence");
+}
+
 // 4. The context pieces.
 const SLOTS: Record<string, string> = {
   "context-years":

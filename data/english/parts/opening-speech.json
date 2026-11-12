@@ -12832,7 +12832,7 @@
       "key": "opening-speech.salutation.plain-ina-hopeful-core-thanks-to-vice-president-vice-president-and-i-ll",
       "move": "salutation",
       "kind": "spoken",
-      "text": "thanks to {vice-president}, and I'll tell you, I'm starting this job feeling hopeful about where we can go.",
+      "text": "thanks to {vice-president}. I'm starting this job feeling hopeful about where we can go.",
       "uses": [
         {
           "move": "salutation",
@@ -14891,7 +14891,7 @@
       "key": "opening-speech.occasion.plain-ina-sta-victory-core-i-came-to-this-job-from-serving-as-prior",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I came to this job from serving as {prior-office}, and I'll tell you, this is the work I'm proudest of.",
+      "text": "I came to this job from serving as {prior-office}. This is the work I'm proudest of.",
       "uses": [
         {
           "move": "occasion",

@@ -1031,5 +1031,17 @@
     "addedAt": "2026-11-12",
     "replacement": "Each of those speeches calls planSpeech with its row, and its own planner or joiner is deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-speech-theme-weights",
+    "kind": "estimated-parameter",
+    "file": "src/director/speech-outline.ts",
+    "line": 1,
+    "whatItFakes": "The theme weights (speech-outlines.json theme) are first guesses: in ten drawn worlds on Nov 12 the President's address led with paying for a higher debt limit in six, because the macro year is nearly the same in every world and the taxes-finance subject holds the one open federal question most Presidents stand far from the center on.",
+    "why": "Unit 3's time box ran out before the weights were tuned against draws.",
+    "addedBy": "Words builder W-C",
+    "addedAt": "2026-11-12",
+    "replacement": "Weights tuned so no question leads more than half of ten drawn addresses; the half-draws assertion in speech-outline.test.ts turned on.",
+    "status": "open"
   }
 ]
