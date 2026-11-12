@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: opus-lr
-pr:
+pr: #8944
 after:
 blocked-on:
 lead: lives
