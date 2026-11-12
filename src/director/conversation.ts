@@ -102,6 +102,7 @@ import {
   viewOf,
   viewOn,
   VIEWS_KEYS,
+  VIEWS_MODULE_ID,
 } from "../core2/modules/views";
 import { townMetrics } from "../core2/modules/world";
 import { questionSubject } from "../english/policy-names";
@@ -3617,19 +3618,29 @@ const OPENING_ORDER = [
 /** The prefix of a federal policy question's id (the bill catalog's federal positions). */
 const FEDERAL_QUESTION = "us-federal-positions:";
 
-/** The youngest age at which someone takes a stand in talk (conversation-rules.json stands, TUNABLE). */
-const STANDS_FROM_AGE = (
-  rulesFile as unknown as { stands: { minAge: { value: number } } }
-).stands.minAge.value;
+/** The youngest age at which someone takes a stand in talk, and how closely someone under the voting age must follow politics to take one (conversation-rules.json stands, TUNABLE). */
+const STANDS = (
+  rulesFile as unknown as {
+    stands: { minAge: { value: number }; minEngagement: { value: number } };
+  }
+).stands;
 
-/** Whether a person is old enough to take a stand in talk, from their birth record. */
+/**
+ * Whether a person takes a stand in talk: from the youngest age the rules
+ * name, and under the voting age only when they follow politics closely (the
+ * views engine's engagement; lead, Nov 12: a sixteen-year-old's stand is
+ * gated by their engagement, not by age alone).
+ */
 function takesStands(core: Readonly<CoreState>, personId: PersonId): boolean {
   const person = core.people.get(personId);
-  return (
-    !!person &&
-    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >=
-      STANDS_FROM_AGE
-  );
+  if (!person) return false;
+  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  if (age < STANDS.minAge.value) return false;
+  if (age >= P.votingAge) return true;
+  const engagement = core.modules.has(VIEWS_MODULE_ID)
+    ? (viewOf(coreAPI(core as CoreState), personId)?.engagement ?? zero)
+    : zero;
+  return engagement >= STANDS.minEngagement.value;
 }
 
 /** Small talk's subject ids: the day itself, with nothing but the clock behind it. */
