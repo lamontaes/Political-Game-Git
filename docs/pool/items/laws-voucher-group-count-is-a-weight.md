@@ -5,10 +5,10 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-laws-voucher-group-count-is-a-weight
-pr:
+pr: #8543
 blocked-on:
 source: added with npm run pool -- add
 after:

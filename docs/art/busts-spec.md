@@ -32,26 +32,27 @@ Front first, for every piece: every menu draws the front view. Three-quarter lef
 ## Variety for early access, for each sex
 
 - **Heads: 6.** Three skin tones (light, medium, dark), each as an adult and as an older face. A person's tone is the tone of their painted figure. A teenager uses the adult head and wears no facial hair.
-- **Tops: 6.** Two for each way the game dresses someone: everyday, work and official.
+- **Clothes, as layers in colors** (round 4, in the game since Nov 11, 2026; owner, Nov 10: "I would like to be able to change ties and stuff ... I want to see colors and stuff changing as well"). A bust wears one whole top (everyday: a sweater, a chambray shirt, a henley, a cardigan), or a dress shirt with or without a tie and a jacket. Each color is its own painting, never a tint. The manifest's `clothes` lists the styles of each layer with their colors, and its `dress` says what everyday, work and official each wear.
 - **Hair: 6 styles in 4 colors:** black, dark brown, blond and gray. Gray goes with the older heads.
 - **Men's facial hair:** a beard and a mustache in black, dark brown and gray.
 
 ## Files
 
 - Folder: `art/busts/v1/<women|men>/<front|three-quarter-left>/`.
-- Names: `head-<tone>-<age>.png` (tone `light`, `medium` or `dark`; age `adult` or `older`), `top-<name>.png`, `hair-<style>-<color>.png`, `face-<beard|mustache>-<color>.png`.
+- Names: `head-<tone>-<age>.png` (tone `light`, `medium` or `dark`; age `adult` or `older`), `top-<name>-<color>.png`, `shirt-<name>-<color>.png`, `tie-<name>-<color>.png`, `jacket-<name>-<color>.png`, `hair-<style>-<color>.png`, `face-<beard|mustache>-<color>.png`.
 - Format: PNG.
 - Each folder keeps its `checks.json` and `pieces-check.json`: 0 holes, 0 changed pixels and 0 light rims for every pair.
 - `art/busts/v1/manifest.json` lists the pieces the game draws, with their tags: a head's tone and age; a top's dress (everyday, work or official); a hair or facial hair piece's style and color. A new piece is a new file and a new row. No code changes.
 
 ## Layer order
 
-Head, top, facial hair, hair. Glasses, if painted, go between facial hair and hair. No anchor points: the shared canvas is the anchor.
+Head, the whole top or the shirt, the tie, the jacket, facial hair, hair. Glasses, if painted, go between facial hair and hair. No anchor points: the shared canvas is the anchor.
 
 ## What the code does with the pieces
 
 - The head is the person's skin tone.
-- The top is how the person is dressed where the viewer is. An officeholder is always shown as they serve.
+- The clothes are how the person is dressed where the viewer is: an everyday top, or at work a shirt, with a tie for some. An officeholder is always shown as they serve, in a shirt and a jacket, with a tie where ties are painted for them.
+- A look made in the creator chooses its shirt, tie and jacket by color. It wears them at work and in office, and an everyday top elsewhere.
 - Hair and facial hair are set once from the person's own appearance seed, so one person is one bust everywhere. This decides who someone looks like, never what anyone does.
 - A look made in the creator keeps its face: no facial hair is added.
 - The screen stacks the pieces as separate pictures, so the browser fetches each piece once for everyone who wears it.

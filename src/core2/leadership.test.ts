@@ -51,15 +51,16 @@ const states = [...corePlaceStateIdentities()]
   )
   .sort();
 
-function world() {
-  const state = pick(states, "state");
+function world(attempt = 0) {
+  const suffix = attempt ? `:${attempt}` : "";
+  const state = pick(states, `state${suffix}`);
   const places = [
     ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  const key = pick(places, "place").key;
+  const key = pick(places, `place${suffix}`).key;
   const where = `seed ${seed}, ${state} place ${key}`;
   const core = createLifeCore(
     buildPopulation({
@@ -205,24 +206,38 @@ describe("chamber leadership and committees", () => {
     // party), and the smaller caucus longer serving, so a tie broken by
     // service went its way. A tie is not a majority; the larger caucus keeps
     // the chair unless a coalition holds a majority of the whole body.
-    const { state, where, api } = world();
-    const chamber = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .query("byJurisdiction", [state]) as unknown as {
-        id: string;
-        kind: string;
-      }[]
-    )
-      .filter((o) => o.kind.startsWith("legislature-"))
-      .map((o) => o.id)
-      .sort()
-      // A nonpartisan chamber elects its chair without caucuses.
-      .find((c) => members(api, c).some((t) => partySide(t.party) !== 0));
-    if (!chamber) return;
+    // A partisan chamber is needed (a nonpartisan one elects its chair without caucuses):
+    // keep drawing places, naming each one passed over, until one has it.
+    const passedOver: string[] = [];
+    let drawn: ReturnType<typeof world> | undefined;
+    let chamber: string | undefined;
+    for (let attempt = 0; attempt < 12 && !chamber; attempt += 1) {
+      drawn = world(attempt);
+      const { state, api: stateApi, where: here } = drawn;
+      chamber = (
+        stateApi
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .query("byJurisdiction", [state]) as unknown as {
+          id: string;
+          kind: string;
+        }[]
+      )
+        .filter((o) => o.kind.startsWith("legislature-"))
+        .map((o) => o.id)
+        .sort()
+        .find((c) =>
+          members(stateApi, c).some((t) => partySide(t.party) !== 0),
+        );
+      if (!chamber) passedOver.push(`${here}: no partisan chamber`);
+    }
+    expect(
+      chamber,
+      `no drawn place had a partisan chamber: ${passedOver.join("; ")}`,
+    ).toBeDefined();
+    const { where, api } = drawn!;
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-    const all = members(api, chamber);
+    const all = members(api, chamber!);
     const half = Math.floor((all.length - 2) / 2);
     all.forEach((t, i) =>
       terms.put({
@@ -231,6 +246,6 @@ describe("chamber leadership and committees", () => {
         serviceStart: i <= half ? t.startDate : "2000-01-07",
       } as never),
     );
-    expectHeldByMajority(api, chamber, `${where} (split)`);
+    expectHeldByMajority(api, chamber!, `${where} (split)`);
   }, 300_000);
 });
