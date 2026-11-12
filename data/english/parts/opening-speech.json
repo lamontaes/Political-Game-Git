@@ -105374,55 +105374,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.today.plain-inaugural-the-way-it-is-now-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "The way it is now, {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.close.plain-inaugural-so-let-s-starting-tomorrow-good-night-everybody-first-side",
       "move": "close",
       "kind": "spoken",
@@ -106398,6 +106349,55 @@
             "stance-against",
             "law-in-force",
             "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-of-right-now-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As of right now, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
           ]
         }
       ],

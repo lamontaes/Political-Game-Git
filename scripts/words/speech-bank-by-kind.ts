@@ -801,7 +801,7 @@ const TODAY: [string | string[], string][] = [
   ["polished", "At this moment, {today-clause}"],
   ["polished", "As we stand here, {today-clause}"],
   ["plain", "As of today, {today-clause}"],
-  ["plain", "The way it is now, {today-clause}"],
+  ["plain", "As of right now, {today-clause}"],
   ["plain", "As it is now, {today-clause}"],
 ];
 for (const [voice, text] of TODAY)
