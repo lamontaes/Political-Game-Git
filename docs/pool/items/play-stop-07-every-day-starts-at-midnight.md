@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/pool-play-stop-07-every-day-starts-at-midnight
 pr:
 after:
@@ -17,9 +17,12 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-11T04:00:37.571Z
+claimed-at: 2026-11-11T08:41:36.888Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-07-every-day-starts-at-midnight
+merged-at: 2026-11-11T08:47:51.966Z
+seen-by: opus-d23b
+seen-at: 2026-11-11T08:47:59.060Z
 ---
 
 **What.** On the v0.22.10 release, pressing Day on Monday January 20 at 8:30 PM went to Wednesday January 22 at 12:00 AM, every later Day and Week press landed at 12:00 AM alone in the bedroom, and a 3-hour action left the clock at midnight while the scene showed an afternoon. The item is a twin of integration-day-lands-on-morning-and-places-keep-hours, which is done, and both children are dropped. Days now start in the morning (commit c573027b70). What is left is a second session's replay of the finish line.
@@ -57,3 +60,25 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-11): Replay done (PR 8324): Day and closed-office travel pass; the 3-hour filing visit leaves the clock unmoved. Searched OWNER-DECISIONS and parameters: filingVisitHours is 3 and cites the CTO's Oct 28 note that filing spends the afternoon, so the unmoved clock is a defect. Likely cause (unconfirmed): BenchPlayer.spend returns nothing while the clerk's stop holds the clock (player.ts ~236, handler.ts /api/filing/choose ~1855). Needs a fix item with a Fable-checked cause, proved with filing.browser.mjs in two drawn places; filing.browser.mjs line ~247 accepts a held clock and should be tightened. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 04:00 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released by next (2026-11-11): no push to claude/pool-play-stop-07-every-day-starts-at-midnight since 2026-11-10 23:40 UTC, more than twice its 2-hour time box. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:01 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released (2026-11-11): Replay done on PR 8324; the failing filing-clock step is now play-filing-visit-moves-the-clock, which this waits on (pool/notes). Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 08:04 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released (2026-11-11): Already replayed by this builder earlier (report docs/reports/seen-2026-11-11 on PR #8324); the filing-clock question there is still unanswered; not redone. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for opus-1fd7 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:32 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released (2026-11-11): Not replayed a fifth time: the replays on PR 8324 agree, and its one failing step is play-filing-visit-moves-the-clock, which is on pool/notes and not yet on main. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for opus-1fd7 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:33 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Released (2026-11-11): Replayed four times on PR 8324; its one failing step is play-filing-visit-moves-the-clock (on pool/notes, not yet on main), so a fifth replay finds nothing new. Continue on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 08:41 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
+
+Seen in the game (2026-11-11, opus-d23b): Crestone, Colorado, seed 79ddf9db-14fb-42d7-84aa-10dd404d16dc, main e0428fdc9ae: At 1440x900 Day from the 8:30 PM opening landed on Tuesday, January 21, 2025 7:00 AM and again on Wednesday, January 22 7:00 AM with no skipped day; a 3-hour Knock on doors moved the clock from 7:00 AM to 10:00 AM on July 2, 2025. In Pownal, Vermont (seed 0b33c641-bfd2-4e55-aa54-1a46f9efbf52) at 8:30 PM the Town clerk's view read Closed now, Opens Tuesday, January 21 at 8:00 AM, and Go waited to 8:00 AM, where the clerk's scene opened First thing on January 21st. Found beside it: the screen after the 10:00 AM outing showed a night picture of the Lincoln Memorial in a Colorado town, and clock.browser.mjs reads the clock with innerText while the trail sheet hides it.

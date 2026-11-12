@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-campaign-day-test-spring-election-weeks
 pr: #8447
 after:
@@ -18,6 +18,7 @@ effort: low
 root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T01:52:18.734Z
+merged-at: 2026-11-12T06:21:30.675Z
 ---
 
 **What.** The test that every week a candidate knocks reaches someone expects more than 20 weeks of knocking, but a town with a spring election closes its campaign first. It fails on main in about 2 of 200 draws: Highgate Center VT (5033175, run seed wk-104) gives 9 weeks and Hobart WI (5535150, run seed wk-142) gives 14. The rule is right and the test's fixed week count is wrong.
