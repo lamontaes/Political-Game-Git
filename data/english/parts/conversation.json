@@ -32,12 +32,10 @@
     "town_figure": "The town's own figure as a resident says it in passing (data/english/town-figures.json), from the economy engines' records against the country's.",
     "about-said": "What the talk just had was about, from its first topic's record: an employer, a school, a town, a news story or a relative, as that topic said it.",
     "ran": "The day a printed story ran, said in passing (\"yesterday\", \"a few days ago\"), from the story's own date.",
-    "daypart": "The part of the day as said in passing (\"this morning\", \"tonight\"), from the player's clock as the scene plays (data/english/day-words.json).",
     "player-first": "The player's first name, from their person record, said in a goodbye when the talk already named its topic.",
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
     "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
-    "their_first": "The given name of the person the player is talking to, from the person's record.",
-    "ahead": "What is left of the day, for a line that looks ahead: \"later\" while the evening is still ahead, \"tomorrow\" once it is the evening (data/english/day-words.json ahead, from the telling's clock; words composer unit 2, Nov 12: no \"again tonight\" at 8:30 p.m.)."
+    "their_first": "The given name of the person the player is talking to, from the person's record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -15489,28 +15487,6 @@
       }
     },
     {
-      "key": "conversation.farewell-leave-home.thanks-for-listening",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "Thanks for listening.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "bearing": "tender",
-      "tag": {
-        "move": "farewell"
-      }
-    },
-    {
       "key": "conversation.farewell-answer-bye.see-you-around",
       "move": "farewell-answer-bye",
       "kind": "spoken",
@@ -16495,29 +16471,6 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-25"
-    },
-    {
-      "key": "conversation.farewell-leave-home.glad-we-talked",
-      "move": "farewell-leave-home",
-      "kind": "spoken",
-      "text": "Glad we talked.",
-      "uses": [
-        {
-          "move": "farewell-leave-home",
-          "subject": "farewell",
-          "role": "leave",
-          "choice": "home",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-home-talks-rewritten)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "farewell",
-        "key": "household"
-      },
-      "bearing": "glad"
     },
     {
       "key": "conversation.ack-reply-right.fair-enough",
@@ -27831,168 +27784,6 @@
           "subject": "farewell",
           "role": "core",
           "stages": ["default"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.i-ll-be-around-daypart-if-you-need-me",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "I'll be around {daypart} if you need me.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.i-ve-got-a-few-things-to-get-done-daypart",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "I've got a few things to get done {daypart}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.i-ll-be-in-the-kitchen-daypart-if-you-want-me",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "I'll be in the kitchen {daypart} if you want me.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.go-on-and-enjoy-what-s-left-of-daypart",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Go on and enjoy what's left of {daypart}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"],
-          "requiresFacts": ["afternoon"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.find-me-daypart-if-you-want-to-talk-more",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Find me {ahead} if you want to talk more.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11",
-      "revised": {
-        "by": "Words builder W-A (words composer unit 2)",
-        "date": "2026-11-12",
-        "why": "A line that looks ahead says what is left of the day ({ahead}), never a part of the day that is over."
-      }
-    },
-    {
-      "key": "conversation.farewell-core.don-t-stay-up-too-late-daypart",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Don't stay up too late {daypart}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"],
-          "requiresFacts": ["evening"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-greet-farewell-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.farewell-core.try-to-get-some-rest-daypart",
-      "move": "farewell-core",
-      "kind": "spoken",
-      "text": "Try to get some rest {daypart}.",
-      "piece": {
-        "of": "farewell-leave",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "farewell-core",
-          "subject": "farewell",
-          "role": "core",
-          "stages": ["home"],
-          "requiresFacts": ["evening"]
         }
       ],
       "origin": "authored",

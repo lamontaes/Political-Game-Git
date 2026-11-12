@@ -142,8 +142,7 @@ import {
   stateInSentence,
 } from "./words";
 import { dayParts, sceneMinute } from "./day-part";
-import { dayAheadSaid, dayPartSaid } from "../english/day-words";
-import { clockOf, noteMention, tellingOf } from "../english/telling";
+import { noteMention, tellingOf } from "../english/telling";
 import { saidAs, sentenceStarts } from "../english/said-as";
 import { saidPersonOf } from "./said-person";
 import {
@@ -4314,27 +4313,6 @@ function partingLine(
   }
   // Someone of the player's they know, when the talk named nothing else.
   if (family && !found) facts.name = family;
-  if (housemate)
-    for (const mark of dayParts(
-      conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
-    )) {
-      const said = dayPartSaid(mark);
-      facts[mark] = { text: "yes", sourceRecordIds: [conversation.playerId] };
-      if (said)
-        facts.daypart = {
-          text: said,
-          sourceRecordIds: [conversation.playerId],
-        };
-    }
-  // What is left of the day, for a line that looks ahead (the telling's
-  // clock): "later", or "tomorrow" once it is the evening.
-  const ahead = dayAheadSaid(
-    clockOf(
-      conversation.minuteOfDay ?? sceneMinute(core, conversation.playerId),
-    ).dayLeft,
-  );
-  if (housemate && ahead)
-    facts.ahead = { text: ahead, sourceRecordIds: [conversation.playerId] };
   if (!Object.keys(facts).length) return null;
   const line = composedLine(
     core,
@@ -4375,6 +4353,11 @@ function endConversation(
   const housemate =
     core.people.get(otherId)?.householdId ===
     core.people.get(playerId)?.householdId;
+  // A talk between people who live together ends on its last line that says
+  // something: nobody at home announces where they will be or that they will
+  // check in (owner, Nov 12: "the same bullshit ... with the just
+  // non-replies").
+  if (housemate) return;
   // "Say hello to {name}." only for someone in the player's family they know.
   const family = housemate
     ? undefined

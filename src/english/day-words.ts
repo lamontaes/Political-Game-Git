@@ -36,21 +36,6 @@ export function dayOpening(iso: string, minuteOfDay: number): string {
   return part.said.replace("{date}", dateSaid(iso));
 }
 
-/** The part of the day as said in passing ("this morning", "tonight"), by the mark a scene's hour gives; undefined for a mark with no words. */
-export function dayPartSaid(mark: string): string | undefined {
-  const said = (data.spokenParts as Readonly<Record<string, string>>)[mark];
-  return mark === "about" ? undefined : said;
-}
-
-/** What is left of the day as a line looking ahead says it ("later", "tomorrow"), by the telling's `dayLeft`. */
-export function dayAheadSaid(
-  left: "later" | "tomorrow" | undefined,
-): string | undefined {
-  return left
-    ? (data.ahead as Readonly<Record<string, string>>)[left]
-    : undefined;
-}
-
 /**
  * A record's own day told as past from the day a scene plays: "yesterday",
  * "the other day", "on January 3rd". Null on the same day, or for a later one.
