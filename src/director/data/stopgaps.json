@@ -1055,5 +1055,17 @@
     "addedAt": "2026-11-12",
     "replacement": "The speech module's addresses table (bySpeaker) keeps each address with its pieces, and this read uses its index.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-local-address-conditions",
+    "kind": "missing-hook",
+    "file": "src/director/speech-outline.ts",
+    "line": 1,
+    "whatItFakes": "A governor's or mayor's opening names the place and the theme but tells no condition of the year: the outcome web's term read (src/core2/term-read.ts) holds no months in a world's first year, and the state budget's balance (src/core2/modules/budgets.ts), the disasters engine and the last session's laws are not read by the planner.",
+    "why": "The words lead, Nov 12: no speech named its state or anything that happened in it. The state's name and the theme are read now; the year's conditions wait on the readers.",
+    "addedBy": "Words builder W-F",
+    "addedAt": "2026-11-12",
+    "replacement": "The planner reads the state's budget balance, its disasters and the session's enacted laws (with direction, said-as) into the occasion, and the term read once it holds months.",
+    "status": "open"
   }
 ]

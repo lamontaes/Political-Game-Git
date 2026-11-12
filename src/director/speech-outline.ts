@@ -72,6 +72,7 @@ import billCatalog from "../core2/data/legislature/bill-catalog.json" with { typ
 import { P } from "../core2/parameters";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
+import { markWordsStopgap } from "./stopgaps";
 import { daysBetweenText } from "../core2/kernel/dates";
 import {
   TERM_AREAS,
@@ -1649,6 +1650,8 @@ export function planSpeech(
   // The world's names and the theme's subjects, which every part may say.
   // A governor or a mayor says the place by name and the theme in words
   // (the words lead, Nov 12: "this state" eight times, the state's name never).
+  // stopgapId: SG-WORDS-local-address-conditions
+  if (!federal) markWordsStopgap("SG-WORDS-local-address-conditions");
   const realm = federal
     ? null
     : level === "state"
