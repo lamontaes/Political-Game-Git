@@ -111300,6 +111300,78 @@
       "origin": "authored",
       "author": "Claude (Words builder W-E, speech points)",
       "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-mr-vice-president-members-of-congress-my-fellow-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Mr. Vice President, members of Congress, my fellow citizens.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-distinguished-guests-members-of-congress-and-all-my-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Distinguished guests, members of Congress, and all my fellow Americans.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.salutation.polished-inaugural-friends-guests-and-fellow-citizens-of-this-republic-",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Friends, guests, and fellow citizens of this republic.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation",
+          "requiresFacts": []
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "piece": {
+        "of": "opening-salutation",
+        "part": "opener"
+      },
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
     }
   ]
 }

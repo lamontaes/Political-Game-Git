@@ -1435,6 +1435,12 @@ const CLOSES: [string[], string, string][] = [
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
 const GREETINGS: [string, string][] = [
+  ["polished", "Mr. Vice President, members of Congress, my fellow citizens."],
+  [
+    "polished",
+    "Distinguished guests, members of Congress, and all my fellow Americans.",
+  ],
+  ["polished", "Friends, guests, and fellow citizens of this republic."],
   ["polished", "Mr. Chief Justice, honored guests, my fellow Americans."],
   [
     "polished",
