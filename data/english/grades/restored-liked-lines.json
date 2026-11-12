@@ -156,6 +156,17 @@
       "note": "Graded good with no note. (batch 1 item 4)",
       "parts": ["hearing.thanks.thank-you-mr-chairman"],
       "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
+    },
+    {
+      "i": 17,
+      "grade": "good",
+      "by": "owner (playtest sitting, Oct 27, docs/coordination/playtest/2026-10-27-1-log.md, owner quote on the partner talk); moved Nov 12, 2026 onto the wording that says when (Words builder W1, at Fable A's word)",
+      "line": "Did you see the President's speech?",
+      "note": "Oct 27: \"the woman who was apparently my partner asked me if I enjoyed the speech. I did like that.\" The log: \"the opening question itself ('Did you see the President's speech?') - owner liked this in his own run.\"",
+      "parts": [
+        "conversation.address-ask-seen.did-you-see-the-president-s-speech-when"
+      ],
+      "restoredFrom": "conversation.address-ask-seen.did-you-see-the-president-s-speech"
     }
   ]
 }

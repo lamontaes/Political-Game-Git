@@ -223,6 +223,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "conversation.address-ask-seen.did-you-see-the-president-s-speech-when": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": {
       "good": 0,
       "bad": 1,

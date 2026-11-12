@@ -34728,23 +34728,6 @@
       "origin": "authored",
       "author": "Words builder W1 (small talk said short or from the record)",
       "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.address-ask-seen.did-you-see-the-president-s-speech",
-      "move": "address-ask-seen",
-      "kind": "spoken",
-      "text": "Did you see the President's speech?",
-      "uses": [
-        {
-          "move": "address-ask-seen",
-          "subject": "address",
-          "role": "ask",
-          "choice": "seen"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
     }
   ]
 }
