@@ -407,7 +407,7 @@
     {
       "key": "person-history.summary.before.vice-president",
       "move": "summary",
-      "text": "Was vice president when elected in {year}.",
+      "text": "Was vice president before winning in {year}.",
       "origin": "authored",
       "author": "Words builder W2 (person-history inserts)",
       "date": "2026-11-12",
@@ -488,7 +488,7 @@
     {
       "key": "person-history.summary.no-work.none.you",
       "move": "summary",
-      "text": "You have no job, and nobody in your household of {count} draws a wage.",
+      "text": "Nobody at home has a job, not you and not {kin}.",
       "origin": "authored",
       "author": "Words builder W2 (person-history inserts)",
       "date": "2026-11-12",

@@ -44,7 +44,6 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { countSaid } from "./printed-words";
 import { faceOf, scenePlace } from "./scene";
 import {
   BALANCED_TRAIT,
@@ -1018,22 +1017,33 @@ function noJobLine(
       ? { text, recordIds: [household!.id, earner.id, job.id, employer.id] }
       : null;
   }
-  // Nobody at home earns: said by who lives there, from the household record.
+  // Nobody at home earns: said by who lives there, as the player calls them
+  // ("your mother", "your brother"), from the household and family records.
+  const kin = (household?.memberIds ?? [])
+    .filter((id) => id !== person.id && core.people.get(id)?.alive)
+    .map((id) => relationWord(core, id, relationOf(id)))
+    .filter((word): word is string => !!word)
+    .map((word) => `your ${word}`);
   const others = (household?.memberIds ?? []).filter(
     (id) => id !== person.id && core.people.get(id)?.alive,
   ).length;
   const place = corePlaceByJurisdictionId(person.placeId as never);
-  const text = others
-    ? screenLine("person-history", "person-history.summary.no-work.none.you", {
-        count: countSaid(others + 1),
-      })
-    : place
+  const text =
+    others && kin.length === others
       ? screenLine(
           "person-history",
-          "person-history.summary.no-work.alone.you",
-          { place: place.displayName },
+          "person-history.summary.no-work.none.you",
+          {
+            kin: joinList(kin, "or"),
+          },
         )
-      : null;
+      : !others && place
+        ? screenLine(
+            "person-history",
+            "person-history.summary.no-work.alone.you",
+            { place: place.displayName },
+          )
+        : null;
   return text ? { text, recordIds: household ? [household.id] : [] } : null;
 }
 
@@ -1493,10 +1503,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     (row) => row.kind === "campaign:elected",
   )?.facts?.year;
   const priorOffice =
-    run && typeof prior?.office === "string" && typeof elected === "string"
+    run && typeof prior?.office === "string"
       ? {
           kind: prior.office,
-          year: elected,
+          // Only the lines that name the year need it; the others say "before that".
+          year: typeof elected === "string" ? elected : "",
           state:
             typeof prior.stateKey === "string"
               ? (coreStateName(prior.stateKey.replace(/^US-/, "")) ?? "")
