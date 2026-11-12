@@ -18,7 +18,7 @@ effort: medium
 root: none
 ---
 
-**What.** A person close to the candidate can run the campaign and is cast as its team in scenes, but the campaign runs the same with or without them. This item finds, from fetched and quoted sources, what a local campaign's manager changes (follow-up calls, volunteer hours organized, the calendar kept) and records it as sourced parameters.
+**What.** A person close to the candidate can run the campaign and is cast as its team in scenes, but the campaign runs the same with or without them. This item finds, from fetched and quoted sources, what a local campaign's manager changes (follow-up calls, volunteer hours organized, the calendar kept) and records it as sourced parameters. Seen: in the campaign's volunteer hours and follow-up calls, which differ between the same race with a manager and without one.
 
 **Cause.** Found in code: src/core2/modules/campaigns.ts:1980 (stopgap SG-CAMPAIGN-manager-changes-nothing-yet). `managerReason` decides who takes the post and `staffIds` is kept on the campaign row (line 156), but no decision in the engine reads `staffIds`; no number may be typed for the effect until it is researched.
 

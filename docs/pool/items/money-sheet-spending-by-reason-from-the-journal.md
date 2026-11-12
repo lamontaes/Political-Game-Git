@@ -18,7 +18,7 @@ effort: medium
 root: rc10-screens-keep-own-facts
 ---
 
-**What.** The Money sheet shows where last month's money went. Today it lists only each standing bill's latest receipt and the everyday living plan; a one-off purchase, fee or gift never shows. After this item the sheet lists every outflow of the month, grouped by the reason the transfer was made.
+**What.** The Money sheet shows where last month's money went. Today it lists only each standing bill's latest receipt and the everyday living plan; a one-off purchase, fee or gift never shows. After this item the sheet lists every outflow of the month, grouped by the reason the transfer was made. Seen: on the Money sheet's where-it-went list, one line per reason.
 
 **Cause.** Found in code: src/bench/bank.ts:94 (stopgap SG-BENCH-money-spending-reasons) builds the list from `core.finance.latestReceiptsByContract`. The accounts engine (src/core2/accounts.ts:384 to 404) returns the transfer's `reasonKey` on its receipt but writes only postings and a source id to the cash journal, so no record of a one-off transfer's reason exists for the sheet to read.
 
