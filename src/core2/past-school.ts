@@ -187,7 +187,10 @@ function schoolEndRecords(
   person: Readonly<PersonState>,
   window: PreStartWindow,
 ): Omit<HistoryRecord, "moduleId">[] {
-  const level = educationLevelOf(core, person);
+  // A relative elsewhere is read on the opening day, as the work pass reads
+  // them, so their past is the same whenever their card is opened.
+  const on = person.tier === KIN_TIER ? core.startedAt : core.date;
+  const level = educationLevelOf(core, person, on);
   if (!level) return [];
   const api = coreAPI(core as CoreState);
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
@@ -240,7 +243,7 @@ function schoolEndRecords(
       SCHOOL_STAGE_CALENDAR.endsAfterYears.high,
     "starts",
   );
-  const ended = schoolingEndsOf(core, person);
+  const ended = schoolingEndsOf(core, person, on);
   const lived = residenceOn(core, person, began);
   for (const [kind, date] of [
     [COLLEGE_STARTED, began],
@@ -270,11 +273,10 @@ function schoolEndRecords(
 
 /**
  * Everyone the school years before the start are run for: the full people
- * alive at the opening. Relatives living elsewhere are run when the game
- * first simulates them (SG-P15-kin-light-past).
+ * alive at the opening. A relative living elsewhere is run when their card is
+ * first opened (`openWholePast`, src/core2/modules/people.ts).
  */
 function schoolPeople(core: Readonly<CoreState>) {
-  stopgap("SG-P15-kin-light-past");
   return [...core.people.values()].filter(
     (person) => person.alive && person.tier !== KIN_TIER,
   );
