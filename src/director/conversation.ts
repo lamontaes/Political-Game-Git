@@ -102,7 +102,12 @@ import {
 } from "../core2/modules/views";
 import { townMetrics } from "../core2/modules/world";
 import { questionSubject } from "../english/policy-names";
-import { questionAbout, townFigureWords } from "../english/question-names";
+import {
+  questionAbout,
+  questionSide,
+  questionTo,
+  townFigureWords,
+} from "../english/question-names";
 import { lawInForce } from "../core2/modules/laws";
 import {
   asksQuestion,
@@ -131,7 +136,14 @@ import {
 } from "./sitting";
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
-import { clockSaid, hoursSaid, moneySaid } from "../english/count-words";
+import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/school";
+import {
+  clockSaid,
+  daysSaid,
+  hoursSaid,
+  moneySaid,
+} from "../english/count-words";
+import type { FinanceContractInput } from "../core2/finance-types";
 import {
   properName,
   spoken,
@@ -1088,6 +1100,9 @@ function workDay(
     [key]: { text: "yes", sourceRecordIds: cites },
   });
   const spans = owner?.spans ?? [];
+  // The shift just worked is its own subject: the day ahead and the day
+  // that was are two things to tell.
+  let done = false;
   const facts: Facts = {
     employer: { text: mine.employer, sourceRecordIds: cites },
   };
@@ -1103,7 +1118,7 @@ function workDay(
       sourceRecordIds: cites,
     };
     if (minuteOfDay < start) Object.assign(facts, mark("shift-ahead"));
-    else if (minuteOfDay >= end) Object.assign(facts, mark("shift-done"));
+    else if (minuteOfDay >= end) done = true;
     else return null;
   }
   const hourly =
@@ -1113,7 +1128,91 @@ function workDay(
       : undefined);
   if (hourly && hourly > zero)
     facts.wage = { text: moneySaid(hourly), sourceRecordIds: [mine.job.id] };
-  return { id: `work-day:${speaker.id}`, kind: "work-day", facts };
+  const kind = done ? "work-done" : "work-day";
+  return { id: `${kind}:${speaker.id}`, kind, facts };
+}
+
+/**
+ * The rent coming due, told by someone who pays it to someone they live with
+ * (words composer, talk on ordinary days): the household's lease from the
+ * finance engine (its amount and its next due date), in the days before it
+ * is due (conversation-rules.json dayTalk.rentDaysBefore), with how the
+ * household's cash stands against it (the accounts engine's balances), for
+ * the answer when the listener asks. Once for each due date: the id holds it.
+ */
+function rentDue(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+): Subject | null {
+  // STOPGAP SG-DIRECTOR-rent-talk-first-lease: the lease a household signed
+  // when the world was made, by its id; one signed after a move is not read.
+  const lease = core.finance.contracts.get(`lease:${speaker.householdId}`) as
+    (FinanceContractInput & { endedAt?: string }) | undefined;
+  if (!lease || lease.endedAt || !lease.payerIds.includes(speaker.id))
+    return null;
+  const days = daysBetween(makeIsoDate(core.date), makeIsoDate(lease.dueAt));
+  if (days < zero || days > DAY_TALK.rentDaysBefore.value) return null;
+  const api = coreAPI(core as CoreState);
+  const accounts = api.accounts();
+  const ids: string[] = [];
+  let cash = zero;
+  for (const id of core.households.get(speaker.householdId)?.memberIds ?? []) {
+    if (!core.people.get(id)?.alive) continue;
+    const account = accounts.main(id);
+    cash += accounts.balance(account);
+    ids.push(account);
+  }
+  const standing =
+    cash >= lease.amountMinor * DAY_TALK.rentCoveredMonths.value
+      ? "cash-covered"
+      : cash >= lease.amountMinor
+        ? "cash-tight"
+        : "cash-short";
+  return {
+    id: `rent-due:${lease.id}:${lease.dueAt}`,
+    kind: "rent-due",
+    aboutId: lease.id,
+    facts: {
+      rent: { text: moneySaid(lease.amountMinor), sourceRecordIds: [lease.id] },
+      due: { text: daysSaid(days), sourceRecordIds: [lease.id] },
+      [standing]: { text: "yes", sourceRecordIds: [lease.id, ...ids] },
+    },
+  };
+}
+
+/**
+ * The speaker's own school day, told to someone they live with: the school
+ * engine's record of today (a school day, whether they went, whether
+ * tomorrow is one too). In the morning, the day ahead or
+ * (school-day); in the evening, the day they had or that they stayed home
+ * (school-done).
+ * None on a day without school, for someone not of school age, or without
+ * the school's own name.
+ */
+function schoolDay(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  minuteOfDay: number | undefined,
+): Subject | null {
+  if (minuteOfDay === undefined) return null;
+  const day = schoolDayOf(coreAPI(core as CoreState), speaker.id);
+  const school = day ? core.organizations.get(day.schoolId) : undefined;
+  if (!day || !school) return null;
+  const cites = [day.schoolId, `${SCHOOL_MODULE_ID}:attended:${speaker.id}`];
+  const fact = (text: string): Fact => ({ text, sourceRecordIds: cites });
+  // In the morning the day is ahead (the school engine writes who went when
+  // the day's choice is made); by the evening, whether they went is on record.
+  const evening = dayParts(minuteOfDay).includes("evening");
+  // The day's choice is written when the day closes, so by the evening of
+  // the same day the record may not hold it yet: no evening talk without it.
+  if (evening && !day.attended) return null;
+  const facts: Facts = {
+    school: fact(properName(school.name)),
+    [evening ? "went" : "ahead"]: fact("yes"),
+    [day.tomorrow ? "school-tomorrow" : "no-school-tomorrow"]: fact("yes"),
+  };
+  const kind = evening ? "school-done" : "school-day";
+  return { id: `${kind}:${speaker.id}`, kind, facts };
 }
 
 /** The news engine's kind for a story an outlet printed (press desk). */
@@ -1865,7 +1964,11 @@ export function subjectsBetween(
   // Where the speaker stands politically, from the views engine's record of
   // their lean, said only as far as their tie to the listener and their
   // temperament allow (`./view-learned`). Once said, the listener knows it.
-  const stand = viewSubjectOf(core, speakerId, listenerId);
+  // A question someone in the house named today is not the one they stand
+  // on (owner, Nov 12: "basically saying the same thing").
+  const stand = viewSubjectOf(core, speakerId, listenerId, (question) =>
+    heardNow.has(`${HEARD_QUESTION}${question}`),
+  );
   if (stand) {
     // The question they care most about, the side they are on and why, from
     // their own life, each citing its record.
@@ -1930,8 +2033,19 @@ export function subjectsBetween(
   if (listener.householdId === speaker.householdId) {
     // Their own work day, from the shift on record: what people who live
     // together tell each other every morning and evening.
-    const shift = workDay(core, speaker, room.minuteOfDay);
+    // One thing of their own day a day: a person who told the player about
+    // their morning does not tell the evening too (the next day it is theirs).
+    const toldToday = DAY_TALK.comesBack.some((kind) =>
+      heardNow.has(`${HEARD_SUBJECT}${kind}:${speaker.id}`),
+    );
+    const shift = toldToday ? null : workDay(core, speaker, room.minuteOfDay);
     if (shift) out.push(shift);
+    const rent = rentDue(core, speaker);
+    if (rent) out.push(rent);
+    const lessons = toldToday
+      ? null
+      : schoolDay(core, speaker, room.minuteOfDay);
+    if (lessons) out.push(lessons);
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
@@ -2248,7 +2362,13 @@ function pointSubject(
   // The act is named in full (owner, Nov 12, through the pre-grade: "Do
   // what? 'Do that'?"): a stand says plainly what the speaker would or would
   // not have done, never a pronoun for it.
-  if (pick.point.to) facts.to = { text: pick.point.to, sourceRecordIds: said };
+  // The act as a person says it, from the question's own names (the plain
+  // verb phrase, and what an opponent says), never the speech's sentence
+  // ("not raise tariffs", "a plan to ...": item 5 of the Nov 12 brief).
+  const plainTo = questionTo(pick.point.question) ?? pick.point.to;
+  if (plainTo) facts.to = { text: plainTo, sourceRecordIds: said };
+  const sayNo = questionSide(pick.point.question, "against");
+  if (sayNo) facts.against = { text: sayNo, sourceRecordIds: said };
   // Who would act on it: the address's questions are Congress's to decide.
   facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
@@ -2367,7 +2487,9 @@ export function composedLine(
     facts,
     stage,
     momentKey,
-    said: [...recentPartKeys, ...heardNow],
+    // Oldest first: what the player heard on earlier days, then today, then
+    // this talk, so a wording heard longest ago is the one said again.
+    said: [...heardOrderFor(speakerId), ...heardNow, ...recentPartKeys],
   });
   if (!line) return null;
   const { asks, afterPlain, ...said } = line;
@@ -3071,7 +3193,9 @@ function otherRaises(
           heardNow.has(`${HEARD_QUESTION}${row.news.question}`))
       ) &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
-      !conversation.used.includes(row.id),
+      !conversation.used.includes(row.id) &&
+      // Told to the player today by someone else in the house.
+      !heardNow.has(`${HEARD_SUBJECT}${row.id}`),
   );
   for (const subject of theirs)
     if (raiseSubject(core, conversation, data, subject)) return true;
@@ -3094,8 +3218,13 @@ const OPENING_ORDER = [
   // (owner, Nov 11: "This introduces people to their world").
   "kin",
   "address",
-  // Their own day, from its record (the shift), before the day itself.
+  // Their own day, from its record (the shift, the rent coming due),
+  // before the day itself.
+  "rent-due",
+  "work-done",
   "work-day",
+  "school-done",
+  "school-day",
   "quiet",
 ];
 
@@ -3111,7 +3240,13 @@ const SMALL_TALK_AGAIN_DAYS = (
 /** Subjects of a person's own day, and the days before one is told to the same person again (conversation-rules.json dayTalk, TUNABLE). */
 const DAY_TALK = (
   rulesFile as unknown as {
-    dayTalk: { kinds: readonly string[]; againAfterDays: { value: number } };
+    dayTalk: {
+      kinds: readonly string[];
+      comesBack: readonly string[];
+      againAfterDays: { value: number };
+      rentDaysBefore: { value: number };
+      rentCoveredMonths: { value: number };
+    };
   }
 ).dayTalk;
 
@@ -3120,7 +3255,7 @@ function againAfterDays(topic: string): number | undefined {
   // By its kind, whoever raised it ("them>quiet:..." as well as "quiet:...").
   if (`${subjectKindOf(topic)}:` === SMALL_TALK_PREFIX)
     return SMALL_TALK_AGAIN_DAYS;
-  if (DAY_TALK.kinds.includes(subjectKindOf(topic)))
+  if (DAY_TALK.comesBack.includes(subjectKindOf(topic)))
     return DAY_TALK.againAfterDays.value;
   return undefined;
 }
@@ -3291,6 +3426,8 @@ function mainTopic(
     // A stand opens a talk only with its own reason from the speaker's life
     // (their work or their money, `has-reason`), never from nowhere.
     if (subject.kind === "own-view" && !subject.facts["has-reason"]) return;
+    // What the player heard from someone in the house today is not told again.
+    if (!asks && heardNow.has(`${HEARD_SUBJECT}${subject.id}`)) return;
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -3628,6 +3765,43 @@ const FEDERAL_WORDS = saidAsData.federal;
 /** A subject heard today, kept beside the pieces: news one housemate told is not told again by the next. */
 const HEARD_SUBJECT = "subject:";
 let heardNow: ReadonlySet<string> = new Set();
+/** A piece heard from one speaker, kept beside the piece itself: each speaker's own wordings come round least recently used. */
+const HEARD_BY = "by:";
+/** Every piece the player has heard at home, with the day it was last heard and from whom (when kept). */
+let heardRows: readonly { key: string; at: string; by?: string }[] = [];
+
+/** The pieces the player heard, with the day each was last heard (the record keeps the last day) and the speaker, oldest first. */
+function heardByDay(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+): { key: string; at: string; by?: string }[] {
+  const rows: { key: string; at: string; by?: string }[] = [];
+  for (const [key, fact] of core.knowledgeByPerson.get(playerId) ?? []) {
+    if (!key.startsWith(HEARD_PREFIX)) continue;
+    const rest = key.slice(HEARD_PREFIX.length);
+    const by = rest.startsWith(HEARD_BY)
+      ? /^by:([^:]+):(.+)$/.exec(rest)
+      : null;
+    rows.push(
+      by
+        ? { key: by[2]!, at: fact.learnedAt, by: by[1]! }
+        : { key: rest, at: fact.learnedAt },
+    );
+  }
+  return rows.sort((a, b) => a.at.localeCompare(b.at));
+}
+
+/**
+ * The pieces heard, oldest first, for one speaker: what the house said, then
+ * what this speaker said, so a wording this speaker used comes back last and
+ * one they used longest ago first (least recently used, no dice).
+ */
+function heardOrderFor(speakerId: PersonId): string[] {
+  return [
+    ...heardRows.filter((row) => !row.by).map((row) => row.key),
+    ...heardRows.filter((row) => row.by === speakerId).map((row) => row.key),
+  ];
+}
 
 function heardToday(
   core: Readonly<CoreState>,
@@ -3653,7 +3827,14 @@ export function noteHeard(core: CoreState, conversation: Conversation): void {
     if (line.speakerId === conversation.playerId) continue;
     for (const part of [
       ...(line.wording?.parts ?? []),
+      // Who said each piece, for that speaker's least recently used wording.
+      ...(line.wording?.parts ?? []).map(
+        (piece) => `${HEARD_BY}${line.speakerId}:${piece}`,
+      ),
       `${HEARD_SUBJECT}${line.subjectId}`,
+      // The subject itself, whoever raised it: the next one in the house
+      // does not tell the player the same thing (the rent coming due).
+      `${HEARD_SUBJECT}${line.subjectId.replace(/^[^>]*>/, "")}`,
       // A key that starts with "=" is kept as it stands (a figure told).
       ...(conversation.questions ?? []).map((q) =>
         q.startsWith("=") ? q.slice(one) : `${HEARD_QUESTION}${q}`,
@@ -3719,11 +3900,14 @@ function withHeard<T>(
   run: () => T,
 ): T {
   const before = heardNow;
+  const order = heardRows;
   heardNow = heardToday(core, playerId);
+  heardRows = heardByDay(core, playerId);
   try {
     return run();
   } finally {
     heardNow = before;
+    heardRows = order;
   }
 }
 

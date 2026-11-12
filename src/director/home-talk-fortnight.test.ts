@@ -17,7 +17,14 @@
  * - nobody asks whether the player saw the address they watched together;
  * - no goodbye at home, and no reply offered that only takes a line in;
  * - "the President" at most once in a talk (then the pronoun);
- * - no policy question named by two people of the house on one day.
+ * - no policy question named by two people of the house on one day;
+ * - every day on which someone is home at an hour the player is home has at
+ *   least one talk on offer (owner, Nov 12: "the game says nothing at home");
+ * - no subject comes back with the same person inside its wait (three days
+ *   for a day's own subject, conversation-rules.json dayTalk; a week else);
+ * - no two people of the house open on the same wording on one day.
+ *
+ * Five places are drawn from the seed (words lead, Nov 12: "Five draws").
  *
  * `TALK_PLACE_SEED` and `TALK_PLACE_KEY` run a labeled world instead of a draw
  * (the grading life of Nov 12: seed a9c85de3-e7fa-4418-8499-569a5c5e6e10,
@@ -45,6 +52,18 @@ import {
 } from "./conversation";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
+const DRAWS = 5;
+/** A day's own subjects and their wait, from the rules the talk reads. */
+const DAY_TALK = (
+  JSON.parse(
+    readFileSync(
+      path.resolve(__dirname, "./data/conversation-rules.json"),
+      "utf8",
+    ),
+  ) as {
+    dayTalk: { kinds: string[]; againAfterDays: { value: number } };
+  }
+).dayTalk;
 const DAYS = 14;
 const MORNING = 7 * 60;
 const EVENING = 20 * 60 + 30;
@@ -53,13 +72,13 @@ const WEEK = 7;
 /** Every talk of the fortnight is printed, for reading aloud. */
 const SHOWN_DAYS = new Set(Array.from({ length: 14 }, (_, day) => day));
 
-function build() {
+function build(draw: number) {
   const labeled = process.env.TALK_PLACE_SEED;
   const key = process.env.TALK_PLACE_KEY;
   const place =
     labeled && key
       ? { seed: labeled, key, name: `labeled ${key}` }
-      : drawPlace(seed, "home-talk-fortnight");
+      : drawPlace(seed, `home-talk-fortnight:${draw}`);
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -133,7 +152,16 @@ const sentences = (text: string) =>
   text.split(/(?<=[.!?])\s+/).filter((row) => row.split(/\s+/).length > 3);
 
 it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
-  const { core, director, playerId, where } = build();
+  const labeled = !!(process.env.TALK_PLACE_SEED && process.env.TALK_PLACE_KEY);
+  const broken: string[] = [];
+  for (let draw = 0; draw < (labeled ? 1 : DRAWS); draw += 1)
+    broken.push(...fortnight(draw));
+  expect(broken).toEqual([]);
+}, 3_600_000);
+
+/** Two weeks in one drawn place: what broke, each naming the place and seed. */
+function fortnight(draw: number): string[] {
+  const { core, director, playerId, where } = build(draw);
   const player = core.people.get(playerId)!;
   const presidentRow = officialsIn(coreAPI(core), "US:president")[0];
   const presidentPerson = presidentRow
@@ -150,6 +178,9 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
   for (let day = 0; day < DAYS; day += 1) {
     const saidToday = new Map<string, string>();
     const questionsToday = new Map<string, string>();
+    const openedToday = new Map<string, string>();
+    let homeToday = false;
+    let talksToday = 0;
     for (const minute of day === 0 ? [EVENING] : [MORNING, EVENING]) {
       if (day > 0) liveThrough(core, playerId, day, minute);
       const household = [
@@ -171,9 +202,11 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
             minuteOfDay: minute,
           },
         );
+        homeToday = true;
         if (!talk.lines.length) continue;
         noteHeard(core, talk);
         talks += 1;
+        talksToday += 1;
         const offered: string[] = [];
         for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1) {
           offered.push(...talk.choices.map((row) => row.text));
@@ -294,19 +327,35 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
         const topic = talk.topics[0];
         if (topic) {
           const key = `${otherId}|${topic.replace(/:\d{4}-\d{2}-\d{2}$/, "")}`;
+          const kind = topic.replace(/^[^>]*>/, "").split(":")[0]!;
+          const wait = DAY_TALK.kinds.includes(kind)
+            ? DAY_TALK.againAfterDays.value
+            : WEEK;
           const last = lastTopic.get(key);
-          if (last !== undefined && day - last < WEEK && day !== last)
+          if (last !== undefined && day - last < wait && day !== last)
             broken.push(
-              `${here}: the subject ${topic} again within the week (day ${last})`,
+              `${here}: the subject ${topic} again inside ${wait} days (day ${last})`,
             );
           lastTopic.set(key, day);
         }
+        // Two people of the house never open on the same wording one day.
+        const opener = theirs[0]?.wording?.parts[0];
+        if (opener) {
+          const by = openedToday.get(opener);
+          if (by && by !== otherId)
+            broken.push(`${here}: opened on the wording ${opener} twice today`);
+          openedToday.set(opener, otherId);
+        }
       }
     }
+    if (homeToday && !talksToday)
+      broken.push(
+        `${where}, day ${day}: someone was home and nobody had a word to say`,
+      );
   }
   process.stdout.write(
     `HOME-TALK ${where}: ${talks} talks, ${typedSeen} point parts typed by stand\n${played.join("\n")}\n`,
   );
-  expect(talks, `${where}: no talk at home in two weeks`).toBeGreaterThan(0);
-  expect(broken, where).toEqual([]);
-}, 1_800_000);
+  if (!talks) broken.push(`${where}: no talk at home in two weeks`);
+  return broken;
+}

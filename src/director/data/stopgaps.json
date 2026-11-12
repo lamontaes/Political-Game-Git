@@ -1031,5 +1031,17 @@
     "addedAt": "2026-11-12",
     "replacement": "Weights tuned so no question leads more than half of ten drawn addresses; the half-draws assertion in speech-outline.test.ts turned on.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-rent-talk-first-lease",
+    "kind": "missing-data",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "The rent coming due is read from the lease a household signed when the world was made (`lease:<household>`); a lease signed after a move (`lease:<household>:<date>`) is not found, so a household that moved never talks about its rent.",
+    "why": "The finance engine keeps no index of contracts by household; scanning every contract per talk would break the speed bar. Talk on ordinary days, Nov 12.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "A by-household index of standing bills in the finance engine (or the household record naming its current lease), read here.",
+    "status": "open"
   }
 ]

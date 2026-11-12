@@ -1258,7 +1258,11 @@ export function planSpeech(
         if (!row.numberedAsks) delete facts[rank];
         // A federal stand is said as federal only by a federal speaker.
         if (!federal) delete facts["federal-level"];
-        const today = questionToday(stand.question, stand.law.inForce);
+        const today = questionToday(
+          stand.question,
+          stand.law.inForce,
+          stand.stance > P.zero ? "for" : "against",
+        );
         const topic = topicOf.get(stand.question);
         // What the speaker believes on this point, by the theme and the way
         // their side of it leans: a side the left favors is said with the

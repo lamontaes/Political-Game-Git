@@ -229,6 +229,8 @@ export function viewSubjectOf(
   core: Readonly<CoreState>,
   speakerId: PersonId,
   listenerId: PersonId,
+  /** Questions not to stand on here (one the house named today). */
+  skip: (question: string) => boolean = () => false,
 ): {
   stage: string;
   recordId: string;
@@ -251,9 +253,11 @@ export function viewSubjectOf(
   const reasoned = strongestQuestion(
     api,
     speakerId,
-    (question) => !!viewReason(core, speakerId, question),
+    (question) => !skip(question) && !!viewReason(core, speakerId, question),
   );
-  const strongest = reasoned ?? strongestQuestion(api, speakerId);
+  const strongest =
+    reasoned ??
+    strongestQuestion(api, speakerId, (question) => !skip(question));
   return {
     stage: view.label,
     recordId: viewRecordId(speakerId),

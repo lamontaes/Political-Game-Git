@@ -149,6 +149,11 @@
     "noon": "noon",
     "midnight": "midnight",
     "hour": "an hour",
-    "hours": "{count} hours"
+    "hours": "{count} hours",
+    "days": {
+      "0": "today",
+      "1": "tomorrow",
+      "more": "in {count} days"
+    }
   }
 }

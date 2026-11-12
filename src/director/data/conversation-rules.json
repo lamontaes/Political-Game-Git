@@ -121,6 +121,22 @@
     "work-day": {
       "kind": "work-day",
       "stage": "default"
+    },
+    "rent-due": {
+      "kind": "rent-due",
+      "stage": "default"
+    },
+    "work-done": {
+      "kind": "work-done",
+      "stage": "default"
+    },
+    "school-day": {
+      "kind": "school-day",
+      "stage": "default"
+    },
+    "school-done": {
+      "kind": "school-done",
+      "stage": "default"
     }
   },
   "follows": {
@@ -271,9 +287,25 @@
     "work-day": {
       "plan": "answer",
       "wish": "answer",
-      "rest": "answer",
       "ask": "request",
       "glad": "answer"
+    },
+    "rent-due": {
+      "ask": "request",
+      "help": "answer"
+    },
+    "work-done": {
+      "ask": "request",
+      "rest": "answer"
+    },
+    "school-day": {
+      "wish": "answer",
+      "push": "answer",
+      "ask": "request"
+    },
+    "school-done": {
+      "ask": "request",
+      "rest": "answer"
     }
   },
   "addressPoint": {
@@ -408,13 +440,26 @@
     }
   },
   "dayTalk": {
-    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift for work-day): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day.",
-    "kinds": ["work-day"],
+    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day (school-day in the morning, school-done in the evening) is the school engine's record of today: a school day, whether they went, the days so far this year, and whether tomorrow is one.",
+    "kinds": ["work-day", "work-done", "school-day", "school-done", "rent-due"],
     "againAfterDays": {
       "value": 3,
       "tag": "TUNABLE",
       "spread": [2, 4],
       "checkedAgainst": "Lead's brief, Nov 12: no subject repeats inside three days for the same pair; a housemate tells a work day about twice a week, not every morning (the owner's complaint, Nov 12, of the same 7:00 a.m. work talk every morning)."
+    },
+    "comesBack": ["work-day", "work-done", "school-day", "school-done"],
+    "rentDaysBefore": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "spread": [3, 7],
+      "checkedAgainst": "Rent is talked about in the week it is due; a household pays on the first and mentions it in the days before (Census Household Pulse Survey asks whether rent was paid on time for the month; the talk is the days before that)."
+    },
+    "rentCoveredMonths": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": [1, 3],
+      "checkedAgainst": "Cash of two months' rent or more is spoken of as covered; one month to two as tight; under one month as short (Federal Reserve SHED 2023: 37% of adults could not cover a $400 emergency from cash, the scale at which a month's rent is tight)."
     }
   }
 }

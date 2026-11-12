@@ -182,8 +182,8 @@ describe("every speech through the one outline planner", () => {
               [
                 questionAbout(ask),
                 questionTo(ask),
-                questionToday(ask, true),
-                questionToday(ask, false),
+                questionToday(ask, true, "for"),
+                questionToday(ask, false, "for"),
                 questionSide(ask, "for"),
                 questionSide(ask, "against"),
                 questionSide(ask, "repeal"),

@@ -44,7 +44,10 @@
     "start": "When the speaker's shift starts today, as people say a time (\"seven-thirty\"), from the work-spans engine's shift.",
     "end": "When the speaker's shift ends today, as people say a time, from the work-spans engine's shift.",
     "hours": "How long the speaker's shift runs today (\"eight hours\"), from the work-spans engine's shift.",
-    "wage": "What the speaker's job pays an hour, as people round it (\"about $18\"), from the job record."
+    "wage": "What the speaker's job pays an hour, as people round it (\"about $18\"), from the job record.",
+    "against": "What an opponent of the question says they want (\"say no to higher tariffs\"), from data/english/question-names.json against.",
+    "rent": "The household's rent, as people round it (\"about $1,200\"), from the lease record.",
+    "due": "When the rent is due, from today (\"tomorrow\", \"in three days\"), from the lease record."
   },
   "maxWords": 10,
   "lineWords": {
@@ -21078,17 +21081,17 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.president-s-right-not-to-to",
+      "key": "conversation.address-point-core-with.president-s-right-to-against",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "{president}'s right not to {to}.",
+      "text": "{president}'s right to {against}.",
       "uses": [
         {
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
           "stages": ["with"],
-          "requiresFacts": ["president-against"]
+          "requiresFacts": ["against", "president-against"]
         }
       ],
       "piece": {
@@ -21098,7 +21101,7 @@
       },
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); an opponent's act from the question's own names (words-telling-said-as-talk, 2026-11-12)",
       "date": "2026-11-11"
     },
     {
@@ -21222,17 +21225,17 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.good-let-s-not-to",
+      "key": "conversation.address-point-core-with.good-let-s-against",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "Good. Let's not {to}.",
+      "text": "Good. Let's {against}.",
       "uses": [
         {
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
           "stages": ["with"],
-          "requiresFacts": ["president-against"]
+          "requiresFacts": ["against", "president-against"]
         }
       ],
       "piece": {
@@ -21242,7 +21245,7 @@
       },
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); an opponent's act from the question's own names (words-telling-said-as-talk, 2026-11-12)",
       "date": "2026-11-11"
     },
     {
@@ -21270,17 +21273,17 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.it-makes-sense-to-me-not-to-to",
+      "key": "conversation.address-point-core-with.it-makes-sense-to-me-to-against",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "It makes sense to me not to {to}.",
+      "text": "It makes sense to me to {against}.",
       "uses": [
         {
           "move": "address-point-core-with",
           "subject": "address-point",
           "role": "core",
           "stages": ["with"],
-          "requiresFacts": ["president-against"]
+          "requiresFacts": ["against", "president-against"]
         }
       ],
       "piece": {
@@ -21290,7 +21293,7 @@
       },
       "bearing": "guarded",
       "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); an opponent's act from the question's own names (words-telling-said-as-talk, 2026-11-12)",
       "date": "2026-11-11"
     },
     {
@@ -21582,17 +21585,17 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-d-leave-well-enough-alone-and-not-to",
+      "key": "conversation.address-point-core-against.i-d-leave-well-enough-alone-and-against",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I'd leave well enough alone and not {to}.",
+      "text": "I'd leave well enough alone and {against}.",
       "uses": [
         {
           "move": "address-point-core-against",
           "subject": "address-point",
           "role": "core",
           "stages": ["against"],
-          "requiresFacts": ["president-for"]
+          "requiresFacts": ["against", "president-for"]
         }
       ],
       "piece": {
@@ -21602,7 +21605,7 @@
       },
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); an opponent's act from the question's own names (words-telling-said-as-talk, 2026-11-12)",
       "date": "2026-11-11"
     },
     {
@@ -21726,10 +21729,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-d-vote-to-to-even-so",
+      "key": "conversation.address-point-core-against.president-is-against-it-but-i-d-vote-to-to",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I'd vote to {to} even so.",
+      "text": "{president} is against it, but I'd vote to {to}.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21746,7 +21749,7 @@
       },
       "bearing": "braced",
       "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
+      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said); frame names what it concedes (words-telling-said-as-talk, 2026-11-12)",
       "date": "2026-11-11"
     },
     {
@@ -33785,52 +33788,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.address-point-back-agree.glad-you-see-it-like-i-do-you",
-      "move": "address-point-back-agree",
-      "kind": "spoken",
-      "text": "Glad you see it like I do, {you}.",
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-back-agree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.address-point-back-agree.good-somebody-in-this-house-agrees-with-me-you",
-      "move": "address-point-back-agree",
-      "kind": "spoken",
-      "text": "Good. Somebody in this house agrees with me, {you}.",
-      "piece": {
-        "of": "address-point-back",
-        "part": "core",
-        "required": true
-      },
-      "uses": [
-        {
-          "move": "address-point-back-agree",
-          "subject": "address-point-back",
-          "role": "core",
-          "stages": ["agree"],
-          "requiresFacts": ["policy-point"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-votes-you",
       "move": "address-point-back-disagree",
       "kind": "spoken",
@@ -34057,20 +34014,20 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-say-core.hours-at-employer-today-and-i-felt-every-one",
-      "move": "work-day-say-core",
+      "key": "conversation.work-done-say-core.hours-at-employer-today-and-i-felt-every-one",
+      "move": "work-done-say-core",
       "kind": "spoken",
       "text": "{hours} at {employer} today, and I felt every one.",
       "uses": [
         {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
           "role": "core",
-          "requiresFacts": ["shift-done", "employer", "hours"]
+          "requiresFacts": ["employer", "hours"]
         }
       ],
       "piece": {
-        "of": "work-day-say",
+        "of": "work-done-say",
         "part": "core",
         "required": true
       },
@@ -34080,20 +34037,20 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-say-core.i-got-off-at-end-hours-at-employer",
-      "move": "work-day-say-core",
+      "key": "conversation.work-done-say-core.i-got-off-at-end-hours-at-employer",
+      "move": "work-done-say-core",
       "kind": "spoken",
       "text": "I got off at {end}. {hours} at {employer}.",
       "uses": [
         {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
           "role": "core",
-          "requiresFacts": ["shift-done", "employer", "hours", "end"]
+          "requiresFacts": ["employer", "hours", "end"]
         }
       ],
       "piece": {
-        "of": "work-day-say",
+        "of": "work-done-say",
         "part": "core",
         "required": true
       },
@@ -34103,20 +34060,20 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-say-core.i-put-in-hours-at-employer-today",
-      "move": "work-day-say-core",
+      "key": "conversation.work-done-say-core.i-put-in-hours-at-employer-today",
+      "move": "work-done-say-core",
       "kind": "spoken",
       "text": "I put in {hours} at {employer} today.",
       "uses": [
         {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
           "role": "core",
-          "requiresFacts": ["shift-done", "employer", "hours"]
+          "requiresFacts": ["employer", "hours"]
         }
       ],
       "piece": {
-        "of": "work-day-say",
+        "of": "work-done-say",
         "part": "core",
         "required": true
       },
@@ -34126,20 +34083,20 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-say-core.done-at-employer-for-the-day-finally",
-      "move": "work-day-say-core",
+      "key": "conversation.work-done-say-core.done-at-employer-for-the-day-finally",
+      "move": "work-done-say-core",
       "kind": "spoken",
       "text": "Done at {employer} for the day, finally.",
       "uses": [
         {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
+          "move": "work-done-say-core",
+          "subject": "work-done-say",
           "role": "core",
-          "requiresFacts": ["shift-done", "employer"]
+          "requiresFacts": ["employer"]
         }
       ],
       "piece": {
-        "of": "work-day-say",
+        "of": "work-done-say",
         "part": "core",
         "required": true
       },
@@ -34294,17 +34251,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-answer-ask.how-was-it-at-employer",
-      "move": "work-day-answer-ask",
+      "key": "conversation.work-done-answer-ask.how-was-it-at-employer",
+      "move": "work-done-answer-ask",
       "kind": "spoken",
       "text": "How was it at {employer}?",
       "uses": [
         {
-          "move": "work-day-answer-ask",
-          "subject": "work-day",
+          "move": "work-done-answer-ask",
+          "subject": "work-done",
           "role": "answer",
           "choice": "ask",
-          "requiresFacts": ["shift-done", "employer"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "curious",
@@ -34313,17 +34270,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-answer-ask.was-employer-busy-today",
-      "move": "work-day-answer-ask",
+      "key": "conversation.work-done-answer-ask.was-employer-busy-today",
+      "move": "work-done-answer-ask",
       "kind": "spoken",
       "text": "Was {employer} busy today?",
       "uses": [
         {
-          "move": "work-day-answer-ask",
-          "subject": "work-day",
+          "move": "work-done-answer-ask",
+          "subject": "work-done",
           "role": "answer",
           "choice": "ask",
-          "requiresFacts": ["shift-done", "employer"]
+          "requiresFacts": ["employer"]
         }
       ],
       "bearing": "curious",
@@ -34332,17 +34289,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-answer-rest.sit-down-hours-is-plenty-for-one-day",
-      "move": "work-day-answer-rest",
+      "key": "conversation.work-done-answer-rest.sit-down-hours-is-plenty-for-one-day",
+      "move": "work-done-answer-rest",
       "kind": "spoken",
       "text": "Sit down. {hours} is plenty for one day.",
       "uses": [
         {
-          "move": "work-day-answer-rest",
-          "subject": "work-day",
+          "move": "work-done-answer-rest",
+          "subject": "work-done",
           "role": "answer",
           "choice": "rest",
-          "requiresFacts": ["shift-done", "hours"]
+          "requiresFacts": ["hours"]
         }
       ],
       "bearing": "tender",
@@ -34351,17 +34308,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-answer-rest.put-your-feet-up-you-earned-it-after-hours",
-      "move": "work-day-answer-rest",
+      "key": "conversation.work-done-answer-rest.put-your-feet-up-you-earned-it-after-hours",
+      "move": "work-done-answer-rest",
       "kind": "spoken",
       "text": "Put your feet up. You earned it after {hours}.",
       "uses": [
         {
-          "move": "work-day-answer-rest",
-          "subject": "work-day",
+          "move": "work-done-answer-rest",
+          "subject": "work-done",
           "role": "answer",
           "choice": "rest",
-          "requiresFacts": ["shift-done", "hours"]
+          "requiresFacts": ["hours"]
         }
       ],
       "bearing": "glad",
@@ -34523,21 +34480,21 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-back-core.long-hours-at-wage-an-hour-adds-up-slow",
-      "move": "work-day-back-core",
+      "key": "conversation.work-done-back-core.long-hours-at-wage-an-hour-adds-up-slow",
+      "move": "work-done-back-core",
       "kind": "spoken",
       "text": "Long. {hours} at {wage} an hour adds up slow.",
       "uses": [
         {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["shift-done", "hours", "wage"]
+          "requiresFacts": ["hours", "wage"]
         }
       ],
       "piece": {
-        "of": "work-day-back",
+        "of": "work-done-back",
         "part": "core",
         "required": true
       },
@@ -34547,21 +34504,21 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-back-core.same-as-ever-at-wage-an-hour-i-m-not-complaining",
-      "move": "work-day-back-core",
+      "key": "conversation.work-done-back-core.same-as-ever-at-wage-an-hour-i-m-not-complaining",
+      "move": "work-done-back-core",
       "kind": "spoken",
       "text": "Same as ever. At {wage} an hour, I'm not complaining.",
       "uses": [
         {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["shift-done", "wage"]
+          "requiresFacts": ["wage"]
         }
       ],
       "piece": {
-        "of": "work-day-back",
+        "of": "work-done-back",
         "part": "core",
         "required": true
       },
@@ -34619,20 +34576,20 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-back-core.you-don-t-have-to-tell-me-twice-you",
-      "move": "work-day-back-core",
+      "key": "conversation.work-done-back-core.you-don-t-have-to-tell-me-twice-you",
+      "move": "work-done-back-core",
       "kind": "spoken",
       "text": "You don't have to tell me twice, {you}.",
       "uses": [
         {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
           "role": "core",
           "stages": ["rest"]
         }
       ],
       "piece": {
-        "of": "work-day-back",
+        "of": "work-done-back",
         "part": "core",
         "required": true
       },
@@ -34642,21 +34599,21 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-back-core.i-will-hours-at-wage-an-hour-and-my-feet-know-it",
-      "move": "work-day-back-core",
+      "key": "conversation.work-done-back-core.i-will-hours-at-wage-an-hour-and-my-feet-know-it",
+      "move": "work-done-back-core",
       "kind": "spoken",
       "text": "I will. {hours} at {wage} an hour, and my feet know it.",
       "uses": [
         {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
           "role": "core",
           "stages": ["rest"],
           "requiresFacts": ["hours", "wage"]
         }
       ],
       "piece": {
-        "of": "work-day-back",
+        "of": "work-done-back",
         "part": "core",
         "required": true
       },
@@ -34714,25 +34671,1002 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-back-core.slow-hours-of-it-and-nothing-much-to-tell",
-      "move": "work-day-back-core",
+      "key": "conversation.work-done-back-core.slow-hours-of-it-and-nothing-much-to-tell",
+      "move": "work-done-back-core",
       "kind": "spoken",
       "text": "Slow. {hours} of it, and nothing much to tell.",
       "uses": [
         {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
+          "move": "work-done-back-core",
+          "subject": "work-done-back",
           "role": "core",
           "stages": ["ask"],
-          "requiresFacts": ["shift-done", "hours"]
+          "requiresFacts": ["hours"]
         }
       ],
       "piece": {
-        "of": "work-day-back",
+        "of": "work-done-back",
         "part": "core",
         "required": true
       },
       "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.now-it-s-up-to-decider-i-ll-be-watching-how-they-vote",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Now it's up to {decider}. I'll be watching how they vote.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "decider"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.i-ll-believe-it-when-decider-passes-it-you",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "I'll believe it when {decider} passes it, {you}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "decider"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.i-ll-bring-it-up-at-employer-tomorrow-you",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "I'll bring it up at {employer} tomorrow, {you}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "why-work", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-if-decider-gets-it-done-i-ll-feel-it-at-employer",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. If {decider} gets it done, I'll feel it at {employer}.",
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "why-work", "employer", "decider"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.we-ll-see-what-decider-does-with-it-i-m-not-changing-my-mind",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "We'll see what {decider} does with it. I'm not changing my mind.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point", "decider"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.come-by-employer-sometime-and-you-ll-see-why-i-say-it",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "Come by {employer} sometime and you'll see why I say it.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point", "why-work", "employer"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.try-paying-the-bills-in-place-first-you-then-we-ll-talk",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "Try paying the bills in {place} first, {you}. Then we'll talk.",
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point", "why-money", "place"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-s-due-due-that-s-rent-out-the-door",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "Rent's due {due}. That's {rent} out the door.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-say-core.i-ve-got-rent-in-rent-to-pay-due",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "I've got {rent} in rent to pay {due}.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-say-core.rent-for-rent-and-it-s-due-due",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "{rent} for rent, and it's due {due}.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-say-core.the-rent-comes-out-due-rent-all-of-it-at-once",
+      "move": "rent-due-say-core",
+      "kind": "spoken",
+      "text": "The rent comes out {due}. {rent}, all of it at once.",
+      "uses": [
+        {
+          "move": "rent-due-say-core",
+          "subject": "rent-due-say",
+          "role": "core",
+          "requiresFacts": ["rent", "due"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.are-we-okay-for-rent-this-month",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "Are we okay for {rent} this month?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-answer-ask.do-we-have-rent-put-by-for-it",
+      "move": "rent-due-answer-ask",
+      "kind": "spoken",
+      "text": "Do we have {rent} put by for it?",
+      "uses": [
+        {
+          "move": "rent-due-answer-ask",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["rent"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-ll-go-easy-on-spending-rent-is-a-lot-to-come-up-with",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I'll go easy on spending. {rent} is a lot to come up with.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-answer-help.i-won-t-ask-for-anything-till-rent-is-paid",
+      "move": "rent-due-answer-help",
+      "kind": "spoken",
+      "text": "I won't ask for anything till {rent} is paid.",
+      "uses": [
+        {
+          "move": "rent-due-answer-help",
+          "subject": "rent-due",
+          "role": "answer",
+          "choice": "help",
+          "requiresFacts": ["rent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.we-re-fine-this-month-you-it-s-covered-twice-over",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "We're fine this month, {you}. It's covered twice over.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cash-covered"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.we-re-okay-there-s-rent-in-the-bank-and-then-some",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "We're okay. There's {rent} in the bank and then some.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cash-covered", "rent"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.it-ll-be-tight-after-rent-there-isn-t-much-left-over",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "It'll be tight. After {rent}, there isn't much left over.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cash-tight", "rent"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.just-about-after-rent-don-t-ask-me-for-anything-till-payday",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "Just about. After {rent}, don't ask me for anything till payday.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cash-tight", "rent"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.honestly-we-don-t-have-rent-i-ll-have-to-talk-to-the-landlord",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "Honestly? We don't have {rent}. I'll have to talk to the landlord.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cash-short", "rent"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.not-quite-we-don-t-have-rent-yet-and-i-m-working-on-it",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "Not quite. We don't have {rent} yet, and I'm working on it.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["cash-short", "rent"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.thanks-you-we-ve-got-it-covered-but-thank-you",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. We've got it covered, but thank you.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["cash-covered"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.that-helps-you-it-s-going-to-be-close-this-month",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "That helps, {you}. It's going to be close this month.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["cash-tight"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.rent-due-back-core.every-bit-helps-we-re-short-as-it-is-you",
+      "move": "rent-due-back-core",
+      "kind": "spoken",
+      "text": "Every bit helps. We're short as it is, {you}.",
+      "uses": [
+        {
+          "move": "rent-due-back-core",
+          "subject": "rent-due-back",
+          "role": "core",
+          "stages": ["help"],
+          "requiresFacts": ["cash-short"]
+        }
+      ],
+      "piece": {
+        "of": "rent-due-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-say-core.i-m-at-school-all-day-today",
+      "move": "school-day-say-core",
+      "kind": "spoken",
+      "text": "I'm at {school} all day today.",
+      "uses": [
+        {
+          "move": "school-day-say-core",
+          "subject": "school-day-say",
+          "role": "core",
+          "requiresFacts": ["ahead", "school"]
+        }
+      ],
+      "piece": {
+        "of": "school-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-say-core.back-to-school-today-i-d-rather-sleep",
+      "move": "school-day-say-core",
+      "kind": "spoken",
+      "text": "Back to {school} today. I'd rather sleep.",
+      "uses": [
+        {
+          "move": "school-day-say-core",
+          "subject": "school-day-say",
+          "role": "core",
+          "requiresFacts": ["ahead", "school"]
+        }
+      ],
+      "piece": {
+        "of": "school-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-say-core.i-have-to-be-at-school-soon",
+      "move": "school-day-say-core",
+      "kind": "spoken",
+      "text": "I have to be at {school} soon.",
+      "uses": [
+        {
+          "move": "school-day-say-core",
+          "subject": "school-day-say",
+          "role": "core",
+          "requiresFacts": ["ahead", "school"]
+        }
+      ],
+      "piece": {
+        "of": "school-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-answer-wish.have-a-good-one-at-school",
+      "move": "school-day-answer-wish",
+      "kind": "spoken",
+      "text": "Have a good one at {school}.",
+      "uses": [
+        {
+          "move": "school-day-answer-wish",
+          "subject": "school-day",
+          "role": "answer",
+          "choice": "wish",
+          "requiresFacts": ["ahead", "school"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-answer-push.don-t-be-late-for-school-then",
+      "move": "school-day-answer-push",
+      "kind": "spoken",
+      "text": "Don't be late for {school}, then.",
+      "uses": [
+        {
+          "move": "school-day-answer-push",
+          "subject": "school-day",
+          "role": "answer",
+          "choice": "push",
+          "requiresFacts": ["ahead", "school"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-back-core.thanks-you-at-least-i-m-off-from-school-tomorrow",
+      "move": "school-day-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. At least I'm off from {school} tomorrow.",
+      "uses": [
+        {
+          "move": "school-day-back-core",
+          "subject": "school-day-back",
+          "role": "core",
+          "stages": ["wish"],
+          "requiresFacts": ["no-school-tomorrow", "school"]
+        }
+      ],
+      "piece": {
+        "of": "school-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-back-core.thanks-you-same-thing-tomorrow-though",
+      "move": "school-day-back-core",
+      "kind": "spoken",
+      "text": "Thanks, {you}. Same thing tomorrow, though.",
+      "uses": [
+        {
+          "move": "school-day-back-core",
+          "subject": "school-day-back",
+          "role": "core",
+          "stages": ["wish"],
+          "requiresFacts": ["school-tomorrow"]
+        }
+      ],
+      "piece": {
+        "of": "school-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-back-core.i-know-you-i-m-going",
+      "move": "school-day-back-core",
+      "kind": "spoken",
+      "text": "I know, {you}. I'm going.",
+      "uses": [
+        {
+          "move": "school-day-back-core",
+          "subject": "school-day-back",
+          "role": "core",
+          "stages": ["push"],
+          "requiresFacts": ["ahead"]
+        }
+      ],
+      "piece": {
+        "of": "school-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-say-core.school-took-everything-out-of-me-today",
+      "move": "school-done-say-core",
+      "kind": "spoken",
+      "text": "{school} took everything out of me today.",
+      "uses": [
+        {
+          "move": "school-done-say-core",
+          "subject": "school-done-say",
+          "role": "core",
+          "requiresFacts": ["school", "went"]
+        }
+      ],
+      "piece": {
+        "of": "school-done-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-say-core.long-day-at-school",
+      "move": "school-done-say-core",
+      "kind": "spoken",
+      "text": "Long day at {school}.",
+      "uses": [
+        {
+          "move": "school-done-say-core",
+          "subject": "school-done-say",
+          "role": "core",
+          "requiresFacts": ["school", "went"]
+        }
+      ],
+      "piece": {
+        "of": "school-done-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-say-core.i-made-it-through-another-day-at-school",
+      "move": "school-done-say-core",
+      "kind": "spoken",
+      "text": "I made it through another day at {school}.",
+      "uses": [
+        {
+          "move": "school-done-say-core",
+          "subject": "school-done-say",
+          "role": "core",
+          "requiresFacts": ["school", "went"]
+        }
+      ],
+      "piece": {
+        "of": "school-done-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-answer-ask.how-was-school",
+      "move": "school-done-answer-ask",
+      "kind": "spoken",
+      "text": "How was {school}?",
+      "uses": [
+        {
+          "move": "school-done-answer-ask",
+          "subject": "school-done",
+          "role": "answer",
+          "choice": "ask",
+          "requiresFacts": ["school", "went"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-answer-rest.get-some-rest-school-will-be-there-tomorrow",
+      "move": "school-done-answer-rest",
+      "kind": "spoken",
+      "text": "Get some rest. {school} will be there tomorrow.",
+      "uses": [
+        {
+          "move": "school-done-answer-rest",
+          "subject": "school-done",
+          "role": "answer",
+          "choice": "rest",
+          "requiresFacts": ["school", "school-tomorrow", "went"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-answer-rest.good-you-ve-earned-a-night-off-from-school",
+      "move": "school-done-answer-rest",
+      "kind": "spoken",
+      "text": "Good. You've earned a night off from {school}.",
+      "uses": [
+        {
+          "move": "school-done-answer-rest",
+          "subject": "school-done",
+          "role": "answer",
+          "choice": "rest",
+          "requiresFacts": ["no-school-tomorrow", "school", "went"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-back-core.same-as-always-at-least-i-m-off-from-school-tomorrow",
+      "move": "school-done-back-core",
+      "kind": "spoken",
+      "text": "Same as always. At least I'm off from {school} tomorrow.",
+      "uses": [
+        {
+          "move": "school-done-back-core",
+          "subject": "school-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["no-school-tomorrow", "school", "went"]
+        }
+      ],
+      "piece": {
+        "of": "school-done-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-back-core.okay-and-i-have-to-do-it-again-tomorrow-you",
+      "move": "school-done-back-core",
+      "kind": "spoken",
+      "text": "Okay. And I have to do it again tomorrow, {you}.",
+      "uses": [
+        {
+          "move": "school-done-back-core",
+          "subject": "school-done-back",
+          "role": "core",
+          "stages": ["ask"],
+          "requiresFacts": ["school-tomorrow", "went"]
+        }
+      ],
+      "piece": {
+        "of": "school-done-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-back-core.i-will-you-early-start-again-tomorrow",
+      "move": "school-done-back-core",
+      "kind": "spoken",
+      "text": "I will, {you}. Early start again tomorrow.",
+      "uses": [
+        {
+          "move": "school-done-back-core",
+          "subject": "school-done-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["school-tomorrow", "went"]
+        }
+      ],
+      "piece": {
+        "of": "school-done-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-done-back-core.i-plan-to-you-i-m-off-from-school-tomorrow",
+      "move": "school-done-back-core",
+      "kind": "spoken",
+      "text": "I plan to, {you}. I'm off from {school} tomorrow.",
+      "uses": [
+        {
+          "move": "school-done-back-core",
+          "subject": "school-done-back",
+          "role": "core",
+          "stages": ["rest"],
+          "requiresFacts": ["no-school-tomorrow", "school", "went"]
+        }
+      ],
+      "piece": {
+        "of": "school-done-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-day-back-core.i-m-leaving-in-a-minute-school-can-wait-that-long",
+      "move": "school-day-back-core",
+      "kind": "spoken",
+      "text": "I'm leaving in a minute. {school} can wait that long.",
+      "uses": [
+        {
+          "move": "school-day-back-core",
+          "subject": "school-day-back",
+          "role": "core",
+          "stages": ["push"],
+          "requiresFacts": ["ahead", "school"]
+        }
+      ],
+      "piece": {
+        "of": "school-day-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
       "date": "2026-11-12"

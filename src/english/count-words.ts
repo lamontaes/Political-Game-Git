@@ -93,3 +93,13 @@ export function hoursSaid(minutes: number): string {
       : String(count),
   );
 }
+
+/** Days from today as people say them: "today", "tomorrow", "in three days". */
+export function daysSaid(days: number): string {
+  const said = data.clock.days as Readonly<Record<string, string>>;
+  if (said[String(days)]) return said[String(days)]!;
+  return said.more!.replace(
+    "{count}",
+    days <= HOURS_ON_A_CLOCK ? data.clock.numbers[days]! : String(days),
+  );
+}
