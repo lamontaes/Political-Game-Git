@@ -155,7 +155,12 @@ it("the player's own life is told in the first person, never repeats who they ar
     expect(line.text, `${where}: ${line.recordId}`).not.toMatch(/\byou(r)?\b/);
   }
   expect(
-    mine.history.some((line) => /^I\b/.test(line.text)),
+    // After the time it opens on, when it opens on one ("In 2012, I ...").
+    mine.history.some((line) =>
+      /^(?:(?:(?:In|Back in|Then in|Later, in) \d{4}|At (?:age )?\d+|That same year), )?I\b/.test(
+        line.text,
+      ),
+    ),
     where,
   ).toBe(true);
   // "Who I am" tells where they were born; the story does not tell it again.
@@ -204,7 +209,11 @@ it("three or more jobs are one sentence naming every employer, on every job's re
     return;
   }
   const card = knownCard(core, playerId!, worker.id);
-  const jobs = card.history.filter((line) => line.text.includes(" before "));
+  // The one sentence of several jobs, by the piece that worded it (its
+  // wordings vary: "held jobs at A and B before C", "bounced from A to C").
+  const jobs = card.history.filter((line) =>
+    line.piece.startsWith("person-history.story.work.history."),
+  );
   expect(jobs, `${where}: ${worker.id}`).toHaveLength(1);
   const employers = [
     ...new Set(
@@ -219,7 +228,9 @@ it("three or more jobs are one sentence naming every employer, on every job's re
   for (const event of spells(worker.id))
     expect(jobs[0]!.records, `${where}: ${event.id}`).toContain(event.id);
   expect(
-    card.history.filter((line) => /went to work at/.test(line.text)),
+    card.history.filter((line) =>
+      line.piece.startsWith("person-history.story.work.spell."),
+    ),
     where,
   ).toEqual([]);
   console.log(`card-life jobs: ${where}; ${worker.id}: ${jobs[0]!.text}`);

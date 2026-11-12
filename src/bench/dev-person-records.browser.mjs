@@ -52,6 +52,12 @@ try {
     !sheet.includes("[object Object]"),
     "a slot prints [object Object]",
   );
+  // A slot the game keeps nothing in is not drawn, never "director null".
+  const records = await page.locator(".dev-records").innerText();
+  assert.ok(
+    !/\bnull\b/.test(records),
+    `a slot prints null: ${records.match(/.{0,20}\bnull\b/)?.[0]}`,
+  );
   const count = Math.min(3, await ids.count());
   assert.ok(count > 0, "the Records section lists no record");
   for (let i = 0; i < count; i += 1) {

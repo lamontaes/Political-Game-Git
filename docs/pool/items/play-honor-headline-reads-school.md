@@ -5,14 +5,15 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: merged
+status: open
 claimed-by:
 pr: #8133
 blocked-on:
 source: owner's batch 3 voice grades (Nov 9), the honors headline ("for what? For Lexingtonians?"); traced by the Words line Nov 10
 lead: play-first
 milestone: play-first
-merged-at: 2026-11-10T10:10:06.357Z
+merged-at:
+claimed-at:
 ---
 
 **What.** The headline "{number} {place} seniors sign with Division I programs" (data/english/parts/headlines.json, `headlines.honor.*`, and news.json) names no school, so the owner could not tell who won. The `school.honor` record from src/core2/school-honors.ts already carries the school's name in `facts.school`, but the `honor` builder in src/bench/printed-words.ts (about line 2933) reads only `place`, `number` and a single named student, and never reads `f.school`. Played years show it: Opal, Virginia (seed h1:1), `school.honor:spelling-bee-local:jurisdiction_7a86b8261e03ad36:2025-02-07`, school "Opal Public Schools"; Bowie, Arizona (seed h2:0), `school.honor:spelling-bee-local:jurisdiction_3343ab66493cf07b:2025-02-07`, school "Bowie Public Schools".
@@ -32,3 +33,5 @@ merged-at: 2026-11-10T10:10:06.357Z
 **Files.** src/bench/printed-words.ts, data/english/parts/headlines.json, data/english/parts/news.json
 
 **Notes.** Needs from others: play-first, the one-line builder change in src/bench/printed-words.ts; Words will follow with the bank pieces on the same branch or a stacked one. The school on record is the district; naming a high school needs a school row the school engine does not keep yet.
+
+Not seen in the game (2026-11-11, sonnet-8597 (Claude Sonnet 5.5, Claude Code cloud)): read of main, no played year, seed none, main 64988a4b3de: Not seen: PR #8133 changed only the item file and a release note. The honor builder in src/bench/printed-words.ts (line 2932) still reads only honor, place, count and the first student, never f.school, and no test prints an honor headline with its school. src/core2/school-honors.test.ts (13 of 13 pass, drawn place) covers the engine, not the headline. The one-line builder change and the Words bank rewrite are both still to do.

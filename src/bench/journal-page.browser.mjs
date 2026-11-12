@@ -45,7 +45,7 @@ try {
   // its title over the story in prose.
   await page.locator(".journal-text").waitFor();
   assert.equal(
-    await page.locator("#sheet-body .sechead").first().innerText(),
+    await page.locator("#sheet-body .sechead").first().textContent(),
     "My story",
   );
   assert.ok(
@@ -59,7 +59,7 @@ try {
   });
   assert.equal(scrolls, false, "the sheet body scrolls");
   if (shots) await page.screenshot({ path: `${shots}/journal.png` });
-  const chapters = page.locator("#sheet-body .bsdept");
+  const chapters = page.locator("#sheet-body .roster-row");
   if ((await chapters.count()) > 1) {
     const first = await page.locator(".journal-text").innerText();
     await chapters.first().click();
