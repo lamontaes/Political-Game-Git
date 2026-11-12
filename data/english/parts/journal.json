@@ -10039,7 +10039,7 @@
       "key": "journal.memoir-effect-up.my-bill-went-up-about-amount-a-month",
       "move": "memoir-effect-up",
       "kind": "spoken",
-      "text": "my {bill} went up about {amount} a month",
+      "text": "my {bill} went up {amount} a month",
       "uses": [
         {
           "move": "memoir-effect-up",
@@ -10070,7 +10070,7 @@
       "key": "journal.memoir-effect-up.my-bill-rose-about-amount-a-month",
       "move": "memoir-effect-up",
       "kind": "spoken",
-      "text": "my {bill} rose about {amount} a month",
+      "text": "my {bill} rose {amount} a month",
       "uses": [
         {
           "move": "memoir-effect-up",
@@ -10101,7 +10101,7 @@
       "key": "journal.memoir-effect-down.my-bill-came-down-about-amount-a-month",
       "move": "memoir-effect-down",
       "kind": "spoken",
-      "text": "my {bill} came down about {amount} a month",
+      "text": "my {bill} came down {amount} a month",
       "uses": [
         {
           "move": "memoir-effect-down",
@@ -10132,7 +10132,7 @@
       "key": "journal.memoir-effect-down.my-bill-fell-about-amount-a-month",
       "move": "memoir-effect-down",
       "kind": "spoken",
-      "text": "my {bill} fell about {amount} a month",
+      "text": "my {bill} fell {amount} a month",
       "uses": [
         {
           "move": "memoir-effect-down",

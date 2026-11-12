@@ -2403,11 +2403,22 @@ export function composeJournal(
     ids: readonly string[],
   ): JournalWorded[] => {
     const out: JournalWorded[] = [];
-    const wages = told.flatMap((unit) => {
-      const spell = lifeById.get(unit.moment.causeId);
-      const minor = Number(spell?.facts?.hourlyMinor);
-      return minor > zero ? [{ minor, id: unit.moment.causeId }] : [];
-    });
+    // The pay of the first job and of the last, from the run's own spell
+    // records in the order they began (the job held at the start is one).
+    const wages = life
+      .filter(
+        (event) =>
+          event.life === "work" &&
+          event.record === PAST_WORK_SPELL &&
+          Number(event.facts?.hourlyMinor) > zero,
+      )
+      .sort((a, b) =>
+        String(a.facts?.startedAt).localeCompare(String(b.facts?.startedAt)),
+      )
+      .map((event) => ({
+        minor: Number(event.facts!.hourlyMinor),
+        id: event.id,
+      }));
     const from = wages[zero];
     const to = wages.at(-one);
     if (from && to && moneySaid(from.minor) !== moneySaid(to.minor)) {
