@@ -4,7 +4,8 @@
  * now applies, and taking the post ends their job. A place is drawn from all
  * 56 on a seed nobody chose (STAFF_HIRE_SEED pins one); a year of the played
  * world runs and the books stay balanced. The test fails if no aide in 3
- * places came from a private job.
+ * places came from a private job. A second test draws on until an aide from a
+ * private job was dismissed and checks that post ended with the dismissal.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -18,6 +19,8 @@ import { STAFF_MODULE_ID, type StafferRow } from "./modules/staff";
 import { coreAPI } from "./state";
 
 const seed = process.env.STAFF_HIRE_SEED ?? randomBytes(8).toString("hex");
+// Dismissals are common (a few per place per 400 days), so a handful of draws suffices.
+const MOST_DRAWS = 8;
 
 it("an aide can come from a private job, which the post's hire ends", () => {
   setBookkeeping(false);
@@ -53,6 +56,18 @@ it("an aide can come from a private job, which the post's hire ends", () => {
       for (const row of fromWork) {
         expect(row.jobId, `${where}: ${row.id}`).toBeDefined();
         const post = core.jobs.get(row.jobId!)!;
+        // An official may let an aide go for missing too much work (reviewAttendance), which ends the
+        // post: a dismissed aide's post ended on the dismissal (the next day's calendar where they had
+        // worked that day), and any other aide's post still runs.
+        if (row.dismissed) {
+          expect(post.endsAt, `${where}: ${row.id} dismissed`).toBeDefined();
+          expect(
+            post.endsAt! >= row.dismissed.on &&
+              post.endsAt! <= addDays(makeIsoDate(row.dismissed.on), 1),
+            `${where}: ${row.id} post ended ${post.endsAt}, dismissed ${row.dismissed.on}`,
+          ).toBe(true);
+          continue;
+        }
         expect(post.endsAt, `${where}: ${row.id}`).toBeUndefined();
         expect(core.people.get(row.personId)?.jobId, where).toBe(row.jobId);
       }
@@ -62,6 +77,63 @@ it("an aide can come from a private job, which the post's hire ends", () => {
       return;
     }
     throw new Error(`no aide came from a job: ${tried.join("; ")}; ${seed}`);
+  } finally {
+    setBookkeeping(true);
+  }
+}, 3_600_000);
+
+it("a dismissed aide from a private job has a post that ended with the dismissal", () => {
+  setBookkeeping(false);
+  const passedOver: string[] = [];
+  try {
+    for (let draw = 0; draw < MOST_DRAWS; draw += 1) {
+      const place = drawPlace(
+        `${seed}:dismissed:${draw}`,
+        "staff-hire-employed",
+      );
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      advanceCore(core, addDays(makeIsoDate(core.date), 400));
+      const staff = coreAPI(core)
+        .moduleState(STAFF_MODULE_ID)
+        .table("staff")
+        .rows() as unknown as StafferRow[];
+      const dismissed = staff.filter(
+        (row) =>
+          row.dismissed &&
+          [...core.jobs.values()].some(
+            (job) =>
+              job.personId === row.personId &&
+              job.endsAt === row.hiredOn &&
+              !job.id.startsWith("job:public:"),
+          ),
+      );
+      if (!dismissed.length) {
+        passedOver.push(
+          `${where}: ${staff.length} aides, none dismissed from a job`,
+        );
+        continue;
+      }
+      for (const row of dismissed) {
+        const post = core.jobs.get(row.jobId!)!;
+        expect(post.endsAt, `${where}: ${row.id} dismissed`).toBeDefined();
+        expect(
+          post.endsAt! >= row.dismissed!.on &&
+            post.endsAt! <= addDays(makeIsoDate(row.dismissed!.on), 1),
+          `${where}: ${row.id} post ended ${post.endsAt}, dismissed ${row.dismissed!.on}`,
+        ).toBe(true);
+      }
+      process.stdout.write(
+        `DISMISSED AIDE seed ${seed}: ${where}: ${dismissed.map((row) => `${row.id} dismissed ${row.dismissed!.on}, post ended ${core.jobs.get(row.jobId!)!.endsAt}`).join("; ")}; passed over ${passedOver.length}: ${passedOver.join("; ") || "none"}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `seed ${seed}: no drawn place had an aide dismissed from a private job in ${MOST_DRAWS} draws; passed over: ${passedOver.join("; ")}`,
+    );
   } finally {
     setBookkeeping(true);
   }
