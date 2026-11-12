@@ -3240,11 +3240,26 @@ function openConversationNow(
     : bringItUp(core as CoreState, otherId, playerId);
   // News someone else in the house already told the player today is not
   // told again (the telling's "said today").
+  // News already talked over with the player (the listener's topic memory)
+  // is not brought up again either.
+  const talked = new Set(
+    [...(core.knowledgeByPerson.get(otherId) ?? [])]
+      .filter(([key]) => key.startsWith(talkedKeyPrefix(playerId)))
+      .map(([, fact]) => fact.value),
+  );
+  const toldIds = told
+    ? [
+        `news:${told.change.eventId}`,
+        `news:${storyOfReadEvent(told.change.eventId) ?? ""}`,
+      ]
+    : [];
   const brought =
     told &&
-    !heardNow.has(`${HEARD_SUBJECT}news:${told.change.eventId}`) &&
-    !heardNow.has(
-      `${HEARD_SUBJECT}news:${storyOfReadEvent(told.change.eventId) ?? ""}`,
+    !toldIds.some(
+      (id) =>
+        heardNow.has(`${HEARD_SUBJECT}${id}`) ||
+        talked.has(id) ||
+        talked.has(`${otherId}>${id}`),
     )
       ? told
       : null;

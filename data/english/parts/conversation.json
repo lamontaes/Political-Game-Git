@@ -25738,6 +25738,57 @@
       "date": "2026-11-11"
     },
     {
+      "key": "conversation.address-ask-seen.were-you-watching-the-president-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Were you watching the President {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-A (words composer unit 2)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-hear-the-president-s-address-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you hear the President's address {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-A (words composer unit 2)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-ask-seen.did-you-get-to-watch-the-address-when",
+      "move": "address-ask-seen",
+      "kind": "spoken",
+      "text": "Did you get to watch the address {when}?",
+      "uses": [
+        {
+          "move": "address-ask-seen",
+          "subject": "address",
+          "role": "ask",
+          "choice": "seen"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-A (words composer unit 2)",
+      "date": "2026-11-12"
+    },
+    {
       "key": "conversation.address-ask-seen.you-saw-the-president-s-speech-when-didn-t-you",
       "move": "address-ask-seen",
       "kind": "spoken",
