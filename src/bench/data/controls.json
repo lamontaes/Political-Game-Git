@@ -34,7 +34,8 @@
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on."
+    "missingPlace": "Choose where you are from to go on.",
+    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
   },
   "debate": {
     "title": "Debate invitation",

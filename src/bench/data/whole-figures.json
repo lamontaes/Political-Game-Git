@@ -49,6 +49,8 @@
       "hair": "Hair",
       "hairColor": "Hair color",
       "face": "Facial hair",
+      "top": "Top",
+      "topColor": "Top color",
       "shirt": "Shirt",
       "tie": "Tie",
       "jacket": "Jacket"

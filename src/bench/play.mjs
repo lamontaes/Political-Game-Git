@@ -6047,6 +6047,9 @@ const setup = {
   recipe: null,
   initial: null,
   previous: [],
+  // The creator's open tab of clothes and the look last shown, so a tab flips at once.
+  lookTab: "everyday",
+  lookView: null,
 };
 /** A record value as the player reads it: an ISO date in words, else as kept. */
 function dateOrValue(value) {
@@ -6264,21 +6267,46 @@ $("cr-place-random").addEventListener("click", async () => {
 });
 
 // Character appearance: the look's bust (the one every screen will draw) and
-// a row with arrows for each thing a bust shows.
+// a row with arrows for each thing a bust shows. Below the rows both tabs
+// share, two tabs of clothes (owner, Nov 12: "two tabs, everyday and formal,
+// bust flips between them"): the bust wears the open tab's clothes.
 function showLook(view) {
   setup.recipe = view.recipe;
-  $("cr-bust").replaceChildren(bust(view.face, "", 250));
+  setup.lookView = view;
+  const tab = setup.lookTab;
+  $("cr-bust").replaceChildren(bust(view.faces[tab], "", 250));
+  const row = (r) =>
+    lookRow(r, {
+      onMove: (id, by) => void moveLook(id, by),
+      arrowLabel: (by, it) =>
+        controls.creator[by < 0 ? "previous" : "next"].replace(
+          "{row}",
+          it.label.toLowerCase(),
+        ),
+    });
+  const tabs = Object.entries(controls.creator.lookTabs).filter(([key]) =>
+    view.rows.some((r) => r.tab === key),
+  );
   $("cr-rows").replaceChildren(
-    ...view.rows.map((row) =>
-      lookRow(row, {
-        onMove: (id, by) => void moveLook(id, by),
-        arrowLabel: (by, r) =>
-          controls.creator[by < 0 ? "previous" : "next"].replace(
-            "{row}",
-            r.label.toLowerCase(),
-          ),
-      }),
-    ),
+    ...view.rows.filter((r) => !r.tab).map(row),
+    ...(tabs.length
+      ? [
+          tabBar({
+            attr: "lookTab",
+            className: "look-tabs",
+            active: tab,
+            tabs: tabs.map(([key, label]) => ({
+              key,
+              label,
+              onSelect: () => {
+                setup.lookTab = key;
+                showLook(setup.lookView);
+              },
+            })),
+          }),
+        ]
+      : []),
+    ...view.rows.filter((r) => r.tab === tab).map(row),
   );
   $("cr-reset").disabled =
     JSON.stringify(setup.recipe) === JSON.stringify(setup.initial);

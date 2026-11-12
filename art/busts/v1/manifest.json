@@ -70,7 +70,18 @@
     "forestgreen": "Forest green",
     "navystripe": "Navy stripe",
     "charcoal": "Charcoal",
-    "brown": "Brown"
+    "brown": "Brown",
+    "henley": "Henley",
+    "denim": "Denim shirt",
+    "cardigan": "Cardigan",
+    "chambray": "Chambray shirt",
+    "sweater": "Sweater",
+    "green": "Green",
+    "maroon": "Maroon",
+    "blue": "Blue",
+    "tan": "Tan",
+    "olive": "Olive",
+    "rust": "Rust"
   },
   "sets": {
     "woman": {
