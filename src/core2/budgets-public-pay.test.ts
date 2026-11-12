@@ -54,20 +54,24 @@ function play(drawSeed: string, label: string): Payroll {
     short: 0,
     ledger: 0,
   };
-  // Every drawn world, a place with no public employer included: each
-  // authority the opening holds is a public employer's (not the outside
-  // market's) and is linked to its treasury, and no treasury link names an
-  // authority no employer holds.
+  // Every drawn world, a place with no public employer included: each public
+  // employer's authority is linked to its treasury, and no treasury link
+  // names an authority no organization holds (the outside account's own
+  // authority is held by the outside account).
   const links = publicPayTreasuries(core);
   for (const employer of employers)
     expect(
       links.has(employer.publicPayAuthority!.id),
       `${where}: ${employer.id} linked to a treasury`,
     ).toBe(true);
-  const held = new Set(employers.map((row) => row.publicPayAuthority!.id));
+  const held = new Set(
+    [...core.organizations.values()].flatMap((row) =>
+      row.publicPayAuthority ? [row.publicPayAuthority.id] : [],
+    ),
+  );
   expect(
     [...links.keys()].filter((id) => !held.has(id)),
-    `${where}: treasury links to an authority no public employer holds`,
+    `${where}: treasury links to an authority no organization holds`,
   ).toEqual([]);
   if (!employers.length) return empty;
   // What the treasuries paid out on each authority's own commitments.
