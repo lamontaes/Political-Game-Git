@@ -268,6 +268,44 @@
     "budget-line:welfareAndMedicaid": ["health"],
     "budget-line:highways": ["roads"]
   },
+  "answerTopics": {
+    "about": "The bill catalog topics whose questions answer each area of the term read, for a hurt address's answer to its worst condition: a subject is wider than its area (restoring the vote after a sentence is justice, and no answer to crime; the words lead read it so on Leonidas, Minnesota, Nov 12). TUNABLE wording of the match, checked by reading composed addresses.",
+    "rent": [
+      "Rental rules",
+      "Affordable and public housing",
+      "Planning and zoning",
+      "Homelessness services"
+    ],
+    "crime": [
+      "Policing",
+      "Criminal law and sentencing",
+      "Courts and legal aid",
+      "Juvenile justice",
+      "Firearms and weapons rules"
+    ],
+    "schools": [
+      "K-12 schools",
+      "School funding",
+      "Teachers and support staff",
+      "Early childhood and preschool",
+      "Special education"
+    ],
+    "health": [
+      "Coverage and insurance",
+      "Hospitals and clinics",
+      "Mental health and addiction services",
+      "Public health",
+      "Medicines and medical products"
+    ],
+    "roads": ["Transportation"],
+    "environment": [
+      "Air and emissions",
+      "Water quality",
+      "Pollution cleanup",
+      "Climate and resilience",
+      "Electricity and the grid"
+    ]
+  },
   "subjectPull": {
     "about": "Which subject under a theme a speaker leads with when none of their own causes is in it: the subject whose facets their recorded traits sum highest on (the traits are the speaker's record; no roll). The facets are the personality catalog's. TUNABLE: checked so that no question leads more than half of ten drawn addresses.",
     "tag": "TUNABLE",

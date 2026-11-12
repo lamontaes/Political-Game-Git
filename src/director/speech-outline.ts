@@ -77,7 +77,7 @@ import {
   questionPoint,
 } from "../english/question-names";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
-import { questionSubject } from "../english/policy-names";
+import { questionSubject, questionTopic } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -169,6 +169,8 @@ const OUTLINES = outlineData as unknown as {
   subjectOfQuestion: Readonly<Record<string, string>>;
   /** The measures a line of the budget bears on, read only by a hurt address's answer. */
   budgetLineTopics: Readonly<Record<string, readonly string[] | string>>;
+  /** The catalog topics whose questions answer each area of the term read. */
+  answerTopics: Readonly<Record<string, readonly string[] | string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   themeNames: Readonly<Record<string, string>>;
   /** A theme said short, where a frame names it after the speech has said it in full (a close). */
@@ -1144,6 +1146,21 @@ export function questionTopics(question: string): readonly string[] {
 }
 
 /**
+ * Whether a question answers a condition: a budget line that bears on it, or
+ * a question under one of the catalog topics that answer its area
+ * (speech-outlines.json `answerTopics`); a measure of the year with no such
+ * row is answered by any question of its subjects.
+ */
+export function answersCondition(question: string, topic: string): boolean {
+  const line = OUTLINES.budgetLineTopics[question];
+  if (Array.isArray(line)) return line.includes(topic);
+  const topics = OUTLINES.answerTopics[topic];
+  return Array.isArray(topics)
+    ? topics.includes(questionTopic(question) ?? "")
+    : questionTopics(question).includes(topic);
+}
+
+/**
  * The figure a hurt address says its worst condition with when the speaker
  * has held office too short a time to say it over years: of the area's
  * measures that moved the wrong way, the one that moved furthest, named in
@@ -1212,14 +1229,12 @@ function responseOf(
   topic: string,
 ): { stand: Stand; bill: BillRow | null } | null {
   const bills = billsSponsoredBy(core, personId).filter((bill) =>
-    billQuestions(bill).some((question) =>
-      questionTopics(question).includes(topic),
-    ),
+    billQuestions(bill).some((question) => answersCondition(question, topic)),
   );
   const billOf = (stand: Stand) =>
     bills.find((bill) => billQuestions(bill).includes(stand.question)) ?? null;
   const ranked = stands
-    .filter((stand) => questionTopics(stand.question).includes(topic))
+    .filter((stand) => answersCondition(stand.question, topic))
     .sort(
       (a, b) =>
         Number(!!billOf(b)) - Number(!!billOf(a)) ||
@@ -1830,9 +1845,7 @@ export function planSpeech(
   // The theme's own points, after the answer: where any is left, the address
   // turns to it with a sentence of its own, so it says two subjects.
   const turnsTo = crisis
-    ? pointStands.filter(
-        (stand) => !questionTopics(stand.question).includes(crisis),
-      )
+    ? pointStands.filter((stand) => !answersCondition(stand.question, crisis))
     : [];
   const oneSubject = !turnsTo.length;
   const themeName = theme ? (OUTLINES.themeNames[theme] ?? null) : null;
@@ -2020,9 +2033,13 @@ export function planSpeech(
    * the theme said short (themeShort), never the long name a close's slot
    * cannot hold.
    */
+  // The close returns to the theme: its first point after a hurt address's
+  // answer, else the first point.
+  const closing = turnsTo[P.zero] ?? pointStands[P.zero];
+  const closeAt = closing ? pointStands.indexOf(closing) : -P.one;
   const closeFacts = (): Facts => {
-    const first = pointStands[P.zero];
-    const plan = planned[P.zero];
+    const first = closing;
+    const plan = planned[closeAt];
     if (!first || !plan) return {};
     const side = first.stance > P.zero ? "for" : "against";
     const cited = `question:${first.question}`;
@@ -2246,18 +2263,24 @@ export function planSpeech(
             {
               ...draft,
               joins: true,
-              facts: {
-                ...draft.facts,
-                ...(response.bill
-                  ? {
-                      "response-bill": fact(
-                        "yes",
-                        response.bill.id,
-                        `question:${stand.question}`,
-                      ),
-                    }
-                  : {}),
-              },
+              // Every fact that cites the question cites the bill the
+              // speaker sponsored on it as well (ask why).
+              facts: response.bill
+                ? Object.fromEntries(
+                    Object.entries(draft.facts).map(([key, row]) => [
+                      key,
+                      row.sourceRecordIds.includes(
+                        `question:${stand.question}` as EntityId,
+                      )
+                        ? fact(
+                            row.text,
+                            ...row.sourceRecordIds,
+                            response.bill!.id,
+                          )
+                        : row,
+                    ]),
+                  )
+                : draft.facts,
             },
           ];
         }
@@ -2321,20 +2344,20 @@ export function planSpeech(
           key: "close",
           level: "close",
           // Its own paragraph: the close returns to the theme in one sentence.
-          facts: (pointStands[P.zero]
+          facts: (closing
             ? {
                 "first-side": fact(
                   questionSide(
-                    pointStands[P.zero]!.question,
-                    pointStands[P.zero]!.stance > P.zero
-                      ? pointStands[P.zero]!.law.inForce
+                    closing!.question,
+                    closing!.stance > P.zero
+                      ? closing!.law.inForce
                         ? "keep"
                         : "for"
-                      : pointStands[P.zero]!.law.inForce
+                      : closing!.law.inForce
                         ? "repeal"
                         : "against",
                   )!,
-                  `question:${pointStands[P.zero]!.question}`,
+                  `question:${closing!.question}`,
                 ),
               }
             : {}) as Facts,

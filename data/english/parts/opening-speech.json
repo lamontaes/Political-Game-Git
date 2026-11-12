@@ -119113,7 +119113,7 @@
       "key": "opening-speech.story-says.both-rent-since-i-took-this-office-we-have-seen-rise-and",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and that weighs on every family that rents here.",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and that weighs on the families who rent here.",
       "uses": [
         {
           "move": "story-says",
@@ -119445,7 +119445,7 @@
       "key": "opening-speech.story-says.both-roads-since-i-took-this-office-we-have-seen-rise-and",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and every family that drives here pays for it.",
+      "text": "Since I took this office, we have seen {condition-measure} rise {condition-change}, and the people who drive here deserve safer roads than that.",
       "uses": [
         {
           "move": "story-says",
@@ -119608,10 +119608,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.owning.polished-nothing-is-yet-before-us-on-and-i-will-not",
+      "key": "opening-speech.owning.polished-i-have-not-yet-put-a-plan-before-you-on",
       "move": "owning",
       "kind": "spoken",
-      "text": "Nothing is yet before us on {condition-name}, and I will not pretend otherwise.",
+      "text": "I have not yet put a plan before you on {condition-name}, and I will not pretend otherwise.",
       "uses": [
         {
           "move": "owning",
@@ -119681,10 +119681,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.owning.plain-we-dont-have-a-plan-on-the-table-yet-for",
+      "key": "opening-speech.owning.plain-i-havent-put-a-plan-in-front-of-you-yet",
       "move": "owning",
       "kind": "spoken",
-      "text": "We don't have a plan on the table yet for {condition-name}, and I won't pretend we do.",
+      "text": "I haven't put a plan in front of you yet on {condition-name}, and I won't pretend I have.",
       "uses": [
         {
           "move": "owning",

@@ -10,7 +10,7 @@ import { TERM_MEASURES } from "../core2/term-read";
 import { areaName } from "../english/area-names";
 import { HURT_KINDS } from "./address-kind";
 import { composeLocalAddress, type LocalStory } from "./local-address";
-import { questionTopics } from "./speech-outline";
+import { answersCondition } from "./speech-outline";
 
 // A hurt address answers its own bad news, and its opening announces what it
 // is about (the words lead, Nov 12, reading Leonidas, Minnesota, seed
@@ -93,9 +93,9 @@ function checkHurt(story: LocalStory, where: string): string {
   let found: string;
   if (story.response) {
     expect(
-      questionTopics(story.response.question),
-      `${where}: ${story.response.question} is not in ${crisis}'s area`,
-    ).toContain(crisis);
+      answersCondition(story.response.question, crisis!),
+      `${where}: ${story.response.question} does not answer ${crisis}`,
+    ).toBe(true);
     const cited = answer.find((row) =>
       row.sourceRecordIds.includes(`question:${story.response!.question}`),
     );
@@ -126,7 +126,7 @@ function checkHurt(story: LocalStory, where: string): string {
   // A theme said after the answer is turned to by an engine-worded sentence;
   // "one matter" is promised only when there is one subject.
   const outside = story.points.filter(
-    (point) => !questionTopics(point.question).includes(crisis!),
+    (point) => !answersCondition(point.question, crisis!),
   );
   if (outside.length)
     expect(turnAt, `${where}: the theme begins with no turn`).toBeGreaterThan(
