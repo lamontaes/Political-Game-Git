@@ -31,9 +31,9 @@ interface Line {
 }
 const LINES: Record<string, Line> = {
   police: {
-    about: "the police budget",
-    to: "put more money into the police",
-    against: "hold the line on police spending",
+    about: "a bigger police budget",
+    to: "give the police department more to work with",
+    against: "keep the police budget where it is",
     law: "the bigger police budget",
     family: "justice",
     pole: "b",
@@ -61,9 +61,9 @@ const LINES: Record<string, Line> = {
     principles: { for: [1], against: [] },
   },
   corrections: {
-    about: "the jail budget",
-    to: "put more money into the jail",
-    against: "hold the line on jail spending",
+    about: "more jail spending",
+    to: "staff the jail fully",
+    against: "keep the jail budget from growing",
     law: "the bigger jail budget",
     family: "justice",
     pole: "b",
@@ -90,9 +90,9 @@ const LINES: Record<string, Line> = {
     principles: { for: [1, 2], against: [2] },
   },
   schools: {
-    about: "school funding",
-    to: "put more money into our schools",
-    against: "hold the line on school spending",
+    about: "more school funding",
+    to: "spend more on our schools",
+    against: "keep school spending in check",
     law: "the bigger school budget",
     family: "schools",
     pole: "a",
@@ -120,9 +120,9 @@ const LINES: Record<string, Line> = {
     principles: { for: [1, 2], against: [2] },
   },
   higherEducation: {
-    about: "the community college budget",
-    to: "put more money into the community college",
-    against: "hold the line on college spending",
+    about: "a bigger college budget",
+    to: "fund more seats at the community college",
+    against: "hold the college to what it gets now",
     law: "the bigger college budget",
     family: "schools",
     pole: "a",
@@ -150,9 +150,9 @@ const LINES: Record<string, Line> = {
     principles: { for: [2], against: [2] },
   },
   parks: {
-    about: "the parks budget",
-    to: "put more money into our parks",
-    against: "hold the line on parks spending",
+    about: "more parks spending",
+    to: "fix up our parks",
+    against: "put the parks behind what we need first",
     law: "the bigger parks budget",
     family: "land",
     pole: "a",
@@ -180,9 +180,9 @@ const LINES: Record<string, Line> = {
     principles: { for: [], against: [] },
   },
   naturalResources: {
-    about: "spending on our land and water",
-    to: "put more money into caring for our land and water",
-    against: "hold the line on land and water spending",
+    about: "more spending on land and water",
+    to: "do more to care for our creeks and woods",
+    against: "leave the care of the land to the people who own it",
     law: "the bigger land and water budget",
     family: "land",
     pole: "a",
@@ -210,9 +210,9 @@ const LINES: Record<string, Line> = {
     principles: { for: [1, 2], against: [1, 2] },
   },
   housing: {
-    about: "spending on housing",
-    to: "put more money into housing people can afford",
-    against: "hold the line on housing spending",
+    about: "more housing money",
+    to: "build more homes people can afford",
+    against: "stop growing the housing programs",
     law: "the bigger housing budget",
     family: "housing",
     pole: "a",
@@ -239,9 +239,9 @@ const LINES: Record<string, Line> = {
     principles: { for: [1], against: [2] },
   },
   healthAndHospitals: {
-    about: "spending on health care and the hospital",
-    to: "put more money into health care and the hospital",
-    against: "hold the line on health spending",
+    about: "a bigger health budget",
+    to: "fund the clinic and the hospital",
+    against: "keep health spending from outgrowing everything else",
     law: "the bigger health budget",
     family: "health",
     pole: "a",
@@ -267,22 +267,22 @@ const LINES: Record<string, Line> = {
     principles: { for: [1, 2], against: [] },
   },
   welfareAndMedicaid: {
-    about: "spending on help for families in need",
-    to: "put more money into help for families in need",
-    against: "hold the line on assistance spending",
+    about: "more assistance spending",
+    to: "get families in need what they qualify for sooner",
+    against: "tie more of our aid to getting back to work",
     law: "the bigger assistance budget",
     family: "safety-net",
     pole: "b",
     number: "one",
     today: {
-      for: "More families are asking for help than the office can see in a week.",
+      for: "More families are coming to the office than it can see in a week.",
       against:
         "Spending on assistance keeps growing, and fewer of those dollars lead to a job.",
     },
     more: {
       for: [
-        "Families wait weeks for help they qualify for.",
-        "The office that helps families in trouble can't keep up.",
+        "Families wait weeks for the aid they qualify for.",
+        "The office that serves families in trouble can't keep up.",
       ],
       against: [
         "The assistance budget grows whether or not anyone gets back to work.",
@@ -290,19 +290,19 @@ const LINES: Record<string, Line> = {
       ],
     },
     reasons: {
-      for: "a family in trouble shouldn't wait weeks for help it qualifies for",
-      against: "help should lead back to a paycheck",
+      for: "a family in trouble shouldn't wait weeks for aid it qualifies for",
+      against: "aid should lead back to a paycheck",
     },
     principles: { for: [2], against: [1, 2] },
   },
   highways: {
-    about: "spending on roads",
-    to: "put more money into our roads",
-    against: "hold the line on road spending",
+    about: "more road spending",
+    to: "fix our roads",
+    against: "fix the roads we have before we pave more",
     law: "the bigger road budget",
     family: "transit",
     pole: "b",
-    number: "many",
+    number: "one",
     today: {
       for: "Our roads are full of potholes, and folks are paying for it in tires and repairs.",
       against:
@@ -335,6 +335,8 @@ for (const [line, row] of Object.entries(LINES)) {
   // This script's own rows are rewritten from the lists above; no other is touched.
   const was = JSON.stringify(json.names[key] ?? null);
   json.names[key] = {
+    // Fields another script writes (`again`) are kept.
+    ...(json.names[key] as object | undefined),
     about: row.about,
     to: row.to,
     for: row.to,

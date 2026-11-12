@@ -404,5 +404,14 @@
     "abortion": "abortion",
     "world": "our place in the world",
     "trade": "trade and the jobs it brings"
+  },
+  "conditions": {
+    "about": "This year's conditions a governor or a local head tells in the opening (speech-outline.ts conditionFacts): the budget's balance is said as ahead or short only past this share of what the budget spends; inside it, about even.",
+    "budgetEvenBand": {
+      "value": 0.01,
+      "tag": "TUNABLE",
+      "spread": "0.005 to 0.03",
+      "note": "A gap under one percent of spending is what a budget officer calls balanced; checked by reading the composed addresses."
+    }
   }
 }

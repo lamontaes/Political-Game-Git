@@ -35,6 +35,12 @@ import { ownStance } from "../core2/officials-roster";
 import { stanceReader } from "../core2/campaign-stances";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import {
+  BUDGETS_MODULE_ID,
+  budgetsOf,
+  governments,
+} from "../core2/modules/budgets";
+import { DISASTERS_MODULE_ID, townDisasters } from "../core2/modules/disasters";
 import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
 import type { LawRowInput } from "../core2/laws-starting";
 import type { CoreAPI, CoreState, PersonState } from "../core2/types";
@@ -74,7 +80,8 @@ import { P } from "../core2/parameters";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
-import { daysBetweenText } from "../core2/kernel/dates";
+import { addDays, daysBetweenText } from "../core2/kernel/dates";
+import type { IsoDate } from "../core2/kernel/brands";
 import {
   TERM_AREAS,
   countryTermRead,
@@ -147,6 +154,7 @@ const OUTLINES = outlineData as unknown as {
   subjectOfQuestion: Readonly<Record<string, string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   themeNames: Readonly<Record<string, string>>;
+  conditions: { budgetEvenBand: Weight };
   pointShapes: {
     shapes: Readonly<
       Record<
@@ -1262,6 +1270,106 @@ export function themeOf(
   return scored[P.zero]?.theme ?? null;
 }
 
+/**
+ * This year's conditions in the government a governor or a local head leads,
+ * from the engines that keep them, each with its direction and no figure
+ * (SG-WORDS-local-address-conditions):
+ *
+ * - the budget's balance this fiscal year (budgets.ts: the latest budget of
+ *   the speaker's government, what it takes in against what it spends), as
+ *   ahead, about even or short, the band from speech-outlines.json
+ *   `conditions`;
+ * - a law of the speaker's jurisdiction that took effect in the past year
+ *   (the laws engine's rows), by its spoken name;
+ * - a disaster declared for the place in the past year (disasters.ts), for
+ *   a local head only, or a statewide one for a governor.
+ *
+ * Jobs and a big employer's change are not read: no engine keeps a town's
+ * or a state's own year-over-year jobs record the speech could cite.
+ */
+function conditionFacts(
+  core: CoreState,
+  level: PolicyLevel,
+  jurisdiction: string | null,
+  local: OutlineSpeaker["local"],
+): Facts {
+  const api = coreAPI(core);
+  const out: Facts = {};
+  const band = OUTLINES.conditions.budgetEvenBand.value;
+  const government = core.modules.has(BUDGETS_MODULE_ID)
+    ? (governments(api).find((row) => row.jurisdictionId === jurisdiction) ??
+      (local
+        ? governments(api).find(
+            (row) => row.level === (level === "county" ? "county" : "city"),
+          )
+        : undefined))
+    : undefined;
+  const budget = government
+    ? [...budgetsOf(api, government.id)]
+        .filter((row) => row.startsOn <= core.date)
+        .sort((a, b) => b.fiscalYear - a.fiscalYear)[P.zero]
+    : undefined;
+  if (budget) {
+    const sum = (rows: Readonly<Record<string, number>>) =>
+      Object.values(rows).reduce((total, minor) => total + minor, P.zero);
+    const spent = sum(budget.spendingMinor);
+    const balance =
+      spent > P.zero ? (sum(budget.revenueMinor) - spent) / spent : P.zero;
+    out[
+      balance > band
+        ? "condition-budget-ahead"
+        : balance < -band
+          ? "condition-budget-short"
+          : "condition-budget-even"
+    ] = fact("yes", budget.id);
+    out["budget-year"] = fact(String(budget.fiscalYear), budget.id);
+  }
+  const yearAgo = addDays(
+    core.date as IsoDate,
+    -Math.round(api.parameter("daysPerMeanYear")),
+  );
+  const enacted =
+    jurisdiction && core.modules.has(LAWS_MODULE_ID)
+      ? (
+          api
+            .moduleState(LAWS_MODULE_ID)
+            .table("laws")
+            .rows() as unknown as LawRowInput[]
+        )
+          .filter(
+            (row) =>
+              row.jurisdiction === jurisdiction &&
+              row.effectiveDate > yearAgo &&
+              row.effectiveDate <= core.date &&
+              row.value === P.one &&
+              !!questionLaw(row.series),
+          )
+          .sort(
+            (a, b) =>
+              b.effectiveDate.localeCompare(a.effectiveDate) ||
+              a.series.localeCompare(b.series),
+          )[P.zero]
+      : undefined;
+  if (enacted)
+    out["condition-law"] = fact(questionLaw(enacted.series)!, enacted.id);
+  const disaster = core.modules.has(DISASTERS_MODULE_ID)
+    ? townDisasters(api)
+        .filter(
+          (row) =>
+            row.declared > yearAgo &&
+            row.declared <= core.date &&
+            (local ? true : row.statewide),
+        )
+        .sort((a, b) => b.declared.localeCompare(a.declared))[P.zero]
+    : undefined;
+  if (disaster && !enacted)
+    out["condition-disaster"] = fact(
+      disaster.type.toLocaleLowerCase("en-US"),
+      `disaster:${disaster.number}`,
+    );
+  return out;
+}
+
 /** A figure said in a context sentence: one decimal, no trailing zero. */
 function figure(value: number): string {
   return String(Number(value.toFixed(N.decimals)));
@@ -1586,8 +1694,20 @@ export function planSpeech(
             ...(prior?.facts?.title
               ? { "prior-office": fact(prior.facts.title, prior.id) }
               : {}),
+            ...(federal
+              ? {}
+              : conditionFacts(core, level, speaker.jurisdiction, local)),
           },
-          moves: [move("occasion"), move("oath")],
+          moves: [
+            move("occasion"),
+            move("oath"),
+            // This year's conditions in the government the speaker leads,
+            // one or two true things from its records with their direction
+            // (`conditionFacts`).
+            ...(federal
+              ? []
+              : [move("budget-condition"), move("year-condition")]),
+          ],
         },
       ];
     },

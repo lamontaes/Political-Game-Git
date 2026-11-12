@@ -47,6 +47,11 @@ import {
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
+import {
+  questionAbout,
+  questionAgain,
+  questionLaw,
+} from "../english/question-names";
 import { SUBJECT_WORDS } from "../english/composed-checks";
 import { P } from "../core2/parameters";
 import { officeWords, saidAs } from "../english/said-as";
@@ -152,7 +157,14 @@ const INAUGURATION_EVENT = "inauguration";
 export const OPENING_ADDRESS_EVENT = "president.address";
 
 /** The world's names and subjects an address says no more often than `namesSaid` while another wording can do without them. */
-const WORLD_NAMES: readonly string[] = ["prior-office", "hardest", "best"];
+const WORLD_NAMES: readonly string[] = [
+  "prior-office",
+  "hardest",
+  "best",
+  // The governor's state or the local head's place (speech-has-one-theme:
+  // "Tennessee" four times in one address).
+  "realm-name",
+];
 
 /** The world's names that are never said more than `namesSaid` times unless a required move needs them: its people and the President's own office. */
 const PERSON_NAMES: readonly string[] = ["prior-office"];
@@ -251,6 +263,26 @@ function composeAddressOf(
  * said. The one writer of every address (the President's, a governor's, a
  * mayor's).
  */
+/** The roles of sentences that only set the scene, left out rather than say a subject word past its budget. */
+const LEFT_OUT_PAST_BUDGET: readonly string[] = [
+  "today",
+  "meaning",
+  "tie",
+  "context",
+  "story-says",
+  "budget-condition",
+  "year-condition",
+  "hope",
+];
+/** A question's own record id in a fact's sources (speech-outline.ts `standFacts`). */
+const QUESTION_ID = "question:";
+/** The slots that say a question as a noun phrase, said by its second name once named. */
+const AGAIN_NOUNS: readonly string[] = ["about", "law-name"];
+/** The slots that say a side of a question with its name inside ("say no to {about}"). */
+const AGAIN_INSIDE: readonly string[] = ["side", "first-side"];
+/** The slots whose saying names the question (its name, its side, how it stands). */
+const NAMING_KEYS = /^(?:about|law-name|to|side|first-side|today)/;
+
 export function composeBlocks(
   core: CoreState,
   president: PersonState,
@@ -334,6 +366,36 @@ export function composeBlocks(
   const ledIn = new Set<string>();
   // Whether the turn to the Vice President, which always names them, is still to come.
   let vpAhead = blocks.some((block) => block.key === "to-vp");
+  // The questions this speech has named (speech-has-one-theme; the words
+  // lead, Nov 12: "The subject is said once, then varied"): once a sentence
+  // has said a question by its name or how it stands, every later sentence
+  // says it by its second-mention name (question-names `again`: "a clean
+  // electricity standard" is "the standard"), in its noun slots and inside
+  // the side said of it ("say no to the standard").
+  const questionsNamed = new Set<string>();
+  const questionOf = (row: Facts[string] | undefined) =>
+    row?.sourceRecordIds
+      .find((id) => id.startsWith(QUESTION_ID))
+      ?.slice(QUESTION_ID.length) ?? null;
+  const againOf = (facts: Facts): Facts =>
+    Object.fromEntries(
+      Object.entries(facts).map(([key, row]) => {
+        const question = questionOf(row);
+        const again = question ? questionAgain(question) : null;
+        if (!row || !question || !again || !questionsNamed.has(question))
+          return [key, row];
+        const names = [questionAbout(question), questionLaw(question)].filter(
+          (name): name is string => !!name,
+        );
+        if (AGAIN_NOUNS.includes(key)) return [key, { ...row, text: again }];
+        if (!AGAIN_INSIDE.includes(key)) return [key, row];
+        const name = names.find((text) => row.text.includes(text));
+        return [
+          key,
+          name ? { ...row, text: row.text.replace(name, again) } : row,
+        ];
+      }),
+    );
   let paragraph: number | null = null;
   for (const block of blocks) {
     // A pronoun points back only within its paragraph: a new paragraph says
@@ -372,7 +434,7 @@ export function composeBlocks(
     // The facts each said move was worded with, the people as the telling had them.
     const toldOf: Facts[] = [];
     for (const planned of moves) {
-      const told = tellOf(block.facts);
+      const told = tellOf(againOf(block.facts));
       // No lead-in ("To Congress,", "Across the country,") is said twice in
       // an address; a move whose lead-ins are all said goes without one.
       const opener = planned.bank.parts.opener;
@@ -516,6 +578,19 @@ export function composeBlocks(
           )
             said = again;
         }
+        // A sentence that only sets the scene (how things stand, a figure,
+        // a condition, a hope) and would still say a subject word past the
+        // budget after its redraws is left out: the point stands on its
+        // belief and its ask (speech-has-one-theme).
+        if (
+          overBy(said) > P.zero &&
+          !move.required &&
+          !block.required &&
+          LEFT_OUT_PAST_BUDGET.some(
+            (role) => move.key === role || move.key.startsWith(`${role}-`),
+          )
+        )
+          return [];
         return timeTwice(said) ? [sayMove(bare, facts)] : [said];
       });
       const result = tries.find((row) => row.kind === "rendered") ?? null;
@@ -556,6 +631,11 @@ export function composeBlocks(
         }
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));
+        // A question said in this sentence is said again by its second name.
+        for (const key of done.parts.flatMap((part) => part.usedFactKeys)) {
+          const question = questionOf(told[key]);
+          if (question && NAMING_KEYS.test(key)) questionsNamed.add(question);
+        }
         const nameWords = new Set(
           Object.entries(told)
             .filter(([key]) => !!personSlot(key))

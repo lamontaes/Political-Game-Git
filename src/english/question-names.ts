@@ -36,6 +36,7 @@ const NAMES = data.names as Readonly<
       };
       readonly family?: string;
       readonly pole?: "a" | "b";
+      readonly again?: string;
       readonly number?: "one" | "many";
       readonly figures?: readonly {
         readonly measure: string;
@@ -128,6 +129,11 @@ export function questionReasons(
 /** The law in force on the question, as the thing itself: "repeal {paid family leave}", "{the higher federal minimum wage}". */
 export function questionLaw(question: string): string | null {
   return NAMES[question]?.law ?? null;
+}
+
+/** What a speech calls the question once it has named it ("a clean electricity standard" is "the standard" after): written by scripts/words/question-again-names.ts. */
+export function questionAgain(question: string): string | null {
+  return NAMES[question]?.again ?? null;
 }
 
 /** The question as a verb phrase: "I want to {raise the minimum wage}". */

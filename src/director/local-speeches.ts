@@ -168,12 +168,7 @@ export function composeCampaignSpeech(
     jurisdiction: office.jurisdiction,
     serviceStart: core.date,
     local: {
-      ...localSpeaker(
-        core,
-        { personId: candidateId, party },
-        office,
-        officeSaid(office),
-      ),
+      ...localSpeaker(core, { party }, office, officeSaid(office)),
       questions: platform,
     },
   });

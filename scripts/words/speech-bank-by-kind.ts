@@ -2426,6 +2426,120 @@ for (const add of LOCAL_PIECES) {
   );
 }
 
+// 30. A governor's or a local head's opening tells one or two of this
+// year's conditions from the records, with their direction and no figure
+// (owner, Nov 12, 1:05 a.m.: "it's okay if context is given ... that just
+// establishes context in a smooth way"; SG-WORDS-local-address-conditions):
+// the budget's balance, then a law that took effect in the past year or a
+// disaster declared for the place.
+const CONDITIONS: [string, string | string[], string, string[]][] = [
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget spends more than it takes in, and closing that gap is part of tonight's work.",
+    ["condition-budget-short", "budget-year"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "The {budget-year} budget spends more than it brings in, and we've got to close that gap.",
+    ["condition-budget-short", "budget-year"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget takes in more than it spends, and I intend to keep it that way.",
+    ["condition-budget-ahead", "budget-year"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "The {budget-year} budget brings in more than it spends, and I want to keep it that way.",
+    ["condition-budget-ahead", "budget-year"],
+  ],
+  [
+    "budget-condition",
+    "polished",
+    "The {budget-year} budget comes out about even, which leaves room to choose and none to waste.",
+    ["condition-budget-even", "budget-year"],
+  ],
+  [
+    "budget-condition",
+    "plain",
+    "The {budget-year} budget comes out about even, so every new dollar has to come from somewhere.",
+    ["condition-budget-even", "budget-year"],
+  ],
+  [
+    "year-condition",
+    "polished",
+    "This past year, {condition-law} took effect, and people here are already living with it.",
+    ["condition-law"],
+  ],
+  [
+    "year-condition",
+    "plain",
+    "This past year, {condition-law} went into effect, and folks are already feeling it.",
+    ["condition-law"],
+  ],
+  [
+    "year-condition",
+    "polished",
+    "We have not forgotten this past year's {condition-disaster}, or the families it hit hardest.",
+    ["condition-disaster"],
+  ],
+  [
+    "year-condition",
+    "plain",
+    "Nobody here has forgotten this past year's {condition-disaster}, or the families it hit.",
+    ["condition-disaster"],
+  ],
+];
+bank.slots["budget-year"] ??=
+  "the fiscal year of the budget the speaker's government lives under (the budgets engine's row)";
+bank.slots["condition-law"] ??=
+  "a law of the speaker's jurisdiction that took effect in the past year, by its spoken name (the laws engine's row)";
+bank.slots["condition-disaster"] ??=
+  "a disaster declared for the place in the past year, by its kind (the disasters engine's declaration)";
+const conditionTexts = new Set(CONDITIONS.map((row) => row[2]));
+bank.parts = bank.parts.filter((part) => {
+  if (
+    part.author !== LOCAL_AUTHOR ||
+    !(hasRole(part, "budget-condition") || hasRole(part, "year-condition")) ||
+    conditionTexts.has(part.text)
+  )
+    return true;
+  count("30. a condition of this rule's gives way to its rewording");
+  return false;
+});
+const conditionKeys = new Set(bank.parts.map((part) => part.key));
+for (const [role, voice, text, needs] of CONDITIONS) {
+  const voiceKey = Array.isArray(voice) ? "both" : voice;
+  const key = `opening-speech.${role}.${voiceKey}-${slug(text)}-${slug(needs.join(" "))}`;
+  if (conditionKeys.has(key)) continue;
+  bank.parts.push({
+    key,
+    move: role,
+    kind: "spoken",
+    text,
+    uses: ["state-of-the-state", "town-address"].map((subject) => ({
+      move: role,
+      subject,
+      role,
+      choice: role,
+      requiresFacts: needs,
+    })),
+    voice,
+    bearing: "calm",
+    origin: "authored",
+    author: LOCAL_AUTHOR,
+    date: "2026-11-12",
+  });
+  conditionKeys.add(key);
+  count(
+    "30. a condition of the year is said in a governor's or a local head's opening",
+  );
+}
+
 writeFileSync(FILE, `${JSON.stringify(bank, null, 2)}\n`);
 for (const [rule, n] of Object.entries(counts).sort())
   console.log(`${String(n).padStart(4)}  ${rule}`);
