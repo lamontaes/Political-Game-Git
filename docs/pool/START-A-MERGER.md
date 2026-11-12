@@ -88,6 +88,7 @@ When more than about five pull requests are ready in one area (screens, engines,
 
 ## Merging
 
+- **A timeout is not a pass (CTO, Nov 12, after #8524):** A golden-path timeout or an unreached accepted row is not a pass, even when the diff touches only tests or docs. Re-run it (alone if the machine is loaded) and merge only after every row passes on the merged result.
 - **One plain command, pinned:** `gh pr merge <N> --squash --admin --match-head-commit <full sha>`. Never a merge without the pin, never auto-merge. `--admin` only after the full gate (owner, Nov 11; see the top of this page).
 - **Where `gh` cannot merge** (a Claude cloud session, for one), use the tool's own GitHub merge function with the same pin. In Claude Code that is `merge_pull_request` on the GitHub server, loaded with ToolSearch first, with `merge_method: "squash"` and `expectedHeadSha: "<full sha>"`.
 - **If the pin does not match,** the merge is refused because the head moved. That is not `blocked`: read the new head and gate it again from step 1.
