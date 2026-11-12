@@ -122,10 +122,18 @@ describe("home talks", () => {
       [...(NEW.get(move) ?? [])]
         .filter((text) => text.includes(`{${slot}}`))
         .some((text) => lines.some((line) => pattern(text).test(line)));
-    // News is raised by its headline, and a quiet day opens on a record of
-    // the day: a work day, by the job's own hours. (Lines naming the weekday
-    // went with the owner's sitting bans of Oct 28.)
-    expect(plays("news-raise-heard", "headline"), where).toBe(true);
+    // News is never read out as a headline (owner, Nov 12: "sworn in, gives
+    // inaugural address. What do you make of that?"): a story is told by what
+    // it is about and where the teller stands, or not at all. A quiet day
+    // opens on a record of the day: a work day, by the job's own hours.
+    // (Lines naming the weekday went with the owner's sitting bans of Oct 28.)
+    expect(
+      lines.filter((line) =>
+        /What do you make of that\?$|story\? What did you think\?$/.test(line),
+      ),
+      where,
+    ).toEqual([]);
+    void plays;
     const workDay = (
       bank as {
         parts: {

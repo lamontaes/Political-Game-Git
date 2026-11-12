@@ -180,5 +180,9 @@ it(`every reply in everyday talk fits the line it answers, over ${DAYS} days in 
     `TALK REPLIES ${seed}: ${seen.talks} talks, ${seen.questions} questions answered, ${seen.takes} answers taken in, ${seen.asked} of the player's questions answered\n`,
   );
   expect(seen.questions).toBeGreaterThan(0);
-  expect(seen.takes).toBeGreaterThan(0);
+  // A bare taking-in ("Okay.", "I see.") is never said (owner, Nov 12: "a
+  // useless interaction"), so a month may hold none: each one said is checked
+  // above against the line it answers. Butte, Alaska and Waltham,
+  // Massachusetts (seed dfc519721ed4417771c5428ff3348a7a9cadb8ba): 148 talks,
+  // 0 taken in.
 }, 3_600_000);
