@@ -150,9 +150,16 @@ it(`the relative raises a point of this world's address, with a stand and a reas
       ).toBeLessThanOrEqual(BANK.lineWords[POINT]!);
       // Up to four replies, each a different move about the point.
       expectUpToFourDifferent(talk.choices, here);
-      expect(new Set(talk.choices.map((row) => row.move)), here).toEqual(
-        new Set(MOVES),
-      );
+      // Agree and disagree always; a question is offered only when the
+      // relative holds a record to answer it with (owner, Nov 12: "how the
+      // hell would she know?"): what it means here needs the state's law or
+      // the town's figure, what they would do instead a reason of their own.
+      const moves = new Set(talk.choices.map((row) => row.move));
+      expect(
+        [...moves].every((move) => MOVES.includes(move)),
+        here,
+      ).toBe(true);
+      expect(moves.has("agree") && moves.has("disagree"), here).toBe(true);
       // The relative's line names the point once in full (the lead's review,
       // Nov 11: one screen said it six times).
       expect(
