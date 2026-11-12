@@ -155,11 +155,10 @@ function schoolRecords(
 
 /**
  * Everyone the school years before the start are run for: the full people
- * alive at the opening. Relatives living elsewhere are run when the game
- * first simulates them (SG-P15-kin-light-past).
+ * alive at the opening. A relative living elsewhere is run when their card is
+ * first opened (`openWholePast`, src/core2/modules/people.ts).
  */
 function schoolPeople(core: Readonly<CoreState>) {
-  stopgap("SG-P15-kin-light-past");
   return [...core.people.values()].filter(
     (person) => person.alive && person.tier !== KIN_TIER,
   );

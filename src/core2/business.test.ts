@@ -10,6 +10,12 @@ import { collapseToTwoLevels } from "./residents";
 import { depositsHeld } from "./accounts";
 import { countedFundOf, residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
+import { randomBytes } from "node:crypto";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreInput, CoreState, Source } from "./types";
 
 const start = "2021-01-01",
@@ -812,4 +818,68 @@ describe("shared chooser for counted owners", () => {
       "Decision actor is absent",
     );
   });
+});
+
+interface MonthlyFounding {
+  readonly id: string;
+  readonly founderId: string;
+  readonly kindId: string;
+  readonly placeId: string;
+  readonly date: string;
+}
+
+/** A year of a played world and the foundings its business engine wrote. */
+function foundingsOfYear(seed: string, placeKey: string) {
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey,
+  });
+  advanceCore(core, addDays(makeIsoDate(core.date), 365));
+  return coreAPI(core).moduleState("business").snapshot().tables
+    .foundings as unknown as MonthlyFounding[];
+}
+
+describe("every market is weighed each month, so a founding in one does not stop another", () => {
+  it("in Cochituate, Massachusetts (2514570, seed 93a558a5...) a month holds foundings in two different markets, by founding record id", () => {
+    const seed =
+      "93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc";
+    const foundings = foundingsOfYear(seed, "2514570");
+    const byMonth = new Map<string, MonthlyFounding[]>();
+    for (const row of foundings)
+      byMonth.set(row.date.slice(0, 7), [
+        ...(byMonth.get(row.date.slice(0, 7)) ?? []),
+        row,
+      ]);
+    const two = [...byMonth].find(
+      ([, rows]) => new Set(rows.map((row) => row.kindId)).size >= 2,
+    );
+    expect(
+      two,
+      `Cochituate, Massachusetts (2514570), seed ${seed}: no month with foundings in two markets among ${foundings.map((row) => `${row.kindId}@${row.date}`).join(", ")}`,
+    ).toBeDefined();
+    process.stdout.write(
+      `foundings: Cochituate, Massachusetts, seed ${seed}: ${two![0]} holds ${two![1].map((row) => `${row.kindId} ${row.id}`).join(" and ")}\n`,
+    );
+  }, 900_000);
+
+  it("in a drawn place, nobody founds twice in a month", () => {
+    const seed =
+      process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+    const place = drawPlace(seed, "business-foundings");
+    const where = `${place.name} (${place.key}), run seed ${seed}, world seed ${place.seed}`;
+    const foundings = foundingsOfYear(place.seed, place.key);
+    const seen = new Map<string, string>();
+    for (const row of foundings) {
+      const key = `${row.founderId}:${row.date.slice(0, 7)}`;
+      expect(
+        seen.get(key),
+        `${where}: ${row.founderId} founded ${seen.get(key)} and ${row.id} in ${row.date.slice(0, 7)}`,
+      ).toBeUndefined();
+      seen.set(key, row.id);
+    }
+    process.stdout.write(
+      `foundings: ${where}: ${foundings.length} foundings, none twice by one founder in a month\n`,
+    );
+  }, 900_000);
 });
