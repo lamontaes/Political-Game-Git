@@ -79,6 +79,9 @@ import type { LawRowInput } from "./laws";
 import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import agendaData from "../data/legislature/outside-agenda.json" with { type: "json" };
+import { seededUnit } from "../seeded";
+import { countryStateNow, countryStates } from "./macro";
 import type { OfficeLevel } from "./offices";
 import { partySide } from "./offices";
 import { decisionLean, termOfLean } from "./people";
@@ -201,6 +204,8 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
       nextMeetings: {},
       /** Roll calls built on demand for another government's law, kept once seen. */
       rollCalls: {},
+      /** Each other state's pull toward each question, and its figures and members at its last session. */
+      agendas: {},
     },
   },
   onCalendarWork: (api, work) => onWork(api, work),
@@ -1399,7 +1404,11 @@ function openOutsideSession(
     readonly decision: "signed" | "overridden";
   }
   const results: Result[] = [];
+  // What the session takes up: the questions what moved in the state since its
+  // last session carried onto the agenda (sessionAgenda), never every one.
+  const agenda = sessionAgenda(api, jurisdiction, keys.flat());
   for (const question of PLATFORM_QUESTIONS) {
+    if (!agenda.has(question)) continue;
     let best: Result | null = null;
     for (const direction of [1, -1]) {
       if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
@@ -1470,6 +1479,8 @@ function openOutsideSession(
         r.decision,
         String(i + 1),
         String(r.margin),
+        // What carried the question onto the agenda, kept on the law row.
+        JSON.stringify(agenda.get(r.question) ?? null),
         // The governor's key is the last record, left out when no one holds the office.
         ...(governorKey ? [governorKey] : []),
       ],
@@ -1498,6 +1509,129 @@ function openOutsideSession(
   });
 }
 
+const AGENDA = agendaData as unknown as {
+  figures: Readonly<Record<string, { fullChange: number }>>;
+  weights: {
+    byArea: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  };
+  newMembers: { weight: number };
+  openingYear: { value: number };
+};
+
+/** One state's agenda: its pull toward each question, and what it stood at when its last session opened. */
+interface AgendaRow {
+  readonly id: string;
+  readonly pulls: Readonly<Record<string, number>>;
+  /** The state's figures at its last session (null before its first). */
+  readonly figures: Readonly<Record<string, number>> | null;
+  /** Its members at its last session. */
+  readonly members: readonly string[];
+}
+
+/** What moved a question onto a session's agenda: each figure's move and the new members' share. */
+interface AgendaCause {
+  readonly moved: Readonly<Record<string, number>>;
+  readonly newMembers: number;
+  readonly agendaId: string;
+  /** The state's first session in the world: the year before the opening carried it. */
+  readonly opening: boolean;
+}
+
+/** A state's figures today from the country tier: people out of work, prices, pay, and revenue against budget. */
+function stateFigures(
+  api: CoreAPI,
+  jurisdiction: string,
+): Record<string, number> | null {
+  if (!api.state.modules.has("macro")) return null;
+  const state = countryStates(api).find((row) => row.key === jurisdiction);
+  const now = state ? countryStateNow(api, state.fips) : undefined;
+  if (!state || !now) return null;
+  const months = state.ledger.revenueMonths;
+  const revenueYear = months.length
+    ? (months.reduce((a, b) => a + b, 0) / months.length) *
+      api.parameter("monthsPerYear")
+    : state.ledger.budgetYear;
+  return {
+    unemploymentPct: now.now.unemploymentPct,
+    prices: now.now.prices,
+    hourlyPay: now.now.hourlyPay,
+    budgetGap:
+      state.ledger.budgetYear > 0 ? revenueYear / state.ledger.budgetYear : 1,
+  };
+}
+
+/**
+ * What a state's session takes up: each question whose pull reaches one
+ * whole once this session's moves are added (outside-agenda.json). The pull
+ * grows by how far the state's own figures moved since its last session,
+ * weighed by the question's area, and by the share of its members who are
+ * new; the opening's place along each pull is the world's seeded line. The
+ * row is written back with the taken-up questions' pulls less one.
+ */
+function sessionAgenda(
+  api: CoreAPI,
+  jurisdiction: string,
+  members: readonly string[],
+): Map<string, AgendaCause> {
+  const table = api.moduleState(WORLD_LEGISLATING_MODULE_ID).table("agendas");
+  const id = `agenda:${jurisdiction}`;
+  const kept = table.get(id) as unknown as AgendaRow | undefined;
+  const figures = stateFigures(api, jurisdiction);
+  // How far each figure moved since the last session, against its full change.
+  const moved: Record<string, number> = {};
+  if (kept?.figures && figures)
+    for (const [key, row] of Object.entries(AGENDA.figures)) {
+      const then = kept.figures[key];
+      const now = figures[key];
+      if (then === undefined || now === undefined) continue;
+      const change =
+        key === "unemploymentPct"
+          ? now - then
+          : then !== 0
+            ? now / then - 1
+            : 0;
+      moved[key] = Math.abs(change) / row.fullChange;
+    }
+  const before = new Set(kept?.members ?? members);
+  const newMembers = members.length
+    ? members.filter((key) => !before.has(key)).length / members.length
+    : 0;
+  const pulls: Record<string, number> = {};
+  const taken = new Map<string, AgendaCause>();
+  for (const question of PLATFORM_QUESTIONS) {
+    const area = question.slice(question.indexOf(":") + 1).split(".")[0] ?? "";
+    const weights = AGENDA.weights.byArea[area] ?? {};
+    // Before its first session a pull stands at the world's seeded place along
+    // one whole and the year before the opening (openingYear).
+    let pull =
+      kept?.pulls[question] ??
+      seededUnit(api.state.seed, `outside-agenda:${jurisdiction}:${question}`) *
+        (1 + AGENDA.openingYear.value);
+    for (const [key, size] of Object.entries(moved))
+      pull += size * (weights[key] ?? 0);
+    pull += newMembers * AGENDA.newMembers.weight;
+    if (pull >= 1) {
+      taken.set(question, {
+        moved: Object.fromEntries(
+          Object.entries(moved).filter(([key]) => (weights[key] ?? 0) > 0),
+        ),
+        newMembers,
+        agendaId: id,
+        opening: !kept,
+      });
+      pull -= 1;
+    }
+    pulls[question] = pull;
+  }
+  table.put({
+    id,
+    pulls,
+    figures,
+    members: [...members],
+  } as unknown as ModuleRow);
+  return taken;
+}
+
 /** The day an outside result passes: the law row, with its counts, and nothing else. */
 function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const [
@@ -1510,6 +1644,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     decision,
     nth,
     margin,
+    agendaCause,
     governorKey,
   ] = work.sourceRecordIds as [
     string,
@@ -1521,8 +1656,10 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
     string,
+    string,
     string | undefined,
   ];
+  const cause = JSON.parse(agendaCause ?? "null") as AgendaCause | null;
   const direction = Number(directionText);
   // The law may have changed since the session opened: then nothing passes.
   if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
@@ -1550,6 +1687,20 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       margin: Number(margin),
       ...(governorKey ? { decidedBy: governorKey } : {}),
       decision,
+      // Why this session took it up: the state's figures that moved since its
+      // last session (each against its full change) and its new members' share.
+      ...(cause
+        ? {
+            agenda: cause.agendaId,
+            moved: Object.entries(cause.moved)
+              .map(([key, size]) => `${key}:${size.toFixed(3)}`)
+              .join(","),
+            newMembers: Number(cause.newMembers.toFixed(3)),
+            ...(cause.opening
+              ? { carried: "the year before the opening" }
+              : {}),
+          }
+        : {}),
     },
   });
 }

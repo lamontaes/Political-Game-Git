@@ -64,6 +64,11 @@
       "breaks": 0,
       "per100": 0
     },
+    "reason-holds-for-the-side": {
+      "read": 10,
+      "breaks": 0,
+      "per100": 0
+    },
     "note-stands-alone": {
       "read": 12,
       "breaks": 1,

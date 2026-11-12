@@ -256,6 +256,9 @@ export function recordLocalAddress(
       ).text,
       [ADDRESS_FACT.text]: story.text,
       [ADDRESS_FACT.parts]: story.parts.join(ADDRESS_PART_BREAK),
+      // The first stand the address took, in its own words, with the
+      // speaker's side: what a hearer at home brings up.
+      ...pointFacts(story),
     },
   });
   // The other side answers a governor the same day.
@@ -264,6 +267,17 @@ export function recordLocalAddress(
     if (spoken?.official) recordAddressResponse(core, story, spoken.official);
   }
   return story;
+}
+
+/** The first stand an address took, as event facts. */
+function pointFacts(story: LocalStory): Record<string, string> {
+  const stand = story.sentences.find((row) => row.stand)?.stand;
+  return stand
+    ? {
+        [ADDRESS_FACT.pointAbout]: stand.about,
+        [ADDRESS_FACT.pointStance]: stand.stance,
+      }
+    : {};
 }
 
 /** Record today's governor's and mayor's addresses, for the levels whose day it is. */

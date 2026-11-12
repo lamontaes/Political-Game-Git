@@ -15,6 +15,9 @@
  * Every number and word list is in data/english/composed-checks.json.
  */
 import data from "../../data/english/composed-checks.json" with { type: "json" };
+
+/** The composed checks' word lists, for readers outside the English engine. */
+export const COMPOSED_CHECKS_DATA = data;
 import {
   linesOf,
   plainSentence,
@@ -985,6 +988,44 @@ export const noSentenceTwiceInALine: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- reason-fits-the-side ----
+
+const OWN_PAY = new RegExp(data.ownPay, "i");
+const AGAINST = data.againstFrames.map((frame) => new RegExp(frame, "i"));
+const PAY_QUESTIONS = Object.entries(
+  data.payQuestions as Readonly<Record<string, number>>,
+);
+
+/**
+ * A stand on a minimum-wage question whose reason is the speaker's own pay
+ * when that pay does not argue for the side taken (lead, Nov 12: "At about
+ * $15 an hour, it's my own paycheck on the line" from someone against the
+ * raise that would pay her more; "Because I make about $40 an hour" from
+ * someone it would not touch). Own pay is a reason only for a raise, and only
+ * at or under the proposal times payNear.
+ */
+export const reasonFitsTheSide: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  const said = screenTexts(text).join(" ");
+  const plain = plainQuotes(said);
+  const question = PAY_QUESTIONS.find(([about]) => plain.includes(about));
+  const pay = OWN_PAY.exec(plain);
+  if (!question || !pay) return found;
+  const against = AGAINST.some((frame) => frame.test(plain));
+  const dollars = Number(pay[one]!.replace(/,/g, ""));
+  if (!against && dollars <= question[one] * data.payNear) return found;
+  found.push(
+    breakOf(
+      "reason-fits-the-side",
+      text,
+      zero,
+      `own pay of ${pay[zero]} given as the reason ${against ? "against" : "for"} ${question[zero]}`,
+      said,
+    ),
+  );
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -1008,6 +1049,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "offered-replies-differ": offeredRepliesDiffer,
   "no-sentence-twice-in-a-line": noSentenceTwiceInALine,
   "measure-number-not-spoken": measureNumberNotSpoken,
+  "reason-fits-the-side": reasonFitsTheSide,
 };
 
 /** A composed rule's checks, as a list. */
@@ -1079,9 +1121,16 @@ export function baselineFailures(
       failures.push(
         `COVERAGE: ${rule} read no texts; the baseline read ${was.read}. A rule that reads nothing has checked nothing.`,
       );
-    else if (now !== undefined && now.per100 > was.per100)
+    // A rate rises only with its count where fewer texts were read (lead,
+    // Nov 12): fewer texts can neither fake a rise (the same breaks over a
+    // smaller count) nor hide one (more breaks in fewer texts is a rise).
+    else if (
+      now !== undefined &&
+      now.per100 > was.per100 &&
+      (now.read >= was.read || now.breaks > was.breaks)
+    )
       failures.push(
-        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts`,
+        `ROSE: ${rule} ${was.per100} -> ${now.per100} breaks per 100 texts (${was.breaks} -> ${now.breaks} breaks in ${was.read} -> ${now.read} texts)`,
       );
   }
   return failures;
