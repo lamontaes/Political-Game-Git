@@ -86,7 +86,7 @@ import {
   stanceReader,
   type StanceReader,
 } from "../campaign-stances";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow, termById } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
 import { publicOffset, questionAxis } from "../campaign-views";
@@ -1266,10 +1266,8 @@ function platformOf(api: CoreAPI, who: FilingRow | Speaker): readonly Stance[] {
 function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
   if (!contest.incumbentTermId || !api.state.modules.has(OFFICES_MODULE_ID))
     return false;
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  const term = termById(api, contest.incumbentTermId) as unknown as
+    TermRow | undefined;
   return term?.personId === personId;
 }
 

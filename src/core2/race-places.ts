@@ -15,7 +15,7 @@ import {
 import { partySide } from "./appointments";
 import { townDistrict, type SeatInput } from "./offices-state";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, type TermRow, termById } from "./modules/offices";
 import type { CoreAPI } from "./types";
 
 function raceTown(api: CoreAPI) {
@@ -87,10 +87,8 @@ export function basePlaces(
       .query("byOffice", [contest.officeId]) as unknown as SeatInput[];
     const districts = new Set(seats.map((s) => s.district)).size;
     const holder = contest.incumbentTermId
-      ? (api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      ? (termById(api, contest.incumbentTermId) as unknown as
+          TermRow | undefined)
       : undefined;
     const county = countyPlaceIdOf(
       api.state.placeMetadata.countyNames as string | undefined,

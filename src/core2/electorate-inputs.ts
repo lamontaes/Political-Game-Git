@@ -18,7 +18,7 @@ import {
   felonyDisenfranchisedShare,
 } from "./law-reach/group-a-voting";
 import { CAMPAIGNS_MODULE_ID } from "./modules/campaigns";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, type TermRow, careerOf } from "./modules/offices";
 import { crimeChange } from "./modules/crime";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
 import { recordAppeal } from "./modules/record";
@@ -351,14 +351,7 @@ function townConditions(api: CoreAPI, placeId: string) {
 /** Whether a person has held elected office before. */
 function heldOffice(api: CoreAPI, personId: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
-  return (
-    (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as TermRow[]
-    ).length > 0
-  );
+  return careerOf(api, personId).length > 0;
 }
 
 /**

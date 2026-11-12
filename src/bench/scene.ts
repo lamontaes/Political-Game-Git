@@ -1,4 +1,4 @@
-import { servingTermsOf } from "../core2/modules/offices";
+import { servingTermsOf, termById } from "../core2/modules/offices";
 import { hash as fnv } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
@@ -670,7 +670,7 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       ...(look ? { look } : {}),
     };
   }
-  const term = coreAPI(core).moduleState(OFFICES).table("terms").get(id) as
+  const term = termById(coreAPI(core), id) as
     | {
         identity?: { birthDate: string; gender: string };
       }

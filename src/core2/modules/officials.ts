@@ -66,6 +66,7 @@ import {
   OFFICES_MODULE_ID,
   type TermRow,
   vacateUnheldSeat,
+  termById,
 } from "./offices";
 import { filingRequirements } from "./elections";
 import { VIEWS_DATA, stanceOn } from "./views";
@@ -185,12 +186,11 @@ export const OFFICIALS_MODULE: CoreModule = {
  * kept on, or seated again on a new term, keeps their row.
  */
 function leaveEndedTerms(api: CoreAPI, seatId: string): void {
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   for (const row of table(api, "officials").query("bySeat", [
     seatId,
   ]) as unknown as OfficialRow[]) {
     if (row.ended !== null || row.termId === null) continue;
-    const term = terms.get(row.termId) as unknown as TermRow | undefined;
+    const term = termById(api, row.termId);
     if (term?.status === "serving") continue;
     table(api, "officials").put({
       ...row,

@@ -27,7 +27,13 @@ import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, PersonState } from "./types";
 import type { OfficeInput } from "./offices-local";
 import type { ContestRow } from "./modules/elections";
-import { isOutsideOffice, type TermRow } from "./modules/offices";
+import {
+  isOutsideOffice,
+  type TermRow,
+  termById,
+  careerOf,
+  seatHistoryOf,
+} from "./modules/offices";
 import { holderOf, type OfficialRow } from "./modules/officials";
 import type { PartyRow, TieRow } from "./modules/parties";
 import { placeStateKey } from "./place-map";
@@ -147,9 +153,7 @@ export function partyOf(api: CoreAPI, personId: PersonId): string | null {
       .get(personId) as unknown as OfficialRow | undefined;
     if (row?.party) return row.party;
   }
-  const terms = offices(api)
-    .table("terms")
-    .query("byPerson", [personId]) as unknown as TermRow[];
+  const terms = careerOf(api, personId);
   const latest = terms
     .filter((term) => term.party)
     .sort((a, b) => b.startDate.localeCompare(a.startDate))[0];
@@ -161,21 +165,15 @@ export function seatParty(
   api: CoreAPI,
   contest: Pick<ContestRow, "seatId" | "incumbentTermId">,
 ): string | null {
-  const terms = offices(api).table("terms");
   const incumbent = contest.incumbentTermId
-    ? (terms.get(contest.incumbentTermId) as unknown as TermRow | undefined)
+    ? termById(api, contest.incumbentTermId)
     : undefined;
   if (incumbent?.party) return incumbent.party;
   const seat = offices(api).table("seats").get(contest.seatId) as unknown as
     { party?: string | null } | undefined;
   if (seat?.party) return seat.party;
-  const last = (
-    terms.query("bySeatStatus", [
-      contest.seatId,
-      "ended",
-    ]) as unknown as TermRow[]
-  )
-    .slice()
+  const last = seatHistoryOf(api, contest.seatId)
+    .filter((term) => term.status === "ended")
     .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
   return last?.party ?? null;
 }
@@ -388,9 +386,7 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
       ? true
       : row.stateKey === scope.stateKey && !nationalExec;
     if (!inScope) continue;
-    const term = row.termId
-      ? (terms.get(row.termId) as unknown as TermRow | undefined)
-      : undefined;
+    const term = row.termId ? termById(api, row.termId) : undefined;
     if (term && !elected(term.officeId)) continue;
     seen.add(row.id);
     add(
@@ -449,11 +445,9 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
         ContestRow | undefined;
       if (!past || past.electionDate >= api.state.date) continue;
       for (const personId of weighed.runIds) {
-        const won = (
-          offices(api)
-            .table("terms")
-            .query("byPerson", [personId]) as unknown as TermRow[]
-        ).some((term) => term.reached.includes(past.electionDate));
+        const won = careerOf(api, personId).some((term) =>
+          term.reached.includes(past.electionDate),
+        );
         if (!won)
           add(
             personId,

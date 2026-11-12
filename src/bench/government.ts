@@ -14,6 +14,7 @@ import {
   pastElections,
   seatsOfOffices,
   townSeats,
+  termById,
 } from "../core2/modules/offices";
 import { choosesPresident } from "../core2/electorate-places";
 import { federalOffices } from "../core2/offices-state";
@@ -295,10 +296,8 @@ export function governmentView(core: CoreState, personId: string) {
       // average share for the office, not a count, so it is not shown.
       elections: pastElections(api, seat.id).filter(
         (e) =>
-          (
-            api.moduleState(OFFICES_MODULE_ID).table("terms").get(e.termId) as
-              { reached?: string } | undefined
-          )?.reached !== "in office at the opening",
+          (termById(api, e.termId) as { reached?: string } | undefined)
+            ?.reached !== "in office at the opening",
       ),
       // Who won the seat's last race and has not taken office yet.
       elect: electOf(api, seat.id),

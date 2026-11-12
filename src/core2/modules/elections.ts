@@ -54,7 +54,13 @@ import {
 } from "../elections-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+  termById,
+  careerOf,
+} from "./offices";
 import { stableHash } from "../kernel/ids";
 import { placeStateKey } from "../place-map";
 
@@ -1158,12 +1164,9 @@ export function checkEligibility(
   if (party && party !== "party" && api.state.modules.has(PARTIES_MODULE_ID)) {
     const tie = partyTie(api, personId);
     // An officeholder elected or appointed under the label is its member.
-    const held = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("byPerson", [personId]) as unknown as TermRow[]
-    ).some((t) => partyName(t.party) === partyName(party));
+    const held = careerOf(api, personId).some(
+      (t) => partyName(t.party) === partyName(party),
+    );
     const member =
       held || (tie?.tie === "party" && partyIdFor(api, party) === tie.partyId);
     checks.push({
@@ -1575,10 +1578,7 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
   const found = table(api, "contests").get(contestId) as unknown as ContestRow;
   const contest = syncIncumbent(api, found);
   return contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow)
+    ? (termById(api, contest.incumbentTermId) as unknown as TermRow)
     : null;
 }
 

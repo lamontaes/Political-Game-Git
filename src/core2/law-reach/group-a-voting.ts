@@ -48,6 +48,7 @@ import {
   executiveTermLimit,
   termLimitReachedBy,
   type TermRow,
+  careerOf,
 } from "../modules/offices";
 import { ELECTIONS_MODULE_ID } from "../modules/elections";
 import {
@@ -542,11 +543,7 @@ export function barredFromVoting(api: CoreAPI, personId: string): boolean {
 }
 
 function termsOf(api: CoreAPI, personId: string): readonly TermRow[] {
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-  return api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .query("byPerson", [personId]) as unknown as TermRow[];
+  return careerOf(api, personId);
 }
 
 const yearsBetween = (from: string, to: string) =>

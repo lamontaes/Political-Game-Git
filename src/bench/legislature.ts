@@ -27,7 +27,7 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
-import { townSeats, type TermRow } from "../core2/modules/offices";
+import { townSeats, type TermRow, termById } from "../core2/modules/offices";
 import { appointmentsIn } from "../core2/modules/executive";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
@@ -45,8 +45,7 @@ function terms(core: CoreState) {
 export function personName(core: CoreState, key: string): string {
   const person = core.people.get(key);
   if (person) return `${person.givenName} ${person.familyName}`;
-  const term = terms(core).get(key.replace(/^official:/, "")) as
-    TermRow | undefined;
+  const term = termById(coreAPI(core), key.replace(/^official:/, ""));
   return term ? `${term.identity.givenName} ${term.identity.familyName}` : key;
 }
 
@@ -124,7 +123,7 @@ export function bodiesOf(core: CoreState, personId: string) {
 function incompatibilitiesOf(core: CoreState, personId: string) {
   const offices = coreAPI(core).moduleState(OFFICES);
   const officeTitle = (termId: string) => {
-    const term = terms(core).get(termId) as TermRow | undefined;
+    const term = termById(coreAPI(core), termId);
     const office = term
       ? (offices.table("offices").get(term.officeId) as
           { title: string } | undefined)

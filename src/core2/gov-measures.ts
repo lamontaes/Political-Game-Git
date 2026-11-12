@@ -37,7 +37,7 @@ import {
   type ContestRow,
 } from "./modules/elections";
 import { VOTING_MODULE_ID, resultOf, type ResultRow } from "./modules/voting";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, termById } from "./modules/offices";
 import {
   BUDGETS_MODULE_ID,
   baseBudget,
@@ -66,7 +66,6 @@ function decided(api: CoreAPI): {
     !api.state.modules.has(VOTING_MODULE_ID)
   )
     return [];
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   return (
     api
       .moduleState(ELECTIONS_MODULE_ID)
@@ -77,7 +76,7 @@ function decided(api: CoreAPI): {
     .map((contest) => {
       const result = resultOf(api, contest.id);
       const term = contest.incumbentTermId
-        ? (terms.get(contest.incumbentTermId) as unknown as TermRow | undefined)
+        ? termById(api, contest.incumbentTermId)
         : undefined;
       const incumbentId = term
         ? (term.personId ?? `official:${term.id}`)

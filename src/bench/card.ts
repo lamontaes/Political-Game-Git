@@ -1,4 +1,9 @@
-import { servingTermsOf } from "../core2/modules/offices";
+import {
+  servingTermsOf,
+  termById,
+  careerOf,
+  seatHistoryOf,
+} from "../core2/modules/offices";
 import { officeInSentence, personWorkOf } from "../core2/person-work";
 import {
   ageInYears,
@@ -331,13 +336,12 @@ function historyLines(
       });
   // An official's earlier terms of the same seat, each on its own term record.
   if (other.id.startsWith("official:")) {
-    const rows = coreAPI(core)
-      .moduleState(OFFICES)
-      .table("terms")
-      .rows() as unknown as TermLike[];
-    const own = rows.find(
-      (row) => row.id === other.id.slice("official:".length),
-    );
+    const api = coreAPI(core);
+    const term = termById(api, other.id.slice("official:".length));
+    const own = term as TermLike | undefined;
+    const rows = term
+      ? (seatHistoryOf(api, term.seatId) as unknown as TermLike[])
+      : [];
     if (own)
       lines.push(
         ...officialLines(core, rows, own).filter(
@@ -1303,10 +1307,11 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
   const api = coreAPI(core);
   const terms = api.moduleState(OFFICES).table("terms");
   const termId = id.startsWith("official:") ? id.slice("official:".length) : id;
-  const term = (terms.get(termId) ??
+  const term = (termById(api, termId) ??
     (terms.rows() as unknown as TermLike[]).find(
       (row) => row.personId === id,
-    )) as TermLike | undefined;
+    ) ??
+    careerOf(api, id)[0]) as TermLike | undefined;
   if (!term?.identity) return null;
   const office = api
     .moduleState(OFFICES)

@@ -64,7 +64,7 @@ import {
   type OfficeFamily,
   atLargeGroup,
 } from "./elections";
-import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow, termById } from "./offices";
 import {
   PARTIES_MODULE_ID,
   partiesHere,
@@ -902,7 +902,7 @@ export function weighContest(
       ]) as unknown as TermRow[]
     )[0] ??
     (contest.incumbentTermId
-      ? (termTable.get(contest.incumbentTermId) as unknown as
+      ? (termById(api, contest.incumbentTermId) as unknown as
           TermRow | undefined)
       : undefined);
   const incumbentId =
@@ -941,7 +941,6 @@ export function weighContest(
   // Someone already running on this election day runs for one seat only,
   // and someone whose own seat is up that day defends it.
   const committed = committedOn(api, contest.electionDate, contest.id);
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
   for (const other of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
@@ -949,7 +948,7 @@ export function weighContest(
     if (other.id === contest.id || other.electionDate !== contest.electionDate)
       continue;
     const term = other.incumbentTermId
-      ? (terms.get(other.incumbentTermId) as unknown as TermRow | undefined)
+      ? termById(api, other.incumbentTermId)
       : undefined;
     if (term?.status === "serving" && term.personId)
       committed.add(term.personId);

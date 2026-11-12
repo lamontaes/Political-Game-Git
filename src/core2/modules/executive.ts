@@ -42,7 +42,12 @@ import { admitCountedHousehold } from "./residents";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain, lawInForce } from "./laws";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+  termById,
+} from "./offices";
 import {
   appointerWeighing,
   nominateAndConfirm,
@@ -1664,11 +1669,10 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const state = lawChain(api).stateKey;
   const cabinet = appointmentsIn(api, state);
   const before = cabinet[0]
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(cabinet[0].appointedBy.slice("official:".length)) as unknown as
-        TermRow | undefined)
+    ? (termById(
+        api,
+        cabinet[0].appointedBy.slice("official:".length),
+      ) as unknown as TermRow | undefined)
     : undefined;
   const worldSeed = (
     table(api, "review").get("seed") as unknown as

@@ -33,6 +33,8 @@ import {
   stateOffices,
   type TermRow,
   type VacancyRow,
+  termById,
+  seatHistoryOf,
 } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
@@ -326,9 +328,7 @@ class Reader {
       : undefined;
   }
   term(id: string) {
-    return this.table(OFFICES_MODULE_ID, "terms")?.get(
-      id.replace(/^official:/, ""),
-    ) as unknown as
+    return termById(this.api, id.replace(/^official:/, "")) as unknown as
       | {
           officeId: string;
           identity: { givenName: string; familyName: string };
@@ -399,6 +399,13 @@ class Reader {
   ): T[] {
     return (this.table(module, name)?.query(index, key) ??
       []) as unknown as T[];
+  }
+  /** A seat's ended terms, folded ones included. */
+  endedTermsOf(seatId: string): TermRow[] {
+    if (!this.core.modules.has(OFFICES_MODULE_ID)) return [];
+    return seatHistoryOf(this.api, seatId).filter(
+      (term) => term.status === "ended",
+    );
   }
   /** The term a person or named official holds: by the official's id, else the person's serving term. */
   termOf(id: string): TermRow | undefined {
@@ -1672,10 +1679,7 @@ const tookOffice: Builder = (read, f) => {
   // Who held the seat before (the seat's last ended term, when it was
   // someone else), how the new holder came to it, and how the seat opened.
   const ended = read
-    .query<TermRow>(OFFICES_MODULE_ID, "terms", "bySeatStatus", [
-      f.seatId ?? "",
-      "ended",
-    ])
+    .endedTermsOf(f.seatId ?? "")
     .filter((term) => term.endDate && term.endDate <= read.happened)
     .sort((a, b) => (b.endDate ?? "").localeCompare(a.endDate ?? ""))[0];
   const before =

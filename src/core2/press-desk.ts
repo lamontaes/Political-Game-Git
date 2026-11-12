@@ -22,7 +22,7 @@ import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
 import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
-import { OFFICES_MODULE_ID } from "./modules/offices";
+import { OFFICES_MODULE_ID, termById } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./law-reach/host";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
@@ -588,10 +588,7 @@ function isBudgetBill(api: CoreAPI, item: WireItem): boolean {
 function holdsHighOffice(api: CoreAPI, id: string): boolean {
   if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  const term = offices
-    .table("terms")
-    .get(id.slice("official:".length)) as unknown as
-    { status?: string; officeId: string } | undefined;
+  const term = termById(api, id.slice("official:".length));
   if (term?.status !== "serving") return false;
   const office = offices.table("offices").get(term.officeId) as unknown as
     { level?: string } | undefined;
