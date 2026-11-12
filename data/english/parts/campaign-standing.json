@@ -1013,10 +1013,10 @@
       }
     },
     {
-      "key": "campaign-standing.ad-none-unraised.nobody-has-given-to-the-campaign-since-you-filed-filed-so-it-has-nothi",
+      "key": "campaign-standing.ad-none-unraised.nobody-has-given-to-the-campaign-since-you-filed-on-filed-so-it-has-no",
       "move": "ad-none-unraised",
       "kind": "written",
-      "text": "Nobody has given to the campaign since you filed {filed}, so it has nothing for ads.",
+      "text": "Nobody has given to the campaign since you filed on {filed}, so it has nothing for ads.",
       "uses": [
         {
           "move": "ad-none-unraised",
@@ -1034,10 +1034,10 @@
       }
     },
     {
-      "key": "campaign-standing.ad-none-unraised.the-campaign-has-raised-nothing-since-you-filed-filed-and-ad-time-cost",
+      "key": "campaign-standing.ad-none-unraised.the-campaign-has-raised-nothing-since-you-filed-on-filed-and-ad-time-c",
       "move": "ad-none-unraised",
       "kind": "written",
-      "text": "The campaign has raised nothing since you filed {filed}, and ad time costs money.",
+      "text": "The campaign has raised nothing since you filed on {filed}, and ad time costs money.",
       "uses": [
         {
           "move": "ad-none-unraised",
