@@ -155,6 +155,55 @@ const seed = process.env.REALISTIC_SEED ?? randomBytes(8).toString("hex");
  * once in 360 pairs of worlds.
  */
 const SAME_COUNT_SHARE = 3 / 87;
+
+/**
+ * Row 44's per-race check: each race must carry its source count as a
+ * positive whole number, and the world's count must not be it. A race with
+ * no source count, or one that is not a whole positive count, is named, never
+ * passed (a missing field read as a number is NaN, which no count equals).
+ */
+function sourceCountProblems(
+  ids: readonly string[],
+  totals: ReadonlyMap<string, number>,
+  sources: ReadonlyMap<string, string | undefined>,
+): string[] {
+  const problems: string[] = [];
+  for (const id of ids) {
+    const raw = sources.get(id);
+    const source = raw === undefined || raw.trim() === "" ? NaN : Number(raw);
+    if (!Number.isInteger(source) || source <= 0)
+      problems.push(`${id}: source count ${String(raw)} is not a whole count`);
+    else if (totals.get(id) === source)
+      problems.push(`${id}: prints its source count ${source}`);
+  }
+  return problems;
+}
+
+// The controls for row 44's guard, with no world: a missing or malformed
+// source count is refused, and so is a count equal to its source (the
+// merger's reproduction on #8884: Carolina, Rhode Island's 6,845).
+it("row 44's source-count guard refuses a missing source and a printed one", () => {
+  const id = "prior-election:seat:US-RI:lower:039:0:2024-11-05";
+  const totals = new Map([[id, 6845]]);
+  expect(sourceCountProblems([id], totals, new Map())).toEqual([
+    `${id}: source count undefined is not a whole count`,
+  ]);
+  expect(
+    sourceCountProblems([id], totals, new Map([[id, "NaN"]])),
+  ).toHaveLength(1);
+  expect(
+    sourceCountProblems([id], totals, new Map([[id, "6845.5"]])),
+  ).toHaveLength(1);
+  expect(sourceCountProblems([id], totals, new Map([[id, "0"]]))).toHaveLength(
+    1,
+  );
+  expect(sourceCountProblems([id], totals, new Map([[id, "6845"]]))).toEqual([
+    `${id}: prints its source count 6845`,
+  ]);
+  expect(
+    sourceCountProblems([id], new Map([[id, 6731]]), new Map([[id, "6845"]])),
+  ).toEqual([]);
+});
 const place = drawPlace(seed, "realistic-not-real");
 const where = `${place.name} (${place.key}), seed ${seed}`;
 
@@ -833,7 +882,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
           .rows()
           .map((row) => row.facts as Record<string, string>)
           .filter((facts) => facts.recordKind === "election-result")
-          .map((facts) => [facts.contestId!, Number(facts.sourceVotes)]),
+          .map((facts) => [facts.contestId!, facts.sourceVotes]),
       );
     const racesA = races(a),
       racesB = races(b);
@@ -846,16 +895,10 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       [a, racesA],
       [b, racesB],
     ] as const) {
-      const source = sources(world);
-      for (const id of large) {
-        expect(source.has(id), `${where} row 44 ${id}: its source count`).toBe(
-          true,
-        );
-        expect(
-          held.get(id),
-          `${where} row 44 ${id}: the count it was drawn around`,
-        ).not.toBe(source.get(id));
-      }
+      expect(
+        sourceCountProblems(large, held, sources(world)),
+        `${where} row 44: races with no source count or printing it`,
+      ).toEqual([]);
     }
     const same = large.filter((id) => racesA.get(id) === racesB.get(id));
     expect(
