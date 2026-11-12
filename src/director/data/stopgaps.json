@@ -1031,5 +1031,17 @@
     "addedAt": "2026-11-12",
     "replacement": "Weights tuned so no question leads more than half of ten drawn addresses; the half-draws assertion in speech-outline.test.ts turned on.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-speech-unseeded-law-open",
+    "kind": "assumed-data",
+    "file": "src/director/speech-outline.ts",
+    "line": 1,
+    "whatItFakes": "A policy question the laws engine holds no row for in a jurisdiction is read as open (no law answers it yes), cited by the powers record, so a speaker can ask for it. On Nov 12, 11 of the 23 federal questions (a higher top income tax rate, defense spending, foreign aid, a national loan-interest cap, passenger rail and others) had no starting row.",
+    "why": "Every President spoke to the same twelve federal questions, so the same three asks led every address (owner: \"why is it always stock trading?\").",
+    "addedBy": "Words builder W-E",
+    "addedAt": "2026-11-12",
+    "replacement": "The laws engine seeds a starting row for every federal question (in force or not, from the record), and this default is deleted.",
+    "status": "open"
   }
 ]

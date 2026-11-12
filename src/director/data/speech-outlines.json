@@ -225,6 +225,12 @@
       "tag": "TUNABLE",
       "spread": "30 to 100",
       "note": "A law's age is said as context only up to this many years, past which the starting law's date is a stand-in, not a record a speaker would cite."
+    },
+    "traits": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 1",
+      "note": "The speaker's recorded traits toward a theme's subjects (subjectPull), 0 to 1 against their strongest pull: after their own signature issues, before the world, so two Presidents of one party with no cause in reach still differ."
     }
   },
   "topicsBySubject": {
@@ -345,10 +351,10 @@
     ]
   },
   "pointShapes": {
-    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. `belief` says where the belief goes: leading into the ask (`belief-leads`), first as its own sentence (`belief-stands`), or after the ask as its reason (`belief-after`). A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll.",
+    "about": "The shapes a speech's point may take (owner, Nov 8: \"almost all of them feel the exact same\"; the words lead, Nov 12: \"A point has several shapes\"). Each lists its moves in order; `figure` comes after the ask, so the question is named once and its tie says \\\"it\\\"; it stands for the figure's sentences (context, what it has meant, the speaker's own record, and the sentence that ties it to the question), said only where the question's row lets the speaker's side use a measure. `belief` says where the belief goes: leading into the ask (`belief-leads`), first as its own sentence (`belief-stands`), or after the ask as its reason (`belief-after`). A speech's points take the shapes in the order the speaker's traits pull hardest (`pull`, the summed facets), one shape per point, so no two points of a speech share one; ties go by the shape's name. No roll.",
     "shapes": {
       "context-first": {
-        "moves": ["today", "figure", "ask"],
+        "moves": ["today", "ask", "figure"],
         "belief": "belief-leads",
         "pull": [
           "personality-v1:facet-analytical",
@@ -358,7 +364,7 @@
         ]
       },
       "belief-first": {
-        "moves": ["belief", "today", "figure", "ask"],
+        "moves": ["belief", "today", "ask", "figure"],
         "belief": "belief-stands",
         "pull": [
           "personality-v1:facet-sincere",
@@ -368,7 +374,7 @@
         ]
       },
       "question-first": {
-        "moves": ["question", "today", "figure", "ask"],
+        "moves": ["question", "today", "ask", "figure"],
         "belief": "belief-leads",
         "pull": [
           "personality-v1:facet-dramatic",

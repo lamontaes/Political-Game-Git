@@ -293,28 +293,28 @@ const CONTEXT: [string, string[], string, string, string[]][] = [
     "unemployment",
     FEDERAL,
     "polished",
-    "Over the last {context-years} years, about {context-amount} percent of those who want work have been unable to find it.",
+    "On average over the last {context-years} years, about {context-amount} percent of our workers have been out of a job.",
     ["context-unemployment", "context-years", "context-amount"],
   ],
   [
     "unemployment",
     FEDERAL,
     "plain",
-    "For {context-years} years, about {context-amount} out of every hundred people looking for work haven't been able to find it.",
+    "About {context-amount} percent of workers have been out of a job, on average, these last {context-years} years.",
     ["context-unemployment", "context-years", "context-amount"],
   ],
   [
     "mortgage",
     FEDERAL,
     "polished",
-    "For {context-years} years, a home loan has cost about {context-amount} percent a year, and a first home has slipped out of reach for too many.",
+    "On average over the last {context-years} years, a home loan has cost about {context-amount} percent, and a first home has slipped out of reach for too many.",
     ["context-mortgage", "context-years", "context-amount"],
   ],
   [
     "mortgage",
     FEDERAL,
     "plain",
-    "For {context-years} years, a mortgage has run about {context-amount} percent, and a lot of young families have given up on buying.",
+    "A mortgage has run about {context-amount} percent on average these last {context-years} years, and a lot of young families have given up on buying.",
     ["context-mortgage", "context-years", "context-amount"],
   ],
   [
@@ -439,6 +439,30 @@ const slug = (text: string) =>
     .split(/\s+/)
     .slice(0, 8)
     .join("-");
+// 23. A figure that is a level (the jobless rate, a mortgage rate) is said
+// as the level people quote, on average over the span, never "for N years"
+// as if it grew each year, and never "out of every hundred people looking
+// for work" (the words lead, Nov 12).
+const LEVELS: Record<string, string> = {
+  "Over the last {context-years} years, about {context-amount} percent of those who want work have been unable to find it.":
+    "On average over the last {context-years} years, about {context-amount} percent of our workers have been out of a job.",
+  "For {context-years} years, about {context-amount} out of every hundred people looking for work haven't been able to find it.":
+    "About {context-amount} percent of workers have been out of a job, on average, these last {context-years} years.",
+  "That's {context-amount} out of every hundred folks waking up with no job to go to.":
+    "That's about {context-amount} in every hundred workers waking up with no job to go to.",
+  "For {context-years} years, a home loan has cost about {context-amount} percent a year, and a first home has slipped out of reach for too many.":
+    "On average over the last {context-years} years, a home loan has cost about {context-amount} percent, and a first home has slipped out of reach for too many.",
+  "For {context-years} years, a mortgage has run about {context-amount} percent, and a lot of young families have given up on buying.":
+    "A mortgage has run about {context-amount} percent on average these last {context-years} years, and a lot of young families have given up on buying.",
+};
+for (const part of bank.parts) {
+  const to = LEVELS[part.text];
+  if (to) {
+    part.text = to;
+    count("23. a level figure is said as people say it");
+  }
+}
+
 const keys = new Set(bank.parts.map((part) => part.key));
 const texts = new Set(bank.parts.map((part) => part.text.toLowerCase()));
 /** What the context has meant for people, the step between the context and the stand: [topic, subjects, voice, text]. */
@@ -465,7 +489,7 @@ const MEANING: [string, string[], string, string][] = [
     "unemployment",
     FEDERAL,
     "plain",
-    "That's {context-amount} out of every hundred folks waking up with no job to go to.",
+    "That's about {context-amount} in every hundred workers waking up with no job to go to.",
   ],
   [
     "mortgage",
@@ -857,54 +881,44 @@ const TIES: [string, string, string, string][] = [
     "polished",
     "for",
     "law-not-in-force",
-    "That is one more reason for {about}.",
+    "That is one more reason I am for {it}.",
   ],
-  [
-    "plain",
-    "for",
-    "law-not-in-force",
-    "That's a big part of why I'm for {about}.",
-  ],
-  [
-    "polished",
-    "for",
-    "law-in-force",
-    "That is one more reason to keep {about}.",
-  ],
-  ["plain", "for", "law-in-force", "That's why I'm standing by {about}."],
+  ["plain", "for", "law-not-in-force", "That's a big part of why I want {it}."],
+  ["polished", "for", "law-in-force", "That is one more reason to keep {it}."],
+  ["plain", "for", "law-in-force", "That's why I'm standing by {it}."],
   [
     "polished",
     "against",
     "law-not-in-force",
-    "{about} would only add to that burden.",
+    "{It} would only add to that burden.",
   ],
-  [
-    "plain",
-    "against",
-    "law-not-in-force",
-    "{about} would only make that worse.",
-  ],
+  ["plain", "against", "law-not-in-force", "{It} would only make that worse."],
   [
     "polished",
     "against",
     "law-in-force",
-    "That is one more reason to repeal {about}.",
+    "That is one more reason to repeal {it}.",
   ],
   [
     "plain",
     "against",
     "law-in-force",
-    "That's one more reason to get rid of {about}.",
+    "That's one more reason to get rid of {it}.",
   ],
 ];
+// The tie follows the ask, so the question is named once in a point and
+// the tie says "it" (or "them" for a name that is several).
 for (const [voice, side, law, text] of TIES)
-  ADD.push({
-    role: "tie",
-    subjects: ALL,
-    voice,
-    text,
-    needs: ["about", `stance-${side}`, law, "figure-ties"],
-  });
+  for (const number of ["one", "many"])
+    ADD.push({
+      role: "tie",
+      subjects: ALL,
+      voice,
+      text: text
+        .replace("{it}", number === "many" ? "them" : "it")
+        .replace("{It}", number === "many" ? "They" : "It"),
+      needs: [`about-${number}`, `stance-${side}`, law, "figure-ties"],
+    });
 // 20. A law in force is defended or repealed by what the speaker will do,
 // never stated as a fact a belief could lead into ("Because I think ..., a
 // price on carbon is the law here"). `{it}` agrees with the name's number.
@@ -1164,6 +1178,21 @@ for (const part of [...bank.parts]) {
     "21. an ask that agrees with its question's name is said in each number",
   );
 }
+
+// 24. A greeting is never one bare word ("Folks."): it names who is
+// addressed, by title or by who they are.
+bank.parts = bank.parts.filter((part) => {
+  if (
+    hasRole(part, "salutation") &&
+    part.piece?.part !== "core" &&
+    !GRADED_GOOD.has(part.key) &&
+    /^\w+\.$/.test(part.text.trim())
+  ) {
+    count("24. a one-word greeting is dropped");
+    return false;
+  }
+  return true;
+});
 
 // 22. Removed by kind (owner's notes, Nov 12): the occasion's "what I learned
 // in my last office" says no belief ("We're not talking about any ideas that

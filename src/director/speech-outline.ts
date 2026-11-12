@@ -131,6 +131,7 @@ const OUTLINES = outlineData as unknown as {
     | "actable"
     | "stance"
     | "condition"
+    | "traits"
     | "contextYearsMin"
     | "lawYearsMax",
     Weight
@@ -640,7 +641,20 @@ export function standsAt(
     const stance = ownStance(official.ideal, official.signature, question);
     if (stance === P.zero || !jurisdiction) return [];
     const power = policyAuthority(api, question, level);
-    const law = power.allowed ? lawOn(api, question, jurisdiction) : null;
+    // A question the laws engine holds no row for in this jurisdiction is
+    // open: no law answers it yes (Nov 12: eleven of the 23 federal
+    // questions had no row, so every President spoke to the same twelve and
+    // the same three asks led every address). The stand cites the powers
+    // record that lets this level answer it.
+    // stopgapId: SG-WORDS-speech-unseeded-law-open
+    const law = power.allowed
+      ? (lawOn(api, question, jurisdiction) ?? {
+          id: power.source,
+          inForce: false,
+          jurisdiction,
+          since: api.state.startedAt,
+        })
+      : null;
     return law
       ? [
           {
@@ -1027,8 +1041,28 @@ export function themeOf(
   country: Country,
   national: boolean,
   least: number,
+  person?: PersonState,
 ): string | null {
   const w = OUTLINES.theme;
+  // How hard the speaker's recorded traits pull toward a theme: the
+  // strongest pull of its subjects (speech-outlines.json `subjectPull`),
+  // over the strongest pull of any theme, from 0 to 1.
+  const pullOf = (theme: string) =>
+    Math.max(
+      P.zero,
+      ...subjectsOf(theme).map((subject) => {
+        const facets = OUTLINES.subjectPull[subject];
+        return person && Array.isArray(facets)
+          ? traitSum(person, facets)
+          : P.zero;
+      }),
+    );
+  const strongest = Math.max(
+    P.zero,
+    ...Object.keys(OUTLINES.themes)
+      .filter((key) => key !== "about")
+      .map(pullOf),
+  );
   const scored = Object.keys(OUTLINES.themes)
     .filter((key) => key !== "about")
     .map((theme) => {
@@ -1064,7 +1098,10 @@ export function themeOf(
               P.zero,
               ...under.map((stand) => distinct(official, stand)),
             ) +
-          w.condition.value * condition,
+          w.condition.value * condition +
+          (strongest > P.zero
+            ? (w.traits.value * pullOf(theme)) / strongest
+            : P.zero),
       };
     })
     .filter((row) => row.enough && row.score > P.zero)
@@ -1211,7 +1248,14 @@ export function planSpeech(
   // Every question the speaker's level may answer and holds a view on: an
   // open one is an ask, one the law in force answers is a law to defend or
   // repeal. The theme is the one with enough of them to make its points.
-  const theme = themeOf(official, stands, country, federal, row.leastPoints);
+  const theme = themeOf(
+    official,
+    stands,
+    country,
+    federal,
+    row.leastPoints,
+    person,
+  );
   const pointStands = theme
     ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
     : [];

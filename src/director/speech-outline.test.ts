@@ -83,6 +83,7 @@ describe("every speech through the one outline planner", () => {
       const leads: string[] = [];
       const failures: string[] = [];
       const shapes: string[] = [];
+      const themes: string[] = [];
       for (let at = 0; at < DRAWS; at += 1) {
         const place = drawPlace(`${seed}:${at}`, "speech-outline");
         const where = `${place.name} (${place.key}), seed ${seed}:${at}`;
@@ -123,6 +124,7 @@ describe("every speech through the one outline planner", () => {
           }),
         ];
         if (opening!.asks[0]) leads.push(opening!.asks[0]);
+        themes.push(opening!.theme ?? "none");
         // The people the President's address may name, and their titles.
         const people = [
           ["US:vice-president", "Vice President"],
@@ -348,6 +350,14 @@ describe("every speech through the one outline planner", () => {
         most,
         `seed ${seed}: leading asks ${leads.join(", ")}`,
       ).toBeLessThanOrEqual(DRAWS / 2);
+      // The President's theme comes from the person: at least four different
+      // themes lead across the draws (owner: "why is it always stock
+      // trading?").
+      console.log(`THEMES seed ${seed}: ${themes.join(", ")}`);
+      expect(
+        new Set(themes).size,
+        `seed ${seed}: themes ${themes.join(", ")}`,
+      ).toBeGreaterThanOrEqual(4);
     },
     40 * 60 * 1000,
   );
