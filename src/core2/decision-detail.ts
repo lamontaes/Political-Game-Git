@@ -13,6 +13,7 @@
  * and never scans the log.
  */
 import { parameter } from "./parameters";
+import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import retention from "./data/log-retention.json" with { type: "json" };
 import type { CoreState, DecisionResult, LogRecord } from "./types";
 import { registerWorldMapPart } from "./snapshot";
@@ -92,6 +93,19 @@ const playerQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
 
 /**
+ * Whether a person is the player's own: the entrant the world was made around
+ * (`core.playerId`) or the character the player controls (the bench plays
+ * whoever the player chose, who need not be the entrant). The one test the log
+ * write and every condensing pass use, so a played character's choices keep
+ * their scores for as long as the player's do.
+ */
+export function isPlayersOwn(core: CoreState, personId: string): boolean {
+  return (
+    personId === core.playerId || isExplicitlyControlledPersonV1(core, personId)
+  );
+}
+
+/**
  * A circle member's decision as the log keeps it: every alternative keeps
  * its score and reason numbers, but
  * only the chosen and runner-up options keep their reason terms, which the
@@ -109,7 +123,7 @@ export function keptDecision(
     !scores ||
     core.observer ||
     controlled ||
-    decision.actorId === core.playerId ||
+    isPlayersOwn(core, decision.actorId) ||
     decision.controlledChoice !== undefined
   )
     return decision;
@@ -189,7 +203,7 @@ function condenseRelationshipDecisions(core: CoreState): void {
       !change ||
       !decision?.scores ||
       change.date !== date ||
-      decision.actorId === core.playerId
+      isPlayersOwn(core, decision.actorId)
     )
       continue;
     const compact = (decision as { compactChoice?: unknown }).compactChoice;
@@ -229,10 +243,9 @@ function involvesPlayer(
   core: CoreState,
   row: { actorId?: string; personIds: readonly string[] },
 ): boolean {
-  const player = core.playerId;
   return (
-    player !== undefined &&
-    (row.actorId === player || row.personIds.includes(player))
+    (row.actorId !== undefined && isPlayersOwn(core, row.actorId)) ||
+    row.personIds.some((id) => isPlayersOwn(core, id))
   );
 }
 
@@ -299,7 +312,8 @@ export function condenseCircleDecisions(core: CoreState): void {
       // keeps its full record.
       if (
         (row.kind === "person.acted" || row.kind === "person.weighed") &&
-        row.actorId === core.playerId &&
+        row.actorId !== undefined &&
+        isPlayersOwn(core, row.actorId) &&
         !row.publicRecord &&
         !row.news
       ) {
@@ -315,7 +329,7 @@ export function condenseCircleDecisions(core: CoreState): void {
       forgetEntry(core, row);
       continue;
     }
-    if (row.decision && row.decision.actorId !== core.playerId)
+    if (row.decision && !isPlayersOwn(core, row.decision.actorId))
       condenseDecision(core, row.id);
     if (!row.publicRecord && !row.news) {
       let drops = dropQueues.get(core);

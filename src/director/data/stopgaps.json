@@ -5,11 +5,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "The smallest change stored as a moment.",
-    "why": "Defined as the smallest row of the 1967 scale (11 units) and carrying the 2021 replication's 22 as the other end of its spread (Oct 16, 2026). A yearly count of stored moments to check it against was not found, so the floor is a scale definition, not a calibrated count.",
+    "why": "Defined as the smallest row of the 1967 scale (11 units) and carrying the 2021 replication's 22 as the other end of its spread (Oct 16, 2026). A yearly count of stored moments to check it against was not found, so the floor is a scale definition, not a calibrated count. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An owner answer or a tested calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-P13-param-directorInterruptImpact",
@@ -41,11 +43,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much sociability raises a tie change.",
-    "why": "Bounded above by the design's one quarter with 0 not contradicted (Oct 16, 2026 research: personality did not consistently moderate responses to life events). No coefficient exists.",
+    "why": "Bounded above by the design's one quarter with 0 not contradicted (Oct 16, 2026 research: personality did not consistently moderate responses to life events). No coefficient exists. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An owner answer or a tested calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-P13-param-directorWeightMoneyRisk",
@@ -53,11 +57,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much avoiding risk raises a money loss.",
-    "why": "Bounded in size by the design's one quarter, sign from loss aversion, 0 not contradicted (Oct 16, 2026 research). No coefficient exists.",
+    "why": "Bounded in size by the design's one quarter, sign from loss aversion, 0 not contradicted (Oct 16, 2026 research). No coefficient exists. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An owner answer or a tested calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-P13-param-directorRenewedFading",
@@ -65,11 +71,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "When a contact is labeled a renewal (labeling only).",
-    "why": "Labels a contact a renewal and decides no outcome; it follows from the half-lives (Oct 16, 2026 research). Stays TUNABLE.",
+    "why": "Labels a contact a renewal and decides no outcome; it follows from the half-lives (Oct 16, 2026 research). Stays TUNABLE. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An owner answer or a tested calibration for the same quantity.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-P13-param-directorTies",
@@ -111,8 +119,8 @@
     "id": "SG-P13-tie-day-order",
     "kind": "missing-hook",
     "file": "src/director/ledger.ts",
-    "line": 1,
-    "whatItFakes": "Tie changes are read once at the end of each day, losing their order within the day.",
+    "line": 970,
+    "whatItFakes": "The director reads each watched person's tie changes once at the end of the day, so their order within the day is lost, although the core now sends a notice for each change.",
     "why": "Relationship changes emit no event (src/core2/state.ts:561); hook requested from SOL-1258.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
@@ -123,8 +131,8 @@
     "id": "SG-P13-kept-fact-producers",
     "kind": "missing-producer",
     "file": "src/director/data/director.json",
-    "line": 1,
-    "whatItFakes": "Lies, favors and promises are kept-fact kinds with no producer, so none is ever recorded.",
+    "line": 950,
+    "whatItFakes": "Favors and promises are kept-fact kinds with no producer, so a favor owed or a promise made is never remembered; lies are recorded.",
     "why": "The new core has no act or event that records a lie, a favor or a promise.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
@@ -149,11 +157,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "Impacts for recorded past facts, read from stress-scale rows rather than measured changes.",
-    "why": "The eight past-fact weights are the 1967 Holmes and Rahe rows; the 2021 replication gives higher values for seven (carried as each row's spread). Choosing a vintage is the owner's call, since the floor and the interrupt line move with it.",
+    "why": "The eight past-fact weights are the 1967 Holmes and Rahe rows; the 2021 replication gives higher values for seven (carried as each row's spread). Choosing a vintage is the owner's call, since the floor and the interrupt line move with it. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "Past moments measured from replayed lives once the life-replay harness runs on the new core.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Past moments measured from replayed lives once the life-replay harness runs on the new core.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-P15-memory-forgetting",
@@ -245,11 +255,13 @@
     "file": "src/director/opening-story.ts",
     "line": 1,
     "whatItFakes": "The register card the President's opening address composes under: election night's public-address card stands in for a President's address.",
-    "why": "The engine has no register card for a State of the Union or an inaugural address yet (docs/coordination/words.md); the mined sentences need a public-address card to compose.",
+    "why": "The engine has no register card for a State of the Union or an inaugural address yet (docs/coordination/words.md); the mined sentences need a public-address card to compose. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
-    "replacement": "A President's-address register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A President's-address register card in src/english/speech-registers.ts (OPUS-PEOPLE).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-PEOPLE-newscast-register",
@@ -317,11 +329,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much the President's address weighs as a talk's topic, times the speaker's political engagement.",
-    "why": "The owner ruled public news comes up only for people who follow politics closely (Oct 14, 2026, night); the size is a guess kept below a life event's.",
+    "why": "The owner ruled public news comes up only for people who follow politics closely (Oct 14, 2026, night); the size is a guess kept below a life event's. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "OPUS-WORDS",
     "addedAt": "2026-10-14",
-    "replacement": "A tested calibration against played talks, or an owner answer.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A tested calibration against played talks, or an owner answer.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-office-scene-town-members",
@@ -364,7 +378,7 @@
     "id": "SG-DIRECTOR-speech-occasion",
     "kind": "missing-engine",
     "file": "src/director/scheduling.ts",
-    "line": 1,
+    "line": 294,
     "whatItFakes": "What a heard speech was given at (a campaign stop, a meeting remark, a hearing), and how a candidate gave it (a town hall, a campaign speech, a debate), is read from the shape of the speech's record id, because the speech engine's record carries no occasion.",
     "why": "A mayor's remark at a council meeting was staged as a campaign event. The speech record belongs to the core area.",
     "addedBy": "words",
@@ -378,11 +392,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "The lead below which a journal says one's own race was close.",
-    "why": "A wording threshold no source sets yet; it decides only which sentence a journal may say, never an outcome.",
+    "why": "A wording threshold no source sets yet; it decides only which sentence a journal may say, never an outcome. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Words session",
     "addedAt": "2026-10-26",
-    "replacement": "A band sourced from published margin-of-victory analyses of U.S. elections.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A band sourced from published margin-of-victory analyses of U.S. elections.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-param-journalRaceWideMargin",
@@ -390,11 +406,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "The lead above which a journal says one's own race was not close.",
-    "why": "A wording threshold no source sets yet; it decides only which sentence a journal may say, never an outcome.",
+    "why": "A wording threshold no source sets yet; it decides only which sentence a journal may say, never an outcome. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Words session",
     "addedAt": "2026-10-26",
-    "replacement": "A band sourced from published margin-of-victory analyses of U.S. elections.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A band sourced from published margin-of-victory analyses of U.S. elections.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-DIRECTOR-circumstance-weights",
@@ -471,8 +489,8 @@
   {
     "id": "SG-WORDS-swearing-in-no-court",
     "kind": "missing-record",
-    "file": "src/director/swearing-in.ts",
-    "line": 1,
+    "file": "src/director/civic-roles.ts",
+    "line": 104,
     "whatItFakes": "Who gives the oath at a swearing-in. Real oaths are given by a judge, a justice or a notary (a state's chief justice swears in a governor); the world keeps no courts or notaries, so the oath is given by the clerk who took the winner's filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. A clerk at the state level, and every fallback, marks this stopgap.",
     "why": "Courts come after early access (AGENTS.md). Ask why: the officiant is always a person a record names (the filing clerk, the town's or county's clerk, the seat's ended term, the leadership engine's presiding officer); with none on record the scene is not staged, and no one is invented.",
     "addedBy": "Words session",
@@ -486,11 +504,13 @@
     "file": "src/director/inaugural-address.ts",
     "line": 1,
     "whatItFakes": "The inaugural address of a mayor, county executive or governor is recorded as heard (speech.heard) only when the player plays their own swearing-in and chooses to speak; the world's other executives give no inaugural, because the office-day engine has only the annual address. The speech's occasion is read from its record id (speech:inaugural:...), as SG-DIRECTOR-speech-occasion reads every speech's.",
-    "why": "The simulation should give the address for any sworn-in executive and the scene should read it (owner, Oct 29: the player's slice of a world event). The office-day engine's acts belong to the governing lead; the scene was built against the smallest stand-in.",
+    "why": "The simulation should give the address for any sworn-in executive and the scene should read it (owner, Oct 29: the player's slice of a world event). The office-day engine's acts belong to the governing lead; the scene was built against the smallest stand-in. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Words session",
     "addedAt": "2026-10-29",
-    "replacement": "An inaugural act in the office-day engine, run for any sworn-in executive, that calls deliverSpeech with an occasion fact; the swearing-in scene then reads that record, and the existing address type stages it for the people who hear it.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An inaugural act in the office-day engine, run for any sworn-in executive, that calls deliverSpeech with an occasion fact; the swearing-in scene then reads that record, and the existing address type stages it for the people who hear it.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-filing-counter-prompts",
@@ -546,11 +566,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much a letter from a relative elsewhere weighs, so that a close tie's letter ranks among the year's top moments.",
-    "why": "No scale item sizes a letter; the Holmes and Rahe 'change in family get-togethers' (15 units) ranks below every other moment of the year and never stages. Sized by rank in the played year (New Castle, Kentucky, seed lives-letter-a: ranks 2 to 6 of the year's moments).",
+    "why": "No scale item sizes a letter; the Holmes and Rahe 'change in family get-togethers' (15 units) ranks below every other moment of the year and never stages. Sized by rank in the played year (New Castle, Kentucky, seed lives-letter-a: ranks 2 to 6 of the year's moments). Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Lives (night crew, Nov 8)",
     "addedAt": "2026-11-08",
-    "replacement": "A measured weight of family contact in the life-change literature, or the people engine's own appraisal of the contact.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A measured weight of family contact in the life-change literature, or the people engine's own appraisal of the contact.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-lobby-remembers-writeback",
@@ -570,11 +592,13 @@
     "file": "src/director/data/arc-variants.json",
     "line": 1,
     "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set; for a donor's ask, the gift against the donor's own year, its share of what others gave, how close the two are, earlier gifts and earlier asks the candidate put off; for a reporter's call, how far the town's shares stand against the member's vote, earlier talks the two had, a quarrel on their tie, stories of scandal against the member, and the reporter's outlet with the bill's level; for an apology owed after a quarrel over a missed payment, whether the quarrel is about money, how close the two are, earlier quarrels between them and the wronged person's own money pressure; for an accusation after a complaint to the prosecutor, whether the accuser saw the offer or was told of it, whether the bribe was taken and how close the two are) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
-    "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes. Gaps in the press-comment reads (Nov 9, Story session): the town's view is the electorate's shares on the bill's question (voting.ts electorateSides), which read nothing for a question the survey has no item for, so a vote on such a bill never reads as against the town; no record keeps an outlet's lean toward the member, so a hostile reporter is read from the town, earlier quarrels and the tie alone; press.snubbed and press.attacked name the outlet's staff but not who snubbed them in their people, so they are not read; no record keeps an accusation that the press has not printed, so a chase is read from reported bribes, convictions and press.exposed stories (the last half year); the national press is the reporter's outlet tier (only federal bills cast national reporters) and a state bill reaches it only through the level read; a call about a bill held in committee has no vote of the member's to read.",
+    "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes. Gaps in the press-comment reads (Nov 9, Story session): the town's view is the electorate's shares on the bill's question (voting.ts electorateSides), which read nothing for a question the survey has no item for, so a vote on such a bill never reads as against the town; no record keeps an outlet's lean toward the member, so a hostile reporter is read from the town, earlier quarrels and the tie alone; press.snubbed and press.attacked name the outlet's staff but not who snubbed them in their people, so they are not read; no record keeps an accusation that the press has not printed, so a chase is read from reported bribes, convictions and press.exposed stories (the last half year); the national press is the reporter's outlet tier (only federal bills cast national reporters) and a state bill reaches it only through the level read; a call about a bill held in committee has no vote of the member's to read. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "Weights fitted to how often real bribe approaches are small, large, from a friend, repeated or desperate (the corruption literature's cases), checked against the played years, or read straight from the corruption engine's own reasons once it keeps one for each.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Weights fitted to how often real bribe approaches are small, large, from a friend, repeated or desperate (the corruption literature's cases), checked against the played years, or read straight from the corruption engine's own reasons once it keeps one for each.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-mentor-is-officeholder",
@@ -642,11 +666,13 @@
     "file": "data/english/parts/minutes.json",
     "line": 1,
     "whatItFakes": "Four lines of a meeting's minutes (\"Participants discussed ...\", \"The staff provided an update on ...\", \"The manager turned next to ...\", \"Voting against this action: ...\") sit in a bank that no engine reads.",
-    "why": "No engine words the minutes of a meeting. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "why": "No engine words the minutes of a meeting. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "A minutes record for each council or board meeting, worded from these pieces and the meeting's own records; pool item words-meeting-minutes-from-the-record.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A minutes record for each council or board meeting, worded from these pieces and the meeting's own records; pool item words-meeting-minutes-from-the-record.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-notice-no-reader",
@@ -666,11 +692,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much where a person stands politically weighs as a talk's topic, times how readily they say it.",
-    "why": "Set so it leads only for the close and engaged and never over a life event of their own; the size is a guess until a played year is counted.",
+    "why": "Set so it leads only for the close and engaged and never over a life event of their own; the size is a guess until a played year is counted. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-param-directorTalkViewTraitWeight",
@@ -678,11 +706,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much the speaker's temperament scales how readily they say where they stand.",
-    "why": "The direction (outgoing people talk politics more) is sourced; the size is a guess.",
+    "why": "The direction (outgoing people talk politics more) is sourced; the size is a guess. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-param-directorTalkSmallTalkWeight",
@@ -690,11 +720,13 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "What ordinary small talk weighs against where someone stands politically as a talk's topic.",
-    "why": "A competitor weight so the slide never becomes a flat rule; the size is a guess until a played year is counted.",
+    "why": "A competitor weight so the slide never becomes a flat rule; the size is a guess until a played year is counted. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-story-read-talk-moves-nothing",
@@ -714,11 +746,13 @@
     "file": "src/director/data/scene-talk-rules.json",
     "line": 1,
     "whatItFakes": "Which reason a farewell says when the departure record names several: the rows of departureWhy are tried in a hand-set order (an eviction, a job lost, a job elsewhere, family, kin who left first, a death), and a reason is said only when its row is present in the record.",
-    "why": "The moves engine records every cause and push that built the pull, on scales that do not compare (events against pushes read on the holds' scale), so no one reason is 'the biggest'. Naming none when no row is present keeps the goodbye honest; the order is a hand-set stopgap.",
+    "why": "The moves engine records every cause and push that built the pull, on scales that do not compare (events against pushes read on the holds' scale), so no one reason is 'the biggest'. Naming none when no row is present keeps the goodbye honest; the order is a hand-set stopgap. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "The moves engine records the one cause that tipped the pull over the holds (the largest term on a common scale) on the departure; the farewell reads that.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The moves engine records the one cause that tipped the pull over the holds (the largest term on a common scale) on the departure; the farewell reads that.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-notice-shortfall-bands",
@@ -726,11 +760,13 @@
     "file": "src/director/data/scene-talk-rules.json",
     "line": 1,
     "whatItFakes": "Where a notice's lines call the shortfall small or deep: under half a month's rent is 'small', two months' rent or more is 'deep', and the lines for each differ.",
-    "why": "Wording bands set by hand (TUNABLE, with a spread) from ordinary usage; no survey sizes at what share of a month's rent people say 'a little short' or 'months behind'. No outcome depends on them: the landlord's own weighing of amount and months is the housing engine's.",
+    "why": "Wording bands set by hand (TUNABLE, with a spread) from ordinary usage; no survey sizes at what share of a month's rent people say 'a little short' or 'months behind'. No outcome depends on them: the landlord's own weighing of amount and months is the housing engine's. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "Bands read from how renters in the Household Pulse and the Eviction Lab describe arrears, or from the housing engine's own notice score so the lines follow the same weighing the landlord used.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Bands read from how renters in the Household Pulse and the Eviction Lab describe arrears, or from the housing engine's own notice score so the lines follow the same weighing the landlord used.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-STORY-home-damaged-cast",
@@ -748,13 +784,15 @@
     "id": "SG-WORDS-scene-arrival-time",
     "kind": "missing-data",
     "file": "src/director/scene.ts",
-    "line": 1,
-    "whatItFakes": "The minute of the day a scene's opening names (\"first thing\", \"that evening\"). The bench passes the minute it draws the scene at; a caller that gives none gets the moment's stop minute, else the day's start.",
-    "why": "The director's scene carries no minute of its own; the moment records a date, not the hour the setting held it.",
+    "line": 181,
+    "whatItFakes": "A scene whose moment never stopped the player's clock, and any scene for someone the player does not control, opens at the day's start minute instead of the minute its setting held it.",
+    "why": "The director's scene carries no minute of its own; the moment records a date, not the hour the setting held it. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "The moment records the minute its setting opened it (ledger openedAt) and composeScene reads that.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The moment records the minute its setting opened it (ledger openedAt) and composeScene reads that.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-address-kind-policy-pull",
@@ -762,11 +800,13 @@
     "file": "src/director/address-kind.ts",
     "line": 66,
     "whatItFakes": "How strongly a speaker's traits tilt a governor's or mayor's address toward a kind. The mean of the kind's facet values is clamped to -1..1 though the facets run past it (a work-centered, meticulous governor's mean is 1.2), and the policy kind's base (policyBase 0.5, times the full agenda) doubles at the cap, so a speaker with a full list of asks and a work-centered turn scores policy 1.0 against a collapsing term's crisis 0.656 and gives the same address in a good term and a bad one (Greensboro, Maryland, seed f8fc37cc25201edc, official:term:seat:US-MD:governor:2025-01-20).",
-    "why": "Calibration, not a clamp on the score: the policy score is raw (0.5 x work share x (1 + pull)) and, even unclamped (pull 1.2, score 1.1), is above crisis. Whether a full-agenda governor should still name a collapsing term is a Words call on policyBase, the pull scale and the crisis weight, which the owner has not ruled.",
+    "why": "Calibration, not a clamp on the score: the policy score is raw (0.5 x work share x (1 + pull)) and, even unclamped (pull 1.2, score 1.1), is above crisis. Whether a full-agenda governor should still name a collapsing term is a Words call on policyBase, the pull scale and the crisis weight, which the owner has not ruled. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Small fixes session",
     "addedAt": "2026-11-09",
-    "replacement": "Words checks the address kinds against real State of the State addresses (a crisis term outweighs a long agenda), then sets policyBase and the pull's scale so a bad term can outscore policy for any speaker.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Words checks the address kinds against real State of the State addresses (a crisis term outweighs a long agenda), then sets policyBase and the pull's scale so a bad term can outscore policy for any speaker.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-homecoming-stay-unread",
@@ -786,11 +826,13 @@
     "file": "src/director/data/purpose-arcs.json",
     "line": 1,
     "whatItFakes": "The visit's limits as the narration says them: a guard stands by, the talk is through glass, the visit ends when the guard says. No facility, visiting rule or time limit is on a named prisoner's record, so the lines say these things for every visit, and none of them names a number of minutes.",
-    "why": "The justice engine keeps custody (from, until, sentence) for a named person but not the facility, its kind or its visiting rules; only counted custody names a facility (jail, prison, juvenile). No pet is kept on any household record, so no visit asks after one.",
+    "why": "The justice engine keeps custody (from, until, sentence) for a named person but not the facility, its kind or its visiting rules; only counted custody names a facility (jail, prison, juvenile). No pet is kept on any household record, so no visit asks after one. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "The justice engine records the facility and kind on a named prisoner's custody row (as it does for counted custody); the narration reads the kind and says the glass and the time only where that kind has them.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The justice engine records the facility and kind on a named prisoner's custody row (as it does for counted custody); the narration reads the kind and says the glass and the time only where that kind has them.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-prison-visit-promise-unread",
@@ -798,23 +840,27 @@
     "file": "src/director/data/purpose-arcs.json",
     "line": 1,
     "whatItFakes": "What the visitor agrees to or promises in the prison visit (money on the prisoner's account, a child looked after, a lawyer called, a word taken to the family) is written on the reply record as a promise; no engine moves the money, makes the call or tells the family.",
-    "why": "The justice engine has no commissary account or contact record for a named prisoner, and no hook reads a scene.reply of typeKey prison-visit. The visit still names the sentence or the bail from the record and a refusal pressed strains the tie.",
+    "why": "The justice engine has no commissary account or contact record for a named prisoner, and no hook reads a scene.reply of typeKey prison-visit. The visit still names the sentence or the bail from the record and a refusal pressed strains the tie. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A justice-engine account for a named prisoner that a promise of money pays into on the next day, and a people-engine owed-talk record for the word taken to the family.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A justice-engine account for a named prisoner that a promise of money pays into on the next day, and a people-engine owed-talk record for the word taken to the family.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-visit-ill-no-purpose",
     "kind": "missing-hook",
     "file": "src/director/data/situation-types.json",
-    "line": 1,
-    "whatItFakes": "The visit type still has no purpose for the causes it keeps: a visit to someone seriously ill, and the visit when the player is the one held (a relative comes to the player). Only the visit to someone the justice engine holds has one (prison-visit).",
-    "why": "A visit to the ill needs the health engine's diagnosis and care records worded as the ask, and a visit to the player inside leaves the player no choices to reply with while they serve a term.",
+    "line": 1819,
+    "whatItFakes": "The visit scene's illness causes and a relative's visit to the player while the player is held have no scene of their own; a sick relative is covered by the care scene.",
+    "why": "A visit to the ill needs the health engine's diagnosis and care records worded as the ask, and a visit to the player inside leaves the player no choices to reply with while they serve a term. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A hospital-visit purpose that reads the health engine's care need, and, for the player held, a letter or a call scene the player answers after release.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A hospital-visit purpose that reads the health engine's care need, and, for the player held, a letter or a call scene the player answers after release.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-meeting-no-club-records",
@@ -822,11 +868,13 @@
     "file": "src/director/meeting-facts.ts",
     "line": 1,
     "whatItFakes": "A first meeting or a new friend's ask names the employer, the job, the school, the party and the town the two share. It never names a church, a club or a street, though people meet there.",
-    "why": "No record in the world keeps a church, a club or a block for a person: memberships hold only parties (and groups the player joins), and a person's place is a town, not a street.",
+    "why": "No record in the world keeps a church, a club or a block for a person: memberships hold only parties (and groups the player joins), and a person's place is a town, not a street. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "Memberships for congregations and clubs, and an address on the household record; meeting-facts.ts then reads them as it reads the party.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Memberships for congregations and clubs, and an address on the household record; meeting-facts.ts then reads them as it reads the party.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-meeting-promise-unread",
@@ -846,11 +894,13 @@
     "file": "data/english/parts/scene-talk.json",
     "line": 1,
     "whatItFakes": "The friend's invitation (dinner, a game, lunch, a drink after work) and favor (a couch, the mail, covering an afternoon, a pickup) are worded for every friend; nothing on a record says this friend plans a dinner or needs a hand. The facts around them (the shared employer, school, party, town) are from records.",
-    "why": "No engine keeps what a person plans or needs from a friend; the plan is the ask itself, so the lines name only days and things any friend might ask.",
+    "why": "No engine keeps what a person plans or needs from a friend; the plan is the ask itself, so the lines name only days and things any friend might ask. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A plans or needs record per person (a move coming, a child to pick up) that the ask reads, so the favor named is the one the records give.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A plans or needs record per person (a move coming, a child to pick up) that the ask reads, so the favor named is the one the records give.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-reunion-ask-unrecorded",
@@ -966,11 +1016,13 @@
     "file": "src/director/data/arc-variants.json",
     "line": 1,
     "whatItFakes": "What the accused says to the person who reported them (that they will tell the whole of it, own up, or answer) is written on the reply record; no engine reads it, so an accused who owns up to the accuser is not treated any differently by the prosecutor's investigation. The accuser's reason for reporting is the justice engine's weighing (duty, traits, tie); the lines say only what the records show: who saw it or was told, whether the money was taken, and how close the two are.",
-    "why": "The investigation weighs the crime and the complaint, not a conversation between the accuser and the accused.",
+    "why": "The investigation weighs the crime and the complaint, not a conversation between the accuser and the accused. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A justice-engine reading of what the accused told the accuser (a disclosure or a confession to a witness) as evidence or mitigation.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A justice-engine reading of what the accused told the accuser (a disclosure or a confession to a witness) as evidence or mitigation.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-new-baby-ask-unrecorded",
@@ -978,18 +1030,20 @@
     "file": "data/english/parts/scene-talk.json",
     "line": 1,
     "whatItFakes": "What the relative who comes to see a new baby offers or asks (dinner, the dishes, an hour of sleep, to hold the baby) is worded for every birth; nothing on a record says this relative will bring dinner. The child's name, the other parent, and the visitor's town (when it is not the parent's) are from the birth record and the people records.",
-    "why": "No engine keeps what a visitor brings to a new parent; the visit is the purpose itself, and its lines name only things any relative might offer.",
+    "why": "No engine keeps what a visitor brings to a new parent; the visit is the purpose itself, and its lines name only things any relative might offer. Resolved Nov 10, 2026 (stand-in triage): dropped as too in depth (owner); the estimate stays as the game's answer.",
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
-    "replacement": "A wants record per person and the household's chores and sleep from the people engine, so the visit offers what the home needs.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A wants record per person and the household's chores and sleep from the people engine, so the visit offers what the home needs.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T3"
   },
   {
     "id": "SG-WORDS-journal-story-no-helper",
     "kind": "missing-data",
     "file": "src/director/data/journal-rows.json",
     "line": 1,
-    "whatItFakes": "A job found, lost or left is told as a small story from the past-work records: how long, the employer before, what each job paid and how that compares. It never says who helped or how the job was found, and the feeling in it (\"it was work again\") is only what the pay comparison supports.",
+    "whatItFakes": "A job found, lost or left is told as a small story from the past-work records. An official's referral is on record and employers read it, but the hire keeps no referral, so the entry never says who helped, and the feeling in it is only what the pay comparison supports.",
     "why": "The past-work spells keep no referral, no search and no mood; naming a helper or a feeling the records do not hold would be invented.",
     "addedBy": "Story session",
     "addedAt": "2026-11-10",
@@ -1011,9 +1065,9 @@
   {
     "id": "SG-STORY-constituent-help-rent-and-care-have-no-case",
     "kind": "missing-producer",
-    "file": "src/director/data/arc-variants.json",
-    "line": 1,
-    "whatItFakes": "Nothing plays in their place: the eviction and sick variants of a constituent's visit are written and cannot play from a visit to office hours, because every such visit stands on a case, and the constituent-cases engine opens cases only for looking for work and for pay under the minimum wage. A variant plays only for the problem its case records, so a visitor who came about work never states a relative's illness instead.",
+    "file": "src/core2/modules/constituent-cases.ts",
+    "line": 139,
+    "whatItFakes": "The eviction and sick variants of a constituent's visit now play from the household's own rent notice and care need, but the constituent-cases engine opens cases only for looking for work and pay under the minimum wage, so a visitor behind on rent or caring for someone ill has no case and the official's help changes nothing for them.",
     "why": "The variants were chosen from the visitor's own records alone, so in New Brockton, Alabama (seed 8abcef2cc056600dfd4f33872ea12afe00f471b3, attempt 2) a resident whose case was looking for work opened with a line about taking a relative to every appointment. The case on record is the scene's cause and decides what the visitor asks for.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",

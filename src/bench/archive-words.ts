@@ -1,5 +1,12 @@
 import type { EntityId } from "../core2/kernel/brands";
 import { spokenDate } from "../core2/kernel/dates";
+import {
+  followersOf,
+  outletsHere,
+  townOutlet,
+  type OutletRow,
+} from "../core2/modules/press";
+import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
@@ -151,23 +158,70 @@ export function wordPrintedStory(
           designation: read.facts.purpose,
         })?.headline
       : undefined;
-  const organization = story.outletId
-    ? core.organizations.get(story.outletId as EntityId)
-    : undefined;
-  const kind = story.outletId?.split(":")[2] ?? "";
+  const outlet = story.outletId ? outletOf(core, story.outletId) : undefined;
   return {
     ...text,
     ...(spoken && spoken !== text.headline ? { spoken } : {}),
-    ...(organization
-      ? {
-          outlet: {
-            id: organization.id,
-            name: organization.name,
-            layout: LAYOUTS[kind] ?? "broadsheet",
-          },
-        }
-      : {}),
+    ...(outlet ? { outlet } : {}),
   };
+}
+
+/** An outlet as News draws it: its record id, name and the layout of its kind. */
+export function outletOf(
+  core: CoreState,
+  outletId: string,
+): { id: string; name: string; layout: string } | undefined {
+  const organization = core.organizations.get(outletId as EntityId);
+  if (!organization) return undefined;
+  const kind = outletId.split(":")[2] ?? "";
+  return {
+    id: organization.id,
+    name: organization.name,
+    layout: LAYOUTS[kind] ?? "broadsheet",
+  };
+}
+
+/**
+ * The player's own outlets: the local press of the town they live in, which
+ * News shows from the first day, before they print. The ones the player
+ * follows first (the press engine's followersOf: News lists what they heard,
+ * and they hear what they follow), newspapers before the rest; then the
+ * town's paper of record (townOutlet, which carries the public record); then
+ * the other local outlets, newspapers first, in the order the press recorded
+ * them.
+ */
+// stopgapId: SG-SCREENS-news-opens-on-town-paper
+export function homePapers(
+  core: CoreState,
+  personId: string,
+): {
+  id: string;
+  name: string;
+  layout: string;
+  home: true;
+  /** Why it is the player's: they follow it, it is the paper of record, or it is local. */
+  why: "follows" | "record" | "local";
+}[] {
+  const placeId = core.people.get(personId as EntityId)?.placeId;
+  if (!placeId) return [];
+  const api = coreAPI(core);
+  const record = townOutlet(api)?.organizationId;
+  const paper = (row: OutletRow) => (row.kind === "newspaper" ? 0 : 1);
+  const rank = (row: OutletRow) =>
+    followersOf(api, row.id).includes(personId)
+      ? paper(row)
+      : row.organizationId === record
+        ? 2
+        : 3 + paper(row);
+  return outletsHere(api)
+    .filter((row) => row.tier === "local" && row.placeId === placeId)
+    .map((row) => ({ row, rank: rank(row) }))
+    .sort((a, b) => a.rank - b.rank)
+    .flatMap(({ row, rank }) => {
+      const outlet = outletOf(core, row.organizationId);
+      const why = rank < 2 ? "follows" : rank === 2 ? "record" : "local";
+      return outlet ? [{ ...outlet, home: true as const, why }] : [];
+    });
 }
 
 type StoryFact = { text: string; sourceRecordIds: EntityId[] };
