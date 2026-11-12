@@ -88,11 +88,14 @@ it.each(["a", "b", "c"])(
     ).toEqual(beatKinds(levels));
     expect(beats.length, where).toBe(parts);
     for (const beat of beats) {
-      if (beat.kind === "state")
-        // The states' part names its people over the capitol and draws none
-        // (owner, Nov 4: no people tonight).
-        expect(beat.people.length, `${where}: state`).toBe(0);
-      else if (beat.kind !== "america")
+      if (beat.kind === "state") {
+        // The states' part names its people over the capitol. Nobody is
+        // painted into the picture; since the owner's call 11 (Nov 11) the
+        // people a scene names stand as busts on the strip, each with their
+        // office under their name.
+        for (const person of beat.people)
+          expect(person.role, `${where}: ${person.name}`).toMatch(/\S/);
+      } else if (beat.kind !== "america" && beat.kind !== "home")
         expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
     }
@@ -108,7 +111,8 @@ it.each(["a", "b", "c"])(
     const officials = beats.filter((beat) => beat.kind === "officials");
     expect(officials.length, where).toBeGreaterThan(0);
     for (const beat of officials)
-      expect(beat.caption, where).toMatch(/\S+ \S+/);
+      for (const person of beat.people)
+        expect(person.role, `${where}: ${person.name}`).toMatch(/\S/);
     // The states' part names the player's governor by office over their
     // state's capitol, by the governor's own records.
     const governor = keyPeopleOf(world.core, world.playerId!).find((person) =>
@@ -117,20 +121,28 @@ it.each(["a", "b", "c"])(
     for (const beat of beats.filter((row) => row.kind === "state")) {
       expect(beat.backdrop.file, where).toMatch(/^state-capitol-/);
       if (!governor) continue;
-      expect(beat.caption, where).toContain(
-        `${governor.officeTitle} ${governor.name}`,
-      );
+      // The governor stands on the strip with the office under the name.
+      expect(
+        beat.people.map((person) => `${person.role} ${person.name}`),
+        where,
+      ).toContain(`${governor.officeTitle} ${governor.name}`);
       for (const id of governor.sourceRecordIds)
         expect(beat.sourceRecordIds, `${where}: ${id}`).toContain(id);
       expect(beat.backdrop.file, where).toContain(
         `state-capitol-${governor.stateKey!.slice(3).toLowerCase()}`,
       );
-      console.log(`${where}: ${beat.caption} over ${beat.backdrop.file}`);
+      console.log(
+        `${where}: ${beat.people.map((person) => `${person.role} ${person.name}`).join(", ")} over ${beat.backdrop.file}`,
+      );
     }
-    // Home holds the player.
-    expect(
-      beats.at(-1)!.people.map((person) => person.personId),
-      where,
-    ).toContain(world.playerId);
+    // Home lists the people the player lives with (nobody, for someone who
+    // lives alone), and never the player: the strip shows who else is there.
+    const household = world.core.households.get(
+      world.core.people.get(world.playerId!)!.householdId,
+    );
+    const home = beats.at(-1)!.people.map((person) => person.personId);
+    expect(home, where).not.toContain(world.playerId);
+    for (const id of home)
+      expect(household?.memberIds ?? [], where).toContain(id);
   },
 );

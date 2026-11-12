@@ -21,6 +21,7 @@ import { advanceCore, availableActs, type Controller } from "../core2/life";
 import { STOPGAPS } from "../core2/stopgaps";
 import {
   considerBribe,
+  bribeRefusal,
   CORRUPTION_MODULE_ID,
   enactLaw,
   lawChain,
@@ -984,6 +985,8 @@ export class DevMode {
     series?: string;
     value?: number;
     unit?: string;
+    /** Repeal the body's own law on an amount series: its level holds what it held before, including nothing. */
+    repeal?: boolean;
     billId?: string;
     /** Put the bill on the body's next sitting, as its sponsor's calendar would (a floor day the member is held for). */
     schedule?: boolean;
@@ -1027,6 +1030,7 @@ export class DevMode {
               kind: "law-amount",
               series,
               value,
+              ...(input.repeal ? { repeal: true } : {}),
               ...(input.unit ? { unit: input.unit } : {}),
             },
       ];
@@ -1560,6 +1564,35 @@ export class DevMode {
     });
   }
 
+  /** Who has a say on a bill: the members of each chamber it passes through and the executive who signs it. */
+  billDeciders(billId: string) {
+    const api = this.api;
+    const bill = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error("No such bill.");
+    const out: { personId: string; name: string; body: string }[] = [];
+    for (const chamber of chambersOf(api, bill)) {
+      const body = bodyOf(api, chamber);
+      for (const term of members(api, chamber))
+        if (term.personId)
+          out.push({
+            personId: term.personId,
+            name: `${term.identity.givenName} ${term.identity.familyName}`,
+            body: body?.bodyName ?? body?.governmentName ?? "",
+          });
+    }
+    const executive = executiveOf(api, bill.bodyOfficeId).term;
+    if (executive?.personId)
+      out.push({
+        personId: executive.personId,
+        name: `${executive.identity.givenName} ${executive.identity.familyName}`,
+        body: executiveOf(api, bill.bodyOfficeId).office?.kind ?? "",
+      });
+    return out;
+  }
+
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
   wealthiest(count = 12) {
     return [...this.core.people.values()]
@@ -1600,8 +1633,12 @@ export class DevMode {
         ? { pick: { offer: true, take: input.answer === "takes" } }
         : {}),
     });
-    if (!record)
-      throw new Error("No bribe: the offerer has no money or someone is gone.");
+    if (!record) {
+      const refusal = bribeRefusal(this.api, input);
+      throw new Error(
+        refusal ?? "No bribe: the offerer has no money or someone is gone.",
+      );
+    }
     return {
       mark: this.mark("bribe", [record.id], {
         offererId: input.offererId,
@@ -2233,8 +2270,45 @@ export class DevMode {
       news: newsItems(this.core)
         .filter((row) => row.date >= from)
         .slice(0, 200),
+      states: this.otherStatesByYear(),
       marks: this.marks(),
     };
+  }
+
+  /**
+   * Laws other states' legislatures changed, by the year they passed: how many
+   * and in how many states, with the law rows (each keeps what carried it onto
+   * its session's agenda). Read from the laws engine's rows.
+   */
+  otherStatesByYear() {
+    if (!has(this.core, "core2-laws-v1")) return [];
+    const byYear = new Map<string, { ids: string[]; states: Set<string> }>();
+    for (const row of this.api
+      .moduleState("core2-laws-v1")
+      .table("laws")
+      .rows() as unknown as {
+      id: string;
+      jurisdiction: string;
+      /** The day the row was written: the day it passed. */
+      retrieved?: string;
+      terms?: { session?: unknown };
+    }[]) {
+      if (typeof row.terms?.session !== "string" || row.jurisdiction === "US")
+        continue;
+      const year = String(row.retrieved ?? "").slice(0, 4);
+      const kept = byYear.get(year) ?? { ids: [], states: new Set<string>() };
+      byYear.set(year, kept);
+      kept.ids.push(row.id);
+      kept.states.add(row.jurisdiction);
+    }
+    return [...byYear.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([year, kept]) => ({
+        year,
+        changes: kept.ids.length,
+        states: kept.states.size,
+        recordIds: kept.ids,
+      }));
   }
 
   // 6. Experiments --------------------------------------------------------

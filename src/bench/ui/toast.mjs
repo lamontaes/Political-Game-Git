@@ -7,6 +7,8 @@ const timers = new Map();
 // While a scene, a talk, a meeting or a desk decision is on screen a toast waits, and shows once the scene ends (owner, Nov 7:
 // "News pop-ups wait until the scene ends"): its seconds start when it shows, never before.
 const waiting = new Map();
+// The toasts on screen now, with what shows them again: a scene that opens takes them down to wait.
+const shown = new Map();
 let watching = false;
 // The panels a scene or a held decision takes the stage with: the talk, the meeting, the desk
 // (also the floor vote, nominations and orders), election day, its returns and the ballot.
@@ -20,7 +22,18 @@ function watchScene() {
   if (!panels.length) return;
   watching = true;
   const observer = new MutationObserver(() => {
-    if (sceneOpen()) return;
+    if (sceneOpen()) {
+      // A toast already up when a scene opens comes down and waits like one asked for during it.
+      for (const [node, args] of [...shown]) {
+        shown.delete(node);
+        clearTimeout(timers.get(node));
+        timers.delete(node);
+        node.hidden = true;
+        node.classList.remove("fading");
+        waiting.set(node, args);
+      }
+      return;
+    }
     for (const [node, [seconds, onGone]] of [...waiting]) {
       waiting.delete(node);
       showToast(node, seconds, onGone);
@@ -35,6 +48,7 @@ function watchScene() {
 
 export function hideToast(node) {
   waiting.delete(node);
+  shown.delete(node);
   clearTimeout(timers.get(node));
   timers.delete(node);
   node.hidden = true;
@@ -42,8 +56,8 @@ export function hideToast(node) {
 }
 
 export function showToast(node, seconds, onGone) {
+  watchScene();
   if (sceneOpen()) {
-    watchScene();
     node.hidden = true;
     waiting.set(node, [seconds, onGone]);
     return;
@@ -55,6 +69,7 @@ export function showToast(node, seconds, onGone) {
   void node.offsetWidth;
   node.classList.add("fading");
   node.hidden = false;
+  shown.set(node, [seconds, onGone]);
   timers.set(
     node,
     setTimeout(() => {

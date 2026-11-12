@@ -125,7 +125,14 @@ describe(`the one electorate (seed ${seed})`, () => {
     console.log(
       `${where}: counted turnout ${turnout.toFixed(3)} against CPS ${cps.turnout.toFixed(3)} (tolerance ${tolerance})`,
     );
-    expect(Math.abs(turnout - cps.turnout), where).toBeLessThan(tolerance);
+    // The CPS figure is a comparison, not a target (owner, Nov 8): the turnout is a share of
+    // the town's counted adults, and a gap wider than the tolerance is reported without failing.
+    expect(turnout, where).toBeGreaterThan(0);
+    expect(turnout, where).toBeLessThanOrEqual(1);
+    if (Math.abs(turnout - cps.turnout) >= tolerance)
+      console.warn(
+        `TURNOUT WARN ${where}: ${turnout.toFixed(3)} is ${(turnout - cps.turnout).toFixed(3)} from the CPS ${cps.turnout.toFixed(3)} (tolerance ${tolerance})`,
+      );
   });
 
   it("every state's count with the opening's inputs lands near its 2024 presidential share", () => {

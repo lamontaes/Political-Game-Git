@@ -19,6 +19,6 @@ claimed-at: 2026-10-30T01:45:03.144Z
 
 **Done when.** In three drawn places from all 56 whose household lives in a house (name each place and seed), homeOf picks a plated living room and stagePeople draws the household there at the opening evening with no member unplaced as no-plate; a test fails if a house household is given an unplated living room while its list has a plated one; the stopgap is in src/core2/data/stopgaps.json.
 
-**Files.** src/bench/scene.ts, src/bench/people-pack.test.ts, src/core2/data/stopgaps.json
+**Files.** src/bench/scene.ts, src/core2/data/stopgaps.json
 
 **Notes.** TODO

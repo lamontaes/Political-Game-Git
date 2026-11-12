@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-play-what-people-say-about-me-reads-the-life-record
+pr: #8762
 after:
 blocked-on:
 standard: 2
@@ -17,6 +17,7 @@ root: design-life-record
 lead: screens
 source: CTO review of the life record design, Nov 10, 2026 (pull request 8111, note 1); the approved mock docs/mocks/2026-11-07-approved/menu-examples.html, the You example
 checked: fable 2026-11-10
+claimed-at: 2026-11-11T08:13:53.088Z
 ---
 
 **What.** The approved mock of the You screen has a section, What people say about me, that the game does not build. The life record (docs/design/life-record.md) gives every full person one list of remembered events, each with the other people it names. This item makes that section a reader of the same list: for the people closest to the player, the events on their lists that name the player, worded as short sentences in their voice from the English engine's banks and grouped by person. It is sentences, never a timeline: the owner withdrew the timeline on Nov 7 and called the old You screen "just an excel sheet of facts". Where a person is shown with a face it is the bust (owner, Nov 7).

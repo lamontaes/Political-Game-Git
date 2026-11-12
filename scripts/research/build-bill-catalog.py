@@ -17,6 +17,7 @@ development inventory the design asks for, never an empty docket.
 Run: python3 scripts/research/build-bill-catalog.py
 """
 
+import re
 import glob
 import json
 import pathlib
@@ -26,6 +27,20 @@ OUT = ROOT / "src/core2/data/legislature/bill-catalog.json"
 SERIES_POWERS = json.loads((ROOT / "src/core2/data/legislature/series-powers.json").read_text())["series"]
 QUESTION_POWERS = json.loads((ROOT / "data/research/powers-catalog/question-powers.json").read_text())["questions"]
 
+
+
+# Names of programs keep their capital inside a name read as words.
+PROPER_WORDS = {"medicaid": "Medicaid", "medicare": "Medicare"}
+
+
+def proper(words):
+    """Words with each program's name capitalized: medicaid reads Medicaid."""
+    return " ".join(PROPER_WORDS.get(word, word) for word in words.split(" "))
+
+
+def words_of(code):
+    """A code word as a person says it: healthAndHospitals reads health and hospitals."""
+    return proper(re.sub(r"(?<=[a-z])([A-Z])", lambda m: " " + m.group(1).lower(), code))
 
 def catalog_levels(levels):
     """The authority table calls county and city powers 'local'."""
@@ -153,8 +168,8 @@ SERIES = {
     "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages"),
     "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent"),
     "state-contribution-limit-governor": ("government", "Campaign finance", "State campaign contribution limit: governor", "USD/election"),
-    "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: stateSenate", "USD/election"),
-    "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: stateHouse", "USD/election"),
+    "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: state senate", "USD/election"),
+    "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: state house", "USD/election"),
     "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
     "executive-term-limit": ("government", "Elections and representation", "Governor term limit (terms; 0 for none)", "terms"),
     "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
@@ -184,7 +199,7 @@ def main():
         })
     for line, (subject, topic) in BUDGET_LINES.items():
         subjects[subject]["topics"][topic]["policies"].append({
-            "id": f"budget:{line}", "name": f"Spending: {line}", "kind": "budget-line", "line": line,
+            "id": f"budget:{line}", "name": f"Spending: {words_of(line)}", "kind": "budget-line", "line": line,
             "operations": ["expand", "restrict"], "levels": ["state", "county", "city"],
         })
     for line, (subject, topic, name) in FEDERAL_BUDGET_LINES.items():
@@ -206,7 +221,7 @@ def main():
         topic = topic or next(iter(subjects[subject]["topics"]))
         federal = key.startswith("us-federal-positions")
         subjects[subject]["topics"][topic]["policies"].append({
-            "id": f"question:{key}", "name": slug.replace("-", " "), "kind": "policy-question", "question": key,
+            "id": f"question:{key}", "name": proper(slug.replace("-", " ")), "kind": "policy-question", "question": key,
             "operations": ["enact", "repeal"], "levels": QUESTION_POWERS[key]["levels"],
         })
         if not federal:
@@ -214,7 +229,7 @@ def main():
             # dated state law like the grant of local income-tax power: raised
             # to 1 it grants, lowered to 0 it bars (laws.ts localPowerBarred).
             subjects[subject]["topics"][topic]["policies"].append({
-                "id": f"law:local-power:{slug}", "name": f"Local power: {slug.replace('-', ' ')}", "kind": "law-amount",
+                "id": f"law:local-power:{slug}", "name": f"Local power: {proper(slug.replace('-', ' '))}", "kind": "law-amount",
                 "series": f"local-power:{key}", "operations": ["raise", "lower"], "levels": ["state"],
             })
     out = []

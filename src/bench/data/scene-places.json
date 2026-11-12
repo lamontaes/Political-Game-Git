@@ -89,6 +89,7 @@
       "grocery-store",
       "gas-station"
     ],
+    "membership:political-party": ["campaign-office-storefront"],
     "membership:labor-union": ["union-hall"]
   },
   "variantByHour": [

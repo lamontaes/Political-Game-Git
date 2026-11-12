@@ -45,7 +45,7 @@ try {
       if (!(await page.locator("#talk:visible").count())) break;
       const state = await page.evaluate(() => ({
         backdrop: document.getElementById("backdrop").src.split("/").at(-1),
-        people: document.querySelectorAll("#people .figure").length,
+        people: document.querySelectorAll("#talk-strip .busts-person").length,
         text: document.getElementById("talk-lines").innerText,
         who: document.getElementById("talk-name").textContent,
       }));
@@ -71,7 +71,10 @@ try {
       /^oval-/,
       "the address does not start at the desk",
     );
-    assert.ok(beats[0].people >= 1, "the President is not at the desk");
+    assert.ok(
+      beats[0].people >= 1,
+      "the President is not on the strip at the desk",
+    );
     assert.ok(
       pictures.size >= 3,
       `only ${pictures.size} pictures: ${[...pictures]}`,

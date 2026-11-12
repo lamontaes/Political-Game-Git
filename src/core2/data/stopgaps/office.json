@@ -1,5 +1,17 @@
 [
   {
+    "id": "SG-OFFICE-deciding-seats",
+    "kind": "approximation",
+    "file": "src/core2/modules/office-day.ts",
+    "line": 464,
+    "whatItFakes": "Whether a member's seat could decide a meeting's votes is read from the body's size alone (at most decidingSeats seats, with a bill on the agenda), not from how close each vote is.",
+    "why": "The player would learn the count of the other members' positions from a test that read them (N2, docs/coordination/night-2026-11-08/rulings-legislation.md), and on a board of three or five one seat turns most votes.",
+    "addedBy": "opus-5251 (office-member-ordinance-voted-without-player-stop)",
+    "addedAt": "2026-11-11",
+    "replacement": "A whip count the player's character could know (what members said in public or to the player), read as how close the vote is, so a larger body's close vote holds the player too.",
+    "status": "open"
+  },
+  {
     "id": "SG-OFFICE-gov-meeting-dates",
     "kind": "calendar",
     "file": "src/core2/office-day-calendar.ts",
@@ -123,13 +135,15 @@
     "id": "SG-OFFICE-FED-trip-residents",
     "kind": "missing-record",
     "file": "src/core2/office-day-federal-president.ts",
-    "line": 729,
-    "whatItFakes": "The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.",
+    "line": 850,
+    "whatItFakes": "A person met on a trip to another town takes an age, job and wage from that town's counts, but has no household, employer or payroll there beyond the meeting.",
     "why": "Only the player's town has a counted population; other places are kept coarser.",
-    "replacement": "The other places' coarser populations fill in a met person from that place's own counts with a household, a job with an employer and pay that moves money (world-other-places-coarse-population). The age, job and wage a met person now takes from the place's counts (src/core2/coarse-place.ts) are the first part; the payroll and household are SG-WORLD-coarse-place-no-payroll.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The other places' coarser populations fill in a met person from that place's own counts with a household, a job with an employer and pay that moves money (world-other-places-coarse-population). The age, job and wage a met person now takes from the place's counts (src/core2/coarse-place.ts) are the first part; the payroll and household are SG-WORLD-coarse-place-no-payroll.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-OFFICE-FED-pardons",
@@ -138,10 +152,12 @@
     "line": 835,
     "whatItFakes": "The president has no conviction to pardon: the list is empty.",
     "why": "The justice engine tries every crime under the state's law and records no federal prosecution.",
-    "replacement": "OPUS-GOV's justice engine records the prosecuting sovereign and exports a pardon that ends a federal sentence; the federal day lists federal convictions.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: OPUS-GOV's justice engine records the prosecuting sovereign and exports a pardon that ends a federal sentence; the federal day lists federal convictions.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-OFFICE-FED-situation-room",
@@ -190,6 +206,18 @@
     "addedBy": "Legislation",
     "addedAt": "2026-11-08",
     "replacement": "Name the department's first assistant as acting head (5 U.S.C. 3345(a)(1)), or a Senate-confirmed officer or qualified senior employee the president directs (3345(a)(2)-(3)), pay and credit them as the acting official, hand the department's work to them, draw them from the capital's counted people rather than the town's, and extend service while a nomination is pending (3346(a)(2)).",
+    "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-place-district-from-county",
+    "kind": "assumed-data",
+    "file": "src/districts/place-membership.ts",
+    "line": 1,
+    "whatItFakes": "A place the Census place-to-district relationship files do not know (518 places created after the 2020 place list they were compiled from, most in Indiana, Pennsylvania and Virginia) is placed whole in the district, in each chamber, that holds the most resident workers (LODES8) among the places of its own county the files do know (src/districts/place-district-estimates.generated.json).",
+    "why": "The relationship files list only the 2020 places; the game's places are the 2025 Gazetteer's, and the files that assign each block to a district were not kept for these places.",
+    "addedBy": "opus-5234 (gov-offices-spec-opening-careers-alonzaville)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each such place assigned by its own Census interior point (or its blocks) against each chamber's district lines.",
     "status": "open"
   }
 ]

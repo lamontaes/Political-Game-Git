@@ -123,7 +123,7 @@
     "doorPledgeWeight": {
       "value": 2,
       "tag": "TUNABLE",
-      "source": "How much a voter's own \"yes\" at a campaign's door holds at the ballot, in appeal units: near-binding (owner, Oct 29), so larger than the other reasons a local voter weighs together (party side and tie, standing, the incumbent lean, recognition, warmth and closeness each run about -1 to 1), and undone only as far as something heavy they learned since (pledgeDoubt in voting.ts). Checked against how often voters a canvass identifies as supporters vote as they said.",
+      "source": "How much a voter's own \"yes\" at a campaign's door holds at the ballot, in appeal units: near-binding (owner, Oct 29), the margin a held yes keeps its candidate ahead by over the best rival, whatever the other reasons (party side and tie, standing, the incumbent lean, recognition, warmth and closeness) sum to for that rival (liftHeldPledges in electorate.ts lifts the pledged total to that margin in proportion to how far the yes holds), and undone only as far as something heavy they learned since (pledgeDoubt in voting.ts). Checked against how often voters a canvass identifies as supporters vote as they said.",
       "spread": [1, 3]
     },
     "speechWeight": {
