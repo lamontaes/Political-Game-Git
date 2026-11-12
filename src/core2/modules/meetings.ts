@@ -816,18 +816,6 @@ export function holdTownHall(
     ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
   table(api, "townHalls").put(row as unknown as ModuleRow);
-  // The room learns the host's name: whoever came and did not know them now
-  // does. The host does not learn forty faces, so no tie is made.
-  meetAtMeeting(
-    api,
-    input.hostId,
-    row.attendeeIds,
-    lawChain(api).townPlaceId,
-    id,
-    ENCOUNTERS.causes.metAtTownHall,
-    api.parameter("zero"),
-    true,
-  );
   api.emit({
     id: `town-hall:${id}`,
     date: api.state.date,

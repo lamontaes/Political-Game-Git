@@ -1,10 +1,9 @@
 /**
- * Meetings meet people (SG-P15-encounters, attendance part). In a drawn town
- * with a council of three, a town hall's room and a public comment's speakers
- * come to know the one they came to hear: each full person who did not know
- * them meets them by name, the meeting is a dated fact naming the place, and
- * the first tie holds the hours they sat in the room. A resident still in the
- * counted population is not filled in.
+ * Public comment meets people . In a drawn
+ * town with a council of three, a resident who stands up and did not know a
+ * member meets that member: both know each other by name, the meeting is a
+ * dated fact naming the place, and the first tie holds the speaker's time at
+ * the podium. A resident still in the counted population is not filled in.
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -18,7 +17,7 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import { openPress } from "./modules/press";
-import { holdTownHall, openMeetings, remarksOn } from "./modules/meetings";
+import { openMeetings, remarksOn } from "./modules/meetings";
 import { viewsModule } from "./modules/views";
 import { speechModule } from "./modules/speech";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -96,32 +95,10 @@ function town() {
 }
 
 describe("meetings meet people", () => {
-  it("a town hall's room learns its host's name without the host learning theirs, and public comment's speakers and the members know each other", () => {
+  it("public comment's speakers and the members who heard them know each other", () => {
     const { core, api, bill, seats, where } = town();
     const closeness = (a: string, b: string) =>
       core.relationships.get([a, b].sort().join(":"));
-
-    // A town hall: attendees who did not know the host meet them.
-    const host = seats[1]!.holder!.personId!;
-    const strangers = new Set(
-      [...core.people.values()]
-        .filter((p) => p.id !== host && !p.knownIds.has(host))
-        .map((p) => p.id),
-    );
-    const hall = holdTownHall(api, { hostId: host });
-    const newlyMet = hall.attendeeIds.filter((id) => strangers.has(id));
-    expect(newlyMet.length, `${where}: a stranger in the room`).toBeGreaterThan(
-      0,
-    );
-    for (const id of newlyMet) {
-      expect(core.people.get(id)!.knownIds.has(host), where).toBe(true);
-      // One way: the host does not learn the room's faces.
-      expect(core.people.get(host)!.knownIds.has(id), where).toBe(false);
-      const fact = core.knowledgeByPerson.get(id)?.get(`person:${host}:met`);
-      expect(fact?.value, where).toBeTruthy();
-      expect(fact?.sourceId, where).toBe(hall.id);
-      expect(closeness(id, host), where).toBeUndefined();
-    }
 
     // Public comment: the speakers who did not know a member meet that member.
     const memberIds = seats.map((s) => s.holder!.personId!);

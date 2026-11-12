@@ -1361,18 +1361,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("A meeting needs its place and its record.");
       if (!Number.isFinite(encounter.hours) || encounter.hours < p("zero"))
         throw new Error("Invalid meeting hours.");
-      if (
-        encounter.oneWay
-          ? actor.knownIds.has(otherId)
-          : actor.knownIds.has(otherId) && other.knownIds.has(actorId)
-      )
+      if (actor.knownIds.has(otherId) && other.knownIds.has(actorId))
         return false;
-      for (const [self, peer] of encounter.oneWay
-        ? ([[actor, other]] as const)
-        : ([
-            [actor, other],
-            [other, actor],
-          ] as const)) {
+      for (const [self, peer] of [
+        [actor, other],
+        [other, actor],
+      ] as const) {
         self.knownIds.add(peer.id);
         api.observe(self.id, {
           key: `person:${peer.id}:name`,
@@ -1389,7 +1383,6 @@ export function coreAPI(core: CoreState): CoreAPI {
           access: "perceived",
         });
       }
-      if (encounter.oneWay) return true;
       api.relationship(
         actorId,
         otherId,

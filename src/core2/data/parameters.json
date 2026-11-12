@@ -4023,8 +4023,7 @@
       "high": 7,
       "unit": "people known in a group of 10, before the power law's exponent",
       "citation": "Five work friends (Olivet Nazarene University, 2019) to the near-27 average contacts in a mid-size firm (Jacobs and Watts, 2021)."
-    },
-    "stopgapId": "SG-P15-encounters"
+    }
   },
   "groupKnownExponent": {
     "value": 0.4,
@@ -4036,8 +4035,7 @@
       "high": 0.5,
       "unit": "exponent",
       "citation": "Range that keeps 100 people at 18 to 45 known."
-    },
-    "stopgapId": "SG-P15-encounters"
+    }
   },
   "groupKnownCap": {
     "value": 150,

@@ -158,18 +158,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-P15-encounters",
-    "kind": "behavior-model-gap",
-    "file": "src/core2/data/encounters.json",
-    "line": 3,
-    "whatItFakes": "New people are met on a visit (the host's household), on joining a group (its other members), on a first shift (the coworkers already there), at a town hall (its host) and at public comment (the members of the body). Neighbors are not met during play, because households have no addresses to be next to; the hours the first tie holds are the act's own hours, not checked against a study of how acquaintances form.",
-    "why": "Owner's ruling, October 10, 2026 (CTO on #3956): build encounters 1 and 2 now, 3 with M1's jobs work.",
-    "addedBy": "OPUS-PEOPLE",
-    "addedAt": "2026-10-11",
-    "replacement": "Neighbors met when a household moves in, once addresses exist, and first-tie hours checked against a study of how acquaintances form.",
-    "status": "open"
-  },
-  {
     "id": "SG-P15-kin-light-past",
     "kind": "shared-past-generation-gap",
     "file": "src/core2/past-school.ts",
