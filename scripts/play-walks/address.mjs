@@ -20,12 +20,12 @@ const eve = process.argv[3] ?? eveOf(localData.levels.town.monthDay);
 const days = Number(process.argv[4] ?? 2);
 try {
   await newLife(walk);
-  // The governor's address comes the morning after the opening.
+  // The governor's address comes the day after the opening.
+  await pressDay(walk);
   await pressDay(walk);
   // Jump to the eve as the calendar does, continuing each stop on the way.
   const reached = await walk.page.evaluate(async (date) => {
-    const post = async (path) =>
-      (await fetch(path, { method: "POST" })).json();
+    const post = async (path) => (await fetch(path, { method: "POST" })).json();
     let body = await post(`/api/advance?mode=calendar&date=${date}`);
     for (let step = 0; step < 400 && body.packet?.kind === "stop"; step += 1)
       body = await post(
