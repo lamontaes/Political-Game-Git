@@ -120,7 +120,7 @@ const FIXTURES: Record<
     spares: sampleOf(
       text("narration", [
         [
-          "The kettle is on, and it will boil soon. When the rain stops, we walk. By noon, I'll know.",
+          "The kettle is on, and it will boil soon. When the rain stops, we walk. By noon, I'll know. Friends of the library, and all who came, it's good to see you.",
         ],
       ]),
     ),

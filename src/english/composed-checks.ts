@@ -154,26 +154,40 @@ const CONTRACTED_SUBJECT =
 /** The most comma-parts a sentence may have and still be read for a splice. */
 const SERIES = value("seriesMostParts");
 
-/** Whether a stretch of words reads as a full clause: a finite verb, and no subordinating opener. */
+/** Words that make what follows them part of a noun ("everyone who came"). */
+const RELATIVES = new Set(["who", "which", "that", "whom", "whose"]);
+
+/** Whether a word, with the one after it, is a subject and its verb: "I'm", "it is", "we went". */
+function subjectAndVerb(word: string, next: string | undefined): boolean {
+  if (CONTRACTED_SUBJECT.test(word)) return true;
+  return (
+    SUBJECTS.has(word) &&
+    next !== undefined &&
+    (VERBS.has(next) || next.endsWith("n't") || next.endsWith("ed"))
+  );
+}
+
+/**
+ * Whether a stretch of words reads as a full clause: a subject and its verb
+ * (or a finite verb after its first word, not inside a relative clause), and
+ * no subordinating opener. A list of people addressed ("everyone who came
+ * out") has neither, so it is not one.
+ */
 function fullClause(segment: string): boolean {
   const list = words(segment);
   if (!list.length || SUBORDINATE.test(list.join(" "))) return false;
   return list.some(
-    (word) =>
-      VERBS.has(word) || CONTRACTED_SUBJECT.test(word) || word.endsWith("n't"),
+    (word, at) =>
+      subjectAndVerb(word, list[at + one]) ||
+      (at > zero && VERBS.has(word) && !RELATIVES.has(list[at - one]!)),
   );
 }
 
 /** Whether a stretch opens on its own subject and verb: "I'll ...", "it is ...". */
 function opensClause(segment: string): boolean {
-  const list = words(segment);
-  const [first, second] = list;
-  if (!first || JOINED.test(first)) return false;
-  if (CONTRACTED_SUBJECT.test(first)) return true;
+  const [first, second] = words(segment);
   return (
-    SUBJECTS.has(first) &&
-    second !== undefined &&
-    (VERBS.has(second) || second.endsWith("n't") || second.endsWith("ed"))
+    first !== undefined && !JOINED.test(first) && subjectAndVerb(first, second)
   );
 }
 
@@ -548,7 +562,9 @@ export const speechNamesNoStrayPlace: ComposedCheck = (text, sample) => {
 const ASK = new RegExp(data.askVerbs, "i");
 const STOP = new Set(data.stopwords);
 const stem = (word: string): string =>
-  word.length > value("subjectWordLeastLetters") && word.endsWith("s")
+  word.length > value("subjectWordLeastLetters") &&
+  word.endsWith("s") &&
+  !word.endsWith("ss")
     ? word.slice(zero, -one)
     : word;
 const subjectWords = (sentence: string): string[] =>
