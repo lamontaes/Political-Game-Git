@@ -66,7 +66,9 @@ function stageNews(
     {
       id: storyId,
       kind: "press.printed",
-      date: core.date,
+      // Printed yesterday: the news engine hears a story printed before today
+      // at once, and one printed today on the next day's run.
+      date: addDays(makeIsoDate(core.date), -1),
       placeId: person.placeId,
       topic: top.question,
       desiredChange: "enact",
