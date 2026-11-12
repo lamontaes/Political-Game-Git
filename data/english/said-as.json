@@ -94,6 +94,41 @@
     "about": "How a line says a subject it already said (src/english/said-as.ts wordSubjectSlots): the point's act the second time one line names it (owner, Nov 12: \"saying the full name every time\").",
     "again": "do that"
   },
+  "they": {
+    "about": "Someone with no he or she on record is said again as they (src/english/said-as.ts wordPersonSlots), never by their role twice in one line (owner, Nov 12: \"There needs to be pronouns and titles\"). A line's verbs are written for one person, so the word after they (\"knows\" to \"know\") and a question's verb before it (\"does\" to \"do\") take the plural.",
+    "lower": "they",
+    "object": "them",
+    "possessive": "their",
+    "after": {
+      "'s": "'re",
+      "is": "are",
+      "isn't": "aren't",
+      "was": "were",
+      "wasn't": "weren't",
+      "has": "have",
+      "hasn't": "haven't",
+      "does": "do",
+      "doesn't": "don't",
+      "says": "say",
+      "wants": "want",
+      "knows": "know",
+      "thinks": "think",
+      "means": "mean",
+      "needs": "need",
+      "gets": "get",
+      "goes": "go",
+      "tries": "try",
+      "likes": "like",
+      "talks": "talk"
+    },
+    "before": {
+      "does": "do",
+      "doesn't": "don't",
+      "is": "are",
+      "was": "were",
+      "has": "have"
+    }
+  },
   "relation": {
     "yours": "your {relation} {given}",
     "mine": "my {relation} {given}",

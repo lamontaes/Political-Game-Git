@@ -197,4 +197,21 @@ describe("person slots", () => {
       wordPersonSlots(`The President spoke. Whatever ${a} says, fine.`, people),
     ).toBe("The President spoke. Whatever she says, fine.");
   });
+  // Lubec, Maine (2341575), seed 57625996fa1f34b2ceb4, Nov 12: a President
+  // with no he or she on record was said by role twice in one line.
+  it("says they for someone with no he or she on record, with plural verbs", () => {
+    const them = new Map([["p", { role: "the President", person: {} }]]);
+    const a = personSlot("p", "subject");
+    expect(
+      wordPersonSlots(
+        `The President spoke. Nobody needs it, and ${a} knows it. ${a}'s right, and neither does ${a}.`,
+        them,
+      ),
+    ).toBe(
+      "The President spoke. Nobody needs it, and they know it. They're right, and neither do they.",
+    );
+    expect(wordPersonSlots(`I heard ${a}. ${a} should act.`, them)).toBe(
+      "I heard the President. They should act.",
+    );
+  });
 });

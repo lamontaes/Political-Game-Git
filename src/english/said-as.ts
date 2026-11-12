@@ -237,6 +237,18 @@ export function personSlot(personId: string, kase: SaidCase): string {
   return `\u27e6${personId}|${kase}\u27e7`;
 }
 
+const THEY = {
+  subject: capital(data.they.lower),
+  lower: data.they.lower,
+  object: data.they.object,
+  reflexive: data.they.object,
+  possessive: data.they.possessive,
+} as const;
+const THEY_AFTER = data.they.after as Readonly<Record<string, string>>;
+const THEY_BEFORE = data.they.before as Readonly<Record<string, string>>;
+const matchCase = (like: string, word: string) =>
+  /^[A-Z]/.test(like) ? capital(word) : word;
+
 const SLOT = /\u27e6([^|\u27e7]+)\|(subject|object|possessive)\u27e7/g;
 
 /**
@@ -244,7 +256,7 @@ const SLOT = /\u27e6([^|\u27e7]+)\|(subject|object|possessive)\u27e7/g;
  * the role (with "'s" for a possessive) the first time the text names them,
  * by a slot or by the role's own words already in the text, then the
  * pronoun. `mentioned` says an earlier text on the same screen already named
- * them. A person said with the they form keeps the role.
+ * them. Someone with no he or she on record is "they", with plural verbs.
  */
 export function wordPersonSlots(
   text: string,
@@ -266,12 +278,14 @@ export function wordPersonSlots(
     if (!who) continue;
     const roleBare = who.role.replace(/^the\s+/i, "");
     if (new RegExp(`\\b${roleBare}\\b`, "i").test(out)) named.add(id!);
-    const words = pronounWords(
-      who.person.pronouns ?? pronounSetOfGender(who.person.gender),
-    );
+    // No he or she on record: they, with the verbs around it made plural.
+    const words =
+      pronounWords(
+        who.person.pronouns ?? pronounSetOfGender(who.person.gender),
+      ) ?? THEY;
     const start = /(^|[.!?]\s*)$/.test(out);
     let said: string;
-    if (!named.has(id!) || !words) {
+    if (!named.has(id!)) {
       said = kase === "possessive" ? possessive(who.role) : who.role;
       named.add(id!);
     } else
@@ -281,6 +295,24 @@ export function wordPersonSlots(
           : kase === "possessive"
             ? words.possessive
             : words.lower;
+    if (words === THEY && kase === "subject") {
+      out = out.replace(/(\S+)(\s+)$/, (whole, word: string, gap: string) =>
+        THEY_BEFORE[word.toLowerCase()]
+          ? `${matchCase(word, THEY_BEFORE[word.toLowerCase()]!)}${gap}`
+          : whole,
+      );
+      const rest = text.slice(at);
+      const next = /^('s|\s+[a-z']+)/.exec(rest)?.[1];
+      const plural = next ? THEY_AFTER[next.trim()] : undefined;
+      if (plural) {
+        out +=
+          (start ? capital(said) : said) +
+          (next!.startsWith("'") ? "" : " ") +
+          plural;
+        at += next!.length;
+        continue;
+      }
+    }
     out += start ? capital(said) : said;
   }
   return out + text.slice(at);
