@@ -339,8 +339,13 @@ export function serviceOf(
     makeIsoDate(core.startedAt),
   );
   const share = veteranShare(person.placeId, sex, age);
-  const line = new SeededRng(core.seed).fork(`past-service:${person.id}`);
-  if (line.next() >= share) return undefined;
+  // The pull of the share against the person's own seeded line: who served
+  // is generated with who existed, as the past's other passes make it.
+  const line = -Math.log(
+    1 - new SeededRng(core.seed).fork(`past-service:${person.id}`).next(),
+  );
+  const pull = -Math.log(1 - share);
+  if (pull < line) return undefined;
   const api = coreAPI(core as CoreState);
   const years = api.parameter("pastServiceYears");
   const enlisted = schoolingEndsOf(core, person);

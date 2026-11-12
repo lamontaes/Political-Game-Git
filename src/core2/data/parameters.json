@@ -7256,6 +7256,7 @@
   },
   "pastServiceYears": {
     "value": 4,
+    "role": "level",
     "tag": "ESTIMATED",
     "citation": "The years of a first enlistment before discharge: 10 U.S.C. 505(c) lets the services accept original enlistments \"for a period of at least two but not more than eight years\" (fetched Nov 12, 2026, https://www.law.cornell.edu/uscode/text/10/505); four, the common first term, is taken for every veteran.",
     "estimatedFrom": "The statute's range of an original enlistment; the common four-year active term within it.",
