@@ -126,3 +126,19 @@ The overlap with a parent is high (54 to 73 percent), but so is the overlap with
 4. The comment in `reviewTurnover` says "the full people there hold commuter jobs (outside account), read as any job". The code does not do that: `turnoverJobs` drops them. This is the one line to change (an outside job of a full person needs the same pull as a counted `regional` row, with the full person's own lean), and the fix may need a layoff of an outside job to end it and put the person in the seeker list as `regional` ones are.
 
 **Result.** The full people are not laid off at a tenth the rate because of the attendance check or the lean. Three quarters of them hold commuter jobs that the turnover review never reads, so their layoffs are 0 in half a year; the ones it does read are laid off at 3.9 percent against 6.1 percent for counted workers. Add this to `people-residents-cadence-mechanic-part-2-counted-layoffs`'s Notes (no twin). Heavy-run note: each world is about a minute for 183 days.
+
+## Row 9: the governor's address stop
+
+**Measured.** `scripts/measure/row09-address-walk.mjs`, run on the speech branch (`claude/words-speech-outline`, head 8ca47fa22b) with a bench on it and Playwright's Chromium: a new life, Week pressed from the opening (Monday, January 20, 2025, 8:30 PM) and the clock read every 300 ms until the day came back, with each scene's opening clock and the whole trail of clocks written down. Three drawn places by bench seed.
+
+| Place (seed) | Week pressed at | First stop | The address | Scene opened with the clock at | Clock went back? |
+| --- | --- | --- | --- | --- | --- |
+| Lyndon, Vermont (a9d3) | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM | no |
+| Fairdale, North Dakota (b7e1) | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM | no |
+| Bluewell, West Virginia (c4f2) | Jan 20, 8:30 PM | Wednesday, Jan 22, 7:00 AM | the governor's, "last night" | Jan 22, 7:00 AM | no |
+
+The clock trails: Lyndon, `Mon Jan 20 8:30 PM -> Wed Jan 22 7:00 AM -> Thu Jan 23 7:00 AM -> Tue Jan 28 7:00 AM`; the same shape in the other two. In Lyndon the town's own address was tried with a Week pressed on Thursday, February 6, five days before it: the Week stopped on Tuesday, February 11, 7:00 AM (the selectboard chair's address, "last night") after five of its seven days, and then ran on to Thursday, February 13.
+
+**Result.** The cause in the sheet is not measured: the Week does stop on both addresses, on the morning after the address night, and the clock never moves back. The governor's address (January 21) is met on January 22 at 7:00 AM, by design ("You caught Governor ... on ... last night"), and the town's (February 10) on February 11. So the Week press stops on the address at the first morning after it, not the day it happens, and no clock jumps back in any of three runs. Either the clock jump the sheet saw is from a Day press combined with #8812's set-aside scenes (which is not on the speech branch's head), or it is the first morning's framing the sheet read as "after the calendar passed it". The fix named in the sheet (put `governor.address` and `mayor.address` in the stops list so the Week ends on the address day) would change when the stop falls, from the morning after to the evening of the address; the owner's words (Oct 27: "a scene stops time, or the player does") do not ask for that. Row 9's verdict should be changed from NEEDS MEASURING to "not reproduced on the speech branch's head; re-run with #8812 merged".
+
+**One thing seen on the way.** The scene's header clock reads "Wednesday, January 22, 20257:00 AM" (no space between the year and the time) in the scene's own `#card-clock`, and with a space outside a scene, in all three worlds. It is a screen-text detail for the Words line.
