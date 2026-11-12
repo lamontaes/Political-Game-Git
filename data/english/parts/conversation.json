@@ -35041,10 +35041,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-back-core.i-ll-be-okay-it-s-name-i-keep-thinking-about",
+      "key": "conversation.death-news-back-core.i-ll-be-okay-it-s-relation-i-keep-thinking-about",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "I'll be okay. It's {name} I keep thinking about.",
+      "text": "I'll be okay. It's {relation} I keep thinking about.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -35064,10 +35064,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-back-core.not-really-i-can-t-believe-name-is-gone",
+      "key": "conversation.death-news-back-core.not-really-i-can-t-believe-relation-is-gone",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "Not really. I can't believe {name} is gone.",
+      "text": "Not really. I can't believe {relation} is gone.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -35087,10 +35087,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-back-core.we-ll-need-to-call-the-family-about-name",
+      "key": "conversation.death-news-back-core.we-ll-need-to-call-the-family-about-relation",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "We'll need to call the family about {name}.",
+      "text": "We'll need to call the family about {relation}.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -35110,10 +35110,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.death-news-back-core.there-ll-be-a-service-for-name-i-ll-find-out-when",
+      "key": "conversation.death-news-back-core.there-ll-be-a-service-for-relation-i-ll-find-out-when",
       "move": "death-news-back-core",
       "kind": "spoken",
-      "text": "There'll be a service for {name}. I'll find out when.",
+      "text": "There'll be a service for {relation}. I'll find out when.",
       "uses": [
         {
           "move": "death-news-back-core",
@@ -35220,10 +35220,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-back-core.we-don-t-know-yet-i-ll-keep-calling-name",
+      "key": "conversation.illness-news-back-core.we-don-t-know-yet-i-ll-keep-calling-relation",
       "move": "illness-news-back-core",
       "kind": "spoken",
-      "text": "We don't know yet. I'll keep calling {name}.",
+      "text": "We don't know yet. I'll keep calling {relation}.",
       "uses": [
         {
           "move": "illness-news-back-core",
@@ -35243,10 +35243,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-back-core.i-know-let-s-call-name-together",
+      "key": "conversation.illness-news-back-core.i-know-let-s-call-relation-together",
       "move": "illness-news-back-core",
       "kind": "spoken",
-      "text": "I know. Let's call {name} together.",
+      "text": "I know. Let's call {relation} together.",
       "uses": [
         {
           "move": "illness-news-back-core",
@@ -35266,10 +35266,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.illness-news-back-core.just-call-name-it-ll-mean-a-lot",
+      "key": "conversation.illness-news-back-core.just-call-relation-it-ll-mean-a-lot",
       "move": "illness-news-back-core",
       "kind": "spoken",
-      "text": "Just call {name}. It'll mean a lot.",
+      "text": "Just call {relation}. It'll mean a lot.",
       "uses": [
         {
           "move": "illness-news-back-core",
@@ -35420,10 +35420,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-back-core.it-is-i-ll-write-to-name-this-week",
+      "key": "conversation.prison-news-back-core.it-is-i-ll-write-to-relation-this-week",
       "move": "prison-news-back-core",
       "kind": "spoken",
-      "text": "It is. I'll write to {name} this week.",
+      "text": "It is. I'll write to {relation} this week.",
       "uses": [
         {
           "move": "prison-news-back-core",
@@ -35443,10 +35443,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.prison-news-back-core.we-can-i-ll-find-out-how-to-visit-name",
+      "key": "conversation.prison-news-back-core.we-can-i-ll-find-out-how-to-visit-relation",
       "move": "prison-news-back-core",
       "kind": "spoken",
-      "text": "We can. I'll find out how to visit {name}.",
+      "text": "We can. I'll find out how to visit {relation}.",
       "uses": [
         {
           "move": "prison-news-back-core",
