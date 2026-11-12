@@ -1149,7 +1149,11 @@ export function recordPublicPay(api: CoreAPI, source: Source): void {
 
 // The bribe a dev control forces runs through the corruption engine, which is in this family: its
 // entry carries the way in, so a caller outside the family imports one entry, not the file.
-export { considerBribe, CORRUPTION_MODULE_ID } from "./corruption";
+export {
+  bribeRefusal,
+  considerBribe,
+  CORRUPTION_MODULE_ID,
+} from "./corruption";
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
 export { policyAuthority } from "../policy-authority";

@@ -122,6 +122,15 @@ try {
     (await page.locator("[data-record-id]").count()) > 0,
     "each record row carries its record id",
   );
+  const rowTexts = await page
+    .locator("[data-record-id]")
+    .evaluateAll((nodes) => nodes.map((node) => node.textContent ?? ""));
+  for (const row of rowTexts)
+    assert.doesNotMatch(
+      row,
+      /past-bill:|us-policy-positions|\w+:\w+:\w+/,
+      `a record row shows a raw id: ${row}`,
+    );
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: Campaigns shows the player's record");
 } finally {

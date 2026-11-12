@@ -171,7 +171,12 @@ export {
 } from "../closeness";
 // The vote record's id and rows, the key people of the opening and the school
 // measure's id and rows, for readers outside the family.
-export { RECORD_MODULE_ID, votesOf, type VoteRecordRow } from "./record";
+export {
+  RECORD_MODULE_ID,
+  promisesOf,
+  votesOf,
+  type VoteRecordRow,
+} from "./record";
 export { keyPeopleOf } from "../opening-key-people";
 // The town's moves, for the screens that count them: counted households'
 // move records and a named resident's moved-away event.
@@ -187,7 +192,7 @@ export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
-export { ENCOUNTERS } from "../encounters";
+export { ENCOUNTERS, meetInTalk } from "../encounters";
 // Disputes between two people from layoffs and evictions, for the world that opens them.
 export { openGrievance } from "./grievance";
 // A household's month of income (its open jobs and income awards), for

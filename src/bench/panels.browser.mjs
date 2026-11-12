@@ -74,7 +74,7 @@ try {
   });
   console.log("Place:", await page.locator("#card-place").innerText());
   // A person's card: the first person in the room on the first evening.
-  const figure = page.locator("#people .talkable").first();
+  const figure = page.locator("#here .busts-person.talkable").first();
   await figure.waitFor();
   await figure.focus();
   await page.keyboard.press("Enter");
@@ -86,6 +86,9 @@ try {
   await solid("Person card", "#person");
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
+  // The talk is left before a menu is opened: the rail is not shown beside a talk.
+  await page.locator("#talk-leave").click();
+  await page.locator("#talk").waitFor({ state: "hidden" });
   await page.locator('#rings [data-tab="calendar"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
   // One left menu: the rail stays beside an open screen and no Menu panel
