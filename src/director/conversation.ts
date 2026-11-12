@@ -151,7 +151,7 @@ import {
   monthsOfRentDays,
   termSaid,
 } from "../english/count-words";
-import relativeNewsWords from "../../data/english/relative-news-words.json" with { type: "json" };
+import { RELATIVE_NEWS_WORDS } from "../english/relative-news-words";
 import type { FinanceContractInput } from "../core2/modules/finance";
 import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
 import { SAID_AS_DATA as saidAsData } from "../english/said-as";
@@ -861,12 +861,7 @@ function relativeNewsFacts(
   return facts;
 }
 
-const RELATIVE_NEWS = relativeNewsWords as unknown as {
-  deathCauses: Readonly<Record<string, string>>;
-  illnesses: Readonly<Record<string, string>>;
-  offenses: Readonly<Record<string, string>>;
-  youngBelowAge: { value: number };
-};
+const RELATIVE_NEWS = RELATIVE_NEWS_WORDS;
 
 /** The news a household member tells of a relative, by the label of the listener's moment. */
 const NEWS_KINDS: Readonly<Record<string, string>> = {
