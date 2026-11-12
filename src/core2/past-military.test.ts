@@ -16,7 +16,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { openWholePast } from "./modules/people";
 import { lifeOf } from "./person-life";
 import { PAST_DISCHARGED, PAST_ENLISTED } from "./past-military";
-import { PAST_WORK_SPELL, veteranShare } from "./past-work";
+import { PAST_WORK_SPELL, serviceOf, veteranShare } from "./past-work";
 import { preStartHistory } from "./pre-start";
 import type { PersonId } from "./types";
 
@@ -59,6 +59,10 @@ it(`a past holds military service at the veteran shares, in ${where}`, () => {
       kind: PAST_DISCHARGED,
       personId: person.id,
     });
+    // The people engine wrote the service the rule gives, and no other.
+    expect(Boolean(enlisted), `${person.id} served, ${where}`).toBe(
+      Boolean(serviceOf(core, person)),
+    );
     if (!enlisted) {
       expect(discharged, person.id).toBeUndefined();
       continue;
