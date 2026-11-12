@@ -7,7 +7,7 @@ Each picture is the card a player opens from "Who I am" on the first evening, fo
 | Place and seed                        | Person                       | Before                                              | After                                                                           |
 | ------------------------------------- | ---------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------- |
 | Cayuse, Oregon (seed lrcard01)        | Shannon Garcia, the father   | "At 14, he went on to high school."                 | "At 14, he went on to high school. He graduated Cayuse Public Schools in 1996." |
-| Cayuse, Oregon (seed lrcard01)        | Elizabeth Garcia, the mother | Her school years in Oregon, then work.              | "She started college in 2005."                                                  |
+| Cayuse, Oregon (seed lrcard01)        | Elizabeth Garcia, the mother | Her school years in Oregon, then work.              | "She started college in 2005. She earned a bachelor's degree in 2009."          |
 | Mars Hill, Maine (seed lrcard02)      | Heather Lynch, the mother    | "Later, in 1993, she moved up to high school."      | "... She finished at Mars Hill Public Schools in 1997."                         |
 | Angoon, Alaska (seed lrcard03)        | Thomas Hardy, the father     | "At 5, Thomas Hardy went to school back in Alaska." | "... He started college in 2001. He finished college with a degree in 2005."    |
 | Diamondville, Wyoming (seed lrcard04) | Erin Farmer, the mother      | Her school years, then work.                        | "She began college in 1994. She left college in 1996 before finishing."         |
