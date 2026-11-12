@@ -11,6 +11,7 @@ import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
 import { governmentUnitsForState } from "../reference/government-units";
 import { placeCounty, placeStateKey } from "../place-map";
+import { fullRelativesOf } from "../births-counted";
 import {
   corePlaceByKey,
   corePlaceByJurisdictionId,
@@ -732,6 +733,8 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
           usps: town.usps,
+          // The county's own ACS shares (a whole-state or island row reads its state's, else the nation's).
+          ...(/^\d{5}$/.test(town.county) ? { county: town.county } : {}),
           seed: input.seed,
           // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
           bankRoomMinor:
@@ -2545,20 +2548,28 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
   // counted death names its own (births-counted `notifyCountedDeaths`), so the
   // full people who follow that relative read it. Members still counted are
   // named by its facts too (`countedFacts`), each a subject, as a status
-  // change names them (`setStatus`).
-  // stopgapId: SG-WORLD-counted-eviction-kin-notice
+  // change names them (`setStatus`). The full people who list a counted
+  // member as family witness it on the day, as they do a counted death.
   const countedStore = residentsRuntime(c)?.store;
   const counted = countedStore?.liveHousehold(row.householdId);
   const household = counted ? undefined : c.households.get(row.householdId);
   const memberIds = counted
     ? countedStore!.memberIdsOf(counted)
     : (household?.memberIds ?? []);
-  if (counted) api.stopgap("SG-WORLD-counted-eviction-kin-notice");
+  const evicted = new Set(memberIds);
+  const witnessIds = [
+    ...new Set(
+      memberIds
+        .filter((id) => c.husks.has(id))
+        .flatMap((id) => fullRelativesOf(api, id)),
+    ),
+  ].filter((id) => !evicted.has(id));
   api.emit({
     id: `event:housing.eviction:${caseId}`,
     date: c.date,
     kind: "housing.eviction",
     personIds: memberIds.filter((id) => c.people.has(id) || c.husks.has(id)),
+    ...(witnessIds.length ? { witnessIds } : {}),
     placeId:
       counted?.placeId ??
       household?.placeId ??

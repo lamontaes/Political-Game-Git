@@ -29,6 +29,14 @@ A test that builds a world draws its place from all 56 (`drawPlace` in `scripts/
 5. **Fail by name when nothing is found.** After the last draw, throw with the whole list. Never `return` early, and never mark the test skipped: a test that passes without checking proves nothing.
 6. **Never pin a place or a seed** to get green. A pinned world breaks the day main changes the world. A named place appears only as a labeled case beside the drawn ones.
 7. **Change no assertion.** The search for a witness changes; what is asserted about it does not.
+8. **Print the place with `process.stdout.write`, never `console.log`.** The runner swallows `console.log`, so a passing test that logs its place and its passed-over list shows nothing (found Nov 12, #8580 and #8567). A pass line names the place used, its seed and every place passed over, on stdout.
+
+## Before you call a red a flake
+
+Replay it. A check that failed once and passed on a second draw has told you nothing yet: run it again on the failed seed (`BENCH_SEED` for a browser check). If it fails every time on that seed, it is a finding about that place. On Nov 11 the merge desk saw `bill-stage` time out once in Red Hook, U.S. Virgin Islands. On replay it failed every time, and showed three defects: Play as offered another place's council, a bill's page cut off its vote, and a heading stood with nothing under it.
+
+- **A check that steps in as an official picks one whose office the played place runs.** A match on a word in the list ("council") found another place's council, whose office is held as results only. Match the body by its government, never by a word in a name.
+- **A check never drafts around a missing case.** One that fell back to "the first subject" when none had a law in force went on and failed two minutes later, somewhere else. Fail by name at the point the case is missing, with the seed and what was passed over.
 
 ## Before you call a red "the game's"
 

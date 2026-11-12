@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/housing.json, data/research/world/eviction-statute-reads-2026.json, scripts/research/housing-check.ts, src/core2/data/laws/starting-law.json
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have dated eviction steps by statute change; no player sees the notice or hearing days.

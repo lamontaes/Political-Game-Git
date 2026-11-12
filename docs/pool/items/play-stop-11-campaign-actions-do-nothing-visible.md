@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: merged
 claimed-by: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
 pr: #8262
 after:
@@ -20,7 +20,7 @@ milestone: play-first
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T04:14:43.704Z
 branch: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
-merged-at:
+merged-at: 2026-11-12T21:17:05.278Z
 ---
 
 **What.** After filing for Anson City Council on the v0.22.10 release, Give a speech made its button disappear and nothing else happened, Ask for an interview added a line and nothing more, Call donors left "$0.00 raised", Hold an event stayed grayed with no reason, and only Knock on doors showed a scene. Child -a is done (PR 6787) and -b is dropped as a twin of play-first-13-campaign-screen-to-mock-b (done); a grayed action now shows its reason from the records on its button. What is left is a second session's replay of the finish line.

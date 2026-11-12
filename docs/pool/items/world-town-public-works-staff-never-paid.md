@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the player's household pay in Morrison, Oklahoma, where the town never pays its maintenance worker.
 
 **Rules.** Wire to the world: a town job pays from the town's budget through the journal, one dollar followed from the budget line to the worker. One rule, all 56 places: no place named. No dice: the budget and the law in force decide whether the department is funded.
 

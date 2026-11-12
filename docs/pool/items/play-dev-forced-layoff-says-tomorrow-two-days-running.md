@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-dev-forced-layoff-says-tomorrow-two-days-running
-pr:
+pr: #8585
 after:
 blocked-on:
 lead: play-first

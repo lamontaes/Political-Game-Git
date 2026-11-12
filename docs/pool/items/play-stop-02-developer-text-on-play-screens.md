@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
 pr: #8266
 after:

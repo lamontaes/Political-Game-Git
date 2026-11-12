@@ -39,6 +39,7 @@ import {
   countedResidents,
   countedShareRule,
   customPolitics,
+  liftHeldPledges,
   partyStrength,
   engagementOf,
   type CountedAppeal,
@@ -149,7 +150,11 @@ import {
 import { ballotCuesOf, ballotForms, ballotOrderRule } from "../ballot-order";
 import { caucusSide, nationalParty, partySide } from "../appointments";
 import { promisesOf, recordAppeal, votesOf, type RecordReason } from "./record";
-import { candidacyModule, CANDIDACY_MODULE_ID } from "./candidacy";
+import {
+  candidacyModule,
+  CANDIDACY_MODULE_ID,
+  registerClosedContestWeighed,
+} from "./candidacy";
 import {
   agreementWith,
   countedStanceProfile,
@@ -445,15 +450,37 @@ export function openVoting(core: CoreState): void {
     if (contest) scheduleContest(a, contest);
     return contest !== null;
   });
+  // A race whose filing closed before the record began is finished once
+  // candidacy has weighed it, so its own runners stand before any stand-in.
+  registerClosedContestWeighed(closeAtOpening);
   for (const contest of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .rows() as unknown as ContestRow[])
-    scheduleContest(api, contest);
+    scheduleContest(api, contest, true);
+}
+
+/**
+ * A race closed before the record began, after candidacy has weighed it: the
+ * parties with no runner of their own get their nominees, and a primary whose
+ * day has already come is held now by the engine's own count, its losers
+ * leaving the general ballot, so November never carries two runners of one
+ * party where the state's primary would have chosen one.
+ */
+function closeAtOpening(api: CoreAPI, contest: ContestRow): void {
+  if (contest.electionDate <= api.state.date) return;
+  fileStandingCandidates(api, contest.id);
+  if (contest.primaryDate && contest.primaryDate <= api.state.date)
+    holdPrimary(api, contest.id);
 }
 
 /** Put a contest's filing close, primary and election day on the calendar. */
-function scheduleContest(api: CoreAPI, contest: ContestRow): void {
+function scheduleContest(
+  api: CoreAPI,
+  contest: ContestRow,
+  /** At the opening: a race closed before it waits for candidacy (`closeAtOpening`). */
+  opening = false,
+): void {
   const date = api.state.date;
   const calendar = api.moduleCalendar(VOTING_MODULE_ID);
   if (contest.electionDate <= date) return;
@@ -470,7 +497,15 @@ function scheduleContest(api: CoreAPI, contest: ContestRow): void {
       source,
       sourceRecordIds: [contest.id],
     });
-  else fileStandingCandidates(api, contest.id);
+  // Closed before the record began: candidacy weighs the town's runners
+  // first, then the field is finished (`closeAtOpening`). A deadline today,
+  // or a race opened in play, is finished now.
+  else if (
+    !opening ||
+    contest.filingDeadline >= date ||
+    !api.state.modules.has(CANDIDACY_MODULE_ID)
+  )
+    fileStandingCandidates(api, contest.id);
   if (contest.primaryDate && contest.primaryDate > date)
     calendar.schedule({
       key: `primary:${contest.id}`,
@@ -1037,6 +1072,14 @@ function appealFor(
       pledge: parts.pledge,
     };
   }
+  // A held door yes keeps its candidate ahead, in proportion to how far it
+  // holds: the one rule a counted voter's appeal reads too (`liftHeldPledges`).
+  liftHeldPledges(
+    appeal as unknown as Record<
+      string,
+      { total: number; pledge?: number; pledgeLift?: number }
+    >,
+  );
   const basis: "platform" | "party-name-incumbency" = heardPlatform
     ? "platform"
     : "party-name-incumbency";
@@ -2234,6 +2277,9 @@ export function holdPrimary(
       contestId,
       office: contest.title,
       method,
+      // The primary's own day: a race closed before the record began holds a
+      // past primary on its first day (`closeAtOpening`).
+      ...(contest.primaryDate ? { primaryDate: contest.primaryDate } : {}),
       votes: JSON.stringify(votes),
       namedVotes: String(namedVotes),
       outIds: JSON.stringify(
@@ -3074,6 +3120,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // town's people like them, so their vote counts at the share of them who
   // turn out. Each ballot is kept with its reasons, like a named voter's.
   const countedVotes: Record<string, number> = {};
+  // What the counted voters tell the exit pollster, by the named voters'
+  // rule (pollsterCase and the trait lean), at their turnout share.
+  const countedExitPoll: Record<string, number> = {};
   let countedVoted = 0;
   let countedEligible = 0;
   const field = countedField(api, counting, filings);
@@ -3183,6 +3232,27 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     for (const [backed, weight] of Object.entries(division.votes))
       countedVotes[backed] =
         (countedVotes[backed] ?? 0) + t.propensity * weight;
+    // The record tells the pollster as a named voter would: a reluctant one
+    // declines, so its whole turnout share counts as declined.
+    const tells = leanedYes(
+      api.state,
+      voter,
+      "voting.exit-poll",
+      "tell",
+      "decline",
+      pollsterCase(api, voter, t.interest).case,
+    );
+    // An at-large ballot divides several votes; the poll asks for the first
+    // choice, so the record's turnout share divides in proportion.
+    const cast = Object.values(division.votes).reduce((a, b) => a + b, 0);
+    if (tells && cast > 0)
+      for (const [backed, weight] of Object.entries(division.votes))
+        countedExitPoll[backed] =
+          (countedExitPoll[backed] ?? 0) +
+          (t.propensity * voter.weight * weight) / cast;
+    else if (!tells)
+      countedExitPoll.declined =
+        (countedExitPoll.declined ?? 0) + t.propensity * voter.weight;
   }
   if (!bookkeeping()) dropOldCountedBallots(api);
   table(api, "countedBallots").put({
@@ -3199,6 +3269,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const scale = countedScale(api);
   for (const id of Object.keys(countedVotes))
     countedVotes[id] = Math.round(countedVotes[id]! * scale);
+  for (const id of Object.keys(countedExitPoll))
+    exitPoll[id] =
+      (exitPoll[id] ?? 0) + Math.round(countedExitPoll[id]! * scale);
   countedVoted = Math.round(countedVoted * scale);
   countedEligible = Math.round(countedEligible * scale);
   // The rest of the race's electorate, place by place, on the same engine.

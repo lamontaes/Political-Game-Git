@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/residents.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/modules/counted-demotion.ts, src/core2/commuting-shares.ts, src/core2/law-reach/group-b-people.ts, src/core2/counted-weight-unplaced.test.ts
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-vv) while claiming world-lodes-commutes. The consumers of the unplaced flow are in src/core2/modules/residents.ts (lines near 308, 524, 583, 1706), counted-moves.ts, counted-money.ts, counted-demotion.ts and law-reach/group-b-people.ts; the flow is matched by finance kind in most and by id prefix in counted-weight-unplaced.test.ts. The LODES file keeps only live-work, live-out and work-in totals, not destination places, so the commute destination is a recorded account, not a named town, until the origin-destination matrix is kept. Claim released Oct 23: branch gone.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have split the unplaced wage flow by LODES commute share; commute is one estimate at most and no screen reads it (owner, Nov 10).

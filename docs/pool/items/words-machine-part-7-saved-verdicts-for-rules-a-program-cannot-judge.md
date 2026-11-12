@@ -1,55 +1,53 @@
 ---
 id: words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
-title: "The words machine, part 7: rules a program cannot judge read saved verdicts, one per line, and pull the lines judged bad"
+title: "Each judged rule covers only the lines it is about, so its saved verdicts can be judged and start pulling lines"
 area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
+claimed-by: claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
 pr: #8522
 after:
 blocked-on:
 lead: words
-model: opus
+model: sonnet
 effort: medium
 root: design-words-machine
 source: written by Fable, Nov 10, 2026, from the CTO's line of 18:50Z on issue 7365 (the saved-verdict store for the meaning-and-tone rules is part of the test parts) and docs/design/words-machine.md
 checked: fable 2026-11-10
 merged-at:
-claimed-at:
+claimed-at: 2026-11-11T06:30:48.188Z
 branch: claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge
 ---
 
-**What.** Most of the owner's rules about words are about meaning and tone: whether a line names something specific, explains itself, or sounds like the person saying it. A program cannot judge those. The design has a reviewer judge each line once and save the verdict, and the run then reads the saved verdicts. One rule already works this way, the rule that a reply follows the line before it. This part makes that one store serve every such rule, so each of them can start pulling lines.
+**What.** Most of the owner's rules about words are about meaning and tone, which a program cannot judge. A reviewer judges each line once, the verdict is saved, and the run reads it. That one store is built for every such rule (src/english/judged.ts, scripts/words/verdicts.ts, `npm run words:pairs -- --rule`, the guard and the skill). But no judged rule pulls a single line yet, because each rule's sheet is the whole bank, so the judging never gets anywhere. Narrow each rule to the lines it is about, then judge the first rules and move them to `sample`. Guards: lines that break the owner's rules on meaning and tone stop playing in scenes, the journal and the news.
 
-**Cause.** Needs cause. Built on main already (opus-5251, Nov 11, PR #8522): line-rules.ts reads every judged rule's verdicts through src/english/judged.ts, `words:pairs -- --rule` writes sheets for any judged rule, data/english/judged/ holds six rules' verdicts, and the words-engine skill says how a reviewer judges a sheet. For the CTO to close or re-aim. The earlier text: Found in code: `breaks` in src/english/line-rules.ts (line 188) returns false for every rule whose test is `{ kind: "judged" }`, so such a rule flags nothing. data/english/line-rules.json holds 53 of them on main at f04686d130, all `status: awaiting-test` (17 judge one line, 24 a piece in its spot, 8 a set and 4 an exchange). The only saved verdicts are for one rule, `reply-follows-the-line-before`: sheets written by scripts/words/reply-pairs.ts (`npm run words:pairs`), folded by scripts/words/reply-verdicts.ts and scripts/words/fold-verdicts.ts (`npm run words:verdicts`) into data/english/judged/reply-follows.json, and read through src/english/reply-follows.ts. Nothing writes a sheet, folds a verdict or reads one for any other rule.
+**Cause.** Measured: `npm run words:rules` on main d64255aa (Nov 11). Every one of the 34 `judged` rules that judge a line or a piece in its spot reports about 11,999 lines "waiting for a verdict", the whole bank. That includes rules about only pleas and bargains (`stake-is-named`), only the journal (`journal-names-no-feeling`) or only the news (`news-reads-as-a-story`). Found in code: `lineSubjects` in src/english/line-rules.ts narrows a rule only by its optional `applies` (banks, kinds, moves; `ruleApplies`). None of the 34 rows in data/english/line-rules.json has an `applies`, so a sheet holds about 408,000 judgments in all. Only five rules have any verdicts: the same 150 lines each (`yesHash` 0ludmyc767v in all five files under data/english/judged/), all "yes". All 34 are still `awaiting-test`, and `runRules` flags lines only for `sample` and `enforced` rules. The tests/guards/english/line-rules.test.ts check lets a judged rule leave `awaiting-test` only with a catch, a spare and folded verdicts, and only 6 of the 34 have both a catch and a spare. That is why the second session's bad verdict pulled nothing on Nov 11. The store itself works.
 
-**Fix.** Extend that one store; build no second one. Read docs/design/words-machine.md (the section on three kinds of test) and `.agents/skills/words-engine/SKILL.md` first.
+**Fix.** Change no code in the store. Change no bank line, and never write under data/english/parts/. (1) In data/english/line-rules.json, give each of the 34 judged line rules an `applies` read from its own `says` and `from` words, using the bank names, kinds and move names the pieces carry. For example: `stake-is-named` gets moves matching `plea|bargain|complain` and their reply and follow forms; `commitment-names-who-what-why` gets `promise|refuse|threaten` and their forms; the journal rules get bank `journal`; the news rules get `newscast`; the speech rules get `speech-stages` and `opening-speech`; narration rules get kind narration. A rule whose `says` applies to every spoken line (for example `no-literary-phrasing`) keeps no `applies` and says so in a note. (2) List in the PR body, for the CTO, the rules that are not a test of a line at all: a writing method (`look-up-how-real-people-say-it`), or a generator's output (`business-names-sound-real`, `bill-called-by-what-people-call-it`). Leave their status as is. (3) Run `npm run words:verdicts` with no `--from`, which drops verdicts on lines a rule no longer applies to, then `npm run words:rules` twice, the second changing no file. Put each rule's new waiting count in the PR body. (4) Take the six rules that have a catch and a spare. For the two with the smallest waiting counts, write sheets with `npm run words:pairs -- --rule <id> --out <dir outside the repository>`. Hand them to a reviewer session that did not write the lines, as the words-engine skill says. Fold the verdicts, and move those two rules to `sample` so their "no" lines are listed for the owner. Add one line to .agents/skills/words-engine/SKILL.md and its mirror under .claude/skills/: narrow a judged rule with `applies` before writing its first sheet.
 
-1. **Sheets.** Make the sheet writer take a rule: `npm run words:pairs -- --rule <id> --out <dir>` writes, outside the repository, the lines that rule applies to and nobody has judged for it, each with what a reviewer needs: the line, its bank, key, kind and move, the rule's `says`, and the owner's words behind the rule. A rule that judges a piece in its spot also gets the tags of each use. The sheet's rubric is the rule's `says`, word for word.
-2. **The fold.** `npm run words:verdicts -- --from <dir>` folds a reviewer's file into data/english/judged/`<rule id>`.json in the shape reply-follows.json has: only the "no" verdicts listed, each with its one-sentence reason, a hash of the lines judged "yes", and the count judged. A verdict is tied to the line's exact text: the fold drops a verdict whose line the bank no longer holds in those words. Folding twice changes nothing.
-3. **The run.** In `runRules`, a `judged` rule flags every line with a "no" verdict, and from there it is any other rule: `sample` lists the line for the owner, `enforced` pulls it, a line the owner graded good is never pulled and is listed under Conflicts, and a spot is never left with no line. A line nobody has judged for a rule passes that rule and keeps playing (docs/play-first/LAW.md, section 7: ungraded is not rejected), and the report counts it, per rule, as waiting for a verdict.
-4. **The gate on new lines.** Keep each rule's count of lines waiting for a verdict in the file the run writes, and make the English guard (tests/guards/english/line-rules.test.ts) fail, by the rule's name, when that count is higher than the committed one. So a new or changed line must come with its verdicts, and the backlog can only fall.
-5. **Status.** A `judged` rule moves from `awaiting-test` to `sample` when its row holds one line it must catch and one it must leave alone and its first verdicts are folded, and to `enforced` by the same step the other rules use. The report shows, for each such rule, lines judged, lines judged bad and lines waiting.
-6. **Sets and exchanges.** The 12 `judged` rules about a set or an exchange use this same store, keyed by the set or pair that words-machine-part-3-checks-for-rules-that-judge-a-set-or-an-exchange builds. Build the store so a key can be a line, a pair or a set; do not build their sheets here.
-7. **The skill.** Add to `.agents/skills/words-engine/SKILL.md` (and its byte-for-byte mirror under `.claude/skills/`) how a reviewer takes a sheet, judges it and folds it. Nothing is judged while the game is played, and the run calls no model.
-
-Write no verdicts beyond the examples the tests need, and change no bank line: Story judges the lines and writes every line.
-
-**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+**Time box.** 5 hours for one Sonnet session, plus the reviewer's pass. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** No hand-written player text: this part judges bank lines and writes none, and Story writes every line (CTO, Nov 10). Replace, never layer: the reply rule's sheets, fold and reader become one case of the general store in the same change, with no second path left. One engine per mechanic: one store, one fold and one reader for every judged rule. Rules, checks and skills merge before the work they judge (owner, Nov 10). A rule may not pull a line the owner graded good. American English.
 
-**Done when.** A second session, not the builder, on main: writes a sheet for one `judged` rule, marks one line bad with a reason, folds it and runs `npm run words:rules`; the line is in data/english/pulled.json under that rule with the owner's note behind it, and a second run changes no file. It changes that line's words in the bank and the verdict no longer applies. It adds a new line the rule applies to with no verdict, and the English guards fail by that rule's name. It builds a year of scenes in a drawn place with the crew's scene tool (scripts/dialogue-batch/scene-year.ts), names the place and seed, and the line judged bad does not play. The reply rule still passes its own tests through the same store.
+**Done when.** A second session, not the builder, runs `npm run words:rules` on main. Every judged rule with an `applies` reports fewer lines waiting than the whole bank (each count named). Two rules are `sample`, with their "no" lines listed under the sample in data/english/pulled.json and each line's verdict reason in data/english/judged/. A second run changes no file. It builds a year of scenes in a drawn place with scripts/dialogue-batch/scene-year.ts, names the place and seed, and every line it hears that one of those two rules judged "no" is shown in dev mode with that rule's flag.
 
-**Waits on.** Nothing. words-machine-part-1-tests-for-rules-that-judge-one-line and words-machine-part-2-tests-for-rules-that-judge-a-piece-in-its-spot edit the same two files (data/english/line-rules.json and src/english/line-rules.ts): merge main in before pushing.
+**Waits on.** Nothing. words-machine-part-1-tests-for-rules-that-judge-one-line and words-machine-part-2-tests-for-rules-that-judge-a-piece-in-its-spot edit data/english/line-rules.json too: merge main in before pushing.
 
-**Files.** src/english/line-rules.ts, src/english/line-rules.test.ts, src/english/reply-follows.ts, scripts/words/reply-pairs.ts, scripts/words/verdicts.ts, scripts/words/fold-verdicts.ts, scripts/words/run-rules.ts, data/english/judged/, tests/guards/english/line-rules.test.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
+**Files.** data/english/line-rules.json, data/english/judged/, data/english/pulled.json, src/english/line-rules.ts, scripts/words/verdicts.ts, scripts/words/reply-pairs.ts, tests/guards/english/line-rules.test.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
 
 **Notes.** Not seen in the game (2026-11-11, second-session-2): no place (words machine, no-explaining rule), seed none, main 170bd92c: marked one no-explaining line bad, folded it, ran words:rules: pulled.json stayed empty because every judged rule is awaiting-test; only the reply rule is enforced
 
 Claimed by next for opus-5251 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 03:28 UTC) on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge.
 
 Released (2026-11-11): Its Fix is already on main (judged.ts store, words:pairs --rule, six verdict files, guard, skill); see PR #8522. Continue on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge and pull request #8522.
+
+Nov 11 (cause finder for Fable B): the store from the earlier Fix is on main and works. The open part is coverage. All 34 judged line rules apply to the whole bank (no `applies` on any row), the five rules with verdicts share the same 150 "yes" lines, and no judged rule has left `awaiting-test`. The earlier Fix's seven steps are built. This Fix replaces them with the narrowing and the first two rules' judging, so a "no" can reach the owner's sample.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:26 UTC) on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge.
+
+Released (2026-11-11): Held by my own next loop while walking the queue; not worked (see the item's own size and Fix: M-sized or needs Story/Words lines, not started this pass). Continue on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge and pull request #8522.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-11 06:30 UTC) on branch claude/pool-words-machine-part-7-saved-verdicts-for-rules-a-program-cannot-judge.

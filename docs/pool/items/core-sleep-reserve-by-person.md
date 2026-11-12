@@ -17,6 +17,8 @@ root: none
 lead: jobs
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-core-sleep-reserve-by-person
 ---
 
 **What.** Every person reserves the same 8.7 hours of sleep a day (workSleepReserveHours, the midpoint of employed adults in ATUS 2025 Table 8B, SG-P8-work-time-reserve), whether they work, are retired or have a child at home, and that reserve sets how many free hours src/core2/modules/work.ts and src/core2/free-block.ts give them. ATUS 2025 gives sleep by employment and a child at home (Tables 8B and 8C, 8.56 to 9.37 hours, data/research/core/atus-2025-sleep.json), and the age cohorts are in src/core2/data/time-use-reference.json. Read each person's reserve from their own group at the moment their free hours are computed, so a retiree's day and a working parent's day differ for a recorded reason.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/work.ts, src/core2/free-block.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/p8.json, data/research/core/atus-2025-sleep.json, scripts/core2-year/time-use.ts
 
 **Notes.** TODO
+
+Released (2026-11-11): Read and scoped, not built: the single reserve is read by guarded reads in work.ts, work-cash.ts, work-attendance.ts and free-block.ts (whose age-group reserve rows are cached per world from it) and by saved-trace and payroll tests that compute hours from it; a per-person reserve needs the readers and those replay tests moved together. Suggested first part: discretionaryHours in work.ts only, with the work-attendance reads left on the shared value and registered as the remaining stopgap. Continue on branch claude/pool-core-sleep-reserve-by-person.

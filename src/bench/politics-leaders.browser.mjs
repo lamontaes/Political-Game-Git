@@ -1,8 +1,10 @@
 /* global process, console, document */
-// Politics > Government, Leaders (owner, Oct 28 point 18: "printed text out of order"): each
-// leader's chamber and state is one line inside that leader's own row, directly under the
-// name, never a line that floats between two rows. Run against a bench with a life in
-// progress: node src/bench/politics-leaders.browser.mjs
+// Politics > Government, a state's lawmakers (owner, Oct 28 point 18: "printed text out of
+// order"): each leader's post is one line inside that leader's own member card, directly
+// under the name, never a line that floats between two cards. A big chamber draws its
+// leaders first, each a member card whose line is the post as a Guide term (play.mjs,
+// the legislative view). Run against a bench with a life in progress:
+// node src/bench/politics-leaders.browser.mjs
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const browser = await chromium.launch({
@@ -30,35 +32,47 @@ try {
   await page.evaluate(() =>
     document.querySelector('#rings [data-tab="politics"]').click(),
   );
-  await page.locator("#sheet-body .person-row").first().waitFor();
+  // The state's lawmakers: a big chamber, its leaders drawn first.
+  await page.locator('#sheet-body [data-level="state"]').click();
+  await page
+    .locator("#sheet-body .members-pager .member-card")
+    .first()
+    .waitFor();
   await page.waitForTimeout(1200);
   if (process.env.SHOT) await page.screenshot({ path: process.env.SHOT });
   const rows = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .person-row-sub")].map((sub) => {
-      const row = sub.closest(".person-row");
-      const name = row?.querySelector(".member-name");
-      const s = sub.getBoundingClientRect();
-      const n = name?.getBoundingClientRect();
-      const r = row?.getBoundingClientRect();
-      return {
-        text: sub.textContent.trim(),
-        inRow: Boolean(row),
-        under: Boolean(n) && s.top >= n.bottom - 2 && s.top - n.bottom < 12,
-        inside: Boolean(r) && s.bottom <= r.bottom + 1,
-        aligned: Boolean(n) && Math.abs(s.left - n.left) < 4,
-      };
-    }),
+    [...document.querySelectorAll("#sheet-body .members-pager .member-card")]
+      .map((card) => ({ card, sub: card.querySelector(".member-line") }))
+      .filter(({ sub }) => sub)
+      .map(({ card, sub }) => {
+        const name = card.querySelector(".member-name");
+        const s = sub.getBoundingClientRect();
+        const n = name?.getBoundingClientRect();
+        const r = card.getBoundingClientRect();
+        return {
+          text: sub.textContent.trim(),
+          // A leader's post is a Guide term drawn inside the line.
+          leader: Boolean(sub.firstElementChild),
+          under: Boolean(n) && s.top >= n.bottom - 2 && s.top - n.bottom < 12,
+          inside: s.bottom <= r.bottom + 1 && s.top >= r.top - 1,
+          aligned: Boolean(n) && Math.abs(s.left - n.left) < 4,
+        };
+      }),
   );
   console.log(rows.map((r) => r.text).join(" | "));
-  assert.ok(rows.length >= 3, "the leaders carry their chamber lines");
+  assert.ok(
+    rows.some((row) => row.leader),
+    "the state's chamber shows no leader with their post",
+  );
   for (const row of rows) {
-    assert.ok(row.inRow, `${row.text}: not inside a leader's row`);
     assert.ok(row.under, `${row.text}: not directly under the name`);
-    assert.ok(row.inside, `${row.text}: spills out of its row`);
+    assert.ok(row.inside, `${row.text}: spills out of its card`);
     assert.ok(row.aligned, `${row.text}: not aligned with the name`);
   }
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: each leader's chamber and state sit under their own name");
+  console.log(
+    `ok: every member's line sits under their own name, a leader's post among them (${rows.filter((row) => row.leader).length} on this page)`,
+  );
 } finally {
   await browser.close();
 }

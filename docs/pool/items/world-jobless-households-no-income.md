@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #4942
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Earlier Utah measurement from PR #4942 (before the later three-town measurement above): In a Utah town (place 4972280, seed `ae7138d0fe23b58bb40b941cea599b2992632daa0debb935363661593218e275`, bench world, two-level, 90 days from the start, after the carried-arrears and pay-from-members changes in #4937 and #4939) the households with the largest unpaid living costs hold no cash and have no pay: of the nine with arrears above $200, eight have no job and no income contract at all (a couple born 2001 and 1999 with a child born 2022 owing two months, single adults born 1980, 1986 and 1998, a family of four), and one is a 75-year-old whose retirement of $1,469.52 a month goes to the rent first. Households that earn owe under a tenth of what they were asked. A household with no job, no cash and nothing coming in cannot pay anything, so its rent, living cost and every bill go unpaid month after month with nothing changing for it.
 
 Sent back 2026-10-23 from PR #5042 (branch claude/jobless-no-income-s6): Cabinet-pay test covers 70 days without the required 90-day ACS household comparison and older-household reasons, and the body lacks its Done-when table; use a valid bounded cabinet-pay item or supply the acceptance; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have settled whether 3.6 percent of households have no income; that is inside the ACS range of 3 to 4 percent and reads as real.

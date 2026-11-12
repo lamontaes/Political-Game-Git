@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Give each dwelling a position from the place's tract or block-group population shares (an estimate with spread), stored with the dwelling in src/core2/modules/housing.ts and read by ward and precinct drawing in src/core2/modules/voting.ts.
 
-**Time box.** 6 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: gov-ward-map-from-dwellings (the council districts the player files in and runs for, drawn from where people live).
 
 **Rules.** Estimate, never UNKNOWN: a dwelling's position starts from the place's own tract or block-group population shares and is marked as an estimate with its source. One rule, all 56 places: no state, city or GEOID in logic; the shares live in data. Wire to the world: ward maps and polling places must read the position the same day it is used, so it is a read and not a record nobody opens.
 

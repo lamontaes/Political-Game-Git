@@ -15,7 +15,7 @@ The owner, Oct 27, 2026: "Look at previous decisions. Search the drive. Search l
 
 ## When
 
-Before any of these, in any session (lead, lane, words, director, merger, fixer, pool worker, researcher, CTO, the owner's local session):
+Before any of these, in any session (lead, lane, words, director, merger, fixer, pool worker, researcher, CTO, the owner's local session; any model or tool):
 
 - building a feature, a screen, a scene or a rule;
 - fixing a defect whose cause is a design choice;
@@ -34,8 +34,12 @@ Before any of these, in any session (lead, lane, words, director, merger, fixer,
 7. `docs/pool/items/`: an item on the subject carries its Notes and its PRs.
    Then the data files that carry rulings: `rg -i '<subject>' src/director/data src/core2/data data/english` and read the `about` and `source` fields near a match. The owner's rulings on how people talk, what a scene is and what a number means are quoted there, not only in `docs/` (Oct 30: the CTO ruled that a relative with no news could be asked after; the owner's Oct 14 Q7 and Oct 15 family-talk rulings in `src/director/data/conversation-rules.json` already said no, and the ruling was withdrawn).
 8. The owner's Drive, when the session has the Drive connector: `search_files` with `fullText contains '<subject>'`; the CTO rulings docs there ("03 CTO RULINGS", "OVERNIGHT ORDERS", "RESEARCH FOR CTO REVIEW") are his words from September and October. A session without the connector reads the prior-rulings digests, which are made from them, and says so.
+9. The open pull requests, before you fix anything you saw in play: `gh api -X GET search/issues -f q='repo:OWNER/REPO is:pr is:open <two words of what you saw>'`. A built fix can wait ungated for hours. On Nov 11 the lead saw the Journal note over the President's address, wrote the fix, and only then found the pool item and a six-hour-old pull request with the same change line for line. The right move was to replay that pull request in a drawn place and send it to a desk.
+10. `docs/design/` (the dated designs: `country-tier.md`, `life-record.md`, `words-machine.md`, `treasury-diversion.md` and the rest) and `docs/pool/redo-2026-11-10/checked.md`, which lists what Fable checked against the code on Nov 10.
 
 Stop at the first hit that answers; read it whole.
+
+**A pool item already did this search for you (owner, Nov 10, `.agents/rules/pool-item-standard.md`).** An item at `standard: 2` carries its Cause, Fix and Rules, and is built from the item alone; do not rediscover the project around it. Read the item, its files and the rule it names, then run steps 1 to 3 for any question the item does not answer. An item whose Cause says `Needs cause.` is not built, and a question about it goes on its pull request, not to the owner.
 
 ## What you do with what you find
 
@@ -54,6 +58,9 @@ Stop at the first hit that answers; read it whole.
 - Speeches, scenes and lines differ by the speaker's traits, party, wants and what is happening in the world; nothing reads the same in two worlds (Oct 27).
 - Employers are generated to fit each town from calibrated business tables; no fixed list, no generic cooperatives, no real brands (Sept 22, Sept 28, Sept 29, in prior-rulings/economy.md and words.md and OWNER-DECISIONS).
 - Developer ID, signing, licenses and rights are never raised (Oct 26, Oct 27).
+- Only the Story session writes, changes or deletes lines under `data/english/parts/`; every note he gives about words becomes a rule a program tests (owner, Nov 10, "Split by role"; `words-engine`).
+- A rule, a check or a skill merges before other pull requests (owner, Nov 10).
+- Nothing is done until a second session saw it in the running game (owner, Nov 3; `seen-in-game`).
 - Election day is the player's choice; discrimination is simulated; the Wildermyth standard for scenes; one UI and one scene system (Oct 26).
 
 ## Self-check before you send anything to the owner
@@ -61,5 +68,6 @@ Stop at the first hit that answers; read it whole.
 - [ ] I read OWNER-DECISIONS whole and the prior-rulings digest for my area.
 - [ ] I searched docs/, the pool and Drive (or said the connector was missing) for the subject and its synonyms.
 - [ ] Before I built, or started a helper on, a fix for a red test or a line someone else owns, I read the titles of the open pull requests and the pool items claimed in the last day for the same file or line. (Nov 10: a helper reworded two journal lines an hour after the Story line had claimed the same two; the second pull request was withdrawn.)
+- [ ] Before I measured or wrote a cause, I searched the open pull requests for the engine and function it names and read the skill for that kind of work. (Nov 11: the lead spent an hour measuring why memory grows, found that office hours fill in counted residents, and wrote the fix into an item. The Speed lead's pull request for that fix had been open for nine hours, and `speed-work` already named the cause. One search for `bringCases` would have found both.)
 - [ ] Every question I still have ends with the reading line, and none of them is answered above.
 - [ ] Every ruling I found is cited where I build on it.

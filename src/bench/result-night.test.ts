@@ -102,6 +102,12 @@ it("election night carries the scene of the candidate's own result", () => {
       .get(loser)!
       .schedule.find((row) => row.momentId === momentId)!;
     expect(entry.bindings.length, where).toBeGreaterThan(0);
+    // The night is the night of the count: a month later the same record opens no sheet.
+    advanceCore(core, addDays(makeIsoDate(core.date), 30));
+    expect(
+      electionNight(core, loser),
+      `${where}: an old night opens again`,
+    ).toBeNull();
     console.log(
       `${where}: ${loser} lost ${contest.id}; the night stages ${momentId} (${entry.bindings.map((b) => b.typeKey).join(", ")})`,
     );

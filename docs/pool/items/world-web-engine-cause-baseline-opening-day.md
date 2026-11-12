@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Keep a dated log of budget line changes, make `ENGINE_READERS` take a date, and delete `BASELINE_READERS` and the JSON baselineReader field in src/core2/data/outcome-web/outcome-web.json.
 
-**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 5 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the effect numbers on the bill card and Metrics tab for a law that takes effect on the web's opening day, which show no change today.
 
 **Rules.** Replace, never layer: one baseline rule for every engine-measure cause, read from the value the day before the web opened, replacing the per-measure readers. An effect is a read, not a record: the web reads the dated value when it measures. Speed: the log is written on the day a line changes, never a scan.
 

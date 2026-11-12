@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** data/research/outcome-web/links.json, src/core2/modules/health.ts, src/core2/modules/housing.ts, docs/design/one-model-two-tiers.md
 
 **Notes.** Nov 9 (Laws and effects): found while looking for a local-ordinance outcome link (right to counsel in eviction is a town ordinance). Source: https://www.nber.org/system/files/working_papers/w30382/w30382.pdf. Quarters 5 to 8 are not significant, so the shape is a first-year effect that does not persist.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a unit adapter and a hospital-visits measure to one outcome link; no player sees a hospital-visits number.

@@ -10,5 +10,17 @@
     "addedAt": "2026-11-09",
     "replacement": "A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
     "status": "open"
+  },
+  {
+    "id": "SG-JOBS-job-start-not-a-person-event",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 504,
+    "whatItFakes": "Someone the director does not watch is talked about only for what their own events in the core's log record (a move, an illness, a birth). A new job of theirs is never news, because a hire writes no event naming the person: the director infers a job start only for people it watches, by comparing their job before and after (src/director/ledger.ts, 'job-started').",
+    "why": "Found while building words-talk-never-adds-the-person-to-who-you-know (Nov 11, 2026): the jobs engine's hire changes the person's job record and writes no event to logByPerson, so recordedMoments has nothing to read for an unwatched person's new job.",
+    "addedBy": "Words builder W4",
+    "addedAt": "2026-11-11",
+    "replacement": "The jobs engine's hire writes one event naming the person and the employer (the event it already describes), which recordedMoments reads like a move.",
+    "status": "open"
   }
 ]

@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** Land counted-household transfer income (world-counted-households-transfer-income), then re-measure the pinned world and three fresh draws with src/core2/housing-calibration.test.ts and explain any remaining homeless by their records.
 
-**Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the homeless count a Puerto Rico town shows, now about 75 times the real rate.
 
 **Rules.** Estimate, never UNKNOWN: rents and incomes start from the territory's real averages. Wire to the world: the fix applies to all 56 places, not this town. One rule, all 56 places: no place named in logic. Real rates are reported beside the result and are never targets (owner, Nov 8).
 

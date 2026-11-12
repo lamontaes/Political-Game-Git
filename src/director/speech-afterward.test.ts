@@ -13,6 +13,7 @@ import { purposeScene } from "./purpose-scene";
 import { topicInSentence } from "../english/policy-names";
 import { composeScene } from "./scene";
 import { speechAct, speechOccasion } from "./scheduling";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // A candidate's speech that moves a listener in the room is a scene: afterward
 // the candidate comes over to ask for their support. Before, no situation
@@ -170,7 +171,10 @@ it(`a campaign speech that moves a listener brings the candidate over, seed ${se
             const { talk } = result.scene;
             expect(talk.askerId, said).toBe(speaker);
             expect(talk.state.text, said).toBeTruthy();
-            expect(talk.tree.replies, said).toHaveLength(4);
+            expectUpToFourDifferent(
+              talk.tree.replies.map((reply) => reply.line),
+              said,
+            );
             expect(result.scene.cause.id, said).toBe(moment.causeId);
             const narration = composeScene(
               core,

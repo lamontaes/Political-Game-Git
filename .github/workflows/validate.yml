@@ -32,9 +32,9 @@ permissions:
 # on an older commit is a superseded run, not a verdict.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-  # Owner rule (Oct 1, 2026): a newer push replaces the older run everywhere,
-  # main included, so runs never queue up behind each other.
-  cancel-in-progress: true
+  # Owner rule (Oct 1, 2026): a newer push replaces the older pull request run,
+  # so runs never queue up behind each other. Hourly and manual runs finish.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   repository:

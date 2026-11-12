@@ -5,9 +5,9 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-dev-mode-remove-direct-law-write
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: added with npm run pool -- add
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T06:06:32.277Z
 branch: claude/pool-dev-mode-remove-direct-law-write
 ---
 
@@ -40,3 +40,11 @@ branch: claude/pool-dev-mode-remove-direct-law-write
 **Notes.** TODO
 
 Released (2026-11-11): Claimed by hand, not built: setLaw is called by eight test files (dev-acceptance x2, dev-law-day-one, dev-mode, dev-outlook, dev-state-trace, law-reach-bargaining x3, law-wiring-rights-env x5, school-voucher-law x3) that use it to set a law before proving its effect; deleting it means moving each of them to the bill route (Bills panel / hold-the-vote) first, which the item does not scope. Split: first port those tests, then delete setLaw, the experiments routes and dev-experiments.json. Continue on branch claude/pool-dev-mode-remove-direct-law-write.
+
+Released (2026-11-11): Five tests (dev-law-day-one, dev-outlook, dev-state-trace, dev-acceptance, dev-mode) prove federal and state law effects through setLaw, and a local bill cannot set a federal law on day one, so the item must first say what route those tests use instead; not built. Continue on branch claude/pool-dev-mode-remove-direct-law-write.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:05 UTC) on branch claude/pool-dev-mode-remove-direct-law-write.
+
+Released (2026-11-11): Not built; inventory for the next builder. The experiments and saved-experiments parts are unreferenced by the UI (dev-api.ts lines 42, 62, 97-100, 495-514; dev-mode.ts line 106, 2242, 2247; src/bench/data/dev-experiments.json; scripts/law-wiring/check.ts line 891 cites it) and delete cleanly with dev-mode.test.ts lines 105-106. setLaw (dev-mode.ts 560, dev-api.ts 126) is NOT unused: it is called by dev-law-day-one.test.ts 33 (a law set before any session sits, which a bill cannot do on day one), dev-outlook.test.ts 65, dev-state-trace.test.ts 59, dev-acceptance.test.ts 129 and 346, dev-mode.test.ts 69, and dev-trace.ts 757 (via: dev-mode.setLaw). Each must be rewritten to pass its law through introduce, Hold the vote and sign, or kept as a test of its own route, before setLaw goes; the day-one test needs a decision on how a law reaches a world before the first session. Continue on branch claude/pool-dev-mode-remove-direct-law-write.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-11 06:06 UTC) on branch claude/pool-dev-mode-remove-direct-law-write.

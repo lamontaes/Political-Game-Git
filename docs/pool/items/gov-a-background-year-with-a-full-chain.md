@@ -14,8 +14,8 @@ claimed-at:
 after:
 lead: governing
 standard: 2
-model: sonnet
-effort: medium
+model: opus
+effort: high
 root: rc8-law-judged-by-paperwork
 size: M
 checked: fable 2026-11-10
@@ -23,15 +23,15 @@ checked: fable 2026-11-10
 
 **What.** The item asks for a background year with a full chain: background bodies propose bills with money at stake so interest groups, offers, reports and cases arise from causes with no player push. Its premise (11 played years, 4 plain, with one bribe offer and zero reports, because only the player proposes a minimum-wage bill) is out of date. The Oct 20 plain-year table (Hickory Ridge AR `ch1`, Tryon NE `ch2`, Bethany Beach DE `ch3`, Williamsburg KS `ch4`) showed 58 to 78 background bills a year, employers' groups forming on their own and 11 to 93 lobbying meetings, but zero bribe offers, and a refusal left no record. Later measures found hundreds of offers in two years (434 in Davie, Florida, seed 694f68f1f5df5250). Which link of the chain is missing in a plain year today is not known.
 
-**Cause.** Needs cause. Read the item's Oct 20 table against `gov-bribe-offer-reads-known-money-trouble` (434 offers in Davie, FL, seed 694f68f1f5df5250); `considerBribe` in `src/core2/modules/corruption.ts` changed in between. No replay of a plain year on main has been taken since.
+**Cause.** Measured: `node --import tsx scripts/research/bribe-chain-years.ts --months 12 bg-1 bg-2 bg-3 bg-4` on main d59e6935d7, a plain year with every module and no player push, in Fairview, Oregon (4124250), Blencoe, Iowa (1906940), Brunswick, Missouri (2909046) and Dayton, Montana (3019525). Bills and lobbying are there: 84 to 117 lobbyist meetings with members on bills and 20 to 28 contract awards voted a year in each. Offers: 185 in Fairview (180 on state contracts, 5 on the town's), 0 in the other three, and none from any lobbyist meeting. Taken 0, surfaced 0, reported 0 in all four. Two links are missing, found in code. First, an offer reaches only an official who is a full person with a cash account: `offerBribe` in `src/core2/modules/interest-groups.ts` (line 400) and the contract award in `src/core2/modules/contracts.ts` (line 207) both skip any member without `residualAccountByOwner`, and `considerBribe` (`src/core2/modules/corruption.ts`, line 235) returns null for anyone not in `people`. Most lobbying is with state legislators, who are named officials never filled in, so most meetings cannot produce an offer. Fairview's offers came from its state representative, a town resident. Second, a background refusal never reaches the press or a case. `afterRefusal` (corruption.ts, line 406) records the refusal and lets the offerer decide whether to press, but the official who refused has no decision to report it. Reporting exists only for the player, in the scene (`reportPressedOffer`, line 470). So surfaced, reported and cases stay at zero whatever the offer count. No single official's take terms reached the pull of refusing (3); that taking is rare is consistent with the real charge rate the script prints, and not a defect.
 
-**Fix.** None until the cause is found.
+**Fix.** 1. In `afterRefusal`, give the official who refused their own decision whether to report the offer, through the same `decide` chooser, from their own values: their honesty and temperament at the decision's weight, how much the offer was, their tie to the offerer, and whether the offerer pressed. On yes, run the same report path the player's scene uses (`reportToPress`, line 730, through the scandal record `reportPressedOffer` writes), naming the official as the source. Register the new decision's gap row in `data/content/trait-decision-gaps.json` if it is rare. 2. Leave the full-person gate as it is: bribery between officials nobody has met stays a result, under the two-level population rule. Record that as a sentence in the item's Notes, not as code. 3. Measure the town's own bodies, whose members are full people: why the 5 to 12 lobbyist meetings a year on town bills gave no offer (the stake `annual` passed at `src/core2/modules/interest-groups.ts` line 388, or the lobbyist's own account). Write what is found into this item's Notes, and fix it only if it is a gate like the one above.
 
-**Time box.** 4 hours for one Sonnet session, to replay four plain years on main and name which link of the chain (bills, groups, meetings, offers or refusals, reports, cases, news) is missing. When it runs out, write what was counted in the item and stop.
+**Time box.** 5 hours for one Opus session.
 
 **Rules.** No dice: who proposes and who offers a bribe follows traits, money and the law in force, with no fixed percentage. The chain is the acceptance: follow one background bill to an offer, a decision, a report, a case and the news line. Ask why: each proposal and offer keeps its reasons by record id. One rule, all 56 places. Speed: background proposals act on the day something changes, with no new daily world scan.
 
-**Done when.** A second session replays a plain year (the player proposes nothing) in four places drawn from all 56 (names and seeds printed) with `scripts/research/bribe-chain-years.ts` and sees the item rewritten with `Measured:` counts per link (bills, groups, meetings, offers, refusals kept with reasons, taken, reported, cases, news lines) and a Fix naming the missing link, or the item dropped with that evidence if every link is present. Whether the offer count is the realistic rate is reported, not a pass or fail.
+**Done when.** A second session replays a plain year with `scripts/research/bribe-chain-years.ts` in four places drawn from all 56 (names and seeds printed) and sees, in any place with offers, refusals that an official reported reach the press as a story with the offer's record id, and the counts per link (bills, meetings, offers, refusals kept with reasons, taken, reported) written into the item.
 
 **Waits on.** Nothing.
 
@@ -53,3 +53,5 @@ So the premise (only the player's minimum-wage bill starts the chain) is out of 
 Sent back 2026-10-23 from PR #5665 (branch claude/background-chain-refusals): the lobby meeting bribe field has no reader; implement the required downstream chain and its played-world proof; existing merger return still applies with no corrective source commit; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Nov 11 (cause finder for Fable B): replayed a plain year in four drawn places on main d59e6935d7. Bills and lobbying are there; offers come only where an official is a full person (Fairview's resident state representative), and no refusal is ever reported, because only the player's scene can report one. The fix gives the refusing official a report decision through the existing chooser and press path.
