@@ -802,7 +802,7 @@ const TODAY: [string | string[], string][] = [
   ["polished", "As we stand here, {today-clause}"],
   ["plain", "As of today, {today-clause}"],
   ["plain", "The way it is now, {today-clause}"],
-  ["plain", "The way things are, {today-clause}"],
+  ["plain", "As it is now, {today-clause}"],
 ];
 for (const [voice, text] of TODAY)
   ADD.push({
@@ -890,8 +890,8 @@ const QUESTIONS: [string, string, string, string][] = [
     "law-in-force",
     "Why would we go back, when {today-question}?",
   ],
-  ["polished", "against", "law-in-force", "Is it right that {today-question}?"],
-  ["plain", "against", "law-in-force", "Is it fair that {today-question}?"],
+  ["polished", "against", "law-in-force", "Should we accept that {today-question}?"],
+  ["plain", "against", "law-in-force", "Does it make sense that {today-question}?"],
 ];
 // The question carries how things stand, as the speaker's side tells it,
 // and names no question, so the ask after it names the question once.

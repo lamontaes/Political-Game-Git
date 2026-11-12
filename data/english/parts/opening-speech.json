@@ -105697,55 +105697,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "opening-speech.today.plain-inaugural-the-way-things-are-today-clause",
-      "move": "today",
-      "kind": "spoken",
-      "text": "The way things are, {today-clause}",
-      "uses": [
-        {
-          "move": "today",
-          "subject": "inaugural",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-union",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "state-of-the-state",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        },
-        {
-          "move": "today",
-          "subject": "town-address",
-          "role": "today",
-          "choice": "today",
-          "requiresFacts": [
-            "today-clause"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "firm",
-      "origin": "authored",
-      "author": "Claude (Words builder W-E, speech points)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "opening-speech.belief.plain-inaugural-what-i-believe-is-that-belief-belief-stands",
       "move": "belief",
       "kind": "spoken",
@@ -106274,6 +106225,177 @@
           "requiresFacts": [
             "today-question",
             "stance-for",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.today.plain-inaugural-as-it-is-now-today-clause",
+      "move": "today",
+      "kind": "spoken",
+      "text": "As it is now, {today-clause}",
+      "uses": [
+        {
+          "move": "today",
+          "subject": "inaugural",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-union",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "state-of-the-state",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        },
+        {
+          "move": "today",
+          "subject": "town-address",
+          "role": "today",
+          "choice": "today",
+          "requiresFacts": [
+            "today-clause"
+          ]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.polished-inaugural-should-we-accept-that-today-question-stance-against-law-in-force-asks",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Should we accept that {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude (Words builder W-E, speech points)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "opening-speech.question.plain-inaugural-does-it-make-sense-that-today-question-stance-against-law-in-force-asks",
+      "move": "question",
+      "kind": "spoken",
+      "text": "Does it make sense that {today-question}?",
+      "uses": [
+        {
+          "move": "question",
+          "subject": "inaugural",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-union",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "state-of-the-state",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
+            "law-in-force",
+            "asks-question"
+          ]
+        },
+        {
+          "move": "question",
+          "subject": "town-address",
+          "role": "question",
+          "choice": "question",
+          "requiresFacts": [
+            "today-question",
+            "stance-against",
             "law-in-force",
             "asks-question"
           ]
