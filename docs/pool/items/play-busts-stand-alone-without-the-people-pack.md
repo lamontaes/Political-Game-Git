@@ -33,7 +33,7 @@ checked: fable 2026-11-11
 
 **Waits on.** Nothing.
 
-**Files.** src/bench/bust.ts, art/busts/v1/manifest.json, src/bench/whole-figures.ts, src/bench/scene.ts, src/bench/appearance.ts, src/bench/ui/headshot.mjs, src/bench/ui/strips.mjs, src/bench/play.mjs, src/bench/bust.test.ts, src/bench/government.test.ts, src/core2/opening-origin.test.ts
+**Files.** src/bench/bust.ts, art/busts/v1/manifest.json, src/bench/whole-figures.ts, src/bench/scene.ts, src/bench/appearance.ts, src/bench/ui/face.mjs, src/bench/ui/strips.mjs, src/bench/play.mjs, src/bench/bust.test.ts, src/bench/government.test.ts, src/core2/opening-origin.test.ts
 
 **Notes.** The files marked new arrive with #8442; they are not on main as this item is written.
 
