@@ -8,6 +8,7 @@ import {
   workplacePlaceFor,
 } from "./backdrop-places";
 import { backdropStaging } from "./staging";
+import { isOnShift } from "./shift";
 import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -15,19 +16,9 @@ import { HOUSING_MODULE_ID, dwellingKind } from "../core2/modules/housing";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
-import {
-  ageBandOf,
-  bustOf,
-  drawnUrl,
-  dressedForPlace,
-  figureForSpot,
-  fitOn,
-  type FigureBox,
-  type FigurePerson,
-} from "./whole-figures";
-import { drawAhead, type PackFigure } from "./people-pack";
+import { bustOf, type FigurePerson } from "./whole-figures";
 import type { PersonBust } from "./bust";
-import { depthOf, plateFor, plates, type PlateSpot } from "./mannequin-plates";
+import { plates } from "./mannequin-plates";
 import { placeStateKey } from "../core2/place-map";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
@@ -51,9 +42,10 @@ export interface BenchScene {
   place: string;
   why: string;
   backdrop: { file: string; variant: string; url: string };
+  /** The people the strip of busts names. */
   people: BenchScenePerson[];
-  /** People who are there but have no spot or no approved figure that fits one. */
-  unplaced: { personId: string; reason: string }[];
+  /** How many more are there than the strip names. */
+  more: number;
 }
 /**
  * Why a person stands in a room, from the records. Nobody is staged without
@@ -81,13 +73,14 @@ export type StageReason =
   /** The address or broadcast the scene shows names them. */
   | "named";
 
+/** Someone in the room, as the strip of busts shows them. */
 export interface BenchScenePerson {
   personId: string;
   name: string;
   reason: StageReason;
-  spotId: string;
-  figure: FigureBox;
-  figureUrl: string;
+  face: PersonFace;
+  /** The office the scene names them by, said under their name (an address's cutaway to officials). */
+  role?: string;
 }
 
 export function orgPlace(
@@ -587,6 +580,12 @@ export function presentIds(
   place: string,
   why: string,
   targetId?: string,
+  /**
+   * The minute the scene is drawn at: a household member on a shift then is at
+   * work, not at home. Left out on the opening evening, which keeps the whole
+   * household (the address is watched at home, owner, Oct 14).
+   */
+  atMinute?: number,
 ): string[] {
   const person = core.people.get(personId)!;
   const alive = (id: string) => core.people.get(id)?.alive === true;
@@ -612,11 +611,12 @@ export function presentIds(
     alive(targetId)
   )
     return [targetId];
-  // At home the household is there.
+  // At home the household is there, except whoever is on a shift just now.
   if (homeRooms(core, personId).has(place))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
-      .filter(alive);
+      .filter(alive)
+      .filter((id) => atMinute === undefined || !isOnShift(core, id, atMinute));
   return [];
 }
 
@@ -636,19 +636,25 @@ interface Looks {
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { person, hair, face } = JSON.parse(text) as Record<string, unknown>;
-    return typeof person === "string" && typeof hair === "string"
-      ? { person, hair, ...(typeof face === "string" ? { face } : {}) }
+    const { person, hair, hairColor, face } = JSON.parse(text) as Record<
+      string,
+      unknown
+    >;
+    return typeof person === "string" &&
+      typeof hair === "string" &&
+      typeof hairColor === "string"
+      ? {
+          person,
+          hair,
+          hairColor,
+          ...(typeof face === "string" ? { face } : {}),
+        }
       : undefined;
   } catch {
     return undefined;
   }
 }
 const OFFICES = "core2-offices-v1";
-/** Which seats a room keeps for each kind of office (data/whole-figures.json). */
-const SEAT_ROLES = figureRules.seatRoles as unknown as Readonly<
-  Record<string, readonly string[]>
->;
 export function looksOf(core: CoreState, id: string): Looks | null {
   const person = core.people.get(id);
   if (person) {
@@ -679,17 +685,6 @@ function isOfficial(core: CoreState, id: string): boolean {
   return !core.people.has(id) || servingTermsOf(coreAPI(core), id).length > 0;
 }
 
-/** The kinds of office someone serves in: by their own term, or by the person's serving terms. */
-function officeKinds(core: CoreState, id: string): string[] {
-  if (!core.modules.has(OFFICES)) return [];
-  const state = coreAPI(core).moduleState(OFFICES);
-  const own = state.table("terms").get(id) as { officeId: string } | undefined;
-  if (!own) return servingOfficeKinds(core, id);
-  const office = state.table("offices").get(own.officeId) as
-    { kind: string } | undefined;
-  return office ? [office.kind] : [];
-}
-
 /** The place a backdrop file paints (`<place>__<variant>.jpg`). */
 export const placeOfBackdrop = (file: string) => file.split("__")[0]!;
 /** The places a mannequin plate stages people in. */
@@ -697,187 +692,59 @@ const PLATED = new Set(
   plates().map((plate) => placeOfBackdrop(plate.backdrop)),
 );
 
+/** How many people the who's-here strip names before it counts the rest (data/whole-figures.json). */
+const HERE_SHOWN = figureRules.here.shown;
+/** The reasons that put someone first in the strip: the scene is about them. */
+const FRONT: ReadonlySet<StageReason> = new Set(["act", "moment", "clerk"]);
+
 /**
- * Puts each id on the mannequins of the picture's plate (mannequin-plates.ts):
- * a seat kept for an office to its holder, the speaker on the address or
- * lectern mannequin, everyone else on the first free mannequin whose pose
- * the pack paints them in. A picture with no plate draws nobody (owner,
- * Oct 28 and 29); a person with no figure for any free mannequin is not drawn.
+ * Who is in the room, as the strip of busts shows them (owner, Nov 11, 2026:
+ * "I do like this strip"): everyone the records give a reason to be there,
+ * each a name and a bust dressed for the place. The player is not listed. A
+ * room of more than `here.shown` people names the speaker and the people the
+ * scene is about, then the people the player knows, then whoever else until
+ * the strip is full, and counts the rest (`more`). Nobody is listed without a
+ * recorded reason, and a person the bank cannot draw yet (a child) is left out.
  */
-export function stagePeople(
+export function peopleHere(
   core: CoreState,
-  /** The backdrop file the scene shows: people are fitted to its own plate. */
+  /** The backdrop file the scene shows: people are dressed for its place. */
   backdropFile: string,
-  ids: readonly { id: string; name: string; reason: StageReason }[],
-  /** Whose speech it is: at the address desk or lectern, where the plate has one. */
-  speaker?: string,
-  /**
-   * The scene's occasion from the director (address, signing, meeting,
-   * visit, briefing, debate, ceremony; agreed with Words, Oct 29): it decides
-   * whether an office holder sits, stands or takes a podium. Absent, the
-   * data's default (seated; owner, Oct 29: "sitting is the idea right now").
-   */
-  occasion?: string,
-): { people: BenchScenePerson[]; unplaced: BenchScene["unplaced"] } {
-  const place = placeOfBackdrop(backdropFile);
-  const posture = POSTURES[occasion ?? ""] ?? OCCASIONS.default;
-  const plate = plateFor(backdropFile);
-  const people: BenchScenePerson[] = [];
-  const unplaced: BenchScene["unplaced"] = [];
-  if (!plate) {
-    for (const { id, reason } of ids)
-      unplaced.push({
-        personId: id,
-        reason: reason ? "no-plate" : "no-reason",
-      });
-    return { people, unplaced };
-  }
-  const free = [...plate.spots];
-  // The seats kept for an office whose holder is here: nobody else takes them.
-  const held = new Set(
-    ids.flatMap(({ id }) =>
-      officeKinds(core, id).flatMap((kind) => SEAT_ROLES[kind] ?? []),
-    ),
-  );
-  const placed: {
+  ids: readonly {
     id: string;
     name: string;
     reason: StageReason;
-    who: Who;
-    figure: PackFigure;
-    spot: PlateSpot;
-  }[] = [];
-  const seat = ({ id, name, reason }: (typeof ids)[number]) => {
-    if (!reason) {
-      unplaced.push({ personId: id, reason: "no-reason" });
-      return;
-    }
-    const looks = looksOf(core, id);
-    if (!looks) {
-      unplaced.push({ personId: id, reason: "no-record" });
-      return;
-    }
-    const who = whoOf(core, id, looks);
-    const kept = officeKinds(core, id).flatMap(
-      (kind) => SEAT_ROLES[kind] ?? [],
-    );
-    // An office holder takes the spot the occasion's posture calls for: the
-    // spot kept for their office in that posture, else one in that posture
-    // anywhere in the room (owner, Oct 29: no rule ties an office holder to
-    // one spot or posture). Then the speaker's desk or lectern for the
-    // speaker, then any free mannequin; a kept spot whose holder is here
-    // stays free for them, and one whose holder is away is anyone's last.
-    const own = (spot: PlateSpot) => !!spot.role && kept.includes(spot.role);
-    const open = (spot: PlateSpot) => !spot.role || !held.has(spot.role);
-    const posed = kept.length
-      ? [
-          ...free.filter((spot) => own(spot) && inPosture(spot, posture)),
-          ...free.filter(
-            (spot) => !own(spot) && open(spot) && inPosture(spot, posture),
-          ),
-          // A podium occasion in a room with no lectern: standing.
-          ...(posture === "podium"
-            ? free.filter((spot) => open(spot) && inPosture(spot, "standing"))
-            : []),
-        ]
+    role?: string;
+  }[],
+  /** Whose speech it is: first in the strip. */
+  speaker?: string,
+): { people: BenchScenePerson[]; more: number } {
+  const place = placeOfBackdrop(backdropFile);
+  const viewer = ids.find((entry) => entry.reason === "you")?.id;
+  const known = viewer ? core.people.get(viewer)?.knownIds : undefined;
+  const seen = new Set<string>();
+  const present = ids.flatMap(({ id, name, reason, role }) => {
+    if (!reason || reason === "you" || seen.has(id)) return [];
+    seen.add(id);
+    const face = faceOf(core, id, place);
+    return face
+      ? [{ personId: id, name, reason, face, ...(role ? { role } : {}) }]
       : [];
-    const order = [
-      ...posed,
-      ...free.filter(own),
-      ...(id === speaker
-        ? free.filter((spot) => SPEAKING.has(spot.pose) && open(spot))
-        : []),
-      ...free.filter((spot) => !spot.role),
-      ...free.filter((spot) => spot.role && !own(spot) && open(spot)),
-    ];
-    const found = order
-      .map((spot) => ({ spot, figure: figureForSpot(core, who, place, spot) }))
-      .find((row) => row.figure);
-    if (!found) {
-      unplaced.push({
-        personId: id,
-        reason: free.length ? "no-figure" : "no-spot",
-      });
-      return;
-    }
-    free.splice(free.indexOf(found.spot), 1);
-    placed.push({
-      id,
-      name,
-      reason,
-      who,
-      figure: found.figure!,
-      spot: found.spot,
-    });
-  };
-  // People of one standing (housemates, coworkers, voters reached) take the
-  // seats left after the player, the act's other person, the speaker and an
-  // office holder whose seat this room keeps. When they outnumber the seats,
-  // the seats go first to those the pack paints in what they wear here, then
-  // to faces not already in the room (SG-PLAY-people-everyday-falls-back-to-work).
-  const alike = (entry: (typeof ids)[number]) =>
-    !!entry.reason &&
-    ALIKE.has(entry.reason) &&
-    entry.id !== speaker &&
-    !officeKinds(core, entry.id).some((kind) =>
-      (SEAT_ROLES[kind] ?? []).some((role) =>
-        plate.spots.some((spot) => spot.role === role),
-      ),
-    );
-  const fitness = ({ id }: (typeof ids)[number]) => {
-    const looks = looksOf(core, id);
-    if (!looks) return 4;
-    const who = whoOf(core, id, looks);
-    const figure = free
-      .map((spot) => figureForSpot(core, who, place, spot))
-      .find((row) => row !== null);
-    if (!figure) return 4;
-    const faces = new Set(placed.map((row) => row.figure.person));
-    return (
-      (dressedForPlace(core, who, place, figure) ? 0 : 2) +
-      (faces.has(figure.person) ? 1 : 0)
-    );
-  };
-  for (const entry of ids) if (!alike(entry)) seat(entry);
-  const waiting = ids.filter(alike);
-  while (waiting.length) {
-    const costs = waiting.length > free.length ? waiting.map(fitness) : [0];
-    seat(waiting.splice(costs.indexOf(Math.min(...costs)), 1)[0]!);
-  }
-  // Drawn far to near, so nearer people overlap farther ones.
-  const depth = depthOf;
-  const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, reason, who, figure, spot } of order) {
-    const figureUrl = drawnUrl(figure, who, ageBandOf(core, who.birthDate));
-    drawAhead(figureUrl);
-    people.push({
-      personId: id,
-      name,
-      reason,
-      spotId: spot.id,
-      figure: fitOn(figure, plate, spot),
-      figureUrl,
-    });
-  }
-  return { people, unplaced };
+  });
+  // First whoever speaks and whoever the scene is about, then the people the
+  // player knows, then the rest, each group in the order the records gave.
+  const rank = (person: BenchScenePerson) =>
+    person.personId === speaker || FRONT.has(person.reason)
+      ? 0
+      : known?.has(person.personId)
+        ? 1
+        : 2;
+  const ordered = [0, 1, 2].flatMap((group) =>
+    present.filter((person) => rank(person) === group),
+  );
+  const people = ordered.slice(0, HERE_SHOWN);
+  return { people, more: ordered.length - people.length };
 }
-/** How each occasion places an office holder (data/whole-figures.json `occasions`). */
-const OCCASIONS = figureRules.occasions;
-const POSTURES: Readonly<Record<string, string>> = OCCASIONS.postures;
-/** Whether a spot is in a posture: seated on any seat, at a lectern, or standing. */
-function inPosture(spot: PlateSpot, posture: string): boolean {
-  if (posture === "seated") return spot.seat !== "none";
-  if (posture === "podium") return spot.pose === "lectern";
-  return spot.seat === "none" && spot.pose !== "lectern";
-}
-/** The reasons that make people alike for a seat: any of them may take it. */
-const ALIKE: ReadonlySet<StageReason> = new Set([
-  "household",
-  "coworker",
-  "reached",
-]);
-/** The poses a speaker takes: behind the address desk or at a lectern. */
-const SPEAKING = new Set(["address", "lectern"]);
 
 type Who = FigurePerson;
 /** A person as the figures read them: age, sex, seed, chosen look and office. */
@@ -930,9 +797,19 @@ export function benchScene(
   );
   const working =
     why === "work-shift" || why === "attend-scheduled-work-date-segment";
-  const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
+  const ids = [
+    personId,
+    ...presentIds(
+      core,
+      personId,
+      place,
+      why,
+      targetId,
+      openingEvening === undefined ? minute : undefined,
+    ),
+  ];
   const backdrop = backdropFor(core, place, minute, personId);
-  const { people, unplaced } = stagePeople(
+  const { people, more } = peopleHere(
     core,
     backdrop.file,
     ids.map((id) => {
@@ -954,7 +831,7 @@ export function benchScene(
     why,
     backdrop,
     people,
-    unplaced,
+    more,
   };
 }
 

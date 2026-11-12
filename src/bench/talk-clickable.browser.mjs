@@ -45,7 +45,7 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const talkable = () => page.locator("#people .figure.talkable");
+  const talkable = () => page.locator("#here .busts-person.talkable");
   // A world where nobody in the room has anything to say at the start (the
   // player lives alone, or the household has nothing new) is quiet from the
   // start: no figure is clickable and a click opens nothing.
@@ -81,7 +81,7 @@ try {
     "no one is clickable once there is nothing new",
   );
   // A click on a figure with nothing to say does nothing.
-  const figures = page.locator("#people .figure");
+  const figures = page.locator("#here .busts-person");
   for (let i = 0; i < (await figures.count()); i += 1) {
     await figures.nth(i).hover({ force: true });
     await figures.nth(i).click({ force: true });

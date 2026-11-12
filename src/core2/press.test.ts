@@ -12,7 +12,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { openLaws } from "./modules/laws";
+import { lawChain, openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
@@ -114,14 +114,15 @@ describe("campaign interviews", () => {
       if (!print) continue;
       // Followers are the town's adults, by their age band's real habits.
       const town = [
-        ...(core.peopleByPlace.get(
-          core.people.get([...core.people.keys()][0]!)!.placeId,
-        ) ?? []),
+        ...(core.peopleByPlace.get(lawChain(api).townPlaceId) ?? []),
       ];
       for (const outlet of outlets)
         for (const id of followersOf(api, outlet.id))
           expect(town, where).toContain(id);
-      const adults = [...core.people.values()]
+      // The candidates are the town's own adults: the world also keeps
+      // relatives who live in other states, and the clerk turns them away.
+      const adults = town
+        .map((id) => core.people.get(id)!)
         .filter(
           (p) =>
             Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
@@ -138,13 +139,33 @@ describe("campaign interviews", () => {
       );
       let you: FilingRow | null = null;
       let rival: FilingRow | null = null;
-      for (const contest of openContests(api)) {
-        you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
-        if (!you) continue;
-        rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
-        if (rival) break;
+      // Every race opens its filing on its own real day, so wait in this
+      // place a week at a time until a race takes both filings, up to the
+      // last filing deadline its calendar holds (drawn-place-tests).
+      const lastDeadline = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]
+      )
+        .map((c) => c.filingDeadline)
+        .sort()
+        .at(-1);
+      for (;;) {
+        for (const contest of openContests(api)) {
+          you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
+          if (!you) continue;
+          rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
+          if (rival) break;
+        }
+        if ((you && rival) || !lastDeadline || core.date >= lastDeadline) break;
+        advanceCore(core, addDays(makeIsoDate(core.date), 7));
       }
-      if (!you || !rival) continue;
+      if (!you || !rival) {
+        tried[tried.length - 1] +=
+          ` (no race took both filings by ${core.date}, last deadline ${lastDeadline ?? "none"})`;
+        continue;
+      }
       core.playerId = you.personId;
 
       // You ask for an interview; the questions come from the race.
@@ -415,6 +436,10 @@ describe("interviews with state and federal candidates", () => {
       openRecord(core);
       const outlets = openPress(core);
       const api = coreAPI(core);
+      // A race whose filing closed before the record began gets its parties'
+      // nominees on the first played day, once candidacy has weighed the
+      // town's own runners (#8541, `closeAtOpening`): play that day.
+      advanceCore(core, addDays(makeIsoDate(start), 1));
       const outsider = (
         api
           .moduleState(ELECTIONS_MODULE_ID)

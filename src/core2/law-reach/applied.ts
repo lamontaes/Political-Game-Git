@@ -97,6 +97,16 @@ export function lawApplied(
     } as unknown as ModuleRow);
     return;
   }
+  // Another law's row on this target (ended by the law that replaced it, or
+  // still open) is kept under its own law's id, ended, so a replaced or
+  // repealed law's reach stays readable (play-what-this-law-did-page: the new
+  // law's first payment wrote over the old law's row).
+  if (held && held.lawId !== input.lawId)
+    table.put({
+      ...held,
+      id: `${id}|${held.lawId}`,
+      endedOn: held.endedOn ?? date,
+    } as unknown as ModuleRow);
   const row: LawAppliedRow = {
     id,
     key: input.key,
@@ -219,6 +229,8 @@ export interface LawReach {
   readonly amountMinor: number;
   readonly amountInTownMinor: number;
   readonly amountElsewhereMinor: number;
+  /** Money the law moved for the people still in the counts (counted households, groups and counted rows). */
+  readonly amountCountedMinor: number;
   readonly by: readonly LawReachSide[];
   /** Each full person it reached, the most money first. */
   readonly people: readonly {
@@ -226,6 +238,8 @@ export interface LawReach {
     readonly inTown: boolean;
     readonly what: string;
     readonly amountMinor: number;
+    /** The day the law stopped applying to them (a repeal, a move), or null while any of their rows is open. */
+    readonly endedOn: string | null;
   }[];
 }
 
@@ -263,7 +277,13 @@ export function lawReach(
     amountMinor: number;
   };
   const sides = new Map<string, Side>();
-  const perPerson = new Map<string, { amountMinor: number; what: string }>();
+  const perPerson = new Map<
+    string,
+    { amountMinor: number; what: string; endedOn: string | null }
+  >();
+  let countedMinor = 0;
+  // The row being read: its end, for the person it names.
+  let rowEnded: string | null = null;
   const side = (engine: string, what: string) => {
     const key = `${engine}|${what}`;
     let held = sides.get(key);
@@ -290,8 +310,21 @@ export function lawReach(
     if (!core.people.has(id)) return false;
     into.people.add(id);
     const held = perPerson.get(id);
-    if (held) held.amountMinor += amount;
-    else perPerson.set(id, { amountMinor: amount, what: into.what });
+    if (held) {
+      held.amountMinor += amount;
+      // Open while any row is open; else the latest end.
+      held.endedOn =
+        held.endedOn === null || rowEnded === null
+          ? null
+          : held.endedOn > rowEnded
+            ? held.endedOn
+            : rowEnded;
+    } else
+      perPerson.set(id, {
+        amountMinor: amount,
+        what: into.what,
+        endedOn: rowEnded,
+      });
     return true;
   };
   const stores: readonly (readonly [string, readonly string[]])[] = [
@@ -320,6 +353,8 @@ export function lawReach(
           // A wage raise: the hourly pay it added, as the raise row keeps it.
           (name === "raises" ? num(row.toMinor) - num(row.fromMinor) : 0);
         into.amountMinor += amount;
+        rowEnded = text(row.endedOn) || null;
+        const counted = into.counted;
         const target = text(row.target);
         const targetId = text(row.targetId);
         const count = num(row.count) || 1;
@@ -343,6 +378,8 @@ export function lawReach(
           // A person by id, or a counted target named by a key of its own ("counted:<spec>").
           if (!person(into, targetId, amount)) into.counted += count;
         }
+        // A row read as counted people: its money is theirs.
+        if (into.counted > counted) countedMinor += amount;
       }
     }
   }
@@ -366,6 +403,7 @@ export function lawReach(
       inTown: core.people.get(personId)?.placeId === town,
       what: held.what,
       amountMinor: held.amountMinor,
+      endedOn: held.endedOn,
     }))
     .sort(
       (a, b) =>
@@ -386,6 +424,7 @@ export function lawReach(
     amountMinor,
     amountInTownMinor: sum(people.filter((p) => p.inTown)),
     amountElsewhereMinor: sum(people.filter((p) => !p.inTown)),
+    amountCountedMinor: countedMinor,
     by: [...sides.values()]
       .map((s) => ({
         engine: s.engine,

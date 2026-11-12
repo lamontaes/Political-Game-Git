@@ -1,0 +1,64 @@
+{
+  "place": "Almont, Michigan",
+  "seed": "bd27f073-3a4c-4922-b208-5d782222fc13",
+  "slots": {
+    "10": {
+      "talk": 20,
+      "typeKey": "donor-ask",
+      "clock": "Friday, July 4, 20258:00 AM",
+      "pictures": ["after/almont-michigan/10-campaign-scene.jpg"],
+      "words": "First thing on July 4th, Stephanie Edwards stops you in the street about what happened yesterday.\nStephanie Edwards stands at the edge of the room, holding a folded flyer from your campaign. // Stephanie Edwards: I gave what I could. I'd like a minute, if you have one.\nPut me down to speak at the next public meeting. I want you to know why. [Replies: I'll read what you send. Put your name on it so I can write back. | My scheduler will find you a slot. Give her your number. | I'll hear you out. I can't promise a vote because of a donation, any size. | Not today. Catch me after the session.] // Stephanie Edwards: MIRA PARSONS\nI'll read what you send. Put your name on it so I can write back.\nThank you. I'll be there early."
+    },
+    "01": {
+      "talk": 0,
+      "typeKey": "address",
+      "clock": "Monday, January 20, 20258:30 PM",
+      "pictures": [
+        "after/almont-michigan/01-address-1.jpg",
+        "after/almont-michigan/01-address-2.jpg"
+      ],
+      "words": "Chief Justice, honored guests, everybody, thanks for coming, all of you, from Vice President Charles Gregory on down. The folks who built this country would roll up their sleeves on sticker shock, and so will we. // I bring a lot of hope from Wyoming, and I plan to spend it here. I swore to do right by Wyoming and every other state."
+    },
+    "02": null,
+    "03": {
+      "pictures": ["after/almont-michigan/03-night-news.jpg"],
+      "words": "News\nMonday, January 20, 2025\nMichigan raises maximum weekly unemployment benefit to $530\n\nMichigan passed a law on January 18, 2025 raising the maximum weekly unemployment benefit from $446 to $530.\n\nIt takes effect on January 1, 2026.\n\nMichigan House of Representatives passes wider eligibility for Medicaid\n\nGovernor term limit (terms; 0 for none) became law on January 9, 2025.\n\nLapeer County adopts its budget\n\nChild care income limit (family of three) took effect on January 1, 2025.\n\nIncome tax rate took effect on January 1, 2025.\n\nSales tax rate took effect on January 1, 2025.\n\nState campaign contribution limit: governor took effect on January 1, 2025.\n\nState campaign contribution limit: local took effect on January 1, 2025.\n\nState campaign contribution limit: state house took effect on January 1, 2025.\n\nState campaign contribution limit: state senate took effect on January 1, 2025.\n\nState unemployment tax rate took effect on January 1, 2025.\n\nUnemployment weekly maximum took effect on January 1, 2025.\n\nEstate tax rate took effect on January 1, 2025.\n\nFederal campaign contribution limit took effect on January 1, 2025.\n\nIncome tax rate took effect on January 1, 2025.\n\nSocial Security tax rate took effect on January 1, 2025."
+    },
+    "04": {
+      "talk": 3,
+      "typeKey": null,
+      "clock": "Wednesday, February 26, 20258:00 AM",
+      "pictures": ["after/almont-michigan/04-greeting-away.jpg"],
+      "words": "First thing on February 26th, you run into Nora Murphy on the street. Nora has news for you. // Nora Murphy: Hello.\nHow's Brooke doing? [Replies: Thank you for asking. I'll let Brooke know. | Brooke started a new job at County of Lapeer treasury.] // Nora Murphy: MIRA PARSONS\nThank you for asking. I'll let Brooke know.\nPlease do."
+    },
+    "05": {
+      "talk": 3,
+      "typeKey": null,
+      "clock": "Wednesday, February 26, 20258:00 AM",
+      "pictures": ["after/almont-michigan/05-goodbye-away.jpg"],
+      "words": "Nora Murphy: MIRA PARSONS\nThank you for asking. I'll let Brooke know.\nPlease do."
+    },
+    "06": {
+      "talk": 16,
+      "typeKey": "last-day",
+      "clock": "Saturday, June 7, 20257:00 AM",
+      "pictures": ["after/almont-michigan/06-talk-about-work.jpg"],
+      "words": "First thing on June 6th, Julia Lambert catches you at school about what happened yesterday.\nIt's the last day of the school year. Julia Lambert has been meaning to say something. // Julia Lambert: Last day. Can you believe it?\nDo you know what you're doing next? [Replies: Something worth doing. I'll know it when I find it. | What are you doing? You go first. | When I know, you'll know. | Ask me again in a month.] // Julia Lambert: MIRA PARSONS\nSomething worth doing. I'll know it when I find it.\nThat sounds like you. What made you decide? [Replies: Something worth doing. I'll know it when I see it. | I'll let you know once I figure it out. | Check back in a month. | I have to run. I wish you the best.] // Julia Lambert: MIRA PARSONS\nSomething worth doing. I'll know it when I see it.\nHere? Really? What would you even do? [Replies: Something that matters. I'll know it when I see it. | I'll tell you when I figure it out. | Ask me in a month. | I have to go. Good luck, really.] // Julia Lambert: MIRA PARSONS\nSomething that matters. I'll know it when I see it.\nGood. You'll be good at it."
+    },
+    "07": {
+      "talk": 1,
+      "typeKey": "story-read",
+      "clock": "Wednesday, January 29, 20257:00 AM",
+      "pictures": ["after/almont-michigan/07-talk-about-the-news.jpg"],
+      "words": "First thing on January 29th, you stay in, still thinking about what happened yesterday.\nJoseph Parsons can't let go of a lawyer for tenants facing eviction, and the story in Almont Press is the reason. // Joseph Parsons: What do you make of Almont Press on a lawyer for tenants facing eviction? I can't tell if it's fair. [Replies: Yeah. I've been thinking the same thing for a while. | I read it. I think they've got it backwards. | Which part got to you? | I haven't read it. Don't spoil it for me.] // Joseph Parsons: MIRA PARSONS\nYeah. I've been thinking the same thing for a while.\nSo why isn't anyone doing anything about a lawyer for tenants facing eviction? We're the ones who live with it. [Replies: Yeah. I think it does matter. I just didn't want to say so. | I saw it. They only told one side of a lawyer for tenants facing eviction, and that's the side people will remember. | I'm sorry. I can't get into this right now.] // Joseph Parsons: MIRA PARSONS\nYeah. I think it does matter. I just didn't want to say so.\nDoes that mean you'd say something, if someone asked? [Replies: All right, you're right. It bothers me too. | We can both read it and not agree. | Let me read it again before I say anything else.] // Joseph Parsons: MIRA PARSONS\nAll right, you're right. It bothers me too.\nThen what do we do about it? [Replies: I read it twice. I still don't buy it. | I'll think about it. I have to go.] // Joseph Parsons: MIRA PARSONS\nI read it twice. I still don't buy it.\nThat's not how I read it. Where did they go wrong?\nI'm going to keep bringing it up."
+    },
+    "08": {
+      "talk": 14,
+      "typeKey": null,
+      "clock": "Thursday, May 29, 20258:00 AM",
+      "pictures": ["after/almont-michigan/08-filing-counter.jpg"],
+      "words": "Sofia Pierce: First thing on May 29th, you head to the City Clerk's office to ask about running. Sofia Pierce comes over to the counter. // Sofia Pierce: What can I do for you? [Replies: I want to run for Council member. November 4, 2025 · Held by Stephanie Gordon | I want to run for Mayor. November 4, 2025 · Held by Emma Sellers] // Sofia Pierce: MIRA PARSONS\nI want to run for Council member.\nSo you're running for Council member. You'd serve 4 years. There's no primary for this one, so it all comes down to November 4. You'd have a seat on the Almont Village Council, voting on the budget and every ordinance that comes before it. You've got until July 22 to get it all back to me. [Replies: Alright. I'll take the papers and get started.] // MIRA PARSONS\nAlright. I'll take the papers and get started.\nSIGNATURES THE CLERK WILL COUNT: 0, HANDED IN BY JULY 22, 2025\nYOU ARE ON THE BALLOT"
+    },
+    "09": null
+  }
+}

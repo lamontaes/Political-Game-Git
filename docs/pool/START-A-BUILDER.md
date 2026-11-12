@@ -28,7 +28,7 @@ Your first claim also puts one small file about you on main, under `docs/pool/ag
 
 ## The loop
 
-1. **Take an item.** `npm run pool -- next`. It starts by saying who you are and your tier. A real run can take several minutes (it fetches every claimed branch); it prints a line to standard error as each stage starts, so a quiet terminal is not a hung one.
+1. **Take an item, unless the cap is on.** While more than 150 game pull requests are open, take no new item: fix what a desk sent back on your own pull requests, then merge main into your own open pull requests that are behind, then stop and say so on the crew's issue (owner, Nov 11; skill `pool-notes`; the lead's hourly count says whether the cap is on). Reds on main, rules, checks and skills, and work the CTO or the lead gives you by name are not capped. Otherwise: `npm run pool -- next`. It starts by saying who you are and your tier. A real run can take several minutes (it fetches every claimed branch); it prints a line to standard error as each stage starts, so a quiet terminal is not a hung one.
    - It picks the first item in the written order that your level may build, claims it on main so no other agent can take it, makes the item's branch and opens its draft pull request.
    - The branch is named `pool/<item>`. A Claude cloud session may push only under `claude/`, and the tool sees that by itself and names the branch `claude/pool-<item>`. If your tool has a prefix of its own, set `POOL_BRANCH_PREFIX` once or add `--branch-prefix <prefix>`.
    - The owner or the CTO can set a tier or a name by hand with `--tier <tier>` and `--agent <name>`. You do not.
@@ -54,24 +54,26 @@ A session can end at any moment. Nothing may live only in your conversation.
 - **Progress.** After each pushed unit, add one comment: what is done, what is next, and anything the next agent must know.
 - **Questions.** A question for the owner or the CTO is a comment that starts with "Question:" and ends with what you read before asking (`AGENTS.md`, "Look before you ask"). Then build the simplest version the rules allow and say so. Nothing waits.
 - **Ready.** Ready means the pull request is no longer a draft: mark it ready with `gh pr ready <number>` or your tool's own button or API. If your tool cannot take it out of draft, post one comment that starts with `Ready for the desk:` followed by the head commit's hash; the desk treats that the same way.
-- **Send-backs.** The checker and the merge desk answer on the same pull request. A sent-back item is yours until you hand it off. A send-back goes on the item's own pull request, never on issue 7365.
+- **Send-backs.** The checker and the merge desk answer on the same pull request. A sent-back item is yours until you hand it off. A send-back goes on the item's own pull request, never on issue 8928.
 - **Handoff.** When you stop for any reason, add a comment that starts with "Handoff:" and says what is done, what is not, how to run the proof, and the next step. Leave the claim in place.
+- **An item you take, you start.** Never open a pull request that says "not started", and never leave a claim on an item you did not start: a claimed item is offered to nobody. If you will not build it, run `npm run pool -- release <id> --reason "<one sentence>"`, close its draft, and take the next. On Nov 11 one builder took eight items in a row, wrote "not started" on each and left every claim in place.
 - **Stale claims.** A claim older than twice its time box, whose branch has had no push for that long (or, with no branch, whose claim is that old), is released by the next agent's `next`, which then offers it as **continue**. Its pull request and branch stay as they are.
 
 ## When you stop
 
-- **The item's time box is used.** Push what passes, write the handoff, and take the next item only if your usage allows.
-- **Your usage is running out.** Write the handoff first.
+- **The item's time box is used.** Push what passes, write the handoff, and take the next item. An item bigger than its box is built as its first working part: finish that part with its test, say on the pull request what is left, and change line 1 to `Touches pool item:` so the item stays open.
+- **Your usage is running out.** You cannot see your usage, so do not guess at it. Never take an item and hand it off unstarted "for usage". Keep building; if the run truly ends, the stale-claim rule above covers the item you were on.
 - **The item needs words.** Every line under `data/english/parts/` is written by the session that holds words (Fable B since Nov 10, owner ruling) or the helper it names for that file. List each spot and what it must say in the pull request, and build everything else.
 
 ## The order
 
 `next` sorts by the order in `docs/pool/order.json`, and nothing else decides it:
 
-1. **Priority.** 1 before 2 before 3. Priority 1 is a red on main or what the owner asked for now.
-2. **Class.** Rules, checks and skills first. Then the critical path: the country tier and its clock, the life record, the words machine. Then what stops play. Then the rest.
-3. **What it unblocks.** The item more items wait on comes first.
-4. **Effort,** low before high, then **size,** small before large.
+1. **What the player sees** (owner, Nov 11: "prioritize all of the visible changes"). Reds on main and rules, checks and skills still come before everything. Then play and screens work. Then every other item whose What says `Seen:`. Then `Feeds:`, then `Guards:`, then the rest.
+2. **Priority.** 1 before 2 before 3. Priority 1 is a red on main or what the owner asked for now.
+3. **Class.** Rules, checks and skills first. Then the critical path: the country tier and its clock, the life record, the words machine. Then what stops play. Then the rest.
+4. **What it unblocks.** The item more items wait on comes first.
+5. **Effort,** low before high, then **size,** small before large.
 
 An item is offered only when it is open, carries `checked: fable`, has a known cause, has every `after:` item on main, and has a Waits on that says "Nothing" or names only items already on main. A Waits on that names anything else (an owner decision, the Story session's lines, early-access preparation) is not offered.
 
