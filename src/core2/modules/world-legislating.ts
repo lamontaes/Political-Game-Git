@@ -525,6 +525,28 @@ export function filingReason(
     : bare;
 }
 
+/**
+ * A member's own ranked priorities: the changes they have a reason for,
+ * strongest first. Each one they carry takes the time of the next, so the
+ * k-th (from 0) is carried only while its reason outweighs k bills' worth of
+ * carrying (`memberBillCarryCost`). How far down the list a member reaches
+ * follows how strongly they feel; no threshold is shared between members, and
+ * the order the changes are listed in does not matter. Returns the positions
+ * in `reasons` the member carries.
+ */
+export function carriedRanks(
+  reasons: readonly number[],
+  carryCost: number,
+): ReadonlySet<number> {
+  const ranked = reasons
+    .map((reason, i) => ({ reason, i }))
+    .filter((r) => r.reason > 0)
+    .sort((x, y) => y.reason - x.reason || x.i - y.i);
+  return new Set(
+    ranked.filter((r, rank) => r.reason > rank * carryCost).map((r) => r.i),
+  );
+}
+
 /** A change a member files, with who backs it and where the floor leader puts it. */
 interface Filed {
   readonly question: string;
@@ -580,75 +602,94 @@ function fileChanges(
     head && memberKey(head) !== (api.state as CoreState).playerId
       ? filerOf(api, head)
       : null;
-  for (const question of input.body ? PLATFORM_QUESTIONS : []) {
+  // Every change the law in force and the body's rules leave open to file.
+  const open: { question: string; direction: number }[] = [];
+  for (const question of input.body ? PLATFORM_QUESTIONS : [])
     for (const direction of [1, -1]) {
       if (!input.needsChange(question, direction)) continue;
       if (!input.allowed(question, direction)) continue;
       if (input.barred(question, direction)) continue;
-      const law = lawStanding(api, question, direction, input.jurisdiction);
-      let sponsor: Filer | null = null;
-      let best = 0;
-      let cosponsors = 0;
-      for (const member of filers) {
-        const reason = filingReason(api, member, question, direction, law);
-        if (reason <= 0) continue;
-        cosponsors += 1;
-        // Nothing is filed in the player's name without them: they back it,
-        // and file their own bills through the bill menu.
-        if (isControlled(api, member)) continue;
-        if (
-          reason > best ||
-          (reason === best && sponsor && member.key < sponsor.key)
-        ) {
-          best = reason;
-          sponsor = member;
-        }
+      open.push({ question, direction });
+    }
+  const laws = open.map((c) =>
+    lawStanding(api, c.question, c.direction, input.jurisdiction),
+  );
+  const reasonsOf = (f: Filer): number[] =>
+    open.map((c, i) => filingReason(api, f, c.question, c.direction, laws[i]!));
+  const carryCost = campaignParameter("memberBillCarryCost");
+  const byMember = filers.map((member) => {
+    const reasons = reasonsOf(member);
+    return {
+      member,
+      reasons,
+      // Nothing is filed in the player's name without them: they back it, and
+      // file their own bills through the bill menu.
+      carries: isControlled(api, member)
+        ? new Set<number>()
+        : carriedRanks(reasons, carryCost),
+    };
+  });
+  let execCarries: ReadonlySet<number> | undefined;
+  open.forEach(({ question, direction }, i) => {
+    const law = laws[i]!;
+    let sponsor: Filer | null = null;
+    let best = 0;
+    let cosponsors = 0;
+    for (const { member, reasons, carries } of byMember) {
+      const reason = reasons[i]!;
+      if (reason <= 0) continue;
+      cosponsors += 1;
+      if (!carries.has(i)) continue;
+      if (
+        reason > best ||
+        (reason === best && sponsor && member.key < sponsor.key)
+      ) {
+        best = reason;
+        sponsor = member;
       }
-      if (!sponsor) {
-        if (
-          !executive ||
-          filingReason(api, executive, question, direction, law) <= 0
-        )
-          continue;
-        const request = proposeAsExecutive(api, {
-          bodyOfficeId: input.body!.id,
-          provisions: [{ kind: "policy-question", question, value: direction }],
-        });
-        const drafted = request?.billId
-          ? (api
-              .moduleState(LEGISLATURE_MODULE_ID)
-              .table("bills")
-              .get(request.billId) as unknown as BillRow)
-          : undefined;
-        if (!request || !drafted) continue;
-        filed.push({
-          question,
-          direction,
-          sponsor:
-            filers.find((f) => f.key === request.memberId) ??
-            filerOf(
-              api,
-              input.filers.find((t) => memberKey(t) === request.memberId)!,
-            ),
-          cosponsors,
-          leaderReason: leader
-            ? filingReason(api, leader, question, direction, law)
-            : 0,
-          drafted,
-        });
-        continue;
-      }
+    }
+    if (!sponsor) {
+      if (!executive) return;
+      execCarries ??= carriedRanks(reasonsOf(executive), carryCost);
+      if (!execCarries.has(i)) return;
+      const request = proposeAsExecutive(api, {
+        bodyOfficeId: input.body!.id,
+        provisions: [{ kind: "policy-question", question, value: direction }],
+      });
+      const drafted = request?.billId
+        ? (api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("bills")
+            .get(request.billId) as unknown as BillRow)
+        : undefined;
+      if (!request || !drafted) return;
       filed.push({
         question,
         direction,
-        sponsor,
+        sponsor:
+          filers.find((f) => f.key === request.memberId) ??
+          filerOf(
+            api,
+            input.filers.find((t) => memberKey(t) === request.memberId)!,
+          ),
         cosponsors,
         leaderReason: leader
           ? filingReason(api, leader, question, direction, law)
           : 0,
+        drafted,
       });
+      return;
     }
-  }
+    filed.push({
+      question,
+      direction,
+      sponsor,
+      cosponsors,
+      leaderReason: leader
+        ? filingReason(api, leader, question, direction, law)
+        : 0,
+    });
+  });
   if (input.lines)
     filed.push(...fileLines(api, input.jurisdiction, filers, input.barred));
   // The floor leader's calendar: the most backed first, a change weighing
