@@ -35568,10 +35568,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-say-reason.bail-was-bail",
+      "key": "conversation.charge-say-reason.they-set-bail-at-bail",
       "move": "charge-say-reason",
       "kind": "spoken",
-      "text": "Bail was {bail}.",
+      "text": "They set bail at {bail}.",
       "uses": [
         {
           "move": "charge-say-reason",
@@ -35589,10 +35589,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.conviction-say-core.i-was-convicted-of-offense-i-m-going-away-for-term",
+      "key": "conversation.conviction-say-core.guilty-of-offense-i-m-going-away-for-term",
       "move": "conviction-say-core",
       "kind": "spoken",
-      "text": "I was convicted of {offense}. I'm going away for {term}.",
+      "text": "Guilty of {offense}. I'm going away for {term}.",
       "uses": [
         {
           "move": "conviction-say-core",
@@ -35660,10 +35660,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.conviction-say-core.the-court-found-me-guilty-of-offense",
+      "key": "conversation.conviction-say-core.they-found-me-guilty-of-offense",
       "move": "conviction-say-core",
       "kind": "spoken",
-      "text": "The court found me guilty of {offense}.",
+      "text": "They found me guilty of {offense}.",
       "uses": [
         {
           "move": "conviction-say-core",
@@ -35684,10 +35684,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.acquittal-say-core.the-court-found-me-not-guilty-of-offense",
+      "key": "conversation.acquittal-say-core.they-found-me-not-guilty-of-offense",
       "move": "acquittal-say-core",
       "kind": "spoken",
-      "text": "The court found me not guilty of {offense}.",
+      "text": "They found me not guilty of {offense}.",
       "uses": [
         {
           "move": "acquittal-say-core",
@@ -35730,10 +35730,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-ask-ask.is-it-true-about-offense",
+      "key": "conversation.charge-ask-ask.is-it-true-they-charged-you-with-offense",
       "move": "charge-ask-ask",
       "kind": "spoken",
-      "text": "Is it true about {offense}?",
+      "text": "Is it true they charged you with {offense}?",
       "uses": [
         {
           "move": "charge-ask-ask",
@@ -35749,28 +35749,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-ask-ask.is-it-true",
-      "move": "charge-ask-ask",
-      "kind": "spoken",
-      "text": "Is it true?",
-      "uses": [
-        {
-          "move": "charge-ask-ask",
-          "subject": "charge",
-          "role": "ask",
-          "choice": "ask"
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder W1 (a court case told through the composer)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.charge-answer-deflect.it-s-complicated",
+      "key": "conversation.charge-answer-deflect.ask-my-lawyer",
       "move": "charge-answer-deflect",
       "kind": "spoken",
-      "text": "It's complicated.",
+      "text": "Ask my lawyer.",
       "uses": [
         {
           "move": "charge-answer-deflect",
@@ -35785,10 +35767,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.charge-answer-refuse.i-can-t-say",
+      "key": "conversation.charge-answer-refuse.after-the-trial",
       "move": "charge-answer-refuse",
       "kind": "spoken",
-      "text": "I can't say.",
+      "text": "After the trial.",
       "uses": [
         {
           "move": "charge-answer-refuse",
@@ -35822,10 +35804,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.conviction-ask-ask.the-verdict",
+      "key": "conversation.conviction-ask-ask.and-the-trial",
       "move": "conviction-ask-ask",
       "kind": "spoken",
-      "text": "The verdict?",
+      "text": "And the trial?",
       "uses": [
         {
           "move": "conviction-ask-ask",
@@ -35902,10 +35884,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.acquittal-answer-refuse.that-s-all",
+      "key": "conversation.acquittal-answer-refuse.rather-not",
       "move": "acquittal-answer-refuse",
       "kind": "spoken",
-      "text": "That's all.",
+      "text": "Rather not.",
       "uses": [
         {
           "move": "acquittal-answer-refuse",

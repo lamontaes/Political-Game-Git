@@ -64,6 +64,7 @@ import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { JUSTICE_MODULE_ID } from "../core2/modules/justice";
+import { dollars } from "../english/bill-sections";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { sharedHistory } from "../core2/shared-history";
 import {
@@ -1198,7 +1199,8 @@ function caseFacts(
   ) as { facts?: Readonly<Record<string, string>> } | undefined;
   if (pretrial?.facts?.decision === "held") facts.held = fact("yes");
   else if (Number(pretrial?.facts?.bailMinor) > zero)
-    facts.bail = fact(moneySaid(Number(pretrial!.facts!.bailMinor)));
+    // Their own bail and fine are said exactly: they know the figure.
+    facts.bail = fact(dollars(Number(pretrial!.facts!.bailMinor)));
   const sentence = row.sentenceId
     ? (api.table("sentences").get(row.sentenceId) as
         | {
@@ -1216,7 +1218,7 @@ function caseFacts(
     if ((sentence.probationMonths ?? zero) > zero)
       facts.probation = fact(termSaid(sentence.probationMonths!), ids);
     if ((sentence.fineMinor ?? zero) > zero)
-      facts.fine = fact(moneySaid(sentence.fineMinor!), ids);
+      facts.fine = fact(dollars(sentence.fineMinor!), ids);
   }
   return facts;
 }
