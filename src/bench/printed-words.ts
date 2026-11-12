@@ -25,6 +25,9 @@ import {
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
+  members,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import {
@@ -544,6 +547,12 @@ class Reader {
   /** The body an office sits on ("Legislature of the Virgin Islands"), when its record names one. */
   body(officeId: string | undefined): string | null {
     if (!officeId) return null;
+    // A chamber of Congress has no office row of its own: it is named by a
+    // sitting member's office ("United States Senate").
+    if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE) {
+      const seated = members(this.api, officeId)[0]?.officeId;
+      return seated && seated !== officeId ? this.body(seated) : null;
+    }
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
     ) as unknown as { bodyName?: string; jurisdiction?: string } | undefined;
