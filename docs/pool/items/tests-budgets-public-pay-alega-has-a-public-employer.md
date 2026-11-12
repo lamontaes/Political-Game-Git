@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: R1 (Fable A's builder)
+pr: #8883
 after:
 blocked-on:
 lead: speed
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+merged-at: 2026-11-12T13:32:04.194Z
 ---
 
 **What.** src/core2/budgets-public-pay.test.ts fails on Alega, American Samoa (territory:AS:alega), seed f3d402dc6d11da2e, world ad3959435a1c42548b1075f66f283170c11ebe50252346569878542c186cd4d6: 'opening public employers (zero is the recorded case): expected 1 to be +0'. It fails the same on main's own vite.config.ts with NODE_OPTIONS=--max-old-space-size=5120, so it is not a heap failure. Found while running the ten budgets runs of tests-world-tests-outgrow-worker-heap (budgets.test.ts itself passed ten of ten, at two workers, seed 109a7b3b1d5c1715d738e7b8ca9deec614910239). Guards: the public employer and pay the player's budget screen shows for a drawn place, which the test keeps matching the opening world's records.
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/budgets-public-pay.test.ts, src/core2/town-workplaces.ts, src/core2/public-work-pay.ts
 
 **Notes.** Cause found (Nov 11, 2026, cause finder for Fable B): built Alega's world through the test's own route on main b957363c and listed the organizations holding a public pay authority: the one is the state office above. The test is stale, not the opening.
+
+**Notes (Nov 12, R1).** Built the Fix on branch claude/pool-tests-budgets-public-pay-alega-has-a-public-employer. A bisect of Alega's world (seed f3d402dc6d11da2e) from the commit that pinned the empty case (7210819d2b) to main 8a68ab2bd4 found it opens with zero public employers at some later commits and one at others (4dde32a74c, b2be97ea25 and f882a12a81 held zero; f5e2d54710, Oct 28, "sector mix ... drawn from its seed", is the first that held one). Whether a small place opens with a state office is drawn from its world's seed, so no pinned seed could have kept the empty case; the check in every drawn world replaces it.
