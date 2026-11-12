@@ -8,8 +8,10 @@
     "why": "No record names the parent firm of a town's regional office (town-workplaces.ts builds it as a plain town workplace), so there is no payer to allocate from. Left as the old branch-or-institution route it opened with $0 and its staff were never paid (Boulevard CA 0607694, seed pp-a: organization_cd524c66abde5ef1, work-relationship_9f0d2babaf670fc8 earned 347,556, paid 0). With the professional kind it ends the year with cash 9,508,565 and that job is paid.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-09",
-    "replacement": "A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-JOBS-job-start-not-a-person-event",
