@@ -39,6 +39,19 @@ interface Learned {
 }
 
 /**
+ * The records a learned event's source was found in when it was emitted,
+ * keyed by the person and the source the event cites (`person|news:story`):
+ * the story's law while the news kept the story, the person's knowledge
+ * record of it, and the price engine's own record of their hearing a story
+ * about the law. Kept because the news forgets a story after its days.
+ */
+interface SourceSeen {
+  readonly storyLawId: string | undefined;
+  readonly knownKey: string | undefined;
+  readonly hearingStoryId: string | undefined;
+}
+
+/**
  * A generated town with a fare-free law enacted, and its press story printed
  * `storyAfterDays` after the town opens. The law takes effect `effectiveAfterDays`
  * after the town opens.
@@ -55,6 +68,7 @@ function townWithLaw(
   });
   const api = coreAPI(core);
   const learned: Learned[] = [];
+  const sources = new Map<string, SourceSeen>();
   registerModule(core, {
     id: "test:learned-reader",
     eventKinds: ["law.effect-learned"],
@@ -66,7 +80,13 @@ function townWithLaw(
         .table("stories")
         .rows()
         .find((s) => newsKey(String(s.id)) === from) as unknown as
-        { id: string } | undefined;
+        { id: string; facts?: { lawId?: string } } | undefined;
+      sources.set(`${personId}|${from}`, {
+        storyLawId: story?.facts?.lawId,
+        knownKey: api.knows(personId, from)?.key,
+        hearingStoryId: hearingOf(api, personId, String(event.facts?.lawId))
+          ?.storyId,
+      });
       learned.push({
         event,
         personId,
@@ -115,7 +135,7 @@ function townWithLaw(
     residents,
   );
   expect(reached, `${at}: the story reached no one`).toBeGreaterThan(0);
-  return { core, api, learned, lawId: lawId!, effectiveDate };
+  return { core, api, learned, sources, lawId: lawId!, effectiveDate };
 }
 
 /**
@@ -130,18 +150,63 @@ function ownLawEvents(learned: readonly Learned[], lawId: string) {
   );
 }
 
-/** Each learned event about another law is kept and traced to the story it cites, which is about that law. */
+/** The price engine's record that a person heard a story about a law, kept until their household pays under it. */
+function hearingOf(
+  api: ReturnType<typeof coreAPI>,
+  personId: string,
+  lawId: string,
+) {
+  return api
+    .moduleState("place-prices")
+    .table("heardLaws")
+    .get(`${personId}|${lawId}`) as unknown as { storyId?: string } | undefined;
+}
+
+/**
+ * Each learned event about another law is kept and traced to a real record of
+ * the source it cites: the story, about that same law (still in the news, or
+ * as it was when the event was emitted); the price engine's record of their
+ * hearing a story about that law; or their own knowledge record of the story
+ * (a story the news forgot, remembered). A source string that names none of
+ * these does not pass.
+ */
 function otherLawEventsTrace(
   api: ReturnType<typeof coreAPI>,
   learned: readonly Learned[],
+  sources: ReadonlyMap<string, SourceSeen>,
   lawId: string,
   at: string,
 ) {
   const others = learned.filter(
     (l) => l.event.facts?.priceRuleId && l.event.facts?.lawId !== lawId,
   );
+  const traced = { story: 0, hearing: 0, known: 0 };
   for (const l of others) {
-    expect(l.event.facts?.learnedFrom, `${at}: ${l.event.id}`).toBeDefined();
+    const from = String(l.event.facts?.learnedFrom ?? "");
+    const itsLaw = String(l.event.facts?.lawId);
+    const seen = sources.get(`${l.personId}|${from}`);
+    const story = (
+      api.moduleState("news").table("stories").rows() as unknown as {
+        id: string;
+        facts?: { lawId?: string };
+      }[]
+    ).find((s) => newsKey(s.id) === from);
+    const hearing =
+      hearingOf(api, l.personId, itsLaw)?.storyId ?? seen?.hearingStoryId;
+    const known = api.knows(l.personId, from)?.key ?? seen?.knownKey;
+    const by =
+      (story?.facts?.lawId ?? seen?.storyLawId) === itsLaw
+        ? "story"
+        : hearing && newsKey(hearing) === from
+          ? "hearing"
+          : known === from
+            ? "known"
+            : undefined;
+    expect(
+      by,
+      `${at}: ${l.event.id} cites ${from}, which is no story about ${itsLaw}, no hearing of one, and nothing ${l.personId} knows`,
+    ).toBeDefined();
+    traced[by!] += 1;
     // Where the news still keeps the story, it is about the law the event names.
     if (l.storyId)
       expect(
@@ -149,7 +214,7 @@ function otherLawEventsTrace(
         `${at}: ${l.event.id} cites ${l.storyId}`,
       ).toBe(l.event.facts?.lawId);
   }
-  return others;
+  return { others, traced };
 }
 
 /** The law's record of reaching a person's household: the day of its first bill under the law. */
@@ -206,7 +271,7 @@ function expectStances(
 it(`a household that heard the story learns what the price law did to them (${where})`, () => {
   setBookkeeping(false);
   try {
-    const { core, api, learned, lawId } = townWithLaw();
+    const { core, api, learned, sources, lawId } = townWithLaw();
     advanceCore(core, addDays(makeIsoDate(core.date), 75));
     const events = ownLawEvents(learned, lawId);
     expect(
@@ -226,10 +291,16 @@ it(`a household that heard the story learns what the price law did to them (${wh
       ).toBe(true);
       expect(l.event.facts?.lawId, `${where}: ${l.event.id}`).toBe(lawId);
     }
-    otherLawEventsTrace(api, learned, lawId, where);
+    const other = otherLawEventsTrace(api, learned, sources, lawId, where);
     const withView = expectStances(api, events);
     console.log(
       `learned from a story heard before the bill: ${where}; law ${lawId}; ${events.length} learned, ${withView.length} with a view; e.g. ${events[0]!.event.id} from ${events[0]!.storyId} heard ${events[0]!.heardOn}`,
+    );
+    const laws = [
+      ...new Set(other.others.map((l) => String(l.event.facts?.lawId))),
+    ];
+    process.stdout.write(
+      `other laws' learned events: ${where}; ${other.others.length} traced (${other.traced.story} to the story about their law, ${other.traced.hearing} to the hearing of it, ${other.traced.known} to what the learner knows), laws ${laws.join(", ") || "none"}\n`,
     );
   } finally {
     setBookkeeping(true);
