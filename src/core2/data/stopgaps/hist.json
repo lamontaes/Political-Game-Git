@@ -43,5 +43,27 @@
     "addedAt": "2026-10-29",
     "replacement": "Carry the partnership in the counted household record when the opening generates it, with the day it began, so fill-in reads it instead of inferring it.",
     "status": "open"
+  },
+  {
+    "id": "SG-HIST-past-arrest-age-only",
+    "kind": "partial-model",
+    "file": "src/core2/past-justice.ts",
+    "whatItFakes": "An arrest before the start comes from age alone, from 13 to 23, at the national share: the person's sex, traits, place, schooling and household do not weigh, no arrest after 23 is written, every conviction is a felony a year after the arrest, and every prison term is two years.",
+    "why": "Gap sheet, Nov 12, row 4: a past never held an arrest. The national cumulative shares (Brame et al. 2012; Shannon et al. 2017) were the published figures read.",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "Arrest by sex and race-blind household income from Brame et al. (2014, Crime & Delinquency 60(3)), weighed by the person's traits through the shared trait table, with misdemeanor convictions and sentence lengths from BJS Felony Sentences in State Courts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HIST-player-past-arrest",
+    "kind": "owner-decision",
+    "file": "src/core2/past-justice.ts",
+    "whatItFakes": "The player's own past is run by the same rule as everyone's, so about three players in ten start with an arrest by 23 in their history, and some with a conviction, told on their own card and Journal.",
+    "why": "One rule for every person; whether the player's own character may start with a criminal record is a call about the player's experience, which only the owner makes (AGENTS.md, 'This is a game, not a spreadsheet').",
+    "addedBy": "opus-lr (Life records builder)",
+    "addedAt": "2026-11-12",
+    "replacement": "The owner's answer: the player's past is run by the same rule, or the player starts without an arrest, or the new-life screen lets the player choose.",
+    "status": "open"
   }
 ]

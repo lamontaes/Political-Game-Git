@@ -49,6 +49,7 @@ import {
   type HistoryWriter,
   type PreStartModule,
   type PreStartWindow,
+  pastJusticeFor,
 } from "../past-module";
 import type {
   ActOffer,
@@ -584,6 +585,7 @@ export function openWholePast(core: CoreState, personId: PersonId): void {
   pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
   schoolHistoryFor(core, [person]);
   pastWorkFor(core, [person], PEOPLE_MODULE_ID);
+  pastJusticeFor(core, [person], PEOPLE_MODULE_ID);
 }
 
 /**
