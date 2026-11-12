@@ -4283,7 +4283,7 @@
         ]
       },
       "applies": {
-        "banks": ["person-sketch", "person-history"]
+        "banks": ["person-history"]
       },
       "catches": ["Keeping commitments: neither, much.", "Neither, much"],
       "spares": [

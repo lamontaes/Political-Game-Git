@@ -136,6 +136,7 @@ const SMALL = [
 const count = (value: number) =>
   SMALL[Math.round(value)] ??
   new Intl.NumberFormat("en-US").format(Math.round(value));
+export { count as countSaid };
 const ORDINALS = [
   "zeroth",
   "first",

@@ -259,7 +259,8 @@ describe("a person's history on their card", () => {
         expect(
           card.history.some(
             (line) =>
-              line.recordId === couple.id && /made a home/.test(line.text),
+              // Any wording of the home they made, with the viewer said "you".
+              line.recordId === couple.id && /\bwith you\.$/.test(line.text),
           ),
           `${where}: ${couple.id} on ${b!.id}'s card`,
         ).toBe(true);

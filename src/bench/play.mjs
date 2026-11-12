@@ -2459,9 +2459,7 @@ async function personCardNode(
           stripSection(
             2,
             heading("howISee", "howISeeThem"),
-            perkList(
-              c.traitLines.map((t) => ({ name: t.label, line: t.line })),
-            ),
+            perkList(c.traitLines.map((t) => ({ name: t.label }))),
           ),
         ]
       : []),
@@ -3515,7 +3513,6 @@ const sheets = {
                       c.traitLines.map((row) => ({
                         name: row.label,
                         strength: strengthWord[row.strength],
-                        line: row.line,
                       })),
                     ),
                   ),

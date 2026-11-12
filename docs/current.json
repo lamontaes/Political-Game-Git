@@ -392,6 +392,12 @@
       "now": "nothing stands in its place; restore it from commit e83ccf5d83e67e48df658367b55fade2f1e6453d",
       "when": "2026-11-11",
       "why": "Removed with the painted people (owner's call 11, PR 8643): it checked how painted people were framed in a room."
+    },
+    {
+      "old": "data/english/parts/person-sketch.json",
+      "now": "nothing stands in its place: the person card shows each leaning by its label (and its strength on the You screen); restore it from commit 354fa017bdc126990eaec3a30367173e519bcfc2",
+      "when": "2026-11-12",
+      "why": "Every line in it only said a trait's label again in other words, with no fact from the world's records (owner, Nov 11: every line through the English engine; Fable A on #7365, Nov 12: a line that only restates the trait's name beside it is deleted)."
     }
   ]
 }
