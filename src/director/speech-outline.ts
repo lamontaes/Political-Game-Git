@@ -1663,7 +1663,9 @@ export function planSpeech(
   const world: Facts = federal
     ? worldFacts(core, person, kind, voice, country, points)
     : {
-        ...(realm ? { "realm-name": fact(realm, speaker.jurisdiction) } : {}),
+        ...(realm
+          ? { "realm-name": fact(realm, speaker.jurisdiction ?? person.id) }
+          : {}),
         ...(themeName && themeCited.length
           ? { "theme-name": fact(themeName, ...themeCited) }
           : {}),

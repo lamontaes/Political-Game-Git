@@ -176,9 +176,13 @@ describe("every speech through the one outline planner", () => {
                 ...(points.get(sentence.stand.about) ?? []),
                 sentence,
               ]);
-          if (points.size < 2)
+          // A speech makes at least one point; it is shorter, not padded,
+          // when its theme holds one question the speaker can speak to (the
+          // words lead, Nov 12: "If only one or two questions fit the theme,
+          // the speech is shorter; it does not pad with unrelated ones").
+          if (points.size < 1)
             failures.push(
-              `${label}: ${points.size} point(s); a speech makes at least two`,
+              `${label}: ${points.size} point(s); a speech makes at least one`,
             );
           // Each point says how its question stands today, in its paragraph:
           // first, after the belief or the question, or after the ask.
@@ -327,12 +331,20 @@ describe("every speech through the one outline planner", () => {
               ),
             speech.text,
           );
+          // A governor names their own state ("West Virginia" holds
+          // "Virginia"), so its name is taken out before the others are read.
+          const ownName = stateNames.find(
+            (state) => state.key === speech.ownState,
+          )?.name;
+          const unowned = ownName
+            ? withoutAsks.split(ownName).join("")
+            : withoutAsks;
           for (const state of stateNames)
             if (
               // "Washington" is said for the federal government as often as for the state.
               state.name !== "Washington" &&
               state.key !== speech.ownState &&
-              new RegExp(`\\b${state.name}\\b`).test(withoutAsks)
+              new RegExp(`\\b${state.name}\\b`).test(unowned)
             )
               failures.push(`${label}: names ${state.name}`);
           // No comma splice.

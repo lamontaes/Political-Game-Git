@@ -47,6 +47,7 @@ import {
 import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
+import { SUBJECT_WORDS } from "../english/composed-checks";
 import { P } from "../core2/parameters";
 import { officeWords, saidAs } from "../english/said-as";
 import { tellingOf } from "../english/telling";
@@ -269,6 +270,8 @@ export function composeBlocks(
   // addresses, then this one's as it is said, so no wording is used twice
   // while another can say it, and the one said longest ago comes back first.
   const said: string[] = earlierAddressPieces(core, president.id);
+  // How often each subject word has been said in the address.
+  const subjectSaid = new Map<string, number>();
   // How often each of the world's names has been said in the address.
   const named = new Map<string, number>();
   // The seats of the people already said in this address, so a person is
@@ -466,6 +469,26 @@ export function composeBlocks(
             [...runs].some((run) => earlier.has(run)),
           );
         });
+      // A subject's word is said at most the composed check's budget in one
+      // speech (speech-has-one-theme): a wording that would say one more
+      // time is drawn again, a few times, and the fewest over stands.
+      const overBy = (row: ReturnType<typeof sayMove>) => {
+        if (row.kind !== "rendered") return P.zero;
+        const names = new Set(
+          Object.entries(told)
+            .filter(([key]) => !!personSlot(key))
+            .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
+        );
+        const counts = new Map(subjectSaid);
+        let over = P.zero;
+        for (const word of SUBJECT_WORDS.of(row.text)) {
+          if (names.has(word)) continue;
+          const now = (counts.get(word) ?? P.zero) + P.one;
+          counts.set(word, now);
+          if (now > SUBJECT_WORDS.most()) over += P.one;
+        }
+        return over;
+      };
       const tries = [
         within(counted),
         ...(move.required || block.required || block.key === "to-vp"
@@ -481,10 +504,18 @@ export function composeBlocks(
         let said = sayMove(move, facts);
         for (
           let retry = P.one;
-          retry <= SHAPE.parameters.redraws.value && echoesVice(said);
+          retry <= SHAPE.parameters.redraws.value &&
+          (echoesVice(said) || overBy(said) > P.zero);
           retry += P.one
-        )
-          said = sayMove(move, facts, retry);
+        ) {
+          const again = sayMove(move, facts, retry);
+          if (
+            again.kind === "rendered" &&
+            !echoesVice(again) &&
+            (echoesVice(said) || overBy(again) < overBy(said))
+          )
+            said = again;
+        }
         return timeTwice(said) ? [sayMove(bare, facts)] : [said];
       });
       const result = tries.find((row) => row.kind === "rendered") ?? null;
@@ -525,6 +556,14 @@ export function composeBlocks(
         }
         // A later move of this block does not repeat this one's wordings.
         said.push(...done.parts.map((part) => part.partKey));
+        const nameWords = new Set(
+          Object.entries(told)
+            .filter(([key]) => !!personSlot(key))
+            .flatMap(([, value]) => SUBJECT_WORDS.wordsOf(value.text)),
+        );
+        for (const word of SUBJECT_WORDS.of(done.text))
+          if (!nameWords.has(word))
+            subjectSaid.set(word, (subjectSaid.get(word) ?? P.zero) + P.one);
       }
     }
     if (!address.moves.length) {

@@ -625,6 +625,18 @@ export const askSaidOnce: ComposedCheck = (text) => {
   return found;
 };
 
+/**
+ * The subject words of a sentence and how many times one speech may say
+ * each: the same reader the composed check uses, so the one address writer
+ * holds the rule as it composes (src/director/opening-story.ts
+ * `composeBlocks`) and the check reads what it held.
+ */
+export const SUBJECT_WORDS = {
+  of: (sentence: string): string[] => subjectWords(sentence),
+  most: (): number => value("subjectBudget"),
+  wordsOf: (text: string): string[] => words(text),
+};
+
 /** A subject's word said more than `subjectBudget` times in one speech (names of people set aside). */
 export const subjectBudget: ComposedCheck = (text, sample) => {
   if (!SPEECH_KINDS.includes(text.kind)) return [];
