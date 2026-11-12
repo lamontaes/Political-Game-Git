@@ -81,6 +81,7 @@ import { type Stance } from "../campaign-data";
 import { agreementWith, countedLean, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { ENCOUNTERS, meetAtMeeting } from "./people";
 
 export const MEETINGS_MODULE_ID = "core2-meetings-v1";
 
@@ -435,6 +436,20 @@ function publicComment(api: CoreAPI, billId: string): void {
   }
   const said = remarksOn(api, billId);
   if (!said.length) return;
+  // The members sit through the comment, so each speaker they did not know now
+  // knows them by name; the first tie holds the speaker's time at the podium.
+  // A speaker still in the wider population is not met (two-level population).
+  for (const seat of members(api, bill.bodyOfficeId))
+    if (seat.personId)
+      meetAtMeeting(
+        api,
+        seat.personId,
+        speakers.map((x) => x.p.id),
+        lawChain(api).townPlaceId,
+        `public-comment:${bill.id}`,
+        ENCOUNTERS.causes.metAtPublicComment,
+        meetingParameter("publicCommentHours"),
+      );
   // Each comment is a speech to the room: the members and the others who
   // spoke hear it (the speech engine moves them and lets them retell it).
   if (api.state.modules.has(SPEECH_MODULE_ID)) {
@@ -801,6 +816,17 @@ export function holdTownHall(
     ...(input.calledFor ? { calledFor: input.calledFor } : {}),
   };
   table(api, "townHalls").put(row as unknown as ModuleRow);
+  // The room meets the host: whoever came and did not know them now does, and
+  // the first tie holds the hours they sat there.
+  meetAtMeeting(
+    api,
+    input.hostId,
+    row.attendeeIds,
+    lawChain(api).townPlaceId,
+    id,
+    ENCOUNTERS.causes.metAtTownHall,
+    meetingParameter("townHallHours"),
+  );
   api.emit({
     id: `town-hall:${id}`,
     date: api.state.date,

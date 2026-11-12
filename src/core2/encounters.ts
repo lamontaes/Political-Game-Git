@@ -4,7 +4,9 @@
  * joining a group meets its other members. Each meeting is a dated fact naming
  * the place and the other person, and the first tie holds the hours spent
  * together, so closeness grows only through later contact. A new hire
- * meets the coworkers already working there. Two people who talk meet each
+ * meets the coworkers already working there. A town hall's room meets its
+ * host, and a resident who speaks at public comment meets the members of the
+ * body who hear them. Two people who talk meet each
  * other.
  */
 import data from "./data/encounters.json" with { type: "json" };
@@ -151,6 +153,37 @@ export function meetAtWork(
       met += api.parameter("one");
       room -= api.parameter("one");
     }
+  }
+  return met;
+}
+
+/**
+ * The people at a meeting who did not know the one they came to hear, met by
+ * name: each full person among `attendeeIds` meets `hostId` (a town hall's
+ * host, a seated member of the body), and the first tie holds `hours`, the
+ * time they sat in the room. A resident still in the counted population is
+ * not met (two-level population): the meeting leaves their record as it is
+ * until the player meets or clicks them. Returns how many were newly met.
+ */
+export function meetAtMeeting(
+  api: CoreAPI,
+  hostId: string,
+  attendeeIds: readonly string[],
+  placeId: string,
+  sourceId: string,
+  cause: string,
+  hours: number,
+): number {
+  api.stopgap(data.stopgapId);
+  const host = api.state.people.get(hostId);
+  if (!host?.alive) return api.parameter("zero");
+  let met = api.parameter("zero");
+  for (const id of attendeeIds) {
+    const attendee = api.state.people.get(id);
+    if (id === hostId || !attendee?.alive) continue;
+    if (attendee.knownIds.has(hostId) && host.knownIds.has(id)) continue;
+    if (api.meet(id, hostId, { placeId, sourceId, cause, hours }))
+      met += api.parameter("one");
   }
   return met;
 }

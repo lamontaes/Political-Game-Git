@@ -10,6 +10,8 @@
     "metInTalk": "met-in-talk",
     "homeTime": "home-time",
     "openingHome": "opening-home",
-    "openingFamily": "opening-family"
+    "openingFamily": "opening-family",
+    "metAtTownHall": "met-at-town-hall",
+    "metAtPublicComment": "met-at-public-comment"
   }
 }
