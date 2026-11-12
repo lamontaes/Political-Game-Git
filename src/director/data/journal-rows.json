@@ -496,8 +496,14 @@
       "entry": "story",
       "toldWithoutOther": true,
       "eventFacts": {
-        "office": { "fact": "office", "format": "text" },
-        "doors": { "fact": "doorsKnocked", "format": "count" }
+        "office": {
+          "fact": "office",
+          "format": "text"
+        },
+        "doors": {
+          "fact": "doorsKnocked",
+          "format": "count"
+        }
       }
     },
     {
@@ -505,9 +511,18 @@
       "turn": false,
       "entry": "story",
       "eventFacts": {
-        "office": { "fact": "office", "format": "text" },
-        "valid": { "fact": "valid", "format": "count" },
-        "needed": { "fact": "needed", "format": "count" }
+        "office": {
+          "fact": "office",
+          "format": "text"
+        },
+        "valid": {
+          "fact": "valid",
+          "format": "count"
+        },
+        "needed": {
+          "fact": "needed",
+          "format": "count"
+        }
       }
     },
     {
@@ -522,17 +537,7 @@
       "follow": ["togetherFor"]
     },
     {
-      "kindPrefix": "household:parents-met:hometown",
-      "turn": false,
-      "entry": "story"
-    },
-    {
       "kindPrefix": "household:parents-met:where-they-lived",
-      "turn": false,
-      "entry": "story"
-    },
-    {
-      "kindPrefix": "household:parents-met:school",
       "turn": false,
       "entry": "story"
     },

@@ -19,6 +19,11 @@ import {
   type BillRow,
 } from "../core2/modules/legislature";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import {
+  MEETINGS_MODULE_ID,
+  type TownHallRow,
+} from "../core2/modules/meetings";
+import { PRESS_MODULE_ID, type InterviewRow } from "../core2/modules/press";
 import type { LawRowInput } from "../core2/laws-starting";
 import {
   billNumberAndTitle,
@@ -1055,11 +1060,52 @@ function officeActMoments(
         echoes: [],
         ...(actFacts ? { actFacts } : {}),
       });
-      if (act.kind === "town-hall") return [moment("act:town-hall")];
-      if (act.kind === "interview")
-        return act.detail.startsWith("declined")
-          ? []
-          : [moment("act:interview")];
+      // A town hall is told by who came and what they asked, from its own
+      // row; an interview by the outlet it was given to. A count of one is
+      // not told as a number ("1 people").
+      if (act.kind === "town-hall") {
+        const hall = core.modules.has(MEETINGS_MODULE_ID)
+          ? (api
+              .moduleState(MEETINGS_MODULE_ID)
+              .table("townHalls")
+              .get(act.recordId) as unknown as TownHallRow | undefined)
+          : undefined;
+        const counted = (n: number) =>
+          n > one ? { text: String(n), sourceRecordIds: [act.recordId] } : null;
+        const came = counted(hall?.attendeeIds.length ?? zero);
+        const asked = counted(hall?.questions.length ?? zero);
+        return [
+          moment("act:town-hall", {
+            ...(came ? { attendees: came } : {}),
+            ...(asked ? { questions: asked } : {}),
+          }),
+        ];
+      }
+      if (act.kind === "interview") {
+        if (act.detail.startsWith("declined")) return [];
+        const row = core.modules.has(PRESS_MODULE_ID)
+          ? (api
+              .moduleState(PRESS_MODULE_ID)
+              .table("interviews")
+              .get(act.recordId) as unknown as InterviewRow | undefined)
+          : undefined;
+        const outlet = row
+          ? core.organizations.get(row.outletId as never)?.name
+          : undefined;
+        return [
+          moment(
+            "act:interview",
+            outlet
+              ? {
+                  outlet: {
+                    text: properName(outlet),
+                    sourceRecordIds: [act.recordId, row!.outletId],
+                  },
+                }
+              : {},
+          ),
+        ];
+      }
       if (act.kind !== "vote" || !["yes", "no"].includes(act.detail)) return [];
       // The legislature's own record of the vote is told already: one line
       // a vote (the journal printed every vote twice, Oct 29).
@@ -1971,9 +2017,15 @@ export function composeJournal(
       const lostJob =
         moment.causeKind === "job-ended" ||
         moment.causeKind === "job-ended:let-go";
+      // One fact, once: the employer is said here only when the line before
+      // did not already name it ("I lost my job. I had no job after Lopez's
+      // Market." said the loss twice; Fable A, Nov 12).
+      const employerSaid =
+        !!facts.employer &&
+        parts.some((part) => part.text.includes(facts.employer!.text));
       const hard = render(
         { part: "memoir", field: "hard", closedWith },
-        lostJob && facts.employer
+        lostJob && facts.employer && !employerSaid
           ? { ...facts, "lost-employer": facts.employer }
           : facts,
         `${moment.id}:hard`,
