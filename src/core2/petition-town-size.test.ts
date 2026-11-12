@@ -107,6 +107,20 @@ describe("a local petition fits the town", () => {
     expect(asked("IA", "party", 20_000)).toBeGreaterThan(iowa);
   });
 
+  it("a votes base reads the office's recorded votes when the world has them", () => {
+    const rule = filingRequirements(
+      "US-IA",
+      "municipalOffice",
+      "party",
+    ).petition;
+    const town = { eligible: 10_000, population: 15_000 };
+    expect(petitionSignatures(rule.scale!, { ...town, votesCast: 1_000 })).toBe(
+      20,
+    );
+    // Without a recorded election the registered-voter sizing stands in.
+    expect(petitionSignatures(rule.scale!, town)).toBeGreaterThan(100);
+  });
+
   it("a count by town size follows the town's people (Ohio 10 in a village, 50 in a city)", () => {
     expect(asked("OH", "party", 300, 900)).toBe(10);
     expect(asked("OH", "party", 8_000, 12_000)).toBe(50);

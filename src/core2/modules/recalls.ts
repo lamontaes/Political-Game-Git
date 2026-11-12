@@ -33,7 +33,12 @@ import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
-import { VOTING_MODULE_ID, turnoutOn, type ResultRow } from "./voting";
+import {
+  VOTING_MODULE_ID,
+  lastVotesForOffice,
+  turnoutOn,
+  type ResultRow,
+} from "./voting";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { countedResidents } from "../electorate";
 import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
@@ -312,13 +317,13 @@ export function signatureBase(
       a.result.id.localeCompare(b.result.id),
   );
   if (kind === "votes-cast-for-office") {
-    const last = records.find((r) => r.contest.officeId === term.officeId);
+    const last = lastVotesForOffice(api, term.officeId);
     if (last)
       return {
         kind,
         count: Math.round(last.votes),
         basis: "recorded",
-        recordId: last.result.id,
+        recordId: last.recordId,
       };
   }
   if (kind === "votes-cast-last-election") {

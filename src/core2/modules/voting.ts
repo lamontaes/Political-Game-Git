@@ -100,6 +100,7 @@ import {
   petitionOf,
   petitionSigners,
   petitionSignatures,
+  SCALED_PETITION_ESTIMATE,
   type ContestRow,
   type PetitionRule,
   type FilingRow,
@@ -578,12 +579,48 @@ function openFilingPetition(api: CoreAPI, filingId: string): void {
       tag: rule.basis === "read" ? "SOURCED" : "ESTIMATED",
       citation: rule.source,
       asOf: api.state.date,
-      ...(rule.basis === "read" || rule.basis === "scaled"
+      ...(rule.basis === "read"
         ? {}
-        : { estimatedFrom: "SG-GOV-petition-count-estimated" }),
+        : {
+            estimatedFrom:
+              rule.basis === "scaled"
+                ? SCALED_PETITION_ESTIMATE
+                : "SG-GOV-petition-count-estimated",
+          }),
     },
     sourceRecordIds: [petition.id],
   });
+}
+
+/**
+ * The votes cast for an office at its most recent recorded election in this
+ * world, with the result record they came from; none where no election for it
+ * has been held in the run. Read by the recall engine's signature base and by
+ * a scaled petition's "votes" base.
+ */
+export function lastVotesForOffice(
+  api: CoreAPI,
+  officeId: string,
+): { readonly votes: number; readonly recordId: string } | undefined {
+  if (!api.state.modules.has(VOTING_MODULE_ID)) return undefined;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  let best: { votes: number; recordId: string; date: string } | undefined;
+  for (const result of api
+    .moduleState(VOTING_MODULE_ID)
+    .table("results")
+    .rows() as unknown as ResultRow[]) {
+    const contest = contests.get(result.contestId) as unknown as
+      ContestRow | undefined;
+    const votes = Object.values(result.totals).reduce((n, v) => n + v, 0);
+    if (contest?.officeId !== officeId || votes <= 0) continue;
+    if (
+      !best ||
+      result.date > best.date ||
+      (result.date === best.date && result.id < best.recordId)
+    )
+      best = { votes, recordId: result.id, date: result.date };
+  }
+  return best && { votes: best.votes, recordId: best.recordId };
 }
 
 /**
@@ -605,6 +642,10 @@ function petitionNeededHere(
   if (rule.basis === "scaled" && rule.scale)
     return petitionSignatures(rule.scale, {
       eligible: voters,
+      votesCast:
+        rule.scale.base === "votes"
+          ? lastVotesForOffice(api, contest.officeId)?.votes
+          : undefined,
       population: Number(api.state.placeMetadata.referencePopulation) || 0,
     });
   const count = rule.count;
