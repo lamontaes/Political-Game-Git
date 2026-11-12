@@ -18,8 +18,9 @@
  * - no goodbye at home, and no reply offered that only takes a line in;
  * - "the President" at most once in a talk (then the pronoun);
  * - no policy question named by two people of the house on one day;
- * - every day on which someone is home at an hour the player is home has at
- *   least one talk on offer (owner, Nov 12: "the game says nothing at home");
+ * - every day a housemate has something new on record of a kind the talk
+ *   can tell, a talk on it is on offer; a silent day is reported with why
+ *   (nothing new on record), never failed (lead, Nov 12);
  * - no subject comes back with the same person inside its wait (three days
  *   for a day's own subject, conversation-rules.json dayTalk; a week else);
  * - no two people of the house open on the same wording on one day.
@@ -48,6 +49,7 @@ import {
   noteHeard,
   openConversation,
   say,
+  subjectsBetween,
   type Conversation,
 } from "./conversation";
 
@@ -175,6 +177,7 @@ function fortnight(draw: number): string[] {
   const played: string[] = [];
   const lastTopic = new Map<string, number>();
   let talks = 0;
+  const silent: string[] = [];
   let typedSeen = 0;
   for (let day = 0; day < DAYS; day += 1) {
     const saidToday = new Map<string, string>();
@@ -182,6 +185,7 @@ function fortnight(draw: number): string[] {
     const openedToday = new Map<string, string>();
     let homeToday = false;
     let talksToday = 0;
+    const newToday: string[] = [];
     for (const minute of day === 0 ? [EVENING] : [MORNING, EVENING]) {
       if (day > 0) liveThrough(core, playerId, day, minute);
       const household = [
@@ -204,7 +208,38 @@ function fortnight(draw: number): string[] {
           },
         );
         homeToday = true;
-        if (!talk.lines.length) continue;
+        // A new record of a kind the talk can tell (a day subject not told
+        // to the player within its wait) is a talk on offer (lead, Nov 12:
+        // a talk is offered when a housemate's records hold something new).
+        const fresh = subjectsBetween(
+          core,
+          otherId as PersonId,
+          playerId,
+          director,
+          { presentIds: room as PersonId[], minuteOfDay: minute },
+        ).filter((row) => {
+          if (!DAY_TALK.kinds.includes(row.kind)) return false;
+          const last = lastTopic.get(
+            `${otherId}|${otherId}>${row.id.replace(/:\d{4}-\d{2}-\d{2}$/, "")}`,
+          );
+          // A subject with a date in its id is told once (the rent due).
+          if (
+            last !== undefined &&
+            row.id !== row.id.replace(/:\d{4}-\d{2}-\d{2}$/, "")
+          )
+            return false;
+          return (
+            last === undefined || day - last >= DAY_TALK.againAfterDays.value
+          );
+        });
+        newToday.push(...fresh.map((row) => row.kind));
+        if (!talk.lines.length) {
+          if (fresh.length && !talksToday)
+            broken.push(
+              `${where}, day ${day}: ${core.people.get(otherId)!.givenName} has new on record (${fresh.map((row) => row.kind).join(", ")}) and no talk`,
+            );
+          continue;
+        }
         noteHeard(core, talk);
         talks += 1;
         talksToday += 1;
@@ -349,13 +384,15 @@ function fortnight(draw: number): string[] {
         }
       }
     }
+    // A silent day is reported with why, never failed: nothing new on
+    // record is nothing to say (lead, Nov 12).
     if (homeToday && !talksToday)
-      broken.push(
-        `${where}, day ${day}: someone was home and nobody had a word to say`,
+      silent.push(
+        `day ${day}: silent, ${newToday.length ? `new on record (${newToday.join(", ")}) but no talk` : "nothing new on record"}`,
       );
   }
   process.stdout.write(
-    `HOME-TALK ${where}: ${talks} talks, ${typedSeen} point parts typed by stand\n${played.join("\n")}\n`,
+    `HOME-TALK ${where}: ${talks} talks, ${typedSeen} point parts typed by stand, ${silent.length} silent days\n${played.join("\n")}\nSILENT ${where}: ${silent.join("; ") || "none"}\n`,
   );
   if (!talks) broken.push(`${where}: no talk at home in two weeks`);
   return broken;

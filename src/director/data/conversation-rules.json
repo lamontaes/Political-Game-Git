@@ -130,12 +130,8 @@
       "kind": "work-done",
       "stage": "default"
     },
-    "school-day": {
-      "kind": "school-day",
-      "stage": "default"
-    },
-    "school-done": {
-      "kind": "school-done",
+    "school-missed": {
+      "kind": "school-missed",
       "stage": "default"
     }
   },
@@ -298,14 +294,10 @@
       "ask": "request",
       "rest": "answer"
     },
-    "school-day": {
-      "wish": "answer",
-      "push": "answer",
-      "ask": "request"
-    },
-    "school-done": {
+    "school-missed": {
       "ask": "request",
-      "rest": "answer"
+      "today": "request",
+      "push": "answer"
     }
   },
   "addressPoint": {
@@ -440,15 +432,15 @@
     }
   },
   "dayTalk": {
-    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day (school-day in the morning, school-done in the evening) is the school engine's record of today: a school day, whether they went, the days so far this year, and whether tomorrow is one.",
-    "kinds": ["work-day", "work-done", "school-day", "school-done", "rent-due"],
+    "about": "Words composer, talk on ordinary days (owner, Nov 12: \"the game says nothing at home, and what it says is the same sentence from everyone\"). Subjects of a person's own day, each from its engine's record (the work-spans engine's shift: the day ahead or a day off for work-day, the shift just worked for work-done): told to someone they live with, answered by the player's reply, and answered back in composed words under `<kind>-back` by the reply's move, so no talk ends on the player's line. Once told to a person, a day subject waits this many days before it is told to them again; the day's own facts (when the shift starts, how long it ran) are new each day. The rent coming due (rent-due) is told by a payer on the household's lease in the days before it is due, once for each due date, and answered from the household's cash against it. A school day missed (school-missed) is read the next morning from the school engine's closed day: a school day with no attendance row; a day they went is the usual day and no news. A morning shift is told only when it differs from the job's usual day (its hours by unusualShiftMinutes); a usual day or a day off is no news.",
+    "kinds": ["work-day", "work-done", "school-missed", "rent-due"],
     "againAfterDays": {
       "value": 3,
       "tag": "TUNABLE",
       "spread": [2, 4],
       "checkedAgainst": "Lead's brief, Nov 12: no subject repeats inside three days for the same pair; a housemate tells a work day about twice a week, not every morning (the owner's complaint, Nov 12, of the same 7:00 a.m. work talk every morning)."
     },
-    "comesBack": ["work-day", "work-done", "school-day", "school-done"],
+    "comesBack": ["work-day", "work-done", "school-missed"],
     "rentDaysBefore": {
       "value": 5,
       "tag": "TUNABLE",
@@ -460,6 +452,27 @@
       "tag": "TUNABLE",
       "spread": [1, 3],
       "checkedAgainst": "Cash of two months' rent or more is spoken of as covered; one month to two as tight; under one month as short (Federal Reserve SHED 2023: 37% of adults could not cover a $400 emergency from cash, the scale at which a month's rent is tight)."
+    },
+    "unusualShiftMinutes": {
+      "value": 60,
+      "tag": "TUNABLE",
+      "spread": [30, 120],
+      "checkedAgainst": "Owner via the coordinator, Nov 12: a morning schedule line is filler; a shift is news when it runs longer or shorter than the job's usual work day (usualWeekDays). An hour either way is the smallest change people remark on (BLS American Time Use Survey: workers' daily hours vary by under an hour on most workdays)."
+    },
+    "usualWeekDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [7, 14],
+      "checkedAgainst": "A job's usual day is the length its work days most often run over the coming week, the cycle most schedules repeat on (BLS: most workers keep a weekly schedule)."
+    }
+  },
+  "stands": {
+    "about": "Owner, Nov 12, via the coordinator: children do not take stands on the President's address. A person younger than this takes no stand in talk: no point of an address, no stand of their own, no policy story told with a side; a child talks about school, friends and home.",
+    "minAge": {
+      "value": 16,
+      "tag": "TUNABLE",
+      "spread": [14, 18],
+      "checkedAgainst": "Pew Research Center (2022, teens and politics): most teens under 15 report little interest in national politics; civics instruction on federal policy is concentrated in high school (grades 9 to 12, ages 14 to 18). Sixteen is the middle of that spread."
     }
   }
 }

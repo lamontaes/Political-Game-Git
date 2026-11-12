@@ -47,7 +47,8 @@
     "wage": "What the speaker's job pays an hour, as people round it (\"about $18\"), from the job record.",
     "against": "What an opponent of the question says they want (\"say no to higher tariffs\"), from data/english/question-names.json against.",
     "rent": "The household's rent, as people round it (\"about $1,200\"), from the lease record.",
-    "due": "When the rent is due, from today (\"tomorrow\", \"in three days\"), from the lease record."
+    "due": "When the rent is due, from today (\"tomorrow\", \"in three days\"), from the lease record.",
+    "usual": "How long the speaker's shift usually runs (\"eight hours\"), from the job record's daily hours."
   },
   "maxWords": 10,
   "lineWords": {
@@ -28800,126 +28801,6 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.own-view-say-reason.i-see-it-every-day-at-employer",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "I see it every day at {employer}.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.working-at-employer-taught-me-that",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "Working at {employer} taught me that.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.you-d-feel-the-same-working-at-employer",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "You'd feel the same working at {employer}.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.it-s-the-people-at-employer-i-think-about",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "It's the people at {employer} I think about.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.that-s-how-it-goes-at-employer-anyway",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "That's how it goes at {employer}, anyway.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.own-view-say-reason.employer-is-where-i-learned-that",
-      "move": "own-view-say-reason",
-      "kind": "spoken",
-      "text": "{employer} is where I learned that.",
-      "piece": {
-        "of": "own-view-say",
-        "part": "reason"
-      },
-      "uses": [
-        {
-          "move": "own-view-say-reason",
-          "subject": "own-view-say",
-          "role": "reason"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder W3 (words-home-own-view-lines-are-composed)",
-      "date": "2026-11-11"
-    },
-    {
       "key": "conversation.own-view-say-reason.money-s-tight-in-place-right-now",
       "move": "own-view-say-reason",
       "kind": "spoken",
@@ -29111,7 +28992,8 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
         }
       ],
       "origin": "authored",
@@ -29133,7 +29015,8 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
         }
       ],
       "origin": "authored",
@@ -29155,7 +29038,8 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
         }
       ],
       "origin": "authored",
@@ -29177,7 +29061,8 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
         }
       ],
       "origin": "authored",
@@ -29199,7 +29084,8 @@
           "move": "own-view-back-core",
           "subject": "own-view-back",
           "role": "core",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer"],
+          "excludesFacts": ["wage"]
         }
       ],
       "origin": "authored",
@@ -33900,98 +33786,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-say-core.employer-has-me-in-at-start-today",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "{employer} has me in at {start} today.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["shift-ahead", "employer", "start"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-say-core.i-have-to-be-at-employer-by-start",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "I have to be at {employer} by {start}.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["shift-ahead", "employer", "start"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-say-core.my-shift-at-employer-starts-at-start",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "My shift at {employer} starts at {start}.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["shift-ahead", "employer", "start"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-say-core.i-m-on-from-start-to-end-today",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "I'm on from {start} to {end} today.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["shift-ahead", "start", "end"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.work-done-say-core.hours-at-employer-today-and-i-felt-every-one",
       "move": "work-done-say-core",
       "kind": "spoken",
@@ -34075,75 +33869,6 @@
       ],
       "piece": {
         "of": "work-done-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-say-core.employer-doesn-t-have-me-on-today",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "{employer} doesn't have me on today.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-say-core.no-shift-at-employer-for-me-today",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "No shift at {employer} for me today.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-say-core.i-m-off-from-employer-today-for-once",
-      "move": "work-day-say-core",
-      "kind": "spoken",
-      "text": "I'm off from {employer} today, for once.",
-      "uses": [
-        {
-          "move": "work-day-say-core",
-          "subject": "work-day-say",
-          "role": "core",
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-say",
         "part": "core",
         "required": true
       },
@@ -34305,63 +34030,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-answer-glad.good-you-could-use-a-day-away-from-employer",
-      "move": "work-day-answer-glad",
-      "kind": "spoken",
-      "text": "Good. You could use a day away from {employer}.",
-      "uses": [
-        {
-          "move": "work-day-answer-glad",
-          "subject": "work-day",
-          "role": "answer",
-          "choice": "glad",
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-answer-glad.good-employer-can-do-without-you-for-a-day",
-      "move": "work-day-answer-glad",
-      "kind": "spoken",
-      "text": "Good. {employer} can do without you for a day.",
-      "uses": [
-        {
-          "move": "work-day-answer-glad",
-          "subject": "work-day",
-          "role": "answer",
-          "choice": "glad",
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-answer-ask.what-will-you-do-with-a-day-off-from-employer",
-      "move": "work-day-answer-ask",
-      "kind": "spoken",
-      "text": "What will you do with a day off from {employer}?",
-      "uses": [
-        {
-          "move": "work-day-answer-ask",
-          "subject": "work-day",
-          "role": "answer",
-          "choice": "ask",
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.work-day-back-core.thanks-you-it-s-hours-today-so-i-ll-be-beat",
       "move": "work-day-back-core",
       "kind": "spoken",
@@ -34506,54 +34174,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.work-day-back-core.as-little-as-i-can-employer-will-still-be-there",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "As little as I can. {employer} will still be there.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-back-core.sleep-mostly-employer-wears-me-out",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "Sleep, mostly. {employer} wears me out.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["day-off", "employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.work-done-back-core.you-don-t-have-to-tell-me-twice-you",
       "move": "work-done-back-core",
       "kind": "spoken",
@@ -34592,54 +34212,6 @@
       ],
       "piece": {
         "of": "work-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-back-core.i-m-not-going-near-employer-till-my-next-shift",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "I'm not going near {employer} till my next shift.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["glad"],
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.work-day-back-core.i-plan-to-forget-employer-till-my-next-shift",
-      "move": "work-day-back-core",
-      "kind": "spoken",
-      "text": "I plan to forget {employer} till my next shift.",
-      "uses": [
-        {
-          "move": "work-day-back-core",
-          "subject": "work-day-back",
-          "role": "core",
-          "stages": ["glad"],
-          "requiresFacts": ["employer"]
-        }
-      ],
-      "piece": {
-        "of": "work-day-back",
         "part": "core",
         "required": true
       },
@@ -35225,575 +34797,6 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.school-day-say-core.i-m-at-school-all-day-today",
-      "move": "school-day-say-core",
-      "kind": "spoken",
-      "text": "I'm at {school} all day today.",
-      "uses": [
-        {
-          "move": "school-day-say-core",
-          "subject": "school-day-say",
-          "role": "core",
-          "requiresFacts": ["ahead", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-say-core.back-to-school-today-i-d-rather-sleep",
-      "move": "school-day-say-core",
-      "kind": "spoken",
-      "text": "Back to {school} today. I'd rather sleep.",
-      "uses": [
-        {
-          "move": "school-day-say-core",
-          "subject": "school-day-say",
-          "role": "core",
-          "requiresFacts": ["ahead", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-say-core.i-have-to-be-at-school-soon",
-      "move": "school-day-say-core",
-      "kind": "spoken",
-      "text": "I have to be at {school} soon.",
-      "uses": [
-        {
-          "move": "school-day-say-core",
-          "subject": "school-day-say",
-          "role": "core",
-          "requiresFacts": ["ahead", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-answer-wish.have-a-good-one-at-school",
-      "move": "school-day-answer-wish",
-      "kind": "spoken",
-      "text": "Have a good one at {school}.",
-      "uses": [
-        {
-          "move": "school-day-answer-wish",
-          "subject": "school-day",
-          "role": "answer",
-          "choice": "wish",
-          "requiresFacts": ["ahead", "school"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-answer-push.don-t-be-late-for-school-then",
-      "move": "school-day-answer-push",
-      "kind": "spoken",
-      "text": "Don't be late for {school}, then.",
-      "uses": [
-        {
-          "move": "school-day-answer-push",
-          "subject": "school-day",
-          "role": "answer",
-          "choice": "push",
-          "requiresFacts": ["ahead", "school"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-back-core.thanks-you-at-least-i-m-off-from-school-tomorrow",
-      "move": "school-day-back-core",
-      "kind": "spoken",
-      "text": "Thanks, {you}. At least I'm off from {school} tomorrow.",
-      "uses": [
-        {
-          "move": "school-day-back-core",
-          "subject": "school-day-back",
-          "role": "core",
-          "stages": ["wish"],
-          "requiresFacts": ["no-school-tomorrow", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-back-core.thanks-you-same-thing-tomorrow-though",
-      "move": "school-day-back-core",
-      "kind": "spoken",
-      "text": "Thanks, {you}. Same thing tomorrow, though.",
-      "uses": [
-        {
-          "move": "school-day-back-core",
-          "subject": "school-day-back",
-          "role": "core",
-          "stages": ["wish"],
-          "requiresFacts": ["school-tomorrow"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-back-core.i-know-you-i-m-going",
-      "move": "school-day-back-core",
-      "kind": "spoken",
-      "text": "I know, {you}. I'm going.",
-      "uses": [
-        {
-          "move": "school-day-back-core",
-          "subject": "school-day-back",
-          "role": "core",
-          "stages": ["push"],
-          "requiresFacts": ["ahead"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-say-core.school-took-everything-out-of-me-today",
-      "move": "school-done-say-core",
-      "kind": "spoken",
-      "text": "{school} took everything out of me today.",
-      "uses": [
-        {
-          "move": "school-done-say-core",
-          "subject": "school-done-say",
-          "role": "core",
-          "requiresFacts": ["school", "went"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-say-core.long-day-at-school",
-      "move": "school-done-say-core",
-      "kind": "spoken",
-      "text": "Long day at {school}.",
-      "uses": [
-        {
-          "move": "school-done-say-core",
-          "subject": "school-done-say",
-          "role": "core",
-          "requiresFacts": ["school", "went"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-say-core.i-made-it-through-another-day-at-school",
-      "move": "school-done-say-core",
-      "kind": "spoken",
-      "text": "I made it through another day at {school}.",
-      "uses": [
-        {
-          "move": "school-done-say-core",
-          "subject": "school-done-say",
-          "role": "core",
-          "requiresFacts": ["school", "went"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-say",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-answer-ask.how-was-school",
-      "move": "school-done-answer-ask",
-      "kind": "spoken",
-      "text": "How was {school}?",
-      "uses": [
-        {
-          "move": "school-done-answer-ask",
-          "subject": "school-done",
-          "role": "answer",
-          "choice": "ask",
-          "requiresFacts": ["school", "went"]
-        }
-      ],
-      "bearing": "curious",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-answer-rest.get-some-rest-school-will-be-there-tomorrow",
-      "move": "school-done-answer-rest",
-      "kind": "spoken",
-      "text": "Get some rest. {school} will be there tomorrow.",
-      "uses": [
-        {
-          "move": "school-done-answer-rest",
-          "subject": "school-done",
-          "role": "answer",
-          "choice": "rest",
-          "requiresFacts": ["school", "school-tomorrow", "went"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-answer-rest.good-you-ve-earned-a-night-off-from-school",
-      "move": "school-done-answer-rest",
-      "kind": "spoken",
-      "text": "Good. You've earned a night off from {school}.",
-      "uses": [
-        {
-          "move": "school-done-answer-rest",
-          "subject": "school-done",
-          "role": "answer",
-          "choice": "rest",
-          "requiresFacts": ["no-school-tomorrow", "school", "went"]
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.same-as-always-at-least-i-m-off-from-school-tomorrow",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "Same as always. At least I'm off from {school} tomorrow.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["no-school-tomorrow", "school", "went"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.okay-and-i-have-to-do-it-again-tomorrow-you",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "Okay. And I have to do it again tomorrow, {you}.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["school-tomorrow", "went"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.i-will-you-early-start-again-tomorrow",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "I will, {you}. Early start again tomorrow.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["school-tomorrow", "went"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.i-plan-to-you-i-m-off-from-school-tomorrow",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "I plan to, {you}. I'm off from {school} tomorrow.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["no-school-tomorrow", "school", "went"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-back-core.i-m-leaving-in-a-minute-school-can-wait-that-long",
-      "move": "school-day-back-core",
-      "kind": "spoken",
-      "text": "I'm leaving in a minute. {school} can wait that long.",
-      "uses": [
-        {
-          "move": "school-day-back-core",
-          "subject": "school-day-back",
-          "role": "core",
-          "stages": ["push"],
-          "requiresFacts": ["ahead", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-back-core.thanks-you-and-school-again-tomorrow-too",
-      "move": "school-day-back-core",
-      "kind": "spoken",
-      "text": "Thanks, {you}. And {school} again tomorrow, too.",
-      "uses": [
-        {
-          "move": "school-day-back-core",
-          "subject": "school-day-back",
-          "role": "core",
-          "stages": ["wish"],
-          "requiresFacts": ["school-tomorrow", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-day-back-core.i-ll-try-you-then-a-day-off-from-school",
-      "move": "school-day-back-core",
-      "kind": "spoken",
-      "text": "I'll try, {you}. Then a day off from {school}.",
-      "uses": [
-        {
-          "move": "school-day-back-core",
-          "subject": "school-day-back",
-          "role": "core",
-          "stages": ["wish"],
-          "requiresFacts": ["no-school-tomorrow", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-day-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.long-you-and-school-again-in-the-morning",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "Long, {you}. And {school} again in the morning.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["school-tomorrow", "went", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.fine-you-i-m-glad-i-m-off-from-school-tomorrow",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "Fine, {you}. I'm glad I'm off from {school} tomorrow.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["ask"],
-          "requiresFacts": ["no-school-tomorrow", "went", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.i-ll-try-you-school-starts-early",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "I'll try, {you}. {school} starts early.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["school-tomorrow", "went", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
-      "key": "conversation.school-done-back-core.gladly-you-no-alarm-for-school-tomorrow",
-      "move": "school-done-back-core",
-      "kind": "spoken",
-      "text": "Gladly, {you}. No alarm for {school} tomorrow.",
-      "uses": [
-        {
-          "move": "school-done-back-core",
-          "subject": "school-done-back",
-          "role": "core",
-          "stages": ["rest"],
-          "requiresFacts": ["no-school-tomorrow", "went", "school"]
-        }
-      ],
-      "piece": {
-        "of": "school-done-back",
-        "part": "core",
-        "required": true
-      },
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
-      "date": "2026-11-12"
-    },
-    {
       "key": "conversation.rent-due-back-core.you-don-t-have-to-you-we-re-fine-for-it",
       "move": "rent-due-back-core",
       "kind": "spoken",
@@ -36055,17 +35058,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.then-we-ll-both-vote-that-way-come-november-you",
+      "key": "conversation.own-view-take-core.then-we-both-want-decider-to-get-it-done-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then we'll both vote that way come November, {you}.",
+      "text": "Then we both want {decider} to get it done, {you}.",
       "uses": [
         {
           "move": "own-view-take-core",
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason"]
+          "requiresFacts": ["has-reason", "decider"]
         }
       ],
       "piece": {
@@ -36127,17 +35130,17 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.we-ll-see-who-s-right-come-november-you",
+      "key": "conversation.own-view-take-core.we-ll-see-who-s-right-once-decider-votes-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "We'll see who's right come November, {you}.",
+      "text": "We'll see who's right once {decider} votes, {you}.",
       "uses": [
         {
           "move": "own-view-take-core",
           "subject": "own-view-take",
           "role": "core",
           "stages": ["disagree"],
-          "requiresFacts": ["has-reason"]
+          "requiresFacts": ["has-reason", "decider"]
         }
       ],
       "piece": {
@@ -36151,10 +35154,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.then-we-ll-vote-different-ways-in-november-you",
+      "key": "conversation.own-view-take-core.we-ll-just-have-to-see-how-it-comes-out-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then we'll vote different ways in November, {you}.",
+      "text": "We'll just have to see how it comes out, {you}.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -36174,10 +35177,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.own-view-take-core.then-we-ll-vote-the-same-way-in-november-you",
+      "key": "conversation.own-view-take-core.then-we-re-on-the-same-side-when-it-comes-up-you",
       "move": "own-view-take-core",
       "kind": "spoken",
-      "text": "Then we'll vote the same way in November, {you}.",
+      "text": "Then we're on the same side when it comes up, {you}.",
       "uses": [
         {
           "move": "own-view-take-core",
@@ -36194,6 +35197,546 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-say-reason.i-make-wage-an-hour-that-s-where-i-m-coming-from",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "I make {wage} an hour. That's where I'm coming from.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
+      "date": "2026-11-12",
+      "bearing": "calm"
+    },
+    {
+      "key": "conversation.own-view-say-reason.at-wage-an-hour-it-s-my-own-paycheck-on-the-line",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "At {wage} an hour, it's my own paycheck on the line.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
+      "date": "2026-11-12",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.own-view-say-reason.i-work-for-wage-an-hour-so-it-s-my-paycheck-too",
+      "move": "own-view-say-reason",
+      "kind": "spoken",
+      "text": "I work for {wage} an hour, so it's my paycheck too.",
+      "piece": {
+        "of": "own-view-say",
+        "part": "reason"
+      },
+      "uses": [
+        {
+          "move": "own-view-say-reason",
+          "subject": "own-view-say",
+          "role": "reason",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
+      "date": "2026-11-12",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.own-view-back-core.because-i-make-wage-an-hour-you-do-the-math",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "Because I make {wage} an hour, {you}. Do the math.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
+      "date": "2026-11-12",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.own-view-back-core.wage-an-hour-doesn-t-stretch-far-you",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "{wage} an hour doesn't stretch far, {you}.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
+      "date": "2026-11-12",
+      "bearing": "guarded"
+    },
+    {
+      "key": "conversation.own-view-back-core.you-try-living-on-wage-an-hour-you",
+      "move": "own-view-back-core",
+      "kind": "spoken",
+      "text": "You try living on {wage} an hour, {you}.",
+      "piece": {
+        "of": "own-view-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "own-view-back-core",
+          "subject": "own-view-back",
+          "role": "core",
+          "requiresFacts": ["wage"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: a reason is said, not pointed at)",
+      "date": "2026-11-12",
+      "bearing": "braced"
+    },
+    {
+      "key": "conversation.work-day-say-core.employer-has-me-on-hours-today-not-my-usual-usual",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "{employer} has me on {hours} today, not my usual {usual}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["longer", "employer", "hours", "usual"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.it-s-a-long-one-today-hours-from-start-to-end",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "It's a long one today. {hours}, from {start} to {end}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["longer", "hours", "start", "end"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.i-m-in-till-end-today-that-s-hours-not-usual",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "I'm in till {end} today. That's {hours}, not {usual}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["longer", "end", "hours", "usual"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.only-hours-at-employer-today-instead-of-usual",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "Only {hours} at {employer} today, instead of {usual}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shorter", "employer", "hours", "usual"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.short-day-for-me-i-m-done-at-end",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "Short day for me. I'm done at {end}.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shorter", "end"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.work-day-say-core.employer-cut-me-to-hours-today",
+      "move": "work-day-say-core",
+      "kind": "spoken",
+      "text": "{employer} cut me to {hours} today.",
+      "uses": [
+        {
+          "move": "work-day-say-core",
+          "subject": "work-day-say",
+          "role": "core",
+          "requiresFacts": ["shorter", "employer", "hours"]
+        }
+      ],
+      "piece": {
+        "of": "work-day-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk on ordinary days)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-say-core.i-stayed-home-from-school-yesterday",
+      "move": "school-missed-say-core",
+      "kind": "spoken",
+      "text": "I stayed home from {school} yesterday.",
+      "uses": [
+        {
+          "move": "school-missed-say-core",
+          "subject": "school-missed-say",
+          "role": "core",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-say-core.i-didn-t-go-to-school-yesterday",
+      "move": "school-missed-say-core",
+      "kind": "spoken",
+      "text": "I didn't go to {school} yesterday.",
+      "uses": [
+        {
+          "move": "school-missed-say-core",
+          "subject": "school-missed-say",
+          "role": "core",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-say-core.i-skipped-school-yesterday-if-you-noticed",
+      "move": "school-missed-say-core",
+      "kind": "spoken",
+      "text": "I skipped {school} yesterday, if you noticed.",
+      "uses": [
+        {
+          "move": "school-missed-say-core",
+          "subject": "school-missed-say",
+          "role": "core",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-say",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-answer-ask.how-come-were-you-feeling-okay-yesterday",
+      "move": "school-missed-answer-ask",
+      "kind": "spoken",
+      "text": "How come? Were you feeling okay yesterday?",
+      "uses": [
+        {
+          "move": "school-missed-answer-ask",
+          "subject": "school-missed",
+          "role": "answer",
+          "choice": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-answer-today.are-you-going-to-school-today-at-least",
+      "move": "school-missed-answer-today",
+      "kind": "spoken",
+      "text": "Are you going to {school} today, at least?",
+      "uses": [
+        {
+          "move": "school-missed-answer-today",
+          "subject": "school-missed",
+          "role": "answer",
+          "choice": "today",
+          "requiresFacts": ["school", "school-today"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-answer-push.they-ll-notice-at-school-if-it-keeps-happening",
+      "move": "school-missed-answer-push",
+      "kind": "spoken",
+      "text": "They'll notice at {school} if it keeps happening.",
+      "uses": [
+        {
+          "move": "school-missed-answer-push",
+          "subject": "school-missed",
+          "role": "answer",
+          "choice": "push",
+          "requiresFacts": ["school"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-back-core.i-needed-the-rest-you-i-m-okay",
+      "move": "school-missed-back-core",
+      "kind": "spoken",
+      "text": "I needed the rest, {you}. I'm okay.",
+      "uses": [
+        {
+          "move": "school-missed-back-core",
+          "subject": "school-missed-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-back-core.i-wasn-t-up-to-it-you-it-was-one-day",
+      "move": "school-missed-back-core",
+      "kind": "spoken",
+      "text": "I wasn't up to it, {you}. It was one day.",
+      "uses": [
+        {
+          "move": "school-missed-back-core",
+          "subject": "school-missed-back",
+          "role": "core",
+          "stages": ["ask"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-back-core.i-m-going-today-you-don-t-worry",
+      "move": "school-missed-back-core",
+      "kind": "spoken",
+      "text": "I'm going today, {you}. Don't worry.",
+      "uses": [
+        {
+          "move": "school-missed-back-core",
+          "subject": "school-missed-back",
+          "role": "core",
+          "stages": ["today", "push"],
+          "requiresFacts": ["school-today"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-back-core.yes-you-i-ll-be-there-today",
+      "move": "school-missed-back-core",
+      "kind": "spoken",
+      "text": "Yes, {you}. I'll be there today.",
+      "uses": [
+        {
+          "move": "school-missed-back-core",
+          "subject": "school-missed-back",
+          "role": "core",
+          "stages": ["today", "push"],
+          "requiresFacts": ["school-today"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-back-core.there-s-no-school-today-anyway-you",
+      "move": "school-missed-back-core",
+      "kind": "spoken",
+      "text": "There's no {school} today anyway, {you}.",
+      "uses": [
+        {
+          "move": "school-missed-back-core",
+          "subject": "school-missed-back",
+          "role": "core",
+          "stages": ["today", "push"],
+          "requiresFacts": ["no-school-today", "school"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.school-missed-back-core.it-was-one-day-you-it-won-t-become-a-habit",
+      "move": "school-missed-back-core",
+      "kind": "spoken",
+      "text": "It was one day, {you}. It won't become a habit.",
+      "uses": [
+        {
+          "move": "school-missed-back-core",
+          "subject": "school-missed-back",
+          "role": "core",
+          "stages": ["push"],
+          "requiresFacts": ["no-school-today"]
+        }
+      ],
+      "piece": {
+        "of": "school-missed-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: talk from what is new on record)",
       "date": "2026-11-12"
     }
   ]

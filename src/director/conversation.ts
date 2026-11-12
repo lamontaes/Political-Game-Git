@@ -158,6 +158,8 @@ import {
   jobSaidAs,
   officeWords,
   personSlot,
+  nameOnceThen,
+  ownPlaceSaid,
   sentenceStarts,
   wordPersonSlots,
 } from "../english/said-as";
@@ -1107,9 +1109,9 @@ function workDay(
   const facts: Facts = {
     employer: { text: mine.employer, sourceRecordIds: cites },
   };
-  if (!owner || owner.plannedMinutes <= zero || !spans.length)
-    Object.assign(facts, mark("day-off"));
-  else {
+  // A day off from a job they hold is no news by itself (a calendar fact).
+  if (!owner || owner.plannedMinutes <= zero || !spans.length) return null;
+  {
     const start = Math.min(...spans.map((span) => span.startMinute));
     const end = Math.max(...spans.map((span) => span.endMinute));
     facts.start = { text: clockSaid(start), sourceRecordIds: cites };
@@ -1118,8 +1120,18 @@ function workDay(
       text: hoursSaid(owner.plannedMinutes),
       sourceRecordIds: cites,
     };
-    if (minuteOfDay < start) Object.assign(facts, mark("shift-ahead"));
-    else if (minuteOfDay >= end) done = true;
+    if (minuteOfDay < start) {
+      // The day ahead is news only when it is not the usual day: longer or
+      // shorter than the job's usual hours (owner, Nov 12: a schedule line
+      // that repeats daily tells nothing).
+      const usual = usualShift(core, speaker.id, mine.job.id);
+      if (usual === undefined) return null;
+      const change = owner.plannedMinutes - usual;
+      if (Math.abs(change) < DAY_TALK.unusualShiftMinutes.value) return null;
+      Object.assign(facts, mark("shift-ahead"));
+      Object.assign(facts, mark(change > zero ? "longer" : "shorter"));
+      facts.usual = { text: hoursSaid(usual), sourceRecordIds: cites };
+    } else if (minuteOfDay >= end) done = true;
     else return null;
   }
   const hourly =
@@ -1183,13 +1195,10 @@ function rentDue(
 }
 
 /**
- * The speaker's own school day, told to someone they live with: the school
- * engine's record of today (a school day, whether they went, whether
- * tomorrow is one too). In the morning, the day ahead or
- * (school-day); in the evening, the day they had or that they stayed home
- * (school-done).
- * None on a day without school, for someone not of school age, or without
- * the school's own name.
+ * A school day the speaker missed, told the next morning to someone they
+ * live with: the school engine's record of the day before (a school day, and
+ * no attendance row for it), and whether today is a school day. None when
+ * they went, which is the usual day.
  */
 function schoolDay(
   core: Readonly<CoreState>,
@@ -1198,23 +1207,76 @@ function schoolDay(
 ): Subject | null {
   if (minuteOfDay === undefined) return null;
   const day = schoolDayOf(coreAPI(core as CoreState), speaker.id);
-  const school = day ? core.organizations.get(day.schoolId) : undefined;
-  if (!day || !school) return null;
+  if (!day || !core.organizations.get(day.schoolId)) return null;
+  // Read in the morning, from the day before, which has closed (the school
+  // engine writes who went as a day closes; its cadence is its own). A day
+  // they went is the usual day and no news; a school day they missed is.
+  const morning = !dayParts(minuteOfDay).includes("evening");
+  if (!morning || !day.yesterday.school || day.yesterday.attended) return null;
   const cites = [day.schoolId, `${SCHOOL_MODULE_ID}:attended:${speaker.id}`];
   const fact = (text: string): Fact => ({ text, sourceRecordIds: cites });
-  // In the morning the day is ahead (the school engine writes who went when
-  // the day's choice is made); by the evening, whether they went is on record.
-  const evening = dayParts(minuteOfDay).includes("evening");
-  // The day's choice is written when the day closes, so by the evening of
-  // the same day the record may not hold it yet: no evening talk without it.
-  if (evening && !day.attended) return null;
-  const facts: Facts = {
-    school: fact(properName(school.name)),
-    [evening ? "went" : "ahead"]: fact("yes"),
-    [day.tomorrow ? "school-tomorrow" : "no-school-tomorrow"]: fact("yes"),
+  return {
+    id: `school-missed:${speaker.id}`,
+    kind: "school-missed",
+    facts: {
+      // Their own school, as a student says it ("school"), never the
+      // district's name (said-as).
+      school: fact(ownPlaceSaid("student")),
+      [day.today ? "school-today" : "no-school-today"]: fact("yes"),
+    },
   };
-  const kind = evening ? "school-done" : "school-day";
-  return { id: `${kind}:${speaker.id}`, kind, facts };
+}
+
+const usualShifts = new WeakMap<object, Map<string, number | undefined>>();
+/**
+ * A job's usual working day, in minutes: the length its work days most often
+ * run over the coming week, from the work-spans engine's own terms (the job
+ * record's daily hours are a calendar average, days off included). Undefined
+ * when the week holds no work day. Kept per job and date.
+ */
+function usualShift(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  jobId: string,
+): number | undefined {
+  const byKey = usualShifts.get(core) ?? new Map<string, number | undefined>();
+  usualShifts.set(core, byKey);
+  const key = `${jobId}:${core.date}`;
+  if (byKey.has(key)) return byKey.get(key);
+  const counts = new Map<number, number>();
+  const api = coreAPI(core as CoreState);
+  for (let ahead = one; ahead <= DAY_TALK.usualWeekDays.value; ahead += one) {
+    try {
+      const minutes = workSpansOnDateV1(api, {
+        controlledPersonId: personId,
+        date: addDays(makeIsoDate(core.date), ahead),
+      }).owners.find((row) => row.job.id === jobId)?.plannedMinutes;
+      if (minutes && minutes > zero)
+        counts.set(minutes, (counts.get(minutes) ?? zero) + one);
+    } catch {
+      // A day whose terms cannot be read is left out of the week.
+    }
+  }
+  const usual = [...counts].sort((a, b) => b[1] - a[1] || b[0] - a[0])[zero]?.[
+    zero
+  ];
+  byKey.set(key, usual);
+  return usual;
+}
+
+/** A job's hourly pay as people round it, from the job record, as a `wage` fact; none without a rate. */
+function hourlyFact(
+  core: Readonly<CoreState>,
+  jobId: string | undefined,
+): Facts {
+  const job = jobId ? core.jobs.get(jobId as never) : undefined;
+  if (!job) return {};
+  const hourly =
+    job.hourlyMinor ??
+    (job.hoursDaily > zero ? job.wageDailyMinor / job.hoursDaily : undefined);
+  return hourly && hourly > zero
+    ? { wage: { text: moneySaid(hourly), sourceRecordIds: [job.id] } }
+    : {};
 }
 
 /** The news engine's kind for a story an outlet printed (press desk). */
@@ -1329,6 +1391,8 @@ function printedSubject(
   tellerId: PersonId,
 ): Subject | null {
   if (story.kind !== PRINTED_STORY) return null;
+  // A child tells no policy story with a side (stands, conversation-rules.json).
+  if (!takesStands(core, tellerId)) return null;
   {
     // Told by its question, never by its headline: the story's words are
     // only cited when the paper has them.
@@ -1936,7 +2000,7 @@ export function subjectsBetween(
     // from their own life").
     const opening = director?.ledger.opening;
     const point =
-      opening?.id === address.value
+      opening?.id === address.value && takesStands(core, speakerId)
         ? addressPointFor(
             core,
             speakerId,
@@ -1968,9 +2032,11 @@ export function subjectsBetween(
   // temperament allow (`./view-learned`). Once said, the listener knows it.
   // A question someone in the house named today is not the one they stand
   // on (owner, Nov 12: "basically saying the same thing").
-  const stand = viewSubjectOf(core, speakerId, listenerId, (question) =>
-    heardNow.has(`${HEARD_QUESTION}${question}`),
-  );
+  const stand = takesStands(core, speakerId)
+    ? viewSubjectOf(core, speakerId, listenerId, (question) =>
+        heardNow.has(`${HEARD_QUESTION}${question}`),
+      )
+    : null;
   if (stand) {
     // The question they care most about, the side they are on and why, from
     // their own life, each citing its record.
@@ -2000,6 +2066,8 @@ export function subjectsBetween(
                 text: properName(reason.employer),
                 sourceRecordIds: reason.recordIds,
               },
+              // The reason itself: what the job pays an hour, from its record.
+              ...hourlyFact(core, reason.recordIds[zero]),
             }
           : {}),
         ...(reason?.reason === "money"
@@ -2017,6 +2085,16 @@ export function subjectsBetween(
           : {}),
         ...(reason
           ? { "has-reason": { text: "yes", sourceRecordIds: reason.recordIds } }
+          : {}),
+        // Who decides it, where its level is on record (a federal question:
+        // Congress), for an answer that names what comes next.
+        ...(top?.question.startsWith(FEDERAL_QUESTION)
+          ? {
+              decider: {
+                text: saidAsData.deciders.federal,
+                sourceRecordIds: [top.recordId],
+              },
+            }
           : {}),
         // How the player calls the speaker ("Dad", else their first name),
         // for the player's replies.
@@ -2044,9 +2122,7 @@ export function subjectsBetween(
     if (shift) out.push(shift);
     const rent = rentDue(core, speaker);
     if (rent) out.push(rent);
-    const lessons = toldToday
-      ? null
-      : schoolDay(core, speaker, room.minuteOfDay);
+    const lessons = schoolDay(core, speaker, room.minuteOfDay);
     if (lessons) out.push(lessons);
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
@@ -3228,10 +3304,27 @@ const OPENING_ORDER = [
   "rent-due",
   "work-done",
   "work-day",
-  "school-done",
-  "school-day",
+  "school-missed",
   "quiet",
 ];
+
+/** The prefix of a federal policy question's id (the bill catalog's federal positions). */
+const FEDERAL_QUESTION = "us-federal-positions:";
+
+/** The youngest age at which someone takes a stand in talk (conversation-rules.json stands, TUNABLE). */
+const STANDS_FROM_AGE = (
+  rulesFile as unknown as { stands: { minAge: { value: number } } }
+).stands.minAge.value;
+
+/** Whether a person is old enough to take a stand in talk, from their birth record. */
+function takesStands(core: Readonly<CoreState>, personId: PersonId): boolean {
+  const person = core.people.get(personId);
+  return (
+    !!person &&
+    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) >=
+      STANDS_FROM_AGE
+  );
+}
 
 /** Small talk's subject ids: the day itself, with nothing but the clock behind it. */
 const SMALL_TALK_PREFIX = "quiet:";
@@ -3250,6 +3343,8 @@ const DAY_TALK = (
       comesBack: readonly string[];
       againAfterDays: { value: number };
       rentDaysBefore: { value: number };
+      unusualShiftMinutes: { value: number };
+      usualWeekDays: { value: number };
       rentCoveredMonths: { value: number };
     };
   }
@@ -3946,6 +4041,49 @@ export function say(...args: Parameters<typeof sayNow>): Conversation {
  * role talk says today.
  */
 function laterMentions(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  from: number,
+): void {
+  employerOnce(conversation, from);
+  presidentOnce(core, conversation, from);
+}
+
+/**
+ * An employer the talk is about is named once, then said as "work" (said-as,
+ * `nameOnceThen`; owner via the coordinator, Nov 12: "a day off from Walters
+ * Supply Company?" / "Walters Supply Company wears me out."), across the
+ * talk's lines and each reply offered.
+ */
+function employerOnce(conversation: Conversation, from: number): void {
+  const names = new Set(
+    [conversation.topicFacts?.employer, conversation.last?.facts.employer]
+      .map((fact) => fact?.text)
+      .filter((text): text is string => !!text),
+  );
+  for (const name of names) {
+    const before = conversation.lines
+      .slice(zero, from)
+      .some((line) => line.text.includes(name));
+    const lines = conversation.lines.slice(from);
+    const said = nameOnceThen(
+      lines.map((line) => line.text),
+      name,
+      "worker",
+      before,
+    );
+    lines.forEach((line, at) => (line.text = said.texts[at]!));
+    for (const choice of [...conversation.choices, ...conversation.lies])
+      choice.text = nameOnceThen(
+        [choice.text],
+        name,
+        "worker",
+        said.named,
+      ).texts[zero]!;
+  }
+}
+
+function presidentOnce(
   core: Readonly<CoreState>,
   conversation: Conversation,
   from: number,
@@ -5147,7 +5285,7 @@ function sayNow(
       core,
       otherId,
       OWN_VIEW_BACK,
-      last.facts,
+      { ...last.facts, you: calledBy(core, otherId, playerId) },
       "default",
       `${eventId}:back`,
       saidParts(conversation, otherId),

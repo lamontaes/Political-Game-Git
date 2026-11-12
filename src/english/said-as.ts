@@ -317,3 +317,43 @@ export function wordPersonSlots(
   }
   return out + text.slice(at);
 }
+
+/**
+ * The place a person goes by their tie to it, as they say it (said-as.json
+ * ownPlace): a student's own school is "school", a worker's employer after
+ * its first naming in a talk is "work".
+ */
+export function ownPlaceSaid(tie: "student" | "worker"): string {
+  return data.ownPlace[tie];
+}
+
+/**
+ * An organization named once in a text, then said by the tie (`ownPlaceSaid`):
+ * every later whole-word mention in these texts, in order, becomes the word
+ * for it ("a day off from work", "Work wears me out."). `named` says whether
+ * an earlier text already named it; it returns the texts and whether the name
+ * has now been said.
+ */
+export function nameOnceThen(
+  texts: readonly string[],
+  name: string,
+  tie: "student" | "worker",
+  named: boolean,
+): { texts: string[]; named: boolean } {
+  const word = ownPlaceSaid(tie);
+  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
+  let said = named;
+  const out = texts.map((text) =>
+    sentenceStarts(
+      text.replace(pattern, (match) => {
+        if (!said) {
+          said = true;
+          return match;
+        }
+        return word;
+      }),
+    ),
+  );
+  return { texts: out, named: said };
+}

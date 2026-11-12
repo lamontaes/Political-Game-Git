@@ -178,23 +178,27 @@ function due(api: CoreAPI, actor: Readonly<PersonState>): boolean {
  * A school-age person's school day today, from this engine's own records,
  * for the words that tell it (talk at home): the school they go to, whether
  * they went today (this engine's attendance row, written when the day's
- * choice is made), and whether tomorrow is a school day too. Null on a day with no school or for someone
- * not of school age, or where the school engine is not installed.
+ * choice is made, as the day closes), yesterday's closed day, and whether
+ * today and tomorrow are school days. Null for someone not of school age, or
+ * where the school engine is not installed.
  */
 export function schoolDayOf(
   api: CoreAPI,
   personId: string,
 ): {
   schoolId: string;
+  /** Whether today is a school day. */
+  today: boolean;
   attended: boolean;
   tomorrow: boolean;
+  /** Yesterday, once its day has closed: whether it was a school day and they went. */
+  yesterday: { school: boolean; attended: boolean };
 } | null {
   if (!api.state.modules.has(SCHOOL_MODULE_ID)) return null;
   const person = api.state.people.get(personId as never);
   if (!person?.alive) return null;
   const date = api.state.date;
   const usps = schoolState(api);
-  if (!isSchoolDay(date, usps)) return null;
   const age = ageOn(person.birthDate, date);
   if (
     age < api.parameter("openingSchoolAgeFirst") ||
@@ -203,13 +207,20 @@ export function schoolDayOf(
     return null;
   const row = table(api).get(personId) as unknown as
     { date?: string; days?: number } | undefined;
-  const next = new Date(Date.parse(`${date}T00:00:00Z`) + DAY_MS)
-    .toISOString()
-    .slice(0, 10);
+  const shift = (days: number) =>
+    new Date(Date.parse(`${date}T00:00:00Z`) + days * DAY_MS)
+      .toISOString()
+      .slice(0, 10);
+  const before = shift(-1);
   return {
     schoolId: schoolFor(api, person),
+    today: isSchoolDay(date, usps),
     attended: row?.date === date,
-    tomorrow: isSchoolDay(next, usps),
+    tomorrow: isSchoolDay(shift(1), usps),
+    yesterday: {
+      school: isSchoolDay(before, usps),
+      attended: row?.date === before,
+    },
   };
 }
 const DAY_MS = 86_400_000;
