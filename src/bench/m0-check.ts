@@ -9,6 +9,7 @@ import { earliestPlayerStopV1 } from "../core2/player-v1";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { gameStartDate } from "../core2/game-start";
+import { parameter } from "../core2/parameters";
 import { buildBenchWorld, type BenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
 import { leaveHoldsToCharacter } from "./office";
@@ -39,7 +40,9 @@ function world(): BenchWorld {
 }
 function adultOf(w: BenchWorld, tag: string, employed = false) {
   const adults = w.residents
-    .filter((row) => row.age >= 18 && (!employed || row.jobId))
+    .filter(
+      (row) => row.age >= parameter("votingAge") && (!employed || row.jobId),
+    )
     .sort((a, b) => a.id.localeCompare(b.id));
   check(
     adults.length,
