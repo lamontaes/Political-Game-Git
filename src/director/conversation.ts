@@ -146,9 +146,10 @@ import {
   personSlot,
   sentenceStarts,
   wordPersonSlots,
-  wordSubjectSlots,
-  subjectSlot,
 } from "../english/said-as";
+import { personWorkOf } from "../core2/person-work";
+import composedChecksData from "../../data/english/composed-checks.json" with { type: "json" };
+import saidAsData from "../../data/english/said-as.json" with { type: "json" };
 import { saidPersonOf } from "./said-person";
 import {
   learnView,
@@ -2184,13 +2185,10 @@ function pointSubject(
   // What the President would do, and the President's side, for a policy
   // point; a year point is something the address said happened. Their own
   // stand, which the words follow.
-  // The act is a subject slot: said in full the first time the line says
-  // the point, "do that" once the opener already named it.
-  if (pick.point.to)
-    facts.to = {
-      text: subjectSlot(pick.point.to, pick.point.about),
-      sourceRecordIds: said,
-    };
+  // The act is named in full (owner, Nov 12, through the pre-grade: "Do
+  // what? 'Do that'?"): a stand says plainly what the speaker would or would
+  // not have done, never a pronoun for it.
+  if (pick.point.to) facts.to = { text: pick.point.to, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
@@ -2216,7 +2214,23 @@ function pointSubject(
         )?.row
       : undefined;
   const state = stateKey ? coreStateJurisdiction(stateKey) : null;
-  if (stateRow && state) {
+  // The federal government as people in this state say it: "Washington"
+  // means the capital except where the state goes by the same name.
+  facts.capital = {
+    text:
+      state && PLACE_SAID_ONLY_AS[state.name]
+        ? FEDERAL_WORDS.plain
+        : FEDERAL_WORDS.name,
+    sourceRecordIds: said,
+  };
+  // Only someone who would know says what it means here (owner, Nov 12:
+  // "how the hell would she know?"): a person who holds an office in town
+  // reads its laws and its figures as part of the work. Anyone else has no
+  // source for them, and the question is not offered (pointAnswerable).
+  const knowsHere = personWorkOf(core, speakerId).offices.length > zero;
+  if (!knowsHere) {
+    // nothing here: no state law or town figure to tell
+  } else if (stateRow && state) {
     facts.state = {
       text: stateInSentence(state.name),
       sourceRecordIds: [stateRow.id],
@@ -2236,9 +2250,14 @@ function pointSubject(
       facts["town-figure"] = { text: words, sourceRecordIds: [...town.ids] };
   }
   // The town's own figures back a point on work or money that is not the
-  // speaker's own trouble.
+  // speaker's own trouble, said only by someone who would know them.
   const area = pointArea(pick.point);
-  if (place && (pick.reason === "first" || pick.reason === "view") && area)
+  if (
+    knowsHere &&
+    place &&
+    (pick.reason === "first" || pick.reason === "view") &&
+    area
+  )
     for (const key of townBacks(core, speaker.placeId))
       if (
         (key === "why-town-jobs" && area === "work") ||
@@ -3514,6 +3533,13 @@ function fresher<T>(rows: readonly T[], keep: (row: T) => boolean): T[] {
 const HEARD_FIGURE = "figure:";
 /** A policy question named today, by anyone in the house. */
 const HEARD_QUESTION = "question:";
+/** Lines that tell a stand without asking, whose replies are still the rules' own (`answersTo`). */
+const STANDS_TOLD: ReadonlySet<string> = new Set(["news-ask-core"]);
+/** A state whose bare name means the federal capital in speech (shared with the composed checks). */
+const PLACE_SAID_ONLY_AS: Readonly<Record<string, string>> =
+  composedChecksData.placeSaidOnlyAs.names;
+/** How people say the federal government: by its capital, or plainly where that name is the state's. */
+const FEDERAL_WORDS = saidAsData.federal;
 /** A subject heard today, kept beside the pieces: news one housemate told is not told again by the next. */
 const HEARD_SUBJECT = "subject:";
 let heardNow: ReadonlySet<string> = new Set();
@@ -3607,11 +3633,6 @@ function laterMentions(
   conversation: Conversation,
   from: number,
 ): void {
-  // A subject a line already said is said short the second time.
-  for (const line of conversation.lines.slice(from))
-    line.text = wordSubjectSlots(line.text);
-  for (const choice of [...conversation.choices, ...conversation.lies])
-    choice.text = wordSubjectSlots(choice.text);
   const id = conversation.director?.ledger.opening?.president.id;
   const role = officeWords("president")?.again;
   if (!id || !role) return;
@@ -3966,7 +3987,16 @@ function offerChoices(
         tail = answer;
       }
     }
-    if (putQuestion && fitting && !fitting.includes(choiceKey)) return;
+    // The replies the rules name for a line's move are its only replies:
+    // after a question, and after news told with the teller's stand, which
+    // is answered by agreeing, disagreeing or asking why, never a bare
+    // "Wow." or "Really?" (owner, Nov 12: "the just non-replies").
+    if (
+      (putQuestion || STANDS_TOLD.has(askedMove ?? "")) &&
+      fitting &&
+      !fitting.includes(choiceKey)
+    )
+      return;
     // Never asked what the line before already said ("I've been there six
     // years." "How long have you been at Kroger?").
     const answeredBy = raised && data.answeredBy?.[raised.kind];

@@ -3,6 +3,7 @@
   "register": "conversation",
   "description": "Everyday conversation for golden-path steps 1 and 2 (meeting people at 18): greetings, asking after work, home, school, family and the news, the answers, raising a real subject, leaving, and the lie. Every part is a whole sentence American speakers said in federal transcripts (public domain: congressional hearings, the Congressional Record, NASA and U.S. House oral histories), counted also against the Library of Congress WPA life histories, 1936 to 1940. Record words are slots the game fills from the speaker's own records. Parts are grouped by the director's subject, role (ask, raise, reply, answer, lie) and choice; a group's parts are variants of one choice, never separate choices. A part's bearing (tender, guarded, glad, nervous, braced, curious, calm, from the director's bearings) is the manner its wording carries; a speaker's traits pull the engine toward the bearings they favor (data/english/calibration.json). A part with no bearing is neutral. A shared school or workplace is never an opener (owner, Oct 15, evening: batch 12 rejected): its ask and raise parts need the fact long-ago, which a record supplies only when something happened to the place or decades have passed.",
   "slots": {
+    "capital": "The federal government as people in this state say it: by its capital, or plainly where the state goes by that name (data/english/said-as.json federal).",
     "name": "A person's name from the records: someone both people know, or the listener's given name.",
     "employer": "The speaker's employer, from their job record.",
     "claimed": "The employer or town a lie claims instead, from a real record the speaker could name.",
@@ -20783,10 +20784,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.i-d-like-to-see-washington-actually-to",
+      "key": "conversation.address-point-core-with.i-d-like-to-see-capital-actually-to",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "I'd like to see Washington actually {to}.",
+      "text": "I'd like to see {capital} actually {to}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -20855,10 +20856,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.if-washington-can-to-i-m-all-for-it",
+      "key": "conversation.address-point-core-with.if-capital-can-to-i-m-all-for-it",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "If Washington can {to}, I'm all for it.",
+      "text": "If {capital} can {to}, I'm all for it.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21791,10 +21792,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-think-it-s-time-to-to-whatever-washington-says",
+      "key": "conversation.address-point-core-against.i-think-it-s-time-to-to-whatever-president-says",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I think it's time to {to}, whatever Washington says.",
+      "text": "I think it's time to {to}, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -22211,10 +22212,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-year-with.that-s-how-it-s-been-in-this-house-president-or-not",
+      "key": "conversation.address-point-core-year-with.that-s-how-it-s-been-in-this-house-whatever-president-says",
       "move": "address-point-core-year-with",
       "kind": "spoken",
-      "text": "That's how it's been in this house, {president-object} or not.",
+      "text": "That's how it's been in this house, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-core-year-with",
@@ -22403,10 +22404,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-year-with.that-one-matches-what-i-see-every-day-president-or-not",
+      "key": "conversation.address-point-core-year-with.that-one-matches-what-i-see-every-day-whatever-president-says",
       "move": "address-point-core-year-with",
       "kind": "spoken",
-      "text": "That one matches what I see every day, {president-object} or not.",
+      "text": "That matches what I see every day, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-core-year-with",
@@ -22571,10 +22572,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-year-against.that-s-not-how-it-s-been-for-us-president-or-not",
+      "key": "conversation.address-point-core-year-against.that-s-not-how-it-s-been-for-us-whatever-president-says",
       "move": "address-point-core-year-against",
       "kind": "spoken",
-      "text": "That's not how it's been for us, {president-object} or not.",
+      "text": "That's not how it's been for us, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-core-year-against",
@@ -23095,10 +23096,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-reason-work.when-employer-let-me-go-nobody-in-washington-called",
+      "key": "conversation.address-point-reason-work.when-employer-let-me-go-nobody-in-capital-called",
       "move": "address-point-reason-work",
       "kind": "spoken",
-      "text": "When {employer} let me go, nobody in Washington called.",
+      "text": "When {employer} let me go, nobody in {capital} called.",
       "uses": [
         {
           "move": "address-point-reason-work",
@@ -23315,10 +23316,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-reason-money.bills-in-place-don-t-wait-for-washington",
+      "key": "conversation.address-point-reason-money.bills-in-place-don-t-wait-for-capital",
       "move": "address-point-reason-money",
       "kind": "spoken",
-      "text": "Bills in {place} don't wait for Washington.",
+      "text": "Bills in {place} don't wait for {capital}.",
       "uses": [
         {
           "move": "address-point-reason-money",
@@ -23821,10 +23822,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-reason-view.that-one-i-ve-thought-through-with-or-without-president",
+      "key": "conversation.address-point-reason-view.that-one-i-ve-thought-through-whether-or-not-president-agrees",
       "move": "address-point-reason-view",
       "kind": "spoken",
-      "text": "That one I've thought through, with or without {president-object}.",
+      "text": "That one I've thought through, whether or not {president} agrees.",
       "uses": [
         {
           "move": "address-point-reason-view",
@@ -23865,10 +23866,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-reason-view.i-ve-had-my-say-on-it-before-president-or-not",
+      "key": "conversation.address-point-reason-view.i-ve-had-my-say-on-it-before-whatever-president-thinks",
       "move": "address-point-reason-view",
       "kind": "spoken",
-      "text": "I've had my say on it before, {president-object} or not.",
+      "text": "I've had my say on it before, whatever {president} thinks.",
       "uses": [
         {
           "move": "address-point-reason-view",
@@ -24598,10 +24599,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-answer-instead.what-should-washington-do-next-about-about",
+      "key": "conversation.address-point-answer-instead.what-should-capital-do-next-about-about",
       "move": "address-point-answer-instead",
       "kind": "spoken",
-      "text": "What should Washington do next about {about}?",
+      "text": "What should {capital} do next about {about}?",
       "uses": [
         {
           "move": "address-point-answer-instead",
@@ -24700,10 +24701,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-back-here.we-ve-got-that-in-state-now-washington-s-just-catching-up",
+      "key": "conversation.address-point-back-here.we-ve-got-that-in-state-now-capital-is-just-catching-up",
       "move": "address-point-back-here",
       "kind": "spoken",
-      "text": "We've got that in {state} now. Washington's just catching up.",
+      "text": "We've got that in {state} now. {capital} is just catching up.",
       "uses": [
         {
           "move": "address-point-back-here",
@@ -25012,10 +25013,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-back-instead.i-d-start-with-place-not-washington",
+      "key": "conversation.address-point-back-instead.i-d-start-with-place-not-capital",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I'd start with {place}, not Washington.",
+      "text": "I'd start with {place}, not {capital}.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -33840,6 +33841,144 @@
       ],
       "origin": "authored",
       "author": "Words builder W-D, Claude Opus 5.5 (words composer, talk: news in the teller's own words)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-i-m-not-the-only-one-who-heard-president-that-way",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. I'm not the only one who heard {president-object} that way.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.then-we-ll-both-be-watching-what-congress-does-on-about",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Then we'll both be watching what Congress does on {about}.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.we-ll-see-who-s-right-once-congress-takes-up-about",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "We'll see who's right once Congress takes up {about}.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.you-and-i-heard-president-differently-then",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "You and I heard {president-object} differently, then.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-agree.good-it-s-been-like-that-here-a-while-name",
+      "move": "address-point-back-agree",
+      "kind": "spoken",
+      "text": "Good. It's been like that here a while, {name}.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-agree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-disagree.it-looks-different-from-where-i-sit-name",
+      "move": "address-point-back-disagree",
+      "kind": "spoken",
+      "text": "It looks different from where I sit, {name}.",
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "address-point-back-disagree",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["year-point"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
       "date": "2026-11-12"
     }
   ]

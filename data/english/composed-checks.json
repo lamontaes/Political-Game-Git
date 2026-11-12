@@ -161,7 +161,13 @@
     "noted",
     "good to know",
     "makes sense",
-    "fine"
+    "fine",
+    "wow",
+    "no",
+    "yes",
+    "really",
+    "i know",
+    "oh my"
   ],
   "checkInClose": [
     "\\b(?:let's|we'll|i'll|we can)\\b[^.?!]*\\b(?:pick (?:this|it) up|talk (?:again|later|soon|more)|catch up|check in|circle back|come back to (?:this|it))\\b",

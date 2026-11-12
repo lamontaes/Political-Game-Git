@@ -418,6 +418,26 @@ export const noNonReply: ComposedCheck = (text, sample) => {
       last = { line, screen: at };
     }
   });
+  // The talk ends on the player's line: nobody answered it (pre-grade of
+  // #8879, Nov 12: "She didn't say anything back").
+  if (playerSaid)
+    found.push(
+      breakOf(
+        "no-non-reply",
+        text,
+        text.screens.length - one,
+        "the talk ends on the player's line, unanswered",
+        text.screens.at(-one)?.lines.at(-one)?.text ?? "",
+      ),
+    );
+  // A reply offered that only acknowledges ("Wow.", "Really?", "I know.").
+  text.screens.forEach((screen, at) => {
+    for (const reply of screen.offered)
+      if (onlyAcknowledges(reply))
+        found.push(
+          breakOf("no-non-reply", text, at, "a bare reply is offered", reply),
+        );
+  });
   const close = last?.line.sentences.at(-one);
   if (last && close && CHECK_IN.some((pattern) => pattern.test(close)))
     found.push(

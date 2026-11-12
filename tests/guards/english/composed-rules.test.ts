@@ -191,6 +191,10 @@ const FIXTURES: Record<
           ["sis", "Mm. Let's pick this up after supper."],
         ],
       ]),
+      talk("sis", [
+        [["sis", "The bridge vote was close."]],
+        [[PLAYER, "Too close, if you ask me."]],
+      ]),
     ),
     spares: sampleOf(
       talk("sis", [
