@@ -871,6 +871,22 @@ const rollCall: Builder = (read, f) => {
 };
 
 /** A committee's vote on a bill, or its holding the bill without one. */
+/**
+ * The chamber a committee sits in, from the committee's own record (a state
+ * or federal bill's chamber, or the town's body): where the bill goes next.
+ */
+const committeeBody = (read: Reader, f: Record<string, string>): Facts => {
+  const row = read.row<{ chamber?: string }>(
+    LEGISLATURE_MODULE_ID,
+    "committees",
+    read.sourceId,
+  );
+  const body = read.body(row?.chamber);
+  return body && row?.chamber
+    ? { body: read.fact(body, row.chamber) }
+    : read.billBody(f.billId);
+};
+
 const committee: Builder = (read, f) => {
   const yes = num(f.yes) ?? 0;
   const no = num(f.no) ?? 0;
@@ -879,7 +895,7 @@ const committee: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
-      ...read.billBody(f.billId),
+      ...committeeBody(read, f),
       ...(f.committee ? { committee: read.fact(spaced(f.committee)) } : {}),
       ...(held
         ? { held: read.yes() }
@@ -904,7 +920,7 @@ const billFailed: Builder = (read, f) => {
     "committee",
     {
       ...read.billFacts(f.billId, f.number),
-      ...read.billBody(f.billId),
+      ...committeeBody(read, f),
       ...(yes !== undefined && no !== undefined
         ? { count: read.fact(`${yes} to ${no}`) }
         : {}),
