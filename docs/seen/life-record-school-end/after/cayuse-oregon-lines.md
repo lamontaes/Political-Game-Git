@@ -39,7 +39,7 @@ Between us
 Lives with you
 Her story
 In 2007, she shared a home with Shannon Garcia. You came into the world in 2007. Amy arrived in 2011. Julia arrived after, in 2016.
-At age 5, Elizabeth Garcia grew up going to school in Oregon.
+At age 5, Elizabeth Garcia grew up going to school in Oregon. She started college in 2005. She earned a bachelor's degree in 2009.
 She spent six months looking for work in 2009. She worked a year and a half in Oregon. At age 24, she found work at Cayuse Fire Department.
 At 26, she put down roots in Cayuse, Oregon.
 == Shannon Garcia

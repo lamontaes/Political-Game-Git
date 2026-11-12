@@ -42,6 +42,6 @@ Between us
 Lives with you
 His story
 Amanda arrived in 2004. You came into the world in 2007.
-At 5, Thomas Hardy went to school back in Alaska.
+At 5, Thomas Hardy went to school back in Alaska. He started college in 2001. He finished college with a degree in 2005.
 He spent four years working in Alaska. At age 25, he held jobs at Mullins Fitness and Recreation, Angoon Electric and Water, Drake's Kitchen, Mullins Trucking, and Fox Trucking before Angoon Campaign Works.
 In 2008, he moved to Angoon, Alaska.
