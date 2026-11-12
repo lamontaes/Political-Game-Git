@@ -305,10 +305,12 @@ export function composeBlocks(
       .map((row) => row.id),
   ];
   const sentences: OpeningSentence[] = [];
-  // Pieces already said, oldest first: those of the speaker's earlier
-  // addresses, then this one's as it is said, so no wording is used twice
-  // while another can say it, and the one said longest ago comes back first.
-  const said: string[] = earlierAddressPieces(core, president.id);
+  // Pieces already said, oldest first: those of every earlier address in
+  // this world, whoever gave it (a frame the governor said is not the town
+  // head's next month), then this one's as it is said, so no wording is used
+  // twice while another can say it, and the one said longest ago comes back
+  // first.
+  const said: string[] = earlierAddressPieces(core);
   // How often each subject word has been said in the address.
   const subjectSaid = new Map<string, number>();
   // How often each of the world's names has been said in the address.

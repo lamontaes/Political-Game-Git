@@ -71,6 +71,7 @@ import {
   questionTo,
   questionLaw,
   questionReasons,
+  questionToday,
   questionTodayWordings,
   questionPoint,
 } from "../english/question-names";
@@ -80,6 +81,8 @@ import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { P } from "../core2/parameters";
+import { formKindOf } from "../core2/legislature-bill-form";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { earlierAddressPieces } from "./opening-facts";
 import { coreStateName } from "../core2/place-lookup";
 import { markWordsStopgap } from "./stopgaps";
@@ -157,6 +160,10 @@ const OUTLINES = outlineData as unknown as {
   subjectOfQuestion: Readonly<Record<string, string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
   themeNames: Readonly<Record<string, string>>;
+  /** A theme said short, where a frame names it after the speech has said it in full (a close). */
+  themeShort: Readonly<Record<string, string>>;
+  /** What a body's measures are called by their form (bodyNumbering's kind). */
+  measureWords: Readonly<Record<string, string>>;
   conditions: { budgetEvenBand: Weight; budgetThemes: readonly string[] };
   pointShapes: {
     shapes: Readonly<
@@ -1443,7 +1450,7 @@ function conditionFacts(
       sourceRecordIds: [
         enacted.row.id,
         ...enacted.reached.map((row) => row.personId),
-      ],
+      ] as EntityId[],
     };
   }
   const disaster = core.modules.has(DISASTERS_MODULE_ID)
@@ -1802,6 +1809,36 @@ export function planSpeech(
     };
   });
   type Draft = Omit<Block, "part"> & { readonly joins?: boolean };
+  /**
+   * What a close says after the one ask: what follows from it for the people
+   * the speech named, where the ask changes the law (how the question will
+   * stand, in the speaker's side's words, when it is not one the speech has
+   * said), else the side's own reason where the belief has not said it, and
+   * the theme said short (themeShort), never the long name a close's slot
+   * cannot hold.
+   */
+  const closeFacts = (): Facts => {
+    const first = pointStands[P.zero];
+    const plan = planned[P.zero];
+    if (!first || !plan) return {};
+    const side = first.stance > P.zero ? "for" : "against";
+    const cited = `question:${first.question}`;
+    const changes = first.stance > P.zero !== first.law.inForce;
+    const after = changes
+      ? questionToday(first.question, !first.law.inForce, side)
+      : null;
+    const reason = questionReasons(first.question, side).reason;
+    const short = theme ? OUTLINES.themeShort[theme] : undefined;
+    return {
+      ...(after && !plan.todays.includes(after)
+        ? { "first-after": fact(clauseOf(after), cited, first.law.id) }
+        : {}),
+      ...(reason && !(plan.belief?.text ?? "").includes(reason)
+        ? { "first-reason": fact(reason, cited) }
+        : {}),
+      ...(short ? { "theme-short": fact(short, cited) } : {}),
+    };
+  };
   const sections: Record<Section, () => Draft[]> = {
     salutation: () => [
       {
@@ -1975,32 +2012,37 @@ export function planSpeech(
         moves: [move("families")],
       },
     ],
-    close: () => [
-      {
-        key: "close",
+    close: () =>
+      [
+        {
+          key: "close",
+          level: "close",
+          // Its own paragraph: the close returns to the theme in one sentence.
+          facts: (pointStands[P.zero]
+            ? {
+                "first-side": fact(
+                  questionSide(
+                    pointStands[P.zero]!.question,
+                    pointStands[P.zero]!.stance > P.zero
+                      ? pointStands[P.zero]!.law.inForce
+                        ? "keep"
+                        : "for"
+                      : pointStands[P.zero]!.law.inForce
+                        ? "repeal"
+                        : "against",
+                  )!,
+                  `question:${pointStands[P.zero]!.question}`,
+                ),
+              }
+            : {}) as Facts,
+          moves: [move("close", { required: true })],
+          required: true,
+        },
+      ].map((draft): Draft => ({
+        ...draft,
         level: "close",
-        // Its own paragraph: the close returns to the theme in one sentence.
-        facts: (pointStands[P.zero]
-          ? {
-              "first-side": fact(
-                questionSide(
-                  pointStands[P.zero]!.question,
-                  pointStands[P.zero]!.stance > P.zero
-                    ? pointStands[P.zero]!.law.inForce
-                      ? "keep"
-                      : "for"
-                    : pointStands[P.zero]!.law.inForce
-                      ? "repeal"
-                      : "against",
-                )!,
-                `question:${pointStands[P.zero]!.question}`,
-              ),
-            }
-          : {}) as Facts,
-        moves: [move("close", { required: true })],
-        required: true,
-      },
-    ],
+        facts: { ...draft.facts, ...closeFacts() } as Facts,
+      })),
   };
   const drafts = row.sections
     .filter((section) => !row.asides.includes(section) || asides.has(section))
@@ -2037,6 +2079,19 @@ export function planSpeech(
           ? { "realm-name": fact(realm, speaker.jurisdiction ?? person.id) }
           : {}),
         ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
+        // What the body passes, as it names it: a legislature's bills, a
+        // town's or a county's ordinances (the one form rule, by the office
+        // kind on the record; line rule body-named-as-place-names-it).
+        measure: fact(
+          OUTLINES.measureWords[
+            formKindOf(
+              local
+                ? (officeKindOf(core, local.officeId) ?? "")
+                : "legislature-lower",
+            )
+          ]!,
+          local?.officeId ?? speaker.jurisdiction ?? person.id,
+        ),
         ...(local?.officeTitle
           ? { "office-title": fact(local.officeTitle, local.officeId) }
           : {}),
@@ -2074,6 +2129,17 @@ export function planSpeech(
     asks: asks.map((stand) => stand.question),
     points: planned,
   };
+}
+
+/** An office row's kind, from the offices engine. */
+function officeKindOf(core: CoreState, officeId: string): string | undefined {
+  if (!core.modules.has(OFFICES_MODULE_ID)) return undefined;
+  return (
+    coreAPI(core)
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(officeId) as { kind?: string } | undefined
+  )?.kind;
 }
 
 /** The party fact a speaker's creed is said with, by the party's name. */

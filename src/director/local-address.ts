@@ -103,6 +103,10 @@ interface Speaker {
   readonly official?: OfficialRow;
   readonly jurisdiction: string;
   readonly local?: OutlineSpeaker["local"];
+  /** Their office as the said-as words key it (`officeWords`), for the nameplate. */
+  readonly officeWords: string;
+  /** The body the address is given to: its office kind, and its office row where one is kept. */
+  readonly body: { readonly kind: string; readonly officeId?: string };
 }
 
 type TownSeat = ReturnType<typeof townSeats>[number];
@@ -147,22 +151,30 @@ export function localSpeaker(
   office: TownSeat["office"],
   officeTitle: string | null,
 ): NonNullable<OutlineSpeaker["local"]> {
-  const api = coreAPI(core);
-  const body =
-    townSeats(api).find(
-      (row) =>
-        row.office.jurisdiction === office.jurisdiction &&
-        !!row.office.bodyName,
-    )?.office ?? office;
+  const body = bodyOfficeOf(core, office);
   return {
     level: office.level === "township" ? "city" : office.level,
     officeId: office.id,
     party: holder.party ?? null,
-    questions: contestPositions(api, { officeId: office.id }),
+    questions: contestPositions(coreAPI(core), { officeId: office.id }),
     realmName: realmSaid(core, office),
     body: bodySaid(body),
     officeTitle,
   };
+}
+
+/** The governing body of an office's own government (its council or board), else the office itself. */
+function bodyOfficeOf(
+  core: CoreState,
+  office: TownSeat["office"],
+): TownSeat["office"] {
+  return (
+    townSeats(coreAPI(core)).find(
+      (row) =>
+        row.office.jurisdiction === office.jurisdiction &&
+        !!row.office.bodyName,
+    )?.office ?? office
+  );
 }
 
 /**
@@ -202,6 +214,9 @@ function townHead(
           )[P.zero])
         : undefined);
     if (!chosen?.holder?.personId) continue;
+    const words =
+      chosen === head ? chosen.office.kind : `${chosen.office.kind}:presiding`;
+    const sitting = bodyOfficeOf(core, chosen.office);
     const title =
       chosen === head
         ? chosen.office.title.toLocaleLowerCase("en-US")
@@ -214,6 +229,8 @@ function townHead(
       serviceStart: chosen.holder.serviceStart ?? chosen.holder.startDate,
       jurisdiction: chosen.office.jurisdiction,
       local: localSpeaker(core, chosen.holder, chosen.office, title),
+      officeWords: officeWords(words) ? words : chosen.office.kind,
+      body: { kind: sitting.kind, officeId: sitting.id },
     };
   }
   return null;
@@ -235,6 +252,10 @@ function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
           serviceStart: official.serviceStart,
           official,
           jurisdiction: stateKey,
+          officeWords: spec.office,
+          // A governor gives the State of the State to the legislature in
+          // its own chamber (the lower house, or the one house).
+          body: { kind: "legislature-lower" },
         }
       : null;
   }
@@ -346,6 +367,7 @@ export function recordLocalAddress(
   if (core.eventIds.has(id)) return null;
   const story = composeLocalAddress(core, level);
   if (!story) return null;
+  const spoken = speakerOf(core, level);
   const household = core.households.get(player.householdId);
   applyCoreEvent(core, {
     id: story.id,
@@ -380,13 +402,20 @@ export function recordLocalAddress(
       [ADDRESS_FACT.text]: story.text,
       [ADDRESS_FACT.parts]: story.parts.join(ADDRESS_PART_BREAK),
       [ADDRESS_FACT.pieces]: addressPiecesFact(story.sentences, story.points),
+      ...(spoken
+        ? {
+            [ADDRESS_FACT.office]: spoken.officeWords,
+            [ADDRESS_FACT.bodyKind]: spoken.body.kind,
+            ...(spoken.body.officeId
+              ? { [ADDRESS_FACT.bodyOffice]: spoken.body.officeId }
+              : {}),
+          }
+        : {}),
     },
   });
   // The other side answers a governor the same day.
-  if (level === "state") {
-    const spoken = speakerOf(core, level);
-    if (spoken?.official) recordAddressResponse(core, story, spoken.official);
-  }
+  if (level === "state" && spoken?.official)
+    recordAddressResponse(core, story, spoken.official);
   return story;
 }
 

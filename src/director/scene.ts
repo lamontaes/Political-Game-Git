@@ -74,6 +74,10 @@ export interface Scene {
     opens: boolean;
     /** Given in the room the scene is in (a floor or a stump speech), not heard on a screen at home. */
     inRoom: boolean;
+    /** The speaker's office as the said-as words key it ("governor"): the nameplate says them by it first. */
+    office?: string;
+    /** The body an address is given to, by its record: the scene is set in that body's chamber, the speaker at the front. */
+    givenTo?: { kind: string; officeId?: string };
   };
   /** The scene's occasion from its type's data ("ceremony"), for how the room is drawn. */
   occasion?: string;
@@ -412,10 +416,30 @@ export function composeScene(
             .filter(Boolean),
           sourceRecordIds: [record!.id],
           // The President's address plays over its montage (the desk, the
-          // colonnade, the country); a governor's or a town's at home.
+          // colonnade, the country); a governor's or a town's in the chamber
+          // it is given in (the one staging rule: an address is set where it
+          // is given, as the President's opens at the desk).
           montage: !!record!.facts?.[ADDRESS_FACT.president],
           opens: false,
           inRoom: false,
+          ...(record!.facts?.[ADDRESS_FACT.office] ||
+          record!.facts?.[ADDRESS_FACT.president]
+            ? {
+                office:
+                  record!.facts?.[ADDRESS_FACT.office] ??
+                  ADDRESS_PRESIDENT_OFFICE,
+              }
+            : {}),
+          ...(record!.facts?.[ADDRESS_FACT.bodyKind]
+            ? {
+                givenTo: {
+                  kind: record!.facts[ADDRESS_FACT.bodyKind]!,
+                  ...(record!.facts[ADDRESS_FACT.bodyOffice]
+                    ? { officeId: record!.facts[ADDRESS_FACT.bodyOffice] }
+                    : {}),
+                },
+              }
+            : {}),
         }
       : heard && heard.speakerId !== personId
         ? { ...heard, montage: false, inRoom: true }
@@ -434,6 +458,9 @@ export function composeScene(
     ...(occasion ? { occasion } : {}),
   };
 }
+
+/** The said-as office key the President's address names its speaker by. */
+const ADDRESS_PRESIDENT_OFFICE = "president";
 
 /** Each situation type's occasion, where its data names one. */
 const OCCASIONS: ReadonlyMap<string, string> = new Map(

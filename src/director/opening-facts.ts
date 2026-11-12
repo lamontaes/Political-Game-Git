@@ -24,6 +24,12 @@ export const ADDRESS_FACT = {
   parts: "address:parts",
   /** The bank pieces the address was said with, in order, split by a space: what its speaker's later addresses read so they say other words. */
   pieces: "address:pieces",
+  /** The speaker's office as the said-as words key it ("governor", "county-board:presiding"): the nameplate says them by it ("Chair Sara Mullen"). */
+  office: "address:office",
+  /** The kind of body the address is given to (legislature-lower, council, county-board): the chamber it is staged in. */
+  bodyKind: "address:body-kind",
+  /** That body's office row, where the records keep one: its room by its seats. */
+  bodyOffice: "address:body-office",
 } as const;
 
 /**
@@ -36,7 +42,8 @@ export const ADDRESS_FACT = {
  */
 export function earlierAddressPieces(
   core: CoreState,
-  speakerId: string,
+  /** One speaker's addresses; left out, every address in the world (the frames a governor said are not said again by the town's head). */
+  speakerId?: string,
 ): string[] {
   // stopgapId: SG-WORDS-address-pieces-log-scan
   markWordsStopgap("SG-WORDS-address-pieces-log-scan");
@@ -46,7 +53,8 @@ export function earlierAddressPieces(
         // Before today, so the day's own address, once recorded, composes
         // the same again (composed from records, the same every time).
         row.date < core.date &&
-        row.facts?.[ADDRESS_FACT.speaker] === speakerId &&
+        (speakerId === undefined ||
+          row.facts?.[ADDRESS_FACT.speaker] === speakerId) &&
         !!row.facts?.[ADDRESS_FACT.pieces],
     )
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id))

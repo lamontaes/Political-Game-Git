@@ -237,7 +237,7 @@ export function speechOfRecord(
     record.kind === SPEECH_HEARD &&
     !!record.personIds[P.zero] &&
     record.id.startsWith(
-      statementSpeechPrefix(record.personIds[P.zero], record.date),
+      statementSpeechPrefix(record.personIds[P.zero]!, record.date),
     );
   const speech =
     record.kind === "floor-debate"

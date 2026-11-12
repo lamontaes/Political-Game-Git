@@ -325,16 +325,21 @@ export function composeGroundedLine(
         lastSaid.get(variant.key) ?? -1,
       );
     const isFresh = (variant: LinePartVariant) => saidAt(variant) < 0;
-    const leastRecent = (variants: readonly LinePartVariant[]) => {
-      const oldest = Math.min(...variants.map(saidAt));
-      return variants.filter((variant) => saidAt(variant) === oldest);
+    // The said wordings by when, oldest first, one tier each: a wording the
+    // facts cannot say fails to render and the next oldest is tried, so the
+    // one said longest ago among those that fit is the one said.
+    const byAge = (variants: readonly LinePartVariant[]) => {
+      const said = variants.filter((variant) => !isFresh(variant));
+      return [...new Set(said.map(saidAt))]
+        .sort((a, b) => a - b)
+        .map((at) => said.filter((variant) => saidAt(variant) === at));
     };
     const tiers = [
       unheld.filter(isFresh),
-      leastRecent(unheld),
+      ...byAge(unheld),
       unheld,
       conditioned.filter(isFresh),
-      leastRecent(conditioned),
+      ...byAge(conditioned),
       conditioned,
     ];
     // The calibration table (weights only) re-weights the pick among the
