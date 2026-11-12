@@ -2184,6 +2184,8 @@ function pointSubject(
   // what? 'Do that'?"): a stand says plainly what the speaker would or would
   // not have done, never a pronoun for it.
   if (pick.point.to) facts.to = { text: pick.point.to, sourceRecordIds: said };
+  // Who would act on it: the address's questions are Congress's to decide.
+  facts.decider = { text: saidAsData.deciders.federal, sourceRecordIds: said };
   mark(`${pick.point.kind}-point`, said);
   if (pick.point.stance) mark(`president-${pick.point.stance}`, said);
   mark(`stand-${pick.stand}`, [...said, ...pick.reasonIds, speakerId]);
@@ -3202,7 +3204,9 @@ function mainTopic(
     // Where someone stands never opens a talk (owner, Nov 12: "a statement
     // of politics from nowhere"): it comes up only after the news that is its
     // cause, told in the same talk (conversation-rules.json related.news).
-    if (subject.kind === "own-view") return;
+    // A stand opens a talk only with its own reason from the speaker's life
+    // (their work or their money, `has-reason`), never from nowhere.
+    if (subject.kind === "own-view" && !subject.facts["has-reason"]) return;
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -5172,6 +5176,7 @@ function answerNews(
   const theirs = newsStake(core, otherId, last.subject);
   const facts: Facts = {
     ...last.facts,
+    you: calledBy(core, otherId, playerId),
     ...stakeMarks(theirs, "their-"),
     // No side of their own and no tie to the place: the answer says so.
     ...(theirs.reason === "none"

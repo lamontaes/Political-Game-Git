@@ -124,6 +124,28 @@ const FIXTURES: Record<
       ]),
     ),
   },
+  "act-named": {
+    catches: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor brought up the bridge toll. The last thing we need is to do that.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      talk("dad", [
+        [
+          [
+            "dad",
+            "The mayor brought up the bridge toll. The last thing we need is to raise it.",
+          ],
+        ],
+      ]),
+    ),
+  },
   "no-comma-splice": {
     catches: sampleOf(
       text("narration", [["The kettle is on, it will boil soon."]]),

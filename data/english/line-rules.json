@@ -5168,7 +5168,7 @@
       "status": "sample",
       "test": {
         "kind": "composed",
-        "check": ["no-comma-splice"]
+        "check": ["no-comma-splice", "act-named"]
       }
     },
     {

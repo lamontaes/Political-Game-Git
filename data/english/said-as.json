@@ -140,5 +140,11 @@
     "about": "How talk says the federal government (src/director/conversation.ts pointSubject): by its capital, or plainly in a state that goes by the capital's name (composed-checks.json placeSaidOnlyAs), so \"whatever Washington says\" never means the state (owner, Nov 12: \"Which Washington?\").",
     "name": "Washington",
     "plain": "the federal government"
+  },
+  "deciders": {
+    "about": "Who decides a question, by its level, said in talk where a line names who should act (never 'somebody'; lead, Nov 12).",
+    "federal": "Congress",
+    "state": "the legislature",
+    "local": "the council"
   }
 }

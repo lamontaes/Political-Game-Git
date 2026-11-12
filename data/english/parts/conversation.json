@@ -3,6 +3,7 @@
   "register": "conversation",
   "description": "Everyday conversation for golden-path steps 1 and 2 (meeting people at 18): greetings, asking after work, home, school, family and the news, the answers, raising a real subject, leaving, and the lie. Every part is a whole sentence American speakers said in federal transcripts (public domain: congressional hearings, the Congressional Record, NASA and U.S. House oral histories), counted also against the Library of Congress WPA life histories, 1936 to 1940. Record words are slots the game fills from the speaker's own records. Parts are grouped by the director's subject, role (ask, raise, reply, answer, lie) and choice; a group's parts are variants of one choice, never separate choices. A part's bearing (tender, guarded, glad, nervous, braced, curious, calm, from the director's bearings) is the manner its wording carries; a speaker's traits pull the engine toward the bearings they favor (data/english/calibration.json). A part with no bearing is neutral. A shared school or workplace is never an opener (owner, Oct 15, evening: batch 12 rejected): its ask and raise parts need the fact long-ago, which a record supplies only when something happened to the place or decades have passed.",
   "slots": {
+    "decider": "The body that decides the question, by its level (Congress for a federal question), from data/english/said-as.json deciders.",
     "you": "What the speaker calls the player to their face (their first name, or what a parent calls a child), from the family and name records.",
     "capital": "The federal government as people in this state say it: by its capital, or plainly where the state goes by that name (data/english/said-as.json federal).",
     "name": "A person's name from the records: someone both people know, or the listener's given name.",
@@ -20761,10 +20762,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.it-s-time-somebody-tried-to-to",
+      "key": "conversation.address-point-core-with.it-s-time-decider-tried-to-to",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "It's time somebody tried to {to}.",
+      "text": "It's time {decider} tried to {to}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -20833,10 +20834,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.somebody-should-to",
+      "key": "conversation.address-point-core-with.decider-should-to",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "Somebody should {to}.",
+      "text": "{decider} should {to}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21025,10 +21026,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.anybody-who-wants-to-to-has-my-vote",
+      "key": "conversation.address-point-core-with.if-decider-wants-to-to-they-have-my-vote",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "Anybody who wants to {to} has my vote.",
+      "text": "If {decider} wants to {to}, they have my vote.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21097,10 +21098,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.i-don-t-want-anybody-trying-to-to-either",
+      "key": "conversation.address-point-core-with.i-don-t-want-decider-trying-to-to-either",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "I don't want anybody trying to {to} either.",
+      "text": "I don't want {decider} trying to {to} either.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21145,10 +21146,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-with.i-d-rather-nobody-tried-to-to",
+      "key": "conversation.address-point-core-with.i-d-rather-decider-didn-t-try-to-to",
       "move": "address-point-core-with",
       "kind": "spoken",
-      "text": "I'd rather nobody tried to {to}.",
+      "text": "I'd rather {decider} didn't try to {to}.",
       "uses": [
         {
           "move": "address-point-core-with",
@@ -21361,10 +21362,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-never-asked-anybody-to-to",
+      "key": "conversation.address-point-core-against.i-never-asked-decider-to-to",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I never asked anybody to {to}.",
+      "text": "I never asked {decider} to {to}.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21625,10 +21626,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-think-somebody-should-to-whatever-president-says",
+      "key": "conversation.address-point-core-against.i-think-decider-should-to-whatever-president-says",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I think somebody should {to}, whatever {president} says.",
+      "text": "I think {decider} should {to}, whatever {president} says.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21673,10 +21674,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.i-d-still-like-to-see-somebody-to",
+      "key": "conversation.address-point-core-against.i-d-still-like-to-see-decider-to",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "I'd still like to see somebody {to}.",
+      "text": "I'd still like to see {decider} {to}.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21745,10 +21746,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.somebody-has-to-to-sooner-or-later",
+      "key": "conversation.address-point-core-against.decider-has-to-to-sooner-or-later",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "Somebody has to {to} sooner or later.",
+      "text": "{decider} has to {to} sooner or later.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21841,10 +21842,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-against.somebody-ought-to-stand-up-and-to",
+      "key": "conversation.address-point-core-against.decider-ought-to-stand-up-and-to",
       "move": "address-point-core-against",
       "kind": "spoken",
-      "text": "Somebody ought to stand up and {to}.",
+      "text": "{decider} ought to stand up and {to}.",
       "uses": [
         {
           "move": "address-point-core-against",
@@ -21982,10 +21983,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-unsure.i-d-want-to-hear-more-before-anybody-tries-to-to",
+      "key": "conversation.address-point-core-unsure.i-d-want-to-hear-more-before-decider-tries-to-to",
       "move": "address-point-core-unsure",
       "kind": "spoken",
-      "text": "I'd want to hear more before anybody tries to {to}.",
+      "text": "I'd want to hear more before {decider} tries to {to}.",
       "uses": [
         {
           "move": "address-point-core-unsure",
@@ -22143,10 +22144,10 @@
       "date": "2026-11-11"
     },
     {
-      "key": "conversation.address-point-core-unsure.ask-me-again-once-somebody-explains-how-they-d-to",
+      "key": "conversation.address-point-core-unsure.ask-me-again-once-decider-explains-how-they-d-to",
       "move": "address-point-core-unsure",
       "kind": "spoken",
-      "text": "Ask me again once somebody explains how they'd {to}.",
+      "text": "Ask me again once {decider} explains how they'd {to}.",
       "uses": [
         {
           "move": "address-point-core-unsure",
@@ -23686,204 +23687,6 @@
         "part": "reason"
       },
       "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.nothing-president-says-will-change-my-mind",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "Nothing {president} says will change my mind.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-against", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.i-knew-where-i-stood-before-president-said-a-word",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "I knew where I stood before {president} said a word.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.president-didn-t-tell-me-anything-i-hadn-t-thought-through",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "{president} didn't tell me anything I hadn't thought through.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-with", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.my-mind-was-made-up-long-before-president-spoke",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "My mind was made up long before {president} spoke.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.i-don-t-need-president-to-tell-me-what-i-think",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "I don't need {president-object} to tell me what I think.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-against", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.whatever-president-says-i-know-where-i-stand",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "Whatever {president} says, I know where I stand.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-against", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.that-one-i-ve-thought-through-whether-or-not-president-agrees",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "That one I've thought through, whether or not {president} agrees.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.i-d-say-the-same-if-president-had-never-brought-it-up",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "I'd say the same if {president} had never brought it up.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-with", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "guarded",
-      "origin": "authored",
-      "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
-      "date": "2026-11-11"
-    },
-    {
-      "key": "conversation.address-point-reason-view.i-ve-had-my-say-on-it-before-whatever-president-thinks",
-      "move": "address-point-reason-view",
-      "kind": "spoken",
-      "text": "I've had my say on it before, whatever {president} thinks.",
-      "uses": [
-        {
-          "move": "address-point-reason-view",
-          "subject": "address-point",
-          "role": "reason",
-          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
-        }
-      ],
-      "piece": {
-        "of": "address-point",
-        "part": "reason"
-      },
-      "bearing": "braced",
       "origin": "authored",
       "author": "Words builder (words-opening-evening-talk-raises-what-the-president-said)",
       "date": "2026-11-11"
@@ -28126,7 +27929,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-for", "their-for"]
+          "requiresFacts": ["said-for", "their-for"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28148,7 +27952,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-for", "their-against"]
+          "requiresFacts": ["said-for", "their-against"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28170,7 +27975,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-against", "their-against"]
+          "requiresFacts": ["said-against", "their-against"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28192,7 +27998,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-against", "their-for"]
+          "requiresFacts": ["said-against", "their-for"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28214,7 +28021,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28236,7 +28044,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28258,7 +28067,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-worked-there"]
+          "requiresFacts": ["said-worked-there"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28280,7 +28090,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-worked-there"]
+          "requiresFacts": ["said-worked-there"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28302,7 +28113,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-why", "closed"]
+          "requiresFacts": ["said-why", "closed"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28324,7 +28136,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-yes"]
+          "requiresFacts": ["said-yes"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28346,7 +28159,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-no", "closed"]
+          "requiresFacts": ["said-no", "closed"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -28368,7 +28182,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-react"]
+          "requiresFacts": ["said-react"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -29693,7 +29508,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -29715,7 +29531,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -29737,7 +29554,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -29759,7 +29577,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -29781,7 +29600,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -29803,7 +29623,8 @@
           "move": "news-back-core",
           "subject": "news-back",
           "role": "core",
-          "requiresFacts": ["said-side", "their-none"]
+          "requiresFacts": ["said-side", "their-none"],
+          "excludesFacts": ["story"]
         }
       ],
       "origin": "authored",
@@ -34049,6 +33870,94 @@
       ],
       "origin": "authored",
       "author": "Words builder W-D, Claude Opus 5.5 (the answer to an agreeing or disagreeing reply names what it answers)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.good-then-we-re-on-the-same-side-of-it-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Good. Then we're on the same side of it, {you}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-for", "story"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (an answer to a told story says no time the listener did not tell)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.not-me-you-we-ll-have-to-disagree-on-this-one",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Not me, {you}. We'll have to disagree on this one.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-for", "their-against", "story"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (an answer to a told story says no time the listener did not tell)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.good-i-m-glad-i-m-not-alone-on-it-you",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "Good. I'm glad I'm not alone on it, {you}.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-against", "story"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (an answer to a told story says no time the listener did not tell)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.news-back-core.we-see-it-differently-then-you-i-m-still-for-it",
+      "move": "news-back-core",
+      "kind": "spoken",
+      "text": "We see it differently, then, {you}. I'm still for it.",
+      "piece": {
+        "of": "news-back",
+        "part": "core",
+        "required": true
+      },
+      "uses": [
+        {
+          "move": "news-back-core",
+          "subject": "news-back",
+          "role": "core",
+          "requiresFacts": ["said-against", "their-for", "story"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder W-D, Claude Opus 5.5 (an answer to a told story says no time the listener did not tell)",
       "date": "2026-11-12"
     }
   ]

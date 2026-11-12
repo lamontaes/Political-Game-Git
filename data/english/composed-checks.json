@@ -140,6 +140,8 @@
     "coworker",
     "roommate"
   ],
+  "actStandIn": "\\b(?:to|not|and|plan to|trying to) do (?:that|it)\\b",
+  "actStandInNote": "A stance verb whose object is the stand-in \"do that\" instead of the act it means (check act-named).",
   "acknowledgments": [
     "okay",
     "ok",

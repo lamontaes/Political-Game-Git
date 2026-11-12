@@ -703,6 +703,34 @@ export const noteStandsAlone: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- act-named ----
+
+const STAND_IN = new RegExp(data.actStandIn, "i");
+
+/**
+ * A stance whose act is a pronoun ("The last thing we need is to do that.")
+ * with no act named before it in the same text (pre-grade of #8879, Nov 12:
+ * "Do what? 'Do that'?").
+ */
+export const actNamed: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    for (const line of screen.lines)
+      for (const sentence of line.sentences)
+        if (STAND_IN.test(plainQuotes(sentence)))
+          found.push(
+            breakOf(
+              "act-named",
+              text,
+              at,
+              'the act is said as "do that"',
+              sentence,
+            ),
+          );
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -718,6 +746,7 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "ask-said-once": askSaidOnce,
   "subject-budget": subjectBudget,
   "note-stands-alone": noteStandsAlone,
+  "act-named": actNamed,
 };
 
 /** A composed rule's checks, as a list. */
