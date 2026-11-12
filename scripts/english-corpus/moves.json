@@ -297,14 +297,6 @@
         "tag": "blame"
       },
       {
-        "move": "^blame-hearer-react",
-        "tag": "react"
-      },
-      {
-        "move": "^blame-unknown",
-        "tag": "answer"
-      },
-      {
         "move": "^change-organization\\.closed",
         "tag": "deliver-news",
         "key": "loss"

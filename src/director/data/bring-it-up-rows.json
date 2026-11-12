@@ -22,5 +22,5 @@
       "eventIdPrefix": "news.read:"
     }
   ],
-  "blame": ["record", "told", "assumed", "unknown"]
+  "blame": ["record", "told", "assumed"]
 }
