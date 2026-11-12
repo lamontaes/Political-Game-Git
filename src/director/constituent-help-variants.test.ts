@@ -271,9 +271,13 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
       if (chosen!.variant === "lost-job" && chosen!.reads["laid-off"]! > 0) {
         expect(has("employer")?.recordIds, here).toBeTruthy();
         expect(has("since"), here).toBeTruthy();
-      } else {
-        expect(has("employer"), here).toBeUndefined();
       }
+      // The case's own facts (the case-help set, caseFacts): an employer only
+      // for a job seeker whose layoff is on the books, cited to it.
+      if (has("employer"))
+        expect(has("employer")!.recordIds.length, here).toBeGreaterThan(1);
+      if (problem === "paid-under-minimum-wage")
+        expect(has("employer"), here).toBeUndefined();
       if (chosen!.reads["notice-served"] === 0)
         expect(has("owed"), here).toBeUndefined();
       if (chosen!.variant === "sick") {
@@ -291,15 +295,18 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
       }
       // The request is worded by the variant's own piece where it has one.
       const requestKey = scene.talk.state.parts[0]!;
-      const requestPurpose = (
+      // A piece of the case-help move set serves every variant that has none.
+      const requestUse = (
         sceneTalk as unknown as {
-          parts: { key: string; uses: { purpose: string }[] }[];
+          parts: { key: string; uses: { purpose?: string; set?: string }[] }[];
         }
-      ).parts.find((part) => part.key === requestKey)?.uses[0]?.purpose;
+      ).parts.find((part) => part.key === requestKey)?.uses[0];
       expect(
-        [chosen!.purpose, "constituent-help"],
+        [chosen!.purpose, "constituent-help", "set:case-help"],
         `${here}: ${requestKey}`,
-      ).toContain(requestPurpose);
+      ).toContain(
+        requestUse?.set ? `set:${requestUse.set}` : requestUse?.purpose,
+      );
       played.set(chosen!.variant, (played.get(chosen!.variant) ?? 0) + 1);
       lines.push(
         `${residentId} (${problem}) ${chosen!.variant} [${chosen!.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}] opens "${scene.talk.state.text}"`,
@@ -403,6 +410,10 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
       const facts: Record<string, Fact> = {
         name: fact("Pat Rivera", askerId),
         first: fact(core.people.get(asked)!.givenName, asked),
+        // What the case on the office's books gives every visit (caseFacts):
+        // where the office refers it, and when it decides.
+        agency: fact("the workforce office", askerId),
+        "respond-in": fact("in seven days", askerId),
         ...extra,
       };
       for (const [k, v] of Object.entries(c.reads))

@@ -1385,7 +1385,7 @@ function composeBinding(
         };
   // A constituent's own records, worded: the job they lost, the notice on
   // their rent, the pay under the floor, the relative who is ill.
-  if (variant && type.purpose === "constituent-help")
+  if (type.purpose === "constituent-help")
     Object.assign(
       facts,
       constituentFacts(

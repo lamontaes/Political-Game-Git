@@ -4,6 +4,10 @@
     "on-record": {
       "about": "Answering for a bill or a vote to someone who will repeat it: the subject is the bill ({bill}, {about}), the stand is the member's own vote or sponsorship, the reason is the part of the member's position on the bill that weighed most, what comes next is the bill's stage, and the listener prints what is said ({outlet}).",
       "purposes": ["press-comment"]
+    },
+    "case-help": {
+      "about": "Office hours: a constituent brings the problem their own case holds (constituent-cases.ts: out of work with savings running down, or paid under the minimum wage in force; {employer}, {since}, {cushion}, {pay}, {floor}) and the official answers with what the office can do: take it up, which refers it to {agency}; hand it to {staffer}; or turn it away for the {other-cases} already open. The close says when the office decides ({respond-in}). The scene's ending decides the case (constituent-cases.ts reads scene.reply).",
+      "purposes": ["constituent-help"]
     }
   }
 }

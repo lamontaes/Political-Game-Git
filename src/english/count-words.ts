@@ -109,6 +109,10 @@ const HUNDRED = 100;
 const TWENTY = 20;
 
 /** A whole number under a thousand in words ("sixty-two"). */
+export function countSaid(count: number): string {
+  return numberWords(Math.max(0, Math.round(count)));
+}
+
 function numberWords(count: number): string {
   const words = data.roll;
   if (count < TWENTY) return words.ones[count]!;

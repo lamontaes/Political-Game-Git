@@ -1,0 +1,41 @@
+{
+  "schema": "director-constituent-help-facts/1",
+  "note": "What the office-hours scene says of the constituent's case (src/director/constituent-help-facts.ts caseFacts): which office the case is referred to when the official takes it up, by the case's problem (constituent-cases.ts resolve: a wage complaint goes to the labor standards office, a job seeker to the workforce office), and how the office's other open cases are said. Words only; nothing here is a number the world runs on.",
+  "agencyByProblem": {
+    "value": {
+      "paid-under-minimum-wage": "the labor standards office",
+      "looking-for-work": "the workforce office"
+    },
+    "tag": "TUNABLE",
+    "spread": "Names only: the office constituent-cases.ts refers each problem to (raiseOne for a wage complaint, recordReferral for a job seeker).",
+    "checkedAgainst": "src/core2/modules/constituent-cases.ts resolve."
+  },
+  "otherCases": {
+    "value": {
+      "one": "one other case",
+      "more": "{count} other cases"
+    },
+    "tag": "TUNABLE",
+    "spread": "Words only: the official's other open cases (openCasesOf), said as a count in words.",
+    "checkedAgainst": "count-words.ts countSaid."
+  },
+  "moneyLeft": {
+    "value": [
+      {
+        "atLeast": 0.66,
+        "said": "almost gone"
+      },
+      {
+        "atLeast": 0.33,
+        "said": "running low"
+      },
+      {
+        "atLeast": 0,
+        "said": "getting thin"
+      }
+    ],
+    "tag": "TUNABLE",
+    "spread": "Words only, a sliding scale: how a job seeker says their savings stand from their case's severity (constituent-cases.ts problemOf: one less the months their savings last over caseCushionMonths); never a figure (rule no-figures-people-would-not-know). Bands checked at thirds.",
+    "checkedAgainst": "The owner's rule no-figures-people-would-not-know (people say how savings stand, not how many months)."
+  }
+}
