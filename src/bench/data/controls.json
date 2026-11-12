@@ -34,7 +34,8 @@
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on."
+    "missingPlace": "Choose where you are from to go on.",
+    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
   },
   "debate": {
     "title": "Debate invitation",
@@ -314,7 +315,10 @@
     "evidence": "Evidence",
     "missing": "Missing module",
     "piece": "Piece",
-    "running": "Running modules"
+    "running": "Running modules",
+    "year": "Year",
+    "stateChanges": "Laws other states changed",
+    "statesChanging": "States that changed one"
   },
   "devRecords": {
     "title": "Records",
