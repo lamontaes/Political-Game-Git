@@ -4,11 +4,11 @@ Each life is a new world on the bench (`/api/newlife`, the player born June 15, 
 
 | Seed | Place | Race | Before | After |
 | --- | --- | --- | --- | --- |
-| w3-standing-1 | Palmer, Kansas | Council member | Nobody has heard from you yet. | No voter has heard from you yet, and the vote is November 4. |
-| | | | No ad time could be bought this time. | Nobody has given to the campaign since you filed on April 8, so it has nothing for ads. |
-| w3-standing-2 | West Point, Alabama | Council member | No voters have heard from you yet. | Voters decide on August 26, and none of them has heard from you yet. |
-| | | | The campaign has no money left to buy ad time. | The campaign has raised nothing since you filed on May 20, and ad time costs money. |
-| w3-standing-3 | Amsterdam, Montana | U.S. Senator | No voters have heard from you yet. | No voter has heard from you yet, and the vote is June 2. |
-| | | | The campaign has no money left to buy ad time. | The campaign has raised nothing since you filed on January 6, and ad time costs money. |
+| w3-standing-1 | Palmer, Kansas | Council member | Nobody has heard from you yet. | Nobody has heard from you yet. Voters decide on November 4. |
+| | | | No ad time could be bought this time. | Nobody has given to your campaign since you filed on April 8, so it has nothing for ads. |
+| w3-standing-2 | West Point, Alabama | Council member | No voters have heard from you yet. | No voter has heard from you yet. The vote is August 26. |
+| | | | The campaign has no money left to buy ad time. | Your campaign hasn't raised a dollar since you filed on May 20, so the ad couldn't run. |
+| w3-standing-3 | Amsterdam, Montana | U.S. Senator | No voters have heard from you yet. | No voter has heard from you yet. The primary is June 2. |
+| | | | The campaign has no money left to buy ad time. | Your campaign hasn't raised a dollar since you filed on January 6, so the ad couldn't run. |
 
-The unchanged lines (the opponents, the poll's price) read the same before and after. "No money left" was false before: these campaigns had never raised a dollar.
+In West Point the opponent is named in full once, then "Cassandra has reached one voter." (before: "Cassandra Winters has reached one voter." on the next line). The other lines (the opponents, the poll's price) read the same before and after. "No money left" was false before: these campaigns had never raised a dollar.

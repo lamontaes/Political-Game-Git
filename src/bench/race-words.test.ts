@@ -40,7 +40,7 @@ const lineFor = (
     causes,
     {
       office: "a seat on the Mutual Village Council",
-      vote: "November 3",
+      when: { general: "November 3" },
       recordIds: ["contest:c1"],
     },
   );

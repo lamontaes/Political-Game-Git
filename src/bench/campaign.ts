@@ -215,8 +215,11 @@ export function campaignView(core: CoreState, personId: string) {
 export interface RaceSaid {
   /** The seat as people say it ("a seat on the Mutual Village Council", "mayor"). */
   readonly office: string;
-  /** The next day voters decide it: the primary while it is ahead, else the general. */
-  readonly vote: string;
+  /**
+   * The next day voters decide it, by which vote it is: the primary while it
+   * is ahead (`primary`), else the general (`general`). One of the two is set.
+   */
+  readonly when: { readonly primary: string } | { readonly general: string };
   /** The day filing closes, while it is still ahead. */
   readonly closes?: string;
   /** The records these facts come from: the contest and its office. */
@@ -235,10 +238,7 @@ export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
     .get(contest.officeId) as unknown as
     { seats?: number; bodyName?: string | null } | undefined;
   const today = api.state.date;
-  const vote =
-    contest.primaryDate && contest.primaryDate >= today
-      ? contest.primaryDate
-      : contest.electionDate;
+  const primaryAhead = !!contest.primaryDate && contest.primaryDate >= today;
   const deadline = filingDeadlineFor(api, contest);
   return {
     office: seatSaid({
@@ -247,10 +247,26 @@ export function raceSaid(api: CoreAPI, contest: ContestRow): RaceSaid {
       bodyName: (office?.seats ?? 1) > 1 ? (office?.bodyName ?? null) : null,
       district: contest.district,
     }),
-    vote: dateSaid(vote, today),
+    when: primaryAhead
+      ? { primary: dateSaid(contest.primaryDate!, today) }
+      : { general: dateSaid(contest.electionDate, today) },
     ...(deadline >= today ? { closes: dateSaid(deadline, today) } : {}),
     recordIds: [contest.id, contest.officeId],
   };
+}
+
+/**
+ * A candidate already named in full on this screen, said again: by first
+ * name, unless another candidate shares it.
+ */
+function saidAgain(
+  name: string,
+  all: readonly { readonly name: string }[],
+): string {
+  const first = name.split(" ")[0] ?? name;
+  return all.filter((who) => who.name.split(" ")[0] === first).length > 1
+    ? name
+    : first;
 }
 
 /**
@@ -289,10 +305,10 @@ export function raceStanding(
           id,
           {
             reached: mine.reached,
-            ...(race ? { vote: race.vote } : {}),
+            ...race?.when,
           },
         )
-      : line("reached-none", id, race ? { vote: race.vote } : {}),
+      : line("reached-none", id, { ...race?.when }),
     // One voter reached who did not move is said in the reached line itself.
     ...(mine && (mine.reached > 1 || mine.warmer + mine.cooler > 0)
       ? [
@@ -333,7 +349,8 @@ export function raceStanding(
         line(
           who.reached === 1 ? "opponent-reached-one" : "opponent-reached",
           `${id}|${who.candidateId}`,
-          { name: who.name, reached: who.reached },
+          // Named in full in the line before, then by first name (said-as).
+          { name: saidAgain(who.name, others), reached: who.reached },
         ),
       ),
     ...(lastPoll
