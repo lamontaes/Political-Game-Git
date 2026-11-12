@@ -1067,5 +1067,41 @@
     "addedAt": "2026-11-12",
     "replacement": "The planner reads the state's budget balance, its disasters and the session's enacted laws (with direction, said-as) into the occasion, and the term read once it holds months.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-local-speaker-no-signature",
+    "kind": "assumed-data",
+    "file": "src/director/speech-outline.ts",
+    "line": 1,
+    "whatItFakes": "A town's, township's or county's officeholder or candidate has no signature issues: the officials engine draws a few causes of their own only for the officials it keeps a row for (state and federal), so a local speaker's theme is picked from how strongly they hold each view and what their traits pull toward, never from causes of their own.",
+    "why": "Local officeholders are full people read through the one stance engine (campaign-stances.ts stanceReader); giving them causes needs the officials engine's drawn signature for local seats.",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "The officials engine draws a local officeholder's signature issues when they take a local seat (pool item core-local-official-signature), and standsOfPerson reads them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-local-head-longest-serving",
+    "kind": "assumed-data",
+    "file": "src/director/local-address.ts",
+    "line": 1,
+    "whatItFakes": "Where a local government seats no mayor or county executive and its body has not yet chosen whoever presides (no leadership post held), the member who has served longest gives the local address.",
+    "why": "The leadership engine organizes a body the first time a post is read; a board it has not organized has no chair on record.",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "The leadership engine organizes every local body at the opening, and the address reads its presiding officer only.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-floor-speech-not-staged",
+    "kind": "missing-hook",
+    "file": "src/director/local-speeches.ts",
+    "line": 1,
+    "whatItFakes": "A member's floor speech on the measure before a town's body is composed through the one planner (composeFloorSpeech), but the floor-debate scene (legislature.ts recordFloorDebate, purpose-scene.ts) still says its talk lines and does not play the composed speech.",
+    "why": "The scene's talk lines are the talk builder's; staging the composed speech in the floor-debate scene is a seam between the two (words builder, Nov 12).",
+    "addedBy": "Words builder (Opus), Nov 12",
+    "addedAt": "2026-11-12",
+    "replacement": "The floor-debate scene plays composeFloorSpeech for the member who rose, and its own speech lines are deleted.",
+    "status": "open"
   }
 ]

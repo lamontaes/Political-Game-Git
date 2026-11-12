@@ -670,7 +670,7 @@ const SIDED: [string[], string, "for" | "against", string][] = [
     ["town-address"],
     "polished",
     "for",
-    "I am for {about}, and I ask the council to {side} this year.",
+    "I am for {about}, and I ask {body} to {side} this year.",
   ],
   [
     ["town-address"],
@@ -682,13 +682,13 @@ const SIDED: [string[], string, "for" | "against", string][] = [
     ["town-address"],
     "polished",
     "against",
-    "I am against {about}, and I will ask the council to vote it down.",
+    "I am against {about}, and I will ask {body} to vote it down.",
   ],
   [
     ["town-address"],
     "plain",
     "against",
-    "I'm against {about}, and I'll ask the council to vote it down.",
+    "I'm against {about}, and I'll ask {body} to vote it down.",
   ],
 ];
 for (const [subjects, voice, side, text] of SIDED) {
@@ -718,8 +718,8 @@ for (const [subjects, voice, side, text] of SIDED) {
     author: "Claude (Words builder W-E, speech points)",
     date: "2026-11-12",
   });
-  keysNow.add(key);
-  textsNow.add(add.text.toLowerCase());
+  keys.add(key);
+  texts.add(text.toLowerCase());
   count("4. an ask that says its side in so many words is added");
 }
 
@@ -1300,7 +1300,7 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "for",
-    "I will defend {law-name} before the council.",
+    "I will defend {law-name} before {body}.",
   ],
   [
     ["town-address"],
@@ -1312,14 +1312,9 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "against",
-    "I will ask the council to end {law-name}.",
+    "I will ask {body} to end {law-name}.",
   ],
-  [
-    ["town-address"],
-    "plain",
-    "against",
-    "I'll ask the council to end {law-name}.",
-  ],
+  [["town-address"], "plain", "against", "I'll ask {body} to end {law-name}."],
   // More ways to say each, so no frame is said twice in one speech (the
   // words lead, Nov 12: "I will keep X on the books, and I will veto any
   // bill that would undo it" three times in two speeches).
@@ -1418,25 +1413,25 @@ const LAWS: [string[], string, string, string][] = [
     ["town-address"],
     "polished",
     "for",
-    "I will defend {law-name} as long as I am mayor.",
+    "I will defend {law-name} as long as I am {office-title}.",
   ],
   [
     ["town-address"],
     "plain",
     "for",
-    "I'm keeping {law-name} as long as I'm mayor.",
+    "I'm keeping {law-name} as long as I'm {office-title}.",
   ],
   [
     ["town-address"],
     "polished",
     "against",
-    "I will ask the council to repeal {law-name}.",
+    "I will ask {body} to repeal {law-name}.",
   ],
   [
     ["town-address"],
     "plain",
     "against",
-    "I want {law-name} gone, and I'll ask the council to end {it}.",
+    "I want {law-name} gone, and I'll ask {body} to end {it}.",
   ],
 ];
 for (const [subjects, voice, side, text] of LAWS)
@@ -1763,13 +1758,18 @@ for (const add of ADD) {
     const found = bank.parts.find(
       (part) => part.text.toLowerCase() === add.text.toLowerCase(),
     );
-    // A question said in fewer kinds of address than it was is said only in those.
+    // A question said in fewer kinds of address than it was is said only in
+    // those; a town's question is said in a floor or campaign speech too
+    // (rule 29).
+    const realm = add.subjects.includes("town-address")
+      ? [...add.subjects, "floor-speech", "campaign-speech"]
+      : add.subjects;
     if (
       found &&
       add.role === "question" &&
-      found.uses.length !== add.subjects.length
+      found.uses.length !== realm.length
     ) {
-      found.uses = add.subjects.map((subject) => ({
+      found.uses = realm.map((subject) => ({
         move: add.role,
         subject,
         role: add.role,
@@ -2061,6 +2061,370 @@ bank.parts = bank.parts.filter((part) => {
   }
   return true;
 });
+
+// 28. A local address speaks to the body and holds the office the records
+// seat (words builder, Nov 12: town speeches through the one planner). The
+// head of a township or a county gives it as well as a town's mayor, so a
+// town-address piece never types "the council", "mayor" or "town": the body
+// is the `body` slot ("the council", "the board", "the commissioners", from
+// the office row), the office is `office-title` ("mayor", "county
+// executive", "chair"), and the place is said as "here".
+bank.slots["body"] ??=
+  "the local body the speaker speaks to or sits on, as people say it, from the office row's body name";
+bank.slots["office-title"] ??=
+  "the local office the speaker holds or seeks, as people say it, from the office row's title or the presiding post";
+const LOCAL_WORDS: readonly [RegExp, string, string | null][] = [
+  [/^Council members, /, "Members of {body}, ", "body"],
+  [/^Council, neighbors\.$/, "Members of {body}, neighbors.", "body"],
+  [/\bthe council\b/g, "{body}", "body"],
+  [
+    /\bas long as I am mayor\b/,
+    "as long as I am {office-title}",
+    "office-title",
+  ],
+  [/\bas long as I'm mayor\b/, "as long as I'm {office-title}", "office-title"],
+  [/\bour town government\b/, "our local government", null],
+  [/\b(?:across|around) town\b/, "around here", null],
+];
+for (const part of bank.parts) {
+  if (!part.uses.every((use) => use.subject === "town-address")) continue;
+  for (const [from, to] of LOCAL_WORDS) {
+    const text = part.text.replace(from, to);
+    if (text === part.text) continue;
+    part.text = text;
+    count(
+      "28. a town-address piece says the body, the office and the place from the records",
+    );
+  }
+  // A piece that says the body or the office needs its fact.
+  for (const slot of ["body", "office-title"])
+    if (part.text.includes(`{${slot}}`))
+      for (const use of part.uses)
+        if (!(use.requiresFacts ?? []).includes(slot)) {
+          use.requiresFacts = [...(use.requiresFacts ?? []), slot];
+          count("28. a piece that says the body or the office needs its fact");
+        }
+}
+
+// 29. A council or board member's floor speech and a local candidate's
+// campaign speech go through the one planner (words builder, Nov 12: "a
+// council member's speech ... through planSpeech"), with banks of their own
+// subjects: a point is said with the same pieces a local address says it
+// with (how it stands today, the belief, the question, the figure's tie),
+// and only the greeting, the occasion, the ask and the close are their own.
+// A floor speech addresses whoever presides, asks the members for their
+// vote and yields (docs/research/speech-structure-2026-11-12.md, the House
+// one-minute); a campaign speech asks for the vote.
+const LOCAL_KINDS = ["floor-speech", "campaign-speech"];
+const POINT_ROLES = [
+  "today",
+  "belief-words",
+  "belief",
+  "why",
+  "question",
+  "tie",
+  "context",
+  "meaning",
+];
+for (const part of bank.parts) {
+  const town = part.uses.filter(
+    (use) =>
+      use.subject === "town-address" &&
+      (POINT_ROLES.includes(use.role) ||
+        (use.role === "ask" && part.piece?.part === "opener")),
+  );
+  for (const use of town)
+    for (const subject of LOCAL_KINDS)
+      if (
+        !part.uses.some(
+          (row) => row.subject === subject && row.role === use.role,
+        )
+      ) {
+        part.uses.push({ ...use, subject });
+        count("29. a point's piece is said in a floor or campaign speech");
+      }
+}
+const LOCAL_AUTHOR = "Claude (Words builder, local speeches)";
+const LOCAL_PIECES: {
+  subject: string;
+  role: string;
+  voice: string | string[];
+  text: string;
+  needs: string[];
+  piece?: { of: string; part: string; required?: boolean };
+}[] = [
+  // Floor: to whoever presides, by title and name; to the body.
+  {
+    subject: "floor-speech",
+    role: "salutation",
+    voice: "polished",
+    text: "{presiding}, members of {body}.",
+    needs: ["presiding", "body"],
+  },
+  {
+    subject: "floor-speech",
+    role: "salutation",
+    voice: "plain",
+    text: "{presiding}, and my colleagues.",
+    needs: ["presiding"],
+  },
+  {
+    subject: "floor-speech",
+    role: "salutation",
+    voice: BOTH,
+    text: "Members of {body}.",
+    needs: ["body"],
+  },
+  // Floor asks: the members' vote on the measure before them.
+  ...(
+    [
+      [
+        "polished",
+        "for",
+        false,
+        "I rise in support of {about}, and I urge my colleagues to vote yes.",
+      ],
+      [
+        "plain",
+        "for",
+        false,
+        "I'm for {about}, and I'm asking you all to vote yes.",
+      ],
+      [
+        "polished",
+        "against",
+        false,
+        "I rise in opposition to {about}, and I urge my colleagues to vote no.",
+      ],
+      [
+        "plain",
+        "against",
+        false,
+        "I'm against {about}, and I'm asking you all to vote no.",
+      ],
+      [
+        "polished",
+        "for",
+        true,
+        "I urge my colleagues to keep {law-name} as we have it.",
+      ],
+      ["plain", "for", true, "I'm asking you all to leave {law-name} alone."],
+      [
+        "polished",
+        "against",
+        true,
+        "I urge my colleagues to repeal {law-name}.",
+      ],
+      [
+        "plain",
+        "against",
+        true,
+        "I'm asking you all to vote to end {law-name}.",
+      ],
+    ] as const
+  ).map(([voice, side, inForce, text]) => ({
+    subject: "floor-speech",
+    role: "ask",
+    voice,
+    text,
+    needs: [
+      `stance-${side}`,
+      inForce ? "law-in-force" : "law-not-in-force",
+      "about",
+    ],
+    piece: { of: "opening-ask", part: "core", required: true },
+  })),
+  {
+    subject: "floor-speech",
+    role: "close",
+    voice: "polished",
+    text: "For these reasons, let us {first-side}. I yield back the balance of my time.",
+    needs: ["first-side"],
+  },
+  {
+    subject: "floor-speech",
+    role: "close",
+    voice: "polished",
+    text: "I ask this body to {first-side}, and I yield back.",
+    needs: ["first-side"],
+  },
+  {
+    subject: "floor-speech",
+    role: "close",
+    voice: "plain",
+    text: "Let's {first-side}. I yield back.",
+    needs: ["first-side"],
+  },
+  {
+    subject: "floor-speech",
+    role: "close",
+    voice: "plain",
+    text: "So let's {first-side} tonight. Thank you, and I yield back.",
+    needs: ["first-side"],
+  },
+  // Campaign: to the people of the place, for the office.
+  {
+    subject: "campaign-speech",
+    role: "salutation",
+    voice: "polished",
+    text: "My friends and neighbors in {realm-name}.",
+    needs: ["realm-name"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "salutation",
+    voice: "plain",
+    text: "Friends and neighbors from all over {realm-name}.",
+    needs: ["realm-name"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "salutation",
+    voice: BOTH,
+    text: "Everybody here from {realm-name}.",
+    needs: ["realm-name"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "occasion",
+    voice: "polished",
+    text: "I am running for {office-title}, and I want to talk tonight about {theme-name}.",
+    needs: ["office-title", "theme-name"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "occasion",
+    voice: "plain",
+    text: "I'm running for {office-title}, and tonight I want to talk about {theme-name}.",
+    needs: ["office-title", "theme-name"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "occasion",
+    voice: "plain",
+    text: "I'm running for {office-title} because {theme-name} matters to every family here.",
+    needs: ["office-title", "theme-name"],
+  },
+  ...(
+    [
+      [
+        "polished",
+        "for",
+        false,
+        "I am asking for your vote so that I can {to}.",
+      ],
+      ["plain", "for", false, "I'm asking for your vote so I can {to}."],
+      [
+        "polished",
+        "against",
+        false,
+        "I am asking for your vote so that I can stop {about}.",
+      ],
+      [
+        "plain",
+        "against",
+        false,
+        "I'm asking for your vote so I can stop {about}.",
+      ],
+      [
+        "polished",
+        "for",
+        true,
+        "I am asking for your vote so that I can protect {law-name}.",
+      ],
+      [
+        "plain",
+        "for",
+        true,
+        "I'm asking for your vote so I can protect {law-name}.",
+      ],
+      [
+        "polished",
+        "against",
+        true,
+        "I am asking for your vote so that I can repeal {law-name}.",
+      ],
+      [
+        "plain",
+        "against",
+        true,
+        "I'm asking for your vote so I can end {law-name}.",
+      ],
+    ] as const
+  ).map(([voice, side, inForce, text]) => ({
+    subject: "campaign-speech",
+    role: "ask",
+    voice,
+    text,
+    needs: [
+      `stance-${side}`,
+      inForce ? "law-in-force" : "law-not-in-force",
+      text.includes("{to}") ? "to" : "about",
+    ],
+    piece: { of: "opening-ask", part: "core", required: true },
+  })),
+  {
+    subject: "campaign-speech",
+    role: "close",
+    voice: "polished",
+    text: "Together we can {first-side}. Thank you, and I hope to earn your vote.",
+    needs: ["first-side"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "close",
+    voice: "polished",
+    text: "If we {first-side}, {realm-name} will be the better for it. Thank you.",
+    needs: ["first-side", "realm-name"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "close",
+    voice: "plain",
+    text: "On election day, let's {first-side}. Thank you.",
+    needs: ["first-side"],
+  },
+  {
+    subject: "campaign-speech",
+    role: "close",
+    voice: "plain",
+    text: "Let's {first-side}, {realm-name}. Thanks, and I'll see you at the polls.",
+    needs: ["first-side", "realm-name"],
+  },
+];
+bank.slots["presiding"] ??=
+  "whoever presides over the body, by the post's title and family name (said-as, addressed)";
+const localKeys = new Set(bank.parts.map((part) => part.key));
+for (const add of LOCAL_PIECES) {
+  const voiceKey = Array.isArray(add.voice) ? "both" : add.voice;
+  const key = `opening-speech.${add.role}.${voiceKey}-${add.subject}-${slug(add.text)}-${slug(add.needs.join(" "))}`;
+  if (localKeys.has(key)) continue;
+  bank.parts.push({
+    key,
+    move: add.role,
+    kind: "spoken",
+    text: add.text,
+    uses: [
+      {
+        move: add.role,
+        subject: add.subject,
+        role: add.role,
+        choice: add.role,
+        requiresFacts: add.needs,
+      },
+    ],
+    voice: add.voice,
+    bearing: "firm",
+    ...(add.piece ? { piece: add.piece } : {}),
+    origin: "authored",
+    author: LOCAL_AUTHOR,
+    date: "2026-11-12",
+  });
+  localKeys.add(key);
+  count(
+    "29. a floor or campaign speech's own greeting, occasion, ask or close is added",
+  );
+}
 
 writeFileSync(FILE, `${JSON.stringify(bank, null, 2)}\n`);
 for (const [rule, n] of Object.entries(counts).sort())

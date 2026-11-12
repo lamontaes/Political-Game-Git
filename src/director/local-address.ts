@@ -29,7 +29,16 @@ import {
   addressPiecesFact,
 } from "./opening-facts";
 import { composeBlocks, type OpeningSentence } from "./opening-story";
-import { planSpeech, type PlannedPoint } from "./speech-outline";
+import {
+  planSpeech,
+  type OutlineSpeaker,
+  type PlannedPoint,
+} from "./speech-outline";
+import { contestPositions } from "../core2/contest-positions";
+import { presidingOfficer } from "../core2/modules/leadership";
+import { governmentTitleName } from "../core2/offices-local";
+import { officeWords } from "../english/said-as";
+import { markWordsStopgap } from "./stopgaps";
 import { recordAddressResponse } from "./address-response";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import localData from "./data/local-address.json" with { type: "json" };
@@ -42,6 +51,14 @@ interface LevelData {
   readonly office: string;
   readonly policyLevel: "state" | "city";
   readonly monthDay: string;
+  /** Who heads a local government (local-address.json `heads`). */
+  readonly heads?: {
+    readonly order: readonly string[];
+    readonly executives: readonly string[];
+    readonly bodies: readonly string[];
+    readonly bodyWords: readonly string[];
+    readonly realmForms: readonly string[];
+  };
 }
 const DATA = localData as unknown as {
   levels: Readonly<Record<LocalLevel, LevelData>>;
@@ -82,9 +99,124 @@ export function localAddressesOn(date: string): LocalLevel[] {
 interface Speaker {
   readonly personId: PersonId;
   readonly serviceStart: string;
-  /** Only the state's and the nation's officials are in the officials engine; a mayor's views are not on a row. */
+  /** Only the state's and the nation's officials are in the officials engine; a local officeholder's views are read from the person (`OutlineSpeaker.local`). */
   readonly official?: OfficialRow;
   readonly jurisdiction: string;
+  readonly local?: OutlineSpeaker["local"];
+}
+
+type TownSeat = ReturnType<typeof townSeats>[number];
+
+const HEADS = DATA.levels.town.heads!;
+
+/** A local body as people say it, by the first of `bodyWords` its recorded name holds ("Clark Fork City Council" is "the council"), else its name's last word. */
+function bodySaid(office: TownSeat["office"]): string | null {
+  const words = (office.bodyName ?? "")
+    .trim()
+    .toLocaleLowerCase("en-US")
+    .split(/\s+/)
+    .filter(Boolean);
+  const word =
+    HEADS.bodyWords.find((row) => words.includes(row)) ?? words.at(-P.one);
+  return word ? `the ${word}` : null;
+}
+
+/** The place a local government governs, as its people say it: the town's own name, else the township's or the county's. */
+function realmSaid(core: CoreState, office: TownSeat["office"]): string | null {
+  return office.level === "city"
+    ? ((core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ?? null)
+    : realmOfForm(governmentTitleName(office.governmentName));
+}
+
+/** "County of Maui" said as "Maui County", for the forms `realmForms` lists; a town, city or village by its name alone. */
+function realmOfForm(listed: string): string {
+  const [, form, name] = /^(\w+) of (.+)$/.exec(listed) ?? [];
+  if (!form || !name) return listed;
+  return HEADS.realmForms.includes(form) ? `${name} ${form}` : name;
+}
+
+/**
+ * What the one planner needs to plan a local speaker's speech: the level of
+ * their government, the questions its body decides (`contestPositions`),
+ * the office whose record gives the power, their party, and the place, the
+ * body and the office as people say them, from the office rows.
+ */
+export function localSpeaker(
+  core: CoreState,
+  holder: { readonly party?: string | null },
+  office: TownSeat["office"],
+  officeTitle: string | null,
+): NonNullable<OutlineSpeaker["local"]> {
+  const api = coreAPI(core);
+  const body =
+    townSeats(api).find(
+      (row) =>
+        row.office.jurisdiction === office.jurisdiction &&
+        !!row.office.bodyName,
+    )?.office ?? office;
+  return {
+    level: office.level === "township" ? "city" : office.level,
+    officeId: office.id,
+    party: holder.party ?? null,
+    questions: contestPositions(api, { officeId: office.id }),
+    realmName: realmSaid(core, office),
+    body: bodySaid(body),
+    officeTitle,
+  };
+}
+
+/**
+ * The head of the player's nearest local government that seats anyone
+ * (local-address.json `heads`): the mayor or county executive the records
+ * seat, said by the office row's own title; else the presiding member of its
+ * governing body, read from the leadership engine; else, where no one has
+ * been chosen to preside, the member who has served longest.
+ */
+function townHead(
+  core: CoreState,
+  heads: NonNullable<LevelData["heads"]>,
+): Speaker | null {
+  const api = coreAPI(core);
+  const alive = (row: TownSeat) =>
+    !!row.holder?.personId &&
+    core.people.get(row.holder.personId as PersonId)?.alive === true;
+  const seats = townSeats(api).filter(alive);
+  for (const level of heads.order) {
+    const here = seats.filter((row) => row.office.level === level);
+    const head = here.find((row) => heads.executives.includes(row.office.kind));
+    const body = here.filter((row) => heads.bodies.includes(row.office.kind));
+    const presiding = body[P.zero]
+      ? presidingOfficer(api, body[P.zero]!.office.id)
+      : null;
+    // stopgapId: SG-WORDS-local-head-longest-serving
+    const chosen =
+      head ??
+      body.find((row) => row.holder!.personId === presiding) ??
+      (body.length
+        ? (markWordsStopgap("SG-WORDS-local-head-longest-serving"),
+          [...body].sort(
+            (a, b) =>
+              (a.holder!.serviceStart ?? a.holder!.startDate).localeCompare(
+                b.holder!.serviceStart ?? b.holder!.startDate,
+              ) || a.holder!.personId!.localeCompare(b.holder!.personId!),
+          )[P.zero])
+        : undefined);
+    if (!chosen?.holder?.personId) continue;
+    const title =
+      chosen === head
+        ? chosen.office.title.toLocaleLowerCase("en-US")
+        : (officeWords(`${chosen.office.kind}:presiding`)?.again.replace(
+            /^the /,
+            "",
+          ) ?? null);
+    return {
+      personId: chosen.holder.personId as PersonId,
+      serviceStart: chosen.holder.serviceStart ?? chosen.holder.startDate,
+      jurisdiction: chosen.office.jurisdiction,
+      local: localSpeaker(core, chosen.holder, chosen.office, title),
+    };
+  }
+  return null;
 }
 
 function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
@@ -107,25 +239,8 @@ function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
       : null;
   }
   // A core without the offices engine installed has no town seats to read.
-  if (!core.modules.has(OFFICES_MODULE_ID)) return null;
-  const seat = townSeats(api).find(
-    (row) =>
-      row.office.level === "city" &&
-      row.office.kind.includes(spec.office) &&
-      row.holder?.personId &&
-      core.people.get(row.holder.personId as PersonId)?.alive,
-  );
-  if (!seat?.holder?.personId) return null;
-  const official = officialsIn(
-    api,
-    `${seat.office.jurisdiction}:${seat.office.kind}`,
-  )[P.zero];
-  return {
-    personId: seat.holder.personId as PersonId,
-    serviceStart: seat.holder.serviceStart ?? seat.holder.startDate,
-    ...(official ? { official } : {}),
-    jurisdiction: seat.office.jurisdiction,
-  };
+  if (!core.modules.has(OFFICES_MODULE_ID) || !spec.heads) return null;
+  return townHead(core, spec.heads);
 }
 
 /** Every place the outcome web keeps rows for (the same read `termReadPlaces` gives once the public-action change lands). */
@@ -187,6 +302,7 @@ export function composeLocalAddress(
     jurisdiction: spoken.jurisdiction,
     serviceStart: spoken.serviceStart,
     areas: realmRead(core, level, spoken.serviceStart),
+    ...(spoken.local ? { local: spoken.local } : {}),
   });
   // A speech with nothing to say is not given: no theme from the records and
   // nothing to ask (pool note on the pull request: no officials row holds a

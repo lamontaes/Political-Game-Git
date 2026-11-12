@@ -32,6 +32,7 @@ import type { MacroMonth } from "../core2/macro-model";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { ownStance } from "../core2/officials-roster";
+import { stanceReader } from "../core2/campaign-stances";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { policyAuthority, type PolicyLevel } from "../core2/policy-authority";
@@ -647,32 +648,90 @@ export function standsAt(
     const stance = ownStance(official.ideal, official.signature, question);
     if (stance === P.zero || !jurisdiction) return [];
     const power = policyAuthority(api, question, level);
-    // A question the laws engine holds no row for in this jurisdiction is
-    // open: no law answers it yes (Nov 12: eleven of the 23 federal
-    // questions had no row, so every President spoke to the same twelve and
-    // the same three asks led every address). The stand cites the powers
-    // record that lets this level answer it.
-    // stopgapId: SG-WORDS-speech-unseeded-law-open
-    const law = power.allowed
-      ? (lawOn(api, question, jurisdiction) ?? {
-          id: power.source,
-          inForce: false,
-          jurisdiction,
-          since: api.state.startedAt,
-        })
-      : null;
-    return law
-      ? [
-          {
-            question,
-            stance,
-            signature: own.has(question),
-            power: power.source,
-            law,
-          },
-        ]
-      : [];
+    return standOn(
+      api,
+      question,
+      stance,
+      own.has(question),
+      power,
+      jurisdiction,
+    );
   });
+}
+
+/**
+ * The stands of a speaker the officials engine keeps no row for: a town's,
+ * a township's or a county's officeholder or candidate, who is a full person
+ * (the two-level rule). Their view on each question their body decides
+ * (`contestPositions`: the policy questions the level may decide here and
+ * the lines of its own budget) comes from the one engine that holds every
+ * person's stand, `stanceReader` (campaign-stances.ts: their own view from
+ * their lean, what they have heard since and their votes, blended with their
+ * party's), the same view their votes and their platform are read from. The
+ * power to answer is the office's own record. They have no signature issues:
+ * the officials engine draws those only for the officials it keeps.
+ */
+// stopgapId: SG-WORDS-local-speaker-no-signature
+export function standsOfPerson(
+  api: CoreAPI,
+  personId: string,
+  party: string | null,
+  questions: readonly string[],
+  officeId: string,
+  jurisdiction: string,
+): Stand[] {
+  markWordsStopgap("SG-WORDS-local-speaker-no-signature");
+  const reader = stanceReader(api, personId, party);
+  const named = new Set(NAMED_QUESTIONS);
+  return questions.flatMap((question): Stand[] => {
+    if (!named.has(question)) return [];
+    const stance = reader.stance(question) ?? P.zero;
+    if (stance === P.zero) return [];
+    return standOn(
+      api,
+      question,
+      stance,
+      false,
+      { allowed: true, source: officeId },
+      jurisdiction,
+    );
+  });
+}
+
+/** One stand: the question, the speaker's view of it, and the law in force where the level may answer it. */
+function standOn(
+  api: CoreAPI,
+  question: string,
+  stance: number,
+  signature: boolean,
+  power: { readonly allowed: boolean; readonly source: string },
+  jurisdiction: string,
+): Stand[] {
+  // A question the laws engine holds no row for in this jurisdiction is
+  // open: no law answers it yes (Nov 12: eleven of the 23 federal
+  // questions had no row, so every President spoke to the same twelve and
+  // the same three asks led every address). The stand cites the powers
+  // record that lets this level answer it.
+  // stopgapId: SG-WORDS-speech-unseeded-law-open
+  const law = power.allowed
+    ? (lawOn(api, question, jurisdiction) ?? {
+        id: power.source,
+        inForce: false,
+        jurisdiction,
+        since: api.state.startedAt,
+      })
+    : null;
+  return law
+    ? [
+        {
+          question,
+          stance,
+          signature,
+          power: power.source,
+          law,
+        },
+      ]
+    : [];
 }
 
 /** The ones they want: their own signature issues first, then by how strongly they hold them. */
@@ -699,12 +758,12 @@ export function opposedOf(stands: readonly Stand[]): Stand[] {
 /** The facts a stand is spoken with: its names, the President's side and the law. */
 export function standFacts(
   stand: Stand,
-  official: OfficialRow,
+  speakerId: string,
   rank: string,
 ): Facts {
   // The ask cites the powers record and the law it read (ask why).
   const asked = [
-    official.id,
+    speakerId,
     `question:${stand.question}`,
     stand.power,
     stand.law.id,
@@ -773,6 +832,24 @@ export interface OutlineSpeaker {
   readonly person: PersonState;
   readonly official?: OfficialRow;
   readonly jurisdiction: string | null;
+  /**
+   * A local speaker the officials engine keeps no row for: the level of the
+   * government they speak in (a city, a township or a county, read from the
+   * office row), the questions their body decides, the office whose record
+   * gives the power, their party, and what the speech says the place, the
+   * body and the office are, from the office row.
+   */
+  readonly local?: {
+    readonly level: PolicyLevel;
+    readonly officeId: string;
+    readonly party: string | null;
+    readonly questions: readonly string[];
+    readonly realmName: string | null;
+    /** The body they speak to or sit on, as people say it ("the council", "the board"). */
+    readonly body: string | null;
+    /** The office the speaker holds or seeks, as people say it ("mayor", "county executive"). */
+    readonly officeTitle: string | null;
+  };
   readonly serviceStart: string;
   /** The term read of a governor's state or a mayor's town; the President's is the country's. */
   readonly areas?: readonly AreaRead[];
@@ -1038,6 +1115,17 @@ function subjectsOf(theme: string): readonly string[] {
   ];
 }
 
+/** The pole of its question's principle a stand argues from: a supporter's is the question's own, an opponent's the other. */
+export function poleOf(stand: Stand): "a" | "b" | null {
+  const family = questionFamily(stand.question);
+  if (!family) return null;
+  return stand.stance > P.zero
+    ? family.forPole
+    : family.forPole === "a"
+      ? "b"
+      : "a";
+}
+
 /** How far a speaker's view on a question stands from a centrist's. */
 function distinct(official: OfficialRow | undefined, stand: Stand): number {
   return official
@@ -1076,8 +1164,22 @@ function themeStands(
     const facets = OUTLINES.subjectPull[subjectOf(stand.question) ?? ""];
     return person && Array.isArray(facets) ? traitSum(person, facets) : P.zero;
   };
-  return stands
-    .filter((stand) => themeOfQuestion(stand.question) === theme)
+  // One pole per speaker (the words lead, Nov 12: a governor argued
+  // "families deserve protection" for one veto and "free people in a free
+  // market" for the next): every stand a speech makes under a theme is
+  // argued from the same pole of its principle, the one the speaker holds
+  // most strongly there; a stand on the other pole is left out of the
+  // speech, so the theme counts only the points it can argue consistently.
+  const under = stands.filter(
+    (stand) => themeOfQuestion(stand.question) === theme,
+  );
+  const weight = (pole: "a" | "b") =>
+    under
+      .filter((stand) => poleOf(stand) === pole)
+      .reduce((sum, stand) => sum + Math.abs(stand.stance), P.zero);
+  const held = weight("a") >= weight("b") ? "a" : "b";
+  return under
+    .filter((stand) => poleOf(stand) === held)
     .sort(
       (a, b) =>
         mine(b) - mine(a) ||
@@ -1281,21 +1383,33 @@ export function planSpeech(
 ): SpeechPlan {
   const row = outlineOf(kindKey);
   const kind = row.bank;
-  if (!kind || !row.level) throw new Error(`${kindKey} has no address bank`);
+  // A kind said at any level (a floor speech, a campaign speech) takes the
+  // speaker's own level from their office row.
+  const level = speaker.local?.level ?? row.level;
+  if (!kind || !level) throw new Error(`${kindKey} has no address bank`);
   const api = coreAPI(core);
   const person = speaker.person;
   const voice = voiceOf(person);
-  const federal = row.level === "federal";
+  const federal = level === "federal";
   const country = federal
     ? countryFacts(core, speaker.serviceStart)
     : realmFacts(speaker.areas ?? []);
   const official = speaker.official;
-  const level = row.level;
+  const local = speaker.local;
   const stands = official
     ? standsAt(api, official, level, speaker.jurisdiction).filter((stand) =>
         speaksTo(level, stand.question),
       )
-    : [];
+    : local && speaker.jurisdiction
+      ? standsOfPerson(
+          api,
+          person.id,
+          local.party,
+          local.questions,
+          local.officeId,
+          speaker.jurisdiction,
+        )
+      : [];
   // Every question the speaker's level may answer and holds a view on: an
   // open one is an ask, one the law in force answers is a law to defend or
   // repeal. The theme is the one with enough of them to make its points.
@@ -1505,7 +1619,7 @@ export function planSpeech(
         const shape = OUTLINES.pointShapes.shapes[plan.shape]!;
         const rank =
           stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
-        const facts = standFacts(stand, official!, rank);
+        const facts = standFacts(stand, person.id, rank);
         // An unnumbered speech lists no ranks ("no ask list by number"), and a
         // belief that leads into the ask takes the opener's place.
         if (!row.numberedAsks || shape.belief === "belief-leads")
@@ -1554,12 +1668,8 @@ export function planSpeech(
             ),
             ...(belief
               ? {
-                  belief: fact(
-                    belief,
-                    official!.id,
-                    `question:${stand.question}`,
-                  ),
-                  [shape.belief]: fact("yes", official!.id),
+                  belief: fact(belief, person.id, `question:${stand.question}`),
+                  [shape.belief]: fact("yes", person.id),
                 }
               : {}),
             ...(plan.shape === "question-first"
@@ -1656,7 +1766,8 @@ export function planSpeech(
     ? null
     : level === "state"
       ? coreStateName((speaker.jurisdiction ?? "").replace(/^US-/, ""))
-      : ((core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
+      : (local?.realmName ??
+        (core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
         null);
   const themeName = theme ? (OUTLINES.themeNames[theme] ?? null) : null;
   const themeCited = pointStands.map((stand) => `question:${stand.question}`);
@@ -1665,6 +1776,10 @@ export function planSpeech(
     : {
         ...(realm
           ? { "realm-name": fact(realm, speaker.jurisdiction ?? person.id) }
+          : {}),
+        ...(local?.body ? { body: fact(local.body, local.officeId) } : {}),
+        ...(local?.officeTitle
+          ? { "office-title": fact(local.officeTitle, local.officeId) }
           : {}),
         ...(themeName && themeCited.length
           ? { "theme-name": fact(themeName, ...themeCited) }

@@ -62,7 +62,12 @@ export const OPENING_SPEECH_BANK = bankJson as unknown as {
 };
 
 export type OpeningSpeechKind =
-  "state-of-the-union" | "inaugural" | "state-of-the-state" | "town-address";
+  | "state-of-the-union"
+  | "inaugural"
+  | "state-of-the-state"
+  | "town-address"
+  | "floor-speech"
+  | "campaign-speech";
 export type SpeechVoice = "polished" | "plain";
 
 /** Where the camera is while a block is spoken. */

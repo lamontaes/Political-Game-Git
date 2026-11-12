@@ -98,38 +98,38 @@
       "leastPoints": 1
     },
     "campaign": {
-      "bank": null,
+      "bank": "campaign-speech",
       "register": "campaign",
       "level": null,
-      "sections": ["salutation", "theme", "close"],
+      "sections": ["salutation", "occasion", "theme", "close"],
       "required": ["salutation", "close"],
       "asides": [],
-      "points": 3,
+      "points": 2,
       "asks": 1,
       "numberedAsks": false,
-      "ownRecord": true,
+      "ownRecord": false,
       "sentences": {
         "value": 6,
         "spread": "4 to 10",
-        "note": "A stump speech is short and repeated at every stop (Wikipedia, Stump speech). Its words are the player's built speech (src/director/speech-builder.ts); see SG-WORDS-speech-outline-other-kinds."
+        "note": "A stump speech is short and repeated at every stop (Wikipedia, Stump speech): the place greeted, the office sought and the theme, two points from what the candidate runs on (campaign-stances.ts candidatePlatform), the ask for the vote."
       },
       "leastPoints": 1
     },
     "floor": {
-      "bank": null,
+      "bank": "floor-speech",
       "register": "floor",
       "level": null,
       "sections": ["salutation", "theme", "close"],
       "required": ["salutation", "close"],
       "asides": [],
-      "points": 3,
+      "points": 1,
       "asks": 1,
       "numberedAsks": false,
-      "ownRecord": true,
+      "ownRecord": false,
       "sentences": {
         "value": 4,
         "spread": "2 to 6",
-        "note": "A House one-minute addresses the chair, makes one point and yields (CRS RL30135)."
+        "note": "A House one-minute addresses the chair, makes one point and yields (CRS RL30135): a member's floor speech on the measure before the body makes its one point and asks the members for their vote."
       },
       "leastPoints": 1
     },
