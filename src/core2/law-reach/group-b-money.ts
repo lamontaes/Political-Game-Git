@@ -416,7 +416,7 @@ export function reconcileObligations(
     const old = accounts.obligation(row.obligationId);
     const pair = `${row.governmentId}|${row.recipientId}`;
     if (old && !old.endedAt && old.nextDueAt && want.has(pair))
-      carriedDue.set(pair, old.nextDueAt);
+      carriedDue.set(pair, makeIsoDate(old.nextDueAt));
     if (!old?.endedAt) accounts.endObligation(row.obligationId);
     putRow(api, "taken", { ...row, key: `ended|${input.key}` });
   }
