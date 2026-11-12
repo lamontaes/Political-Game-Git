@@ -1,5 +1,5 @@
 ---
-id: core-life-record-part-7-school-ends-and-college-before-the-start
+id: core-life-record-part-9-school-ends-and-college-before-the-start
 impact: patch
 section: Added
 title: A person's past now holds the end of high school and college years

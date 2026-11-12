@@ -1,6 +1,6 @@
 ---
-id: core-life-record-part-7-school-ends-and-college-before-the-start
-title: "The life record, part 7: a past holds the end of high school and college years"
+id: core-life-record-part-9-school-ends-and-college-before-the-start
+title: "The life record, part 9: a past holds the end of high school and college years"
 area: people
 kind: feature
 priority: 1
