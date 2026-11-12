@@ -5,11 +5,11 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-play-stop-05-politics-lists-wrong-officials
 pr: #8261
 after:
-blocked-on:
+blocked-on: parties-list-shows-ballot-lines-as-parties
 standard: 2
 model: sonnet
 effort: low
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-11T07:49:52.989Z
 branch: claude/pool-play-stop-05-politics-lists-wrong-officials
 ---
 
@@ -83,3 +83,5 @@ Released (2026-11-11): Seen on screen in one drawn place (two senators, one repr
 Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:36 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
 
 Released (2026-11-11): A split parent (parts -a and -b carry the work; the CTO sets it done) handed out while the game PR cap is on; nothing to build here. Continue on branch claude/pool-play-stop-05-politics-lists-wrong-officials and pull request #8261.
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-11 07:49 UTC) on branch claude/pool-play-stop-05-politics-lists-wrong-officials.
