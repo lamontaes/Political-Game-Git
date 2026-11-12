@@ -140,7 +140,7 @@
     "kin": ["family"],
     "family": ["kin"],
     "mutual": ["family"],
-    "news": ["address"],
+    "news": ["own-view", "address"],
     "address": ["news"],
     "job-lost": ["job-hope"],
     "eviction": ["eviction-where"]

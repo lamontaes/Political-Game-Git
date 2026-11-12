@@ -2943,6 +2943,11 @@ function otherRaises(
     (row) =>
       order.includes(row.kind) &&
       data.otherRaises[row.kind] &&
+      !(
+        row.news?.question &&
+        row.kind === "own-view" &&
+        heardNow.has(`${HEARD_QUESTION}${row.news.question}`)
+      ) &&
       !conversation.used.includes(`${otherId}>${row.id}`) &&
       !conversation.used.includes(row.id),
   );
@@ -3073,13 +3078,9 @@ function mainTopic(
 ): {
   subject: Subject;
   asks: boolean;
-  /** Where they stand, when another subject leads: said if the leading one cannot be. */
-  standing?: { subject: Subject; asks: boolean };
 } | null {
   const { playerId, otherId, director } = conversation;
   let best: { subject: Subject; asks: boolean; weight: number } | null = null;
-  let standing: { subject: Subject; asks: boolean; weight: number } | null =
-    null;
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
@@ -3122,27 +3123,10 @@ function mainTopic(
             SHARED_KINDS.includes(subject.kind)
           ? Number.MAX_VALUE
           : topicWeight(core, director, holderId, subject, data);
-    // Where they stand politically competes with small talk only: any
-    // recorded event, or the address while it is news, leads before it.
-    if (subject.weight !== undefined) {
-      // Where someone stands needs a cause to come up (owner, Oct 24: a talk
-      // with nothing on record says nothing): news they took in since
-      // yesterday. And two people in one house never name the same question
-      // on one day (the telling's "said today").
-      const question = subject.news?.question;
-      if (question && heardNow.has(`${HEARD_QUESTION}${question}`)) return;
-      if (
-        !storiesHeard(
-          coreAPI(core as CoreState),
-          holderId,
-          addDays(makeIsoDate(core.date), -one),
-        ).length
-      )
-        return;
-      if (weight > zero && (!standing || weight > standing.weight))
-        standing = { subject, asks, weight };
-      return;
-    }
+    // Where someone stands never opens a talk (owner, Nov 12: "a statement
+    // of politics from nowhere"): it comes up only after the news that is its
+    // cause, told in the same talk (conversation-rules.json related.news).
+    if (subject.kind === "own-view") return;
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -3166,9 +3150,7 @@ function mainTopic(
     conversation,
   ))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
-  const lead = best as { subject: Subject; asks: boolean } | null;
-  const stand = standing as { subject: Subject; asks: boolean } | null;
-  return lead ? { ...lead, ...(stand ? { standing: stand } : {}) } : stand;
+  return best as { subject: Subject; asks: boolean } | null;
 }
 
 /**
@@ -3413,9 +3395,7 @@ function openConversationNow(
       : raiseSubject(core, conversation, data, topic.subject);
   // The leading subject first; when it cannot be said (no wording fits its
   // facts), where they stand, if they would say it, rather than nothing.
-  const opened =
-    raisedBrought ||
-    (main ? open(main) || (!!main.standing && open(main.standing)) : false);
+  const opened = raisedBrought || (main ? open(main) : false);
   // A scene's talk keeps to its occasion: if nothing can be said about it,
   // the talk doesn't turn to small talk instead.
   if (
@@ -4071,6 +4051,12 @@ function offerChoices(
     }
     conversation.choices = ranked.filter((row) => kept.has(row));
   }
+  // A stand is answered by agreeing, disagreeing or asking why (owner, Nov
+  // 12: "Good to know." is not a reply to a stand).
+  if (last.kind === "own-view")
+    conversation.choices = conversation.choices.filter(
+      (row) => OWN_VIEW_TAKES.includes(row.move) || row.move === OWN_VIEW_WHY,
+    );
   // A reply that only takes the line in ("Oh, I see.", "Alright.") says
   // nothing and gets nothing back: it is not offered (owner, Nov 12: "the
   // just non-replies"). With nothing else to say, the talk ends on their line.

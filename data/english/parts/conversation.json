@@ -23258,7 +23258,7 @@
           "move": "address-point-reason-work",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-work"]
+          "requiresFacts": ["stand-decided", "why-work"]
         }
       ],
       "piece": {
@@ -23852,7 +23852,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-against", "why-view"]
         }
       ],
       "piece": {
@@ -23874,7 +23874,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
         }
       ],
       "piece": {
@@ -23896,7 +23896,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-with", "why-view"]
         }
       ],
       "piece": {
@@ -23918,7 +23918,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
         }
       ],
       "piece": {
@@ -23940,7 +23940,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-against", "why-view"]
         }
       ],
       "piece": {
@@ -23962,7 +23962,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-against", "why-view"]
         }
       ],
       "piece": {
@@ -23984,7 +23984,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
         }
       ],
       "piece": {
@@ -24006,7 +24006,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-with", "why-view"]
         }
       ],
       "piece": {
@@ -24028,7 +24028,7 @@
           "move": "address-point-reason-view",
           "subject": "address-point",
           "role": "reason",
-          "requiresFacts": ["why-view", "policy-point"]
+          "requiresFacts": ["policy-point", "stand-decided", "why-view"]
         }
       ],
       "piece": {
@@ -24116,7 +24116,7 @@
           "move": "address-point-closer",
           "subject": "address-point",
           "role": "closer",
-          "requiresFacts": ["why-first"]
+          "requiresFacts": ["stand-unsure", "why-first"]
         }
       ],
       "piece": {

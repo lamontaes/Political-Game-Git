@@ -24,6 +24,8 @@
  * place 0686174).
  */
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { isOnShift } from "../bench/shift";
@@ -99,6 +101,31 @@ const PAST_PARTS: Readonly<Record<string, RegExp>> = {
   evening:
     /\b(this morning|this afternoon|again tonight|later tonight|what's left of tonight)\b/i,
 };
+/** The stand a piece of the address point is written for, from the stand mark it requires. */
+const SIDE_MARKS: Readonly<Record<string, readonly string[]>> = {
+  "stand-with": ["with"],
+  "stand-against": ["against"],
+  "stand-unsure": ["unsure"],
+  "stand-decided": ["with", "against"],
+};
+const POINT_SIDES = new Map<string, readonly string[]>();
+for (const part of (
+  JSON.parse(
+    readFileSync(
+      path.resolve(__dirname, "../../data/english/parts/conversation.json"),
+      "utf8",
+    ),
+  ) as {
+    parts: {
+      key: string;
+      uses?: { subject?: string; requiresFacts?: string[] }[];
+    }[];
+  }
+).parts)
+  for (const use of part.uses ?? [])
+    if (use.subject === "address-point")
+      for (const mark of use.requiresFacts ?? [])
+        if (SIDE_MARKS[mark]) POINT_SIDES.set(part.key, SIDE_MARKS[mark]!);
 const NON_ANSWER = /^(okay|oh, i see|alright|all right|oh, okay)\.$/i;
 const OUTSIDE =
   /\b(a works outside the town|outside market|outside buyers|treasury)\b/i;
@@ -119,6 +146,7 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
   const played: string[] = [];
   const lastTopic = new Map<string, number>();
   let talks = 0;
+  let typedSeen = 0;
   for (let day = 0; day < DAYS; day += 1) {
     const saidToday = new Map<string, string>();
     const questionsToday = new Map<string, string>();
@@ -164,6 +192,27 @@ it(`two weeks of talk at home hold the telling's rules (seed ${seed})`, () => {
             );
         }
         const theirs = talk.lines.filter((line) => line.speakerId === otherId);
+        // Every part of a point is written for the speaker's own stand: a
+        // closer for disagreeing never joins an agreeing core (owner, Nov 12).
+        for (const line of theirs.filter(
+          (row) => row.kind === "address-point",
+        )) {
+          const stand = line.wording?.stage ?? "";
+          for (const piece of line.wording?.parts ?? []) {
+            const key = [...POINT_SIDES.keys()].find(
+              (row) =>
+                piece === row ||
+                piece.endsWith(`:${row}`) ||
+                piece.endsWith(row.slice(row.lastIndexOf(".") + 1)),
+            );
+            const sides = key ? POINT_SIDES.get(key)! : null;
+            if (key) typedSeen += 1;
+            if (sides && !sides.includes(stand))
+              broken.push(
+                `${here}: a part written for ${sides.join("/")} joined a ${stand} stand: "${line.text}"`,
+              );
+          }
+        }
         // What the household did together nobody asks about.
         if (
           day === 0 &&
