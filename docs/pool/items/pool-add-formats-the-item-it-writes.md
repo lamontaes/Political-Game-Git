@@ -5,10 +5,10 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: R1 (Fable A's builder)
-pr: 8887
+pr: #8887
 after:
 blocked-on:
 lead: cto
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: the lead (Fable A), Nov 12, 2026, on the CTO's line on #7365 (comment 6822754199)
+merged-at: 2026-11-12T14:08:03.820Z
 ---
 
 **What.** Guards: main's repository check, which runs Prettier on changed files. On Nov 12, 2026 three new items written by `npm run pool -- add` reached main unformatted and the check failed on them (Deterministic validation 43204347616 on `core-long-run-jobs-over-adults-in-a-regional-hub.md`; the other two are fixed in #8880). The CTO fixed the first by hand in e298200245.
