@@ -366,6 +366,21 @@
       "everyYears": 4,
       "fromYear": 2025,
       "note": "Inauguration Day is a holiday for federal workers in the D.C. area (5 U.S.C. 6103(c))."
-    }
+    },
+    "names": {
+      "new-years-day": "New Year's Day",
+      "juneteenth": "Juneteenth",
+      "independence-day": "Independence Day",
+      "veterans-day": "Veterans Day",
+      "christmas-day": "Christmas Day",
+      "martin-luther-king-day": "Martin Luther King Jr. Day",
+      "washingtons-birthday": "Washington's Birthday",
+      "memorial-day": "Memorial Day",
+      "labor-day": "Labor Day",
+      "columbus-day": "Columbus Day",
+      "thanksgiving-day": "Thanksgiving Day",
+      "inauguration-day": "Inauguration Day"
+    },
+    "namesNote": "Each holiday as people name it (the law's own names in 5 U.S.C. 6103(a), as said: \"Birthday of Martin Luther King, Jr.\" is Martin Luther King Jr. Day). The calendar's line says the name through its one {holiday} slot."
   }
 }

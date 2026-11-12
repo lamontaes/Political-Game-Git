@@ -72,7 +72,10 @@ import {
 // The meeting rule, for readers outside the family.
 export { meetingRule } from "../office-day-calendar";
 // The federal holidays, for the calendar screen.
-export { federalHolidays } from "../office-day-federal-calendar";
+export {
+  federalHolidayName,
+  federalHolidays,
+} from "../office-day-federal-calendar";
 import {
   playerClockFrontierV1,
   type ModuleStopTokenV1,
