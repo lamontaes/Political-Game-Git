@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/red-main-results-mode-payroll-retry
 pr:
 after:
 blocked-on:
@@ -35,3 +35,5 @@ source: Opus fixer for Fable A, Nov 12, 2026, while writing the test for core-re
 **Files.** src/core2/work-payroll-dispatch.ts, src/core2/work-payroll-cash.ts, src/core2/life.ts, src/bench/dev-mode.ts
 
 **Notes.** Found on Nov 12, 2026, while writing the drawn-place test for core-results-catch-up-reuses-a-savings-draw-id. That test now plays one year and then only skips, so it does not cross this defect.
+
+Red desk, Nov 12: traced and fixed on branch claude/red-main-results-mode-payroll-retry. Results mode left the payroll buckets of every skipped payday unrun (an arrears retry and any period earned before the skip); the first played payday's guard then looked for the retry under the payday after `lastSettledAt`, inside the skip. Each results-mode day now runs the same dispatcher (`runWorkPayrollDay`) through a new `onResultsDay` module step, so a skipped payday settles what is due on it. Fairmount and a drawn Alexandria, Louisiana both leave a retry bucket dated inside the skip on main and none with the fix.
