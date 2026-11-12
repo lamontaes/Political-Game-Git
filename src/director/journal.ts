@@ -1785,6 +1785,8 @@ export function composeJournal(
     framed: boolean;
     paragraph: string;
     turn: boolean;
+    /** The record's line again from fewer facts, when the paragraph said some already. */
+    retell?: (given: Facts) => JournalWorded | null;
   }
   const paragraphOf = (moment: JournalMoment): string => {
     if (moment.date >= core.startedAt && moment.beat !== "work") return "play";
@@ -1901,26 +1903,32 @@ export function composeJournal(
           moment.id,
           sourceIds,
         );
-    else
-      event = render(
+    // The record's own line, worded from the facts given: a paragraph that
+    // has already named a fact asks for it again without that fact.
+    const lineOf = (given: Facts, key: string) =>
+      render(
         {
           part: "line",
           kindPrefix: row.kindPrefix,
           whose: own ? "own" : "other",
           together,
-          named: !!facts.other,
+          named: !!given.other,
         },
-        facts,
-        moment.id,
+        given,
+        key,
         sourceIds,
         // Someone else's race is told by the record's result for them; a
         // line worded by an event fact (a vote's yes or no) by that fact.
         !own && row.hasOwnLine
-          ? facts.winner?.text === subjectOf(moment)
+          ? given.winner?.text === subjectOf(moment)
             ? "won"
             : "lost"
-          : stageOf(row, moment, facts),
+          : stageOf(row, moment, given),
       );
+    const plainLine =
+      !(row.hasOwnLine && own) &&
+      !(row.kindPrefix === "event:candidate-filed" && own);
+    if (plainLine) event = lineOf(facts, moment.id);
     if (!event) continue;
     toldFacts.add(sign);
     // When they were young, the age frames it: "When I was 7, my father
@@ -1957,6 +1965,9 @@ export function composeJournal(
       framed: framed || !!row.ownTime,
       paragraph: paragraphOf(moment),
       turn: turnOf(row, moment),
+      ...(plainLine
+        ? { retell: (given: Facts) => lineOf(given, `${moment.id}:again`) }
+        : {}),
     });
   }
 
@@ -2030,6 +2041,20 @@ export function composeJournal(
     for (const unit of told) {
       const ids = [unit.moment.causeId];
       let event = unit.event;
+      // A fact this paragraph has named already (an employer, a place) is
+      // not named again when the record's line can be said without it.
+      const repeated = Object.entries(unit.facts).filter(
+        ([name, fact]) => sayOnce.has(name) && said.has(fact.text),
+      );
+      if (repeated.length && unit.retell && !unit.framed) {
+        const fewer = Object.fromEntries(
+          Object.entries(unit.facts).filter(
+            ([name]) => !repeated.some(([gone]) => gone === name),
+          ),
+        );
+        const again = unit.retell(fewer);
+        if (again) event = again;
+      }
       let timed = false;
       let aged = unit.framed;
       let heldSaid = false;
