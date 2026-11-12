@@ -279,6 +279,8 @@ const LEFT_OUT_PAST_BUDGET: readonly string[] = [
 const QUESTION_ID = "question:";
 /** The slots that say a question as a noun phrase, said by its second name once named. */
 const AGAIN_NOUNS: readonly string[] = ["about", "law-name"];
+/** The verbs a side opens with when its object is the question's own name. */
+const SIDE_VERB = /^(?:say no to|repeal|keep|end) /;
 /** The slots that say a side of a question with its name inside ("say no to {about}"). */
 const AGAIN_INSIDE: readonly string[] = ["side", "first-side"];
 /**
@@ -394,10 +396,21 @@ export function composeBlocks(
         );
         if (AGAIN_NOUNS.includes(key)) return [key, { ...row, text: again }];
         if (!AGAIN_INSIDE.includes(key)) return [key, row];
-        const name = names.find((text) => row.text.includes(text));
+        // Only where the side's verb takes the name itself ("say no to a
+        // clean electricity standard"), never inside another noun ("the
+        // rule against asking about ...").
+        const verb = SIDE_VERB.exec(row.text)?.[P.zero] ?? null;
+        const name = verb
+          ? names.find((text) => row.text.slice(verb.length).startsWith(text))
+          : undefined;
         return [
           key,
-          name ? { ...row, text: row.text.replace(name, again) } : row,
+          verb && name
+            ? {
+                ...row,
+                text: `${verb}${again}${row.text.slice(verb.length + name.length)}`,
+              }
+            : row,
         ];
       }),
     );
