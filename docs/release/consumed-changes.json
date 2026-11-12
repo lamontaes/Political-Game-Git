@@ -1,6 +1,41 @@
 {
   "entries": [
     {
+      "version": "0.105.0",
+      "releasedOn": "2026-11-11",
+      "revision": "f34418f384ff38b24c609bef867afa802467508f",
+      "changeIds": [
+        "card-covers-the-talk-whole",
+        "debate-card-browser-check",
+        "dev-bills-whole-cents",
+        "play-bill-page-new-amount-adds-the-line-to-today",
+        "play-meeting-second-vote-press-page-error",
+        "play-person-card-heading-shows-object-slot",
+        "pool-notes-2026-11-11-18",
+        "pool-notes-2026-11-11-19",
+        "red-address-versions-by-draw",
+        "red-campaign-season-rival",
+        "red-family-news-newer-move",
+        "red-four-screens-files-in-season",
+        "red-journal-age-said-once",
+        "red-politics-leaders-check",
+        "red-reunion-letter-count",
+        "red-view-learned-module-key",
+        "roadmap-m0-08-closures-check-opening-timing",
+        "skills-nov11-fresh-sessions-and-before-pictures",
+        "start-a-merger-test-fixes",
+        "tests-early-returns-residents-retirees",
+        "tests-electoral-scenes-speech-crowd-member",
+        "tests-one-sponsor-evening-no-three-seat-body-by-draw",
+        "words-home-greet-farewell",
+        "words-home-news",
+        "words-home-own-view",
+        "words-job-offer-answer-repeats-title-and-pay",
+        "words-relatives-offices-said-as-people-say-them",
+        "words-w4-meet-in-talk"
+      ]
+    },
+    {
       "version": "0.104.0",
       "releasedOn": "2026-11-11",
       "revision": "2a7b3e90708ccec5062a6707dd4ce566f3cadb61",
