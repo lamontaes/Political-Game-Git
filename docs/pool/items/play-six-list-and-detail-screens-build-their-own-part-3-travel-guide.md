@@ -5,10 +5,10 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8820
 after: play-six-list-and-detail-screens-build-their-own-part-2-calendar-people
 blocked-on:
 lead: screens
@@ -17,6 +17,7 @@ effort: medium
 root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+merged-at: 2026-11-11T15:29:54.495Z
 ---
 
 **What.** Travel and the Guide each build their own list-beside-detail layout. Move both onto `rosterScreen` with the same rows and words, so every row opens its detail as before, and delete their old builders and styles. This is a cleanup with no change to what the game does. The browser checks that named the old classes are updated in the same change.

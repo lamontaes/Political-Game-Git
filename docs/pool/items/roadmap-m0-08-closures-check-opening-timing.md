@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/pool-roadmap-m0-08-closures-check-opening-timing
 pr: #8657
 blocked-on:
@@ -18,6 +18,7 @@ lead: m0-m2
 after:
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T05:50:26.203Z
+merged-at: 2026-11-12T00:33:49.332Z
 ---
 
 **What.** scripts/core2-year/closures.mjs (M0-08's command) reads openingCash after buildBenchWorld, but its outsideNet includes the journal entries the opening build already posted. In Dickens, Iowa (place key 1921360, seed 54e03066883f228dfe2b9acb51259d9f50dd7d3f92fa9a6d906d613dc601faa8) those 1,558 entries net to -2,228,171,046 cents, exactly the gap; every non-outside owner's cash matches its journal postings, so no engine makes or loses money. A fix reads the outside net at the same moment as openingCash and keeps strict equality. The check is a spec's test, which the M0-M2 lead may not edit, so this needs the CTO's word; the CTO's word is the owner's word (AGENTS.md, Oct 29), so record that and proceed.

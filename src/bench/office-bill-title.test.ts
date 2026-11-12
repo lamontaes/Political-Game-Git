@@ -56,6 +56,10 @@ it(`the meeting's bill item carries the bill's real name, in ${place.name}, seed
       expect(shown.title, context).toMatch(
         bill.form.kind === "ordinance" ? / Ordinance$/ : / Act$/,
       );
+      // Its number is said as a clerk reads it, never a bare "2025-6", which
+      // reads as a date under the title (owner, Nov 11).
+      expect(shown.number, context).not.toMatch(/^\d{4}-\d+$/);
+      expect(shown.number, context).toContain(bill.number);
       expect(seen.has(shown.title!), `${context} repeats ${shown.title}`).toBe(
         false,
       );

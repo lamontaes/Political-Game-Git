@@ -16,12 +16,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { billOf, bodyOf } from "./modules/legislature";
-import {
-  adjourn,
-  meetingInProgress,
-  setStops,
-  takeUpItem,
-} from "./modules/office-day";
+import { adjourn, meetingInProgress, takeUpItem } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 
@@ -54,7 +49,7 @@ it("a member's ordinance waits on the agenda at the player's stop and is voted w
     const me = seat.holder.personId;
     const player = new BenchPlayer(world.core, world.director);
     player.select(me);
-    setStops(api, me, { "every-meeting": true });
+    // The default stops: a meeting of a body this small holds the player for a vote their seat could decide.
     let waited = 0;
     for (let guard = 0; guard < 500 && waited < 3; guard += 1) {
       if (player.pollingPlace) player.leavePolls();

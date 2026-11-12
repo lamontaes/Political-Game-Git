@@ -1,0 +1,5 @@
+Seed w5-0b94d2; place: Mutual, Ohio
+Office: County board of elections, Mutual
+Greeting: Timothy Jacobs / How can I help you? / I want to run for Council member. November 4, 2025 · Held by Melanie McKay / I want to run for Mayor. November 4, 2025 · Held by David Sparks / Leave
+Told: Timothy Jacobs / PAT CANDIDATE / I want to run for Council member. / Running for Council member? Good. Let me pull the papers. You'd serve 4 years. There's no primary for this one, so it all comes down to November 4. You'd have a seat on the Mutual Village Council, voting on the budget and every ordinance that comes before it. The papers are due back August 6. / Then I'd like to take the papers. / Leave
+Replies: Then I'd like to take the papers.

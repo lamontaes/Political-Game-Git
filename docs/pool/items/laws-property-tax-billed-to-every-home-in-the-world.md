@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-laws-property-tax-billed-to-every-home-in-the-world
 pr: #8378
@@ -18,6 +18,7 @@ effort: medium
 root: rc9-place-facts-one-default
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T00:10:47.456Z
+merged-at: 2026-11-12T20:16:44.749Z
 ---
 
 **What.** The property tax lookup ignores where a home is. `billPropertyTax` asks for the terms of each home's own place, but the function the budgets engine registers, `propertyTaxTerms(api)`, takes no place and returns the played town's rate in force and the played county's tax collector for every home in the world (read in code). Officials across the country are kept as full people who own homes, so they pay the played town's tax, before a raise and after it. Measured in three towns of three, each against a twin world with no raise. In Denver, Missouri (the audit gives no seed), a raise from 0.817% to 2%, passed 4 to 1, took about $380,000 more out of people's accounts in 90 days: about $3,600 from the village itself ($3,000 from its full residents and $600 from its counted households), about $359,000 from officials elsewhere and $18,000 from other full people who live elsewhere. Members of Congress from California and Hawaii each paid about $1,800 extra, and the delegate from the District of Columbia paid $4,652. In Marion, Mississippi (seed 7df73e53cd67), a raise from 0.921% to 1.381% took $1,900 from full people in town, $31,100 from its counted households and $197,700 from officials elsewhere, the same to the dollar whether the town board or the county board passed it. In LaGrange, Wyoming (seed 63355aee286d), people paid $142,000 more: officials elsewhere $130,000, other full people elsewhere $6,300, the town's full people $1,000 and its counted households $4,500. Fix it at the cause: the lookup reads the home's own place, for every home in the world, so a home outside the played town is billed at its own place's rate (an estimate from its state's data where no law row is kept, marked as an estimate) and pays its own place's collector or outside account, never the played town's. Seen: the property tax bill on the player's own home and the town's revenue, which officials in other states pay today.
