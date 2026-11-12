@@ -207,5 +207,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Name the department's first assistant as acting head (5 U.S.C. 3345(a)(1)), or a Senate-confirmed officer or qualified senior employee the president directs (3345(a)(2)-(3)), pay and credit them as the acting official, hand the department's work to them, draw them from the capital's counted people rather than the town's, and extend service while a nomination is pending (3346(a)(2)).",
     "status": "open"
+  },
+  {
+    "id": "SG-OFFICE-place-district-from-county",
+    "kind": "assumed-data",
+    "file": "src/districts/place-membership.ts",
+    "line": 1,
+    "whatItFakes": "A place the Census place-to-district relationship files do not know (518 places created after the 2020 place list they were compiled from, most in Indiana, Pennsylvania and Virginia) is placed whole in the district, in each chamber, that holds the most resident workers (LODES8) among the places of its own county the files do know (src/districts/place-district-estimates.generated.json).",
+    "why": "The relationship files list only the 2020 places; the game's places are the 2025 Gazetteer's, and the files that assign each block to a district were not kept for these places.",
+    "addedBy": "opus-5234 (gov-offices-spec-opening-careers-alonzaville)",
+    "addedAt": "2026-11-11",
+    "replacement": "Each such place assigned by its own Census interior point (or its blocks) against each chamber's district lines.",
+    "status": "open"
   }
 ]
