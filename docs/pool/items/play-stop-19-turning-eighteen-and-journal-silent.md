@@ -22,7 +22,7 @@ claimed-at: 2026-11-11T05:11:01.101Z
 branch: claude/pool-play-stop-19-turning-eighteen-and-journal-silent
 ---
 
-**What.** A life started at 17 with a February 3 birthday on the v0.22.10 release did not list the player's own birthday under Coming up, showed nothing when the Week crossed it, and left the Journal blank until the day after filing, when it said "I ran for Council member." in the past tense. Both children are done (-b in PR 7179): `src/bench/calendar.ts` (line 117) now lists the player's own birthday beside the family's, and a sweep of turning eighteen in the journal landed (commit b6305be0bf). What is left is a second session's replay of the finish line.
+**What.** A life started at 17 with a February 3 birthday on the v0.22.10 release did not list the player's own birthday under Coming up, showed nothing when the Week crossed it, and left the Journal blank until the day after filing, when it said "I ran for Council member." in the past tense. Both children are done (-b in PR 7179): `src/bench/calendar.ts` (line 117) now lists the player's own birthday beside the family's, and a sweep of turning eighteen in the journal landed (commit b6305be0bf). What is left is a second session's replay of the finish line. Seen: the Calendar, Who you are and the Journal on the player's eighteenth birthday, the first step of the golden path.
 
 **Cause.** Design: the owner's Nov 3 ruling (AGENTS.md, "How every session works", step 5): nothing is done until a second session replays its finish line on main. The fix is on main in src/bench/calendar.ts (line 117, the player's own birthday) and the journal lines in src/director/journal.ts. Not replayed in a game.
 

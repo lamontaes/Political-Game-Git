@@ -20,7 +20,7 @@ root: rc7-player-cannot-drive
 checked: fable 2026-11-10
 ---
 
-**What.** Young adults never leave their parents' home in play, and people-leave-parents-home builds the decision for the people the game runs. The player, who usually starts at 18 in a parent's home, has no way to move out. Offer Move out on Who you are when the player is an adult in a parent's household, listing rentals in town they could afford from their pay and savings, and say plainly what is missing when none fits.
+**What.** Young adults never leave their parents' home in play, and people-leave-parents-home builds the decision for the people the game runs. The player, who usually starts at 18 in a parent's home, has no way to move out. Offer Move out on Who you are when the player is an adult in a parent's household, listing rentals in town they could afford from their pay and savings, and say plainly what is missing when none fits. Seen: Who you are, where an adult living with parents can choose Move out and sees what they can afford.
 
 **Cause.** Design: docs/play-first/LAW.md section 11 (the world on screen makes sense); no move-out control exists in src/bench/card.ts or src/bench/handler.ts, and the people engine's leave-home decision (people-leave-parents-home) is open.
 

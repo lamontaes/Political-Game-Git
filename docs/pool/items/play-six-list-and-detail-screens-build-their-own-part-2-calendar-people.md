@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T13:27:30.705Z
 merged-at: 2026-11-11T15:03:44.848Z
 ---
 
-**What.** The Calendar and People screens each build their own list-beside-detail layout. Move both onto `rosterScreen` with the same rows and words as before, and delete their old builders and styles. Nothing a player can do or read changes. Every row must still open its detail on a click.
+**What.** The Calendar and People screens each build their own list-beside-detail layout. Move both onto `rosterScreen` with the same rows and words as before, and delete their old builders and styles. Nothing a player can do or read changes. Every row must still open its detail on a click. Feeds: play-six-list-and-detail-screens-build-their-own.
 
 **Cause.** Found in code: src/bench/ui/calendar.mjs and `peopleScreen` in src/bench/ui/people-screen.mjs build their own layouts and do not call `rosterScreen` (src/bench/ui/roster-screen.mjs) from src/bench/play.mjs.
 

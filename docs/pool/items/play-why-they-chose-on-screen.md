@@ -22,7 +22,7 @@ claimed-at:
 branch: claude/pool-play-why-they-chose-on-screen
 ---
 
-**What.** The traits work makes two people in the same spot choose differently for recorded reasons, and traits-end-to-end-proof shows it in a test. The player sees choices happen (a neighbor quits, a cousin runs) but never why. Add one sentence to the card of a person who made a recorded decision, naming the decision and its leading reason, worded by the English engine from the decision record, so people read as people. When the person has no recorded decision, the card says why there is none in plain words.
+**What.** The traits work makes two people in the same spot choose differently for recorded reasons, and traits-end-to-end-proof shows it in a test. The player sees choices happen (a neighbor quits, a cousin runs) but never why. Add one sentence to the card of a person who made a recorded decision, naming the decision and its leading reason, worded by the English engine from the decision record, so people read as people. When the person has no recorded decision, the card says why there is none in plain words. Seen: a person's card, with one sentence on why they made their last big choice.
 
 **Cause.** Design: docs/play-first/LAW.md section 11 (the world on screen makes sense); `card.ts` (src/bench/card.ts) reads no decision record today. AGENTS.md ("Save why reasons only for the player and the people they deal with") limits it to those people. The decision record with reasons comes from traits-end-to-end-proof, which is open.
 

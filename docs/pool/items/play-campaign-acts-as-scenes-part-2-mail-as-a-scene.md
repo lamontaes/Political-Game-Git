@@ -19,7 +19,7 @@ source: split from play-campaign-acts-as-scenes in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Mail is a button on the campaign trail card. It becomes a scene at a printing place where the player decides what to mail and how much to spend, and the same mailer record is written as the button wrote (mailers to the town's next households, as many as the amount buys, never past what the campaign holds). Each act keeps its existing handler and record; only how it starts changes. The button is deleted with the scene.
+**What.** Mail is a button on the campaign trail card. It becomes a scene at a printing place where the player decides what to mail and how much to spend, and the same mailer record is written as the button wrote (mailers to the town's next households, as many as the amount buys, never past what the campaign holds). Each act keeps its existing handler and record; only how it starts changes. The button is deleted with the scene. Seen: the printing-place scene that Mail on the campaign trail card starts.
 
 **Cause.** Found in code: the `case "mail"` of the campaign act handler in src/bench/campaign.ts (line 375) calls `sendMail` and returns a summary with no `scene`, while the volunteer and ad cases return `scene: askScene(core, personId, scenePlaces...)`; the button is drawn in src/bench/play.mjs (about line 1859, `controls.campaignActs.mail`); SG-PLAY-campaign-acts-buttons in src/core2/data/stopgaps/play.json (line 303) lists Mail as still a button.
 

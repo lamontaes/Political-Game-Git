@@ -9,7 +9,7 @@ status: in-pr
 standard: 2
 claimed-by: claude/pool-play-talk-no-say-nothing-when-nothing-left
 pr: #8517
-after: 
+after:
 blocked-on:
 lead: play-first
 model: sonnet
@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-11-11T03:13:35.907Z
 ---
 
-**What.** The talk box always shows the Say nothing button. A talk whose reply list is empty still offers it, which breaks the owner's Oct 27 ruling that when there is nothing left to say there must be no say nothing. The player is left with a button that does nothing useful and no way to tell the talk is over except Leave.
+**What.** The talk box always shows the Say nothing button. A talk whose reply list is empty still offers it, which breaks the owner's Oct 27 ruling that when there is nothing left to say there must be no say nothing. The player is left with a button that does nothing useful and no way to tell the talk is over except Leave. Seen: the talk box, which shows Say nothing when nothing is left to say (owner, Oct 27).
 
 **Cause.** Found in code: renderTalk in src/bench/play.mjs (line 1364) calls talkControls({ silent: true, leave: true }) whatever value.choices holds; talkControls in src/bench/ui/talk-box.mjs toggles the no-silent class from that flag alone.
 

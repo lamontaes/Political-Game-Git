@@ -22,7 +22,7 @@ claimed-at: 2026-11-11T02:41:29.789Z
 branch: claude/pool-play-no-vote-moment-when-cannot-vote
 ---
 
-**What.** When the player lives outside the town whose race is counted (an eviction, a move), election day still stages the voting moment and narrates "There's no ballot for you here today. You no longer live where this race is voted." The owner graded that line out and asked that the game not offer the vote at all when the player cannot vote (voice note of Nov 9, batch 2: "It just shouldn't let you do it if you can't vote."). The election-day scene should skip the vote ask for a player with no polling visit, and the day should go straight on to the count.
+**What.** When the player lives outside the town whose race is counted (an eviction, a move), election day still stages the voting moment and narrates "There's no ballot for you here today. You no longer live where this race is voted." The owner graded that line out and asked that the game not offer the vote at all when the player cannot vote (voice note of Nov 9, batch 2: "It just shouldn't let you do it if you can't vote."). The election-day scene should skip the vote ask for a player with no polling visit, and the day should go straight on to the count. Seen: election day, which offers no vote to a player who cannot vote (owner, Nov 9).
 
 **Cause.** Found in code: `electionDay` in src/bench/election-night.ts (lines 166 to 190) sets `away: !visit` for a player with no polling visit and still asks, using `electionDayLine` with the `vote-away` move (or `vote-none`). The `vote-away` move is in data/english/parts/scene-talk.json (line 1093) and in the grade files under data/english.
 

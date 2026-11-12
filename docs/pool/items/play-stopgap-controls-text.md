@@ -22,7 +22,7 @@ checked: fable 2026-11-10
 branch: claude/pool-play-stopgap-controls-text
 ---
 
-**What.** The play screen names an act's choice button from a bench table of control names where the mined choice-names bank has no name for the act yet. This is the open text stopgap SG-PLAY-act-control-names. About two thirds of the 21 act keys in the table have no matching move in the bank. Add mined names for them to the bank, read them in the two places that use the table, and delete the table and resolve the stopgap.
+**What.** The play screen names an act's choice button from a bench table of control names where the mined choice-names bank has no name for the act yet. This is the open text stopgap SG-PLAY-act-control-names. About two thirds of the 21 act keys in the table have no matching move in the bank. Add mined names for them to the bank, read them in the two places that use the table, and delete the table and resolve the stopgap. Seen: the campaign controls' names, which stand on a registered text stopgap.
 
 **Cause.** Found in code: `SG-PLAY-act-control-names` (status open) in src/core2/data/stopgaps/play.json, whose fake is the "actions" table in src/bench/data/controls.json, read as `controls.actions` in src/bench/play.mjs (lines 2536 and 4122). The act keys with no move of the same name in data/english/parts/choice-names.json on Nov 10 are organize-meeting, office-hours, town-hall, interview, meet-department-head, name-department-head, talk-to-colleague, cut-ribbon, vote, sign, veto, case, speak and state-of-the-city (sign and speak may be named by other tables).
 

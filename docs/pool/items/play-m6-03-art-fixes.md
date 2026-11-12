@@ -20,7 +20,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** The M6-03 spec in the roadmap is: seated poses that sit, formal clothes by role and place, frame corners, and the rest of the owner's October 8 defect list. The owner has since ruled that full-body staging defects (who stands where, seated poses, people blocking each other in a room) are not filed or reopened while busts are coming, and that how busts are shown is his call. So most of this list is not buildable until he decides how busts are shown. What can be done now is to read the October 8 list once he has decided and keep only what busts do not remove.
+**What.** The M6-03 spec in the roadmap is: seated poses that sit, formal clothes by role and place, frame corners, and the rest of the owner's October 8 defect list. The owner has since ruled that full-body staging defects (who stands where, seated poses, people blocking each other in a room) are not filed or reopened while busts are coming, and that how busts are shown is his call. So most of this list is not buildable until he decides how busts are shown. What can be done now is to read the October 8 list once he has decided and keep only what busts do not remove. Seen: people drawn seated and dressed for their role and place in every picture (the owner's October 8 art list).
 
 **Cause.** Design: owner, Nov 10 ruling "Staging waits for busts" in docs/coordination/OWNER-DECISIONS.md ("I'm not necessarily worried about the staging code now because you're going to be making busts. I haven't decided how they're going to display yet.") and the spec at docs/roadmap/later-specs-draft.md (M6-03).
 

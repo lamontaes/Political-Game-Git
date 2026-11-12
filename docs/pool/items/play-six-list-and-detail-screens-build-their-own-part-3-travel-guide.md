@@ -20,7 +20,7 @@ checked: fable 2026-11-10
 merged-at: 2026-11-11T15:29:54.495Z
 ---
 
-**What.** Travel and the Guide each build their own list-beside-detail layout. Move both onto `rosterScreen` with the same rows and words, so every row opens its detail as before, and delete their old builders and styles. This is a cleanup with no change to what the game does. The browser checks that named the old classes are updated in the same change.
+**What.** Travel and the Guide each build their own list-beside-detail layout. Move both onto `rosterScreen` with the same rows and words, so every row opens its detail as before, and delete their old builders and styles. This is a cleanup with no change to what the game does. The browser checks that named the old classes are updated in the same change. Feeds: play-six-list-and-detail-screens-build-their-own.
 
 **Cause.** Found in code: `travelScreen` in src/bench/ui/travel-screen.mjs (line 27) and `guideScreen` in src/bench/ui/guide-screen.mjs (line 16) build their own layouts and do not call `rosterScreen` (src/bench/ui/roster-screen.mjs).
 

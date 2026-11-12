@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** Since gov-press-outlet-revenue, the town's businesses buy ads from the town's outlets out of their own costs, and each purchase is a record in the press module's `adBuys` table: outlet, advertiser, amount and the payment's transfer id. No screen reads it, so the player never sees a local paper run an ad from a shop they know. Give the paper view the advertisers a local outlet carried this month, named from their organization records. This is a read of records that exist and adds no mechanic.
+**What.** Since gov-press-outlet-revenue, the town's businesses buy ads from the town's outlets out of their own costs, and each purchase is a record in the press module's `adBuys` table: outlet, advertiser, amount and the payment's transfer id. No screen reads it, so the player never sees a local paper run an ad from a shop they know. Give the paper view the advertisers a local outlet carried this month, named from their organization records. This is a read of records that exist and adds no mechanic. Seen: the town paper's page, where ads from local shops run. Feeds gov-press-outlet-revenue, which waits on it.
 
 **Cause.** Found in code: the `adBuys` table is written in src/core2/modules/press.ts (line 360) and read only in src/core2/press-money.ts (line 319) and its test; no src/bench file reads it, and the bench has no paper page for it yet.
 

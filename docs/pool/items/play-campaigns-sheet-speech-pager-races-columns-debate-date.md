@@ -20,7 +20,7 @@ checked: fable 2026-11-10
 claimed-at: 2026-11-11T03:30:53.505Z
 ---
 
-**What.** Found while moving the speech and debate panels onto shared parts, all three on main before that change. First, the later speech stages are taller than the Campaigns sheet, so the four replies sit behind the sheet's Continue pager and the page returns to the first after every pick. Second, the local races block at the bottom of Campaigns draws as four narrow columns with one word a line. Third, the debate invitation's date shows as an ISO string. A player cannot build a speech without paging back and forth, and the screen shows developer text.
+**What.** Found while moving the speech and debate panels onto shared parts, all three on main before that change. First, the later speech stages are taller than the Campaigns sheet, so the four replies sit behind the sheet's Continue pager and the page returns to the first after every pick. Second, the local races block at the bottom of Campaigns draws as four narrow columns with one word a line. Third, the debate invitation's date shows as an ISO string. A player cannot build a speech without paging back and forth, and the screen shows developer text. Seen: the Campaigns sheet's speech replies, its local races rows and the debate date.
 
 **Cause.** Found in code: `debates` rows in src/bench/campaign.ts (line ~164) send the debate's ISO `date`, and `debateCard` in src/bench/ui/campaign-acts.mjs (line 52) prints it raw; the speech-stage height and the four-column local races come from `campaigns()` in src/bench/play.mjs (line 4217) and src/bench/play.css (not re-measured on current main).
 

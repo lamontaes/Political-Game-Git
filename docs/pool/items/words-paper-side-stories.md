@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T01:23:09.086Z
 branch: claude/pool-words-paper-side-stories
 ---
 
-**What.** The owner asked on Oct 29 for side stories on the newspaper for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, Division I recruits on the high school team. They are a line or two and not clickable. The CTO ruled (OWNER-DECISIONS Oct 29 17:40) that the one press desk prints them from records it already sees, chosen by cause, never padded. Wording exists (#6800, brief: true); the school honors record is on words/school-honors; the wire lacks the police log and the school results, and the desk has no briefs column.
+**What.** The owner asked on Oct 29 for side stories on the newspaper for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, Division I recruits on the high school team. They are a line or two and not clickable. The CTO ruled (OWNER-DECISIONS Oct 29 17:40) that the one press desk prints them from records it already sees, chosen by cause, never padded. Wording exists (#6800, brief: true); the school honors record is on words/school-honors; the wire lacks the police log and the school results, and the desk has no briefs column. Seen: the town paper's one-line side stories (owner, Oct 29).
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, Oct 29 17:40 (the one press desk prints one-line briefs from records it already sees, chosen by cause, never padded). Briefs are built (src/core2/press-desk.ts, src/bench/printed-words.ts); the done-when's test that fails when a brief kind is on the wire with space and nothing printed is not in src/bench/printed-words.test.ts.
 

@@ -20,7 +20,7 @@ checked: fable 2026-11-10
 claimed-at: 2026-11-11T02:22:03.512Z
 ---
 
-**What.** The owner, Nov 8, about 2:10 p.m. (v0.94.0, Manchester, Connecticut): "There's one date and there's one time. One date, one time." A race's page now lists the day filing opens, but its "filing opens" row is shown by comparing against the day the game was loaded, not today. In a sitting that started before filing opened, the page goes on saying filing opens on a day already past beside a File for it button, and from the second year on the year in that row is worded against the wrong year. No screen should read the load day as today; the one date is the clock's.
+**What.** The owner, Nov 8, about 2:10 p.m. (v0.94.0, Manchester, Connecticut): "There's one date and there's one time. One date, one time." A race's page now lists the day filing opens, but its "filing opens" row is shown by comparing against the day the game was loaded, not today. In a sitting that started before filing opened, the page goes on saying filing opens on a day already past beside a File for it button, and from the second year on the year in that row is worded against the wrong year. No screen should read the load day as today; the one date is the clock's. Seen: a race's page, whose filing opens row reads the day the game was loaded, not today.
 
 **Cause.** Found in code: `campaigns` in src/bench/play.mjs shows the row when `race.filingOpens > me.date` and words its year against `me.date` (lines 4326 and 4331). `me.date` is set once when the life is loaded; the game's date is `today` (line 132), which every other row uses.
 

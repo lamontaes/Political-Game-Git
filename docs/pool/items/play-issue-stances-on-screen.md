@@ -22,7 +22,7 @@ claimed-at: 2026-11-11T02:01:13.692Z
 branch: claude/pool-play-issue-stances-on-screen
 ---
 
-**What.** Views now store one opening stance per person per question for the questions the survey asks (the three children of people-views-opening-stance-per-question are done). The campaign screen shows a poll total but not what voters think about the issues. Under the race, show the two or three questions the race turns on with the share of the town leaning each way, in words, read from the stored stances, so the player can choose what to campaign on. Questions with no survey item keep the lean alone and are shown as estimates.
+**What.** Views now store one opening stance per person per question for the questions the survey asks (the three children of people-views-opening-stance-per-question are done). The campaign screen shows a poll total but not what voters think about the issues. Under the race, show the two or three questions the race turns on with the share of the town leaning each way, in words, read from the stored stances, so the player can choose what to campaign on. Questions with no survey item keep the lean alone and are shown as estimates. Seen: the Campaigns screen, with the share of the town leaning each way on the issues the race turns on.
 
 **Cause.** Design: docs/play-first/LAW.md section 11 (the world on screen makes sense) and the stored stances from `openingRecord` and `openingStance` in src/core2/modules/views.ts; src/bench/campaign.ts and src/bench/polling.ts show a poll total but no issues.
 

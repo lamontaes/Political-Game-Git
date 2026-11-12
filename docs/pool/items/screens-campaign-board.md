@@ -21,7 +21,7 @@ claimed-at: 2026-11-11T00:23:20.508Z
 branch: claude/pool-screens-campaign-board
 ---
 
-**What.** The owner ruled at 5 PM on Oct 27 that the campaign screen is one board. It carries an inbox of media requests and the like, and a campaign team the player builds from people they know and met in scenes, such as a partner or best friend as manager, as in The Political Process. The board itself now exists on main: src/bench/play.mjs builds a campaign-board with the race standing and the money. What is missing is the inbox and the team area, and the old Campaigns rows still sit beside the board. The owner sees the board before anything more is asked of him.
+**What.** The owner ruled at 5 PM on Oct 27 that the campaign screen is one board. It carries an inbox of media requests and the like, and a campaign team the player builds from people they know and met in scenes, such as a partner or best friend as manager, as in The Political Process. The board itself now exists on main: src/bench/play.mjs builds a campaign-board with the race standing and the money. What is missing is the inbox and the team area, and the old Campaigns rows still sit beside the board. The owner sees the board before anything more is asked of him. Seen: Politics, Campaigns as one board with standing, an inbox and a campaign team (owner ruled it Oct 27).
 
 **Cause.** Design: docs/coordination/OWNER-DECISIONS.md, the Oct 27, 5 PM ruling (the campaign screen is one board), and docs/design/screens/principles-2026-10-27.md. The team record exists in the campaigns module: the volunteer-offered event (VOLUNTEER_OFFERED_EVENT, src/core2/modules/campaigns.ts line 2042) with role manager, shown by src/director/campaign-manager.test.ts; the board in src/bench/play.mjs reads neither.
 

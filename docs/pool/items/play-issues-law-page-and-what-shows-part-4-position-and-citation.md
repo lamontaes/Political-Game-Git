@@ -20,7 +20,7 @@ source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10,
 checked: fable 2026-11-10
 ---
 
-**What.** Two things on a law's page. First, a control to choose the player's position on the law (the owner: "You could choose your position"), kept as the player's stance and read by the campaign and the journal. Second, the citation: a law's page prints a bare statute row such as "STATUTE 19 U.S.C. 1862" with nothing to click, which the owner's bill ruling forbids ("Citations open the game's own display of that law, never a web page"). The citation opens the game's own display of that law, or is not shown.
+**What.** Two things on a law's page. First, a control to choose the player's position on the law (the owner: "You could choose your position"), kept as the player's stance and read by the campaign and the journal. Second, the citation: a law's page prints a bare statute row such as "STATUTE 19 U.S.C. 1862" with nothing to click, which the owner's bill ruling forbids ("Citations open the game's own display of that law, never a web page"). The citation opens the game's own display of that law, or is not shown. Seen: a law's page, where the player chooses a position and a citation opens the game's own law display.
 
 **Cause.** Found in code: `lawPage` in src/bench/play.mjs builds the statute row as `row(labels.statute, l.row.terms.cite)` (lines 5068 to 5070) and puts it in the In force section (line 5113) as plain text; the label is `politics.statute` in src/bench/data/controls.json; no position control exists on the page.
 
