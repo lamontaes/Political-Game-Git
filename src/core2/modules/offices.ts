@@ -66,6 +66,7 @@ import {
   type SeatInput,
   type VacancyRule,
 } from "../offices-state";
+import stateOfficesResearch from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { worldSeatParty } from "./elections";
 // A screen reads which district a town votes in through this entry.
 // Another state's offices as plain definitions (titles, seats), for a view
@@ -1953,3 +1954,34 @@ export { CASES_MODULE_ID, casesOpenFor, handleCase } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 export { partySide } from "../appointments";
 export { nextMeeting } from "../office-day-calendar";
+
+const ticketPlaces = (
+  stateOfficesResearch as unknown as {
+    places: Record<
+      string,
+      | {
+          executives?: {
+            key: string;
+            electedWithGovernorOnTicket?: boolean;
+          }[];
+        }
+      | undefined
+    >;
+  }
+).places;
+
+/**
+ * Whether the law elects a state's office of this kind on one ticket with its
+ * governor (a lieutenant governor in about thirty places), read from the
+ * office's research row. The one reader: the offices, elections and voting
+ * engines all ask here.
+ */
+export function electedWithGovernorOnTicket(
+  stateKey: string,
+  kind: string,
+): boolean {
+  return (
+    ticketPlaces[stateKey]?.executives?.find((e) => e.key === kind)
+      ?.electedWithGovernorOnTicket === true
+  );
+}

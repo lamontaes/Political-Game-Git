@@ -1842,13 +1842,13 @@
   {
     "id": "SG-GOV-outside-ticket-raced-alone",
     "kind": "assumed-data",
-    "file": "src/core2/modules/voting.ts",
-    "line": 4520,
-    "whatItFakes": "Another place's statewide officer whom the law elects on one ticket with the governor (a lieutenant governor in about thirty places, data/research/offices/state-offices.json electedWithGovernorOnTicket) is raced on its own seat, the same as every other statewide officer, so the count can seat a lieutenant governor of a different party from the governor elected the same night.",
-    "why": "The world races count one seat at a time; nothing joins a ticket office's race to its governor's. The town's own contests run each office separately too.",
+    "file": "src/core2/modules/elections.ts",
+    "line": 572,
+    "whatItFakes": "In the town's own state, a statewide officer whom the law elects on one ticket with the governor (a lieutenant governor in about thirty places) has a contest of its own, with its own candidates and its own count by the named voters, so the town can seat a lieutenant governor of a different party from the governor elected the same night. Other places' tickets are decided with their governor's race (voting.ts, ticketRace).",
+    "why": "The town's contests run each office separately: candidacy files each office's runners alone, and no running mate is chosen with a governor candidate.",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
     "addedAt": "2026-10-30",
-    "replacement": "A ticket office's race decided with its governor's: the governor race's winning party seats the running mate the same day, read from the office's research row.",
+    "replacement": "A running mate chosen with each governor candidate and filed on the same ticket, so the ticket office's ballot carries the governor candidate's running mate and one vote counts both.",
     "status": "open"
   },
   {

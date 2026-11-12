@@ -54,7 +54,12 @@ import {
 } from "../elections-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import {
+  electedWithGovernorOnTicket,
+  OFFICES_MODULE_ID,
+  townSeats,
+  type TermRow,
+} from "./offices";
 import { stableHash } from "../kernel/ids";
 import { placeStateKey } from "../place-map";
 
@@ -568,6 +573,9 @@ function contestFor(
 ): ContestRow | null {
   // The vice president is the president's running mate, not a race.
   if (!office.elected || office.kind === "vice-president") return null;
+  // stopgapId: SG-GOV-outside-ticket-raced-alone
+  if (electedWithGovernorOnTicket(office.jurisdiction, office.kind))
+    api.stopgap("SG-GOV-outside-ticket-raced-alone");
   const { stateKey, geoid } = town(api);
   const tomorrow = new Date(
     Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
