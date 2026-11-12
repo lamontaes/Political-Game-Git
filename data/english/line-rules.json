@@ -1928,6 +1928,11 @@
       "judges": "piece-in-context",
       "from": [
         {
+          "date": "2026-11-12",
+          "words": "\"Kathryn Hansen will work with me\": who's Kathryn Hansen?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
           "date": "2026-10-15",
           "words": "Got a minute for Woem? Who is Woem? Is that where he's from? Like the city? That doesn't make any sense there. It should just say Michael Howell, like if he's been introduced earlier in the scene."
         },
@@ -2103,7 +2108,7 @@
       "from": [
         {
           "date": "2026-10-15",
-          "words": "I'm voting for it and you can quote me. That's very, very, like confident. Like Joe Biden would say that."
+          "words": "I'm voting for it and you can quote me. That's very, very, like confident."
         },
         {
           "date": "2026-10-15",
@@ -2699,7 +2704,7 @@
         },
         {
           "date": "2026-11-08",
-          "words": "Sometimes, you could have a Jimmy Carter, a crisis of confidence kind of thing. Sometimes it could just be a hopeful speech, or it could be like Trump just railing on people. There's so many different types of presidential speeches"
+          "words": "There's so many different types of presidential speeches"
         },
         {
           "date": "2026-11-08",
@@ -4934,6 +4939,11 @@
       "judges": "piece-in-context",
       "from": [
         {
+          "date": "2026-11-12",
+          "words": "\"folks in Georgia\": Why Georgia?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
           "date": "2026-10-27",
           "words": "The speech needs to be like a real inaugural, not a player-centered one.",
           "via": "2026-10-27-1.md"
@@ -4954,10 +4964,12 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
-      "note": "Awaits a tag: {home-state} is now the President's own home state from the President's record, so a line naming it is grounded; it is wrong only when that state is the player's, and no tag says so.",
-      "status": "awaiting-test",
+      "note": "Composed check: a speech naming a state that is not its own jurisdiction's (any state for the President's), or the President's naming the player's town. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
       "test": {
-        "kind": "judged"
+        "kind": "composed",
+        "check": ["speech-names-no-stray-place"],
+        "applies": ["speech:president", "speech:governor", "speech:mayor"]
       }
     },
     {
@@ -4985,6 +4997,331 @@
         "I'm sorry. {winner} won the {office} race.",
         "You'll have to ask the chair."
       ]
+    },
+    {
+      "id": "speech-has-one-theme",
+      "says": "A speech has one theme, and every point, ask and figure in it belongs to that theme.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "random. It's just throwing a bunch of shit in. There's no theme for the speech. That's a problem.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "We're not talking about any ideas that this person believes in.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check, partly: a subject's word said more than three times in one speech (words skill, Nov 11). Whether every point belongs to one theme needs the outline (design part 3). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["subject-budget"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
+      }
+    },
+    {
+      "id": "speech-follows-its-kinds-order",
+      "says": "Each kind of speech keeps the order a real speech of that kind has; it does not open on a list of people and then single one out.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "starts off with a list of people, and then it specifically mentions the Speaker and then the Congress. That doesn't make any sense",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "It isn't, and somebody is to blame. Ooh, that's a little weird way to start off.",
+          "via": "#8074 docs/coordination/batches/2026-11-09-batch-3.md:343"
+        }
+      ],
+      "examples": [
+        {
+          "line": "Everybody here, and everybody watching, let's not pretend this state is fine. It isn't, and somebody is to blame.",
+          "words": "It isn't, and somebody is to blame. Ooh, that's a little weird way to start off.",
+          "date": "2026-11-09",
+          "before": "nothing: it opens the address"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "asks-differ-by-world",
+      "says": "What a speaker asks for comes from their own platform in this world and differs between worlds; no one ask leads every speech.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "why is it always stock trading? It's always stock trading",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: the same ask said twice in one speech, by its subject words. That one ask leads the speeches of every world is read across draws by the run's table, not by a check. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["ask-said-once"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
+      }
+    },
+    {
+      "id": "stance-is-plainly-for-or-against",
+      "says": "A sentence about a position says plainly whether the speaker is for it or against it, and asks only the level of government that can act.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "they always raise the debt limit... that sentence just doesn't even grammatically make any sense... Is he for it? Is he against it?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "If it's a federal law, it's a federal law.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I want to talk about gun control. Ending it or expanding gun control? I'm for it, and I'd like you to hold me to that. That's a little awkward, but I guess it's fine.",
+          "via": "#8074 docs/coordination/batches/2026-11-09-batch-3.md:403"
+        }
+      ],
+      "examples": [
+        {
+          "line": "I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.",
+          "words": "I want to talk about gun control. Ending it or expanding gun control? I'm for it, and I'd like you to hold me to that.",
+          "date": "2026-11-09"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can. The Nov 9 example is a line he let stand (\"I guess it's fine\"): the fault is the stance record, whose subject was given with no side, so it stays in examples and keeps playing.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "person-said-by-role-pronoun-or-relationship",
+      "says": "A person is said by role and name at first mention, then by role, pronoun or relationship; never a bare full name the listener was not given, and never a full name twice on one screen.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "who's Kathryn Hansen?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "saying the full name every time. There needs to be pronouns and titles.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "You could say I'm with the president, or... I thought he made sense.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check (docs/design/words-composer.md, part 6): a full name twice on one screen, and a full name first said with no role or relationship about someone the listener was not given, over every kind of text. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["full-name-once-per-screen", "no-bare-full-name-unintroduced"]
+      }
+    },
+    {
+      "id": "one-idea-to-a-sentence",
+      "says": "A composed sentence holds one idea in one tense; two full clauses are never joined by a comma, and sentences in a paragraph follow one another.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "a comma. So we're combining two ideas together... That whole first sentence is AI slop.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "disjointed statements put together. There needs to be a way for you to still have stuff be put together by the engine, but read more smoothly.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "mixing tenses.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: two full clauses joined by a comma, in every composed sentence. One tense in a sentence and sentences that follow one another are not built yet: a sound reader of tense needs the join's typed pieces (design part 4). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-comma-splice"]
+      }
+    },
+    {
+      "id": "figure-says-which-way-and-whose",
+      "says": "A line about a figure says which way it moved and what it is measured against, in words a listener can picture.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "Keep going up or down?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "What does that mean?",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "no-reply-asks-what-the-listener-cannot-know",
+      "says": "A reply never asks the other person something they hold no record to answer, and people who live together already know each other's work and household facts.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "how the hell would she know?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "Which Washington?... Why should she care?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "a useless interaction. It just shouldn't even be there.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: asking after someone who is in the room, and a housemate asking the player their work, home or name. A question about the world the listener holds no record of is not caught yet; it needs the telling (design part 1). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": [
+          "not-asked-after-while-present",
+          "housemate-does-not-ask-known-fact"
+        ],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
+      "id": "two-speakers-make-different-points",
+      "says": "Two people in one room on one day make different points for different reasons; the second never repeats the first's sentence.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "Maya and Logan... basically saying the same thing.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: a sentence (names set aside) said by one member of the player's household after another said it the same day. A different point said in other words is not caught. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-echo-between-speakers"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
+      "id": "line-fits-the-hour",
+      "says": "A line fits the hour it is said at and the day of the person it is said to; no \"tonight\" for later when it is already night, no end-of-day talk in the morning, and no one subject every morning.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "makes no sense.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "weird.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: a line looking ahead to a part of the day already here or over, or end-of-day talk in the morning, read against the minute it was said; and the same opener to the same person on three days of one week. Whose day it was (no job, no school) is not read yet. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-over-daypart", "no-daily-subject-loop"],
+        "applies": ["talk:home", "talk:town", "scene", "narration"]
+      }
+    },
+    {
+      "id": "no-non-replies",
+      "says": "An answer says something; \"Okay.\" or \"Oh, I see.\" is never the whole of what a person says back, and a talk never closes on a promise to check in again.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "the same bullshit I talked about yesterday with the just non-replies.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-non-reply"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
+      "id": "pictures-show-who-the-text-names",
+      "says": "Pictures shown with a speech show the people the speech names, when it names them.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "it was just showing random busts of people. The slideshow doesn't really make any sense now with busts of people, unless it's people that he's introducing in this speech",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "note-stands-alone",
+      "says": "A Journal note or a news line shown by itself is a whole sentence that stands alone and names its subject: the law, the amount, the person.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "doesn't even make sense... Neither does the news toast.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: a Journal note or news toast that opens leaning on a sentence it is shown without, or doubles a word. Whether it names its law and amount is not read yet. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["note-stands-alone"],
+        "applies": ["journal:note", "news:toast"]
+      }
     }
   ]
 }

@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-campaign-calibration-door-contact-by-seed
 pr: #8751
@@ -19,6 +19,7 @@ root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T07:57:52.006Z
 branch: claude/pool-tests-campaign-calibration-door-contact-by-seed
+merged-at: 2026-11-12T03:37:42.770Z
 ---
 
 **What.** src/core2/campaign-calibration.test.ts fails on clean main with GOLDEN_PATH_SEED=1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b in the West Virginia place 5431732: twelve hours of the player's doors (about 180 knocked) met 0.494 of the doors knocked, against the test's ceiling of 0.45. Either that town answers its door more than the field rate allows for a real reason the records give (its households' hours at home, its age mix), or a door counts a meeting it should not (a household reached twice, or a filled-in person counted as met when no one answered). Find which by record before touching the band.

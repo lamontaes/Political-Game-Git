@@ -61,9 +61,22 @@ try {
     }
     const packet = body.packet;
     if (packet?.kind === "stop") {
-      await page.request.post(
-        `${base}/api/resume?${new URLSearchParams({ pauseId: packet.pauseId })}`,
-      );
+      // Resume answers with the next packet, which may be another stop: each
+      // is continued past, as a player presses Continue. The same stop coming
+      // back (a held deadline) cannot be waived, so the run names it and fails.
+      let stop = packet;
+      for (let guard = 0; stop?.kind === "stop"; guard += 1) {
+        const resumed = await page.request.post(
+          `${base}/api/resume?${new URLSearchParams({ pauseId: stop.pauseId })}`,
+        );
+        const answer = await resumed.json().catch(() => ({}));
+        const next = answer.packet;
+        if (!resumed.ok() || guard > 200 || next?.pauseId === stop.pauseId)
+          throw new Error(
+            `a stop stays open after its resume: ${stop.stop?.modules?.[0]?.kind ?? "stop"} on ${stop.at?.date}, record ${stop.stop?.modules?.[0]?.recordId ?? "none"}`,
+          );
+        stop = next;
+      }
       continue;
     }
     if (packet?.at?.date >= target || packet?.kind === "complete") break;
@@ -113,7 +126,7 @@ try {
   // A front page: the lead story is printed with its text, and no record row
   // with a kind, series or jurisdiction label is on it (owner, Oct 27).
   assert.ok(
-    (await page.locator(".paper-story.lead .news-text .intro").count()) > 0,
+    (await page.locator(".news-story.lead .news-text .intro").count()) > 0,
     "the lead story has no text",
   );
   assert.equal(await page.locator(".paper-records").count(), 0);

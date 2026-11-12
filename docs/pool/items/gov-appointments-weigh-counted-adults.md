@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-appointments-weigh-counted-adults
+pr: #8830
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T14:44:50.979Z
 after:
 lead: governing
 standard: 2

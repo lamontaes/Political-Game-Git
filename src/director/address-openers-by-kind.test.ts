@@ -13,6 +13,7 @@ import {
   openingMove,
   type OpeningSpeechKind,
   type SpeechVoice,
+  partHolds,
 } from "../english/english-opening-speech";
 import { composeAddress } from "../english/english-composition";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
@@ -281,7 +282,7 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
             const own = OPENING_SPEECH_BANK.parts.filter(
               (part) =>
                 part.addressKind === kind &&
-                part.voice === voice &&
+                partHolds(part.voice, voice) &&
                 part.uses.some(
                   (use) => use.subject === subject && use.role === role,
                 ),

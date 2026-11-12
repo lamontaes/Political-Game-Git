@@ -34,7 +34,8 @@
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on."
+    "missingPlace": "Choose where you are from to go on.",
+    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
   },
   "debate": {
     "title": "Debate invitation",
@@ -45,6 +46,17 @@
   },
   "raceStanding": {
     "title": "Where the race stands"
+  },
+  "campaignAsks": {
+    "title": "Asking you for money",
+    "race": "Running for",
+    "asked": "Asked",
+    "suggested": "You would give",
+    "cash": "You have",
+    "amount": "Amount in dollars",
+    "give": "Give",
+    "decline": "Decline",
+    "notGiven": "You can't give that sum."
   },
   "speech": {
     "begin": "Give a speech",
@@ -165,6 +177,7 @@
     "whoIs": "Who {lower} is",
     "whoAre": "Who they are",
     "howISee": "How I see {object}",
+    "howISeeThem": "How I see them",
     "betweenUs": "Between us",
     "lifeStory": "{possessive} story",
     "lifeStoryThey": "Their story",
@@ -302,7 +315,10 @@
     "evidence": "Evidence",
     "missing": "Missing module",
     "piece": "Piece",
-    "running": "Running modules"
+    "running": "Running modules",
+    "year": "Year",
+    "stateChanges": "Laws other states changed",
+    "statesChanging": "States that changed one"
   },
   "devRecords": {
     "title": "Records",
@@ -490,7 +506,9 @@
     "sign": "Signed",
     "veto": "Vetoed",
     "speakFor": "Speak for",
-    "speakAgainst": "Speak against"
+    "speakAgainst": "Speak against",
+    "spokeFor": "Spoke for",
+    "spokeAgainst": "Spoke against"
   },
   "filing": {
     "petition": "Signatures the clerk will count: {needed}, handed in by {date}",
@@ -555,7 +573,19 @@
     "left": "Laws that gave way",
     "mySeat": "My seat",
     "onMyDesk": "On my desk",
-    "officeHours": "Office hours"
+    "officeHours": "Office hours",
+    "aides": "Your staff",
+    "hire": "Hire",
+    "aideRole": "Aide",
+    "reasons": {
+      "work": "Work",
+      "reach": "Lives near",
+      "workingAge": "Age for the work",
+      "known": "Knows you",
+      "family": "Family"
+    },
+    "fromKnown": "Someone you know",
+    "fromApplicant": "Applied"
   },
   "officeStops": {
     "aYear": "a year",
@@ -710,6 +740,7 @@
     "mild": "Moderate",
     "views": "Politics",
     "viewUnknown": "You don't know where they stand yet.",
+    "viewAbout": "Cares most about {about}.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -891,7 +922,18 @@
     "fiscalYear": "fiscal year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
-    "subjects": "Subjects"
+    "subjects": "Subjects",
+    "lawDid": {
+      "title": "What this did",
+      "from": "from {date}",
+      "until": "until {date}",
+      "repealed": "Repealed",
+      "noOneYet": "It has reached no one yet.",
+      "fullHere": "{n} people here",
+      "fullElsewhere": "{n} people elsewhere",
+      "counted": "{n} more in households here",
+      "stopped": "stopped {date}"
+    }
   },
   "results": {
     "you": "You",
