@@ -280,8 +280,12 @@ const QUESTION_ID = "question:";
 const AGAIN_NOUNS: readonly string[] = ["about", "law-name"];
 /** The slots that say a side of a question with its name inside ("say no to {about}"). */
 const AGAIN_INSIDE: readonly string[] = ["side", "first-side"];
-/** The slots whose saying names the question (its name, its side, how it stands). */
-const NAMING_KEYS = /^(?:about|law-name|to|side|first-side|today)/;
+/**
+ * The slots whose saying names the question: its name and its sides. How it
+ * stands today does not name it ("Why fix what works, when ...?"), so a
+ * sentence after one still says the question's full name once.
+ */
+const NAMING_KEYS = /^(?:about|law-name|to|side|first-side)$/;
 
 export function composeBlocks(
   core: CoreState,
@@ -368,7 +372,7 @@ export function composeBlocks(
   let vpAhead = blocks.some((block) => block.key === "to-vp");
   // The questions this speech has named (speech-has-one-theme; the words
   // lead, Nov 12: "The subject is said once, then varied"): once a sentence
-  // has said a question by its name or how it stands, every later sentence
+  // has said a question by its name or one of its sides, every later sentence
   // says it by its second-mention name (question-names `again`: "a clean
   // electricity standard" is "the standard"), in its noun slots and inside
   // the side said of it ("say no to the standard").
