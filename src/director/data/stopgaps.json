@@ -1055,5 +1055,17 @@
     "addedAt": "2026-11-12",
     "replacement": "The jobs engine records each seeker's applications and answers (or benefits paid, from the income engine), and the talk reads the newest as a job-search subject.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-town-change-reach-unread",
+    "kind": "missing-record",
+    "file": "src/director/conversation.ts",
+    "line": 1,
+    "whatItFakes": "What a government did (a budget line, an ordinance, an address, a town hall) is told as news the speaker heard or read, citing that record, with their stand on its question; whether it reached their own household (a service they use, a tax they pay, a payroll they are on) is not read, so nobody says it touched them.",
+    "why": "The town changing, brought up at home (lead, Nov 12), built on the records the speaker has (the story read, the address heard, the meeting attended); the budget and benefits engines' records of whom a line served are not read by talk yet.",
+    "addedBy": "Words builder (words-telling-said-as-talk)",
+    "addedAt": "2026-11-12",
+    "replacement": "Talk reads the budget, benefits and tax engines' records of whom a changed line reached, and a speaker it reached gives that as their reason.",
+    "status": "open"
   }
 ]

@@ -1,4 +1,6 @@
 /** Recorded counterparties, indexed monthly reviews and bills; no daily population scan. */
+/** The contract record a household lease is kept as, read through the budgets family's entry. */
+export type { FinanceContractInput } from "../finance-types";
 import type {
   CoreAPI,
   CoreModule,

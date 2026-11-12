@@ -15,6 +15,9 @@
  * Every number and word list is in data/english/composed-checks.json.
  */
 import data from "../../data/english/composed-checks.json" with { type: "json" };
+
+/** The composed checks' word lists, for readers outside the English engine. */
+export const COMPOSED_CHECKS_DATA = data;
 import {
   linesOf,
   plainSentence,
