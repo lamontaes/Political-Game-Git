@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Wider population should fall back toward the town's real count; check births-counted and views-counted readers for anything that expected husk kin in the counts.
 
 This planning split does not authorize changing aggregate population or inherited traits. Read core-light-opening Notes before building; flag any required output change as an owner decision rather than treating this split as its approval.
+
+**Notes (Fable, Nov 10, a second reason to do this).** In Larned, Kansas (key 2038700, seed 0f76ad5a90c444afa08206f08bc3e13754bc031f5951ed0b119a37caf3140b96) the relatives of every household of the town come to 4,576 people placed in the county and 9,363 in the state. The county has 3,717 eligible voters. So the county's own sample is squeezed to 1.4 people, the county opens with no recorded job, and a departure from it stops the year (world-counted-departure-insufficient-group-funds). With relatives made for the kept households only, the county is its sample again.

@@ -586,7 +586,7 @@ function compactDay(core: CoreState): void {
  * up to date, so day-by-day play resumes after the skip.
  */
 function runResultsDay(core: CoreState, api: CoreAPI): void {
-  // stopgapId: SG-SPEED-results-mode-daily-work (a skipped day runs no module's day and no person; only finance catches up, monthly)
+  // stopgapId: SG-SPEED-results-mode-daily-work (a skipped day runs no module's day and no person; each engine with an onResultsMonth step catches up on the first of the month)
   stopgap("SG-SPEED-results-mode-daily-work", core);
   runModuleCalendar(core, api);
   const day = new Date(`${makeIsoDate(core.date)}T00:00:00.000Z`).getUTCDate();

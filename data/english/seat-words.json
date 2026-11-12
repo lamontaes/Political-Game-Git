@@ -1,0 +1,6 @@
+{
+  "about": "How a seat is said inside a sentence (Fable B's ruling, Nov 11, on #8750): a seat on a body by the body (\"run for the Mutual Village Council\", then \"the council\"), a single office by its title in lower case (\"run for mayor\"), a district's seat with its district. Read by seatSaid in src/english/journal-words.ts.",
+  "body": "the {body}",
+  "district": "{office} in District {n}",
+  "districtAgain": "the seat"
+}

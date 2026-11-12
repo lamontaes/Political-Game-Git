@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: pool/gov-m3-01-ban-blocks-the-seats-bill
+pr: #8251
 blocked-on:
 after: gov-m3-01-phase-in-by-dated-steps
 lead: governing
@@ -17,6 +17,8 @@ effort: low
 root: rc2-done-from-records
 source: governing lead, Nov 1 (phase B map)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T22:46:36.931Z
+branch: pool/gov-m3-01-ban-blocks-the-seats-bill
 ---
 
 **What.** M3-01 says a clear higher-level ban blocks a bill, but the player's own route is not proven: bill-paper.test.ts skips any draft that is not drafted, and the preemption case is tested only through draftBill in a small createLifeCore world (src/core2/legislature.test.ts:911-933). policy-authority.test.ts:117-180 does use buildBenchWorld and expects a blocked status with reason level-lacks-power, but it never goes through the seat. This unit extends those two tests so the ban is checked through seatView, seatAct and holdVote, the route the draft card uses.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/legislature.test.ts, src/core2/policy-authority.test.ts, src/bench/legislature.ts
 
 **Notes.** Phase B map (Nov 1, 14:18 UTC) unit 2, with the review's fix: extend the existing tests instead of adding src/bench/bill-ban.test.ts. About 1 hour.
+
+Claimed by next for muse-8740 (Muse Spark in Muse Code, tier mid) (2026-11-10 22:46 UTC) on branch pool/gov-m3-01-ban-blocks-the-seats-bill.

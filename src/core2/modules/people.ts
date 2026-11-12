@@ -16,6 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
+import { REMEMBERED_RECORD_KINDS, rememberEvent } from "../person-life";
 import {
   addDays,
   daysBetween,
@@ -34,6 +35,7 @@ import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
 import {
   PAST_WORK_SPELL,
+  pastMovesFor,
   pastMovesHistory,
   pastWorkFor,
   pastWorkHistory,
@@ -42,6 +44,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   residenceOn,
+  schoolHistoryFor,
   type HistoryRecord,
   type HistoryWriter,
   type PreStartModule,
@@ -174,6 +177,8 @@ export { keyPeopleOf } from "../opening-key-people";
 // move records and a named resident's moved-away event.
 export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
 export { MOVED_AWAY_EVENT } from "./moves";
+// A person's life as one list, for the screens that tell it (the card, the You screen).
+export { lifeOf, type LifeEvent } from "../person-life";
 // A relative's letter and a missed family gathering, for the director's letter scene.
 export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
 // A housemate's call for help, for the director's rescue scene.
@@ -182,7 +187,9 @@ export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
-export { ENCOUNTERS } from "../encounters";
+export { ENCOUNTERS, meetInTalk } from "../encounters";
+// Disputes between two people from layoffs and evictions, for the world that opens them.
+export { openGrievance } from "./grievance";
 // A household's month of income (its open jobs and income awards), for
 // readers outside the family.
 export { householdIncome } from "./moves";
@@ -557,39 +564,62 @@ export function partneredForFilledIn(
   recordPreStartLater(core, moduleId, rows);
 }
 
+/**
+ * A person's whole past, once (the owner's ruling, Nov 9, 2026: each person's
+ * past covers their whole life, coarse, written only when they are opened or
+ * met): where they lived, their schools and their working life from their
+ * birth to the day before the world's opening, by the passes the run uses
+ * with the person's own window. Moves first, since school and work are placed
+ * by where they lived. Opening them again does nothing; the rows are the same
+ * whenever and however a person is opened (the world's seed and the person's
+ * records decide, nothing else).
+ */
+export function openWholePast(core: CoreState, personId: PersonId): void {
+  const person = core.people.get(personId);
+  if (!person || person.tier === "husk" || !preStartWindowOf(core)) return;
+  pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
+  schoolHistoryFor(core, [person]);
+  pastWorkFor(core, [person], PEOPLE_MODULE_ID);
+}
+
+/** The people the player starts out knowing: their household and everyone they know, opened at the opening. */
+export function openStartingCircle(core: CoreState): void {
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (!player) return;
+  const circle = new Set<PersonId>([player.id, ...player.knownIds]);
+  for (const id of core.households.get(player.householdId)?.memberIds ?? [])
+    circle.add(id as PersonId);
+  for (const id of [...circle].sort()) openWholePast(core, id);
+}
+
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
   preStart: { phase: "people", run: peopleHistory },
   // Someone filled in from the counts gets the working life the run would
   // have given them, read against the same economy and openings.
   onFillIn: (api, { memberIds }) => {
-    pastWorkFor(
-      api.state as CoreState,
-      memberIds.flatMap((id) => {
-        const person = api.state.people.get(id as PersonId);
-        return person &&
-          !pastWorkOf(api.state as CoreState, id as PersonId).length
-          ? [person]
-          : [];
-      }),
-      PEOPLE_MODULE_ID,
-    );
+    const people = memberIds.flatMap((id) => {
+      const person = api.state.people.get(id as PersonId);
+      return person ? [person] : [];
+    });
+    // Their whole past, as anyone's who is opened (moves, school, work).
+    for (const person of people)
+      openWholePast(api.state as CoreState, person.id);
     // Then the couple among them, from the working lives just written.
-    partneredForFilledIn(
-      api,
-      memberIds.flatMap((id) => {
-        const person = api.state.people.get(id as PersonId);
-        return person ? [person] : [];
-      }),
-      PEOPLE_MODULE_ID,
-    );
+    partneredForFilledIn(api, people, PEOPLE_MODULE_ID);
   },
   onDay: (api) => {
     shareHomeTime(api);
   },
   // Part 4: a death reaches the relatives who learn of it as grief.
-  eventKinds: GRIEF.deathEventKinds,
-  onEvent: (api, event, learnedBy) => recordDeath(api, event, learnedBy),
+  // A death reaches the family as grief; every record a person would remember goes on their own list (person-life.ts).
+  eventKinds: [
+    ...new Set([...GRIEF.deathEventKinds, ...REMEMBERED_RECORD_KINDS]),
+  ],
+  onEvent: (api, event, learnedBy) => {
+    recordDeath(api, event, learnedBy);
+    rememberEvent(api.state as CoreState, event);
+  },
   needEvaluators: {
     // The children at home need care each day; the act meets it for the day.
     "dependent-care": (api, actor) =>

@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const validate = readFileSync(".github/workflows/validate.yml", "utf8");
+const release = readFileSync(".github/workflows/release.yml", "utf8");
 
 describe("deterministic validation workflow capacity", () => {
   it("keeps the required aggregate named validate and does not green a failed job", () => {
@@ -34,16 +35,33 @@ describe("deterministic validation workflow capacity", () => {
     expect(validate).not.toContain("npx playwright test --shard=");
   });
 
-  it("cancels a superseded run and skips pool-only pushes to main", () => {
+  it("cancels a superseded run, validates main hourly, and leaves pool-only pushes to no workflow", () => {
     expect(validate).toContain(
       "group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}",
     );
     expect(validate).toContain("cancel-in-progress: true");
-    expect(validate).toContain(
-      "on:\n  pull_request:\n  push:\n    branches: [main]",
+    // Main is validated once an hour, not on every push (owner, Oct 28, 2026;
+    // pool item tooling-ci-main-validation-hourly): every pull request runs
+    // this workflow on its merged result, the hour's run covers main, and a
+    // run can be started by hand.
+    const triggers = validate.slice(
+      validate.indexOf("\non:\n"),
+      validate.indexOf("\npermissions:"),
     );
-    // Pool-only commits to main start no run; any push touching other files does.
-    expect(validate).toMatch(/paths-ignore:\n\s+- "docs\/pool\/\*\*"/);
+    expect(triggers).toMatch(/\n {2}pull_request:\n/);
+    expect(triggers).toMatch(/\n {2}schedule:\n\s+- cron: "\d+ \* \* \* \*"/);
+    expect(triggers).toMatch(/\n {2}workflow_dispatch:/);
+    expect(triggers).not.toMatch(/\n {2}push:/);
+    // The workflow that does run on every push to main is the release one, and
+    // a commit that changes only pool files starts no run of it.
+    const releasePush = release.slice(
+      release.indexOf("\non:\n"),
+      release.indexOf("\npermissions:"),
+    );
+    expect(releasePush).toMatch(/\n {2}push:\n\s+branches: \[main\]/);
+    expect(releasePush).toMatch(
+      /paths-ignore:\n(?:\s+#.*\n)*\s+- "docs\/pool\/\*\*"/,
+    );
   });
 
   // The guards are the one exception to changed-files-only: each holds a
