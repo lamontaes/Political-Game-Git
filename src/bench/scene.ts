@@ -1,5 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
-import { hash as fnv } from "./appearance";
+import { hash as fnv, readRecipe } from "./appearance";
 import { ageOnDate } from "../core2/kernel/dates";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import {
@@ -632,24 +632,16 @@ interface Looks {
   /** The look chosen in the creator (the player), when there is one. */
   look?: FigurePerson["look"];
 }
-/** A look saved by the creator, or none where the record holds no readable one. */
+/**
+ * A look saved by the creator, checked against the bust bank as the creator
+ * checks it (`readRecipe`): the person, hair and facial hair, and the clothes
+ * chosen in its Everyday and Formal tabs. None where the record holds no
+ * readable one.
+ */
 function chosenLook(text: string | undefined): FigurePerson["look"] {
   if (!text) return undefined;
   try {
-    const { person, hair, hairColor, face } = JSON.parse(text) as Record<
-      string,
-      unknown
-    >;
-    return typeof person === "string" &&
-      typeof hair === "string" &&
-      typeof hairColor === "string"
-      ? {
-          person,
-          hair,
-          hairColor,
-          ...(typeof face === "string" ? { face } : {}),
-        }
-      : undefined;
+    return readRecipe(text);
   } catch {
     return undefined;
   }

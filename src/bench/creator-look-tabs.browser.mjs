@@ -9,12 +9,14 @@
 //     Top row, and the bust wears the shirt;
 //   - switching tabs changes the bust's pictures at once, with no request;
 //   - a step on the Top row changes the everyday bust and is kept in the look
-//     the creator sends with Begin.
+//     the creator sends with Begin;
+//   - after Begin and the opening, the You panel's bust wears that top.
 // Run against the bench:
 //   BENCH_PORT=3000 node src/bench/creator-look-tabs.browser.mjs
 import assert from "node:assert/strict";
 import { randomInt } from "node:crypto";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -129,6 +131,44 @@ try {
       await tab("everyday").getAttribute("aria-pressed"),
       "true",
       `${where}: a step left the Everyday tab`,
+    );
+    // Begin the life: the played player's bust wears the chosen top.
+    await page.locator("#cr-random-name").click();
+    await page.waitForFunction(
+      () =>
+        document.getElementById("cr-given").value &&
+        document.getElementById("cr-family").value,
+    );
+    const born = page.waitForResponse(
+      (r) => new URL(r.url()).pathname === "/api/newlife",
+      { timeout: 300000 },
+    );
+    await page.locator("#cr-begin").click();
+    const reply = await born;
+    assert.equal(reply.status(), 200, `${where}: the life did not begin`);
+    const life = await reply.json();
+    console.log(
+      `${where}: seed ${new URL(reply.url()).searchParams.get("seed")}`,
+    );
+    await playOpening(page, life.sceneMomentId ?? null);
+    await page.locator("#card:not([hidden])").waitFor({ timeout: 300000 });
+    await page
+      .locator('#rings [data-tab="who"]')
+      .first()
+      .evaluate((e) => e.click());
+    await page.locator("#sheet .bust-stack img").first().waitFor();
+    const played = await page.evaluate(() =>
+      [...document.querySelectorAll("#sheet .bust-stack img")].map(
+        (img) => new URL(img.src).pathname,
+      ),
+    );
+    assert.ok(
+      played.some(
+        (url) =>
+          url.endsWith(`/top-${recipe.top}-${recipe.topColor}.png`) ||
+          url.endsWith(`/top-${recipe.top}.png`),
+      ),
+      `${where}: the played bust wears ${played.join(" ")}, not the chosen top ${recipe.top} ${recipe.topColor}`,
     );
     assert.deepEqual(errors, [], `${where}: page errors`);
     console.log(
