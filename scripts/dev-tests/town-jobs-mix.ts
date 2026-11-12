@@ -7,7 +7,10 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
-import { countedJobsOf, countedJobHeads } from "../../src/core2/residents-economy";
+import {
+  countedJobsOf,
+  countedJobHeads,
+} from "../../src/core2/residents-economy";
 import { publishedTownWorkplaceWeights } from "../../src/core2/town-employment-mix";
 import { TOWN_WORKPLACES } from "../../src/core2/town-workplaces";
 import { moduleState } from "../../src/core2/module-state";
@@ -20,7 +23,9 @@ const w = buildBenchWorld(seed, gameStartDate(), {
 });
 const c = w.core as any;
 const town = w.placeId;
-console.log(`PLACE ${w.place.displayName} (${w.place.key}) seed ${seed} town ${town}`);
+console.log(
+  `PLACE ${w.place.displayName} (${w.place.key}) seed ${seed} town ${town}`,
+);
 const kindOfOrg = (org: any): string => {
   const cls = org.classification ?? org.kind;
   const byCls = TOWN_WORKPLACES.find((wp) => wp.classification === cls);
@@ -37,7 +42,9 @@ let outsideTitled = 0;
 for (const org of c.organizations.values()) {
   const full = [...(c.finance.jobsByOrganization.get(org.id) ?? [])]
     .map((id: string) => c.jobs.get(id))
-    .filter((j: any) => j && j.endsAt === undefined && c.people.get(j.personId));
+    .filter(
+      (j: any) => j && j.endsAt === undefined && c.people.get(j.personId),
+    );
   const counted = countedJobsOf(c, org.id);
   let heads = full.length;
   for (const j of counted) heads += countedJobHeads(c, j);
@@ -68,42 +75,72 @@ for (const r of rows)
   console.log(
     `${r.k} | ${r.employers} | ${r.jobs} | ${r.full} | ${r.share.toFixed(1)} | ${r.county.toFixed(1)}`,
   );
-console.log(`TOTAL jobs ${Math.round(total)}; titled "outside the town": ${outsideTitled}`);
+console.log(
+  `TOTAL jobs ${Math.round(total)}; titled "outside the town": ${outsideTitled}`,
+);
 console.log(
   "TOP TITLES",
-  [...titles].sort((a, b) => b[1] - a[1]).slice(0, 15).map(([t, n]) => `${t}:${n}`).join(", "),
+  [...titles]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 15)
+    .map(([t, n]) => `${t}:${n}`)
+    .join(", "),
 );
 {
   const commute = new Map<string, number>();
   for (const job of c.jobs.values())
     if (job.endsAt === undefined && job.id.startsWith("job:commuter:"))
       commute.set(job.title, (commute.get(job.title) ?? 0) + 1);
-  console.log("COMMUTERS' WORK", [...commute].sort((a, b) => b[1] - a[1]).map(([t, n]) => `${t}:${n}`).join(", "));
+  console.log(
+    "COMMUTERS' WORK",
+    [...commute]
+      .sort((a, b) => b[1] - a[1])
+      .map(([t, n]) => `${t}:${n}`)
+      .join(", "),
+  );
 }
 // Full people (the ones a player meets) by kind of employer.
 const metKinds = new Map<string, number>();
 for (const p of c.people.values()) {
   if (!p.alive || p.placeId !== town) continue;
-  const job = [...c.jobs.values()].find((j: any) => j.personId === p.id && j.endsAt === undefined);
+  const job = [...c.jobs.values()].find(
+    (j: any) => j.personId === p.id && j.endsAt === undefined,
+  );
   if (!job) continue;
   const org = c.organizations.get(job.organizationId);
-  const k = org ? (org.placeId === town ? kindOfOrg(org) : `elsewhere:${org.kind}`) : "none";
+  const k = org
+    ? org.placeId === town
+      ? kindOfOrg(org)
+      : `elsewhere:${org.kind}`
+    : "none";
   metKinds.set(k, (metKinds.get(k) ?? 0) + 1);
 }
-console.log("FULL PEOPLE'S EMPLOYERS", [...metKinds].sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k}:${n}`).join(", "));
+console.log(
+  "FULL PEOPLE'S EMPLOYERS",
+  [...metKinds]
+    .sort((a, b) => b[1] - a[1])
+    .map(([k, n]) => `${k}:${n}`)
+    .join(", "),
+);
 {
   const rt = residentsRuntime(c) as any;
   let unplaced = 0;
   for (const flow of rt?.flows?.values() ?? [])
-    if (flow.financeKind === "work.unplaced-residents" && flow.placeId === town && !flow.endedAt)
+    if (
+      flow.financeKind === "work.unplaced-residents" &&
+      flow.placeId === town &&
+      !flow.endedAt
+    )
       unplaced += flow.unplacedWorkers ?? 0;
   let perHousehold = 0;
   for (const h of rt?.store?.households ?? [])
-    if (h && !h.gone && h.placeId === town) perHousehold += (h.unplacedWorkers ?? 0);
-  console.log(`UNPLACED workers (commute out) flow ${Math.round(unplaced)} households ${Math.round(perHousehold)}`);
+    if (h && !h.gone && h.placeId === town)
+      perHousehold += h.unplacedWorkers ?? 0;
+  console.log(
+    `UNPLACED workers (commute out) flow ${Math.round(unplaced)} households ${Math.round(perHousehold)}`,
+  );
 }
-const positionsTable = () =>
-  moduleState(c, "jobs").table("positions") as any;
+const positionsTable = () => moduleState(c, "jobs").table("positions") as any;
 const week = (label: string) => {
   const open = positionsTable().query("byStatus", ["open"]) as any[];
   const inTown = open.filter((row) => row.placeId === town);
@@ -116,7 +153,12 @@ const week = (label: string) => {
   }
   const all = positionsTable().query("byStatus", ["filled"]) as any[];
   console.log(
-    `WEEK ${label} ${c.date} open-in-town ${inTown.length} (jobs ${Math.round(heads)}) open-anywhere ${open.length} filled-so-far ${all.length} :: ${[...titles].slice(0, 8).map(([t, n]) => `${t}:${n}`).join(", ")}`,
+    `WEEK ${label} ${c.date} open-in-town ${inTown.length} (jobs ${Math.round(heads)}) open-anywhere ${open.length} filled-so-far ${all.length} :: ${[
+      ...titles,
+    ]
+      .slice(0, 8)
+      .map(([t, n]) => `${t}:${n}`)
+      .join(", ")}`,
   );
 };
 week("0");

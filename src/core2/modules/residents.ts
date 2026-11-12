@@ -3755,7 +3755,10 @@ const commuterRolesByPlace = new WeakMap<
 >();
 
 /** Every role of the place's county mix, with its share of the county's jobs. */
-function commuterRoles(core: CoreState, placeId: string): readonly CommuterRole[] {
+function commuterRoles(
+  core: CoreState,
+  placeId: string,
+): readonly CommuterRole[] {
   let byPlace = commuterRolesByPlace.get(core);
   if (!byPlace) commuterRolesByPlace.set(core, (byPlace = new Map()));
   const known = byPlace.get(placeId);

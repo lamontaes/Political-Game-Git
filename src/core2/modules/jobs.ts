@@ -1203,7 +1203,10 @@ function postStandingOpenings(api: CoreAPI): Map<string, number> {
         // Opened on a day spread back across the wait, the place's openings in turn.
         const back = Math.floor(
           (vacancyDays(api, position) * (at + api.parameter("half"))) /
-            Math.max(1, wants.reduce((sum, w) => sum + w.count, 0)),
+            Math.max(
+              1,
+              wants.reduce((sum, w) => sum + w.count, 0),
+            ),
         );
         store(api)
           .table("positions")
@@ -1461,7 +1464,12 @@ function reviewEmployers(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.id);
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
-      positions = [...openPositions(api, row.id)];
+      // A position held for the player's answer goes first, so it is the last withdrawn: never while they decide.
+      positions = [...openPositions(api, row.id)].sort(
+        (a, b) => Number(!!b.offeredTo) - Number(!!a.offeredTo),
+      );
+    const withdrawable = () =>
+      positions.length > 0 && !positions[positions.length - 1]!.offeredTo;
     // Staff and postings in jobs: a counted worker's record stands for its household's weight.
     const staff = staffHeads(c, jobs);
     recordEmployerBound(
@@ -1530,7 +1538,7 @@ function reviewEmployers(api: CoreAPI): void {
       excess > 0
         ? (row.withdrawCarry ?? 0) + p("jobsWithdrawActedPerMonth") * excess
         : 0;
-    while (carry >= 1 && positions.length) {
+    while (carry >= 1 && withdrawable()) {
       const position = positions.pop()!;
       store(api)
         .table("positions")
@@ -1655,7 +1663,7 @@ function reviewEmployers(api: CoreAPI): void {
     }
     const jobChangeIds: string[] = [];
     for (;;) {
-      if (positions.length) {
+      if (withdrawable()) {
         const position = positions[positions.length - 1]!;
         if (need > -positionHeads(position)) break;
         positions.pop();
@@ -3160,7 +3168,7 @@ function walkRanking(
 }
 
 /** The openings that can be filled today: each has waited its industry's vacancy duration (posting, applications, interviews, a start date) and none is held for the player's answer. */
-function fillableOpenings(api: CoreAPI): PositionRow[] {
+export function fillableOpenings(api: CoreAPI): PositionRow[] {
   const c = core(api);
   return (
     store(api)
