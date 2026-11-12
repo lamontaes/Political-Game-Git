@@ -444,6 +444,10 @@ function lineOf(
         ? make("loss.parent", { relation, name })
         : make("loss.died", { name });
     }
+    case "death/died":
+      // The person's own death, last in their story; the sentence waits for Story's pieces
+      // (a line with no piece is not told).
+      return make("death.died", { cause: String(facts.causeOfDeath ?? "") });
     case "school/started": {
       const school = schools.get(event.id);
       if (school)
