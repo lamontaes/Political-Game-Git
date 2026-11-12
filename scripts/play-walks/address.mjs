@@ -23,22 +23,17 @@ try {
   // The governor's address comes the day after the opening.
   await pressDay(walk);
   await pressDay(walk);
-  // Jump to the eve as the calendar does, continuing each stop on the way.
-  const reached = await walk.page.evaluate(async (date) => {
-    const post = async (path) => (await fetch(path, { method: "POST" })).json();
-    let body = await post(`/api/advance?mode=calendar&date=${date}`);
-    for (let step = 0; step < 400 && body.packet?.kind === "stop"; step += 1)
-      body = await post(
-        `/api/resume?kind=stop&pauseId=${encodeURIComponent(body.packet.pauseId)}`,
-      );
-    return body.packet?.at?.date ?? body.packet?.kind ?? "unknown";
-  }, eve);
-  walk.say(`=== calendar jump to ${eve}: reached ${reached}`);
-  await walk.page.reload();
-  await walk.page.locator("#front-continue").click();
-  await walk.page.waitForFunction(() =>
-    document.getElementById("card-clock")?.textContent.trim(),
-  );
+  // On to the eve by Week and Day, as a player presses them, so every stop
+  // on the way is met on screen.
+  const daysLeft = async () => {
+    const shown = await walk.page.locator("#card-clock").innerText();
+    const [day] = /[A-Z][a-z]+ \d+, \d{4}/.exec(shown) ?? [];
+    return (Date.parse(`${eve}T00:00:00Z`) - Date.parse(`${day} UTC`)) / 864e5;
+  };
+  for (let step = 0, left = await daysLeft(); step < 8 && left > 0; step += 1) {
+    await pressDay(walk, left >= 7 ? "week" : "day");
+    left = await daysLeft();
+  }
   for (let day = 0; day < days; day += 1) await pressDay(walk);
 } finally {
   await walk.close();
