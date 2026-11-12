@@ -288,18 +288,6 @@
       "citation": "A quarter either side; the study's estimate is for 2010."
     }
   },
-  "pastPrisonShare": {
-    "value": 0.03,
-    "role": "level",
-    "tag": "SOURCED",
-    "citation": "Shannon et al. (2017), same abstract: \"We estimate that 3 % of the total U.S. adult population ... has ever been to prison\". Read here as the share of the convicted who went to prison, 0.03 over pastFelonyConvictionShare.",
-    "spread": {
-      "low": 0.02,
-      "high": 0.04,
-      "unit": "share of all adults",
-      "citation": "A third either side; the study's estimate is for 2010."
-    }
-  },
   "pastConvictionLagYears": {
     "value": 1,
     "role": "level",
@@ -310,18 +298,6 @@
       "high": 2,
       "unit": "years",
       "citation": "A quarter year to two years."
-    }
-  },
-  "pastPrisonTermYears": {
-    "value": 2,
-    "role": "level",
-    "tag": "TUNABLE",
-    "citation": "The time served by someone who went to prison before the start, for the past's record only.",
-    "spread": {
-      "low": 1,
-      "high": 5,
-      "unit": "years",
-      "citation": "One to five years."
     }
   }
 }

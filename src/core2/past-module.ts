@@ -58,13 +58,7 @@ export function putPast(api: CoreAPI, name: string, row: object): void {
   pastTable(api, name).put(row as unknown as ModuleRow);
 }
 
-export {
-  PAST_ARRESTED,
-  PAST_CONVICTED,
-  PAST_IMPRISONED,
-  PAST_RELEASED,
-  pastJusticeFor,
-} from "./past-justice";
+export { PAST_ARRESTED, PAST_CONVICTED, pastJusticeFor } from "./past-justice";
 export { seededUnit } from "./seeded";
 
 // The one history, for the engines that run or read it (light imports only:

@@ -5,9 +5,9 @@
  * as a yearly pull from 13, against the person's own seeded line; a pull
  * that reaches it before 23 (and before the start) is an arrest. Of those
  * arrested, the share with a felony conviction (Shannon et al. 2017: 8% of
- * adults) is read against a second line, and of those convicted, the share
- * who went to prison (3% of adults) against a third, with the term served
- * before the start. Seeded generation of what happened before the world
+ * adults) is read against a second line. A prison term is not written yet:
+ * the work pass would have them working through it
+ * (SG-HIST-past-prison-not-written). Seeded generation of what happened before the world
  * opened; no roll decides what anyone does in play.
  */
 import pastRows from "./data/past/parameters.json" with { type: "json" };
@@ -30,10 +30,6 @@ import type { CoreState, IsoDate, PersonState } from "./types";
 export const PAST_ARRESTED = ownPastKind("justice.arrested-before");
 /** A felony conviction before the start. */
 export const PAST_CONVICTED = ownPastKind("justice.convicted-before");
-/** A prison term begun before the start. */
-export const PAST_IMPRISONED = ownPastKind("justice.imprisoned-before");
-/** A release from prison before the start. */
-export const PAST_RELEASED = ownPastKind("justice.released-before");
 
 const PAST = pastRows as unknown as Readonly<Record<string, { value: number }>>;
 const past = (key: string) => PAST[key]!.value;
@@ -101,17 +97,9 @@ export function pastArrestOf(
     Math.round(past("pastConvictionLagYears") * daysPerYear),
   ) as string;
   if (convicted >= before) return { arrested };
-  const prisonShare =
-    past("pastPrisonShare") / past("pastFelonyConvictionShare");
-  if (-Math.log(1 - prisonShare) < lineOf(rng.fork("prison")))
-    return { arrested, convicted };
-  const released = addDays(
-    makeIsoDate(convicted),
-    Math.round(past("pastPrisonTermYears") * daysPerYear),
-  ) as string;
-  // Living at home at the start: a term not served by then was not served.
-  if (released >= before) return { arrested, convicted };
-  return { arrested, convicted, imprisoned: convicted, released };
+  // A prison term waits on the work pass reading it (a person in prison
+  // neither works nor looks for work): SG-HIST-past-prison-not-written.
+  return { arrested, convicted };
 }
 
 /** A person's arrest before the start, written once into their own past. */
@@ -145,8 +133,6 @@ export function pastJusticeFor(
       [
         [PAST_ARRESTED, found.arrested],
         [PAST_CONVICTED, found.convicted],
-        [PAST_IMPRISONED, found.imprisoned],
-        [PAST_RELEASED, found.released],
       ] as const
     ).flatMap(([kind, date]) =>
       date
