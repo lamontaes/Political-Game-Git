@@ -33513,14 +33513,6 @@
           "excludesFacts": ["rival-against"]
         },
         {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-for"],
-          "excludesFacts": ["rival-against"]
-        },
-        {
           "move": "interview-take-lie-reply-take",
           "subject": "interview-take-lie",
           "role": "reply",
@@ -33531,14 +33523,6 @@
         {
           "move": "debate-take-plain-reply-take",
           "subject": "debate-take-plain",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-for"],
-          "excludesFacts": ["rival-against"]
-        },
-        {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-for"],
@@ -33572,14 +33556,6 @@
           "excludesFacts": ["rival-for"]
         },
         {
-          "move": "interview-take-brief-reply-take",
-          "subject": "interview-take-brief",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-against"],
-          "excludesFacts": ["rival-for"]
-        },
-        {
           "move": "interview-take-lie-reply-take",
           "subject": "interview-take-lie",
           "role": "reply",
@@ -33590,14 +33566,6 @@
         {
           "move": "debate-take-plain-reply-take",
           "subject": "debate-take-plain",
-          "role": "reply",
-          "choice": "take",
-          "requiresFacts": ["said-against"],
-          "excludesFacts": ["rival-for"]
-        },
-        {
-          "move": "debate-take-brief-reply-take",
-          "subject": "debate-take-brief",
           "role": "reply",
           "choice": "take",
           "requiresFacts": ["said-against"],
@@ -36261,6 +36229,302 @@
           "subject": "interview-close",
           "role": "leave",
           "choice": "done"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-re-for-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You're for it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.you-re-against-it",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "You're against it.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.short-and-sweet",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Short and sweet.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.plain-enough",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Plain enough.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-brief-reply-take.clear-enough",
+      "move": "interview-take-brief-reply-take",
+      "kind": "spoken",
+      "text": "Clear enough.",
+      "uses": [
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "interview-take-brief-reply-take",
+          "subject": "interview-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"]
+        },
+        {
+          "move": "debate-take-brief-reply-take",
+          "subject": "debate-take-brief",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-s-a-yes",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That's a yes.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-for"],
+          "excludesFacts": ["rival-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder W1 (interviews and debates say what was asked and answered)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.interview-take-plain-reply-take.that-s-a-no",
+      "move": "interview-take-plain-reply-take",
+      "kind": "spoken",
+      "text": "That's a no.",
+      "uses": [
+        {
+          "move": "interview-take-plain-reply-take",
+          "subject": "interview-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "interview-take-lie-reply-take",
+          "subject": "interview-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-plain-reply-take",
+          "subject": "debate-take-plain",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
+        },
+        {
+          "move": "debate-take-lie-reply-take",
+          "subject": "debate-take-lie",
+          "role": "reply",
+          "choice": "take",
+          "requiresFacts": ["said-against"],
+          "excludesFacts": ["rival-for"]
         }
       ],
       "bearing": "calm",
