@@ -109,7 +109,7 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
       institutions: false,
     },
   ])(
-    "place $key: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force or grows in a year",
+    "place $key: each type's residents are its Census share, and no room rents, owes, is evicted, moves, works outside the labor force and an arrival is housed in a room only by the institution's waiting list",
     ({ key, worldSeed, filingCheck, institutions }) => {
       setBookkeeping(false);
       const started = Date.now();
@@ -268,14 +268,22 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
         } else if (core.households.has(id))
           expect(core.households.get(id)?.quarters, id).toBe(type);
       }
+      // An arriving household is housed in a room only by the institution's
+      // admission (the waiting list refilling a vacancy, `admitToRooms`);
+      // every other arrival lives in a home with no quarters.
+      const admitted = new Set<string>();
       for (const row of moves) {
-        if (row.direction === "out")
+        if (row.direction === "out") {
           expect(opening.has(row.householdId), row.id).toBe(false);
-        else
-          expect(
-            store.liveHousehold(row.householdId)?.quarters,
-            row.id,
-          ).toBeUndefined();
+          continue;
+        }
+        const room = store.liveHousehold(row.householdId)?.quarters;
+        if (room === undefined) continue;
+        expect(
+          (row as { fromPlace?: string }).fromPlace,
+          `${row.id} housed in a ${room} room by something other than the institution's waiting list`,
+        ).toBe("waiting-list");
+        admitted.add(row.householdId);
       }
       if (met) {
         const demoted = countedDemotions(api).some(
@@ -289,17 +297,19 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
           expect(store.liveHousehold(met.id)?.quarters, met.id).toBe(metType);
         }
       }
-      // No new rooms: the rooms at the year's end are the opening's (deaths
-      // may empty one), none with more members than it opened with (no
-      // births, no newcomers), and none outside the civilian labor force
-      // holds a job or a share of the unplaced workers.
+      // No unexplained rooms: the rooms at the year's end are the opening's
+      // (deaths may empty one) or ones the waiting list filled, none of the
+      // opening's with more members than it opened with, and none outside the
+      // civilian labor force holds a job or a share of the unplaced workers.
       let outside = 0;
       for (const h of store.liveHouseholds()) {
         if (!h.quarters) continue;
-        expect(opening.has(h.id), h.id).toBe(true);
-        expect(store.countedCount(h), h.id).toBeLessThanOrEqual(
-          members.get(h.id) ?? 0,
-        );
+        // A room not in the opening is one the waiting list filled.
+        expect(opening.has(h.id) || admitted.has(h.id), h.id).toBe(true);
+        if (opening.has(h.id))
+          expect(store.countedCount(h), h.id).toBeLessThanOrEqual(
+            members.get(h.id) ?? 0,
+          );
         if (!outsideLaborForce(h.quarters)) continue;
         outside += 1;
         expect(
@@ -312,7 +322,9 @@ describe("group quarters in the played world", { timeout: 1_800_000 }, () => {
       }
       for (const home of core.households.values()) {
         if (!home.quarters) continue;
-        expect(opening.has(home.id), home.id).toBe(true);
+        expect(opening.has(home.id) || admitted.has(home.id), home.id).toBe(
+          true,
+        );
         const alive = home.memberIds.filter((id) => core.people.get(id)?.alive);
         expect(alive.length, home.id).toBeLessThanOrEqual(
           members.get(home.id) ?? Infinity,

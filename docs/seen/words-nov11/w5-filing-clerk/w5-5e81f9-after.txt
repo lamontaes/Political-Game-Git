@@ -1,0 +1,11 @@
+Seed w5-5e81f9; place: Fallon Station, Nevada
+Office: Secretary of State, or the county clerk for districts entirely within one county
+Greeting: Janet Waller / Janet Waller / Hey, come on up. I'm Janet Waller. I keep the candidate list for Fallon Station. Here to file? / I want to run for U.S. representative in District 2. November 3, 2026 · Held by Christopher Vasquez / I want to run for assemblymember in District 38. November 3, 2026 · Held by Denise Hardy / Leave
+Told: Janet Waller / Janet Waller / PAT CANDIDATE / I want to run for U.S. representative in District 2. / Good for you. Another one for the seat. It's a 2-year term. The primary's June 9, the general's November 3. Whoever wins it speaks for Fallon Station and the rest of the district in Congress, and votes on every bill the House takes up. You've got until March 13 to get it all back to me. / Count me in for the seat. / Who am I up against in Fallon Station? / So the papers are due March 13? / I need a few days before I file with the Secretary of State. / Leave
+Replies: Count me in for the seat. | Who am I up against in Fallon Station? | So the papers are due March 13? | I need a few days before I file with the Secretary of State.
+Answer: Janet Waller / Janet Waller / PAT CANDIDATE / Who am I up against in Fallon Station? / Hang on. So far it's seven other candidates, and Charles Warner was the first one in. It's all public. / Put me down for the seat. / Run the dates by me again. Papers by March 13? / Not today, Janet. Maybe soon. / Leave
+Replies: Put me down for the seat. | Run the dates by me again. Papers by March 13? | Not today, Janet. Maybe soon.
+Answer: Janet Waller / Janet Waller / PAT CANDIDATE / Run the dates by me again. Papers by March 13? / Got a pen? Papers back by March 13, primary June 9, general November 3. / I'm in. Give me the papers for the seat. / Give me a few days, Janet. / Leave
+Replies: I'm in. Give me the papers for the seat. | Give me a few days, Janet.
+File: I'm in. Give me the papers for the seat.
+Filed: Janet Waller / PAT CANDIDATE / I'm in. Give me the papers for the seat. / Good, that's it. You're on file for the seat in Fallon Station as of now. The vote's November 3. Good luck out there. I mean it. / SIGNATURES THE CLERK WILL COUNT: 2, HANDED IN BY MARCH 13, 2026 / COLLECTING SIGNATURES / Continue

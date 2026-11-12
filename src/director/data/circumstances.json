@@ -4,6 +4,7 @@
   "rows": [
     {
       "id": "vote-read-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["news.read"],
       "recordFacts": ["billId", "number"],
       "place": "public",
@@ -18,6 +19,7 @@
     },
     {
       "id": "law-reached-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["law.effect-learned"],
       "place": "public",
       "pool": ["named"],
@@ -31,6 +33,7 @@
     },
     {
       "id": "price-moved-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["law.effect-learned"],
       "recordFacts": ["priceRuleId"],
       "place": "public",
@@ -45,6 +48,7 @@
     },
     {
       "id": "story-read-home",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["news.read"],
       "place": "home",
       "pool": ["witnessed"],
@@ -58,6 +62,7 @@
     },
     {
       "id": "national-news-work",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["news.read"],
       "place": "workplace",
       "pool": ["witnessed"],
@@ -72,6 +77,7 @@
     },
     {
       "id": "new-coworker",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["job"],
       "place": "workplace",
       "pool": ["new-coworker"],
@@ -85,6 +91,7 @@
     },
     {
       "id": "death-known-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["life.death"],
       "place": "public",
       "pool": ["ties-of-named"],
@@ -98,6 +105,7 @@
     },
     {
       "id": "hallway-colleague",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["committee-hearing"],
       "place": "seat",
       "pool": ["named"],
@@ -111,6 +119,7 @@
     },
     {
       "id": "hallway-reporter",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["bill-held-in-committee"],
       "place": "seat",
       "pool": ["civic:press-corps"],
@@ -124,6 +133,7 @@
     },
     {
       "id": "job-lost-calls",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["work.job-lost"],
       "place": "phone",
       "pool": ["named"],
@@ -137,6 +147,7 @@
     },
     {
       "id": "organizing-warning",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["initiative.organizing-started"],
       "place": "phone",
       "pool": ["civic:staff"],
@@ -150,6 +161,7 @@
     },
     {
       "id": "bill-introduced-carry",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["office.introduced"],
       "place": "seat",
       "pool": ["named"],
@@ -163,6 +175,7 @@
     },
     {
       "id": "donor-ask-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["cause.donated"],
       "place": "public",
       "pool": ["named"],
@@ -176,6 +189,7 @@
     },
     {
       "id": "rival-message",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["campaign-message"],
       "place": "public",
       "pool": ["fact:candidateId"],
@@ -189,6 +203,7 @@
     },
     {
       "id": "new-housemate",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["household-member"],
       "place": "home",
       "pool": ["named"],
@@ -202,6 +217,7 @@
     },
     {
       "id": "law-news-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["news.read"],
       "recordFacts": ["lawId"],
       "place": "public",
@@ -216,6 +232,7 @@
     },
     {
       "id": "rent-news-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["news.read"],
       "recordFacts": ["web:housing.rent"],
       "place": "public",
@@ -230,6 +247,7 @@
     },
     {
       "id": "national-news-street",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["news.read"],
       "outletTier": "national",
       "place": "public",
@@ -244,6 +262,7 @@
     },
     {
       "id": "meeting-colleague",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["public-meeting"],
       "playerNamed": true,
       "place": "seat",
@@ -258,6 +277,7 @@
     },
     {
       "id": "meeting-reporter",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["public-meeting"],
       "playerNamed": true,
       "place": "seat",
@@ -272,6 +292,7 @@
     },
     {
       "id": "away-evening",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["public-meeting"],
       "recordFactEquals": {
         "evening": ["true"]
@@ -290,6 +311,7 @@
     },
     {
       "id": "lobby-remembers",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["office.voted"],
       "playerNamed": true,
       "afterDays": 2,
@@ -305,6 +327,7 @@
     },
     {
       "id": "office-doubt",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["civic.protest", "civic.strike"],
       "afterDays": 1,
       "place": "home",
@@ -319,6 +342,7 @@
     },
     {
       "id": "floor-debate-for",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["floor-debate"],
       "lived": true,
       "before": true,
@@ -334,6 +358,7 @@
     },
     {
       "id": "floor-debate-against",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["floor-debate"],
       "lived": true,
       "before": true,
@@ -349,6 +374,7 @@
     },
     {
       "id": "run-doubt",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["election-result"],
       "playerNamed": true,
       "afterDays": 3,
@@ -364,6 +390,7 @@
     },
     {
       "id": "held-known-visit",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
       "pool": ["named"],
@@ -377,6 +404,7 @@
     },
     {
       "id": "imprisoned-known-visit",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["justice.imprisoned"],
       "place": "venue",
       "pool": ["named"],
@@ -390,6 +418,7 @@
     },
     {
       "id": "moved-away-farewell",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["person.moved-away"],
       "place": "other-home",
       "pool": ["named"],
@@ -403,6 +432,7 @@
     },
     {
       "id": "morning-after",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["election-result"],
       "playerNamed": true,
       "afterDays": 1,
@@ -418,6 +448,7 @@
     },
     {
       "id": "rival-known-late",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["candidate-filed"],
       "playerNamed": true,
       "afterDays": 1,
@@ -433,6 +464,7 @@
     },
     {
       "id": "race-result-known",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["election-result"],
       "afterDays": 1,
       "place": "public",
@@ -447,6 +479,7 @@
     },
     {
       "id": "race-result-known-after-ran",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["election-result"],
       "playerNamed": true,
       "afterDays": 2,
@@ -462,6 +495,7 @@
     },
     {
       "id": "governor-answer-hallway",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["governor.response"],
       "afterDays": 1,
       "place": "seat",
@@ -476,6 +510,7 @@
     },
     {
       "id": "mentor-weighs-in",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["party-asked"],
       "playerNamed": true,
       "afterDays": 1,
@@ -491,6 +526,7 @@
     },
     {
       "id": "bribe-accused",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["scandal.reported"],
       "recordFacts": ["officialId"],
       "playerNamed": true,
@@ -507,6 +543,7 @@
     },
     {
       "id": "lobbyist-hallway",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["case.made"],
       "recordIdPrefix": "case:lobby:",
       "place": "seat",
@@ -521,6 +558,7 @@
     },
     {
       "id": "school-last-day",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["school.finished"],
       "playerNamed": true,
       "lived": true,
@@ -536,6 +574,7 @@
     },
     {
       "id": "graduation-home",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["school.finished"],
       "recordFactEquals": {
         "passed": ["true"]
@@ -554,6 +593,7 @@
     },
     {
       "id": "no-graduation-home",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["school.finished"],
       "recordFactEquals": {
         "passed": ["false"]
@@ -572,6 +612,7 @@
     },
     {
       "id": "door-first",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {
         "first": ["true"],
@@ -591,6 +632,7 @@
     },
     {
       "id": "door-again",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {
         "first": ["false"],
@@ -610,6 +652,7 @@
     },
     {
       "id": "door-petition",
+      "receive": { "age": "any", "counterpart": "apart", "seat": "any" },
       "recordKinds": ["campaign.door"],
       "recordFactEquals": { "stake": ["true"], "petition": ["true"] },
       "lived": true,
@@ -625,6 +668,7 @@
     },
     {
       "id": "override-whip",
+      "receive": { "age": "any", "counterpart": "any", "seat": "serving" },
       "recordKinds": ["veto-override"],
       "recordFactEquals": {
         "passed": ["false"]
@@ -641,6 +685,7 @@
     },
     {
       "id": "notice-home",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["housing.notice-served"],
       "playerNamed": true,
       "place": "home",
@@ -655,6 +700,7 @@
     },
     {
       "id": "home-damaged",
+      "receive": { "age": "any", "counterpart": "any", "seat": "any" },
       "recordKinds": ["disaster.home-damaged"],
       "playerNamed": true,
       "lived": true,
