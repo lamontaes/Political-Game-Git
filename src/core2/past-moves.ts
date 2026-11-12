@@ -252,7 +252,10 @@ function withinRecords(
         const share = (line - pull) / year;
         pull -= line;
         count += 1;
-        let date = addDays(makeIsoDate(from), Math.round(share * daysPerYear));
+        let date: string = addDays(
+          makeIsoDate(from),
+          Math.round(share * daysPerYear),
+        );
         if (date > window.through) break;
         if (date < window.from) continue;
         // Never the same year as the move into the county: that move is told.
