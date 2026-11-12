@@ -6150,7 +6150,7 @@
           "move": "answer",
           "role": "asked",
           "requiresFacts": ["stand-against"],
-          "after": "follow-ask"
+          "after": "scene-talk.follow-ask.on-record-4"
         }
       ],
       "bearing": "calm",
@@ -192952,7 +192952,7 @@
       "key": "scene-talk.reply-answer.on-record-4",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I backed {bill} because we've waited long enough for {about}.",
+      "text": "I'm for {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -192981,7 +192981,7 @@
       "key": "scene-talk.reply-answer.on-record-5",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'm for {bill}. It gets us {about}.",
+      "text": "My vote on {bill} was yes, and I meant it.",
       "uses": [
         {
           "subject": "scene",
@@ -193010,7 +193010,7 @@
       "key": "scene-talk.reply-answer.on-record-6",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "My vote on {bill} was yes, and I meant it.",
+      "text": "I backed {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -193126,7 +193126,7 @@
       "key": "scene-talk.reply-answer.on-record-10",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I said no to {bill}, and I'll say why to anyone who asks.",
+      "text": "I said no to {bill}, and I'd say it again.",
       "uses": [
         {
           "subject": "scene",
@@ -193184,7 +193184,7 @@
       "key": "scene-talk.reply-answer.on-record-12",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I'm against {bill}. I won't vote for {about}.",
+      "text": "I'm against {bill}.",
       "uses": [
         {
           "subject": "scene",
@@ -193381,7 +193381,7 @@
       "key": "scene-talk.reply-answer.on-record-19",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "It's still yes.",
+      "text": "Even then. My yes on {bill} stands.",
       "uses": [
         {
           "subject": "scene",
@@ -193400,17 +193400,18 @@
         "move": "answer",
         "key": "on-record"
       },
-      "bearing": "calm",
+      "bearing": "proud",
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "core",
+        "required": true
       }
     },
     {
       "key": "scene-talk.reply-answer.on-record-20",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Even so.",
+      "text": "Yes. I'd vote for {bill} again tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -193429,17 +193430,18 @@
         "move": "answer",
         "key": "on-record"
       },
-      "bearing": "calm",
+      "bearing": "proud",
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "core",
+        "required": true
       }
     },
     {
       "key": "scene-talk.reply-answer.on-record-21",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I've thought about that.",
+      "text": "Every time. {bill} is worth what it costs me.",
       "uses": [
         {
           "subject": "scene",
@@ -193458,17 +193460,18 @@
         "move": "answer",
         "key": "on-record"
       },
-      "bearing": "calm",
+      "bearing": "proud",
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "core",
+        "required": true
       }
     },
     {
       "key": "scene-talk.reply-answer.on-record-22",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Still no.",
+      "text": "It's still yes. I'd back {bill} again.",
       "uses": [
         {
           "subject": "scene",
@@ -193477,7 +193480,7 @@
           "move": "answer",
           "role": "asked",
           "after": "follow-ask",
-          "requiresFacts": ["stand-against"]
+          "requiresFacts": ["stand-for"]
         }
       ],
       "origin": "authored",
@@ -193487,17 +193490,18 @@
         "move": "answer",
         "key": "on-record"
       },
-      "bearing": "calm",
+      "bearing": "proud",
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "core",
+        "required": true
       }
     },
     {
       "key": "scene-talk.reply-answer.on-record-23",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Not as it's written.",
+      "text": "Even then. My no on {bill} stands.",
       "uses": [
         {
           "subject": "scene",
@@ -193516,17 +193520,18 @@
         "move": "answer",
         "key": "on-record"
       },
-      "bearing": "calm",
+      "bearing": "braced",
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "core",
+        "required": true
       }
     },
     {
       "key": "scene-talk.reply-answer.on-record-24",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "I've heard that one.",
+      "text": "Yes. I'd vote against {bill} again tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -193545,14 +193550,75 @@
         "move": "answer",
         "key": "on-record"
       },
-      "bearing": "calm",
+      "bearing": "braced",
       "piece": {
         "of": "on-record.reply-answer",
-        "part": "opener"
+        "part": "core",
+        "required": true
       }
     },
     {
       "key": "scene-talk.reply-answer.on-record-25",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Every time. {bill} doesn't get my vote as it's written.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "follow-ask",
+          "requiresFacts": ["stand-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "on-record.reply-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-26",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Still no. {bill} hasn't changed, and neither have I.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "follow-ask",
+          "requiresFacts": ["stand-against"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "braced",
+      "piece": {
+        "of": "on-record.reply-answer",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-27",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Fine.",
@@ -193580,7 +193646,7 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-26",
+      "key": "scene-talk.reply-answer.on-record-28",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Alright, here it is.",
@@ -193608,7 +193674,7 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-27",
+      "key": "scene-talk.reply-answer.on-record-29",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Then here it is, plainly.",
@@ -193717,7 +193783,475 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-28",
+      "key": "scene-talk.reply-answer.on-record-30",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted for {bill}, and here's why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-for", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-for", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-31",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm a yes on {bill}, and it's simple.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-for", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-for", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-32",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "My yes on {bill} comes down to one thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-for", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-for", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-33",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I backed {bill} for a reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-for", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-for", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-34",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Why I'm for {bill}? Easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-for", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-for", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-35",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll tell you why I backed {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-for", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-for", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-36",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted against {bill}, and here's why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-against", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-against", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-37",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm a no on {bill}, and it's simple.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-against", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-against", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-38",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "My no on {bill} comes down to one thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-against", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-against", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-39",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I opposed {bill} for a reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-against", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-against", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-40",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Why I said no to {bill}? Easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-against", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-against", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-41",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll tell you why I voted against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-ask",
+          "requiresFacts": ["stand-against", "has-reason"]
+        },
+        {
+          "subject": "scene",
+          "set": "on-record",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "after": "state-confront",
+          "requiresFacts": ["stand-against", "has-reason"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words builder (words composer unit 4, on-record move set)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "answer",
+        "key": "on-record"
+      },
+      "bearing": "calm",
+      "piece": {
+        "of": "on-record.reply-answer-why",
+        "part": "core",
+        "required": true
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.on-record-42",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I've believed in {about} for a long time.",
@@ -193750,12 +194284,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-29",
+      "key": "scene-talk.reply-answer.on-record-43",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I think {place} needs {about}.",
@@ -193788,12 +194323,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-30",
+      "key": "scene-talk.reply-answer.on-record-44",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I've never been sold on {about}.",
@@ -193826,12 +194362,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-31",
+      "key": "scene-talk.reply-answer.on-record-45",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I don't think {place} needs {about}.",
@@ -193864,12 +194401,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-32",
+      "key": "scene-talk.reply-answer.on-record-46",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "People in {place} asked me for it, and I listened.",
@@ -193902,12 +194440,13 @@
       },
       "bearing": "tender",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-33",
+      "key": "scene-talk.reply-answer.on-record-47",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Most of the people who called my office about it wanted it.",
@@ -193940,12 +194479,13 @@
       },
       "bearing": "tender",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-34",
+      "key": "scene-talk.reply-answer.on-record-48",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "People in {place} told me they didn't want it.",
@@ -193978,12 +194518,13 @@
       },
       "bearing": "tender",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-35",
+      "key": "scene-talk.reply-answer.on-record-49",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "Most of the calls I got about it were against it.",
@@ -194016,12 +194557,13 @@
       },
       "bearing": "tender",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-36",
+      "key": "scene-talk.reply-answer.on-record-50",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "The section I asked for is in it now.",
@@ -194054,12 +194596,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-37",
+      "key": "scene-talk.reply-answer.on-record-51",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "It has the change I fought for, so it has my vote.",
@@ -194092,12 +194635,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-38",
+      "key": "scene-talk.reply-answer.on-record-52",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My caucus stood together on it, and so did I.",
@@ -194130,12 +194674,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-39",
+      "key": "scene-talk.reply-answer.on-record-53",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My party lined up behind it, and I agree with them.",
@@ -194168,12 +194713,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-40",
+      "key": "scene-talk.reply-answer.on-record-54",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My caucus stood together against it, and so did I.",
@@ -194206,12 +194752,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-41",
+      "key": "scene-talk.reply-answer.on-record-55",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "My party lined up against it, and I agree with them.",
@@ -194244,12 +194791,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-42",
+      "key": "scene-talk.reply-answer.on-record-56",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "I voted the same way the last time {about} came up.",
@@ -194282,12 +194830,13 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
-      "key": "scene-talk.reply-answer.on-record-43",
+      "key": "scene-talk.reply-answer.on-record-57",
       "move": "reply-answer",
       "kind": "spoken",
       "text": "It's how I've voted on {about} before.",
@@ -194320,8 +194869,9 @@
       },
       "bearing": "calm",
       "piece": {
-        "of": "on-record.reply-answer",
-        "part": "reason"
+        "of": "on-record.reply-answer-why",
+        "part": "reason",
+        "required": true
       }
     },
     {
@@ -196550,7 +197100,7 @@
       "key": "scene-talk.follow-accept.on-record-12",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Bold. That's going in about {bill} exactly like that.",
+      "text": "Bold. That goes in the story on {bill} word for word.",
       "uses": [
         {
           "subject": "scene",
@@ -197483,35 +198033,6 @@
       "key": "scene-talk.follow-ask.on-record-7",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Can I quote you on {story}?",
-      "uses": [
-        {
-          "subject": "scene",
-          "set": "on-record",
-          "step": "follow",
-          "move": "ask",
-          "role": "asker",
-          "after": "answer"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words builder (words composer unit 4, on-record move set)",
-      "date": "2026-11-12",
-      "tag": {
-        "move": "ask",
-        "key": "on-record"
-      },
-      "bearing": "curious",
-      "piece": {
-        "of": "on-record.follow-ask",
-        "part": "core",
-        "required": true
-      }
-    },
-    {
-      "key": "scene-talk.follow-ask.on-record-8",
-      "move": "follow-ask",
-      "kind": "spoken",
       "text": "So you overstated it. What's the true version of {bill}?",
       "uses": [
         {
@@ -197538,7 +198059,7 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.on-record-9",
+      "key": "scene-talk.follow-ask.on-record-8",
       "move": "follow-ask",
       "kind": "spoken",
       "text": "What's true about {bill}, then?",
@@ -198306,7 +198827,7 @@
       "key": "scene-talk.beat-beat.on-record-1",
       "move": "beat-beat",
       "kind": "written",
-      "text": "A reporter who doesn't write for {outlet} drifts over.",
+      "text": "A second reporter drifts over to hear what {name} gets.",
       "uses": [
         {
           "subject": "scene",

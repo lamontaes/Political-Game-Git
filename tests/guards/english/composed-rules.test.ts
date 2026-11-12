@@ -256,6 +256,62 @@ const FIXTURES: Record<
       text("scene", [[["rep", "Thanks. Your yes goes in as you said it."]]]),
     ),
   },
+  "answer-is-the-kind-asked": {
+    catches: sampleOf({
+      ...text("scene", [
+        [["rep", "Would you vote against it again tomorrow?"]],
+      ]),
+      screens: [
+        {
+          lines: [
+            composedLine("Would you vote against it again tomorrow?", "rep"),
+          ],
+          offered: [
+            "I've heard that one. I'm a no on the free-fares ordinance.",
+            "Not today.",
+          ],
+        },
+      ],
+    }),
+    spares: sampleOf({
+      ...text("scene", [
+        [["rep", "Would you vote against it again tomorrow?"]],
+      ]),
+      screens: [
+        {
+          lines: [
+            composedLine("Would you vote against it again tomorrow?", "rep"),
+          ],
+          offered: [
+            "Every time. The free-fares ordinance doesn't get my vote.",
+            "Not today.",
+          ],
+        },
+      ],
+    }),
+  },
+  "reason-promise-kept": {
+    catches: sampleOf(
+      text("scene", [
+        [
+          [
+            "member",
+            "I said no to the free-fares ordinance, and I'll say why to anyone who asks.",
+          ],
+        ],
+      ]),
+    ),
+    spares: sampleOf(
+      text("scene", [
+        [
+          [
+            "member",
+            "I said no to the free-fares ordinance, and I'll tell you why. I've never been sold on free fares.",
+          ],
+        ],
+      ]),
+    ),
+  },
   "measure-number-not-spoken": {
     catches: sampleOf(
       text("scene", [[["rep", "You voted against Ordinance 2025-1. Why?"]]]),

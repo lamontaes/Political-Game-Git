@@ -41,6 +41,9 @@ export interface BillNameBook {
         readonly purpose: string;
         readonly repealName: string;
         readonly repealPurpose: string;
+        /** What it does as people say it before the kind: "free-fares" ("the free-fares ordinance"). */
+        readonly said?: string;
+        readonly repealSaid?: string;
       }
     >
   >;
@@ -63,6 +66,8 @@ export interface BillName {
   readonly purpose: string;
   /** Whether the bill undoes or lessens its policy (a repeal, a cut). */
   readonly reverses: boolean;
+  /** What it does as people say it before its kind ("free-fares"), when the book has it. */
+  readonly said?: string;
 }
 
 /**
@@ -90,13 +95,20 @@ export function billNameFor(
   const row = book.policies[question];
   const form = book.forms[formKind];
   if (!row || !form) return null;
+  const said = repeal ? row.repealSaid : row.said;
   return repeal
     ? {
         title: `${row.repealName} ${form}`,
         purpose: row.repealPurpose,
         reverses: true,
+        ...(said ? { said } : {}),
       }
-    : { title: `${row.name} ${form}`, purpose: row.purpose, reverses: false };
+    : {
+        title: `${row.name} ${form}`,
+        purpose: row.purpose,
+        reverses: false,
+        ...(said ? { said } : {}),
+      };
 }
 
 /** What a bill's section carries that names it: the catalog policy or question it was drafted from, and what it does. */

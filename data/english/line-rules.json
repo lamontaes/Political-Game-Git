@@ -5319,6 +5319,30 @@
       }
     },
     {
+      "id": "answer-is-the-kind-asked",
+      "says": "A reply that takes a question on gives the kind of answer it asks for (a reason, a condition, yes or no), and a reply that promises a reason gives it in the same line. The composed half of reply-follows-the-line-before.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "An answer is the kind the question calls for (a reason, a condition, a fact, yes or no); a follow-up the records cannot answer is not asked.",
+          "via": "words lead, read as the owner, Nov 12"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "the same bullshit I talked about yesterday with the just non-replies.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check (words composer, unit 4): the question's kind is read from its last sentence and each offered reply that does not decline must open as that kind of answer opens (data/english/composed-checks.json answerKinds); a line whose last sentence promises a reason breaks reason-promise-kept. The scene moves test (src/director/press-comment-moves.test.ts) holds every answer move of the on-record set to it. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["answer-is-the-kind-asked", "reason-promise-kept"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
       "id": "offered-replies-are-different-choices",
       "says": "The replies offered on one screen are different moves in different words: no two open with the same sentence, and no line says one sentence twice in a row.",
       "judges": "exchange",

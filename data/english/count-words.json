@@ -155,5 +155,46 @@
       "1": "tomorrow",
       "more": "in {count} days"
     }
+  },
+  "roll": {
+    "about": "A floor count as people say it in talk (words lead, Nov 12: \"five to nothing\", \"three to two\"; never raw digits): yes to no, each in words, none as \"nothing\". Read by rollSaid in src/english/count-words.ts; a chamber of up to a few hundred seats is said whole (\"sixty-two to thirty-eight\").",
+    "said": "{yes} to {no}",
+    "none": "nothing",
+    "ones": [
+      "zero",
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen"
+    ],
+    "tens": [
+      "",
+      "",
+      "twenty",
+      "thirty",
+      "forty",
+      "fifty",
+      "sixty",
+      "seventy",
+      "eighty",
+      "ninety"
+    ],
+    "hundred": "{count} hundred",
+    "hundredAnd": "{hundred} {rest}"
   }
 }

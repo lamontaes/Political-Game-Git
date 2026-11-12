@@ -7,6 +7,7 @@ import {
 import { SITUATION_LIBRARY } from "./scheduling";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import type { BankPart, Fact } from "../english/scene-talk-words";
+import { answerFitsQuestion, questionKind } from "../english/composed-checks";
 import {
   adults,
   askedId,
@@ -78,6 +79,22 @@ describe(`a reporter's call said as moves about the bill (seed ${seed})`, () => 
         if (result.kind !== "composed") continue;
         for (const node of nodes(result.talk.tree)) {
           const offered = node.replies.map((reply) => reply.line);
+          // An answer is the kind the question asks for (rule
+          // answer-is-the-kind-asked): a yes or a no to a yes-or-no question,
+          // and a promise of a reason keeps it.
+          const asked = [...node.lines]
+            .reverse()
+            .find((line) => line.role === "asker" && questionKind(line.text));
+          for (const line of offered) {
+            if (asked && line.move === "answer")
+              expect(
+                answerFitsQuestion(asked.text, line.text),
+                `${where}: "${asked.text}" answered "${line.text}"`,
+              ).toBe(true);
+            expect(line.text, where).not.toMatch(
+              /\bI'll (?:say|tell)[^.?!]* why[^.?!]*\.$/,
+            );
+          }
           // Two replies offered together are different moves and different words.
           expect(new Set(offered.map((line) => line.move)).size, where).toBe(
             offered.length,

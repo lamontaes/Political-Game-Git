@@ -334,18 +334,23 @@ export function ownPlaceSaid(tie: "student" | "worker"): string {
  * An organization or a measure named once in a text, then said by the tie
  * (`ownPlaceSaid`) or, for a measure, by its kind ("the ordinance"):
  * every later whole-word mention in these texts, in order, becomes the word
- * for it ("a day off from work", "Work wears me out."). `named` says whether
- * an earlier text already named it; it returns the texts and whether the name
- * has now been said.
+ * for it ("a day off from work", "Work wears me out."). A measure may also
+ * give the words its first mention is said by (`first`: what it does, "the
+ * free-fares ordinance", from the bill-name book), so speech never opens on
+ * its short title or on the bare kind. `named` says whether an earlier text
+ * already named it; it returns the texts and whether the name has now been
+ * said.
  */
 export function nameOnceThen(
   texts: readonly string[],
   name: string,
   /** The tie an organization is said by after, or the words a measure is said by after ("the ordinance"). */
-  tie: "student" | "worker" | { readonly after: string },
+  tie:
+    "student" | "worker" | { readonly after: string; readonly first?: string },
   named: boolean,
 ): { texts: string[]; named: boolean } {
   const word = typeof tie === "string" ? ownPlaceSaid(tie) : tie.after;
+  const first = typeof tie === "string" ? undefined : tie.first;
   const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const pattern = new RegExp(`(?<![\\w'])${escaped}(?![\\w'])`, "g");
   let said = named;
@@ -354,7 +359,7 @@ export function nameOnceThen(
       text.replace(pattern, (match) => {
         if (!said) {
           said = true;
-          return match;
+          return first ?? match;
         }
         return word;
       }),

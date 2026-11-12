@@ -93,7 +93,11 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
-import { measureOnce, pressCommentFacts } from "./press-comment-facts";
+import {
+  measureOnce,
+  outletOnceWords,
+  pressCommentFacts,
+} from "./press-comment-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -1429,9 +1433,26 @@ function composeBinding(
     wording,
   );
   if (result.kind !== "composed") return result;
-  // A measure the call is about is named once, then said by its kind.
-  if (type.purpose === "press-comment" && facts["bill-later"] && facts.bill)
-    measureOnce(result.talk, facts.bill.text, facts["bill-later"].text);
+  // A measure the scene is about is named once, then said by its kind; an
+  // outlet is named once, then said by what it is ("the paper").
+  if (facts["bill-later"] && facts.bill)
+    measureOnce(
+      result.talk,
+      facts.bill.text,
+      facts["bill-later"].text,
+      facts["bill-first"]?.text,
+    );
+  const outlet = facts.outlet
+    ? outletOnceWords(core, facts.outlet.text, facts.outlet.sourceRecordIds)
+    : null;
+  if (outlet && facts.outlet)
+    measureOnce(
+      result.talk,
+      facts.outlet.text,
+      outlet.after,
+      outlet.first,
+      true,
+    );
   return {
     kind: "composed",
     scene: {

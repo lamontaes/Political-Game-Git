@@ -41,34 +41,43 @@ INSERT = re.compile(r"\{[^{}\s]+\}")
 P = []
 
 
-def add(step, move, role, part, bearing, rows, requires=(), after=None):
+def add(step, move, role, part, bearing, rows, requires=(), after=None, group=None):
     for text in rows:
-        P.append((step, move, role, part, text, list(requires), after, bearing))
+        P.append((step, move, role, part, text, list(requires), after, bearing, group))
 
 
 A, R = "asked", "asker"
 
 # ---- the member states their stand (reply: answer) ----
-add("reply", "answer", A, "core", "proud", [
-    "I voted for {bill}, and I'd vote for it again.",
-    "Put me down as a yes on {bill}. You can print that.",
-    "I'm for {bill}, and I'll own it.",
-], ["stand-for"])
-add("reply", "answer", A, "core", "calm", [
-    "I backed {bill} because we've waited long enough for {about}.",
-    "I'm for {bill}. It gets us {about}.",
-    "My vote on {bill} was yes, and I meant it.",
-], ["stand-for"])
-add("reply", "answer", A, "core", "braced", [
-    "I voted against {bill}, and I'd do it again.",
-    "I'm a no on {bill}. Print it.",
-    "I couldn't vote for {bill}, not as it was written.",
-], ["stand-against"])
-add("reply", "answer", A, "core", "calm", [
-    "I said no to {bill}, and I'll say why to anyone who asks.",
-    "My vote on {bill} was no, and I meant it.",
-    "I'm against {bill}. I won't vote for {about}.",
-], ["stand-against"])
+STANDS = {
+    "for": [
+        ("proud", [
+            "I voted for {bill}, and I'd vote for it again.",
+            "Put me down as a yes on {bill}. You can print that.",
+            "I'm for {bill}, and I'll own it.",
+        ]),
+        ("calm", [
+            "I'm for {bill}.",
+            "My vote on {bill} was yes, and I meant it.",
+            "I backed {bill}.",
+        ]),
+    ],
+    "against": [
+        ("braced", [
+            "I voted against {bill}, and I'd do it again.",
+            "I'm a no on {bill}. Print it.",
+            "I couldn't vote for {bill}, not as it was written.",
+        ]),
+        ("calm", [
+            "I said no to {bill}, and I'd say it again.",
+            "My vote on {bill} was no, and I meant it.",
+            "I'm against {bill}.",
+        ]),
+    ],
+}
+for side in ("for", "against"):
+    for bearing, rows in STANDS[side]:
+        add("reply", "answer", A, "core", bearing, rows, [f"stand-{side}"])
 add("reply", "answer", A, "core", "calm", [
     "Here's what I think of {story}: I'll judge it by what it does in {place}.",
     "On {story}, I'll say it plainly: I want to see the numbers first.",
@@ -77,11 +86,20 @@ add("reply", "answer", A, "core", "calm", [
 add("reply", "answer", A, "opener", "calm", [
     "Here's my answer.", "Plainly?", "I'll say it straight.", "Put this down.",
 ], ["own-vote"])
-add("reply", "answer", A, "opener", "calm", [
-    "It's still yes.", "Even so.", "I've thought about that.",
+# A follow-up asks for the stand again under a cost: a yes-or-no question,
+# answered first with the yes or the no (rule answer-is-the-kind-asked), so
+# these cores lead with it and need no opener.
+add("reply", "answer", A, "core", "proud", [
+    "Even then. My yes on {bill} stands.",
+    "Yes. I'd vote for {bill} again tomorrow.",
+    "Every time. {bill} is worth what it costs me.",
+    "It's still yes. I'd back {bill} again.",
 ], ["stand-for"], after="follow-ask")
-add("reply", "answer", A, "opener", "calm", [
-    "Still no.", "Not as it's written.", "I've heard that one.",
+add("reply", "answer", A, "core", "braced", [
+    "Even then. My no on {bill} stands.",
+    "Yes. I'd vote against {bill} again tomorrow.",
+    "Every time. {bill} doesn't get my vote as it's written.",
+    "Still no. {bill} hasn't changed, and neither have I.",
 ], ["stand-against"], after="follow-ask")
 add("reply", "answer", A, "opener", "calm", [
     "Fine.", "Alright, here it is.", "Then here it is, plainly.",
@@ -90,39 +108,59 @@ add("reply", "refuse", A, "opener", "guarded", [
     "Look.", "Not right now.", "Not out here.",
 ])
 # The reason, given once: to the opening question, never again on a branch.
+# Where the member's records hold a reason, the answer to the opening
+# question is its own sentence with the reason required (a "why" is answered
+# with the why); the stand cores are the same as the plain answer's.
 OPENING = ["state-ask", "state-confront"]
+WHY = "reply-answer-why"
+add("reply", "answer", A, "core", "calm", [
+    "I voted for {bill}, and here's why.",
+    "I'm a yes on {bill}, and it's simple.",
+    "My yes on {bill} comes down to one thing.",
+    "I backed {bill} for a reason.",
+    "Why I'm for {bill}? Easy.",
+    "I'll tell you why I backed {bill}.",
+], ["stand-for", "has-reason"], after=OPENING, group=WHY)
+add("reply", "answer", A, "core", "calm", [
+    "I voted against {bill}, and here's why.",
+    "I'm a no on {bill}, and it's simple.",
+    "My no on {bill} comes down to one thing.",
+    "I opposed {bill} for a reason.",
+    "Why I said no to {bill}? Easy.",
+    "I'll tell you why I voted against {bill}.",
+], ["stand-against", "has-reason"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "calm", [
     "I've believed in {about} for a long time.",
     "I think {place} needs {about}.",
-], ["stand-for", "reason-views"], after=OPENING)
+], ["stand-for", "reason-views"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "calm", [
     "I've never been sold on {about}.",
     "I don't think {place} needs {about}.",
-], ["stand-against", "reason-views"], after=OPENING)
+], ["stand-against", "reason-views"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "tender", [
     "People in {place} asked me for it, and I listened.",
     "Most of the people who called my office about it wanted it.",
-], ["stand-for", "reason-town"], after=OPENING)
+], ["stand-for", "reason-town"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "tender", [
     "People in {place} told me they didn't want it.",
     "Most of the calls I got about it were against it.",
-], ["stand-against", "reason-town"], after=OPENING)
+], ["stand-against", "reason-town"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "calm", [
     "The section I asked for is in it now.",
     "It has the change I fought for, so it has my vote.",
-], ["stand-for", "reason-deal"], after=OPENING)
+], ["stand-for", "reason-deal"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "calm", [
     "My caucus stood together on it, and so did I.",
     "My party lined up behind it, and I agree with them.",
-], ["stand-for", "reason-party"], after=OPENING)
+], ["stand-for", "reason-party"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "calm", [
     "My caucus stood together against it, and so did I.",
     "My party lined up against it, and I agree with them.",
-], ["stand-against", "reason-party"], after=OPENING)
+], ["stand-against", "reason-party"], after=OPENING, group=WHY)
 add("reply", "answer", A, "reason", "calm", [
     "I voted the same way the last time {about} came up.",
     "It's how I've voted on {about} before.",
-], ["own-vote", "reason-record"], after=OPENING)
+], ["own-vote", "reason-record"], after=OPENING, group=WHY)
 
 # ---- defer: what comes next (reply: stall) ----
 add("reply", "stall", A, "core", "guarded", [
@@ -274,7 +312,7 @@ add("follow", "accept", R, "core", "calm", [
 ], after="deflect")
 add("follow", "accept", R, "core", "calm", [
     "I'll check {bill} against what you said.",
-    "Bold. That's going in about {bill} exactly like that.",
+    "Bold. That goes in the story on {bill} word for word.",
 ], after="boast")
 add("follow", "accept", R, "core", "calm", [
     "Then I'll print what you said about {bill}, as you said it.",
@@ -341,9 +379,6 @@ add("follow", "ask", R, "core", "curious", [
     "Even if {bill} comes back next year?",
 ], ["stand-against"], after="answer")
 add("follow", "ask", R, "core", "curious", [
-    "Can I quote you on {story}?",
-], after="answer")
-add("follow", "ask", R, "core", "curious", [
     "So you overstated it. What's the true version of {bill}?",
     "What's true about {bill}, then?",
 ], after="confess")
@@ -400,7 +435,7 @@ add("open", "greet", R, "core", "calm", [
     "{outlet} is running something on {bill}.",
 ])
 add("beat", "beat", "narrator", "core", "calm", [
-    "A reporter who doesn't write for {outlet} drifts over.",
+    "A second reporter drifts over to hear what {name} gets.",
     "Somewhere behind {name}, a camera clicks twice.",
     "{name} writes fast, then looks up.",
     "A staffer hovers at your elbow while {name} writes.",
@@ -429,7 +464,8 @@ LIKED_AS = {
 LIKED_AFTER = {
     "Even then. It's the right call.": "follow-ask",
     "Read the bill before you judge it.": "follow-ask",
-    "I'd tell them I listened, and I still disagree.": "follow-ask",
+    # Only to the question it answers: whether they'd hold it against you.
+    "I'd tell them I listened, and I still disagree.": "@Even if the people who wanted {bill} hold it against you?",
     "Then let me answer it on the record.": "answer",
     "We have it on the record. I'm just giving you a chance to respond.": "confront",
     "People say a lot of things.": "confront",
@@ -440,8 +476,21 @@ LIKED_AFTER = {
 SIDED = {"I support it. It's good for {place}.": ["stand-for"]}
 
 
+def piece_keys():
+    """Each authored piece's key by its text, numbered as main() numbers them."""
+    seen, keys = {}, {}
+    for step, move, _role, _part, text, *_ in P:
+        n = seen[(step, move)] = seen.get((step, move), 0) + 1
+        keys[text] = f"scene-talk.{step}-{move}.{SET}-{n}"
+    return keys
+
+
 def main():
     dry = "--dry" in sys.argv
+    keys = piece_keys()
+    for text, after in list(LIKED_AFTER.items()):
+        if after.startswith("@"):
+            LIKED_AFTER[text] = keys[after[1:]]
     bank = json.load(open(BANK))
     serves = set(json.load(open(SETS))["sets"][SET]["purposes"])
     grades = json.load(open(GRADES))["parts"]
@@ -499,7 +548,7 @@ def main():
         trimmed += 1
         kept.append(x)
     seen = {}
-    for step, move, role, part, text, requires, after, bearing in P:
+    for step, move, role, part, text, requires, after, bearing, group in P:
         n = seen[(step, move)] = seen.get((step, move), 0) + 1
         uses = []
         for one in after if isinstance(after, list) else [after]:
@@ -509,10 +558,10 @@ def main():
             if requires:
                 use["requiresFacts"] = requires
             uses.append(use)
-        piece = {"of": f"{SET}.{step}-{move}", "part": part}
-        if part == "core":
+        piece = {"of": f"{SET}.{group or f'{step}-{move}'}", "part": part}
+        if part == "core" or (group == WHY and part == "reason"):
             piece["required"] = True
-            assert INSERT.search(text), text
+            assert part != "core" or INSERT.search(text), text
         kept.append(
             {
                 "key": f"scene-talk.{step}-{move}.{SET}-{n}",

@@ -21,6 +21,7 @@ export const COMPOSED_CHECKS_DATA = data;
 import {
   linesOf,
   plainSentence,
+  sentencesOf,
   type ComposedKind,
   type ComposedLine,
   type ComposedSample,
@@ -1026,6 +1027,105 @@ export const reasonFitsTheSide: ComposedCheck = (text) => {
   return found;
 };
 
+// ---- answer-is-the-kind-asked, reason-promise-kept ----
+
+interface AnswerKind {
+  readonly kind: string;
+  readonly asks: RegExp;
+  readonly answers: RegExp;
+}
+const ANSWER_KINDS: readonly AnswerKind[] = data.answerKinds.kinds.map(
+  (row) => ({
+    kind: row.kind,
+    asks: new RegExp(row.asks, "i"),
+    answers: new RegExp(row.answers, "i"),
+  }),
+);
+const DECLINES = new RegExp(data.answerKinds.declines, "i");
+const REASON_PROMISE = new RegExp(data.answerKinds.reasonPromise, "i");
+const FIRST_SENTENCES = 2;
+
+/** What a line asks for, by its last sentence: a reason, a condition, yes or no; null when it asks nothing. */
+export function questionKind(line: string): string | null {
+  const last = sentencesOf(plainQuotes(line)).at(-one);
+  if (!last?.endsWith("?")) return null;
+  return ANSWER_KINDS.find((row) => row.asks.test(last))?.kind ?? null;
+}
+
+/**
+ * Whether a reply that takes a question on gives the kind of answer it asks
+ * for: one of its first two sentences (a short opener may come first) opens
+ * the way that kind of answer opens. A reply that declines is a move of its
+ * own and is not read here.
+ */
+export function answerFitsQuestion(question: string, reply: string): boolean {
+  const kind = questionKind(question);
+  const row = ANSWER_KINDS.find((one_) => one_.kind === kind);
+  if (!row) return true;
+  const opening = sentencesOf(plainQuotes(reply)).slice(zero, FIRST_SENTENCES);
+  if (row.kind === "condition") return row.answers.test(opening.join(" "));
+  return opening.some((sentence) => row.answers.test(sentence));
+}
+
+/** Whether a reply declines the question (refuses, stalls, turns it, walks off). */
+export const declines = (reply: string): boolean =>
+  sentencesOf(plainQuotes(reply))
+    .slice(zero, FIRST_SENTENCES)
+    .some((sentence) => DECLINES.test(sentence));
+
+/**
+ * A reply offered under a question that takes it on but is not the kind of
+ * answer it asks for (words lead, Nov 12: "An answer is the kind the question
+ * calls for (a reason, a condition, a fact, yes or no)"): "Would you vote
+ * against it again tomorrow?" answered "I've heard that one."
+ */
+export const answerIsTheKindAsked: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const asked = [...screen.lines]
+      .reverse()
+      .find((line) => line.speakerId && questionKind(line.text));
+    if (!asked) return;
+    for (const reply of screen.offered)
+      if (!declines(reply) && !answerFitsQuestion(asked.text, reply))
+        found.push(
+          breakOf(
+            "answer-is-the-kind-asked",
+            text,
+            at,
+            `a ${questionKind(asked.text)} question answered with something else`,
+            `${asked.text} / ${reply}`,
+          ),
+        );
+  });
+  return found;
+};
+
+/** A line that promises a reason and ends without one ("I'll say why to anyone who asks."). */
+export const reasonPromiseKept: ComposedCheck = (text) => {
+  const found: ComposedBreak[] = [];
+  text.screens.forEach((screen, at) => {
+    const said = [
+      ...screen.lines.filter((line) => line.speakerId).map((line) => line.text),
+      ...screen.offered,
+    ];
+    for (const line of said) {
+      const sentences = sentencesOf(plainQuotes(line));
+      if (REASON_PROMISE.test(sentences.at(-one) ?? ""))
+        found.push(
+          breakOf(
+            "reason-promise-kept",
+            text,
+            at,
+            "a reason promised and not given",
+            line,
+          ),
+        );
+    }
+  });
+  return found;
+};
+
 /** Every composed check by its name: the names a rule row's `check` may hold. */
 export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "full-name-once-per-screen": fullNameOncePerScreen,
@@ -1049,6 +1149,8 @@ export const COMPOSED_CHECKS: Readonly<Record<string, ComposedCheck>> = {
   "offered-replies-differ": offeredRepliesDiffer,
   "no-sentence-twice-in-a-line": noSentenceTwiceInALine,
   "measure-number-not-spoken": measureNumberNotSpoken,
+  "answer-is-the-kind-asked": answerIsTheKindAsked,
+  "reason-promise-kept": reasonPromiseKept,
   "reason-fits-the-side": reasonFitsTheSide,
 };
 

@@ -103,3 +103,38 @@ export function daysSaid(days: number): string {
     days <= HOURS_ON_A_CLOCK ? data.clock.numbers[days]! : String(days),
   );
 }
+
+const TEN = 10;
+const HUNDRED = 100;
+const TWENTY = 20;
+
+/** A whole number under a thousand in words ("sixty-two"). */
+function numberWords(count: number): string {
+  const words = data.roll;
+  if (count < TWENTY) return words.ones[count]!;
+  if (count < HUNDRED) {
+    const ones = count % TEN;
+    const tens = words.tens[Math.floor(count / TEN)]!;
+    return ones ? `${tens}-${words.ones[ones]}` : tens;
+  }
+  const hundred = words.hundred.replace(
+    "{count}",
+    words.ones[Math.floor(count / HUNDRED)]!,
+  );
+  const rest = count % HUNDRED;
+  return rest
+    ? words.hundredAnd
+        .replace("{hundred}", hundred)
+        .replace("{rest}", numberWords(rest))
+    : hundred;
+}
+
+/**
+ * A floor count as people say it ("five to nothing", "three to two"): yes to
+ * no, each in words, none as "nothing" (data/english/count-words.json roll).
+ */
+export function rollSaid(yes: number, no: number): string {
+  const say = (count: number) =>
+    count <= 0 ? data.roll.none : numberWords(Math.round(count));
+  return data.roll.said.replace("{yes}", say(yes)).replace("{no}", say(no));
+}
