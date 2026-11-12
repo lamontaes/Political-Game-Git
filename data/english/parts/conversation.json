@@ -34211,7 +34211,7 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["policy-point", "decider"]
+          "requiresFacts": ["policy-point", "decider", "wants-it"]
         }
       ],
       "piece": {
@@ -34259,7 +34259,13 @@
           "subject": "address-point-back",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["policy-point", "why-work", "employer", "decider"]
+          "requiresFacts": [
+            "policy-point",
+            "why-work",
+            "employer",
+            "decider",
+            "wants-it"
+          ]
         }
       ],
       "piece": {
@@ -35000,7 +35006,7 @@
           "subject": "own-view-take",
           "role": "core",
           "stages": ["agree"],
-          "requiresFacts": ["has-reason", "decider"]
+          "requiresFacts": ["has-reason", "decider", "wants-it"]
         }
       ],
       "piece": {
@@ -37264,6 +37270,180 @@
       "bearing": "guarded",
       "origin": "authored",
       "author": "Words builder (words-telling-said-as-talk: a shift is told when it differed)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-core.then-let-s-hope-decider-lets-it-die-you",
+      "move": "address-point-back-core",
+      "kind": "spoken",
+      "text": "Then let's hope {decider} lets it die, {you}.",
+      "uses": [
+        {
+          "move": "address-point-back-core",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "decider", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-core.good-maybe-decider-has-the-sense-to-drop-it",
+      "move": "address-point-back-core",
+      "kind": "spoken",
+      "text": "Good. Maybe {decider} has the sense to drop it.",
+      "uses": [
+        {
+          "move": "address-point-back-core",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["policy-point", "decider", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-core.if-decider-passes-it-anyway-i-ll-feel-it-at-employer",
+      "move": "address-point-back-core",
+      "kind": "spoken",
+      "text": "If {decider} passes it anyway, I'll feel it at {employer}.",
+      "uses": [
+        {
+          "move": "address-point-back-core",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": [
+            "policy-point",
+            "why-work",
+            "employer",
+            "decider",
+            "wants-not"
+          ]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-core.i-hope-decider-never-takes-it-up-you",
+      "move": "address-point-back-core",
+      "kind": "spoken",
+      "text": "I hope {decider} never takes it up, {you}.",
+      "uses": [
+        {
+          "move": "address-point-back-core",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point", "decider", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.address-point-back-core.i-want-decider-to-pass-it-you-we-ll-see",
+      "move": "address-point-back-core",
+      "kind": "spoken",
+      "text": "I want {decider} to pass it, {you}. We'll see.",
+      "uses": [
+        {
+          "move": "address-point-back-core",
+          "subject": "address-point-back",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["policy-point", "decider", "wants-it"]
+        }
+      ],
+      "piece": {
+        "of": "address-point-back",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-let-s-hope-decider-never-passes-it-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then let's hope {decider} never passes it, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["has-reason", "decider", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-both-want-decider-to-drop-it-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we both want {decider} to drop it, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["has-reason", "decider", "wants-not"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: an answer fits the side taken)",
       "date": "2026-11-12"
     }
   ]

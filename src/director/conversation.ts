@@ -2295,6 +2295,12 @@ export function subjectsBetween(
                 text: "yes",
                 sourceRecordIds: [top.recordId],
               },
+              // Which way they want it to go, for an answer about what
+              // comes next.
+              [top.side === "for" ? "wants-it" : "wants-not"]: {
+                text: "yes",
+                sourceRecordIds: [top.recordId],
+              },
             }
           : {}),
         ...(reason?.reason === "work"
@@ -2753,6 +2759,16 @@ function pointSubject(
   if (pick.reason === "view" && pick.point.kind === "policy")
     mark("why-view", [...pick.reasonIds, ...said]);
   if (pick.stand !== "unsure") mark("stand-decided", [...said, speakerId]);
+  // Which way they want the act to go, from their stand against the
+  // President's: an answer about what comes next fits it (lead, Nov 12: "I'll
+  // believe it when Congress passes it" from someone who said no to the plan).
+  if (pick.point.stance && pick.stand !== "unsure")
+    mark(
+      (pick.stand === "with") === (pick.point.stance === "for")
+        ? "wants-it"
+        : "wants-not",
+      [...said, speakerId],
+    );
   // How the listener calls them: "Mom", "Grandpa", else their first name.
   facts.name = calledBy(core, listenerId, speakerId);
   // What it would mean here, from what this world keeps: the state's own law
