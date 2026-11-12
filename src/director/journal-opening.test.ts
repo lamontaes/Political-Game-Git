@@ -200,7 +200,9 @@ it(`the first note says each thing once and names each parent's employer (seed $
         (sentence) =>
           // A given name may carry a capital inside ("DeAndre") or an
           // apostrophe or hyphen.
-          /^My [a-z]+(?: [a-z]+)? ([A-Z][\w'-]*)/.exec(sentence)?.[1],
+          // Said-as (words composer, Nov 12): "My father Tracy" the first
+          // time the Journal names him, "Tracy" after that.
+          /^(?:My [a-z]+(?: [a-z]+)? )?([A-Z][\w'-]*)/.exec(sentence)?.[1],
       );
       expect(subjects, `${where}: "${row.text}"`).not.toContain(undefined);
       expect(
@@ -216,7 +218,7 @@ it(`the first note says each thing once and names each parent's employer (seed $
           : undefined;
         const name = core.people.get(id)?.givenName;
         const sentence = said.find(
-          (text) => name && text.includes(` ${name} `),
+          (text) => name && ` ${text} `.includes(` ${name} `),
         );
         if (!org || !sentence || org.kind === "outside-market") continue;
         // Someone who holds an office is told by the office alone.

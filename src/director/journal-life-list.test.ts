@@ -11,7 +11,7 @@
  * file the entries of JL_SEED are written to.
  */
 import { randomBytes } from "node:crypto";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { expect, it, vi } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";

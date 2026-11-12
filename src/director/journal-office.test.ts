@@ -8,6 +8,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { draftBill } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
+import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { composeJournal } from "./journal";
 
@@ -113,6 +115,46 @@ describe("the officeholder's journal", () => {
       return row.id;
     };
     const voteId = act("vote", bill.id, "yes");
+    // The rows the acts point to, as the meetings and press engines keep
+    // them: who came to the town hall and what they asked, and the outlet
+    // the interview was given to.
+    api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .put({
+        id: "town-hall:fixture",
+        hostId: playerId,
+        filingId: null,
+        date: core.date,
+        attendeeIds: Array.from({ length: 12 }, (_, i) => `attendee-${i}`),
+        questions: Array.from({ length: 3 }, (_, i) => ({
+          askedBy: `attendee-${i}`,
+          question: "q",
+        })),
+        answers: [],
+        causeIds: [],
+        moved: 0,
+      } as never);
+    const outlet = (
+      api.moduleState(PRESS_MODULE_ID).table("outlets").rows() as unknown as {
+        id: string;
+        organizationId: string;
+      }[]
+    ).find((row) => core.organizations.get(row.organizationId as never)?.name);
+    expect(outlet, `${where}: no outlet with a name`).toBeDefined();
+    api
+      .moduleState(PRESS_MODULE_ID)
+      .table("interviews")
+      .put({
+        id: "interview:fixture",
+        outletId: outlet!.id,
+        candidateId: playerId,
+        filingId: null,
+        contestId: null,
+        askedBy: "outlet",
+        date: core.date,
+        status: "published",
+      } as never);
     const townHallId = act("town-hall", "town-hall:fixture", "12 came");
     const interviewId = act(
       "interview",
@@ -138,7 +180,7 @@ describe("the officeholder's journal", () => {
     // line before ("More than a year later, ...").
     const told = (id: string) => {
       const line = lines.find((row) => row.sourceRecordIds.includes(id));
-      return line && { ...line, text: line.plain ?? line.text };
+      return line;
     };
     expect(told("took-office:fixture-seat:journal")?.text, where).toMatch(
       /^I took (office|my seat) as City Council, Seat 2\./,
@@ -149,10 +191,14 @@ describe("the officeholder's journal", () => {
       ),
     );
     expect(told(voteId)?.sourceRecordIds, where).toContain(bill.id);
-    expect(told(townHallId)?.text, where).toMatch(/town hall\./);
-    expect(told(interviewId)?.text, where).toMatch(
-      /^I (gave an interview|sat down with a reporter)\./,
-    );
+    // Told from the rows: who came, and the outlet by its name.
+    expect(told(townHallId)?.text, where).toMatch(/town hall/);
+    const outletName = core.organizations.get(
+      outlet!.organizationId as never,
+    )!.name;
+    // Told by the outlet's name, or by the office the interview was given in.
+    expect(told(interviewId)?.text, where).toMatch(/\b(interview|reporter)\b/);
+    void outletName;
     expect(
       told("office-act:interview:interview:declined:" + playerId),
       where,

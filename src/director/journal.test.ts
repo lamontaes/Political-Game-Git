@@ -573,10 +573,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     for (const line of births)
       expect(line.text).toMatch(/\b(son|daughter|child|[A-Z][a-z]+)\b/);
     // "My daughter Jane was born." or, for a second child, "Jane was born."
-    for (const line of births.filter((row) => / was born\./.test(row.text)))
-      expect(line.plain ?? line.text).toMatch(
-        /^(My \w+ )?[A-Z][a-z]+ was born\./,
-      );
+    // An entry is a paragraph now: each sentence that tells a birth.
+    for (const line of births)
+      for (const sentence of line.text
+        .split(/(?<=\.)\s+/)
+        .filter((row) => / was born\./.test(row)))
+        expect(sentence).toMatch(
+          /^(When I was [^,]+, )?([Mm]y \w+ )?[A-Z][a-z]+ was born\./,
+        );
     for (const line of lines) {
       expect(line.text).not.toMatch(/Little did I know\.?$/);
       // A turning point needs a later chapter of another kind in the record.

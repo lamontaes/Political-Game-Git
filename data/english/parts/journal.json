@@ -9859,6 +9859,32 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-left-my-job-in-place-for-another-one",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I left my job in {place} for another one.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "left-in-place",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (journal composer, words composer unit 6)",
+      "date": "2026-11-12",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
