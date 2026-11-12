@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/savings-draw-id-per-due-date
+pr: 8903
 after:
 blocked-on:
 lead: speed
