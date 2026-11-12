@@ -9,6 +9,11 @@
  *   OCD_STORAGE_OVERRIDE=... NODE_OPTIONS=--max-old-space-size=4096 \
  *     npx tsx scripts/words/scene-played.ts <typeKey> <seed> [places=3] [days=120]
  *
+ * For bribe-offer and bribe-pressed, where no offer comes in the window the
+ * player is offered one through the corruption engine's own considerBribe on
+ * their bill: by the lobbyist who met them on it where one did, else by the
+ * residents with the most money, as the player-seat test does.
+ *
  * Each place is drawn with the repository's drawPlace from `<seed>:<n>`; a
  * place where no member sits or no such scene is staged in the window is
  * named with why and passed over. Development tooling; play never imports it.
@@ -21,7 +26,13 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import type { PersonId } from "../../src/core2/types";
-import { purposeScene } from "../../src/director/purpose-scene";
+import { purposeScene, replyInScene } from "../../src/director/purpose-scene";
+import { considerBribe } from "../../src/core2/modules/corruption";
+import {
+  INTEREST_GROUPS_MODULE_ID,
+  type LobbyMeeting,
+} from "../../src/core2/modules/interest-groups";
+import { coreAPI } from "../../src/core2/state";
 import type { TreeNode } from "../../src/director/scene-talk";
 
 const typeKey = process.argv[2] ?? "office-hours";
@@ -30,6 +41,12 @@ const want = Number(process.argv[4] ?? 3);
 const DAYS = Number(process.argv[5] ?? 120);
 const ATTEMPTS = want * 4;
 const QUESTIONS_TRIED = 4;
+/** The residents with the most money asked, in turn, whether to offer. */
+const RICHEST = 40;
+/** What the favor is worth to an offerer, in times their own money (the player-seat test's). */
+const STAKE_TIMES = 1000;
+/** Days lived after an offer for the director to stage it. */
+const FORCED_DAYS = 3;
 
 function walk(node: TreeNode, depth: number, out: string[]): void {
   const pad = "  ".repeat(depth);
@@ -69,21 +86,79 @@ for (let attempt = 0; attempt < ATTEMPTS && shown < want; attempt += 1) {
   const seat = seatView(core, me);
   const body = seat.bodies[0]!;
   // A bill of their own on the calendar, so the legislature has a roll ahead.
+  let billId: string | undefined;
   for (const question of [...seat.questions].slice(0, QUESTIONS_TRIED)) {
     const bill = seatAct(core, me, {
       kind: "draft",
       officeId: body.officeId,
       question,
       value: 1,
-    }) as { status: string };
-    if (bill.status !== "blocked") break;
+    }) as { id: string; status: string };
+    if (bill.status !== "blocked") {
+      billId = bill.id;
+      break;
+    }
   }
-  let entry;
-  for (let day = 0; day < DAYS && !entry; day++) {
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    entry = director.ledger.people
+  const find = () =>
+    director.ledger.people
       .get(me)
       ?.schedule.find((row) => row.bindings.some((b) => b.typeKey === typeKey));
+  let entry = find();
+  for (let day = 0; day < DAYS && !entry; day++) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    entry = find();
+  }
+  if (!entry && typeKey.startsWith("bribe-") && billId) {
+    const api = coreAPI(core);
+    const lobbyists = core.modules.has(INTEREST_GROUPS_MODULE_ID)
+      ? (
+          api
+            .moduleState(INTEREST_GROUPS_MODULE_ID)
+            .table("meetings")
+            .query("byBillMember", [billId, me]) as unknown as LobbyMeeting[]
+        ).flatMap((row) => (row.lobbyistId ? [row.lobbyistId] : []))
+      : [];
+    const rich = [...core.people.values()]
+      .filter((p) => p.id !== me && p.alive && p.placeId === member.placeId)
+      .sort((a, b) => b.liquidMinor - a.liquidMinor)
+      .slice(0, RICHEST)
+      .map((p) => p.id);
+    for (const offererId of [...lobbyists, ...rich]) {
+      const offerer = core.people.get(offererId);
+      if (!offerer) continue;
+      const record = considerBribe(api, {
+        offererId: offererId as PersonId,
+        officialId: me,
+        stakeMinor: offerer.liquidMinor * STAKE_TIMES,
+        subjectId: billId,
+      });
+      if (record?.offered) break;
+    }
+    if (typeKey === "bribe-pressed") {
+      // The player turns it down in the offer's own scene, as play does.
+      const offer = director.ledger.people
+        .get(me)
+        ?.schedule.find((row) =>
+          row.bindings.some((b) => b.typeKey === "bribe-offer"),
+        );
+      const offered = offer
+        ? purposeScene(core, director, me, offer, { typeKey: "bribe-offer" })
+        : null;
+      const at =
+        offered?.kind === "composed"
+          ? offered.scene.talk.tree.replies.findIndex(
+              (reply) => reply.line.move === "refuse",
+            )
+          : -1;
+      if (offer && at >= 0)
+        replyInScene(core, director, me, offer, [at], {
+          typeKey: "bribe-offer",
+        });
+    }
+    for (let day = 0; day < FORCED_DAYS && !entry; day++) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      entry = find();
+    }
   }
   if (!entry) {
     process.stdout.write(

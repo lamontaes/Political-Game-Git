@@ -49,6 +49,8 @@ const cast = {
   name: fact("Pat Rivera"),
   first: fact(core.people.get(askedId)!.givenName),
   place: fact("the town"),
+  // The offer's own price, from the crime record (bribe-facts.ts).
+  amount: fact("about $400"),
 };
 const compose = (facts: Record<string, Fact>) => {
   const result = composeSceneTalk(
@@ -81,17 +83,25 @@ describe(`an offer left for an official (seed ${seed})`, () => {
     const vote = statement({
       ...cast,
       "favor-vote": fact("vote"),
-      bill: fact("H.R. 12"),
+      bill: fact("the free-fares ordinance"),
     });
-    const contract = statement({ ...cast, "favor-contract": fact("contract") });
-    expect(vote).toMatch(/vote|H\.R\. 12/);
+    const contract = statement({
+      ...cast,
+      "favor-contract": fact("contract"),
+      contract: fact("the road contract"),
+    });
+    expect(vote).toMatch(/vote|free-fares ordinance/);
     expect(contract).toMatch(/bid|contract/);
     expect(contract).not.toMatch(/vote/);
     expect(vote).not.toMatch(/contract|bid/);
   });
 
   it("offers five replies that are five stances, never three words for one answer", () => {
-    const talk = compose({ ...cast, "favor-contract": fact("contract") });
+    const talk = compose({
+      ...cast,
+      "favor-contract": fact("contract"),
+      contract: fact("the road contract"),
+    });
     const moves = talk.tree.replies.map((reply) => reply.line.move).sort();
     expect(moves).toEqual(["accept", "confront", "lie", "refuse", "stall"]);
     expect(
@@ -103,6 +113,7 @@ describe(`an offer left for an official (seed ${seed})`, () => {
     const talk = compose({
       ...cast,
       "favor-contract": fact("contract"),
+      contract: fact("the road contract"),
       source: fact("the town clerk"),
       "knows-truth": fact("yes"),
     });
@@ -120,17 +131,23 @@ describe(`an offer left for an official (seed ${seed})`, () => {
     const talk = compose({
       ...cast,
       "favor-vote": fact("vote"),
-      bill: fact("H.R. 12"),
+      bill: fact("the free-fares ordinance"),
     });
     for (const line of talk.lines) expect(line.text).not.toMatch(/[{}]/);
     const bank = JSON.parse(
       readFileSync("data/english/parts/scene-talk.json", "utf8"),
     ) as {
-      parts: { bearing?: string; uses: { purpose: string; step: string }[] }[];
+      parts: {
+        bearing?: string;
+        uses: { purpose?: string; set?: string; step: string }[];
+      }[];
     };
+    // Its own lines and the bribe move set's pieces (scene-move-sets.json).
     const states = bank.parts.filter((part) =>
       part.uses.some(
-        (use) => use.purpose === "bribe-offer" && use.step === "state",
+        (use) =>
+          (use.purpose === "bribe-offer" || use.set === "bribe") &&
+          use.step === "state",
       ),
     );
     expect(

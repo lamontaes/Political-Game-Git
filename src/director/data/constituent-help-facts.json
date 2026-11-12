@@ -37,5 +37,11 @@
     "tag": "TUNABLE",
     "spread": "Words only, a sliding scale: how a job seeker says their savings stand from their case's severity (constituent-cases.ts problemOf: one less the months their savings last over caseCushionMonths); never a figure (rule no-figures-people-would-not-know). Bands checked at thirds.",
     "checkedAgainst": "The owner's rule no-figures-people-would-not-know (people say how savings stand, not how many months)."
+  },
+  "agencyLater": {
+    "value": "that office",
+    "tag": "TUNABLE",
+    "spread": "Words only: the referral office said after its first mention in a scene (named once, as a paper is).",
+    "checkedAgainst": "The words lead, Nov 12: a name said once in a scene, then by what it is."
   }
 }

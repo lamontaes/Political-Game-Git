@@ -93,6 +93,8 @@ import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
 import { constituentFacts } from "./constituent-help-facts";
+import constituentWords from "./data/constituent-help-facts.json" with { type: "json" };
+import { bribeFacts } from "./bribe-facts";
 import {
   measureOnce,
   outletOnceWords,
@@ -1399,6 +1401,9 @@ function composeBinding(
         variant,
       ),
     );
+  // A bribe offered or pressed: the offer's own records (bribe-facts.ts).
+  if (type.purpose === "bribe-offer" || type.purpose === "bribe-pressed")
+    Object.assign(facts, bribeFacts(core, said.bribeId));
   // A trade names the bill the asker already voted for, the asked person's own:
   // the most recent, from the asker's vote record.
   if (variant && (variant.reads["favor-given"] ?? P.zero) > P.zero) {
@@ -1451,6 +1456,15 @@ function composeBinding(
       facts.outlet.text,
       outlet.after,
       outlet.first,
+      true,
+    );
+  // The office a constituent's case goes to: named once, then "that office".
+  if (type.purpose === "constituent-help" && facts.agency)
+    measureOnce(
+      result.talk,
+      facts.agency.text,
+      constituentWords.agencyLater.value,
+      undefined,
       true,
     );
   return {

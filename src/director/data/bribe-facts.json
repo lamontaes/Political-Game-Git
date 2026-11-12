@@ -1,0 +1,29 @@
+{
+  "schema": "director-bribe-facts/1",
+  "note": "What a bribe scene says of the offer (src/director/bribe-facts.ts): the vote the offerer wants by the side their group takes on the bill (interest-groups.ts LobbyMeeting.side, groupStance), and a contract by the budget line it is for (contracts.ts). Words only; nothing here is a number the world runs on.",
+  "voteWanted": {
+    "value": { "for": "for", "against": "against" },
+    "tag": "TUNABLE",
+    "spread": "Words only: the side said after \"vote\".",
+    "checkedAgainst": "interest-groups.ts LobbyMeeting.side: an employers' group is against."
+  },
+  "contractByLine": {
+    "value": {
+      "highways": "the road contract",
+      "healthAndHospitals": "the hospital contract",
+      "schools": "the school contract",
+      "higherEducation": "the college contract",
+      "welfareAndMedicaid": "the assistance contract",
+      "housing": "the housing contract",
+      "naturalResources": "the parks and land contract",
+      "police": "the police contract",
+      "corrections": "the jail contract",
+      "fire": "the fire department contract",
+      "administration": "the city hall contract",
+      "parks": "the parks contract"
+    },
+    "tag": "TUNABLE",
+    "spread": "Words only: a public contract said by the budget line it pays from (contracts.ts subjectId contract:<government>:<line>:<date>).",
+    "checkedAgainst": "src/core2/modules/contracts.ts; budget lines in data/english/bill-names.json."
+  }
+}

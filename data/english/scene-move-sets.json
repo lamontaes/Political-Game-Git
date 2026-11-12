@@ -8,6 +8,10 @@
     "case-help": {
       "about": "Office hours: a constituent brings the problem their own case holds (constituent-cases.ts: out of work with savings running down, or paid under the minimum wage in force; {employer}, {since}, {cushion}, {pay}, {floor}) and the official answers with what the office can do: take it up, which refers it to {agency}; hand it to {staffer}; or turn it away for the {other-cases} already open. The close says when the office decides ({respond-in}). The scene's ending decides the case (constituent-cases.ts reads scene.reply).",
       "purposes": ["constituent-help"]
+    },
+    "bribe": {
+      "about": "A bribe offered to the official and the pressing after a refusal (corruption.ts: corruption.bribe-offered, corruption.bribe-pressed): the subject is the favor bought ({bill} and {about} for a vote, {contract} for a contract), the price is {amount}, and where the offerer lobbied the member on the bill the group ({group}), the side it wants ({vote-wanted}) and what the bill costs its members ({cost}). The ending is read by corruption.ts: taken, the money moves; refused, the offer is settled; said you would report, the press learns of it.",
+      "purposes": ["bribe-offer", "bribe-pressed"]
     }
   }
 }

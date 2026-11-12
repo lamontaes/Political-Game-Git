@@ -102,6 +102,12 @@ const pressFacts: Record<string, Fact> = {
   "vote-held": fact("Bill 14"),
   "read-town-against": fact("yes"),
   "read-scandal": fact("yes"),
+  // The member's own vote on it, as the facts module reads it from the roll
+  // (press-comment-facts.ts): a reporter calls after the vote.
+  "own-vote": fact("yes"),
+  "stand-against": fact("yes"),
+  about: fact("free fares on public transit"),
+  "next-dead": fact("yes"),
 };
 // What an accusation hands the plain arc's lines (a bill the accuser names).
 const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
@@ -133,19 +139,33 @@ const helpFacts: Record<string, Fact> = {
   "read-notice-served": fact("yes"),
   "read-paid-under-floor": fact("yes"),
   "read-household-illness": fact("yes"),
+  // The case on the office's books (caseFacts).
+  "problem-work": fact("yes"),
+  "money-left": fact("running low"),
+  agency: fact("the workforce office"),
+  "respond-in": fact("in seven days"),
+};
+// What a bribe hands the scene (bribe-facts.ts): the price and the bill.
+const bribeFactsOf: Record<string, Fact> = {
+  ...generic,
+  amount: fact("about $400"),
+  "favor-vote": fact("yes"),
+  bill: fact("the free-fares ordinance"),
 };
 const factsOf = (family: string) =>
-  family === "donor-ask"
-    ? donorFacts
-    : family === "press-comment"
-      ? pressFacts
-      : family === "conflict-accuse"
-        ? accuseFacts
-        : family === "ask-vote"
-          ? voteFacts
-          : family === "constituent-help"
-            ? helpFacts
-            : generic;
+  family === "bribe-offer" || family === "bribe-pressed"
+    ? bribeFactsOf
+    : family === "donor-ask"
+      ? donorFacts
+      : family === "press-comment"
+        ? pressFacts
+        : family === "conflict-accuse"
+          ? accuseFacts
+          : family === "ask-vote"
+            ? voteFacts
+            : family === "constituent-help"
+              ? helpFacts
+              : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -159,10 +179,25 @@ const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   return into;
 };
 
+/** The facts of a wage case: the problem is the pay, not a job lost. */
+const wageCase = (facts: Record<string, Fact>): Record<string, Fact> => {
+  const wage = {
+    ...facts,
+    "problem-wage": fact("yes"),
+    agency: fact("the labor standards office"),
+  };
+  delete wage["problem-work"];
+  delete wage["money-left"];
+  return wage;
+};
+
 const compose = (
   family: string,
   variant: string,
-  facts: Record<string, Fact> = factsOf(family),
+  // A wage case is the short-pay scene's: the case's own problem (caseFacts).
+  facts: Record<string, Fact> = variant === "short-pay"
+    ? wageCase(factsOf(family))
+    : factsOf(family),
   causeId = "cause-a",
 ): SceneTalk => {
   const result = composeSceneTalk(
@@ -328,13 +363,15 @@ describe("a kind with several arcs", () => {
     const first = new Set<string>();
     for (let n = 0; n < 12; n += 1)
       first.add(
-        compose("bribe-offer", "plain", generic, `cause-${n}`).state.text,
+        compose("bribe-offer", "plain", bribeFactsOf, `cause-${n}`).state.text,
       );
     expect(first.size).toBeGreaterThan(1);
     // The same cause says the same words.
     expect(
-      compose("bribe-offer", "friend", generic, "cause-z").state.text,
-    ).toBe(compose("bribe-offer", "friend", generic, "cause-z").state.text);
+      compose("bribe-offer", "friend", bribeFactsOf, "cause-z").state.text,
+    ).toBe(
+      compose("bribe-offer", "friend", bribeFactsOf, "cause-z").state.text,
+    );
   });
 
   it("reads no kind's name: a kind without a row plays its one arc", () => {

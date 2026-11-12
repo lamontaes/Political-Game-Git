@@ -302,7 +302,7 @@ def main():
                 use["requiresFacts"] = requires
             uses.append(use)
         piece = {"of": f"{SET}.{group or f'{step}-{move}'}", "part": part}
-        if part == "core" or (group == WHY and part == "reason"):
+        if part == "core" or (WHY and group == WHY and part == "reason"):
             piece["required"] = True
             assert part != "core" or INSERT.search(text), text
         kept.append(
