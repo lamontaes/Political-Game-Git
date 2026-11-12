@@ -5185,6 +5185,38 @@ function sayNow(
       learnViewQuestion(api, hearerId, playerId, question, eventId);
     }
   }
+  // Agreed or disagreed with, they answer from the same reason on record
+  // (their work, their money): what they will do or expect, never only
+  // that the two agree (words composer, Nov 12). Composed under
+  // `own-view-take` by the reply's move; the talk carries on after.
+  if (
+    last.kind === "own-view" &&
+    !choice.lie &&
+    OWN_VIEW_TAKES.includes(choice.move)
+  ) {
+    const back = composedLine(
+      core,
+      otherId,
+      OWN_VIEW_TAKE,
+      { ...last.facts, you: calledBy(core, otherId, playerId) },
+      choice.move,
+      `${eventId}:take`,
+      saidParts(conversation, otherId),
+    );
+    if (back)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: OWN_VIEW_TAKE,
+        act: "tell",
+        ...back,
+        sourceRecordIds: [...new Set([...back.sourceRecordIds, eventId])],
+      });
+    if (back) {
+      carryOn(core, conversation, data);
+      return conversation;
+    }
+  }
   // A reply to the address's point: the other person keeps what the player
   // said on that question, and answers it in words the engine composes.
   if (last.kind === POINT && last.subject.point && !choice.lie) {
@@ -5447,6 +5479,8 @@ const OWN_VIEW_TAKES: readonly string[] = ["agree", "disagree"];
 /** The player's reply that asks them why, and the subject their answer is composed under. */
 const OWN_VIEW_WHY = "why";
 const OWN_VIEW_BACK = "own-view-back";
+/** The subject their answer to an agreeing or disagreeing reply on where they stand is composed under. */
+const OWN_VIEW_TAKE = "own-view-take";
 
 /** The subject the other person's answer to a reply on news is composed under. */
 const NEWS_BACK = "news-back";

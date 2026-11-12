@@ -35981,6 +35981,220 @@
       "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
       "date": "2026-11-12",
       "bearing": "braced"
+    },
+    {
+      "key": "conversation.own-view-take-core.good-i-ll-say-as-much-at-employer-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. I'll say as much at {employer}, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-you-ll-know-why-when-i-bring-it-up-at-employer",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then you'll know why when I bring it up at {employer}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.good-then-i-m-not-the-only-one-in-place-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Good. Then I'm not the only one in {place}, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-ll-both-vote-that-way-come-november-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we'll both vote that way come November, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"],
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.work-a-year-at-employer-and-ask-me-again-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Work a year at {employer} and ask me again, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.you-ll-see-it-my-way-once-you-pay-bills-in-place",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "You'll see it my way once you pay bills in {place}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["why-money", "place"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.we-ll-see-who-s-right-come-november-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "We'll see who's right come November, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"],
+          "requiresFacts": ["has-reason"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-ll-vote-different-ways-in-november-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we'll vote different ways in November, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["disagree"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
+    },
+    {
+      "key": "conversation.own-view-take-core.then-we-ll-vote-the-same-way-in-november-you",
+      "move": "own-view-take-core",
+      "kind": "spoken",
+      "text": "Then we'll vote the same way in November, {you}.",
+      "uses": [
+        {
+          "move": "own-view-take-core",
+          "subject": "own-view-take",
+          "role": "core",
+          "stages": ["agree"]
+        }
+      ],
+      "piece": {
+        "of": "own-view-take",
+        "part": "core",
+        "required": true
+      },
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words builder (words-telling-said-as-talk: answers to agreement add something)",
+      "date": "2026-11-12"
     }
   ]
 }
