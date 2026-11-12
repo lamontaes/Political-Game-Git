@@ -8,8 +8,10 @@
     "why": "The owner ruled on Oct 15 that his own state roll-call input may calibrate this one parameter, with nothing from it shipped or cited; a builder session does not hold that input.",
     "addedBy": "claude/laws-party-loyalty",
     "addedAt": "2026-10-16",
-    "replacement": "Run the owner's state roll-call input against the simulated chambers (src/core2/party-loyalty.test.ts measures them), set statePartyLoyalty and the test's target from it, and close this row.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Run the owner's state roll-call input against the simulated chambers (src/core2/party-loyalty.test.ts measures them), set statePartyLoyalty and the test's target from it, and close this row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-grocery-exemption-local-base",
@@ -20,8 +22,10 @@
     "why": "No place data says which states let local sales taxes still reach groceries the state exempts (for example home-rule cities, or local option taxes kept on food), so the engine takes the common case of a uniform base.",
     "addedBy": "laws-grocery-exemption-reaches-buyers",
     "addedAt": "2026-10-28",
-    "replacement": "A per-state field in the starting-law research (data/research/laws/local-starting-law/sales-tax.json) saying whether local sales taxes follow the state's grocery exemption, sourced from each state's revenue department, read here so a state exemption spares only the levels its base covers.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A per-state field in the starting-law research (data/research/laws/local-starting-law/sales-tax.json) saying whether local sales taxes follow the state's grocery exemption, sourced from each state's revenue department, read here so a state exemption spares only the levels its base covers.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-lobbying-period-unspecified",
@@ -32,8 +36,10 @@
     "why": "Some researched yes answers have no structured period, and a newly enacted yes/no bill can omit a duration. This item fixes continuous service and reads available provisions without inventing missing statutory detail.",
     "addedBy": "lane-2/lobbying-departure",
     "addedAt": "2026-11-03",
-    "replacement": "Supply the missing structured periods through researched starting-law and voted bill provisions; remove the fallback when every applicable ban carries one.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Supply the missing structured periods through researched starting-law and voted bill provisions; remove the fallback when every applicable ban carries one.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-neighbor-law-starting",
@@ -44,8 +50,10 @@
     "why": "Other states keep only coarse results; their legislatures do not sit in the played world.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "Read each bordering state's law in force from the laws a coarse state legislature enacts for it, so a neighbor's change reaches its neighbors the next session.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Read each bordering state's law in force from the laws a coarse state legislature enacts for it, so a neighbor's change reaches its neighbors the next session.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-federal-position-no-reader",
@@ -56,8 +64,10 @@
     "why": "Each needs a mechanic or a researched size that does not exist yet (a debt ceiling that binds borrowing, an immigration flow, a loan balance record, a disaster cost split, a privacy rule that businesses follow, a statehood and representation change, a sentencing record, a members' holdings record).",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "One reader per question, each from its research (data/research/campaigns/federal-questions-2026.json names the cheapest reader for each), so enacting the law changes a record another engine reads.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: One reader per question, each from its research (data/research/campaigns/federal-questions-2026.json names the cheapest reader for each), so enacting the law changes a record another engine reads.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-local-line-filing-threshold",
@@ -67,8 +77,10 @@
     "why": "The research names how often local bodies amend budgets mid-year but not a size below which members do not bother.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "Thresholds from sampled local budget-amendment codes and agendas.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Thresholds from sampled local budget-amendment codes and agendas.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-disaster-share-size",
@@ -79,8 +91,10 @@
     "why": "Only the administration's stated plan names the replacement share; no bill or rule has set it.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "The share from the first enacted or introduced text, with the state's own cost taken up by the state government's budget.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The share from the first enacted or introduced text, with the state's own cost taken up by the state government's budget.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-debt-limit-binding",
@@ -90,8 +104,10 @@
     "why": "The research names the limit and the votes but no schedule of offsets; the raise-and-offset bargain is not simulated.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "The federal budget's adoption cutting lines by the 'pay for' amount of each raise, from the first enacted or introduced text.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The federal budget's adoption cutting lines by the 'pay for' amount of each raise, from the first enacted or introduced text.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-retail-choice-price",
@@ -101,8 +117,10 @@
     "why": "Published estimates differ by sample and method (Hill finds the cut comes from rate freezes; Borenstein and Bushnell find no significant effect after controlling for gas prices), and none is per state.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "A state-by-state price effect from the restructuring acts' own rate freezes and cuts, with the supplier market (shopping share) as the competition term.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A state-by-state price effect from the restructuring acts' own rate freezes and cuts, with the supplier market (shopping share) as the competition term.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   },
   {
     "id": "SG-LAWS-ui-base-period-last-pay",
@@ -121,10 +139,12 @@
     "file": "data/research/laws/open-meetings-and-records-2026.json",
     "line": 1,
     "whatItFakes": "Each state's days to answer a public-records request (recordsDays, 43 of 56 places with a number, the rest ESTIMATED FROM AVERAGE by median) sit in the research file but are not loaded as law: nothing in the game files or answers a records request, so no engine could read the number.",
-    "why": "The game has no records request: a resident, reporter or the player cannot ask an office for a record, and no office answers one within days. The notice hours in the same file are loaded and read (scheduleVote).",
+    "why": "The game has no records request: a resident, reporter or the player cannot ask an office for a record, and no office answers one within days. The notice hours in the same file are loaded and read (scheduleVote). Dropped by the owner, Nov 10, 2026; its research is kept.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-09",
-    "replacement": "A records request a resident or the player can file with an office, answered within the state's days from the office's own staff time, with the delay and the denial kept as records; then load recordsDaysUsed as a law series and read it where the office answers.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A records request a resident or the player can file with an office, answered within the state's days from the office's own staff time, with the delay and the denial kept as records; then load recordsDaysUsed as a law series and read it where the office answers.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage"
   }
 ]

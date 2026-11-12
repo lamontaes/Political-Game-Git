@@ -34,7 +34,8 @@
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on.",
-    "missingPlace": "Choose where you are from to go on."
+    "missingPlace": "Choose where you are from to go on.",
+    "lookTabs": { "everyday": "Everyday", "formal": "Formal" }
   },
   "debate": {
     "title": "Debate invitation",
@@ -343,6 +344,13 @@
     "where": "Where",
     "any": "Any",
     "begun": "Begun for",
+    "came": "{record} came after {days} days",
+    "neverCame": "{record} never came in {days} days",
+    "states": {
+      "plays": "Plays now",
+      "waits": "Waits for a record",
+      "none": "Cannot be caused yet"
+    },
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
@@ -749,7 +757,8 @@
     "title": "News",
     "nation": "Nation",
     "briefs": "Briefs",
-    "noStoryText": "The paper ran this story as a headline only; the full account has not come in."
+    "noStoryText": "The paper ran this story as a headline only; the full account has not come in.",
+    "nothingYet": "Nothing in print yet."
   },
   "jobs": {
     "work": "Work",
@@ -1000,6 +1009,17 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
+    "yourRecord": "Your record in office",
+    "recordVotes": "Votes you cast",
+    "recordBills": "Bills you sponsored",
+    "recordPromises": "Promises you made",
+    "promiseKept": "Kept",
+    "promiseBroken": "Broken",
+    "promiseOpen": "Still open",
+    "votedFor": "You voted for it",
+    "votedAgainst": "You voted against it",
+    "voteAgainstResult": "it failed",
+    "votePassedResult": "it passed",
     "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
     "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
     "cantFile": "You can't file for this race.",

@@ -28,6 +28,7 @@ import {
 import { countryOpening } from "./country-opening";
 import { gameStartDate } from "./game-start";
 import type { LawInForceAnswer } from "./laws-in-force";
+import type { TaxIndex } from "./tax-index";
 import { historyMonths } from "./macro-model";
 import { macroCoreData } from "./modules/macro";
 import { openingRegionMonths, stateFigures } from "./regional-model";
@@ -71,13 +72,14 @@ type Change = (
   answer: LawInForceAnswer,
 ) => LawInForceAnswer;
 const read = startingLawReader(start);
-const lawOf = (change?: Change) =>
+const lawOf = (change?: Change, index?: TaxIndex) =>
   countryLaw(
     change
       ? (stateKey, series) => change(stateKey, series, read(stateKey, series))
       : read,
     p,
     start,
+    index,
   );
 /** A level's income tax set to zero, in one state or in all. */
 const noIncomeTax =
@@ -107,16 +109,39 @@ function run(
     jobsLost?: (state: CountryState, month: number) => number;
     rate?: (month: number) => number;
     each?: (tier: CountryTier, row: CountryMonth, before: CountryTier) => void;
+    /** The law's indexed amounts move each January with the tier's own prices and pay. */
+    indexed?: boolean;
   } = {},
 ): Run {
   const tier = openCountry(opening, lawOf(), rules);
   const out: CountryMonth[] = [];
+  // Prices and average pay each January, by year: what the law indexes reads.
+  const januaries = new Map<number, { prices: number; wages: number }>();
+  const pay = () => {
+    const totals = countryTotals(tier, rules);
+    return totals.hourlyPay;
+  };
   for (let month = 1; month <= months; month++) {
     const before = options.each ? structuredClone(tier) : tier;
+    const at = new Date(`${start}T00:00:00Z`);
+    at.setUTCMonth(at.getUTCMonth() + month - 1);
+    const year = at.getUTCFullYear();
+    if (!januaries.has(year))
+      januaries.set(year, { prices: tier.priceIndex, wages: pay() });
+    const index: TaxIndex | undefined = options.indexed
+      ? (by, dollarYear) => {
+          const now = januaries.get(year);
+          const then = januaries.get(dollarYear);
+          if (!(year > dollarYear) || !now || !then) return 1;
+          return by === "prices"
+            ? now.prices / then.prices
+            : now.wages / then.wages;
+        }
+      : undefined;
     const row = stepCountry(
       tier,
       {
-        law: lawOf(options.change),
+        law: lawOf(options.change, index),
         policyRate: options.rate?.(month) ?? RATE,
         jobsLost: options.jobsLost
           ? (state) => options.jobsLost!(state, month)
@@ -229,6 +254,50 @@ describe(`the country tier's month: ${where}`, () => {
       expect(row.jobs, where).toBeLessThanOrEqual(row.population);
     }
   }, 120_000);
+
+  it("over twenty years with no law changed, the federal ledger's yearly surplus against what the country sells stays well under the fixed law's where the law indexes its amounts", () => {
+    // Each year's change in the federal ledger, as a share of the year's sales.
+    const balances = (indexed: boolean) => {
+      const years: number[] = [];
+      let cash = 0,
+        sales = 0,
+        started = 0;
+      run(240, {
+        indexed,
+        each(tier, row, before) {
+          if (!started) {
+            started = 1;
+            cash = before.federalCash;
+          }
+          sales += row.sales;
+          if (row.month % 12 === 0) {
+            years.push((tier.federalCash - cash) / sales);
+            cash = tier.federalCash;
+            sales = 0;
+          }
+        },
+      });
+      return years;
+    };
+    const indexed = balances(true);
+    const fixed = balances(false);
+    const mean = (rows: number[]) =>
+      rows.reduce((sum, value) => sum + value, 0) / rows.length;
+    const early = (rows: number[]) => mean(rows.slice(2, 5));
+    const late = (rows: number[]) => mean(rows.slice(-3));
+    const said = (rows: number[]) =>
+      rows.map((value) => (value * 100).toFixed(2)).join(" ");
+    process.stderr.write(
+      `${where}: federal balance by year, percent of sales; indexed: ${said(indexed)}; fixed: ${said(fixed)}\n`,
+    );
+    // The fixed law's surplus climbs as pay outruns its brackets; the
+    // indexed law's ends well under it. What is left of the climb is real pay
+    // outgrowing prices (the law indexes to prices, as the statutes do) and
+    // flows other than the tax on pay (pool item
+    // nation-federal-balance-climbs-with-no-tax-drift).
+    expect(late(fixed) - early(fixed), where).toBeGreaterThan(0);
+    expect(late(indexed), where).toBeLessThan(late(fixed) * 0.8);
+  }, 600_000);
 
   it("two worlds left alone are the same world", () => {
     const a = run(24),
