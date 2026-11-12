@@ -854,17 +854,22 @@ export function collapseToTwoLevels(
   const countedAdultsByPool = new Map<string, number>();
   const countedEmployedByPool = new Map<string, number>();
   const jobHolders = new Set(input.jobs.map((row) => row.personId));
+  // People, not records: a sampled household stands for as many as its own
+  // weight says, or its place's (a county's records each carry their own, so a
+  // count of records alone gave a county of thousands the jobs of a few
+  // hundred people).
   for (const home of collapsedHomes) {
     if (outsideLaborForce(home.quarters)) continue;
     const key = poolKey(home.placeId, !!home.quarters);
+    const weight = home.weight ?? options.weights?.[home.placeId] ?? 1;
     countedAdultsByPool.set(
       key,
-      (countedAdultsByPool.get(key) ?? 0) + adults(home.memberIds),
+      (countedAdultsByPool.get(key) ?? 0) + adults(home.memberIds) * weight,
     );
     countedEmployedByPool.set(
       key,
       (countedEmployedByPool.get(key) ?? 0) +
-        home.memberIds.filter((id) => jobHolders.has(id)).length,
+        home.memberIds.filter((id) => jobHolders.has(id)).length * weight,
     );
   }
   // Each place's counted adults work at the receipt's rate: the workers the
@@ -888,9 +893,8 @@ export function collapseToTwoLevels(
         if (unplaced <= 0) continue;
         const pay = quarters ? roomMedian : median;
         const blended = !quarters && quartersShare > 0;
-        // The sampled households stand for as many as the place's weight says,
-        // so the workers they leave unplaced, and what those workers are paid, do.
-        const weight = options.weights?.[placeId] ?? 1;
+        // The adults above are already people (each household times its
+        // weight), so the workers left unplaced and their pay are too.
         flows.push({
           id: quarters
             ? `residents:unplaced-wages:${placeId}:quarters`
@@ -901,10 +905,8 @@ export function collapseToTwoLevels(
           payeeId: accountFor(placeId),
           residentsId: accountFor(placeId),
           placeId,
-          amountMinor: Math.round(
-            (unplaced * weight * pay * 14) / DAYS_PER_YEAR,
-          ),
-          unplacedWorkers: unplaced * weight,
+          amountMinor: Math.round((unplaced * pay * 14) / DAYS_PER_YEAR),
+          unplacedWorkers: unplaced,
           ...(quarters ? { quarters: true as const } : {}),
           firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
           cadence: { kind: "days", every: 14 },
