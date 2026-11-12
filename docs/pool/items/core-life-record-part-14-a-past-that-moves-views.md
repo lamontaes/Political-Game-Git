@@ -34,3 +34,11 @@ checked: opus-lr 2026-11-12
 **Waits on.** Part 6 (#8670) for partnerships and hospital stays; parts 11 and 12 for service and arrests, read when they land.
 
 **Files.** src/core2/modules/views.ts, src/core2/modules/people.ts, src/core2/data/views/
+
+**Notes.** Read by the Life records builder (opus-lr), Nov 12, before anyone builds this. Three things to settle first:
+
+- **Order.** `viewOf` (src/core2/modules/views.ts line 394) forms a view the first time anything reads it and keeps it. `openWholePast` writes a person's past only when they are opened. A view read before the past is opened would never see the events. Either open the past before the first read of a view, or apply each shift when its record is written, as a change with its record id.
+- **Two tiers.** `countedLean` (line 370) is the lean a counted resident gets when filled in. A counted resident has no records, so a full person's shift would make their lean jump at fill-in. Keep the shifts zero-mean over a town so totals hold, and register the counted side as a stopgap; otherwise this is a rule for full people only (AGENTS.md).
+- **Direction.** Toward or away from a parent needs a decision row in the shared trait table (`decisionLean`, src/core2/trait-decisions.ts), with its trait effects in the manifest (`npm run check:trait-effects`), not a new chooser.
+
+Events a past holds today, by record kind: a parent's spell ended `let-go` (`person.work-spell` and `person.out-of-work` in the work pass) while the child was at home, `family:parent-died`, the person's own job lost, and, once merged, `family.partnership-ended` (#8670) and `justice.arrested-before` (#8945).
