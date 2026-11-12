@@ -710,6 +710,11 @@ describe("a door yes holds for the one household the door reached", () => {
           kept.split[at]![j]!,
           `${where}: the rest of ${kept.weight[at]} households for ${id}`,
         ).toBeCloseTo(expected[id] ?? 0, 9);
+      // Name the place used and every place passed over, so a passing run says
+      // where it proved the case.
+      process.stdout.write(
+        `WEIGHTED RECORD seed ${seed}: proved in ${where}; passed over ${passedOver.length}: ${passedOver.join("; ") || "none"}\n`,
+      );
       return;
     }
     throw new Error(
