@@ -40,9 +40,9 @@ Lives with you
 Her story
 In 2007, she shared a home with Shannon Garcia. You came into the world in 2007. Amy arrived in 2011. Julia arrived after, in 2016.
 At age 5, Elizabeth Garcia grew up going to school in Oregon.
-She spent six months looking for work in 2009. She worked a year and a half in Oregon. At age 24, she found work at Cayuse Fire Department.
+She spent seven months looking for work in 2010. She worked nine months in Oregon. At age 24, she found work at Cayuse Fire Department.
 At 26, she put down roots in Cayuse, Oregon.
-She was accused of a crime in 2007. She was convicted of a crime in 2008.
+She was accused of a crime in 2007. She was convicted of a crime in 2008. She went to prison in 2008. She was released from prison in 2010.
 == Shannon Garcia
 Shannon Garcia
 Shannon Garcia
