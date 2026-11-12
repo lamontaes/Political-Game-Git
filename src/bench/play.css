@@ -1618,11 +1618,11 @@ body:not(.dev) .dev-only {
   height: 0.65em;
   margin-right: 0.45em;
   border: 1.5px solid currentColor;
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   vertical-align: -0.05em;
 }
 .talk-lines .heard-radio .history-who::before {
-  border-radius: 0.35em;
+  border-radius: 50%;
 }
 .talk-lines .heard-newspaper .history-who::before {
   height: 0.8em;
