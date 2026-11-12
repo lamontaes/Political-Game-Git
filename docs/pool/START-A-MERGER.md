@@ -8,7 +8,7 @@ This page is for any agent, on any tool or account, with no context: Codex first
 
 The owner pastes this as it is. Nothing in it is filled in by him:
 
-> You are a merger for the game in lamontaes/Political-Game-Git. Read `AGENTS.md`, then `docs/pool/START-A-MERGER.md`, and follow that page exactly. Work in a cloud checkout, never a second copy on the owner's Mac; set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm command; run `npm install` once, never `npm ci`. Check in: run `npm run pool -- check-in --as` followed by, in quotes, the model you are running on and the tool you are running in. It gives you a name. Find out what you can do, then post one line on issue #7365: `Merger <name>: online; can merge yes/no/unknown; can comment yes/no`. If you cannot comment, write every line you would post to `docs/coordination/merger-log.md` on the branch `merger/log` and push after each line. Then loop. Each pass: read the new comments on #7365 and act on every line starting `CTO:` that names Merger or all desks (a build hold means merge and push nothing until `CTO: build published`). Take the next pull request in the page's order. Gate it on main merged into its head, as the page says, never a lighter gate. A pull request that changes lines the player reads merges only with its scenes on screen before and after in three drawn places and the owner's complaint it answers. If it passes and its head is still the commit you checked, merge it with `gh pr merge <number> --squash --admin --match-head-commit <sha>` (or your tool's own merge function, pinned to that commit the same way) and post `Merger <name>: merged #<number> <sha>`. If it fails, comment once on the pull request with the failing check, the place and the seed, and post `Merger <name>: sent back #<number>` with the reason. Run a failing test on clean main with the same seed before you blame a pull request. If a merge is refused, post `Merger <name>: blocked` with the exact command and its error, never work around it, and keep gating and posting `Merger <name>: ready #<number> <sha>` lines for the CTO to merge. Never merge #8054, #8055, #8056, #8057, #8071, #8074 or #8083, a pull request that only adds the owner's voice notes or CTO notes, or one you wrote. Never force-push and never build new items. Post a line every hour even when nothing merged, and a `Merger <name>: handoff` line before your usage runs out.
+> You are a merger for the game in lamontaes/Political-Game-Git. Read `AGENTS.md`, then `docs/pool/START-A-MERGER.md`, and follow that page exactly. Work in a cloud checkout, never a second copy on the owner's Mac; set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm command; run `npm install` once, never `npm ci`. Check in: run `npm run pool -- check-in --as` followed by, in quotes, the model you are running on and the tool you are running in. It gives you a name. Find out what you can do, then post one line on issue #8928: `Merger <name>: online; can merge yes/no/unknown; can comment yes/no`. If you cannot comment, write every line you would post to `docs/coordination/merger-log.md` on the branch `merger/log` and push after each line. Then loop. Each pass: read the new comments on #8928 and act on every line starting `CTO:` that names Merger or all desks (a build hold means merge and push nothing until `CTO: build published`). Take the next pull request in the page's order. Gate it on main merged into its head, as the page says, never a lighter gate. A pull request that changes lines the player reads merges only with its scenes on screen before and after in three drawn places and the owner's complaint it answers. If it passes and its head is still the commit you checked, merge it with `gh pr merge <number> --squash --admin --match-head-commit <sha>` (or your tool's own merge function, pinned to that commit the same way) and post `Merger <name>: merged #<number> <sha>`. If it fails, comment once on the pull request with the failing check, the place and the seed, and post `Merger <name>: sent back #<number>` with the reason. Run a failing test on clean main with the same seed before you blame a pull request. If a merge is refused, post `Merger <name>: blocked` with the exact command and its error, never work around it, and keep gating and posting `Merger <name>: ready #<number> <sha>` lines for the CTO to merge. Never merge #8054, #8055, #8056, #8057, #8071, #8074 or #8083, a pull request that only adds the owner's voice notes or CTO notes, or one you wrote. Never force-push and never build new items. Post a line every hour even when nothing merged, and a `Merger <name>: handoff` line before your usage runs out.
 
 **The admin flag (owner, Nov 11, about 5:10 p.m.: "let them"):** main's branch rule makes a plain merge wait for GitHub's own checks, which can sit in a queue for hours. A merger merges with `--admin`, only after this page's full gate and only pinned to the exact sha it checked. Never for a held pull request, a draft or one it wrote. If the head moved after the gate, it gates again. The CTO spot-checks a merger's merges from time to time.
 
@@ -24,15 +24,15 @@ The owner pastes this as it is. Nothing in it is filled in by him:
 
 ## Talking to the CTO
 
-The CTO speaks for the owner (owner, Oct 29: "The CTO's word is my word"). Issue #7365 is the one channel.
+The CTO speaks for the owner (owner, Oct 29: "The CTO's word is my word"). Issue #8928 is the one channel. #7365 was the line until Nov 12, 2026; it is near GitHub's comment cap.
 
-- **Inbox.** At the start of every pass, read the comments on #7365 that are newer than the last one you read: `gh api "repos/lamontaes/Political-Game-Git/issues/7365/comments?since=<the time of your last read, ISO>&per_page=100"`. Add `--jq '.[] | "\(.created_at) \(.body[0:300])"'` to see each comment's first lines. Never read the whole issue with a tool that returns every comment: it holds more than 1,500 and the read is refused as too large. Act on every line that starts `CTO:` and names `Merger`, your name, or all desks. The ones you will meet:
+- **Inbox.** At the start of every pass, read the comments on #8928 that are newer than the last one you read: `gh api "repos/lamontaes/Political-Game-Git/issues/8928/comments?since=<the time of your last read, ISO>&per_page=100"`. Add `--jq '.[] | "\(.created_at) \(.body[0:300])"'` to see each comment's first lines. Never read the whole issue with a tool that returns every comment: it holds more than 1,500 and the read is refused as too large. Act on every line that starts `CTO:` and names `Merger`, your name, or all desks. The ones you will meet:
   - `CTO: build hold`: merge nothing and push nothing to main, pool commands included, until `CTO: build published`.
   - `CTO: hold #N`: do not merge that pull request until `CTO: release #N`.
   - `CTO: merge first #N`: gate that one next.
   - `CTO: stop`: finish the check you are in, post your handoff line, and stop.
   - A line that starts `Fable B:` or `Gate desk` or `Train` is the crew's, not an order; read it for heads that are ready (below).
-- **Outbox.** Every result is one line on #7365 that starts `Merger <name>:`:
+- **Outbox.** Every result is one line on #8928 that starts `Merger <name>:`:
   - `Merger <name>: online; can merge yes/no/unknown; can comment yes/no` (your first line)
   - `Merger <name>: merged #N <full sha>`
   - `Merger <name>: ready #N <full sha>` (gated and passed, when you cannot merge)
@@ -46,7 +46,7 @@ The CTO speaks for the owner (owner, Oct 29: "The CTO's word is my word"). Issue
 
 ## Where to start, and the order
 
-Start from the newest `Fable B: handoff` line on #7365 and the open pull requests. Then, every pass, take the first of these that has something in it:
+Start from the newest `Fable B: handoff` line on #8928 and the open pull requests. Then, every pass, take the first of these that has something in it:
 
 1. **A red on main.** Once an hour, read the newest runs on main: `gh run list --branch main --limit 10`, or `gh api "repos/lamontaes/Political-Game-Git/actions/runs?branch=main&per_page=10" --jq '.workflow_runs[] | "\(.name) \(.conclusion) \(.head_sha[0:10])"'`. A pull request whose first line is `Touches pool item: release-main-red`, or whose title starts `Red main`, goes first.
 2. **Rules, checks and skills** (owner, Nov 10: "anytime there's a rule or a check or a skill, just have it merge it before anything else"): a pull request that changes `.agents/rules/`, `.agents/skills/` and its `.claude/skills/` mirror, a test, a guard, a workflow, or `data/english/line-rules.json`.
@@ -99,7 +99,7 @@ When more than about five pull requests are ready in one area (screens, engines,
 
 ## The hourly pool notes
 
-Pool-only changes ride one branch an hour, `pool/notes-<date>-<HH>`, with one pull request (skill `pool-notes`). When a line on #7365 says the hour's notes are cut and gives the head: merge main in locally, run `npm run pool -- --check`, and merge it pinned to that head. Nothing else is checked on a notes bundle. A notes pull request that touches any file outside `docs/pool/` and `docs/release/changes/` is sent back.
+Pool-only changes ride one branch an hour, `pool/notes-<date>-<HH>`, with one pull request (skill `pool-notes`). When a line on #8928 says the hour's notes are cut and gives the head: merge main in locally, run `npm run pool -- --check`, and merge it pinned to that head. Nothing else is checked on a notes bundle. A notes pull request that touches any file outside `docs/pool/` and `docs/release/changes/` is sent back.
 
 ## Stale runs
 
@@ -114,7 +114,7 @@ One comment on the pull request, exact and complete, so its builder needs nothin
 - the failing line or the first lines of the error;
 - what would make it pass, if you know.
 
-Then one line on #7365: `Merger <name>: sent back #N` and the reason in a sentence. You fix only what is mechanical (a conflict in a generated file, prettier, a release note's shape) and say that you did; then the head you push is the head you check and merge. Anything that needs judgment goes back to its builder.
+Then one line on #8928: `Merger <name>: sent back #N` and the reason in a sentence. You fix only what is mechanical (a conflict in a generated file, prettier, a release note's shape) and say that you did; then the head you push is the head you check and merge. Anything that needs judgment goes back to its builder.
 
 ## Stopping
 

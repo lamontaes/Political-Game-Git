@@ -279,6 +279,7 @@ Every table a world keeps, as dev mode's records proof sees it (`src/bench/dev-p
 | `core.peopleByPlace`                             | flat  | measured flat over the years above | 63 / 64 / 65 / 67                 | none needed                       |
 | `core2-employer-taxes-v1.profits`                | flat  | measured flat over the years above | 15 / 33 / 53 / 67                 | none needed                       |
 | `contracts.awards`                               | flat  | measured flat over the years above | 24 / 39 / 51 / 63                 | none needed                       |
+| `core2-world-legislating-v1.agendas`             | flat  | a row per other state, rewritten   | 55 / 55 / 55 / 55                 | none needed                       |
 | `part.core2-outside-factors`                     | flat  | measured flat over the years above | 63 / 63 / 63 / 63                 | none needed                       |
 | `housing.state`                                  | flat  | measured flat over the years above | 62 / 62 / 62 / 62                 | none needed                       |
 | `housing.stock`                                  | flat  | measured flat over the years above | 60 / 60 / 60 / 60                 | none needed                       |
