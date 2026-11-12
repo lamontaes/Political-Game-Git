@@ -145,7 +145,10 @@
     "about": "Who decides a question, by its level, said in talk where a line names who should act (never 'somebody'; lead, Nov 12).",
     "federal": "Congress",
     "state": "the legislature",
-    "local": "the council"
+    "local": "the council",
+    "county": "the county board",
+    "town": "the council",
+    "city": "the council"
   },
   "ownPlace": {
     "about": "Owner via the coordinator, Nov 12: a district's or employer's name is never spoken as the place someone goes. A student says their own school as 'school'; a worker names the employer once in a talk and then says 'work'. By the tie between the person and the organization.",

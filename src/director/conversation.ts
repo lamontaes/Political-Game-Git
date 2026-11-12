@@ -107,6 +107,7 @@ import {
 import { townMetrics } from "../core2/modules/world";
 import { questionSubject } from "../english/policy-names";
 import {
+  NAMED_QUESTIONS,
   questionAbout,
   questionSide,
   questionTo,
@@ -141,14 +142,17 @@ import {
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
-import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/school";
 import {
   clockSaid,
   daysSaid,
   hoursSaid,
   moneySaid,
 } from "../english/count-words";
-import type { FinanceContractInput } from "../core2/finance-types";
+import type { FinanceContractInput } from "../core2/modules/finance";
+import { SCHOOL_MODULE_ID, schoolDayOf } from "../core2/modules/people";
+import { SAID_AS_DATA as saidAsData } from "../english/said-as";
+import { COMPOSED_CHECKS_DATA as composedChecksData } from "../english/composed-checks";
+import { budgetPurposeSaid } from "../english/bill-names";
 import {
   properName,
   spoken,
@@ -168,8 +172,7 @@ import {
   wordPersonSlots,
 } from "../english/said-as";
 import { personWorkOf } from "../core2/person-work";
-import composedChecksData from "../../data/english/composed-checks.json" with { type: "json" };
-import saidAsData from "../../data/english/said-as.json" with { type: "json" };
+import localAddressData from "./data/local-address.json" with { type: "json" };
 import { saidPersonOf } from "./said-person";
 import {
   learnView,
@@ -1516,6 +1519,166 @@ function playerNews(
   return null;
 }
 
+/** What a government did, as a housemate with a source brings it up (conversation-rules.json governmentNews, TUNABLE). */
+const GOVERNMENT_NEWS = (
+  rulesFile as unknown as {
+    governmentNews: {
+      levels: readonly string[];
+      withinDays: { value: number };
+    };
+  }
+).governmentNews;
+/** The news engine's record that a person read a story. */
+const NEWS_READ = "news.read";
+/** The town hall record of the meetings engine. */
+const TOWN_HALL = "town-hall";
+/** A governor's or mayor's address, by its event kind, and the office that gives it (local-address.json). */
+const ADDRESS_OFFICES: ReadonlyMap<string, string> = new Map(
+  Object.values(
+    (
+      localAddressData as unknown as {
+        levels: Readonly<Record<string, { eventKind: string; office: string }>>;
+      }
+    ).levels,
+  ).map((row) => [row.eventKind, row.office]),
+);
+/** A question by the words it is said in (question-names `about`). */
+const QUESTION_BY_ABOUT: ReadonlyMap<string, string> = new Map(
+  NAMED_QUESTIONS.flatMap((question) => {
+    const about = questionAbout(question);
+    return about ? [[about, question] as [string, string]] : [];
+  }),
+);
+
+/**
+ * What a government did, brought up by someone the player lives with who has
+ * a source for it on record (owner's golden path: "the town visibly changes,
+ * people bring it up"): an address they heard (a governor's or a mayor's, said
+ * by role), a local budget line or ordinance that carried, from the story they
+ * read, or a town hall they attended. Read from the speaker's own records
+ * (their index, newest first, never the whole log) within the window. With the
+ * question it was about, their own side on it from the views engine; with no
+ * side of theirs, it is told in two beats. Whom it reached is not read (a
+ * registered stopgap): they say only what they heard, read or saw.
+ */
+function governmentNews(
+  core: Readonly<CoreState>,
+  speaker: Readonly<PersonState>,
+  listener: Readonly<PersonState>,
+): Subject | null {
+  if (!takesStands(core, speaker.id)) return null;
+  const since = addDays(
+    makeIsoDate(core.date),
+    -GOVERNMENT_NEWS.withinDays.value,
+  );
+  const api = coreAPI(core as CoreState);
+  const lean = viewOf(api, speaker.id)?.lean;
+  const ids = [...(core.logByPerson.get(speaker.id) ?? [])];
+  for (let at = ids.length - one; at >= zero; at -= one) {
+    const row = core.durableLog.get(ids[at] as never) as
+      | {
+          id: string;
+          kind: string;
+          date: string;
+          personIds?: readonly string[];
+          facts?: Readonly<Record<string, string>>;
+        }
+      | undefined;
+    if (!row || row.date <= since || row.date > core.date) continue;
+    const facts = row.facts ?? {};
+    const cites = [row.id];
+    const fact = (text: string, ids = cites): Fact => ({
+      text,
+      sourceRecordIds: ids,
+    });
+    const out: Facts = {
+      first: calledBy(core, listener.id, speaker.id),
+    };
+    let stage: string | null = null;
+    let about: string | undefined;
+    const office = ADDRESS_OFFICES.get(row.kind);
+    if (office) {
+      // An address they heard: said by the office's role ("the governor").
+      const role = (
+        saidAsData.offices as Readonly<Record<string, { again?: string }>>
+      )[office]?.again;
+      about = facts[ADDRESS_FACT.pointAbout];
+      if (!role || !about) continue;
+      stage = "address";
+      out.who = fact(role);
+      const stance = facts[ADDRESS_FACT.pointStance];
+      if (stance) out[`official-${stance}`] = fact("yes");
+      out.when = fact(spokenWhen(row.date, core.date));
+    } else if (row.kind === TOWN_HALL && row.personIds?.includes(speaker.id)) {
+      // A town hall they attended, never one they held.
+      if (facts.hostId === speaker.id) continue;
+      const question = (facts.questions ?? "").split(",")[zero];
+      about = question ? (questionAbout(question) ?? undefined) : undefined;
+      if (!about) continue;
+      stage = "meeting";
+      out.when = fact(spokenWhen(row.date, core.date));
+    } else if (row.kind === NEWS_READ && facts.carried === "yes") {
+      // A budget line a local government changed, from the story read.
+      const body = facts.level
+        ? (saidAsData.deciders as Readonly<Record<string, string>>)[facts.level]
+        : undefined;
+      if (!body || !GOVERNMENT_NEWS.levels.includes(facts.level!)) continue;
+      const delta = Number(facts.deltaMinor ?? zero);
+      const purpose = budgetPurposeSaid(facts.line ?? "", delta < zero);
+      if (!purpose || !delta) continue;
+      stage = "budget";
+      out.body = fact(body);
+      out.purpose = fact(purpose);
+      out.amount = fact(moneySaid(Math.abs(delta)));
+    } else if (
+      row.kind === NEWS_READ &&
+      facts.form === "ordinance" &&
+      facts.motion === "adopt" &&
+      Number(facts.yes ?? zero) > Number(facts.no ?? zero)
+    ) {
+      // An ordinance the local body passed, from the story read.
+      const body = facts.level
+        ? (saidAsData.deciders as Readonly<Record<string, string>>)[facts.level]
+        : undefined;
+      const question = (facts.subjects ?? "").split(",")[zero];
+      about = question ? (questionAbout(question) ?? undefined) : undefined;
+      if (!body || !about || !GOVERNMENT_NEWS.levels.includes(facts.level!))
+        continue;
+      stage = "ordinance";
+      out.body = fact(body);
+    } else continue;
+    // How they know it: the record that names them (the story read, the
+    // address heard, the meeting attended).
+    out["knows-record"] = fact("yes");
+    const question = about ? QUESTION_BY_ABOUT.get(about) : undefined;
+    if (about) out.about = fact(about);
+    if (question && lean !== undefined) {
+      const held = viewOn(api, speaker.id, question, lean);
+      if (held !== zero) {
+        out[held > zero ? "wants-it" : "wants-not"] = fact("yes", [
+          ...cites,
+          viewRecordId(speaker.id),
+        ]);
+        const stance = facts[ADDRESS_FACT.pointStance];
+        if (stance)
+          out[
+            held > zero === (stance === "for") ? "with-them" : "against-them"
+          ] = fact("yes", [...cites, viewRecordId(speaker.id)]);
+      }
+    }
+    directorStopgap("SG-DIRECTOR-town-change-reach-unread", WORDS_STOPGAP_HITS);
+    return {
+      id: `government-news:${row.id}`,
+      kind: "government-news",
+      aboutId: row.id,
+      stage,
+      ...(question ? { news: { question } } : {}),
+      facts: out,
+    };
+  }
+  return null;
+}
+
 /** The news engine's kind for a story an outlet printed (press desk). */
 const PRINTED_STORY = "press.printed";
 
@@ -2385,6 +2548,9 @@ export function subjectsBetween(
     // them).
     const theirNews = playerNews(core, director, speaker, listener);
     if (theirNews) out.push(theirNews);
+    // What a government did, from a record the speaker has of it.
+    const governed = governmentNews(core, speaker, listener);
+    if (governed) out.push(governed);
     const quiet = quietDay(core, speaker, listener, room.minuteOfDay);
     if (quiet) out.push(quiet);
   }
@@ -3650,6 +3816,7 @@ const OPENING_ORDER = [
   // Their own day, from its record (the shift, the rent coming due),
   // before the day itself; the player's own news first of these.
   "player-news",
+  "government-news",
   "rent-due",
   "news-touch",
   "work-done",

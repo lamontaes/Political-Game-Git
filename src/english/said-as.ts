@@ -21,6 +21,9 @@
  * in the director builds one from the world).
  */
 import data from "../../data/english/said-as.json" with { type: "json" };
+
+/** The said-as table itself, for readers outside the English engine (the director's talk). */
+export const SAID_AS_DATA = data;
 import { pronounWords, pronounSetOfGender } from "./pronoun-words";
 import {
   employerSaid,

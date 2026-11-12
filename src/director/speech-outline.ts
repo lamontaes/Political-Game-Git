@@ -4,7 +4,7 @@
  * just for the president's speech. This should apply to all speeches ... the
  * problem is the engine"). The President's inaugural and State of the Union,
  * a governor's State of the State and a mayor's State of the City are each a
- * row of `data/speech-outlines.json`: its sections in order, how many points
+ * row of `src/director/data/speech-outlines.json`: its sections in order, how many points
  * and asks it carries, whether its asks are numbered and whether the past
  * year may be told as the speaker's own record. The planner reads the row and
  * the world and returns the blocks `composeBlocks` words:
