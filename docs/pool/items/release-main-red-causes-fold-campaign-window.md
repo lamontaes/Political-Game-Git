@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/red-main-causes-fold-campaign-window
-pr:
+pr: 8912
 after:
 blocked-on:
 lead: cto
