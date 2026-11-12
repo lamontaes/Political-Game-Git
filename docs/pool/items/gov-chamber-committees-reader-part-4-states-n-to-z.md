@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** gov-chamber-committees-reader-part-1-chamber-aware-reader; network access to the state legislature sites. Also gov-chamber-committees-reader-part-3-states-a-to-m (the stopgap resolves when both halves land).
 
 **Files.** src/core2/data/legislature/chamber-committees.json (new), data/research/gov/chamber-committee-appointment-2026.json, src/core2/legislature-committees.test.ts, src/core2/data/stopgaps/gov.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Research of 54 chambers' committee names, seen nowhere.

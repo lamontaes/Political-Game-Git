@@ -31,7 +31,8 @@ function bill(body: ReturnType<DevMode["lawmakingBodies"]>[number]) {
     bodyOfficeId: body.id,
     sponsorId: body.members[0]!.key,
     series: "minimum-wage",
-    value: 20 + (count += 1) / 100,
+    // Whole cents, as a wage floor is kept: $20.01, $20.02 and on (the series' unit is minor).
+    value: 2000 + (count += 1),
   }).bill;
   return row.status === "blocked" ? null : row;
 }

@@ -46,6 +46,8 @@ Checkers and mergers send back most pull requests for the same few reasons, and 
 3. **Never weaken a test to get green.** No skips, early returns, narrowed ranges, raised timeouts without a measured reason, or exemptions for the cases that fail.
 4. **Claims match the diff.**
    - **The release declaration** (`npm run release:declare -- <id>`): if any engine reads what you changed (a price, a payment, a choice, a count), the impact is `patch` or `minor`, not `none`. An `impact: none` file holds only `id`, `impact` and a one-line reason in its body; the release check refuses a `section` or a `title` on it (three pull requests went red on this on Nov 10). `patch` or `minor` also needs `section` and `title`. `release:check --mode pr` reads committed changes only: commit the declaration before you run it.
+   - **A release note with `impact: none` has only `id` and `impact` in its frontmatter.** A `section` or `title` line beside `impact: none` fails `tests/release/release-workflow.test.ts` ("impact:none must not carry section or title"). On Nov 10 six pool-only pull requests carried it and each had to be pushed again.
+   - **And it has its one sentence under the frontmatter.** A note that is frontmatter alone fails `npm run release:check` ("an impact:none declaration still needs a one-line reason in its body"). On Nov 11 two such notes merged (#8513, #8544) and turned the release check red on main for every checker.
    - **Check one fact:** at least one count, date or list in the title, body or release note against the data.
    - **Research values:** reopen the page. The quote must contain the number, and the URL must be the page you read. For an election, record the deciding round, which may be a runoff.
 5. **Rules the checker and merger apply:**
@@ -62,8 +64,15 @@ Follow `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is exactly `Pool item: <id>`, 
 ## Rules
 
 - Never force-push, rebase or amend a pushed branch. A merged pull request carries no new work; open a new branch.
+- **A merged pull request's branch is finished.** Later work starts on a new branch from main with a new name; pushing to the merged branch stacks new commits on history that is already in main. On Nov 10 two follow-ups (#8254, #8370) had to be rebuilt on fresh branches. Once you post a head as ready, do not push to that branch again unless it is sent back: a new push changes the head the desk gated.
 - The item's pull request is the thread (`docs/pool/START-A-BUILDER.md`). Questions for the owner or CTO are comments on it, and a message to the CTO or a neighboring session never replaces the record (owner, Oct 29; `crew-messages`).
 - Treat a permission prompt as denied. Do not retry it; work around it or note it on the pull request. Never schedule a wake-up or recurring job, edit anything under `.git/`, or reach outside the container: each one prompts the owner and the session sits for hours (four sessions did on Oct 29).
 - Before you report a pull request as carrying a fix, check its head has the commits you think it has (`git log origin/<branch>`): a commit pushed after the merge desk merged never reaches main, and #7815 merged as only its first commit (Nov 8). A fix you did not see on main after the merge is not on main.
 - After a merge, compare the merged head with your branch; carry anything left out into your next pull request and say so (#6848).
 - Out of usage or stopping: write the handoff comment first (`docs/pool/START-A-BUILDER.md`), push what you have and stop.
+
+- **Before you take a new item, read whether the cap is on (owner, Nov 11).** While more than 150 game pull requests are open, take none: fix your send-backs, bring your open pull requests up to main, then stop and say so. A change that touches only the pool goes to the hour's bundle, not a pull request of its own. Skill `pool-notes`.
+
+## If you were started as a merger
+
+A session started with the merger's paragraph does not use this loop. It follows `docs/pool/START-A-MERGER.md`: it takes no pool item, builds nothing, and gates and merges what others built.

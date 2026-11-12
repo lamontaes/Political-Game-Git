@@ -631,6 +631,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 1"
       ],
+      "note": "Stays judged: the same words are specific in one scene and vague in another, and no tag on a use says what the scene has already named.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -810,10 +811,17 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 4"
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["^(?:what do you think|what does that mean)\\?$"]
+      },
+      "catches": ["What does that mean?", "What do you think?"],
+      "spares": [
+        "What do you think about that?",
+        "What does that mean for us, though?",
+        "Why me?"
+      ]
     },
     {
       "id": "no-pointing-at-the-unnamed",
@@ -881,6 +889,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 1"
       ],
+      "note": "Awaits the place reader: it needs the lines said before it in the scene, and no tag on a use says what the scene has named.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -957,11 +966,22 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 16"
       ],
-      "note": "The word \"filler\" is cited as his Nov 8 ruling, but it is not in his recorded message of that time. The source is the research document only until a note of his backs it.",
-      "status": "awaiting-test",
+      "note": "The word \"filler\" is cited as his Nov 8 ruling, but it is not in his recorded message of that time. The source is the research document only until a note of his backs it. Sample, not enforced: his recorded words do not say it, only the research does, so the lines it flags go in his next sample and none is pulled. The test reads a comma after the opener (\"Well,\" \"Look,\" \"So,\"), \"you know,\" or \"I mean,\" set off by commas, and \"you know\" closing a line; \"So far\", \"Look at\" and \"You know how\" are not flagged.",
+      "status": "sample",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "(?:^|[.!?] )(?:well|look|so),",
+          "(?:^|[.,!?] )(?:you know|i mean),",
+          "[a-z], you know[.!?]?$"
+        ]
+      },
+      "catches": ["Well, it's a start.", "You can't win this, you know."],
+      "spares": [
+        "So far one voter has heard from you.",
+        "Look at what we have done together.",
+        "Thanks for coming. You know how this works."
+      ]
     },
     {
       "id": "no-stock-phrases",
@@ -977,10 +997,17 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 16"
       ],
-      "status": "awaiting-test",
+      "status": "sample",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "phrases",
+        "phrases": ["moving forward", "at the end of the day", "I hear you"]
+      },
+      "catches": [
+        "I hear you. The answer is still no.",
+        "Moving forward, we will listen."
+      ],
+      "spares": ["I hear the radio from here.", "The day ended early."],
+      "note": "Sample, not enforced: the three phrases come from the rule's own sentence and the research, not from his recorded words (his one note here, \"You're right, I shouldn't have said that\", is already held by rejected-by-voice). \"I hear you\" opens some replies on purpose, so the lines go in his next sample and none is pulled."
     },
     {
       "id": "no-explaining",
@@ -1011,7 +1038,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Stays judged: whether a line explains its own subtext or tells the player what to feel is meaning, and the only phrases in the banks that come near it (\"what that means\") are also ordinary speech; its saved verdicts come with part 7."
     },
     {
       "id": "no-quick-resolution",
@@ -1162,7 +1190,8 @@
         "kind": "judged"
       },
       "catches": ["I really need this one."],
-      "spares": ["I wish I could, but I can't."]
+      "spares": ["I wish I could, but I can't."],
+      "note": "Stays judged: whether \"I really need this one\" names its reason depends on the move and the record the line commits to, which no pattern on the line's words can read."
     },
     {
       "id": "stake-is-named",
@@ -1268,7 +1297,8 @@
         "I couldn't have done it without you.",
         "I could lose my primary over this",
         "this is a two-way street"
-      ]
+      ],
+      "note": "Stays judged: a stake can be a figure, a favor or a name in any words, so no pattern separates \"We're close, but not there yet.\" from a line that names its stake."
     },
     {
       "id": "reply-follows-the-line-before",
@@ -1898,6 +1928,11 @@
       "judges": "piece-in-context",
       "from": [
         {
+          "date": "2026-11-12",
+          "words": "\"Kathryn Hansen will work with me\": who's Kathryn Hansen?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
           "date": "2026-10-15",
           "words": "Got a minute for Woem? Who is Woem? Is that where he's from? Like the city? That doesn't make any sense there. It should just say Michael Howell, like if he's been introduced earlier in the scene."
         },
@@ -1959,6 +1994,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 6"
       ],
+      "note": "Awaits the place reader: it needs who the scene has introduced before the line, and no tag on a use holds that.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -2014,10 +2050,17 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: whether the vote or act has happened is on only three press-comment openers (`vote-held`), so a line that speaks of a vote as done cannot be told from one said after it.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
+      "catches": [
+        "Then put this in the story: I'm proud of my vote.",
+        "I'll sign it again tomorrow.",
+        "Your son has been waiting for you to get home.",
+        "Things are better than they were a year ago, and I intend to keep it going."
+      ],
       "examples": [
         {
           "line": "Then put this in the story: I'm proud of my vote.",
@@ -2056,12 +2099,6 @@
           "words": "Then you know what it does? I'll sign it again tomorrow. What do you mean again?",
           "date": "undated"
         }
-      ],
-      "catches": [
-        "Then put this in the story: I'm proud of my vote.",
-        "I'll sign it again tomorrow.",
-        "Your son has been waiting for you to get home.",
-        "Things are better than they were a year ago, and I intend to keep it going."
       ]
     },
     {
@@ -2071,7 +2108,7 @@
       "from": [
         {
           "date": "2026-10-15",
-          "words": "I'm voting for it and you can quote me. That's very, very, like confident. Like Joe Biden would say that."
+          "words": "I'm voting for it and you can quote me. That's very, very, like confident."
         },
         {
           "date": "2026-10-15",
@@ -2290,6 +2327,7 @@
         "docs/research/dialogue/ (how games write dialogue), rule 7",
         "docs/research/dialogue/ (how games write dialogue), rule 8"
       ],
+      "note": "Stays judged: its catches turn on the speaker's age, job and tie to the listener and on the occasion; a use carries the tie only in sittings (`stranger`, `acquainted`), and no tag holds the speaker's age or job.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -2382,15 +2420,16 @@
           "via": "grade-row note (CTO summary of the Oct 15 night ruling)"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
+        "kind": "phrases",
+        "phrases": [
+          "I'd think hard about that",
+          "I'll think hard about that",
+          "Remember this conversation"
+        ]
       },
-      "catches": [
-        "I'd think hard about that.",
-        "Remember this conversation.",
-        "Don't expect your party's help in the next race."
-      ],
+      "catches": ["I'd think hard about that.", "Remember this conversation."],
       "spares": [
         "I'm not doing this in a hallway.",
         "You'll need friends after this vote. I won't be one.",
@@ -2399,7 +2438,8 @@
         "Then I'll find a candidate who listens.",
         "The party has a long memory.",
         "You know how this works."
-      ]
+      ],
+      "note": "Narrow on purpose: only the two lines he called weird on Oct 15 (\"I'll think hard about that\" reads as a threat out of nowhere; \"remember this conversation\" is weird). \"Don't expect your party's help in the next race\" is off the catch list: he said \"threatening like that is fine\"."
     },
     {
       "id": "ending-lands",
@@ -2664,7 +2704,7 @@
         },
         {
           "date": "2026-11-08",
-          "words": "Sometimes, you could have a Jimmy Carter, a crisis of confidence kind of thing. Sometimes it could just be a hopeful speech, or it could be like Trump just railing on people. There's so many different types of presidential speeches"
+          "words": "There's so many different types of presidential speeches"
         },
         {
           "date": "2026-11-08",
@@ -2924,7 +2964,8 @@
         "I'm hopeful tonight, and I think you've got a reason to be too.",
         "Madam Speaker and everyone watching, thank you for having me.",
         "I'll keep this practical tonight. Here's what I want to get done."
-      ]
+      ],
+      "note": "Stays judged: whether a speech reads as speech, takes a stance and fits the speaker is meaning, and every figure-heavy catch he named uses ordinary words."
     },
     {
       "id": "concrete-image-over-generic",
@@ -3001,7 +3042,8 @@
         "I slept on worse. Fine. Yes.",
         "Before anything else, let's take a breath. A lot of families are living through the worst days of their lives.",
         "They taped it to the door on Thursday. I read it 9 times and I still don't know who I'm supposed to call."
-      ]
+      ],
+      "note": "Stays judged: a concrete image against a generic statement is taste, and his notes liked and rejected near-twins (\"Door by door\" kept, \"write that on your hand\" cut)."
     },
     {
       "id": "trade-not-bribe",
@@ -3018,10 +3060,50 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on his own phrase: \"can't afford a yes\" (or a no) is pulled wherever the talk is not a bribe offer (purpose `bribe-offer`). Whether some other trade reads as a bribe is a reading no tag holds.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["\\bafford an? (?:yes|no)\\b"]
+      },
+      "applies": {
+        "uses": {
+          "lacks": {
+            "purpose": "^bribe-offer"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "Because those three can't afford a yes, and you can.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "floor-switch"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "Because those three can't afford a yes, and you can.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "bribe-offer"
+          }
+        },
+        {
+          "text": "I can't afford to wait a year.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asked",
+            "purpose": "mentor-advice"
+          }
+        }
+      ]
     },
     {
       "id": "variants-differ-in-what-they-say",
@@ -3230,6 +3312,7 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
+      "note": "Awaits the place reader: whether the listener knows why a line matters depends on what the scene set up before it, which no tag holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -3329,6 +3412,7 @@
           "words": "There's no ballot for you here today. Number 2 shouldn't even, or 3.2 shouldn't even be in there. It just shouldn't let you do it if you can't vote."
         }
       ],
+      "note": "Awaits its own reader: it judges which choices a screen offers, read from the player's registration and filing records, not a bank line's words or tags.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -3405,7 +3489,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Stays judged: this is an instruction to the writer before a line exists, so no line carries a mark of it; a line's result is judged by the rules for how it sounds."
     },
     {
       "id": "no-offer-tags",
@@ -4004,6 +4089,7 @@
           "via": "people.md"
         }
       ],
+      "note": "Stays judged: a test would need a list of feeling words his notes do not name, and whether a line narrates a feeling or shows it is a reading.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4052,10 +4138,54 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested where the place's body is not on record: a use that excludes the `body` fact is said when no body record names it, so a line there that calls it \"the board\" or \"the council\" names something the place may not have. These lines are the only ones such a world has for the spot, so the rule is `rewrite`: they keep playing until a rewrite names no body. A line said where the body is known reads its name from the `body` slot.",
+      "status": "rewrite",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "\\bthe (?:board|council|selectboard|trustees|commission)\\b"
+        ]
+      },
+      "applies": {
+        "uses": {
+          "has": {
+            "excludesFacts": "^body$"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "filing-clerk",
+            "excludesFacts": ["body"]
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "The board shows every name. Yours will be on it.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "ask-vote.watched"
+          }
+        },
+        {
+          "text": "The {body} sets the budget and passes the local laws, and you'd get a vote on all of it.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "filing-clerk",
+            "requiresFacts": ["body"]
+          }
+        }
+      ]
     },
     {
       "id": "news-reads-as-a-story",
@@ -4088,6 +4218,7 @@
           "via": "words-news-inauguration-story-reads-as-news.md"
         }
       ],
+      "note": "Stays judged: it judges a whole news item (headline, lede and body together), which no single piece or tag holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4104,6 +4235,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: it judges a whole history as told under a name, assembled from several pieces, which one piece and its tags cannot show.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4120,6 +4252,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: it needs what the player was told before the narration (why they came, what they carry), which no tag on a use holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4141,10 +4274,24 @@
           "via": "words-traits-middle-reads-as-a-sentence.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "\\bneither,? much\\b",
+          "^[A-Za-z' -]{3,40}: (?:high|low|medium|moderate|middling|neither|none|yes|no|\\d)\\b"
+        ]
+      },
+      "applies": {
+        "banks": ["person-sketch", "person-history"]
+      },
+      "catches": ["Keeping commitments: neither, much.", "Neither, much"],
+      "spares": [
+        "You think things through before you act.",
+        "They keep to themselves.",
+        "You're even-tempered: hard to rattle and hard to rush."
+      ],
+      "note": "Tests a trait name followed by a value (\"Neither, much\", \"Dependable: high\") in the person bank files; plain sentences, even with a colon, pass."
     },
     {
       "id": "reply-second-move-follows-the-first",
@@ -4170,7 +4317,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Stays judged: whether a reply's second sentence follows its first is meaning across two sentences, and the picker's reply-follows verdicts judge a line against the one before it, not within one reply."
     },
     {
       "id": "many-variants-of-the-same-meaning",
@@ -4199,6 +4347,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: the card's words about a person the player has not met are built on the screen, and no bank line says \"you have never met\".",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4220,6 +4369,7 @@
           "via": "2026-10-27-1.md"
         }
       ],
+      "note": "Stays judged: it judges the journal as a whole memoir, the entries around a line, which no single piece holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4246,6 +4396,7 @@
           "via": "LAW.md"
         }
       ],
+      "note": "Awaits a tag: whether a line needs its subject named depends on whether the entry around it already names it, and no tag on a use says so; no tag marks a record as a turning point.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4272,6 +4423,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: it judges the whole bill as the body's real form reads (numbering, sections, enacting words), not one piece.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4280,7 +4432,7 @@
     {
       "id": "bill-called-by-what-people-call-it",
       "says": "A bill is called by a real name, the name people give it, or what it does; never by a description from the catalog or the catalog's policy name.",
-      "judges": "line",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-14",
@@ -4296,7 +4448,8 @@
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      }
+      },
+      "note": "Moved to judge a piece in context: the bank line holds only the slot {bill}, and whether it is filled with a real name or the catalog's name is known only from the record at play, so part 2 reads the filled line."
     },
     {
       "id": "business-names-sound-real",
@@ -4314,6 +4467,7 @@
           "via": "people.md"
         }
       ],
+      "note": "Stays judged: it judges the names the world generates for businesses, which are not bank pieces.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4372,10 +4526,51 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on the use: an opener that asks after the school is said only where the use requires `long-ago`, the fact the conversation sets when the record shows the years since school pass the threshold. No tag records something that happened to a school, so that half of his ruling is not read.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["^(?:do |did )?(?:you )?remember \\{school\\}"]
+      },
+      "applies": {
+        "uses": {
+          "has": {
+            "role": "^(?:ask|raise|open)$"
+          },
+          "lacks": {
+            "requiresFacts": "^long-ago$"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "Do you remember {school}?",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "raise"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "Do you remember {school}?",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "raise",
+            "requiresFacts": ["long-ago"]
+          }
+        },
+        {
+          "text": "I remember.",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "answer"
+          }
+        }
+      ]
     },
     {
       "id": "request-needs-its-ground",
@@ -4452,10 +4647,22 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "\\b[A-Za-z]+ (?:director|secretary|commissioner|chair|chairman|officer|administrator|manager) ?/ ?[A-Za-z]+"
+        ]
+      },
+      "catches": [
+        "Budget Director / Finance Secretary",
+        "Ask the Budget Director / Finance Secretary."
+      ],
+      "spares": [
+        "Ask the finance secretary.",
+        "The budget director and the finance secretary agree."
+      ],
+      "note": "Tests the chart form inside a bank line (a title, a slash, a second title). A title filled in from data at play is the filled line's, not the bank's, and waits for a reader of the filled line."
     },
     {
       "id": "promise-only-what-the-speaker-can-do",
@@ -4468,6 +4675,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: whether the speaker can keep a promise depends on who they are (a lobbyist can call a stranger's office, a shopper cannot), and no tag holds the speaker's means.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4484,6 +4692,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: no use carries the pronoun the person goes by, and the banks have no pronoun slot, so \"they\" for one named person cannot be told right from wrong.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4505,11 +4714,11 @@
           "via": "words.md"
         }
       ],
+      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited. Awaits a tag: the later ruling (Oct 19) limits threes and literary turns by the speaker's skill, which no tag holds; the `device` tag is only on opening-speech pieces, all public address.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      },
-      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited."
+      }
     },
     {
       "id": "regional-speech-is-word-choice-only",
@@ -4522,10 +4731,18 @@
           "via": "words.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["\\b[a-z]{2,}in['’](?![a-z])", "\\bya['’]ll\\b"]
+      },
+      "catches": ["I'm goin' to the store.", "Ya'll come back now."],
+      "spares": [
+        "Y'all come on in.",
+        "Would you like pop or soda?",
+        "You guys ready?"
+      ],
+      "note": "Tests the clear spelled-out accents: a dropped final g with an apostrophe (\"goin'\") and \"ya'll\". Word choice (pop, soda, y'all, you guys) passes."
     },
     {
       "id": "swearing-follows-personality",
@@ -4538,6 +4755,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs the speaker's crudeness and whether the room is private, and no use carries either; no bank line swears today.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4554,6 +4772,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs whether the speaker read the matter or took part in it, which the bring-it-up bank's roles name only for some uses and no other bank holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4570,10 +4789,66 @@
           "via": "words.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on the scene narration he ruled on: a narrator's line (scene-talk role `narrator`, and the scene-words bank) that speaks as \"I\" outside a quotation. The journal's first person is in the rule's sentence but not in his words here, so it is not tested.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "^(?:[^\"“”]|[\"“][^\"”]*[\"”])*?\\b(?:I|I['’](?:m|ve|ll|d)|me|my|myself)\\b"
+        ]
+      },
+      "applies": [
+        {
+          "banks": ["scene-words"]
+        },
+        {
+          "banks": ["scene-talk"],
+          "uses": {
+            "has": {
+              "role": "^narrator$"
+            }
+          }
+        }
+      ],
+      "catches": [
+        {
+          "text": "I walk into the clerk's office with my forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator",
+            "purpose": "filing-clerk"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "You walk into the clerk's office with your forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator",
+            "purpose": "filing-clerk"
+          }
+        },
+        {
+          "text": "I'll take the forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asked",
+            "purpose": "filing-clerk"
+          }
+        },
+        {
+          "text": "{name} says, \"I'll be there.\"",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator"
+          }
+        }
+      ]
     },
     {
       "id": "childhood-lines-claim-no-outcomes",
@@ -4586,6 +4861,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs what the record holds about the person's growing up, and no bank line reads \"Remembered as\" today.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4606,7 +4882,7 @@
       "test": {
         "kind": "judged"
       },
-      "note": "Sept 7 style authority; the later rule concrete-image-over-generic asks for a concrete image where the voice allows, which this does not forbid."
+      "note": "Sept 7 style authority; the later rule concrete-image-over-generic asks for a concrete image where the voice allows, which this does not forbid. Stays judged: a metaphor or an epigram has no word list his notes name, and \"as if\" and \"like a\" are ordinary speech that a pattern would pull by mistake."
     },
     {
       "id": "news-comes-from-a-record",
@@ -4624,6 +4900,7 @@
           "via": "press.md"
         }
       ],
+      "note": "Stays judged: it judges whether the paper's story came from a record, which the news producer decides, not a bank line's words or tags.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4640,16 +4917,32 @@
           "via": "people.md"
         }
       ],
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["^lie[.!]?$", "^lie to [a-z{}-]+[.!]?$"]
+      },
+      "applies": {
+        "banks": ["choice-names", "conversation", "scene-talk"]
+      },
+      "catches": ["Lie.", "Lie to {name}."],
+      "spares": [
+        "I'd rather lose the argument with you than lie to you. No.",
+        "Then who's lying?",
+        "I'm going to go lie down."
+      ],
+      "note": "Tests a choice or reply whose whole text is the word (\"Lie.\"). The lie scales are drawn by the conversation screen, not a bank line, so the screen label is the player-screen-text check's, and what a bank line cannot do is name it."
     },
     {
       "id": "address-is-national-not-about-the-player",
       "says": "An address is a national speech like a real inaugural: it does not name the player's state or home town, and does not speak as if the President came from the player's place.",
       "judges": "piece-in-context",
       "from": [
+        {
+          "date": "2026-11-12",
+          "words": "\"folks in Georgia\": Why Georgia?",
+          "via": "2026-11-12-life-1 voice note"
+        },
         {
           "date": "2026-10-27",
           "words": "The speech needs to be like a real inaugural, not a player-centered one.",
@@ -4671,9 +4964,338 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
+      "note": "Composed check: a speech naming a state that is not its own jurisdiction's (any state for the President's), or the President's naming the player's town. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["speech-names-no-stray-place"],
+        "applies": ["speech:president", "speech:governor", "speech:mayor"]
+      }
+    },
+    {
+      "id": "line-fits-the-roles-in-its-situation",
+      "says": "What a line implies must fit who is in the situation: it never treats the listener as a candidate when they only heard the result secondhand, and never sends a speaker to someone else to decide a vote that is the speaker's own.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "An apology implies the listener was running; if you were running you wouldn't hear the result secondhand.",
+          "via": "data/english/grades/2026-11-09-batch-2-voice.json, note on scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "\"You'll have to ask the chair\" makes no sense for your own vote.",
+          "via": "docs/coordination/OWNER-DECISIONS.md, Oct 16 batch 15 review; also data/english/grades/voice-notes-batches-11-19.json, note on scene-talk.reply-deflect.you-ll-have-to-ask-the-chair"
+        }
+      ],
+      "note": "Stays judged: whether a line fits who is in the situation is a reading of the roles; a race-told use marks a listener who ran (`you-ran`), but no tag on a use says whether a vote the line sends elsewhere is the speaker's own.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
+      },
+      "catches": [
+        "I'm sorry. {winner} won the {office} race.",
+        "You'll have to ask the chair."
+      ]
+    },
+    {
+      "id": "speech-has-one-theme",
+      "says": "A speech has one theme, and every point, ask and figure in it belongs to that theme.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "random. It's just throwing a bunch of shit in. There's no theme for the speech. That's a problem.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "We're not talking about any ideas that this person believes in.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check, partly: a subject's word said more than three times in one speech (words skill, Nov 11). Whether every point belongs to one theme needs the outline (design part 3). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["subject-budget"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
+      }
+    },
+    {
+      "id": "speech-follows-its-kinds-order",
+      "says": "Each kind of speech keeps the order a real speech of that kind has; it does not open on a list of people and then single one out.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "starts off with a list of people, and then it specifically mentions the Speaker and then the Congress. That doesn't make any sense",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "asks-differ-by-world",
+      "says": "What a speaker asks for comes from their own platform in this world and differs between worlds; no one ask leads every speech.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "why is it always stock trading? It's always stock trading",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: the same ask said twice in one speech, by its subject words. That one ask leads the speeches of every world is read across draws by the run's table, not by a check. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["ask-said-once"],
+        "applies": [
+          "speech:president",
+          "speech:governor",
+          "speech:mayor",
+          "speech:player"
+        ]
+      }
+    },
+    {
+      "id": "stance-is-plainly-for-or-against",
+      "says": "A sentence about a position says plainly whether the speaker is for it or against it, and asks only the level of government that can act.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "they always raise the debt limit... that sentence just doesn't even grammatically make any sense... Is he for it? Is he against it?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "If it's a federal law, it's a federal law.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "person-said-by-role-pronoun-or-relationship",
+      "says": "A person is said by role and name at first mention, then by role, pronoun or relationship; never a bare full name the listener was not given, and never a full name twice on one screen.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "who's Kathryn Hansen?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "saying the full name every time. There needs to be pronouns and titles.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "You could say I'm with the president, or... I thought he made sense.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check (docs/design/words-composer.md, part 6): a full name twice on one screen, and a full name first said with no role or relationship about someone the listener was not given, over every kind of text. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["full-name-once-per-screen", "no-bare-full-name-unintroduced"]
+      }
+    },
+    {
+      "id": "one-idea-to-a-sentence",
+      "says": "A composed sentence holds one idea in one tense; two full clauses are never joined by a comma, and sentences in a paragraph follow one another.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "a comma. So we're combining two ideas together... That whole first sentence is AI slop.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "disjointed statements put together. There needs to be a way for you to still have stuff be put together by the engine, but read more smoothly.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "mixing tenses.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: two full clauses joined by a comma, in every composed sentence. One tense in a sentence and sentences that follow one another are not built yet: a sound reader of tense needs the join's typed pieces (design part 4). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-comma-splice"]
+      }
+    },
+    {
+      "id": "figure-says-which-way-and-whose",
+      "says": "A line about a figure says which way it moved and what it is measured against, in words a listener can picture.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "Keep going up or down?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "What does that mean?",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "no-reply-asks-what-the-listener-cannot-know",
+      "says": "A reply never asks the other person something they hold no record to answer, and people who live together already know each other's work and household facts.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "how the hell would she know?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "Which Washington?... Why should she care?",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "a useless interaction. It just shouldn't even be there.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: asking after someone who is in the room, and a housemate asking the player their work, home or name. A question about the world the listener holds no record of is not caught yet; it needs the telling (design part 1). Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": [
+          "not-asked-after-while-present",
+          "housemate-does-not-ask-known-fact"
+        ],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
+      "id": "two-speakers-make-different-points",
+      "says": "Two people in one room on one day make different points for different reasons; the second never repeats the first's sentence.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "Maya and Logan... basically saying the same thing.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: a sentence (names set aside) said by one member of the player's household after another said it the same day. A different point said in other words is not caught. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-echo-between-speakers"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
+      "id": "line-fits-the-hour",
+      "says": "A line fits the hour it is said at and the day of the person it is said to; no \"tonight\" for later when it is already night, no end-of-day talk in the morning, and no one subject every morning.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "makes no sense.",
+          "via": "2026-11-12-life-1 voice note"
+        },
+        {
+          "date": "2026-11-12",
+          "words": "weird.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: a line looking ahead to a part of the day already here or over, or end-of-day talk in the morning, read against the minute it was said; and the same opener to the same person on three days of one week. Whose day it was (no job, no school) is not read yet. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-over-daypart", "no-daily-subject-loop"],
+        "applies": ["talk:home", "talk:town", "scene", "narration"]
+      }
+    },
+    {
+      "id": "no-non-replies",
+      "says": "An answer says something; \"Okay.\" or \"Oh, I see.\" is never the whole of what a person says back, and a talk never closes on a promise to check in again.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "the same bullshit I talked about yesterday with the just non-replies.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: an answer of three words or fewer that only acknowledges what the player said, and a talk that closes on a promise to talk again. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["no-non-reply"],
+        "applies": ["talk:home", "talk:town", "scene"]
+      }
+    },
+    {
+      "id": "pictures-show-who-the-text-names",
+      "says": "Pictures shown with a speech show the people the speech names, when it names them.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "it was just showing random busts of people. The slideshow doesn't really make any sense now with busts of people, unless it's people that he's introducing in this speech",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Awaits the composed check (docs/design/words-composer.md, part 6): it reads a whole composed text, which no test on one bank line can.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "note-stands-alone",
+      "says": "A Journal note or a news line shown by itself is a whole sentence that stands alone and names its subject: the law, the amount, the person.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-12",
+          "words": "doesn't even make sense... Neither does the news toast.",
+          "via": "2026-11-12-life-1 voice note"
+        }
+      ],
+      "note": "Composed check: a Journal note or news toast that opens leaning on a sentence it is shown without, or doubles a word. Whether it names its law and amount is not read yet. Sample: it reports, it pulls no bank line.",
+      "status": "sample",
+      "test": {
+        "kind": "composed",
+        "check": ["note-stands-alone"],
+        "applies": ["journal:note", "news:toast"]
       }
     }
   ]

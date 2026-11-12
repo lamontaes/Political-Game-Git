@@ -8,6 +8,8 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { countryLaw, startingLawReader } from "./country-law";
 import {
+  COUNTRY_AGE_BANDS,
+  COUNTRY_SECTORS,
   countryMoney,
   countryPeople,
   countryProblems,
@@ -15,9 +17,11 @@ import {
   countryTotals,
   countryUnemployment,
   openCountry,
+  resolveCountryPart,
   spreadFlows,
   stepCountry,
   type CountryMonth,
+  type CountryPart,
   type CountryState,
   type CountryTier,
 } from "./country-model";
@@ -151,6 +155,44 @@ describe(`the country tier's month: ${where}`, () => {
     ).toBeLessThan(0.1);
   });
 
+  it("a part that counted more workers than people in a band resolves to jobs equal to its workers", () => {
+    const tier = openCountry(opening, lawOf(), rules);
+    const state = tier.states[0]!;
+    // Every band counts a tenth more workers than it has people, and as many jobs as workers.
+    const people = COUNTRY_AGE_BANDS.map(() => 1000);
+    const workers = people.map((n) => n * 1.1);
+    const total = sum(workers);
+    const part = resolveCountryPart(state, {
+      people,
+      workers,
+      seekers: people.map(() => 0),
+      children: 0,
+      cash: 0,
+      jobs: { [COUNTRY_SECTORS[0]!]: total },
+      unsortedJobs: 0,
+    });
+    const jobs = sum(COUNTRY_SECTORS.map((sector) => part.jobs[sector]));
+    expect(sum(part.workers), where).toBeCloseTo(sum(people), 6);
+    expect(jobs, `${where}: jobs equal workers`).toBeCloseTo(
+      sum(part.workers),
+      6,
+    );
+    // A part whose counts already fit is left as it was.
+    const fits = resolveCountryPart(state, {
+      people,
+      workers: people.map((n) => n * 0.5),
+      seekers: people.map(() => 0),
+      children: 0,
+      cash: 0,
+      jobs: { [COUNTRY_SECTORS[0]!]: sum(people) * 0.5 },
+      unsortedJobs: 0,
+    });
+    expect(
+      sum(COUNTRY_SECTORS.map((sector) => fits.jobs[sector])),
+      where,
+    ).toBeCloseTo(sum(people) * 0.5, 6);
+  });
+
   it("keeps every dollar and every person accounted for, each month for twenty years", () => {
     const start0 = openCountry(opening, lawOf(), rules);
     const money = countryMoney(start0);
@@ -279,6 +321,88 @@ describe(`the country tier's month: ${where}`, () => {
     // The net of the two is the sector's pace.
     expect(growing.opened - growing.ended).toBeCloseTo(0.01, 6);
     expect(growing.ended).toBeGreaterThan(0);
+  });
+});
+
+describe(`a played part that is more than its state: ${where}`, () => {
+  // A played town can count more people and jobs than the tier gives its whole
+  // state (Washington, D.C., Nov 11: 378,048 jobs against the state's 324,579).
+  // The part takes what the state holds, the rest is left with nothing, and the
+  // part's books come back with it. Before, the rest kept floating-point
+  // leftovers (4.5e-13 jobs) whose books a whole sector was later scaled from:
+  // its prices doubled in two months and its investment reached 7e20.
+  it("leaves the rest with nothing, gives the part's books back, and moves no state's prices past a normal month", () => {
+    const more = 1.15;
+    const partOf = (state: CountryState): CountryPart => {
+      const byBand = (pick: (cell: CountryState["cells"][number]) => number) =>
+        COUNTRY_AGE_BANDS.map(
+          (_, band) =>
+            more *
+            sum(
+              state.cells
+                .filter((cell) => cell.band === band)
+                .map((cell) => pick(cell)),
+            ),
+        );
+      return {
+        people: byBand((cell) => cell.people),
+        workers: byBand((cell) => cell.workers),
+        seekers: byBand((cell) => cell.seekers),
+        children: state.children,
+        jobs: Object.fromEntries(
+          state.sectors.map((row) => [row.sector, more * row.jobs]),
+        ) as CountryPart["jobs"],
+        cash: 0,
+      };
+    };
+    const alone = openCountry(opening, lawOf(), rules);
+    const played = openCountry(opening, lawOf(), rules);
+    const part = partOf(stateOf(played, picked.usps));
+    // The month's normal rise: the largest any state's prices make in a month left alone.
+    let normal = 0;
+    for (let month = 1; month <= 3; month++) {
+      const before = alone.states.map((state) => state.prices);
+      stepCountry(alone, { law: lawOf(), policyRate: RATE }, rules);
+      alone.states.forEach((state, at) => {
+        normal = Math.max(normal, state.prices / before[at]! - 1);
+      });
+      stepCountry(
+        played,
+        {
+          law: lawOf(),
+          policyRate: RATE,
+          parts: (state) =>
+            state.usps === picked.usps ? { out: part, in: part } : undefined,
+        },
+        rules,
+      );
+      expect(countryProblems(played), `${where}, month ${month}`).toEqual([]);
+      played.states.forEach((state, at) => {
+        const own = alone.states[at]!;
+        const said = `${where}, month ${month}, ${state.usps}: prices ${state.prices} against ${own.prices} left alone, a normal month ${normal}`;
+        expect(Number.isFinite(state.prices), said).toBe(true);
+        expect(
+          Math.abs(state.prices / own.prices - 1),
+          said,
+        ).toBeLessThanOrEqual(normal);
+      });
+    }
+    // The state's sectors hold the part's jobs and the books that go with them.
+    const state = stateOf(played, picked.usps);
+    for (const sector of COUNTRY_SECTORS) {
+      const row = state.sectors.find((cell) => cell.sector === sector)!;
+      const own = stateOf(alone, picked.usps).sectors.find(
+        (cell) => cell.sector === sector,
+      )!;
+      expect(row.jobs, `${where}, ${sector}`).toBeGreaterThanOrEqual(
+        part.jobs[sector],
+      );
+      if (own.jobs > 0)
+        expect(
+          row.expectedSales / row.jobs / (own.expectedSales / own.jobs),
+          `${where}, ${sector}: expected sales per job against the state left alone`,
+        ).toBeCloseTo(1, 1);
+    }
   });
 });
 

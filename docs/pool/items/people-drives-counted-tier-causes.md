@@ -20,7 +20,7 @@ lead: lives
 checked: fable 2026-11-10
 ---
 
-**What.** A named adult's cause drive forms in play when they perceive an event with a role, but counted adults perceived no events, so no counted adult held a cause. Most of the work was split off and is done (job loss, illness, bereavement, speech and shared causes). What is left is law-effect causes reaching counted groups and the share check. With the children done, re-measure the counted share and close the remaining gap, so every reader of causes (candidacy, giving, groups) sees causes in the counted tier.
+**What.** A named adult's cause drive forms in play when they perceive an event with a role, but counted adults perceived no events, so no counted adult held a cause. Most of the work was split off and is done (job loss, illness, bereavement, speech and shared causes). What is left is law-effect causes reaching counted groups and the share check. With the children done, re-measure the counted share and close the remaining gap, so every reader of causes (candidacy, giving, groups) sees causes in the counted tier. Feeds: people-counted-causes-for-candidacy.
 
 **Cause.** Measured: Port Wentworth, Georgia (1362328), seed sh2, one year: named adults 215 of 547 hold a cause, counted 11 of 7,265 (the item, before the speech and shared-causes child landed).
 
