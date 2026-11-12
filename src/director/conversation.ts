@@ -1038,10 +1038,19 @@ function evictionSubjects(
             ...at,
           ]);
       }
-    } else if (here && status.status === "sheltered")
-      facts["shelter-place"] = fact(spoken(here), at);
-    else if (here && status.status === "unsheltered")
-      facts["no-bed-place"] = fact(spoken(here), at);
+    } else if (here) {
+      // The town both of them live in is "town", never its name (said-as
+      // ownPlace; owner, Nov 12: "we'll watch what it does to Wofford
+      // Heights"); another town by its name.
+      const shared =
+        (status.placeId ?? speaker.placeId) ===
+        core.people.get(listenerId)?.placeId;
+      const said = shared ? saidAsData.ownPlace.resident : spoken(here);
+      if (status.status === "sheltered")
+        facts["shelter-place"] = fact(said, at);
+      else if (status.status === "unsheltered")
+        facts["no-bed-place"] = fact(said, at);
+    }
   }
   return [
     {
