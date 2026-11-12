@@ -305,6 +305,40 @@ function otherParentOf(
   };
 }
 
+/**
+ * The births of a person's children who have no other parent on record (gap
+ * sheet, Nov 12, row 11: a child was told with no partner before it): the
+ * child's family facts name only this person as a parent, and they are not
+ * the child of the person's partner now.
+ */
+function childrenAloneOf(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): string[] {
+  const facts = person.pastFacts ?? [];
+  const present = new Set(
+    facts
+      .filter((fact) => fact.kind === "family:partner")
+      .map((fact) => String(fact.facts?.otherPersonId ?? "")),
+  );
+  for (const link of core.familyLinks.values())
+    if (link.kind === "partner" && link.personIds.includes(person.id))
+      for (const id of link.personIds) if (id !== person.id) present.add(id);
+  const births: string[] = [];
+  for (const fact of facts) {
+    if (fact.kind !== "family:child") continue;
+    const child = core.people.get(fact.facts?.otherPersonId as PersonId);
+    if (!child) continue;
+    const others = (child.pastFacts ?? []).filter(
+      (parent) =>
+        ["family:parent", "family:other-parent"].includes(parent.kind) &&
+        String(parent.facts?.otherPersonId ?? "") !== person.id,
+    );
+    if (!others.length && !present.size) births.push(child.birthDate);
+  }
+  return births.sort();
+}
+
 /** A child's other parent, as the opening kin recorded them. */
 interface OtherParent {
   id: string;
@@ -415,8 +449,35 @@ export function pastPartnersFor(
     const withParent = other
       ? withOtherParent(core, person, other, before)
       : undefined;
+    // Children with no other parent on record: the earlier partner is named
+    // from the draw as before, but began before the first child and ended
+    // after the last, so no child comes before a partner.
+    const alone = !other && since === null ? childrenAloneOf(core, person) : [];
+    const sex = sexOf(person);
+    const unrecorded =
+      alone.length && sex
+        ? withOtherParent(
+            core,
+            person,
+            {
+              partner: {
+                id: "",
+                givenName: "",
+                familyName: "",
+                birthDate: person.birthDate,
+                sex: sex === "female" ? "male" : "female",
+              },
+              births: alone,
+            },
+            before,
+          )
+        : undefined;
     const past =
-      withParent ?? earlierPartnership(core, person, before, since === null);
+      withParent ??
+      unrecorded ??
+      (alone.length
+        ? undefined
+        : earlierPartnership(core, person, before, since === null));
     if (!past) continue;
     const gender = past.partnerSex as GenderIdentityKey;
     const named = drawCanonicalNamedIdentity(

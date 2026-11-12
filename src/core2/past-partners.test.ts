@@ -128,8 +128,39 @@ it(`an earlier partnership comes from the opening's chain, in ${where}`, () => {
       `${row.id} is told with the other parent`,
     ).toBe(true);
   }
+  // Living alone with children who have no other parent on record: an
+  // earlier partnership, where one is written, began before the first child
+  // and ended after the last, so no child comes before a partner.
+  let aloneChecked = 0;
+  for (const person of adults) {
+    if (partneredNow(core, person)) continue;
+    const births: string[] = [];
+    for (const fact of person.pastFacts ?? []) {
+      if (fact.kind !== "family:child") continue;
+      const child = core.people.get(fact.facts?.otherPersonId as PersonId);
+      if (!child) continue;
+      const others = (child.pastFacts ?? []).filter(
+        (parent) =>
+          ["family:parent", "family:other-parent"].includes(parent.kind) &&
+          String(parent.facts?.otherPersonId) !== person.id,
+      );
+      if (!others.length) births.push(child.birthDate);
+    }
+    const [row] = endedOf(core, person.id);
+    if (!births.length || !row) continue;
+    births.sort();
+    aloneChecked += 1;
+    expect(
+      String(row.facts.startedAt) < births[0]!,
+      `${row.id} began before the first child, ${where}`,
+    ).toBe(true);
+    expect(
+      row.date >= births.at(-1)!.slice(0, 4),
+      `${row.id} ended after the last child, ${where}`,
+    ).toBe(true);
+  }
   process.stdout.write(
-    `past partners from children in ${where}: ${fromChildren} adults' earlier partner is their children's other parent.\n`,
+    `past partners from children in ${where}: ${fromChildren} adults' earlier partner is their children's other parent; ${aloneChecked} with children who have no other parent on record began before the first child.\n`,
   );
   // Opened again, and in the world built again, the same past.
   const once = ended.map(
