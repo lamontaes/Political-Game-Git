@@ -37,8 +37,11 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
   const draw = () => {
     const outlet = outlets.get(chosen);
     const stories = outlet.stories;
-    const side = stories.filter((story) => story.brief);
-    const front = stories.filter((story) => !story.brief);
+    // A paper of only briefs leads with them: its first column is never bare
+    // (owner, Oct 27: "No dead space").
+    const full = stories.filter((story) => !story.brief);
+    const front = full.length ? full : stories;
+    const side = full.length ? stories.filter((story) => story.brief) : [];
     const lead = front.includes(opened)
       ? opened
       : front.reduce(
@@ -69,7 +72,7 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
       });
       return node;
     };
-    // The lead of a government acting carries that room's front-page photo, when the record has one.
+    // The lead carries the picture of the place its record is about, when the art has painted it.
     const photo = (story, className) => {
       const url = className === "lead" ? photoOf?.(story) : undefined;
       return url
@@ -106,7 +109,16 @@ export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
       ),
       stripBoard({
         columns: [
-          lead ? [storyNode(lead, "lead")] : [],
+          lead
+            ? [storyNode(lead, "lead")]
+            : stories.length
+              ? []
+              : [
+                  el("p", {
+                    className: "intro",
+                    textContent: labels.nothingYet,
+                  }),
+                ],
           withText.map((story) => storyNode(story, "side")),
           briefs.length
             ? [

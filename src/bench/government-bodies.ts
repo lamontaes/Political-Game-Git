@@ -10,6 +10,7 @@
  * screen words every label, and nothing here writes a record.
  */
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { governmentUnit } from "../core2/reference/government-units";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import {
@@ -88,7 +89,16 @@ type SeatRow = {
 
 /** The room a body or an office works in, painted in daylight. */
 function roomFor(office: Office, usps: string | null): string | null {
-  const place = office.kind.startsWith("legislature-")
+  try {
+    return backdropFile(roomPlace(office, usps), NOON, []).url;
+  } catch {
+    return null;
+  }
+}
+
+/** Where a body or an office works, as a painted place. */
+function roomPlace(office: Office, usps: string | null): string {
+  return office.kind.startsWith("legislature-")
     ? capitolPlaceFor(usps)
     : office.level === "federal"
       ? CONGRESS_KINDS.has(office.kind)
@@ -98,18 +108,66 @@ function roomFor(office: Office, usps: string | null): string | null {
         ? "governor-office"
         : office.kind === "mayor" || office.kind === "county-executive"
           ? "mayor-office"
-          : office.seats > 1
-            ? office.seats > 7
-              ? "council-chamber-large"
-              : "council-chamber-small"
-            : office.level === "state"
-              ? capitolPlaceFor(usps)
-              : "city-hall-exterior";
-  try {
-    return backdropFile(place, NOON, []).url;
-  } catch {
-    return null;
-  }
+          : office.seats > 1 && office.level === "county"
+            ? "county-commission"
+            : office.seats > 1
+              ? office.seats > 7
+                ? "council-chamber-large"
+                : "council-chamber-small"
+              : office.level === "state"
+                ? capitolPlaceFor(usps)
+                : "city-hall-exterior";
+}
+
+/**
+ * The painted room of an office on record (a council's chamber, a state
+ * house's capitol), or null where no office has that id. A state office's
+ * capitol is its own state's, from the office's jurisdiction.
+ */
+export function officeRoom(core: CoreState, officeId: string): string | null {
+  const api = coreAPI(core);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as unknown as
+    (Office & { jurisdiction?: string }) | undefined;
+  if (!office) return null;
+  const state = /^US-([A-Z]{2})/.exec(office.jurisdiction ?? "")?.[1] ?? null;
+  return roomPlace(office, state ?? homeStateOf(api).key.slice(3));
+}
+
+/**
+ * The painted room of a government on record: the room of its largest body
+ * (a county's board, a town's council), the Capitol for the nation, a state's
+ * capitol; null where no office of that government is recorded.
+ */
+export function governmentRoom(
+  core: CoreState,
+  governmentId: string,
+): { place: string; officeId?: string } | null {
+  if (governmentId === "US") return { place: "us-capitol-exterior" };
+  const state = /^US-([A-Z]{2})$/.exec(governmentId)?.[1];
+  if (state) return { place: capitolPlaceFor(state) };
+  const api = coreAPI(core);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
+  const body = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as (Office & { jurisdiction?: string })[]
+  )
+    .filter(
+      (office) =>
+        office.jurisdiction === governmentId ||
+        // A county's budget names it by its county code, its offices by
+        // their government unit.
+        (office.level === "county" &&
+          `county:${governmentUnit(office.jurisdiction ?? "")?.countyGeoid}` ===
+            governmentId),
+    )
+    .sort((a, b) => b.seats - a.seats)[0];
+  return body ? { place: roomPlace(body, null), officeId: body.id } : null;
 }
 
 /** A seat's holder as a member card reads them: face, name, party and seat (never how they feel about the viewer: owner, Oct 29). */

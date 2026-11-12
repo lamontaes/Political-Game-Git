@@ -90,12 +90,7 @@ import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { line, prose, heading, labeled, smallText } from "./ui/text.mjs";
-import {
-  engraveMasthead,
-  readerBody,
-  readerMore,
-  sameFor,
-} from "./ui/newspaper.mjs";
+import { engraveMasthead, readerBody, readerMore } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
   bust,
@@ -284,44 +279,11 @@ function drawTalkStrip() {
 const storyHeadline = (story) =>
   story.headline ?? story.lede ?? story.broadcast?.[0]?.text ?? "";
 /**
- * The front-page photo of the room where a state or local government acts.
- * No photo shows the official's own face, which would not match the record;
- * a federal story has none until the art has one without a face.
+ * A story's photo: the painted place its own record is about (the room of the
+ * body that acted, the business, the home), chosen on the server; none when
+ * the record names no painted place.
  */
-const STORY_PHOTOS = {
-  state: ["story-governor-1.jpg"],
-  local: ["story-council-1.jpg", "story-council-2.jpg"],
-};
-/**
- * The level of government a story is about: its own level, else the body,
- * government or law its record names (the nation's ids start "US", a state's
- * "US-" and its postal code, everything else is local).
- */
-function storyLevel(story) {
-  const facts = story.facts ?? {};
-  if (facts.level) return facts.level;
-  if (story.kind === "address") return "federal";
-  const who = String(
-    facts.governmentId ?? facts.body ?? facts.lawId ?? "",
-  ).replace(/^(office|law):/, "");
-  if (!who) return undefined;
-  if (/^US(:|$)/.test(who)) return "federal";
-  if (/^US-[A-Z]{2}:federal\b/.test(who)) return "federal";
-  if (/^US-[A-Z]{2}(:|$)/.test(who)) return "state";
-  return "local";
-}
-/** A lead story about a government acting carries the photo of that level's room. */
-function storyPhoto(story) {
-  const level = storyLevel(story);
-  if (!level || level === "federal") return undefined;
-  const acting = `${story.kind ?? ""} ${story.facts?.recordKind ?? ""}`;
-  if (
-    !/address|inauguration|law|bill|vote|council|budget|veto|sign/.test(acting)
-  )
-    return undefined;
-  const list = STORY_PHOTOS[level] ?? STORY_PHOTOS.local;
-  return `/art/newspaper/${sameFor(list, story.recordId ?? story.id ?? "")}`;
-}
+const storyPhoto = (story) => story.picture?.url;
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
