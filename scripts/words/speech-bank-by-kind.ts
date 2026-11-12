@@ -204,14 +204,16 @@ const SLOTS: Record<string, string> = {
     "how many whole years a context sentence covers: the macro engine's months, or the years since the speaker took office for an area of the term read",
   "context-amount":
     "a measure's average over the context's years, to one decimal, from the macro engine's months",
-  "context-law-years":
-    "how many whole years the law in force on an ask has stood, from the laws engine's row",
   "vice-president-addressed":
     "the Vice President spoken to, said with title and name every time",
   "vice-president-object":
     "the Vice President where the sentence needs the object case (with her)",
   "vice-president-possessive":
     "the Vice President where the sentence needs the possessive (her counsel)",
+  today:
+    "how the policy question stands today, by the law in force (question-names.json `today`)",
+  "first-side":
+    "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
   side: "the question as the speaker's side says it (question-names.json `for` or `against`)",
   "speaker-object": "the Speaker where the sentence needs the object case",
   "speaker-possessive": "the Speaker where the sentence needs the possessive",
@@ -380,20 +382,6 @@ const CONTEXT: [string, string[], string, string, string[]][] = [
     "In my {context-years} years on this job, the air and water have gotten dirtier, and our kids are breathing it.",
     ["context-environment", "context-years", "environment-worse"],
   ],
-  [
-    "law",
-    ALL,
-    "polished",
-    "For {context-law-years} years, the law has said no to {about}, and I believe that has gone on long enough.",
-    ["context-law-years", "about", "stance-for", "law-not-in-force"],
-  ],
-  [
-    "law",
-    ALL,
-    "plain",
-    "For {context-law-years} years, the law's said no to {about}, and I think that's long enough.",
-    ["context-law-years", "about", "stance-for", "law-not-in-force"],
-  ],
 ];
 const slug = (text: string) =>
   text
@@ -405,6 +393,7 @@ const slug = (text: string) =>
     .slice(0, 8)
     .join("-");
 const keys = new Set(bank.parts.map((part) => part.key));
+const texts = new Set(bank.parts.map((part) => part.text.toLowerCase()));
 /** What the context has meant for people, the step between the context and the stand: [topic, subjects, voice, text]. */
 const MEANING: [string, string[], string, string][] = [
   [
@@ -546,13 +535,13 @@ const SIDED: [string[], string, "for" | "against", string][] = [
     FEDERAL,
     "polished",
     "for",
-    "On {about}, I am for it, and I ask Congress to {side} and send me the bill to sign.",
+    "I am for {about}, and I ask Congress to {side} and send me the bill to sign.",
   ],
   [
     FEDERAL,
     "plain",
     "for",
-    "On {about}, I'm for it: Congress, {side}, and I'll sign it.",
+    "I'm for {about}, so send me a bill to {side}, and I'll sign it.",
   ],
   [
     FEDERAL,
@@ -570,13 +559,13 @@ const SIDED: [string[], string, "for" | "against", string][] = [
     ["state-of-the-state"],
     "polished",
     "for",
-    "On {about}, I am for it, and I ask the legislature to {side} and send me the bill.",
+    "I am for {about}, and I ask the legislature to {side} and send me the bill.",
   ],
   [
     ["state-of-the-state"],
     "plain",
     "for",
-    "On {about}, I'm for it: send me a bill to {side}, and I'll sign it.",
+    "I'm for {about}, so send me a bill to {side}, and I'll sign it.",
   ],
   [
     ["state-of-the-state"],
@@ -594,13 +583,13 @@ const SIDED: [string[], string, "for" | "against", string][] = [
     ["town-address"],
     "polished",
     "for",
-    "On {about}, I am for it, and I ask the council to {side} this year.",
+    "I am for {about}, and I ask the council to {side} this year.",
   ],
   [
     ["town-address"],
     "plain",
     "for",
-    "On {about}, I'm for it: let's {side} this year.",
+    "I'm for {about}, so let's {side} this year.",
   ],
   [
     ["town-address"],
@@ -617,7 +606,7 @@ const SIDED: [string[], string, "for" | "against", string][] = [
 ];
 for (const [subjects, voice, side, text] of SIDED) {
   const key = `opening-speech.ask.${voice}-${side}-${subjects[0]}-${slug(text)}`;
-  if (keys.has(key)) continue;
+  if (keys.has(key) || texts.has(text.toLowerCase())) continue;
   bank.parts.push({
     key,
     move: "ask",
@@ -648,7 +637,7 @@ for (const [subjects, voice, side, text] of SIDED) {
 
 for (const [topic, subjects, voice, text] of MEANING) {
   const key = `opening-speech.meaning.${voice}-${topic}-${slug(text)}`;
-  if (keys.has(key)) continue;
+  if (keys.has(key) || texts.has(text.toLowerCase())) continue;
   const needs = [
     `context-${topic}`,
     ...[...text.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]!),
@@ -678,7 +667,7 @@ for (const [topic, subjects, voice, text] of MEANING) {
 
 for (const [topic, subjects, voice, text, needs] of CONTEXT) {
   const key = `opening-speech.context.${voice}-${topic}-${slug(text)}`;
-  if (keys.has(key)) continue;
+  if (keys.has(key) || texts.has(text.toLowerCase())) continue;
   bank.parts.push({
     key,
     move: "context",
@@ -701,6 +690,367 @@ for (const [topic, subjects, voice, text, needs] of CONTEXT) {
   keys.add(key);
   count("4. a context piece is added");
 }
+
+// 9. A point's other parts, by kind (the words lead, Nov 12: "a point is:
+// today, then what it has meant for people, then what I believe, then the
+// ask"). How it stands today is the question's own sentence (question-names
+// `today`); the belief leads into the ask, by the theme and the speaker's
+// lean; a law in force is defended or repealed; the close returns to the
+// first point's subject.
+const ADD: {
+  role: string;
+  subjects: string[];
+  voice: string | string[];
+  text: string;
+  needs: string[];
+  piece?: { of: string; part: string; required?: boolean };
+}[] = [];
+const BOTH = ["polished", "plain"];
+ADD.push({
+  role: "today",
+  subjects: ALL,
+  voice: BOTH,
+  text: "{today}",
+  needs: ["today"],
+});
+const BELIEFS: Record<string, Record<"left" | "right", [string, string]>> = {
+  economy: {
+    left: [
+      "Because I believe an economy is strong only when the people who do the work can live on what they earn,",
+      "Because I've always thought a paycheck ought to cover a decent life,",
+    ],
+    right: [
+      "Because I believe people build more with their own money than government ever builds with it,",
+      "Because I've always thought folks should keep more of what they earn,",
+    ],
+  },
+  government: {
+    left: [
+      "Because I believe government belongs to everyone it serves and not just to those who can pay for a hearing,",
+      "Because I think government ought to answer to everybody and not just the folks with lawyers,",
+    ],
+    right: [
+      "Because I believe government should be honest with the people and small enough to answer for itself,",
+      "Because I think government works best when it's honest and stays in its lane,",
+    ],
+  },
+  justice: {
+    left: [
+      "Because I believe safety and fairness go together and the law earns trust only when it treats people alike,",
+      "Because I think you can't have real safety without fairness,",
+    ],
+    right: [
+      "Because I believe the first duty of government is to keep people safe and to back those who do it,",
+      "Because I think keeping folks safe comes first,",
+    ],
+  },
+  families: {
+    left: [
+      "Because I believe no family should have to choose between a doctor, a classroom and the rent,",
+      "Because I think every family deserves a fair shot at a good school, a doctor and a roof,",
+    ],
+    right: [
+      "Because I believe families, not government, know best what they need,",
+      "Because I think folks ought to make the big calls about their own lives,",
+    ],
+  },
+  land: {
+    left: [
+      "Because I believe we hold this land, this water and this air in trust for our children,",
+      "Because I think we owe our kids clean air, clean water and roads that work,",
+    ],
+    right: [
+      "Because I believe the people who work the land care for it better than any regulator can,",
+      "Because I think the folks who work the land know it best,",
+    ],
+  },
+  world: {
+    left: [
+      "Because I believe this country is strongest when it keeps faith with its friends and with its history as a nation of newcomers,",
+      "Because I think we're stronger when we stand with our friends and welcome folks who come here to work,",
+    ],
+    right: [
+      "Because I believe this country is safest when it is strong, guards its borders and puts its own people first,",
+      "Because I think a strong country looks after its own first,",
+    ],
+  },
+};
+for (const [theme, leans] of Object.entries(BELIEFS))
+  for (const [lean, texts] of Object.entries(leans))
+    for (const text of texts)
+      ADD.push({
+        role: "ask",
+        subjects: ALL,
+        voice: BOTH,
+        text,
+        needs: [`theme-${theme}`, `lean-${lean}`],
+        piece: { of: "opening-ask", part: "opener" },
+      });
+const LAWS: [string[], string, string, string][] = [
+  [
+    FEDERAL,
+    "polished",
+    "for",
+    "{about} is the law today, and I will defend it against any bill that would undo it.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "for",
+    "{about} is the law now, and I'll fight anybody who tries to undo it.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "against",
+    "{about} is the law today, and I will sign its repeal the day Congress sends it to me.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "against",
+    "{about} is the law right now, and I'll sign the repeal the day Congress sends it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "for",
+    "{about} is the law of this state, and I will veto any bill that would undo it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "for",
+    "{about} is the law here, and I'll veto any bill that tries to undo it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "against",
+    "{about} is the law of this state, and I will sign its repeal when the legislature sends it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "against",
+    "{about} is the law here, and I'll sign the repeal the day the legislature sends it.",
+  ],
+  [
+    ["town-address"],
+    "polished",
+    "for",
+    "{about} is how our town does things, and I will defend it.",
+  ],
+  [
+    ["town-address"],
+    "plain",
+    "for",
+    "{about} is how we do things here, and I'm going to keep it that way.",
+  ],
+  [
+    ["town-address"],
+    "polished",
+    "against",
+    "{about} is how our town does things today, and I will ask the council to end it.",
+  ],
+  [
+    ["town-address"],
+    "plain",
+    "against",
+    "{about} is how we do things here now, and I'll ask the council to end it.",
+  ],
+];
+for (const [subjects, voice, side, text] of LAWS)
+  ADD.push({
+    role: "ask",
+    subjects,
+    voice,
+    text,
+    needs: [`stance-${side}`, "law-in-force", "about"],
+    piece: { of: "opening-ask", part: "core", required: true },
+  });
+const CLOSES: [string[], string, string][] = [
+  [
+    FEDERAL,
+    "polished",
+    "If we {first-side}, this country will be the stronger for it. Thank you, and God bless America.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "Let us {first-side}, and leave our children a better country for it. Thank you, and God bless you.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "Let's {first-side}, and this country's better off for it. Thank you, and God bless.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "If we {first-side}, folks will feel it for years. Thank you all.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "If we {first-side}, this state will be the stronger for it. Thank you.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "Let's {first-side}, and this state's better off for it. Thank you.",
+  ],
+  [
+    ["town-address"],
+    "polished",
+    "If we {first-side}, our town will be the better for it. Thank you.",
+  ],
+  [
+    ["town-address"],
+    "plain",
+    "Let's {first-side}, and our town's better off for it. Thank you.",
+  ],
+];
+for (const [subjects, voice, text] of CLOSES)
+  ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
+// 15. A W-C piece of these kinds whose words are no longer in the lists
+// above gives way to its rewording.
+const current = new Set(ADD.map((add) => add.text));
+bank.parts = bank.parts.filter((part) => {
+  const mine =
+    part.author === "Claude (Words builder W-C, speech outline)" &&
+    (hasRole(part, "close") ||
+      part.uses.some((use) =>
+        use.requiresFacts?.some((key) => key.startsWith("theme-")),
+      ));
+  if (!mine || current.has(part.text)) return true;
+  count("15. a piece of W-C's gives way to its rewording");
+  return false;
+});
+for (const add of ADD) {
+  const key = `opening-speech.${add.role}.${Array.isArray(add.voice) ? "both" : add.voice}-${add.subjects[0]}-${slug(add.text)}-${slug(add.needs.join(" "))}`;
+  if (keys.has(key) || texts.has(add.text.toLowerCase())) continue;
+  bank.parts.push({
+    key,
+    move: add.role,
+    kind: "spoken",
+    text: add.text,
+    uses: add.subjects.map((subject) => ({
+      move: add.role,
+      subject,
+      role: add.role,
+      choice: add.role,
+      requiresFacts: add.needs,
+    })),
+    voice: add.voice,
+    bearing: "firm",
+    ...(add.piece ? { piece: add.piece } : {}),
+    origin: "authored",
+    author: "Claude (Words builder W-C, speech outline)",
+    date: "2026-11-12",
+  });
+  keys.add(key);
+  count(
+    `9. a ${add.role === "ask" && add.piece?.part === "opener" ? "belief" : add.role} piece is added`,
+  );
+}
+
+// 11. An ask core that opens with an announcement ("There's one thing I
+// won't move on:") says the stand itself, so a belief can lead into it.
+for (const part of bank.parts) {
+  if (!hasRole(part, "ask") || part.piece?.part === "opener") continue;
+  const stripped = part.text.replace(
+    /^There(?:'s| is) one thing I (?:won't|will not) move on: /,
+    "",
+  );
+  if (stripped !== part.text) {
+    part.text = stripped;
+    count("11. an ask's announcement goes and the stand is said");
+  }
+}
+
+// 12. A W-C piece that said "this town" (rule no-this-town) gives way to its
+// rewording above.
+bank.parts = bank.parts.filter((part) => {
+  if (
+    part.author === "Claude (Words builder W-C, speech outline)" &&
+    /\bthis town\b/.test(part.text)
+  ) {
+    count('12. a piece that said "this town" gives way to its rewording');
+    return false;
+  }
+  return true;
+});
+
+// 14. A greeting's list of people (a whole greeting cut to its list, or a
+// greeting's opener) is the same whatever kind of address follows it, so it
+// belongs to every kind (no addressKind); a greeting's core, which carries
+// the kind's mood, keeps its kind.
+for (const part of bank.parts)
+  if (
+    hasRole(part, "salutation") &&
+    part.piece?.part !== "core" &&
+    part.addressKind !== undefined
+  ) {
+    delete part.addressKind;
+    count("14. a greeting belongs to every kind of address");
+  }
+
+// 13. Pieces that became the same words (a title removed, a greeting cut)
+// are one piece: the first keeps every use of the others.
+const byText = new Map<string, Part>();
+bank.parts = bank.parts.filter((part) => {
+  const text = part.text.toLowerCase();
+  const kept = byText.get(text);
+  if (!kept) {
+    byText.set(text, part);
+    return true;
+  }
+  for (const use of part.uses)
+    if (
+      !kept.uses.some(
+        (row) => row.subject === use.subject && row.role === use.role,
+      )
+    )
+      kept.uses.push(use);
+  const voices = new Set([
+    ...(Array.isArray(kept.voice) ? kept.voice : [kept.voice]),
+    ...(Array.isArray(part.voice) ? part.voice : [part.voice]),
+  ]);
+  kept.voice = voices.size > 1 ? [...voices].sort() : [...voices][0]!;
+  count("13. a piece with the same words as another is merged into it");
+  return false;
+});
+
+// 10. A close that only thanks, and an against-wording that answers nothing
+// ("isn't the answer" to a question nobody asked), are not said: a close
+// returns to the theme (piece 9 above), and an ask says what it is against.
+bank.parts = bank.parts.filter((part) => {
+  if (part.text.includes("{context-law-years}")) {
+    count(
+      "10. a law's-age context is dropped: the starting laws carry the world's start, not their real dates",
+    );
+    return false;
+  }
+  if (hasRole(part, "close") && !part.text.includes("{first-side}")) {
+    count("10. a close that only thanks is dropped");
+    return false;
+  }
+  if (
+    hasRole(part, "ask") &&
+    /^On \{about\}, I(?: am|'m) for it/.test(part.text)
+  ) {
+    count(
+      "10. a sided ask that opened on its subject is replaced by one that names it first",
+    );
+    return false;
+  }
+  if (hasRole(part, "ask") && /\b(isn't|is not) the answer\b/.test(part.text)) {
+    count("10. an against-wording that answers nothing is dropped");
+    return false;
+  }
+  return true;
+});
 
 writeFileSync(FILE, `${JSON.stringify(bank, null, 2)}\n`);
 for (const [rule, n] of Object.entries(counts).sort())

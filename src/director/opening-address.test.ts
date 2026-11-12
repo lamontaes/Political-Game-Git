@@ -91,7 +91,16 @@ describe("the opening address from a world's records", () => {
     process.stdout.write(
       `ADDRESS STRUCTURES ${seed}:\n  ${[...structures].join("\n  ")}\n`,
     );
-    expect(structures.size, `four worlds at ${seed}`).toBeGreaterThan(1);
+    // Since the speech outline (Nov 12) the order is the kind's own row, so
+    // the variety is in the theme and the points: four worlds give more
+    // than one theme or more than one list of asks.
+    const themes = new Set(
+      worlds.map(({ story }) => `${story!.theme}:${story!.asks.join(",")}`),
+    );
+    expect(
+      Math.max(structures.size, themes.size),
+      `four worlds at ${seed}`,
+    ).toBeGreaterThan(1);
     const asked = (index: number) =>
       worlds[index]!.story!.address.sentences.flatMap((row) =>
         row.sourceRecordIds.filter((id) => id.startsWith("question:")),

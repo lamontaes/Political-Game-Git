@@ -56,10 +56,12 @@ import {
   questionAbout,
   questionSide,
   questionTo,
+  questionToday,
 } from "../english/question-names";
 import { questionSubject } from "../english/policy-names";
 import addressData from "./data/opening-address.json" with { type: "json" };
 import outlineData from "./data/speech-outlines.json" with { type: "json" };
+import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
 import {
@@ -91,7 +93,6 @@ export type Section =
   | "creed"
   | "history"
   | "theme"
-  | "asks"
   | "people"
   | "states"
   | "call"
@@ -109,6 +110,8 @@ export interface OutlineRow {
   readonly required: readonly Section[];
   readonly asides: readonly Section[];
   readonly points: number;
+  /** The fewest points the speech makes; one that cannot make them is not given. */
+  readonly leastPoints: number;
   readonly asks: number;
   readonly numberedAsks: boolean;
   readonly ownRecord: boolean;
@@ -129,6 +132,9 @@ const OUTLINES = outlineData as unknown as {
     Weight
   >;
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
+  themes: Readonly<Record<string, readonly string[] | string>>;
+  subjectOfQuestion: Readonly<Record<string, string>>;
+  subjectPull: Readonly<Record<string, readonly string[] | string>>;
 };
 
 /** The outline row of a kind of speech. */
@@ -777,102 +783,189 @@ function hardness(country: Country, topic: string): number {
   return Math.min(P.one, (country.movement[topic] ?? P.zero) / scale);
 }
 
+/** The levels of government the bill catalog says may answer each question. */
+const QUESTION_LEVELS: ReadonlyMap<string, readonly string[]> = new Map(
+  (
+    billCatalog as unknown as {
+      subjects: {
+        topics: {
+          policies?: { question?: string; levels?: readonly string[] }[];
+        }[];
+      }[];
+    }
+  ).subjects.flatMap((subject) =>
+    subject.topics.flatMap((topic) =>
+      (topic.policies ?? []).flatMap((policy) =>
+        policy.question
+          ? [[policy.question, policy.levels ?? []] as const]
+          : [],
+      ),
+    ),
+  ),
+);
+
 /**
- * The one theme: the bill catalog's subject with the highest score from the
- * speaker's own record (their signature issues their level can answer, the
- * strength of their strongest open stand in it) and their world (how far its
- * measures went the wrong way). Ties go by the subject's id. Null when nothing
- * scores.
+ * Whether a speaker at this level speaks to a question: a question the
+ * catalog gives to the states as well as the nation is the governors' to
+ * speak to, so the President speaks only to the nation's own (owner, Nov 12:
+ * "If it's a federal law, it's a federal law"; its "today" sentence is about
+ * the states, not the country).
+ */
+function speaksTo(level: PolicyLevel, question: string): boolean {
+  const levels = QUESTION_LEVELS.get(question) ?? [];
+  return level !== "federal" || levels.every((row) => row === "federal");
+}
+
+/** The bill catalog's subject a question belongs to, or the one the outline gives a question the catalog leaves without. */
+export function subjectOf(question: string): string | null {
+  return (
+    questionSubject(question) ?? OUTLINES.subjectOfQuestion[question] ?? null
+  );
+}
+
+/** The theme a question's subject sits under (speech-outlines.json `themes`). */
+export function themeOfQuestion(question: string): string | null {
+  const subject = subjectOf(question);
+  return (
+    Object.keys(OUTLINES.themes).find(
+      (key) =>
+        key !== "about" &&
+        subject !== null &&
+        subjectsOf(key).includes(subject),
+    ) ?? null
+  );
+}
+
+/** How many named questions a theme holds, at every level. */
+function themeSize(theme: string): number {
+  return NAMED_QUESTIONS.filter(
+    (question) => themeOfQuestion(question) === theme,
+  ).length;
+}
+
+/** The mean number of named questions a theme holds. */
+const MEAN_THEME_SIZE =
+  NAMED_QUESTIONS.length /
+  Math.max(
+    P.one,
+    Object.keys(OUTLINES.themes).filter((key) => key !== "about").length,
+  );
+
+/** The subjects under a theme. */
+function subjectsOf(theme: string): readonly string[] {
+  const row = OUTLINES.themes[theme];
+  return Array.isArray(row) ? row : [];
+}
+
+/** How far a speaker's view on a question stands from a centrist's. */
+function distinct(official: OfficialRow | undefined, stand: Stand): number {
+  return official
+    ? Math.abs(stand.stance - ownStance(P.zero, [], stand.question))
+    : Math.abs(stand.stance);
+}
+
+/** How much a stand is the speaker's own cause: the question itself, and its subject, among their signature issues at any level. */
+function mineOf(official: OfficialRow | undefined, stand: Stand): number {
+  const signature = official?.signature ?? [];
+  return (
+    Number(signature.some((row) => row.question === stand.question)) +
+    Number(
+      signature.some(
+        (row) => subjectOf(row.question) === subjectOf(stand.question),
+      ),
+    )
+  );
+}
+
+/**
+ * The points a theme can make for this speaker: each question under it they
+ * hold a view on, open (an ask) or answered by the law in force (a law to
+ * defend or to repeal). Their signature issues first, then the open ones,
+ * then how far they stand from a centrist; ties by question.
+ */
+function themeStands(
+  official: OfficialRow | undefined,
+  stands: readonly Stand[],
+  theme: string,
+  person?: PersonState,
+): Stand[] {
+  const mine = (stand: Stand) => mineOf(official, stand);
+  // Among the rest, the subject the speaker's traits pull hardest toward.
+  const pull = (stand: Stand) => {
+    const facets = OUTLINES.subjectPull[subjectOf(stand.question) ?? ""];
+    return person && Array.isArray(facets) ? traitSum(person, facets) : P.zero;
+  };
+  return stands
+    .filter((stand) => themeOfQuestion(stand.question) === theme)
+    .sort(
+      (a, b) =>
+        mine(b) - mine(a) ||
+        pull(b) - pull(a) ||
+        Number(a.law.inForce) - Number(b.law.inForce) ||
+        distinct(official, b) - distinct(official, a) ||
+        a.question.localeCompare(b.question),
+    );
+}
+
+/**
+ * The one theme: of the themes with enough for this speaker to make their
+ * least number of points, the one with the highest score from their own
+ * record (their signature issues under it, at any level; how far they stand
+ * from a centrist on its questions) and, for a governor or mayor, their
+ * realm's conditions. The President's takes no condition: the national
+ * figures are nearly the same in every world. Ties go by the theme's id.
+ * Null when no theme can make the points.
  */
 // stopgapId: SG-WORDS-speech-theme-weights
 export function themeOf(
   official: OfficialRow | undefined,
-  open: readonly Stand[],
+  stands: readonly Stand[],
   country: Country,
   national: boolean,
+  least: number,
 ): string | null {
   const w = OUTLINES.theme;
-  // The speaker's own causes, by subject, at whatever level they were drawn:
-  // a President whose signature issue is a state question still cares most
-  // about its subject.
-  const ownSubjects = (official?.signature ?? []).map((row) =>
-    questionSubject(row.question),
-  );
-  const subjects = new Set<string>([
-    ...open.map((stand) => questionSubject(stand.question) ?? ""),
-    ...ownSubjects.map((subject) => subject ?? ""),
-    ...Object.keys(OUTLINES.topicsBySubject).filter((key) => key !== "about"),
-  ]);
-  subjects.delete("");
-  const scored = [...subjects]
-    .map((subject) => {
-      const stands = open.filter(
-        (stand) => questionSubject(stand.question) === subject,
-      );
-      const signature = ownSubjects.filter((row) => row === subject).length;
-      // How far the speaker's own view on the subject stands from a
-      // centrist's: a question nearly everyone favors scores only for one
-      // who holds it unusually hard.
-      const stance = Math.max(
-        P.zero,
-        ...stands.map((stand) =>
-          official
-            ? Math.abs(stand.stance - ownStance(P.zero, [], stand.question))
-            : Math.abs(stand.stance),
-        ),
-      );
-      // The world's condition decides only where it is the speaker's own: a
-      // national figure is nearly the same in every world, so it cannot pick
-      // the President's theme.
+  const scored = Object.keys(OUTLINES.themes)
+    .filter((key) => key !== "about")
+    .map((theme) => {
+      const under = themeStands(official, stands, theme);
       const condition = national
         ? P.zero
         : Math.max(
             P.zero,
-            ...topicsOf(subject).map((topic) => hardness(country, topic)),
+            ...subjectsOf(theme).flatMap((subject) =>
+              topicsOf(subject).map((topic) => hardness(country, topic)),
+            ),
           );
       return {
-        subject,
+        theme,
+        enough: under.length >= least,
         score:
-          w.signature.value * signature +
-          (stands.length ? w.actable.value : P.zero) +
-          w.stance.value * stance +
+          // The speaker's own causes count where they reach a question this
+          // speech can ask about: a signature issue in a subject the
+          // speaker's level has no question in does not pull the theme.
+          // A theme that holds many questions is not favored for its size:
+          // the speaker's causes under it count against how many it holds.
+          (w.signature.value *
+            (official?.signature ?? []).filter(
+              (row) => themeOfQuestion(row.question) === theme,
+            ).length *
+            MEAN_THEME_SIZE) /
+            Math.max(P.one, themeSize(theme)) +
+          (under.some((stand) => !stand.law.inForce)
+            ? w.actable.value
+            : P.zero) +
+          w.stance.value *
+            Math.max(
+              P.zero,
+              ...under.map((stand) => distinct(official, stand)),
+            ) +
           w.condition.value * condition,
       };
     })
-    .filter((row) => row.score > P.zero)
-    .sort((a, b) => b.score - a.score || a.subject.localeCompare(b.subject));
-  return scored[P.zero]?.subject ?? null;
-}
-
-/** The theme's asks: what the speaker wants, their signature issues first, then the strongest; then the line they will not cross. */
-function themeAsks(
-  official: OfficialRow | undefined,
-  open: readonly Stand[],
-  theme: string | null,
-  count: number,
-): Stand[] {
-  if (!theme || count <= P.zero) return [];
-  const own = new Set((official?.signature ?? []).map((row) => row.question));
-  const inTheme = open.filter(
-    (stand) => questionSubject(stand.question) === theme,
-  );
-  const ranked = (rows: readonly Stand[]) =>
-    rows
-      .slice()
-      .sort(
-        (a, b) =>
-          Number(own.has(b.question)) - Number(own.has(a.question)) ||
-          Math.abs(b.stance) - Math.abs(a.stance) ||
-          a.question.localeCompare(b.question),
-      );
-  const wanted = ranked(inTheme.filter((stand) => stand.stance > P.zero));
-  const opposed = ranked(inTheme.filter((stand) => stand.stance < P.zero));
-  // The line not crossed is said last, and only when there is room for it
-  // beside at least one want or nothing else to ask.
-  const asks = wanted.slice(P.zero, count);
-  const line = opposed[P.zero];
-  if (line && (asks.length < count || !asks.length)) asks.push(line);
-  return asks;
+    .filter((row) => row.enough && row.score > P.zero)
+    .sort((a, b) => b.score - a.score || a.theme.localeCompare(b.theme));
+  return scored[P.zero]?.theme ?? null;
 }
 
 /** A figure said in a context sentence: one decimal, no trailing zero. */
@@ -960,15 +1053,6 @@ function macroHistory(core: CoreState): MacroMonth[] {
     .sort((a, b) => a.month.localeCompare(b.month));
 }
 
-/** How long the law on an ask has stood, as context for asking to change it. */
-function lawContext(api: CoreAPI, stand: Stand): Facts {
-  const years = yearsBetween(api, stand.law.since, api.state.date);
-  const t = OUTLINES.theme;
-  return years >= t.contextYearsMin.value && years <= t.lawYearsMax.value
-    ? { "context-law-years": fact(String(years), stand.law.id) }
-    : {};
-}
-
 /** The traits that pull a speaker to say each aside, the ones they say. */
 function asidesOf(
   speaker: PersonState,
@@ -1014,27 +1098,54 @@ export function planSpeech(
     ? countryFacts(core, speaker.serviceStart)
     : realmFacts(speaker.areas ?? []);
   const official = speaker.official;
+  const level = row.level;
   const stands = official
-    ? standsAt(api, official, row.level, speaker.jurisdiction)
+    ? standsAt(api, official, level, speaker.jurisdiction).filter((stand) =>
+        speaksTo(level, stand.question),
+      )
     : [];
-  // The speaker asks only for what their level may answer and its law does not have yet.
-  const open = stands.filter((stand) => !stand.law.inForce);
-  const theme = themeOf(official, open, country, federal);
-  const asks = themeAsks(official, open, theme, row.asks);
-  // What the theme is about in the world's measures, the hardest first.
+  // Every question the speaker's level may answer and holds a view on: an
+  // open one is an ask, one the law in force answers is a law to defend or
+  // repeal. The theme is the one with enough of them to make its points.
+  const theme = themeOf(official, stands, country, federal, row.leastPoints);
+  const pointStands = theme
+    ? themeStands(official, stands, theme, person).slice(P.zero, row.points)
+    : [];
+  const asks = pointStands;
+  // What the theme is about in the world's measures, the hardest first: the
+  // first point opens with its figure where the records hold one.
   const held = (topic: string) =>
     (TOPIC_CLAIMS[topic] ?? []).some((key) => country.facts[key]) ||
     !!country.facts[`${topic}-better`] ||
     !!country.facts[`${topic}-worse`];
-  const themeTopics = (theme ? topicsOf(theme) : [])
+  // An area of the term is context only where it went the wrong way: a
+  // point opens on what needs doing, never on an area that held still.
+  const themeTopics = (theme ? subjectsOf(theme).flatMap(topicsOf) : [])
     .filter(held)
+    .filter(
+      (topic) =>
+        !(TERM_AREAS as readonly string[]).includes(topic) ||
+        hardness(country, topic) > P.zero,
+    )
     .sort(
       (a, b) =>
         hardness(country, b) - hardness(country, a) ||
         (country.movement[b] ?? P.zero) - (country.movement[a] ?? P.zero) ||
         a.localeCompare(b),
     );
-  const points = themeTopics.slice(P.zero, row.points);
+  // Each measure is told once, as the context of the first point whose
+  // subject it bears on.
+  const topicOf = new Map<string, string>();
+  for (const stand of pointStands) {
+    const used = new Set(topicOf.values());
+    const topic = themeTopics.find(
+      (row) =>
+        !used.has(row) &&
+        topicsOf(subjectOf(stand.question) ?? "").includes(row),
+    );
+    if (topic) topicOf.set(stand.question, topic);
+  }
+  const points = [...topicOf.values()];
   // Everything said is about the theme: the year's claims kept are its
   // measures', so no other figure is told beside them.
   const kept = new Set(points.flatMap((topic) => TOPIC_CLAIMS[topic] ?? []));
@@ -1133,31 +1244,13 @@ export function planSpeech(
         moves: [move("history")],
       },
     ],
-    // The point, one paragraph in order (owner, Nov 12: "disjointed
-    // statements put together"): its context from the records over a span,
-    // what that has meant for people, the year's claim when the speaker
-    // governed it, then their stand; the asks join it after.
+    // Each point, one paragraph in order (owner, Nov 12: "disjointed
+    // statements put together"): how its question stands today, from the
+    // law in force (and the first point's figure where the records hold
+    // one), what that has meant for people, what the speaker believes, and
+    // the ask, plainly for or against. A point is never a bare ask.
     theme: () =>
-      points.map((topic) => ({
-        key: `point-${topic}`,
-        level: "country" as const,
-        facts: {
-          ...themeFacts,
-          ...contextFacts(core, topic, country, speaker.serviceStart),
-        },
-        moves: [
-          move("context", { topic }),
-          move("meaning", { topic }),
-          ...(ownRecord ? [move("story-says", { topic })] : []),
-          // The stand: on the point itself where it went the wrong way, else
-          // the speaker's stand in general terms.
-          hardness(country, topic) > P.zero
-            ? move("pledge", { topic })
-            : move("pledge"),
-        ],
-      })),
-    asks: () => {
-      const blocks = asks.map((stand, at): Draft => {
+      pointStands.map((stand, at): Draft => {
         const rank =
           stand.stance < P.zero ? "rank-line" : (RANKS[at] ?? "rank-line");
         const facts = standFacts(stand, official!, rank);
@@ -1165,35 +1258,60 @@ export function planSpeech(
         if (!row.numberedAsks) delete facts[rank];
         // A federal stand is said as federal only by a federal speaker.
         if (!federal) delete facts["federal-level"];
+        const today = questionToday(stand.question, stand.law.inForce);
+        const topic = topicOf.get(stand.question);
+        // What the speaker believes on this point, by the theme and the way
+        // their side of it leans: a side the left favors is said with the
+        // left's belief, whichever way the speaker leans overall, so the
+        // reason always fits the ask.
+        const tilt =
+          ownStance(-P.one, [], stand.question) -
+          ownStance(P.one, [], stand.question);
+        const lean = stand.stance > P.zero === tilt > P.zero ? "left" : "right";
+        // A question with no lean between left and right takes no belief.
+        const beliefFacts: Facts =
+          theme && tilt !== P.zero
+            ? {
+                [`theme-${theme}`]: fact("yes", official!.id),
+                [`lean-${lean}`]: fact("yes", official!.id),
+              }
+            : {};
         return {
-          key: `ask-${stand.question}`,
-          level: "congress",
-          // The asks close the theme's paragraph, after its stand, and are
-          // one paragraph together: no ask stands alone.
-          joins: at > P.zero || points.length > P.zero,
+          key: `point-${stand.question}`,
+          level: "country",
           facts: {
+            ...themeFacts,
+            ...(topic
+              ? contextFacts(core, topic, country, speaker.serviceStart)
+              : {}),
             ...facts,
-            ...(at === P.zero && !points.length ? lawContext(api, stand) : {}),
+            ...(today
+              ? {
+                  today: fact(
+                    today,
+                    `question:${stand.question}`,
+                    stand.law.id,
+                  ),
+                }
+              : {}),
+            ...beliefFacts,
           },
           moves: [
-            ...(at === P.zero && !points.length
-              ? [move("context", { topic: "law" })]
+            move("today"),
+            ...(topic
+              ? [
+                  move("context", { topic }),
+                  move("meaning", { topic }),
+                  // The year's claim, only by one who governed it.
+                  ...(ownRecord ? [move("story-says", { topic })] : []),
+                ]
               : []),
+            // The belief leads into the ask ("Because I believe ..., I ask
+            // Congress to ..."), an opener typed by the theme and the lean.
             move("ask"),
           ],
         };
-      });
-      return blocks.length || !federal
-        ? blocks
-        : [
-            {
-              key: "to-congress",
-              level: "congress",
-              facts: {},
-              moves: [move("to-congress")],
-            },
-          ];
-    },
+      }),
     people: () => [
       {
         key: "people",
@@ -1233,8 +1351,22 @@ export function planSpeech(
       {
         key: "close",
         level: "close",
-        joins: true,
-        facts: {},
+        // Its own paragraph: the close returns to the theme in one sentence.
+        facts: (pointStands[P.zero]
+          ? {
+              "first-side": fact(
+                questionSide(
+                  pointStands[P.zero]!.question,
+                  pointStands[P.zero]!.stance > P.zero
+                    ? "for"
+                    : pointStands[P.zero]!.law.inForce
+                      ? "repeal"
+                      : "against",
+                )!,
+                `question:${pointStands[P.zero]!.question}`,
+              ),
+            }
+          : {}) as Facts,
         moves: [move("close", { required: true })],
         required: true,
       },

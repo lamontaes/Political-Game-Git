@@ -63,8 +63,13 @@ describe("the opening story", () => {
       expect(sentence.sourceRecordIds).toContain(story.president.id);
     }
     // A claim about the country cites the macro engine's months.
+    // A claim about the country's measures cites the macro engine's months;
+    // a point's "today" cites its question (speech outline, Nov 12).
     for (const sentence of story.address.sentences.filter(
-      (row) => row.level === "country" && row.facts.length,
+      (row) =>
+        row.level === "country" &&
+        row.facts.some((key) => /^(context|meaning)-|-(up|down)$/.test(key)) &&
+        !row.facts.includes("today"),
     ))
       expect(
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
@@ -83,12 +88,15 @@ describe("the opening story", () => {
     const country = story.address.sentences.filter(
       (row) => row.level === "country",
     );
-    // The theme's point opens on its context from the records (changed with
-    // the speech outline, Nov 12: before, the country's story ended on a
-    // claim about the year).
+    // The theme's point opens on its context: how its question stands today,
+    // from the law in force, or a figure from the records (changed with the
+    // speech outline, Nov 12: before, the country's story ended on a claim
+    // about the year).
     if (country.length)
       expect(
-        country[0]!.facts.some((key) => /^context-/.test(key)),
+        country[0]!.facts.some(
+          (key) => key === "today" || /^context-/.test(key),
+        ),
         country[0]!.text,
       ).toBe(true);
     // Composed from records, the same every time.

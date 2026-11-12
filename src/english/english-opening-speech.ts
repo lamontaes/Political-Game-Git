@@ -92,6 +92,8 @@ const ACTS: Readonly<Record<string, SpeechAct>> = {
   context: "tell",
   // What the context has meant for people, between the context and the stand.
   meaning: "tell",
+  // How a point's question stands today, from the law in force.
+  today: "tell",
   "story-says": "tell",
   "story-turn": "tell",
   pledge: "promise",

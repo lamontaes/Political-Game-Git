@@ -1,6 +1,6 @@
 {
   "schema": "english-question-names/1",
-  "about": "Each bill-catalog policy question has one spoken name in two fixed forms, so a stand can be said as a plain sentence: `about` is a noun phrase that reads after 'about' or 'on' ('the bill is about a higher minimum wage'); `to` is a verb phrase that reads after 'to' or 'I want to' ('I want to raise the minimum wage'). Authored to the English engine's patterns, American English; a question with no entry is not offered as a stand. Each question also has a form for each side, written by scripts/words/question-sides.ts: `for` is what a supporter wants done and `against` what an opponent will stop (\"stop raising tariffs\"); both read after \"I want to\" and \"I will\".",
+  "about": "Each bill-catalog policy question has one spoken name in two fixed forms, so a stand can be said as a plain sentence: `about` is a noun phrase that reads after 'about' or 'on' ('the bill is about a higher minimum wage'); `to` is a verb phrase that reads after 'to' or 'I want to' ('I want to raise the minimum wage'). Authored to the English engine's patterns, American English; a question with no entry is not offered as a stand. Each question also has a form for each side, written by scripts/words/question-sides.ts: `for` is what a supporter wants done and `against` what an opponent will keep off the books (\"keep higher tariffs off the books\"), and `repeal` what they will undo; both read after \"I want to\" and \"I will\". `today` says how the question stands now: `without` while no law answers it yes, `with` once one does.",
   "origin": "authored",
   "author": "Claude Code, pool session",
   "date": "2026-10-16",
@@ -9,481 +9,881 @@
       "about": "free fares on public transit",
       "to": "make public transit free to ride",
       "for": "make public transit free to ride",
-      "against": "stop making public transit free to ride"
+      "against": "keep free fares on public transit off the books",
+      "today": {
+        "without": "Right now, every rider pays a fare to get on the bus or the train.",
+        "with": "Today, nobody pays a fare to ride the bus or the train."
+      },
+      "repeal": "repeal free fares on public transit"
     },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
       "about": "a mileage fee in place of the fuel tax",
       "to": "replace the fuel tax with a mileage fee",
       "for": "replace the fuel tax with a mileage fee",
-      "against": "stop replacing the fuel tax with a mileage fee"
+      "against": "keep a mileage fee in place of the fuel tax off the books",
+      "today": {
+        "without": "Right now, roads are paid for by a tax on gas, and drivers of electric cars pay almost nothing toward them.",
+        "with": "Today, drivers pay for the roads by the mile they drive, not by the gallon they buy."
+      },
+      "repeal": "repeal a mileage fee in place of the fuel tax"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
       "about": "public broadband",
       "to": "build public broadband",
       "for": "build public broadband",
-      "against": "stop building public broadband"
+      "against": "keep public broadband off the books",
+      "today": {
+        "without": "Right now, whole neighborhoods can only get internet from one company, at whatever price it sets.",
+        "with": "Today, a public network brings internet to homes the companies passed by."
+      },
+      "repeal": "repeal public broadband"
     },
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "about": "shifting highway money to transit",
       "to": "shift highway money to transit",
       "for": "shift highway money to transit",
-      "against": "stop shifting highway money to transit"
+      "against": "keep shifting highway money to transit off the books",
+      "today": {
+        "without": "Right now, nearly all of our road money goes to highways, and the buses get what's left.",
+        "with": "Today, part of our highway money goes to buses and trains."
+      },
+      "repeal": "repeal shifting highway money to transit"
     },
     "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
       "about": "expanding Medicaid",
       "to": "expand Medicaid eligibility",
       "for": "expand Medicaid eligibility",
-      "against": "stop expanding Medicaid eligibility"
+      "against": "keep expanding Medicaid off the books",
+      "today": {
+        "without": "Right now, a worker can earn too much to get Medicaid and still too little to buy insurance.",
+        "with": "Today, working people who earn too little to buy insurance can get Medicaid."
+      },
+      "repeal": "repeal expanding Medicaid"
     },
     "us-policy-positions:health-human-services.medicaid-work-requirement": {
       "about": "a work requirement for Medicaid",
       "to": "require work for Medicaid",
       "for": "require work for Medicaid",
-      "against": "stop requiring work for Medicaid"
+      "against": "keep a work requirement for Medicaid off the books",
+      "today": {
+        "without": "Right now, a grown adult who can work can get Medicaid without working.",
+        "with": "Today, an adult who can work has to work, train or volunteer to keep Medicaid."
+      },
+      "repeal": "repeal a work requirement for Medicaid"
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "about": "a work requirement for assistance",
       "to": "require work for cash assistance",
       "for": "require work for cash assistance",
-      "against": "stop requiring work for cash assistance"
+      "against": "keep a work requirement for assistance off the books",
+      "today": {
+        "without": "Right now, cash assistance doesn't ask anything of the adults who can work.",
+        "with": "Today, an adult who can work has to look for work to get cash assistance."
+      },
+      "repeal": "repeal a work requirement for assistance"
     },
     "us-policy-positions:education.universal-preschool": {
       "about": "universal preschool",
       "to": "offer preschool to every child",
       "for": "offer preschool to every child",
-      "against": "stop offering preschool to every child"
+      "against": "keep universal preschool off the books",
+      "today": {
+        "without": "Right now, preschool is something a family pays for or does without.",
+        "with": "Today, every four-year-old can go to preschool."
+      },
+      "repeal": "repeal universal preschool"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
       "about": "public money for private schools",
       "to": "pay for private schooling with public money",
       "for": "pay for private schooling with public money",
-      "against": "stop paying for private schooling with public money"
+      "against": "keep public money for private schools off the books",
+      "today": {
+        "without": "Right now, a family that picks a private school pays for it twice, in tuition and in taxes.",
+        "with": "Today, public money follows a child to a private school."
+      },
+      "repeal": "repeal public money for private schools"
     },
     "us-policy-positions:education.raise-teacher-minimum-salary": {
       "about": "a higher minimum salary for teachers",
       "to": "raise the minimum teacher salary",
       "for": "raise the minimum teacher salary",
-      "against": "stop raising the minimum teacher salary"
+      "against": "keep a higher minimum salary for teachers off the books",
+      "today": {
+        "without": "Right now, a starting teacher can earn less than a manager at the store down the road.",
+        "with": "Today, the law sets a floor under what a teacher is paid."
+      },
+      "repeal": "repeal a higher minimum salary for teachers"
     },
     "us-policy-positions:fiscal.adopt-income-tax": {
       "about": "an income tax",
       "to": "adopt an income tax",
       "for": "adopt an income tax",
-      "against": "stop adopting an income tax"
+      "against": "keep an income tax off the books",
+      "today": {
+        "without": "Right now, there is no tax on what people earn here.",
+        "with": "Today, people here pay a tax on what they earn."
+      },
+      "repeal": "repeal an income tax"
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
       "about": "a cap on property tax growth",
       "to": "cap how fast property taxes can grow",
       "for": "cap how fast property taxes can grow",
-      "against": "stop capping how fast property taxes can grow"
+      "against": "keep a cap on property tax growth off the books",
+      "today": {
+        "without": "Right now, a family's property tax can climb as fast as the assessor says.",
+        "with": "Today, the law limits how fast property taxes can rise."
+      },
+      "repeal": "repeal a cap on property tax growth"
     },
     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
       "about": "taking the sales tax off groceries",
       "to": "exempt groceries from the sales tax",
       "for": "exempt groceries from the sales tax",
-      "against": "stop exempting groceries from the sales tax"
+      "against": "keep taking the sales tax off groceries off the books",
+      "today": {
+        "without": "Right now, a family pays sales tax on every loaf of bread and gallon of milk.",
+        "with": "Today, groceries carry no sales tax."
+      },
+      "repeal": "repeal taking the sales tax off groceries"
     },
     "us-policy-positions:fiscal.graduated-income-tax": {
       "about": "a graduated income tax",
       "to": "tax higher incomes at higher rates",
       "for": "tax higher incomes at higher rates",
-      "against": "stop taxing higher incomes at higher rates"
+      "against": "keep a graduated income tax off the books",
+      "today": {
+        "without": "Right now, a cook and a company owner pay the same income tax rate.",
+        "with": "Today, higher incomes pay a higher rate."
+      },
+      "repeal": "repeal a graduated income tax"
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
       "about": "a balanced operating budget",
       "to": "require a balanced operating budget",
       "for": "require a balanced operating budget",
-      "against": "stop requiring a balanced operating budget"
+      "against": "keep a balanced operating budget off the books",
+      "today": {
+        "without": "Right now, nothing stops the budget from spending more than comes in.",
+        "with": "Today, the law says the budget has to balance every year."
+      },
+      "repeal": "repeal a balanced operating budget"
     },
     "us-policy-positions:fiscal.fund-pensions-to-schedule": {
       "about": "funding pensions on schedule",
       "to": "fund public pensions on schedule",
       "for": "fund public pensions on schedule",
-      "against": "stop funding public pensions on schedule"
+      "against": "keep funding pensions on schedule off the books",
+      "today": {
+        "without": "Right now, the pension fund can be shorted whenever the budget gets tight.",
+        "with": "Today, the law says the pension fund gets its full payment on schedule."
+      },
+      "repeal": "repeal funding pensions on schedule"
     },
     "us-policy-positions:fiscal.minimum-reserve-balance": {
       "about": "a minimum reserve balance",
       "to": "require a minimum reserve balance",
       "for": "require a minimum reserve balance",
-      "against": "stop requiring a minimum reserve balance"
+      "against": "keep a minimum reserve balance off the books",
+      "today": {
+        "without": "Right now, nothing makes us keep money aside for a bad year.",
+        "with": "Today, the law makes us keep money aside for a bad year."
+      },
+      "repeal": "repeal a minimum reserve balance"
     },
     "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
       "about": "apartments in single-family neighborhoods",
       "to": "allow apartments in single-family zones",
       "for": "allow apartments in single-family zones",
-      "against": "stop allowing apartments in single-family zones"
+      "against": "keep apartments in single-family neighborhoods off the books",
+      "today": {
+        "without": "Right now, most of our land is zoned so that nothing but a single house can go up on it.",
+        "with": "Today, apartments can be built in neighborhoods that once allowed only single houses."
+      },
+      "repeal": "repeal apartments in single-family neighborhoods"
     },
     "us-policy-positions:housing-land-use.inclusionary-requirement": {
       "about": "an affordable-housing requirement for new buildings",
       "to": "require affordable units in new buildings",
       "for": "require affordable units in new buildings",
-      "against": "stop requiring affordable units in new buildings"
+      "against": "keep an affordable-housing requirement for new buildings off the books",
+      "today": {
+        "without": "Right now, a new apartment building can go up without a single unit a working family can afford.",
+        "with": "Today, new buildings have to set aside units a working family can afford."
+      },
+      "repeal": "repeal an affordable-housing requirement for new buildings"
     },
     "us-policy-positions:housing-land-use.rent-stabilization": {
       "about": "rent stabilization",
       "to": "limit how much rents can rise",
       "for": "limit how much rents can rise",
-      "against": "stop limiting how much rents can rise"
+      "against": "keep rent stabilization off the books",
+      "today": {
+        "without": "Right now, a landlord can raise the rent as much as they like when the lease runs out.",
+        "with": "Today, the law limits how much the rent can go up each year."
+      },
+      "repeal": "repeal rent stabilization"
     },
     "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
       "about": "a lawyer for tenants facing eviction",
       "to": "guarantee tenants a lawyer in eviction cases",
       "for": "guarantee tenants a lawyer in eviction cases",
-      "against": "stop guaranteeing tenants a lawyer in eviction cases"
+      "against": "keep a lawyer for tenants facing eviction off the books",
+      "today": {
+        "without": "Right now, most tenants face an eviction in court without a lawyer.",
+        "with": "Today, a tenant facing eviction gets a lawyer."
+      },
+      "repeal": "repeal a lawyer for tenants facing eviction"
     },
     "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
       "about": "a higher federal minimum wage",
       "to": "raise the federal minimum wage",
       "for": "raise the federal minimum wage",
-      "against": "stop raising the federal minimum wage"
+      "against": "keep a higher federal minimum wage off the books",
+      "today": {
+        "without": "Right now, the federal minimum wage has not gone up in years, while everything else has.",
+        "with": "Today, the federal minimum wage is higher than it was."
+      },
+      "repeal": "repeal a higher federal minimum wage"
     },
     "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
       "about": "letting cities set their own minimum wage",
       "to": "let cities set their own minimum wage",
       "for": "let cities set their own minimum wage",
-      "against": "stop letting cities set their own minimum wage"
+      "against": "keep letting cities set their own minimum wage off the books",
+      "today": {
+        "without": "Right now, a city can't set a minimum wage of its own.",
+        "with": "Today, a city can set its own minimum wage."
+      },
+      "repeal": "repeal letting cities set their own minimum wage"
     },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "about": "a higher minimum wage",
       "to": "raise the minimum wage",
       "for": "raise the minimum wage",
-      "against": "stop raising the minimum wage"
+      "against": "keep a higher minimum wage off the books",
+      "today": {
+        "without": "Right now, someone working full time at the minimum wage still can't cover rent.",
+        "with": "Today, the minimum wage is higher than it was."
+      },
+      "repeal": "repeal a higher minimum wage"
     },
     "us-policy-positions:labor-workforce.paid-family-leave": {
       "about": "paid family leave",
       "to": "give workers paid family leave",
       "for": "give workers paid family leave",
-      "against": "stop giving workers paid family leave"
+      "against": "keep paid family leave off the books",
+      "today": {
+        "without": "Right now, a worker who stays home with a new baby or a sick parent can lose a paycheck.",
+        "with": "Today, a worker can take paid leave for a new baby or a sick parent."
+      },
+      "repeal": "repeal paid family leave"
     },
     "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
       "about": "collective bargaining for public workers",
       "to": "let public workers bargain collectively",
       "for": "let public workers bargain collectively",
-      "against": "stop letting public workers bargain collectively"
+      "against": "keep collective bargaining for public workers off the books",
+      "today": {
+        "without": "Right now, public workers can't bargain together over their pay.",
+        "with": "Today, public workers can bargain together over their pay."
+      },
+      "repeal": "repeal collective bargaining for public workers"
     },
     "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
       "about": "asking about criminal records on state job applications",
       "to": "bar state agencies from asking about criminal records on job applications",
       "for": "bar state agencies from asking about criminal records on job applications",
-      "against": "stop barring state agencies from asking about criminal records on job applications"
+      "against": "keep asking about criminal records on state job applications off the books",
+      "today": {
+        "without": "Right now, a state job application asks about a criminal record before anything else.",
+        "with": "Today, a state job application doesn't ask about a criminal record up front."
+      },
+      "repeal": "repeal asking about criminal records on state job applications"
     },
     "us-policy-positions:labor-workforce.right-to-work": {
       "about": "right-to-work rules",
       "to": "ban required union dues",
       "for": "ban required union dues",
-      "against": "stop banning required union dues"
+      "against": "keep right-to-work rules off the books",
+      "today": {
+        "without": "Right now, a worker in a union shop can be made to pay union dues.",
+        "with": "Today, no worker can be made to pay union dues to keep a job."
+      },
+      "repeal": "repeal right-to-work rules"
     },
     "us-policy-positions:business-commerce.legalize-cannabis-sales": {
       "about": "legal cannabis sales",
       "to": "legalize cannabis sales",
       "for": "legalize cannabis sales",
-      "against": "stop legalizing cannabis sales"
+      "against": "keep legal cannabis sales off the books",
+      "today": {
+        "without": "Right now, selling cannabis is a crime, and the money goes to the black market.",
+        "with": "Today, cannabis is sold legally, in licensed stores."
+      },
+      "repeal": "repeal legal cannabis sales"
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "about": "a cap on consumer loan rates",
       "to": "cap interest rates on consumer loans",
       "for": "cap interest rates on consumer loans",
-      "against": "stop capping interest rates on consumer loans"
+      "against": "keep a cap on consumer loan rates off the books",
+      "today": {
+        "without": "Right now, a payday lender can charge hundreds of percent a year on a small loan.",
+        "with": "Today, the law caps the interest on a consumer loan."
+      },
+      "repeal": "repeal a cap on consumer loan rates"
     },
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
       "about": "banning new gas hookups",
       "to": "ban new gas hookups",
       "for": "ban new gas hookups",
-      "against": "stop banning new gas hookups"
+      "against": "keep banning new gas hookups off the books",
+      "today": {
+        "without": "Right now, new buildings are still hooked up to gas.",
+        "with": "Today, new buildings are built without gas hookups."
+      },
+      "repeal": "repeal banning new gas hookups"
     },
     "us-policy-positions:environment-energy.allow-retail-electric-choice": {
       "about": "letting customers pick their electricity supplier",
       "to": "let customers pick their electricity supplier",
       "for": "let customers pick their electricity supplier",
-      "against": "stop letting customers pick their electricity supplier"
+      "against": "keep letting customers pick their electricity supplier off the books",
+      "today": {
+        "without": "Right now, a family buys its power from one utility and has no other choice.",
+        "with": "Today, a family can pick who supplies its electricity."
+      },
+      "repeal": "repeal letting customers pick their electricity supplier"
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
       "about": "a clean electricity standard",
       "to": "require utilities to supply clean electricity",
       "for": "require utilities to supply clean electricity",
-      "against": "stop requiring utilities to supply clean electricity"
+      "against": "keep a clean electricity standard off the books",
+      "today": {
+        "without": "Right now, utilities can burn whatever is cheapest to make our power.",
+        "with": "Today, utilities have to make a growing share of our power clean."
+      },
+      "repeal": "repeal a clean electricity standard"
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
       "about": "a clean air plan for polluted counties",
       "to": "require a clean air plan in polluted counties",
       "for": "require a clean air plan in polluted counties",
-      "against": "stop requiring a clean air plan in polluted counties"
+      "against": "keep a clean air plan for polluted counties off the books",
+      "today": {
+        "without": "Right now, a county with dirty air doesn't have to have a plan to clean it.",
+        "with": "Today, a county with dirty air has to have a plan to clean it."
+      },
+      "repeal": "repeal a clean air plan for polluted counties"
     },
     "us-policy-positions:environment-energy.bottle-deposit": {
       "about": "a bottle deposit",
       "to": "charge a deposit on bottles",
       "for": "charge a deposit on bottles",
-      "against": "stop charging a deposit on bottles"
+      "against": "keep a bottle deposit off the books",
+      "today": {
+        "without": "Right now, bottles and cans end up on roadsides with nothing to bring them back.",
+        "with": "Today, there's a deposit on bottles and cans that brings them back."
+      },
+      "repeal": "repeal a bottle deposit"
     },
     "us-policy-positions:environment-energy.price-carbon": {
       "about": "a price on carbon",
       "to": "put a price on carbon",
       "for": "put a price on carbon",
-      "against": "stop putting a price on carbon"
+      "against": "keep a price on carbon off the books",
+      "today": {
+        "without": "Right now, a company can put carbon into the air without paying a cent for it.",
+        "with": "Today, a company pays for the carbon it puts into the air."
+      },
+      "repeal": "repeal a price on carbon"
     },
     "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
       "about": "civilian oversight of the police",
       "to": "give civilians oversight of the police",
       "for": "give civilians oversight of the police",
-      "against": "stop giving civilians oversight of the police"
+      "against": "keep civilian oversight of the police off the books",
+      "today": {
+        "without": "Right now, the police answer only to themselves when a complaint comes in.",
+        "with": "Today, a civilian board looks into complaints against the police."
+      },
+      "repeal": "repeal civilian oversight of the police"
     },
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "about": "working with federal immigration enforcement",
       "to": "partner with federal immigration enforcement",
       "for": "partner with federal immigration enforcement",
-      "against": "stop partnering with federal immigration enforcement"
+      "against": "keep working with federal immigration enforcement off the books",
+      "today": {
+        "without": "Right now, our police don't work with federal immigration agents.",
+        "with": "Today, our police work with federal immigration agents."
+      },
+      "repeal": "repeal working with federal immigration enforcement"
     },
     "us-policy-positions:justice-public-safety.end-cash-bail": {
       "about": "ending cash bail",
       "to": "end cash bail",
       "for": "end cash bail",
-      "against": "stop ending cash bail"
+      "against": "keep ending cash bail off the books",
+      "today": {
+        "without": "Right now, whether someone waits for trial in jail can come down to whether they can pay bail.",
+        "with": "Today, nobody sits in jail before trial just because they can't pay bail."
+      },
+      "repeal": "repeal ending cash bail"
     },
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
       "about": "restoring the vote after a sentence",
       "to": "restore the vote once a sentence is served",
       "for": "restore the vote once a sentence is served",
-      "against": "stop restoring the vote once a sentence is served"
+      "against": "keep restoring the vote after a sentence off the books",
+      "today": {
+        "without": "Right now, someone who has served their whole sentence still can't vote.",
+        "with": "Today, someone who has served their sentence can vote again."
+      },
+      "repeal": "repeal restoring the vote after a sentence"
     },
     "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
       "about": "a higher age for juvenile court",
       "to": "raise the age for juvenile court",
       "for": "raise the age for juvenile court",
-      "against": "stop raising the age for juvenile court"
+      "against": "keep a higher age for juvenile court off the books",
+      "today": {
+        "without": "Right now, a seventeen-year-old can be tried as an adult.",
+        "with": "Today, young people stay in juvenile court longer."
+      },
+      "repeal": "repeal a higher age for juvenile court"
     },
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "about": "child access prevention for guns",
       "to": "require guns to be stored away from children",
       "for": "require guns to be stored away from children",
-      "against": "stop requiring guns to be stored away from children"
+      "against": "keep child access prevention for guns off the books",
+      "today": {
+        "without": "Right now, nothing requires a gun to be locked away from children.",
+        "with": "Today, the law requires a gun to be stored away from children."
+      },
+      "repeal": "repeal child access prevention for guns"
     },
     "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
       "about": "a permit to carry a concealed gun",
       "to": "require a permit to carry a concealed gun",
       "for": "require a permit to carry a concealed gun",
-      "against": "stop requiring a permit to carry a concealed gun"
+      "against": "keep a permit to carry a concealed gun off the books",
+      "today": {
+        "without": "Right now, a person can carry a hidden gun without a permit.",
+        "with": "Today, carrying a hidden gun takes a permit."
+      },
+      "repeal": "repeal a permit to carry a concealed gun"
     },
     "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
       "about": "a higher age to buy a handgun",
       "to": "raise the age to buy a handgun",
       "for": "raise the age to buy a handgun",
-      "against": "stop raising the age to buy a handgun"
+      "against": "keep a higher age to buy a handgun off the books",
+      "today": {
+        "without": "Right now, an eighteen-year-old can buy a handgun.",
+        "with": "Today, a person has to be older to buy a handgun."
+      },
+      "repeal": "repeal a higher age to buy a handgun"
     },
     "us-policy-positions:justice-public-safety.stand-your-ground": {
       "about": "stand-your-ground rules",
       "to": "remove the duty to retreat before using force",
       "for": "remove the duty to retreat before using force",
-      "against": "stop removing the duty to retreat before using force"
+      "against": "keep stand-your-ground rules off the books",
+      "today": {
+        "without": "Right now, a person attacked outside their home has a duty to retreat if they safely can.",
+        "with": "Today, a person attacked anywhere they have a right to be can stand their ground."
+      },
+      "repeal": "repeal stand-your-ground rules"
     },
     "us-policy-positions:government-operations.all-mail-voting": {
       "about": "voting by mail for everyone",
       "to": "send every voter a mail ballot",
       "for": "send every voter a mail ballot",
-      "against": "stop sending every voter a mail ballot"
+      "against": "keep voting by mail for everyone off the books",
+      "today": {
+        "without": "Right now, most voters have to go to a polling place or ask for a ballot by mail.",
+        "with": "Today, every voter gets a ballot in the mail."
+      },
+      "repeal": "repeal voting by mail for everyone"
     },
     "us-policy-positions:government-operations.automatic-voter-registration": {
       "about": "automatic voter registration",
       "to": "register eligible voters automatically",
       "for": "register eligible voters automatically",
-      "against": "stop registering eligible voters automatically"
+      "against": "keep automatic voter registration off the books",
+      "today": {
+        "without": "Right now, a citizen has to sign up to vote before they can.",
+        "with": "Today, a citizen is registered to vote automatically."
+      },
+      "repeal": "repeal automatic voter registration"
     },
     "us-policy-positions:government-operations.independent-redistricting": {
       "about": "independent redistricting",
       "to": "draw district lines with an independent commission",
       "for": "draw district lines with an independent commission",
-      "against": "stop drawing district lines with an independent commission"
+      "against": "keep independent redistricting off the books",
+      "today": {
+        "without": "Right now, the politicians draw their own district lines.",
+        "with": "Today, an independent commission draws the district lines."
+      },
+      "repeal": "repeal independent redistricting"
     },
     "us-policy-positions:government-operations.require-photo-id-to-vote": {
       "about": "photo ID to vote",
       "to": "require photo ID to vote",
       "for": "require photo ID to vote",
-      "against": "stop requiring photo ID to vote"
+      "against": "keep photo ID to vote off the books",
+      "today": {
+        "without": "Right now, a voter doesn't have to show a photo ID at the polls.",
+        "with": "Today, a voter shows a photo ID at the polls."
+      },
+      "repeal": "repeal photo ID to vote"
     },
     "us-policy-positions:government-operations.same-day-voter-registration": {
       "about": "same-day voter registration",
       "to": "let people register and vote on the same day",
       "for": "let people register and vote on the same day",
-      "against": "stop letting people register and vote on the same day"
+      "against": "keep same-day voter registration off the books",
+      "today": {
+        "without": "Right now, a citizen who misses the registration deadline can't vote that year.",
+        "with": "Today, a citizen can register and vote on the same day."
+      },
+      "repeal": "repeal same-day voter registration"
     },
     "us-policy-positions:government-operations.ban-lobbying-after-office": {
       "about": "a ban on lobbying after leaving office",
       "to": "bar former officials from lobbying",
       "for": "bar former officials from lobbying",
-      "against": "stop barring former officials from lobbying"
+      "against": "keep a ban on lobbying after leaving office off the books",
+      "today": {
+        "without": "Right now, an official can leave office on Friday and lobby their old colleagues on Monday.",
+        "with": "Today, a former official has to wait before lobbying their old colleagues."
+      },
+      "repeal": "repeal a ban on lobbying after leaving office"
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
       "about": "more local government power",
       "to": "give local governments more authority",
       "for": "give local governments more authority",
-      "against": "stop giving local governments more authority"
+      "against": "keep more local government power off the books",
+      "today": {
+        "without": "Right now, a town has to ask the state's permission for most of what it wants to do.",
+        "with": "Today, towns can do more without asking the state first."
+      },
+      "repeal": "repeal more local government power"
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "about": "term limits for legislators",
       "to": "limit how long legislators can serve",
       "for": "limit how long legislators can serve",
-      "against": "stop limiting how long legislators can serve"
+      "against": "keep term limits for legislators off the books",
+      "today": {
+        "without": "Right now, a legislator can serve for as long as they keep winning.",
+        "with": "Today, the law limits how long a legislator can serve."
+      },
+      "repeal": "repeal term limits for legislators"
     },
     "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
       "about": "a ban on discrimination in housing and work",
       "to": "ban discrimination in housing and at work",
       "for": "ban discrimination in housing and at work",
-      "against": "stop banning discrimination in housing and at work"
+      "against": "keep a ban on discrimination in housing and work off the books",
+      "today": {
+        "without": "Right now, a person can be turned away from a job or an apartment for who they are.",
+        "with": "Today, nobody can be turned away from a job or an apartment for who they are."
+      },
+      "repeal": "repeal a ban on discrimination in housing and work"
     },
     "us-policy-positions:civil-family-community.dedicated-parks-funding": {
       "about": "dedicated funding for parks",
       "to": "set aside money for parks",
       "for": "set aside money for parks",
-      "against": "stop setting aside money for parks"
+      "against": "keep dedicated funding for parks off the books",
+      "today": {
+        "without": "Right now, the parks get whatever is left at the end of the budget.",
+        "with": "Today, the parks have money set aside for them every year."
+      },
+      "repeal": "repeal dedicated funding for parks"
     },
     "us-policy-positions:civil-family-community.restrict-abortion": {
       "about": "restricting abortion",
       "to": "restrict abortion",
       "for": "restrict abortion",
-      "against": "stop restricting abortion"
+      "against": "keep restricting abortion off the books",
+      "today": {
+        "without": "Right now, abortion is legal here.",
+        "with": "Today, the law restricts abortion here."
+      },
+      "repeal": "repeal restricting abortion"
     },
     "us-policy-positions:technology-privacy.age-verification-for-social-media": {
       "about": "age checks for social media",
       "to": "require age checks for social media accounts",
       "for": "require age checks for social media accounts",
-      "against": "stop requiring age checks for social media accounts"
+      "against": "keep age checks for social media off the books",
+      "today": {
+        "without": "Right now, a child can open a social media account in a minute with no one checking their age.",
+        "with": "Today, social media sites have to check a user's age."
+      },
+      "repeal": "repeal age checks for social media"
     },
     "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
       "about": "limits on government facial recognition",
       "to": "limit how government uses facial recognition",
       "for": "limit how government uses facial recognition",
-      "against": "stop limiting how government uses facial recognition"
+      "against": "keep limits on government facial recognition off the books",
+      "today": {
+        "without": "Right now, government agencies can scan a face in a crowd with no rules at all.",
+        "with": "Today, the law limits how government uses facial recognition."
+      },
+      "repeal": "repeal limits on government facial recognition"
     },
     "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
       "about": "a consumer data privacy law",
       "to": "protect consumers' personal data",
       "for": "protect consumers' personal data",
-      "against": "stop protecting consumers' personal data"
+      "against": "keep a consumer data privacy law off the books",
+      "today": {
+        "without": "Right now, a company can sell what it knows about you without asking.",
+        "with": "Today, a company has to protect what it knows about you."
+      },
+      "repeal": "repeal a consumer data privacy law"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
       "about": "limits on pumping groundwater",
       "to": "limit how much groundwater can be pumped",
       "for": "limit how much groundwater can be pumped",
-      "against": "stop limiting how much groundwater can be pumped"
+      "against": "keep limits on pumping groundwater off the books",
+      "today": {
+        "without": "Right now, anyone with a well can pump as much groundwater as they like.",
+        "with": "Today, the law limits how much groundwater can be pumped."
+      },
+      "repeal": "repeal limits on pumping groundwater"
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
       "about": "protecting farmland from development",
       "to": "protect farmland from development",
       "for": "protect farmland from development",
-      "against": "stop protecting farmland from development"
+      "against": "keep protecting farmland from development off the books",
+      "today": {
+        "without": "Right now, good farmland can be paved over for the next subdivision.",
+        "with": "Today, farmland is protected from being paved over."
+      },
+      "repeal": "repeal protecting farmland from development"
     },
     "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
       "about": "raising the debt limit only with spending cuts to match",
       "to": "raise the debt limit only with spending cuts to match",
       "for": "raise the debt limit only with spending cuts to match",
-      "against": "stop raising the debt limit only with spending cuts to match"
+      "against": "keep raising the debt limit only with spending cuts to match off the books",
+      "today": {
+        "without": "Right now, the debt limit can be raised without cutting a dollar of spending to match.",
+        "with": "Today, any rise in the debt limit has to come with spending cuts to match."
+      },
+      "repeal": "repeal raising the debt limit only with spending cuts to match"
     },
     "us-federal-positions:tax.raise-top-income-tax-rate": {
       "about": "a higher top income tax rate",
       "to": "raise the top income tax rate",
       "for": "raise the top income tax rate",
-      "against": "stop raising the top income tax rate"
+      "against": "keep a higher top income tax rate off the books",
+      "today": {
+        "without": "Right now, the top income tax rate is lower than it was a generation ago.",
+        "with": "Today, the top income tax rate is higher than it was."
+      },
+      "repeal": "repeal a higher top income tax rate"
     },
     "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
       "about": "a cap on consumer loan interest",
       "to": "cap the interest on consumer loans",
       "for": "cap the interest on consumer loans",
-      "against": "stop capping the interest on consumer loans"
+      "against": "keep a cap on consumer loan interest off the books",
+      "today": {
+        "without": "Right now, there is no national cap on the interest a lender can charge.",
+        "with": "Today, a national cap limits the interest on a consumer loan."
+      },
+      "repeal": "repeal a cap on consumer loan interest"
     },
     "us-federal-positions:defense.grow-defense-spending": {
       "about": "more defense spending",
       "to": "grow defense spending",
       "for": "grow defense spending",
-      "against": "stop growing defense spending"
+      "against": "keep more defense spending off the books",
+      "today": {
+        "without": "Right now, our defense budget is not keeping up with the threats we face.",
+        "with": "Today, we spend more on defense than we did."
+      },
+      "repeal": "repeal more defense spending"
     },
     "us-federal-positions:foreign-affairs.increase-foreign-aid": {
       "about": "more foreign aid",
       "to": "increase foreign aid",
       "for": "increase foreign aid",
-      "against": "stop increasing foreign aid"
+      "against": "keep more foreign aid off the books",
+      "today": {
+        "without": "Right now, foreign aid is less than one penny of every federal dollar.",
+        "with": "Today, we give more in foreign aid than we did."
+      },
+      "repeal": "repeal more foreign aid"
     },
     "us-federal-positions:trade.raise-tariffs": {
       "about": "higher tariffs",
       "to": "raise tariffs",
       "for": "raise tariffs",
-      "against": "stop raising tariffs"
+      "against": "keep higher tariffs off the books",
+      "today": {
+        "without": "Right now, most goods come into this country with little or no tariff.",
+        "with": "Today, goods from abroad carry higher tariffs."
+      },
+      "repeal": "repeal higher tariffs"
     },
     "us-federal-positions:immigration.admit-more-immigrants": {
       "about": "admitting more immigrants",
       "to": "admit more immigrants",
       "for": "admit more immigrants",
-      "against": "stop admitting more immigrants"
+      "against": "keep admitting more immigrants off the books",
+      "today": {
+        "without": "Right now, people wait years, sometimes decades, to come here legally.",
+        "with": "Today, more people can come here legally each year."
+      },
+      "repeal": "repeal admitting more immigrants"
     },
     "us-federal-positions:health.medicare-drug-price-negotiation": {
       "about": "Medicare negotiating drug prices",
       "to": "let Medicare negotiate drug prices",
       "for": "let Medicare negotiate drug prices",
-      "against": "stop letting Medicare negotiate drug prices"
+      "against": "keep Medicare negotiating drug prices off the books",
+      "today": {
+        "without": "Right now, Medicare pays whatever the drug companies ask for most medicines.",
+        "with": "Today, Medicare bargains with the drug companies over what it pays."
+      },
+      "repeal": "repeal Medicare negotiating drug prices"
     },
     "us-federal-positions:social-insurance.raise-retirement-age": {
       "about": "a higher retirement age",
       "to": "raise the retirement age",
       "for": "raise the retirement age",
-      "against": "stop raising the retirement age"
+      "against": "keep a higher retirement age off the books",
+      "today": {
+        "without": "Right now, full Social Security starts at sixty-seven.",
+        "with": "Today, full Social Security starts later than it did."
+      },
+      "repeal": "repeal a higher retirement age"
     },
     "us-federal-positions:education.forgive-student-loans": {
       "about": "forgiving student loans",
       "to": "forgive student loans",
       "for": "forgive student loans",
-      "against": "stop forgiving student loans"
+      "against": "keep forgiving student loans off the books",
+      "today": {
+        "without": "Right now, a young person can leave school owing more than their parents paid for a house.",
+        "with": "Today, much of what students borrowed has been forgiven."
+      },
+      "repeal": "repeal forgiving student loans"
     },
     "us-federal-positions:housing.vouchers-for-every-eligible-family": {
       "about": "housing vouchers for every family that qualifies",
       "to": "give a housing voucher to every family that qualifies",
       "for": "give a housing voucher to every family that qualifies",
-      "against": "stop giving a housing voucher to every family that qualifies"
+      "against": "keep housing vouchers for every family that qualifies off the books",
+      "today": {
+        "without": "Right now, most families who qualify for housing help sit on a waiting list for years.",
+        "with": "Today, every family that qualifies gets a housing voucher."
+      },
+      "repeal": "repeal housing vouchers for every family that qualifies"
     },
     "us-federal-positions:transport-water.expand-passenger-rail": {
       "about": "more passenger rail",
       "to": "expand passenger rail",
       "for": "expand passenger rail",
-      "against": "stop expanding passenger rail"
+      "against": "keep more passenger rail off the books",
+      "today": {
+        "without": "Right now, a train is not a real choice for most trips in this country.",
+        "with": "Today, more of the country can travel by train."
+      },
+      "repeal": "repeal more passenger rail"
     },
     "us-federal-positions:energy-environment.limit-power-plant-carbon": {
       "about": "limits on power plant carbon",
       "to": "limit carbon from power plants",
       "for": "limit carbon from power plants",
-      "against": "stop limiting carbon from power plants"
+      "against": "keep limits on power plant carbon off the books",
+      "today": {
+        "without": "Right now, power plants can put as much carbon into the air as they like.",
+        "with": "Today, power plants are limited in how much carbon they put into the air."
+      },
+      "repeal": "repeal limits on power plant carbon"
     },
     "us-federal-positions:agriculture.cut-farm-subsidies": {
       "about": "cutting farm subsidies",
       "to": "cut farm subsidies",
       "for": "cut farm subsidies",
-      "against": "stop cutting farm subsidies"
+      "against": "keep cutting farm subsidies off the books",
+      "today": {
+        "without": "Right now, the biggest farms collect the biggest checks from Washington.",
+        "with": "Today, farm subsidies are smaller than they were."
+      },
+      "repeal": "repeal cutting farm subsidies"
     },
     "us-federal-positions:emergencies.states-share-disaster-costs": {
       "about": "states sharing disaster costs",
       "to": "have the states share more of disaster costs",
       "for": "have the states share more of disaster costs",
-      "against": "stop having the states share more of disaster costs"
+      "against": "keep states sharing disaster costs off the books",
+      "today": {
+        "without": "Right now, Washington pays most of the cost when a disaster hits a state.",
+        "with": "Today, the states pay a larger share of what a disaster costs."
+      },
+      "repeal": "repeal states sharing disaster costs"
     },
     "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
       "about": "shorter mandatory minimum sentences",
       "to": "reduce mandatory minimum sentences",
       "for": "reduce mandatory minimum sentences",
-      "against": "stop reducing mandatory minimum sentences"
+      "against": "keep shorter mandatory minimum sentences off the books",
+      "today": {
+        "without": "Right now, a judge has to hand down the same long sentence no matter the case.",
+        "with": "Today, judges have more room to fit a sentence to the case."
+      },
+      "repeal": "repeal shorter mandatory minimum sentences"
     },
     "us-federal-positions:government.ban-congressional-stock-trading": {
       "about": "a ban on stock trading by members of Congress",
       "to": "ban members of Congress from trading stocks",
       "for": "ban members of Congress from trading stocks",
-      "against": "stop banning members of Congress from trading stocks"
+      "against": "keep a ban on stock trading by members of Congress off the books",
+      "today": {
+        "without": "Right now, a lawmaker in Washington can buy and sell stock in the very companies they write laws for.",
+        "with": "Today, lawmakers in Washington can't trade stocks."
+      },
+      "repeal": "repeal a ban on stock trading by members of Congress"
     },
     "us-federal-positions:science-communications.national-data-privacy": {
       "about": "a national data privacy law",
       "to": "pass a national data privacy law",
       "for": "pass a national data privacy law",
-      "against": "stop passing a national data privacy law"
+      "against": "keep a national data privacy law off the books",
+      "today": {
+        "without": "Right now, there is no national law that protects your personal data.",
+        "with": "Today, a national law protects your personal data."
+      },
+      "repeal": "repeal a national data privacy law"
     },
     "us-federal-positions:territories-culture.statehood-for-dc": {
-      "about": "statehood for the District of Columbia",
-      "to": "make the District of Columbia a state",
-      "for": "make the District of Columbia a state",
-      "against": "stop making the District of Columbia a state"
+      "about": "statehood for the nation's capital",
+      "to": "make the nation's capital a state",
+      "for": "make the nation's capital a state",
+      "against": "keep statehood for the nation's capital off the books",
+      "today": {
+        "without": "Right now, the people who live in the nation's capital pay federal taxes and have no voting member in the House or the Senate.",
+        "with": "Today, the nation's capital is a state."
+      },
+      "repeal": "repeal statehood for the nation's capital"
     }
   }
 }

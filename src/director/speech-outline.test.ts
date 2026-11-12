@@ -9,11 +9,15 @@ import { officialsIn } from "../core2/modules/officials";
 import { placeStateKeys } from "../core2/places";
 import { coreStateName } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
-import { questionSubject } from "../english/policy-names";
-import { questionAbout, questionTo } from "../english/question-names";
+import {
+  questionAbout,
+  questionSide,
+  questionTo,
+  questionToday,
+} from "../english/question-names";
 import { composeLocalAddress } from "./local-address";
 import { composeOpeningStory } from "./opening-story";
-import { outlineOf } from "./speech-outline";
+import { outlineOf, themeOfQuestion } from "./speech-outline";
 
 // The one speech outline (words composer, unit 3; owner, Nov 12: "This should
 // apply to all speeches ... the problem is the engine"). Ten places drawn from
@@ -52,6 +56,11 @@ interface Speech {
   readonly asks: readonly string[];
   /** The state whose speech it is; null for the President's, which names none. */
   readonly ownState: string | null;
+  readonly sentences: readonly {
+    readonly text: string;
+    readonly facts: readonly string[];
+    readonly stand?: { readonly about: string };
+  }[];
 }
 
 const stateNames = placeStateKeys().map((key) => ({
@@ -84,6 +93,7 @@ describe("every speech through the one outline planner", () => {
             theme: opening!.theme,
             asks: opening!.asks,
             ownState: null,
+            sentences: opening!.address.sentences,
           },
           ...(["state", "town"] as const).flatMap((level): Speech[] => {
             const local = composeLocalAddress(core, level);
@@ -95,6 +105,7 @@ describe("every speech through the one outline planner", () => {
                     theme: local.theme,
                     asks: local.asks,
                     ownState: own,
+                    sentences: local.sentences,
                   },
                 ]
               : [];
@@ -124,9 +135,28 @@ describe("every speech through the one outline planner", () => {
           const label = `${where}, the ${speech.who}'s address`;
           // One theme: every ask belongs to it.
           for (const ask of speech.asks)
-            if (questionSubject(ask) !== speech.theme)
+            if (themeOfQuestion(ask) !== speech.theme)
               failures.push(
                 `${label}: ask ${ask} is outside the theme ${speech.theme}`,
+              );
+          // At least two points (the owner, on the rally: "a four-line rally
+          // is not a speech"), and each opens on how its question stands
+          // today before its ask: never a bare ask.
+          const points = new Map<string, (typeof speech.sentences)[number][]>();
+          for (const sentence of speech.sentences)
+            if (sentence.stand)
+              points.set(sentence.stand.about, [
+                ...(points.get(sentence.stand.about) ?? []),
+                sentence,
+              ]);
+          if (points.size < 2)
+            failures.push(
+              `${label}: ${points.size} point(s); a speech makes at least two`,
+            );
+          for (const [about, said] of points)
+            if (!said[0]!.facts.includes("today"))
+              failures.push(
+                `${label}: the point on ${about} opens without how it stands today: "${said[0]!.text}"`,
               );
           // Each ask once.
           if (new Set(speech.asks).size !== speech.asks.length)
@@ -149,7 +179,15 @@ describe("every speech through the one outline planner", () => {
           // names it in its own words.
           const withoutAsks = speech.asks.reduce(
             (text, ask) =>
-              [questionAbout(ask), questionTo(ask)].reduce(
+              [
+                questionAbout(ask),
+                questionTo(ask),
+                questionToday(ask, true),
+                questionToday(ask, false),
+                questionSide(ask, "for"),
+                questionSide(ask, "against"),
+                questionSide(ask, "repeal"),
+              ].reduce(
                 (rest, words) => (words ? rest.split(words).join("") : rest),
                 text,
               ),
