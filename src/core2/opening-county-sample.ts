@@ -83,6 +83,7 @@ export function withCountySample(
 ): CountySample | null {
   const county = countyOf(input);
   if (!county) return null;
+  const countyPlaceId = county.jurisdictionId;
   stopgap(COUNTY_SAMPLE_STOPGAP);
   const start = makeIsoDate(input.startedAt);
   const size = p("countySampleHouseholds");
@@ -319,7 +320,7 @@ export function withCountySample(
 
   function build(at: number): CountySample {
     return {
-      placeId: county.jurisdictionId,
+      placeId: countyPlaceId,
       weight: at,
       input: {
         ...input,
