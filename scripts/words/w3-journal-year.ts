@@ -23,6 +23,14 @@ const world = buildBenchWorld(place.seed, gameStartDate(), {
   placeKey: place.key,
 });
 const core = world.core;
+// The director keeps a Journal only for those it watches: the player and
+// everyone in their household, from the first day.
+const playerId = world.playerId as PersonId | undefined;
+if (!playerId) throw new Error(`${place.name}: no player`);
+const home = core.people.get(playerId)?.householdId;
+for (const person of core.people.values())
+  if (person.id === playerId || (home && person.householdId === home))
+    world.director.watch(core, person.id as PersonId);
 advanceCore(core, addDays(makeIsoDate(core.date), days));
 console.log(`Place: ${place.name} (${place.key}), seed ${seed}, ${core.date}`);
 for (const personId of [...world.director.ledger.people.keys()].sort()) {
