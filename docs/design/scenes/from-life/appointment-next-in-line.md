@@ -1,6 +1,6 @@
 # Episode: the appointment, and the person next in line
 
-Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief ("an appointment to make and the person who wanted it"). Calibration only: no real person's name or words ship, and none are in the packet. Written as a researcher's packet for the director engineer (CTO change of role, Oct 27): trigger, place, cast, outcome write and drafted lines are in the item `scene-appointment-next-in-line`. Engine item it waits on: `world-appointment-names-the-appointer`.
+Scenes from life (`scenes-from-life`), owner's Oct 27 executive brief ("an appointment to make and the person who wanted it"). Calibration only: no real person's name or words ship, and none are in the packet. Written as a researcher's packet for the director engineer (CTO change of role, Oct 27): trigger, place, cast, outcome write and drafted lines are in the item `scene-appointment-next-in-line`. Engine item it waits on: `world-appointment-names-the-appointer`. Situation type it calibrates: `appointment` (both triggers, `economy.board-appointment` and `official-appointed`).
 
 ## Sources
 
