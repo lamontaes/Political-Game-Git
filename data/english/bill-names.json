@@ -549,6 +549,78 @@
       "purpose": "letting customers pick their electricity supplier",
       "repealName": "Electric Choice Repeal",
       "repealPurpose": "ending customers' choice of electricity supplier"
+    },
+    "us-federal-positions:tax.raise-top-income-tax-rate": {
+      "name": "Top Rate Increase",
+      "purpose": "raising the top income tax rate",
+      "repealName": "Top Rate Reduction",
+      "repealPurpose": "lowering the top income tax rate"
+    },
+    "us-federal-positions:foreign-affairs.increase-foreign-aid": {
+      "name": "Foreign Aid Increase",
+      "purpose": "more money for aid abroad",
+      "repealName": "Foreign Aid Reduction",
+      "repealPurpose": "less money for aid abroad"
+    },
+    "us-federal-positions:monetary-financial.cap-consumer-loan-interest": {
+      "name": "Federal Lending Limit",
+      "purpose": "a federal cap on the interest charged on consumer loans",
+      "repealName": "Federal Lending Limit Repeal",
+      "repealPurpose": "lifting the federal cap on consumer loan interest"
+    },
+    "us-federal-positions:social-insurance.raise-retirement-age": {
+      "name": "Retirement Age Increase",
+      "purpose": "a later full retirement age for Social Security",
+      "repealName": "Retirement Age Restoration",
+      "repealPurpose": "returning the full retirement age to its earlier level"
+    },
+    "us-federal-positions:agriculture.cut-farm-subsidies": {
+      "name": "Farm Subsidy Reduction",
+      "purpose": "lower federal payments to farms",
+      "repealName": "Farm Subsidy Restoration",
+      "repealPurpose": "restoring federal payments to farms"
+    },
+    "us-federal-positions:defense.grow-defense-spending": {
+      "name": "Defense Spending Increase",
+      "purpose": "more spending on national defense",
+      "repealName": "Defense Spending Reduction",
+      "repealPurpose": "less spending on national defense"
+    },
+    "us-federal-positions:transport-water.expand-passenger-rail": {
+      "name": "Passenger Rail Expansion",
+      "purpose": "more passenger rail service",
+      "repealName": "Passenger Rail Cutback",
+      "repealPurpose": "less passenger rail service"
+    },
+    "us-tax-terms:federal.income-tax-terms": {
+      "name": "Income Tax Terms",
+      "purpose": "new terms for the federal income tax",
+      "repealName": "Income Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the federal income tax"
+    },
+    "us-tax-terms:federal.payroll-tax-terms": {
+      "name": "Payroll Tax Terms",
+      "purpose": "new terms for the Social Security and Medicare taxes",
+      "repealName": "Payroll Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the Social Security and Medicare taxes"
+    },
+    "us-tax-terms:federal.excise-tax-terms": {
+      "name": "Excise Tax Terms",
+      "purpose": "new terms for the federal excise taxes",
+      "repealName": "Excise Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the federal excise taxes"
+    },
+    "us-tax-terms:federal.sales-tax-terms": {
+      "name": "Federal Sales Tax",
+      "purpose": "a federal tax on retail sales",
+      "repealName": "Federal Sales Tax Repeal",
+      "repealPurpose": "ending the federal tax on retail sales"
+    },
+    "us-tax-terms:federal.corporate-tax-terms": {
+      "name": "Corporate Tax Terms",
+      "purpose": "new terms for the corporate income tax",
+      "repealName": "Corporate Tax Terms Restoration",
+      "repealPurpose": "the earlier terms of the corporate income tax"
     }
   },
   "list": {

@@ -75,9 +75,14 @@ try {
   // The rail names each entry for a reader and on hover (aria-label and data-name).
   assert.equal(await ring.getAttribute("aria-label"), "Guide");
   await ring.click();
-  await page.locator("#sheet-body .term-row").first().waitFor();
+  await page
+    .locator("#sheet-body .roster-screen.guide .roster-row")
+    .first()
+    .waitFor();
   const heading = (await page.locator("#sheet-title").innerText()).trim();
-  const entries = await page.locator("#sheet-body .term-row").count();
+  const entries = await page
+    .locator("#sheet-body .roster-screen.guide .roster-row")
+    .count();
   console.log(`rail Guide: "${heading}", ${entries} terms`);
   assert.equal(heading, "Guide");
   assert.ok(entries >= 10, "the Guide opened with too few terms");

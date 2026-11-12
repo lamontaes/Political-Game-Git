@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-core-older-workers-full-vs-counted-gap
+pr: #8634
 after:
 blocked-on:
 model: sonnet
@@ -16,7 +16,7 @@ effort: medium
 root: design-one-model-two-tiers
 lead: m0-m2
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-11T05:31:56.126Z
 checked: fable 2026-11-10
 ---
 

@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/data/business-books.json, src/core2/business-books.test.ts, src/core2/modules/credit.ts, src/core2/data/stopgaps/p8.json
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded each business's legal form and funding route; no player sees it.
