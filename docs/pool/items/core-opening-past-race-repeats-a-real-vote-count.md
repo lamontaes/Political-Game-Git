@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 standard: 2
-claimed-by:
-pr:
+claimed-by: R1 (Fable A's builder)
+pr: 8884
 after:
 blocked-on:
 lead: governing
@@ -24,7 +24,7 @@ source: the lead (Fable A), Nov 12, 2026, on the CTO's line on #7365 (comment 68
 
 **Where the count comes from (CTO, Nov 12).** The 2024 prior-election counts are not simulated from the world's history. Each is drawn as one offset around a real center, in `buildPriorElections` (src/core2/past-elections.ts). The center is `realResult` (the certified total from data/source/electoral-calibration-2024/corpus.json for a U.S. House, Senate or presidential race) or, where the corpus has no race, `electorateBallots` times `turnoutRatio`. `electorateBallots` is the state's real 2024 presidential total (`CORPUS.presidentialByState`) over the chamber's seats, a territory's reported ballots (data/research/elections/territory-ballots.json), or a county's 2024 presidential total (src/core2/data/county-presidential-2024.json). Carolina's 6,845.15 is Rhode Island's 513,386 presidential ballots over its 75 House seats. Whether that should be simulated from the world's own voters is a question for the owner, kept apart from this test change.
 
-**Fix.** Proposed, for the lead to confirm, because it changes what row 44 asserts. In src/core2/realistic-not-real.test.ts row 44 (line 815), replace the per-race inequality between the two worlds with the two checks the rule asks for. (1) **Never the real count:** each race of a thousand votes or more differs from the count it was drawn around. Export the center from src/core2/past-elections.ts as one function, `pastVotesCenter(api, town, office, seat, date)` (the `real?.total ?? electorateBallots(...) * turnoutRatio(date)` expression `buildPriorElections` already uses, moved into the function, which `buildPriorElections` then calls), and assert `Math.round(center) !== total` in each world. (2) **Every world differs:** across the large races taken together, the two worlds' lists of counts are not the same, and fewer than 1 in 50 races share a count. A shared count is then a reported coincidence, not a failure. The thousand-vote floor stays. No game behavior changes. If the lead rules that the per-race rule must stay, the other root fix is a finer draw. That cannot be made by a finer hash: the band holds only 0.053 N whole counts, so the only option would be to widen `worldPastVotesSpreadShare`, which is a calibration change for the researcher and is not proposed here.
+**Fix.** Built, as the CTO ruled on Nov 12 (the test asserts what is true; the spread is not widened to suit a test). `buildPriorElections` (src/core2/past-elections.ts) keeps each race's source count (`sourceVotes` on `PastElectionRow`, the rounded center), and src/core2/past-news.ts writes it on the race's archive story beside `totalVotes`. Row 44 of src/core2/realistic-not-real.test.ts now checks two things. In each world, no race of a thousand votes or more prints its source count. Across the large races, the two worlds share a count in at most `ceil(large × 3/87)` races: the 95% upper limit for the 0 of 87 measured over ten draws, which is written in the test. The thousand-vote floor stays.
 
 **Time box.** 1 hour for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
