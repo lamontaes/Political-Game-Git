@@ -109,10 +109,16 @@ it(`the house talks about the player's own news (seed ${seed})`, () => {
     const did: string[] = [];
     const played: string[] = [];
     let filed = false;
+    let staged = false;
     const heardBy = new Map<string, string>();
     for (let day = 0; day < DAYS; day += 1) {
       if (day > 0) liveThrough(core, playerId, day);
-      if (day === STAGE_OFFER && !core.people.get(playerId)?.jobId) {
+      if (
+        STAGE_OFFER !== undefined &&
+        day >= STAGE_OFFER &&
+        !staged &&
+        !core.people.get(playerId)?.jobId
+      ) {
         const positions = api.moduleState(JOBS_MODULE_ID).table("positions");
         const open = (
           positions.rows() as unknown as {
@@ -143,8 +149,12 @@ it(`the house talks about the player's own news (seed ${seed})`, () => {
               deadline: core.date,
               status: "pending",
             } as never);
+          staged = true;
           did.push(`day ${day}: STAGED an offer of ${open.title} (${open.id})`);
-        } else did.push(`day ${day}: no open position to stage an offer for`);
+        } else
+          did.push(
+            `day ${day}: no open position to stage an offer for (${positions.rows().length} positions on the books)`,
+          );
       }
       for (const offer of jobOffersFor(api, playerId))
         if (offer.status === "pending" && acceptJobOffer(api, offer.id))

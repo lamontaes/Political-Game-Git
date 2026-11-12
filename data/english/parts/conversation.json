@@ -37523,10 +37523,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-say-core.i-went-to-the-town-hall-when-it-was-all-about",
+      "key": "conversation.government-news-say-core.i-was-at-the-town-hall-when-all-about",
       "move": "government-news-say-core",
       "kind": "spoken",
-      "text": "I went to the town hall {when}. It was all {about}.",
+      "text": "I was at the town hall {when}. All {about}.",
       "uses": [
         {
           "move": "government-news-say-core",
@@ -37808,10 +37808,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-back-core.well-i-m-not-you-time-will-tell",
+      "key": "conversation.government-news-back-core.i-m-not-you-i-d-vote-it-down",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Well, I'm not, {you}. Time will tell.",
+      "text": "I'm not, {you}. I'd vote it down.",
       "uses": [
         {
           "move": "government-news-back-core",
@@ -37880,10 +37880,10 @@
       "date": "2026-11-12"
     },
     {
-      "key": "conversation.government-news-back-core.maybe-so-you-it-s-done-now-anyway",
+      "key": "conversation.government-news-back-core.maybe-so-you-it-s-already-passed",
       "move": "government-news-back-core",
       "kind": "spoken",
-      "text": "Maybe so, {you}. It's done now, anyway.",
+      "text": "Maybe so, {you}. It's already passed.",
       "uses": [
         {
           "move": "government-news-back-core",
