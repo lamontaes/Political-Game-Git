@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: opus-4a12
-pr:
+pr: #8905
 after:
 blocked-on:
 lead: play-first
