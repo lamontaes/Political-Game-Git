@@ -3,7 +3,8 @@ import {
   employerSaidAs,
   jobSaidAs,
   saidAs,
-  laterMentionsAsPronoun,
+  personSlot,
+  wordPersonSlots,
   sentenceStarts,
   type SaidPerson,
 } from "./said-as";
@@ -159,41 +160,41 @@ describe("sentence starts", () => {
   });
 });
 
-describe("later mentions", () => {
-  it("says a role once, then the pronoun in its case", () => {
-    const he = { pronouns: "he-him" };
+describe("person slots", () => {
+  const people = new Map([
+    ["p", { role: "the President", person: { gender: "female" } }],
+  ]);
+  it("words each slot in its own case: the role once, then the pronoun", () => {
+    const a = personSlot("p", "subject");
+    const o = personSlot("p", "object");
+    const s = personSlot("p", "possessive");
     expect(
-      laterMentionsAsPronoun(
-        "The President spent time on pay. Nothing here looks like what the President described.",
-        "the President",
-        he,
+      wordPersonSlots(
+        `${a} spent time on pay. Nothing here looks like what ${a} described.`,
+        people,
       ),
     ).toBe(
-      "The President spent time on pay. Nothing here looks like what he described.",
+      "The President spent time on pay. Nothing here looks like what she described.",
     );
     expect(
-      laterMentionsAsPronoun(
-        "Same as the President, honestly.",
-        "the President",
-        he,
-        true,
-      ),
-    ).toBe("Same as him, honestly.");
+      wordPersonSlots(`Same as ${o}, honestly.`, people, new Set(["p"])),
+    ).toBe("Same as her, honestly.");
+    expect(wordPersonSlots(`I wouldn't take ${s} word.`, people)).toBe(
+      "I wouldn't take the President's word.",
+    );
+    // Mequon, Wisconsin (5551150), seed 0fc675ce4beb9bf6f3c8, Nov 12: a guess
+    // from the next word said "and neither does her"; the slot's case says she.
     expect(
-      laterMentionsAsPronoun(
-        "The President's plan won't work.",
-        "the President",
-        { gender: "female" },
-        true,
+      wordPersonSlots(
+        `I heard the President on carbon. I don't think we should limit it, and neither does ${a}.`,
+        people,
       ),
-    ).toBe("Her plan won't work.");
+    ).toBe(
+      "I heard the President on carbon. I don't think we should limit it, and neither does she.",
+    );
+    // The role already in the text counts as the first mention.
     expect(
-      laterMentionsAsPronoun(
-        "The President said it.",
-        "the President",
-        {},
-        true,
-      ),
-    ).toBe("The President said it.");
+      wordPersonSlots(`The President spoke. Whatever ${a} says, fine.`, people),
+    ).toBe("The President spoke. Whatever she says, fine.");
   });
 });

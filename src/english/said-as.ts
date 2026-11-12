@@ -227,50 +227,61 @@ export function sentenceStarts(text: string): string {
   );
 }
 
-const SUBJECT_BEFORE = new Set(data.subjectBefore.words);
+/**
+ * A person slot left for the said-as reader to word once the whole text is
+ * composed: the slot's own case (`{president}`, `{president-object}`,
+ * `{president-possessive}`) travels with it, so a slot is never guessed from
+ * the word after it.
+ */
+export function personSlot(personId: string, kase: SaidCase): string {
+  return `\u27e6${personId}|${kase}\u27e7`;
+}
+
+const SLOT = /\u27e6([^|\u27e7]+)\|(subject|object|possessive)\u27e7/g;
 
 /**
- * A role said more than once in a text: the first stays, every later one is
- * the person's pronoun (owner, Nov 12: "There needs to be pronouns and
- * titles"), in the case its place in the clause takes. `mentioned` says the
- * text already named them before this piece, so every mention here is a
- * later one. A person said with the they form keeps the role.
+ * Words every person slot in a composed text, in order, by the slot's case:
+ * the role (with "'s" for a possessive) the first time the text names them,
+ * by a slot or by the role's own words already in the text, then the
+ * pronoun. `mentioned` says an earlier text on the same screen already named
+ * them. A person said with the they form keeps the role.
  */
-export function laterMentionsAsPronoun(
+export function wordPersonSlots(
   text: string,
-  role: string,
-  person: Pick<SaidPerson, "pronouns" | "gender">,
-  mentioned = false,
+  people: ReadonlyMap<
+    string,
+    { role: string; person: Pick<SaidPerson, "pronouns" | "gender"> }
+  >,
+  mentioned: ReadonlySet<string> = new Set(),
 ): string {
-  const set = person.pronouns ?? pronounSetOfGender(person.gender);
-  const words = pronounWords(set);
-  if (!words || !role) return text;
-  const bare = role.replace(/^the\s+/i, "");
-  const pattern = new RegExp(
-    `\\b[Tt]he ${bare.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}('s)?(?=(\\W*)(\\S*))`,
-    "g",
-  );
-  let seen = mentioned;
-  return text.replace(
-    pattern,
-    (
-      match: string,
-      owner: string | undefined,
-      _gap: string,
-      next: string | undefined,
-      at: number,
-    ) => {
-      if (!seen) {
-        seen = true;
-        return match;
-      }
-      const start = at === 0 || /[.!?]\s*$/.test(text.slice(0, at));
-      const word = owner
-        ? words.possessive
-        : SUBJECT_BEFORE.has((next ?? "").toLowerCase().replace(/[^a-z']/g, ""))
-          ? words.lower
-          : words.object;
-      return start ? word.charAt(0).toUpperCase() + word.slice(1) : word;
-    },
-  );
+  const named = new Set(mentioned);
+  let out = "";
+  let at = 0;
+  for (const match of text.matchAll(SLOT)) {
+    const [whole, id, kase] = match;
+    const before = text.slice(at, match.index);
+    out += before;
+    at = match.index! + whole.length;
+    const who = people.get(id!);
+    if (!who) continue;
+    const roleBare = who.role.replace(/^the\s+/i, "");
+    if (new RegExp(`\\b${roleBare}\\b`, "i").test(out)) named.add(id!);
+    const words = pronounWords(
+      who.person.pronouns ?? pronounSetOfGender(who.person.gender),
+    );
+    const start = /(^|[.!?]\s*)$/.test(out);
+    let said: string;
+    if (!named.has(id!) || !words) {
+      said = kase === "possessive" ? possessive(who.role) : who.role;
+      named.add(id!);
+    } else
+      said =
+        kase === "object"
+          ? words.object
+          : kase === "possessive"
+            ? words.possessive
+            : words.lower;
+    out += start ? capital(said) : said;
+  }
+  return out + text.slice(at);
 }

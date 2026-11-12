@@ -35,7 +35,9 @@
     "player-first": "The player's first name, from their person record, said in a goodbye when the talk already named its topic.",
     "work_place": "The town the speaker's employer is in, when it is not their own town, from the employer's record.",
     "my_position": "The player's job, with its article (\"a server\"), from the job record's title.",
-    "their_first": "The given name of the person the player is talking to, from the person's record."
+    "their_first": "The given name of the person the player is talking to, from the person's record.",
+    "president-object": "The President where an object stands (\"with {president-object}\"): the role the first time the talk says them, then him or her (said-as, slot case; words composer, Nov 12).",
+    "president-possessive": "The President's, where a possessive stands: the role's possessive the first time, then his or her (said-as, slot case)."
   },
   "maxWords": 10,
   "lineWords": {
@@ -20870,7 +20872,7 @@
       "key": "conversation.address-point-opener.i-heard-president-on-about",
       "move": "address-point-opener",
       "kind": "spoken",
-      "text": "I heard {president} on {about}.",
+      "text": "I heard {president-object} on {about}.",
       "uses": [
         {
           "move": "address-point-opener",
@@ -22366,7 +22368,7 @@
       "key": "conversation.address-point-core-year-with.that-s-how-it-s-been-in-this-house-president-or-not",
       "move": "address-point-core-year-with",
       "kind": "spoken",
-      "text": "That's how it's been in this house, {president} or not.",
+      "text": "That's how it's been in this house, {president-object} or not.",
       "uses": [
         {
           "move": "address-point-core-year-with",
@@ -22462,7 +22464,7 @@
       "key": "conversation.address-point-core-year-with.i-don-t-need-president-to-tell-me-i-live-it",
       "move": "address-point-core-year-with",
       "kind": "spoken",
-      "text": "I don't need {president} to tell me. I live it.",
+      "text": "I don't need {president-object} to tell me. I live it.",
       "uses": [
         {
           "move": "address-point-core-year-with",
@@ -22558,7 +22560,7 @@
       "key": "conversation.address-point-core-year-with.that-one-matches-what-i-see-every-day-president-or-not",
       "move": "address-point-core-year-with",
       "kind": "spoken",
-      "text": "That one matches what I see every day, {president} or not.",
+      "text": "That one matches what I see every day, {president-object} or not.",
       "uses": [
         {
           "move": "address-point-core-year-with",
@@ -22582,7 +22584,7 @@
       "key": "conversation.address-point-core-year-with.credit-to-president-that-part-s-real",
       "move": "address-point-core-year-with",
       "kind": "spoken",
-      "text": "Credit to {president}. That part's real.",
+      "text": "Credit to {president-object}. That part's real.",
       "uses": [
         {
           "move": "address-point-core-year-with",
@@ -22702,7 +22704,7 @@
       "key": "conversation.address-point-core-year-against.i-don-t-see-it-and-i-d-tell-president-so",
       "move": "address-point-core-year-against",
       "kind": "spoken",
-      "text": "I don't see it, and I'd tell {president} so.",
+      "text": "I don't see it, and I'd tell {president-object} so.",
       "uses": [
         {
           "move": "address-point-core-year-against",
@@ -22726,7 +22728,7 @@
       "key": "conversation.address-point-core-year-against.that-s-not-how-it-s-been-for-us-president-or-not",
       "move": "address-point-core-year-against",
       "kind": "spoken",
-      "text": "That's not how it's been for us, {president} or not.",
+      "text": "That's not how it's been for us, {president-object} or not.",
       "uses": [
         {
           "move": "address-point-core-year-against",
@@ -23038,7 +23040,7 @@
       "key": "conversation.address-point-core-year-unsure.i-d-want-to-see-it-before-i-believe-president",
       "move": "address-point-core-year-unsure",
       "kind": "spoken",
-      "text": "I'd want to see it before I believe {president}.",
+      "text": "I'd want to see it before I believe {president-object}.",
       "uses": [
         {
           "move": "address-point-core-year-unsure",
@@ -23134,7 +23136,7 @@
       "key": "conversation.address-point-core-year-unsure.ask-me-once-i-ve-seen-it-not-just-heard-president",
       "move": "address-point-core-year-unsure",
       "kind": "spoken",
-      "text": "Ask me once I've seen it, not just heard {president}.",
+      "text": "Ask me once I've seen it, not just heard {president-object}.",
       "uses": [
         {
           "move": "address-point-core-year-unsure",
@@ -23932,7 +23934,7 @@
       "key": "conversation.address-point-reason-view.i-don-t-need-president-to-tell-me-what-i-think",
       "move": "address-point-reason-view",
       "kind": "spoken",
-      "text": "I don't need {president} to tell me what I think.",
+      "text": "I don't need {president-object} to tell me what I think.",
       "uses": [
         {
           "move": "address-point-reason-view",
@@ -23976,7 +23978,7 @@
       "key": "conversation.address-point-reason-view.that-one-i-ve-thought-through-with-or-without-president",
       "move": "address-point-reason-view",
       "kind": "spoken",
-      "text": "That one I've thought through, with or without {president}.",
+      "text": "That one I've thought through, with or without {president-object}.",
       "uses": [
         {
           "move": "address-point-reason-view",
@@ -24020,7 +24022,7 @@
       "key": "conversation.address-point-reason-view.i-ve-had-my-say-on-it-before-president-or-not",
       "move": "address-point-reason-view",
       "kind": "spoken",
-      "text": "I've had my say on it before, {president} or not.",
+      "text": "I've had my say on it before, {president-object} or not.",
       "uses": [
         {
           "move": "address-point-reason-view",
@@ -24398,7 +24400,7 @@
       "key": "conversation.address-point-answer-disagree.i-wouldn-t-take-president-s-word-on-that",
       "move": "address-point-answer-disagree",
       "kind": "spoken",
-      "text": "I wouldn't take {president}'s word on that.",
+      "text": "I wouldn't take {president-possessive} word on that.",
       "uses": [
         {
           "move": "address-point-answer-disagree",
@@ -24434,7 +24436,7 @@
       "key": "conversation.address-point-answer-disagree.i-m-with-president-on-this-one",
       "move": "address-point-answer-disagree",
       "kind": "spoken",
-      "text": "I'm with {president} on this one.",
+      "text": "I'm with {president-object} on this one.",
       "uses": [
         {
           "move": "address-point-answer-disagree",
@@ -25062,7 +25064,7 @@
       "key": "conversation.address-point-back-disagree.we-don-t-have-to-agree-on-president",
       "move": "address-point-back-disagree",
       "kind": "spoken",
-      "text": "We don't have to agree on {president}.",
+      "text": "We don't have to agree on {president-object}.",
       "uses": [
         {
           "move": "address-point-back-disagree",
@@ -25348,7 +25350,7 @@
       "key": "conversation.address-point-back-instead.same-as-president-honestly-i-don-t-have-a-better-idea",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "Same as {president}, honestly. I don't have a better idea.",
+      "text": "Same as {president-object}, honestly. I don't have a better idea.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -25396,7 +25398,7 @@
       "key": "conversation.address-point-back-instead.i-d-give-president-a-chance-on-it-first",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "I'd give {president} a chance on it first.",
+      "text": "I'd give {president-object} a chance on it first.",
       "uses": [
         {
           "move": "address-point-back-instead",
@@ -25588,7 +25590,7 @@
       "key": "conversation.address-point-back-instead.depends-on-president-i-m-not-holding-my-breath",
       "move": "address-point-back-instead",
       "kind": "spoken",
-      "text": "Depends on {president}. I'm not holding my breath.",
+      "text": "Depends on {president-object}. I'm not holding my breath.",
       "uses": [
         {
           "move": "address-point-back-instead",

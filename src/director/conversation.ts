@@ -139,14 +139,13 @@ import {
   stateInSentence,
 } from "./words";
 import { dayParts, sceneMinute } from "./day-part";
-import { noteMention, tellingOf } from "../english/telling";
 import {
   employerSaidAs,
   jobSaidAs,
-  laterMentionsAsPronoun,
   officeWords,
-  saidAs,
+  personSlot,
   sentenceStarts,
+  wordPersonSlots,
 } from "../english/said-as";
 import { saidPersonOf } from "./said-person";
 import {
@@ -2125,18 +2124,24 @@ function pointSubject(
 ): Subject {
   const speaker = core.people.get(speakerId)!;
   const said = [eventId, ...pick.point.sourceRecordIds];
-  // Who gave it, said through the one said-as reader: the talk opened on
-  // "what the President said", so the President is already named by role and
-  // every later slot says the role, never the full name again (owner, Nov 12:
-  // "saying the full name every time").
-  const telling = tellingOf({ speakerId, listenerId });
-  noteMention(telling, president.id, false);
-  noteMention(telling, speakerId, false);
+  // Who gave it, as a slot in its own case that the said-as reader words
+  // once the talk is composed: the role the first time the screen names
+  // them, then "he" or "she" (owner, Nov 12: "There needs to be pronouns and
+  // titles", "saying the full name every time").
+  const who = [eventId, ...president.sourceRecordIds];
   const facts: Facts = {
     about: { text: pick.point.about, sourceRecordIds: said },
     president: {
-      text: saidAs(telling, saidPersonOf(core, president.id, telling)),
-      sourceRecordIds: [eventId, ...president.sourceRecordIds],
+      text: personSlot(president.id, "subject"),
+      sourceRecordIds: who,
+    },
+    "president-object": {
+      text: personSlot(president.id, "object"),
+      sourceRecordIds: who,
+    },
+    "president-possessive": {
+      text: personSlot(president.id, "possessive"),
+      sourceRecordIds: who,
     },
   };
   const place = corePlaceByJurisdictionId(speaker.placeId as never);
@@ -3545,21 +3550,30 @@ function laterMentions(
   const id = conversation.director?.ledger.opening?.president.id;
   const role = officeWords("president")?.again;
   if (!id || !role) return;
-  const person = saidPersonOf(core, id, {
-    speakerId: conversation.otherId,
-    listenerId: conversation.playerId,
-  });
-  const named = (text: string) =>
-    text.toLowerCase().includes(role.toLowerCase());
-  let mentioned = conversation.lines
-    .slice(zero, from)
-    .some((line) => named(line.text));
+  const people = new Map([
+    [
+      id,
+      {
+        role,
+        person: saidPersonOf(core, id, {
+          speakerId: conversation.otherId,
+          listenerId: conversation.playerId,
+        }),
+      },
+    ],
+  ]);
+  const roleWords = new RegExp(`\\b${role.replace(/^the\s+/i, "")}\\b`, "i");
+  const mentioned = new Set<string>();
+  const note = (text: string) => {
+    if (roleWords.test(text)) mentioned.add(id);
+  };
+  for (const line of conversation.lines.slice(zero, from)) note(line.text);
   for (const line of conversation.lines.slice(from)) {
-    line.text = laterMentionsAsPronoun(line.text, role, person, mentioned);
-    mentioned ||= named(line.text);
+    line.text = wordPersonSlots(line.text, people, mentioned);
+    note(line.text);
   }
-  for (const choice of conversation.choices)
-    choice.text = laterMentionsAsPronoun(choice.text, role, person, mentioned);
+  for (const choice of [...conversation.choices, ...conversation.lies])
+    choice.text = wordPersonSlots(choice.text, people, mentioned);
 }
 
 /**
@@ -4168,7 +4182,9 @@ export function sayNothing(
 ): Conversation {
   // In a sitting, silence declines the question put.
   if (conversation.sitting) return declineInSitting(core, conversation, data);
+  const from = conversation.lines.length;
   carryOn(core, conversation, data);
+  laterMentions(core, conversation, from);
   return conversation;
 }
 
