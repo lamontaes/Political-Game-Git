@@ -3,34 +3,34 @@
   "days": 14,
   "draws": [
     {
-      "seed": "5c1723a6-5e97-4f47-a2e3-942495517c22",
-      "placeKey": "1067700",
-      "place": "South Bethany, Delaware"
+      "seed": "075f4341-a87e-41fd-a62d-1503cda3aed2",
+      "placeKey": "1150000",
+      "place": "Washington, District of Columbia"
     }
   ],
   "rules": {
     "address-is-national-not-about-the-player": {
-      "read": 2,
+      "read": 1,
       "breaks": 0,
       "per100": 0
     },
     "speech-has-one-theme": {
-      "read": 2,
-      "breaks": 0,
-      "per100": 0
+      "read": 1,
+      "breaks": 1,
+      "per100": 100
     },
     "asks-differ-by-world": {
-      "read": 2,
+      "read": 1,
       "breaks": 0,
       "per100": 0
     },
     "person-said-by-role-pronoun-or-relationship": {
-      "read": 18,
-      "breaks": 4,
-      "per100": 22.2
+      "read": 17,
+      "breaks": 5,
+      "per100": 29.4
     },
     "one-idea-to-a-sentence": {
-      "read": 18,
+      "read": 17,
       "breaks": 0,
       "per100": 0
     },
@@ -45,7 +45,7 @@
       "per100": 0
     },
     "line-fits-the-hour": {
-      "read": 10,
+      "read": 9,
       "breaks": 0,
       "per100": 0
     },
@@ -55,7 +55,7 @@
       "per100": 50
     },
     "note-stands-alone": {
-      "read": 3,
+      "read": 4,
       "breaks": 0,
       "per100": 0
     }
