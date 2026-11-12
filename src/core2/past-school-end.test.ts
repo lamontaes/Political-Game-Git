@@ -13,14 +13,12 @@ import { gameStartDate } from "./game-start";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { openWholePast } from "./modules/people";
 import { lifeOf } from "./person-life";
+import { COLLEGE_ENDED, COLLEGE_STARTED, SCHOOL_FINISHED } from "./past-school";
 import {
-  COLLEGE_ENDED,
-  COLLEGE_STARTED,
   educationLevelOf,
-  SCHOOL_FINISHED,
+  PAST_WORK_SPELL,
   schoolingEndsOf,
-} from "./past-school";
-import { PAST_WORK_SPELL } from "./past-work";
+} from "./past-work";
 import { preStartHistory } from "./pre-start";
 import type { PersonId } from "./types";
 

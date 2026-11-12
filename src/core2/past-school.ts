@@ -6,8 +6,7 @@
  * screen and scene uses for where a person went to school.
  */
 import data from "./data/school-days.json" with { type: "json" };
-import { addDays, makeIsoDate } from "./kernel/dates";
-import { profileFor } from "./opening-profile";
+import { makeIsoDate } from "./kernel/dates";
 import {
   kindergartenYear,
   onCalendar,
@@ -24,6 +23,12 @@ import {
 } from "./pre-start";
 import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
+import {
+  collegeYearsOf,
+  educationLevelOf,
+  highSchoolEndOf,
+  schoolingEndsOf,
+} from "./past-work";
 import { hasModuleState } from "./module-state";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
@@ -87,57 +92,6 @@ const OWN_SCHOOL_KINDS = [
   COLLEGE_ENDED,
 ] as const;
 
-/**
- * A person's schooling level from their record (the opening profile's
- * `profile:education` fact, the CES levels `no-college`, `some-college` and
- * `college`), else what the profile gives them; null for a child.
- */
-export function educationLevelOf(
-  core: Readonly<CoreState>,
-  person: Readonly<PersonState>,
-): string | undefined {
-  return (
-    (person.pastFacts?.find((row) => row.kind === "profile:education")?.facts
-      ?.level as string | undefined) ??
-    profileFor(person, core.seed, core.date)?.education
-  );
-}
-
-/** The years of college a level holds (IPEDS program lengths), 0 for none. */
-export function collegeYearsOf(
-  api: CoreAPI,
-  level: string | undefined,
-): number {
-  return level === "college"
-    ? api.parameter("pastWorkCollegeYears")
-    : level === "some-college"
-      ? api.parameter("pastWorkSomeCollegeYears")
-      : 0;
-}
-
-/** The last day of a person's high school, on the one calendar. */
-export function highSchoolEndOf(person: Readonly<PersonState>): string {
-  return onCalendar(
-    kindergartenYear(makeIsoDate(person.birthDate)) +
-      SCHOOL_STAGE_CALENDAR.endsAfterYears.high,
-    "ends",
-  );
-}
-
-/** The day a person is out of school: high school's end plus their college years. */
-export function schoolingEndsOf(
-  core: Readonly<CoreState>,
-  person: Readonly<PersonState>,
-): string {
-  const api = coreAPI(core as CoreState);
-  return addDays(
-    makeIsoDate(highSchoolEndOf(person)),
-    Math.round(
-      collegeYearsOf(api, educationLevelOf(core, person)) *
-        api.parameter("daysPerMeanYear"),
-    ),
-  );
-}
 /**
  * The years after kindergarten each stage starts, from the parameter table
  * (ESTIMATED from the CPS October 2024 modal ages by grade).
