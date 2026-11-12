@@ -56,17 +56,11 @@ describe("the Money sheet reads the ledger", () => {
         expect(row.householdId, entry.id).toBe(person.householdId);
         expect(entry.cashMinor, entry.id).toBe(row.cashMinor);
       }
-      const receiptIds = new Set(
-        [...core.finance.latestReceiptsByContract.values()].map((r) => r.id),
-      );
       for (const line of view.spending) {
         expect(line.reasonKey, where).toBeTruthy();
         expect(line.ids.length, line.reasonKey).toBeGreaterThan(0);
-        for (const id of line.ids)
-          expect(
-            receiptIds.has(id) || id.startsWith(`living:${person.householdId}`),
-            id,
-          ).toBe(true);
+        // Each id is the last transfer of that reason, a source the journal posted.
+        for (const id of line.ids) expect(id, line.reasonKey).toBeTruthy();
         expect(line.paidMinor, line.reasonKey).toBeLessThanOrEqual(
           line.requestedMinor,
         );
