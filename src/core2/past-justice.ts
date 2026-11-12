@@ -5,9 +5,11 @@
  * as a yearly pull from 13, against the person's own seeded line; a pull
  * that reaches it before 23 (and before the start) is an arrest. Of those
  * arrested, the share with a felony conviction (Shannon et al. 2017: 8% of
- * adults) is read against a second line. A prison term is not written yet:
- * the work pass would have them working through it
- * (SG-HIST-past-prison-not-written). Seeded generation of what happened before the world
+ * adults) is read against a second line, and of those convicted, the share
+ * who went to prison (3% of adults) against a third. The work pass says
+ * whether the term fits the person's working life (`prisonTermOf`, handed
+ * in): it ends a job the day the term begins and looks for work again on
+ * release. Seeded generation of what happened before the world
  * opened; no roll decides what anyone does in play.
  */
 import pastRows from "./data/past/parameters.json" with { type: "json" };
@@ -30,6 +32,16 @@ import type { CoreState, IsoDate, PersonState } from "./types";
 export const PAST_ARRESTED = ownPastKind("justice.arrested-before");
 /** A felony conviction before the start. */
 export const PAST_CONVICTED = ownPastKind("justice.convicted-before");
+/** A prison term begun before the start. */
+export const PAST_IMPRISONED = ownPastKind("justice.imprisoned-before");
+/** A release from prison before the start. */
+export const PAST_RELEASED = ownPastKind("justice.released-before");
+
+/** A prison term served before the start: the day it began and the day of release. */
+export interface PrisonTerm {
+  from: string;
+  to: string;
+}
 
 const PAST = pastRows as unknown as Readonly<Record<string, { value: number }>>;
 const past = (key: string) => PAST[key]!.value;
@@ -63,14 +75,7 @@ export function pastArrestOf(
   core: Readonly<CoreState>,
   person: Readonly<PersonState>,
   before: string,
-):
-  | {
-      arrested: string;
-      convicted?: string;
-      imprisoned?: string;
-      released?: string;
-    }
-  | undefined {
+): { arrested: string; convicted?: string; term?: PrisonTerm } | undefined {
   const api = coreAPI(core as CoreState);
   const daysPerYear = api.parameter("daysPerMeanYear");
   const born = makeIsoDate(person.birthDate);
@@ -97,9 +102,17 @@ export function pastArrestOf(
     Math.round(past("pastConvictionLagYears") * daysPerYear),
   ) as string;
   if (convicted >= before) return { arrested };
-  // A prison term waits on the work pass reading it (a person in prison
-  // neither works nor looks for work): SG-HIST-past-prison-not-written.
-  return { arrested, convicted };
+  const prisonShare =
+    past("pastPrisonShare") / past("pastFelonyConvictionShare");
+  if (-Math.log(1 - prisonShare) < lineOf(rng.fork("prison")))
+    return { arrested, convicted };
+  const released = addDays(
+    makeIsoDate(convicted),
+    Math.round(past("pastPrisonTermYears") * daysPerYear),
+  ) as string;
+  // Living at home at the start: a term not served by then was not served.
+  if (released >= before) return { arrested, convicted };
+  return { arrested, convicted, term: { from: convicted, to: released } };
 }
 
 /** A person's arrest before the start, written once into their own past. */
@@ -107,6 +120,8 @@ export function pastJusticeFor(
   core: CoreState,
   people: readonly PersonState[],
   moduleId: string,
+  /** The work pass's word on the person's prison term (`prisonTermOf`): only a term their working life leaves room for. */
+  termOf: (person: PersonState) => PrisonTerm | undefined,
 ): void {
   const world = preStartWindowOf(core);
   if (!world) return;
@@ -119,6 +134,7 @@ export function pastJusticeFor(
       stopgap("SG-HIST-player-past-arrest", core);
     const found = pastArrestOf(core, person, core.startedAt);
     if (!found) continue;
+    const term = termOf(person);
     // stopgapId: SG-HIST-past-arrest-age-only
     stopgap("SG-HIST-past-arrest-age-only", core);
     const source = {
@@ -133,6 +149,8 @@ export function pastJusticeFor(
       [
         [PAST_ARRESTED, found.arrested],
         [PAST_CONVICTED, found.convicted],
+        [PAST_IMPRISONED, term?.from],
+        [PAST_RELEASED, term?.to],
       ] as const
     ).flatMap(([kind, date]) =>
       date

@@ -48,7 +48,7 @@
     "id": "SG-HIST-past-arrest-age-only",
     "kind": "partial-model",
     "file": "src/core2/past-justice.ts",
-    "whatItFakes": "An arrest before the start comes from age alone, from 13 to 23, at the national share: the person's sex, traits, place, schooling and household do not weigh, no arrest after 23 is written, and every conviction is a felony a year after the arrest.",
+    "whatItFakes": "An arrest before the start comes from age alone, from 13 to 23, at the national share: the person's sex, traits, place, schooling and household do not weigh, no arrest after 23 is written, every conviction is a felony a year after the arrest, and every prison term is two years.",
     "why": "Gap sheet, Nov 12, row 4: a past never held an arrest. The national cumulative shares (Brame et al. 2012; Shannon et al. 2017) were the published figures read.",
     "addedBy": "opus-lr (Life records builder)",
     "addedAt": "2026-11-12",
@@ -64,17 +64,6 @@
     "addedBy": "opus-lr (Life records builder)",
     "addedAt": "2026-11-12",
     "replacement": "The owner's answer: the player's past is run by the same rule, or the player starts without an arrest, or the new-life screen lets the player choose.",
-    "status": "open"
-  },
-  {
-    "id": "SG-HIST-past-prison-not-written",
-    "kind": "partial-model",
-    "file": "src/core2/past-justice.ts",
-    "whatItFakes": "Nobody's past holds a prison term, though about 3 in 100 adults have served one (Shannon et al. 2017): a conviction before the start ends the justice record.",
-    "why": "The work pass runs a working life without reading the justice record, so a prison term it did not know of would have the person working or looking for work while inside (seen in Cayuse, Oregon, seed lrcard01, Nov 12).",
-    "addedBy": "opus-lr (Life records builder)",
-    "addedAt": "2026-11-12",
-    "replacement": "The work pass reads the term the way it reads military service (serviceOf): a spell ends the day the term begins, and the search starts again on release; then the justice pass writes the term at the share of the convicted who went to prison.",
     "status": "open"
   }
 ]

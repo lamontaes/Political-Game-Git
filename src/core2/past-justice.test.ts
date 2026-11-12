@@ -16,7 +16,14 @@ import { gameStartDate } from "./game-start";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { openWholePast } from "./modules/people";
 import { lifeOf } from "./person-life";
-import { PAST_ARRESTED, PAST_CONVICTED, pastArrestOf } from "./past-justice";
+import {
+  PAST_ARRESTED,
+  PAST_CONVICTED,
+  PAST_IMPRISONED,
+  PAST_RELEASED,
+  pastArrestOf,
+} from "./past-justice";
+import { PAST_WORK_OUT, PAST_WORK_SPELL, prisonTermOf } from "./past-work";
 import { preStartHistory } from "./pre-start";
 import type { PersonId } from "./types";
 
@@ -26,7 +33,7 @@ const where = `${place.name} (${place.key}), seed ${seed}`;
 const share = (key: string) =>
   (pastRows as unknown as Record<string, { value: number }>)[key]!.value;
 
-it(`a past can hold an arrest and a conviction, in ${where}`, () => {
+it(`a past can hold an arrest, a conviction and a prison term, in ${where}`, () => {
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
@@ -42,12 +49,17 @@ it(`a past can hold an arrest and a conviction, in ${where}`, () => {
     .sort((a, b) => a.id.localeCompare(b.id));
   expect(adults.length, where).toBeGreaterThan(9);
   for (const person of adults) openWholePast(core, person.id);
-  const count = { arrested: 0, convicted: 0 };
+  const count = { arrested: 0, convicted: 0, imprisoned: 0 };
   let toldOnCard = 0;
   for (const person of adults) {
     const of = (kind: string) =>
       preStartHistory(core, { kind, personId: person.id })[0];
-    const rows = [PAST_ARRESTED, PAST_CONVICTED].map(of);
+    const rows = [
+      PAST_ARRESTED,
+      PAST_CONVICTED,
+      PAST_IMPRISONED,
+      PAST_RELEASED,
+    ].map(of);
     const found = pastArrestOf(core, person, core.startedAt);
     // The people engine wrote what the rule gives, and no other.
     expect(Boolean(rows[0]), `${person.id} arrested, ${where}`).toBe(
@@ -56,6 +68,29 @@ it(`a past can hold an arrest and a conviction, in ${where}`, () => {
     if (!rows[0]) continue;
     count.arrested += 1;
     if (rows[1]) count.convicted += 1;
+    // A prison term is the work pass's, and no work or search runs inside it.
+    expect(Boolean(rows[2]), `${person.id} in prison, ${where}`).toBe(
+      Boolean(prisonTermOf(core, person)),
+    );
+    if (rows[2]) {
+      count.imprisoned += 1;
+      const term = prisonTermOf(core, person)!;
+      for (const kind of [PAST_WORK_SPELL, PAST_WORK_OUT])
+        for (const row of preStartHistory(core, {
+          kind,
+          personId: person.id,
+        })) {
+          const from = String(row.facts.startedAt ?? row.date);
+          const to = String(row.facts.endedAt ?? core.startedAt);
+          // Before or after the term, to the year (a day before the world's
+          // window is told on the birthday in its year).
+          expect(
+            to.slice(0, 4) <= term.from.slice(0, 4) ||
+              from.slice(0, 4) >= term.to.slice(0, 4),
+            `${row.id} (${from} to ${to}) against prison ${term.from} to ${term.to}, ${where}`,
+          ).toBe(true);
+        }
+    }
     const dates = rows.flatMap((row) => (row ? [row.date] : []));
     expect(dates, `${person.id} in order`).toEqual([...dates].sort());
     expect(
@@ -78,9 +113,10 @@ it(`a past can hold an arrest and a conviction, in ${where}`, () => {
   const expected = {
     arrested: n * share("pastArrestShareBy23"),
     convicted: n * share("pastFelonyConvictionShare"),
+    imprisoned: n * share("pastPrisonShare"),
   };
   process.stdout.write(
-    `past arrests in ${where}: of ${n} adults 24 and over, ${count.arrested} arrested by 23 (shares give ${expected.arrested.toFixed(1)}), ${count.convicted} convicted (${expected.convicted.toFixed(1)}); ${toldOnCard} cards tell it.\n`,
+    `past arrests in ${where}: of ${n} adults 24 and over, ${count.arrested} arrested by 23 (shares give ${expected.arrested.toFixed(1)}), ${count.convicted} convicted (${expected.convicted.toFixed(1)}), ${count.imprisoned} in prison before the start (${expected.imprisoned.toFixed(1)} by the share of adults ever in prison); ${toldOnCard} cards tell it.\n`,
   );
   const p = share("pastArrestShareBy23");
   expect(

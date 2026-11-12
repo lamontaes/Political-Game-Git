@@ -46,6 +46,7 @@ import {
   type PreStartWindow,
 } from "./pre-start";
 import { ownPastKind } from "./own-past-kinds";
+import { pastArrestOf, type PrisonTerm } from "./past-justice";
 import { residenceOn } from "./past-moves";
 import { openingWorkStatus } from "./jobs-elsewhere";
 import { registerWorldMapPart } from "./snapshot";
@@ -67,7 +68,12 @@ export const PAST_WORK_OUT = ownPastKind("person.out-of-work");
 
 /** How a spell ended: let go, left for another job, stopped for a reason on record, or still held on day one. */
 export type PastWorkEnd =
-  "let-go" | "moved-on" | "child-born" | "retired" | "held-at-start";
+  | "let-go"
+  | "moved-on"
+  | "child-born"
+  | "retired"
+  | "held-at-start"
+  | "imprisoned";
 /** How a spell began. */
 /** "before-the-run": held when the run began in its first year, begun on or before that day. */
 export type PastWorkHow =
@@ -111,6 +117,8 @@ interface Plan {
   layoffLean: number;
   quitLean: number;
   applyLean: number;
+  /** A prison term before the start (the justice pass's), which the run steps around. */
+  prison?: PrisonTerm;
 }
 
 interface Spell {
@@ -136,6 +144,9 @@ interface RunState {
   /** The first quarter the person's clocks run in (a hire mid-quarter waits for the next). */
   from: IsoDate;
   done: boolean;
+  /** Inside a prison term now, and whether the term is behind them. */
+  jailed?: boolean;
+  served?: boolean;
 }
 
 /** The jobs engine's actions by option id: the act kinds its chooser weighs. */
@@ -288,6 +299,23 @@ function currentOf(core: CoreState, person: PersonState): Plan["current"] {
     since,
     hourlyMinor,
   };
+}
+
+/**
+ * A person's prison term before the start, where their working life leaves
+ * room for it (gap sheet, Nov 12, row 4): the justice pass's term
+ * (`pastArrestOf`), unless the job they hold on day one began before their
+ * release. The justice pass writes only this term, and the run steps
+ * around it, so a past never has someone at work or looking while inside.
+ */
+export function prisonTermOf(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): PrisonTerm | undefined {
+  const term = pastArrestOf(core, person, core.startedAt)?.term;
+  if (!term) return undefined;
+  const current = currentOf(core as CoreState, person);
+  return current && current.since < term.to ? undefined : term;
 }
 
 /**
@@ -448,11 +476,13 @@ function planOf(
   const fallbackHourly =
     p("fallbackAnnualWageMinor") /
     (p("pastWorkWeeksPerYear") * p("pastWorkFullTimeWeeklyHours"));
+  const prison = prisonTermOf(c, person);
   const base = {
     person,
     entry,
     hourlyMinor: current?.hourlyMinor || fallbackHourly,
     ...workLeans(c, person),
+    ...(prison ? { prison } : {}),
   };
   if (current)
     return {
@@ -562,7 +592,15 @@ export function runPastWork(
       if (plan?.current && !before) runs.push(heldOnly(plan, window));
       continue;
     }
-    const from = plan.entry > window.from ? plan.entry : window.from;
+    let from = plan.entry > window.from ? plan.entry : window.from;
+    // A term over before the run's first day changes nothing in it; one the
+    // run would start inside starts the run on the day of release.
+    const term = plan.prison;
+    if (term && term.to <= from) delete plan.prison;
+    else if (term && term.from <= from) {
+      from = makeIsoDate(term.to);
+      delete plan.prison;
+    }
     if (plan.end <= from) {
       if (plan.current && !before) runs.push(heldOnly(plan, window));
       continue;
@@ -741,6 +779,28 @@ export function runPastWork(
         if (plan.entry >= window.from)
           run.outs.push({ startedAt: told(plan, run.from), causeSpell: -1 });
         else begin(run, run.from, "before-the-run", quarter);
+      }
+      // A prison term: the job or the search ends the day it begins, the
+      // clocks stop while they are inside, and they look for work again on
+      // the day of release.
+      const term = plan.prison;
+      if (term && !run.served && term.from < next) {
+        if (!run.jailed) {
+          const from = told(plan, makeIsoDate(term.from));
+          if (run.employed) close(run, from, "imprisoned");
+          const out = run.outs.at(-1);
+          if (out && !out.endedAt) out.endedAt = from;
+          run.jailed = true;
+        }
+        if (term.to >= next) continue;
+        run.jailed = false;
+        run.served = true;
+        run.from = makeIsoDate(term.to);
+        run.outs.push({
+          startedAt: told(plan, run.from),
+          causeSpell: run.spells.length - 1,
+        });
+        run.findPull = 0;
       }
       const begins = run.from > step ? run.from : step;
       const until = plan.end < next ? plan.end : next;

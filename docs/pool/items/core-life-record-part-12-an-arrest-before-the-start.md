@@ -35,4 +35,4 @@ checked: opus-lr 2026-11-12
 
 **Files.** src/core2/modules/justice.ts, src/core2/modules/people.ts, src/core2/data/past/parameters.json, src/core2/data/life/remembered.json
 
-**Notes.** Built by the Life records builder (opus-lr), Nov 12: arrests and convictions are written. Prison terms are left out for now, because the work pass would have the person working or looking for work while inside; that was seen on a card in Cayuse, Oregon (seed lrcard01). They wait on the work pass reading the term, as it reads military service (stopgap SG-HIST-past-prison-not-written).
+**Notes.** Built by the Life records builder (opus-lr), Nov 12. Arrests, convictions and prison terms are written. A first build wrote prison terms that the work pass did not know about: in Cayuse, Oregon (seed lrcard01) a mother was in prison from 2008 to 2010 while her work history had her looking for work in 2009. Now the work pass reads the term (`prisonTermOf`). A job or a search ends the day the term begins, and the search starts again on release; a term that would overlap the job held on day one is not written.

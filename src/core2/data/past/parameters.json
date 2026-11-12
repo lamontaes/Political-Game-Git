@@ -299,5 +299,29 @@
       "unit": "years",
       "citation": "A quarter year to two years."
     }
+  },
+  "pastPrisonShare": {
+    "value": 0.03,
+    "role": "level",
+    "tag": "SOURCED",
+    "citation": "Shannon et al. (2017), The Growth, Scope, and Spatial Distribution of People With Felony Records in the United States, 1948-2010, Demography 54(5) (abstract fetched Nov 12, 2026 from PubMed 28895078): \"We estimate that 3 % of the total U.S. adult population ... has ever been to prison\". Read here as the share of the convicted who went to prison, 0.03 over pastFelonyConvictionShare.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.04,
+      "unit": "share of all adults",
+      "citation": "A third either side; the study's estimate is for 2010."
+    }
+  },
+  "pastPrisonTermYears": {
+    "value": 2,
+    "role": "level",
+    "tag": "TUNABLE",
+    "citation": "The time served by someone who went to prison before the start, for the past's record only.",
+    "spread": {
+      "low": 1,
+      "high": 5,
+      "unit": "years",
+      "citation": "One to five years."
+    }
   }
 }
