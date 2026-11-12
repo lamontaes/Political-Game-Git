@@ -26,7 +26,7 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 
 - **Rules, checks and skills merge first (owner, Nov 10).** `MERGE-FIRST.md` puts any pull request that adds or changes a rule, a check (test, guard, gate, workflow), a skill, or something every other change runs through (speed, a shared engine) ahead of every other pull request; one whose files such a rule judges merges after it and passes it. If such a pull request is red or conflicted, its author fixes it ahead of other work.
 - **Every item meets the standard (`.agents/rules/pool-item-standard.md`).** `standard: 2`, a cause that begins `Found in code:`, `Measured:`, `Design:` or `Needs cause.`, a fix, a time box, a model and an effort. An item that says `Needs cause.` is never built; only items marked `checked: fable` are taken. Builders take work with `npm run pool -- next --model <level>` (`docs/pool/START-A-BUILDER.md`), which claims the next item in the written order and opens its draft pull request.
-- **The pull request is the item's thread.** Progress, questions, send-backs and the handoff note go on it; issue 7365 is for crew-wide lines only. Read an item's pull request before you ask its builder anything.
+- **The pull request is the item's thread.** Progress, questions, send-backs and the handoff note go on it; issue 8928 is for crew-wide lines only (#7365 was the line until Nov 12, 2026; it is near GitHub's comment cap). Read an item's pull request before you ask its builder anything.
 - **Words are split by role.** Only the Story session writes lines under `data/english/parts/`; rules, checks, the pulled list and judgments are built by the words-machine builders (`words-engine`).
 
 ```
