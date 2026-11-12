@@ -88,9 +88,12 @@ export async function finishTalk(page) {
     const next = page.locator("#talk-next");
     const reply = page.locator("#talk-choices .reply").first();
     const leave = page.locator("#talk-leave");
-    if (await next.isVisible()) await next.click();
-    else if (await reply.isVisible()) await reply.click();
-    else if (await leave.isVisible()) await leave.click();
+    // A button seen a moment ago can go with the talk (it closed on its
+    // own): the press is let go and the loop reads the talk again.
+    const press = (button) => button.click({ timeout: 5000 }).catch(() => {});
+    if (await next.isVisible()) await press(next);
+    else if (await reply.isVisible()) await press(reply);
+    else if (await leave.isVisible()) await press(leave);
     // Nothing to press yet: the line is still being drawn. Wait for a change.
     await page.waitForFunction(
       (was) => {
