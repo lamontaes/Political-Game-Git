@@ -19,7 +19,7 @@ import {
 import type { InterviewAnswer } from "../core2/modules/press";
 import sittings from "./data/sittings.json" with { type: "json" };
 import type { Facts, SittingRow, SittingSource } from "./sitting";
-import { outletFact, tieBetween } from "./sitting-ties";
+import { outletFact, seatFact, tieBetween } from "./sitting-ties";
 
 const KIND = "debate";
 /** The record a debate's holding writes (`kinds.debate.published`). */
@@ -36,6 +36,7 @@ function tieFacts(
     debate: { text: "yes", sourceRecordIds: [row.id] },
     ...tieBetween(core, candidateId, moderatorId),
     ...outletFact(core, row.outletId, row.id),
+    ...seatFact(core, row.contestId, row.id),
   };
 }
 

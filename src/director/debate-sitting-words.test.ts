@@ -123,7 +123,26 @@ describe("the debate sitting's words", () => {
   });
 
   it("opens, takes each answer in, and closes", () => {
-    const base = { outlet: fact("The Courier") };
+    // What the sitting hands its lines: the seat the race is for, the
+    // question just put, and for a take the side the answer put on the
+    // record (src/director/sitting.ts, take) with the vote a further answer
+    // stands on.
+    const base = {
+      outlet: fact("The Courier"),
+      seat: fact("the city council"),
+      about: fact("a higher minimum wage"),
+    };
+    const answered = (move: string) =>
+      move === rules.declined
+        ? {}
+        : move === "further"
+          ? {
+              vote: fact("yes"),
+              "vote-for": fact("yes"),
+              "vote-same": fact("yes"),
+              "said-for": fact("yes"),
+            }
+          : { "said-for": fact("yes") };
     for (const tie of ["acquainted", "stranger"]) {
       const facts = { ...base, [tie]: fact("yes") };
       expect(say(rules.subjects.open, "open", facts, tie), tie).toBeTruthy();
@@ -132,12 +151,13 @@ describe("the debate sitting's words", () => {
       // A turned-back answer is only ever given with a rival to name.
       const withRival = {
         ...base,
+        ...answered(move),
         acquainted: fact("yes"),
         rival: fact("Sam Rivera"),
       };
       for (const facts of move === "turn"
         ? [withRival]
-        : [{ ...base, stranger: fact("yes") }, withRival]) {
+        : [{ ...base, ...answered(move), stranger: fact("yes") }, withRival]) {
         const line = say(
           `${rules.subjects.takePrefix}${move}`,
           "reply",
