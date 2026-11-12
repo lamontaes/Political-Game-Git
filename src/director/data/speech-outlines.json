@@ -379,5 +379,30 @@
         ]
       }
     }
+  },
+  "themeNames": {
+    "about": "A speech's theme said as people say it, by the question family (the principle both sides argue from). TUNABLE wording, checked by reading the composed addresses.",
+    "transit": "how people get around",
+    "taxes": "what families pay in taxes",
+    "health": "what health care costs",
+    "safety-net": "how we help people through hard times",
+    "schools": "our schools",
+    "budget": "how we pay our bills",
+    "housing": "the cost of a place to live",
+    "wages": "what work pays",
+    "self-rule": "who makes the rules where you live",
+    "unions": "workers and their unions",
+    "justice": "how we keep people safe and treat them fairly",
+    "consumers": "how families are treated when they buy and borrow",
+    "energy": "the power we use and what it costs",
+    "land": "our land and water",
+    "immigration": "who comes to this country",
+    "guns": "guns and safety at home",
+    "elections": "how we run our elections",
+    "ethics": "trust in government",
+    "civil-rights": "fair treatment at work and at home",
+    "abortion": "abortion",
+    "world": "our place in the world",
+    "trade": "trade and the jobs it brings"
   }
 }

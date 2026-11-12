@@ -71,6 +71,7 @@ import outlineData from "./data/speech-outlines.json" with { type: "json" };
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { P } from "../core2/parameters";
 import { earlierAddressPieces } from "./opening-facts";
+import { coreStateName } from "../core2/place-lookup";
 import { daysBetweenText } from "../core2/kernel/dates";
 import {
   TERM_AREAS,
@@ -143,6 +144,7 @@ const OUTLINES = outlineData as unknown as {
   topicsBySubject: Readonly<Record<string, readonly string[] | string>>;
   subjectOfQuestion: Readonly<Record<string, string>>;
   subjectPull: Readonly<Record<string, readonly string[] | string>>;
+  themeNames: Readonly<Record<string, string>>;
   pointShapes: {
     shapes: Readonly<
       Record<
@@ -1645,9 +1647,24 @@ export function planSpeech(
     // what is actually said next.
     .filter((draft) => draft.moves.some(Boolean));
   // The world's names and the theme's subjects, which every part may say.
-  const world = federal
+  // A governor or a mayor says the place by name and the theme in words
+  // (the words lead, Nov 12: "this state" eight times, the state's name never).
+  const realm = federal
+    ? null
+    : level === "state"
+      ? coreStateName((speaker.jurisdiction ?? "").replace(/^US-/, ""))
+      : ((core.placeMetadata.placeName ?? "").split(",")[P.zero]?.trim() ??
+        null);
+  const themeName = theme ? (OUTLINES.themeNames[theme] ?? null) : null;
+  const themeCited = pointStands.map((stand) => `question:${stand.question}`);
+  const world: Facts = federal
     ? worldFacts(core, person, kind, voice, country, points)
-    : {};
+    : {
+        ...(realm ? { "realm-name": fact(realm, speaker.jurisdiction) } : {}),
+        ...(themeName && themeCited.length
+          ? { "theme-name": fact(themeName, ...themeCited) }
+          : {}),
+      };
   // One paragraph per block; the block after the greeting joins its
   // paragraph, so the greeting never stands alone, and the close joins the
   // one before it.

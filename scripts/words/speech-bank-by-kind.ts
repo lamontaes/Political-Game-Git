@@ -270,6 +270,10 @@ const SLOTS: Record<string, string> = {
   "first-side":
     "the speech's first point as the speaker's side says it (question-names `for` or `against`), for the close",
   side: "the question as the speaker's side says it (question-names.json `for` or `against`)",
+  "realm-name":
+    "the governor's state or the mayor's town by name, from the speaker's jurisdiction record",
+  "theme-name":
+    "the speech's one theme said as people say it (speech-outlines.json `themeNames`, by the question family)",
   "law-name":
     'the law in force on the question, as the thing itself (question-names.json `law`: "paid family leave", "the higher federal minimum wage")',
   "speaker-object": "the Speaker where the sentence needs the object case",
@@ -882,14 +886,14 @@ const QUESTIONS: [string, string, string, string][] = [
     "polished",
     "for",
     "law-not-in-force",
-    "Should we go on in a country where {today-question}?",
+    "Should we go on like this, when {today-question}?",
   ],
   ["plain", "for", "law-not-in-force", "Is it fair that {today-question}?"],
   [
     "polished",
     "against",
     "law-not-in-force",
-    "Why would we change a country where {today-question}?",
+    "Why would we change course, when {today-question}?",
   ],
   [
     "plain",
@@ -901,7 +905,7 @@ const QUESTIONS: [string, string, string, string][] = [
     "polished",
     "for",
     "law-in-force",
-    "Do we really want to give up a country where {today-question}?",
+    "Who would want to turn back, when {today-question}?",
   ],
   [
     "plain",
@@ -924,27 +928,15 @@ const QUESTIONS: [string, string, string, string][] = [
 ];
 // The question carries how things stand, as the speaker's side tells it,
 // and names no question, so the ask after it names the question once.
-// A question names the speaker's own realm: a governor asks about the
-// state, a mayor about the town, never "a country" (the words lead's read).
-const REALMS: [string[], string][] = [
-  [["inaugural", "state-of-the-union"], "country"],
-  [["state-of-the-state"], "state"],
-  [["town-address"], "town"],
-];
 for (const [voice, side, law, text] of QUESTIONS)
-  for (const [subjects, realm] of text.includes("a country where")
-    ? REALMS
-    : [[ALL, "country"] as [string[], string]])
-    for (const n of ["", "-2", "-3"])
-      ADD.push({
-        role: "question",
-        subjects,
-        voice,
-        text: text
-          .replace("{today-question}", `{today-question${n}}`)
-          .replace("a country where", `a ${realm} where`),
-        needs: [`today-question${n}`, `stance-${side}`, law, "asks-question"],
-      });
+  for (const n of ["", "-2", "-3"])
+    ADD.push({
+      role: "question",
+      subjects: ALL,
+      voice,
+      text: text.replace("{today-question}", `{today-question${n}}`),
+      needs: [`today-question${n}`, `stance-${side}`, law, "asks-question"],
+    });
 // 19. A figure joins a point only when the question's own row says the
 // measure bears on it and helps the speaker's side (question-names
 // `figures`); this sentence ties the figure to the question, by side, by
@@ -1328,6 +1320,124 @@ const LAWS: [string[], string, string, string][] = [
     "against",
     "I'll ask the council to end {law-name}.",
   ],
+  // More ways to say each, so no frame is said twice in one speech (the
+  // words lead, Nov 12: "I will keep X on the books, and I will veto any
+  // bill that would undo it" three times in two speeches).
+  [
+    FEDERAL,
+    "polished",
+    "for",
+    "I will keep {law-name}, and any bill to undo {it} will meet my veto.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "for",
+    "I will defend {law-name} for as long as I hold this office.",
+  ],
+  [FEDERAL, "plain", "for", "I'm keeping {law-name} as long as I'm here."],
+  [
+    FEDERAL,
+    "plain",
+    "for",
+    "Anybody who wants to undo {law-name} will have to get past my veto.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "against",
+    "I ask Congress to repeal {law-name}, and I will sign the repeal.",
+  ],
+  [
+    FEDERAL,
+    "polished",
+    "against",
+    "It is time to undo {law-name}, and I will work with Congress to do it.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "against",
+    "I want {law-name} gone, and I'll sign the bill that does it.",
+  ],
+  [
+    FEDERAL,
+    "plain",
+    "against",
+    "Send me a repeal of {law-name}, and it's signed.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "for",
+    "I will keep {law-name}, and any bill in this legislature to undo {it} will meet my veto.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "for",
+    "I will defend {law-name} as long as I am governor.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "for",
+    "I'm keeping {law-name} as long as I'm governor.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "for",
+    "Anybody in this building who wants to undo {law-name} will have to get past my veto.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "against",
+    "I ask the legislature to repeal {law-name}, and I will sign the repeal.",
+  ],
+  [
+    ["state-of-the-state"],
+    "polished",
+    "against",
+    "It is time to undo {law-name}, and I will work with the legislature to do it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "against",
+    "I want {law-name} gone, and I'll sign the legislature's bill that does it.",
+  ],
+  [
+    ["state-of-the-state"],
+    "plain",
+    "against",
+    "Send me a repeal of {law-name}, legislators, and I'll sign it.",
+  ],
+  [
+    ["town-address"],
+    "polished",
+    "for",
+    "I will defend {law-name} as long as I am mayor.",
+  ],
+  [
+    ["town-address"],
+    "plain",
+    "for",
+    "I'm keeping {law-name} as long as I'm mayor.",
+  ],
+  [
+    ["town-address"],
+    "polished",
+    "against",
+    "I will ask the council to repeal {law-name}.",
+  ],
+  [
+    ["town-address"],
+    "plain",
+    "against",
+    "I want {law-name} gone, and I'll ask the council to end {it}.",
+  ],
 ];
 for (const [subjects, voice, side, text] of LAWS)
   for (const number of text.includes("{it") ? ["one", "many"] : [null])
@@ -1427,27 +1537,85 @@ const CLOSES: [string[], string, string][] = [
     "plain",
     "Let's {first-side}, and this country's better off for it. Thank you, and God bless.",
   ],
+];
+// 21. A governor's or a mayor's close names the place and returns to the
+// theme, and no two places close alike (the words lead, Nov 12: every close
+// was "If we ..., this state will be the stronger for it"). Real State of
+// the State closings name the state (Polis 2024; Whitmer 2024).
+const LOCAL_CLOSES: [string, string][] = [
   [
-    ["state-of-the-state"],
     "polished",
-    "If we {first-side}, this state will be the stronger for it. Thank you.",
+    "If we {first-side}, {realm-name} will be the better for it. Thank you, and good night.",
   ],
   [
-    ["state-of-the-state"],
-    "plain",
-    "Let's {first-side}, and this state's better off for it. Thank you.",
-  ],
-  [
-    ["town-address"],
     "polished",
-    "If we {first-side}, our town will be the better for it. Thank you.",
+    "So I ask you to {first-side}, and to keep faith with {realm-name} on {theme-name}. Thank you.",
   ],
   [
-    ["town-address"],
+    "polished",
+    "Let us {first-side}, and let {realm-name} remember that we did. Thank you.",
+  ],
+  [
+    "polished",
+    "On {theme-name}, {realm-name} has waited long enough. Let us {first-side}. Thank you.",
+  ],
+  [
     "plain",
-    "Let's {first-side}, and our town's better off for it. Thank you.",
+    "Let's {first-side}, and let's do right by {realm-name}. Thanks, everybody.",
+  ],
+  [
+    "plain",
+    "So let's {first-side}. {realm-name} is counting on us. Thank you.",
+  ],
+  ["plain", "Let's {first-side} and show {realm-name} we meant it. Thank you."],
+  [
+    "plain",
+    "When it comes to {theme-name}, let's {first-side}. Thanks, everybody, and good night.",
   ],
 ];
+for (const [voice, text] of LOCAL_CLOSES)
+  ADD.push({
+    role: "close",
+    subjects: ["state-of-the-state", "town-address"],
+    voice,
+    text,
+    needs: ["first-side", "realm-name"],
+  });
+// 22. A governor's or a mayor's opening names the place and says the theme
+// (the words lead, Nov 12: "This state" eight times in three speeches and
+// the state's name never; real State of the State addresses open on the
+// state by name). Said in the occasion, after the greeting.
+const LOCAL_OPENINGS: [string, string][] = [
+  [
+    "polished",
+    "Tonight I want to talk with the people of {realm-name} about {theme-name}.",
+  ],
+  [
+    "polished",
+    "There is one matter I want {realm-name} to hear about tonight, and it is {theme-name}.",
+  ],
+  [
+    "polished",
+    "I have come to speak to {realm-name} about {theme-name}, because it reaches every family here.",
+  ],
+  ["plain", "I want to talk to you tonight, {realm-name}, about {theme-name}."],
+  [
+    "plain",
+    "Folks in {realm-name}, I've got one thing on my mind tonight, and it's {theme-name}.",
+  ],
+  [
+    "plain",
+    "Tonight I'm here to talk about {theme-name}, because it matters to every family in {realm-name}.",
+  ],
+];
+for (const [voice, text] of LOCAL_OPENINGS)
+  ADD.push({
+    role: "occasion",
+    subjects: ["state-of-the-state", "town-address"],
+    voice,
+    text,
+    needs: ["realm-name", "theme-name"],
+  });
 for (const [subjects, voice, text] of CLOSES)
   ADD.push({ role: "close", subjects, voice, text, needs: ["first-side"] });
 const GREETINGS: [string, string][] = [
@@ -1539,6 +1707,23 @@ const SCRIPT_ROLES = [
   "question",
   "tie",
 ];
+// 23. A hope that points at nothing ("I hope you can see it from here", the
+// words lead, Nov 12) names the place instead.
+for (const part of bank.parts) {
+  const text = {
+    "The best of this state is still ahead of it, and I hope you can see it from here.":
+      "The best of {realm-name} is still ahead of us, and I mean to prove it.",
+    "The best of this state is still ahead of us, and I hope you can see it too.":
+      "The best of {realm-name} is still ahead of us, and I'm going to prove it.",
+  }[part.text];
+  if (!text) continue;
+  part.text = text;
+  for (const use of part.uses)
+    use.requiresFacts = [
+      ...new Set([...(use.requiresFacts ?? []), "realm-name"]),
+    ];
+  count("23. a hope names the place");
+}
 // 16. A greeting of this script's whose words are no longer in its lists
 // gives way to its rewording.
 bank.parts = bank.parts.filter((part) => {
