@@ -2880,7 +2880,34 @@ export function composedLine(
   const { asks, afterPlain, ...said } = line;
   void asks;
   void afterPlain;
-  return { ...said, text: sentenceStarts(said.text) };
+  return { ...said, text: sentenceStarts(shortAfterFirst(said.text, facts)) };
+}
+
+/** The short forms of a question's act once the line has named it (said-as questionAgain). */
+const QUESTION_AGAIN = (
+  saidAsData as unknown as {
+    questionAgain: Readonly<Record<"against" | "to", string>>;
+  }
+).questionAgain;
+
+/**
+ * A question named once in a line is said short after (lead, Nov 12: "say no
+ * to raising the debt limit only with spending cuts to match" right after the
+ * opener named it): where the question's own words (`about`) come first, a
+ * later act in full (`against`, `to`) becomes its short form.
+ */
+function shortAfterFirst(text: string, facts: Facts): string {
+  const about = facts.about?.text;
+  const at = about ? text.indexOf(about) : -one;
+  if (at < zero) return text;
+  const from = at + about!.length;
+  let rest = text.slice(from);
+  for (const key of ["against", "to"] as const) {
+    const full = facts[key]?.text;
+    if (full && rest.includes(full))
+      rest = rest.replace(full, QUESTION_AGAIN[key]);
+  }
+  return text.slice(zero, from) + rest;
 }
 
 /** The parts this speaker said earlier in the talk, so the next composed line says the point in other words. */
