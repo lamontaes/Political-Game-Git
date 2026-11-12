@@ -27,7 +27,7 @@ branch: claude/pool-world-local-sales-below-opening-forecast-part-1-household-ca
 
 **Fix.** Load the CE category means (national, four regions, five household sizes) with their cell citations, add one `householdServices` row per missing category in src/core2/data/opening-customers.json, and let the opening bind the counted households' purchase flows to retail businesses by those rows.
 
-**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Feeds: world-local-sales-below-opening-forecast (the first-year shrink of a played town).
 
 **Rules.** Research before building: every category row cites its CE cell and spread, and the table never picks one household's purchase. One model, two tiers: a counted household's purchase flow uses the same rule as a full household's, times its count. Estimate, never UNKNOWN: a category without a regional cell takes the national mean marked ESTIMATED.
 
