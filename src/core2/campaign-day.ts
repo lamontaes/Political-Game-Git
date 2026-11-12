@@ -593,10 +593,12 @@ export function contestStanding(
     >();
     // Each voter's warmth moved by the sum of what every act did to it.
     const moved = new Map<string, number>();
-    // Closed races' causes, folded with the same sums in the same order.
+    // Closed races' causes, folded with the same sums in the same order:
+    // only what fell inside this campaign's window, as for the rows above.
     for (const summary of causeSummariesOf(api, filing.personId)) {
-      if (summary.through < filing.filedOn) continue;
-      for (const [act, count] of Object.entries(summary.acts)) {
+      const sums = summary.byFiling?.[filing.id];
+      if (!sums) continue;
+      for (const [act, count] of Object.entries(sums.acts)) {
         const entry = acts.get(act) ?? {
           act,
           reached: 0,
@@ -608,7 +610,7 @@ export function contestStanding(
         entry.cooler += count.cooler;
         acts.set(act, entry);
       }
-      moved.set(summary.voterId, summary.moved);
+      moved.set(summary.voterId, sums.moved);
     }
     for (const row of rows) {
       const entry = acts.get(row.act) ?? {
