@@ -16,9 +16,11 @@ import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { variantArc, variantFamilies } from "./arc-variant";
 import { partyOfficeholders } from "./circumstance";
 import { purposeScene } from "./purpose-scene";
 import type { Director } from "./ledger";
+import { expectUpToFourDifferent } from "./reply-set-check";
 
 // Two political scenes start from records the engines already write, each
 // proven in a played world: the day after the press carries a taken bribe,
@@ -220,6 +222,7 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         continue;
       }
       let found = 0;
+      const skipped: string[] = [];
       playThrough(
         core,
         director,
@@ -239,10 +242,27 @@ describe("the political asks: a bribe in the press and a party that asks you to 
           const result = purposeScene(core, director, me, entry, {
             typeKey: "accusation",
           });
+          // A scene the director staged but could not word is named, never
+          // passed over in silence.
+          if (result?.kind === "skipped") skipped.push(result.reason);
           if (result?.kind !== "composed") return false;
           const here = `${where}: ${moment.causeId}`;
           const { scene } = result;
-          expect(scene.purpose, here).toBe("conflict-accuse");
+          // The accusation plays one of its family's arcs, picked from the
+          // complaint's records (#8079; owner, Nov 8: one kind of scene,
+          // several arcs): the plain one or a variant, each with its replies.
+          expect(variantFamilies()[scene.purpose], here).toBe(
+            "conflict-accuse",
+          );
+          const arc = variantArc(scene.purpose) as
+            { replies: readonly string[] } | undefined;
+          const moves = arc?.replies ?? [
+            "tell",
+            "deny",
+            "confront",
+            "offer",
+            "lie",
+          ];
           expect(moment.causeId, here).toBe(reported);
           expect(scene.askerId, here).not.toBe(me);
           const asker = core.people.get(scene.askerId)!;
@@ -252,9 +272,8 @@ describe("the political asks: a bribe in the press and a party that asks you to 
             here,
           ).toBe(true);
           const root = scene.talk.tree.replies.map((reply) => reply.line);
-          expect(new Set(root.map((row) => row.move)), here).toEqual(
-            new Set(["tell", "deny", "confront", "offer", "lie"]),
-          );
+          expectUpToFourDifferent(root, here);
+          for (const row of root) expect(moves, here).toContain(row.move);
           for (const row of [scene.talk.state, ...root]) clean(row.text, here);
           process.stdout.write(
             `ACCUSATION ${here}\n  ${scene.talk.state.text}\n`,
@@ -264,7 +283,9 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         },
       );
       if (found) return;
-      tried.push(`${where}: no accusation scene after ${reported}`);
+      tried.push(
+        `${where}: no accusation scene after ${reported}${skipped.length ? ` (${skipped.join("; ")})` : ""}`,
+      );
     }
     throw new Error(`no accusation scene: ${tried.join("; ")} (seed ${seed})`);
   }, 3_600_000);
@@ -363,9 +384,11 @@ describe("the political asks: a bribe in the press and a party that asks you to 
             scene.askerId,
           );
           const root = scene.talk.tree.replies.map((reply) => reply.line);
-          expect(new Set(root.map((row) => row.move)), here).toEqual(
-            new Set(["ask", "disagree", "thank", "tell"]),
-          );
+          expectUpToFourDifferent(root, here);
+          for (const row of root)
+            expect(["ask", "disagree", "thank", "tell"], here).toContain(
+              row.move,
+            );
           for (const row of [scene.talk.state, ...root]) clean(row.text, here);
           process.stdout.write(`ADVICE ${here}\n  ${scene.talk.state.text}\n`);
           found += 1;

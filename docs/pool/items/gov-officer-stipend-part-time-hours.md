@@ -17,6 +17,8 @@ root: none
 source: added with npm run pool -- add
 after:
 checked: fable 2026-11-10
+claimed-at:
+branch: claude/pool-gov-officer-stipend-part-time-hours
 ---
 
 **What.** startPublicJob (src/core2/public-payroll.ts, stopgap SG-GOV-officer-stipend-hours) cuts a post's hourly rate to fit its budget line but keeps the full 8.5-hour public-office week, so Prescott, Michigan's planning director holds an 8.5-hour day at about $1.07 an hour. The pay in total is right; the hours and the hourly rate are not. The minimum wage now skips these posts by law (PR 6190), so nothing breaks, but the schedule, the hourly rate and the work the post attends do not match a part-time stipend.
@@ -38,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** Time box: 3 hours, Sonnet, no helpers. Split from gov-town-officers-paid-under-minimum-wage (PR 6190).
 
 Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sized a stipend post's hours to its pay; the pay in total is already right and no screen shows the hours or hourly rate.
+
+Released (2026-11-11): Read and scoped, not built: startPublicJob (public-payroll.ts lines ~108-170) copies the template's full-week commitment shape and divides the posted rate over its scheduled minutes; a part-time post needs a new weekly schedule (days and minutes per day) written into that commitment and its work calendar, plus a sourced part-time municipal pay figure (hours and going rate, with spread) that is not in the repository. Two parts: the sourced figure first (researcher), then the schedule build. Continue on branch claude/pool-gov-officer-stipend-part-time-hours.

@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the bill card's line for who a public pay floor reached, in dollars; today no public employer opens a position so it reaches no one.
 
 **Rules.** No dice. Wire to the world: proven in buildBenchWorld with a drawn place. Replace, never layer: one route for public hires, not a second beside the staff-hire route.
 
