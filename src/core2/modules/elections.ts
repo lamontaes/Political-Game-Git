@@ -399,8 +399,10 @@ function municipalScale(
  * The signatures a "scaled" petition asks of this town: the place's share of
  * its voters: the votes recorded for the office at its last election in this
  * world where the law's base is votes cast and one has been held; otherwise
- * the town's eligible voters times the registered share (the world keeps no
- * rolls, and a votes-cast base sized so overstates it), held to the law's floor and
+ * the town's people times the votes-cast share of the population (a
+ * presidential year's, so it overstates a local election's); a registered-
+ * voters base is the town's eligible voters times the registered share (the
+ * world keeps no rolls), held to the law's floor and
  * ceiling, or its fixed count by town size. Never more than the town's
  * voters, and at least one.
  */
@@ -420,10 +422,19 @@ export function petitionSignatures(
   let count: number;
   if (tier) count = tier.count;
   else {
+    const registered =
+      town.eligible * campaignParameter("registeredShareOfEligible");
     const base =
-      scale.base === "votes" && town.votesCast !== undefined
-        ? town.votesCast
-        : town.eligible * campaignParameter("registeredShareOfEligible");
+      scale.base === "votes"
+        ? (town.votesCast ??
+          (town.population > 0
+            ? Math.min(
+                registered,
+                town.population *
+                  campaignParameter("localElectorateShareOfPopulation"),
+              )
+            : registered))
+        : registered;
     count = Math.ceil(base * (scale.share ?? 0));
     if (scale.orFixed !== undefined) count = Math.min(count, scale.orFixed);
     if (scale.min !== undefined) count = Math.max(count, scale.min);

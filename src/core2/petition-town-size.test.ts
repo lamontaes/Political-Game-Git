@@ -117,8 +117,16 @@ describe("a local petition fits the town", () => {
     expect(petitionSignatures(rule.scale!, { ...town, votesCast: 1_000 })).toBe(
       20,
     );
-    // Without a recorded election the registered-voter sizing stands in.
-    expect(petitionSignatures(rule.scale!, town)).toBeGreaterThan(100);
+    // Without a recorded election the votes are estimated from the town's
+    // people times the real votes-cast share (0.46), not from registered voters.
+    expect(petitionSignatures(rule.scale!, town)).toBe(138);
+    // A registered-voters base stays on registered voters (Georgia's independents: 5%).
+    const georgia = filingRequirements(
+      "US-GA",
+      "municipalOffice",
+      "independent",
+    ).petition;
+    expect(petitionSignatures(georgia.scale!, town)).toBe(368);
   });
 
   it("a count by town size follows the town's people (Ohio 10 in a village, 50 in a city)", () => {
