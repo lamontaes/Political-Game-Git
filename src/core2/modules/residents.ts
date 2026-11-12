@@ -3764,8 +3764,10 @@ function startCommuterJob(
  * is workers per household of its record (the opening's share is, and every
  * reader of its income multiplies by the record's weight), and one counted
  * member stands for one person in each of those households: so the household
- * gains one worker, and the pool's pay grows by as many workers as the record
- * stands for, each at the pool's pay. Returns the job's id for a full person,
+ * gains one worker (less what its share already covered, never past its
+ * working-age members without a recorded job), and the pool's pay grows by
+ * that many workers for each household the record stands for, each at the
+ * pool's pay. Returns the job's id for a full person,
  * `counted` for a counted one, and undefined where the place has no unplaced
  * pool to take them.
  */
@@ -3798,11 +3800,29 @@ export function startRegionalWork(
       base.cadence.kind === "days"
         ? DAYS_PER_YEAR / base.cadence.every
         : 12 / base.cadence.every;
-    base.amountMinor += Math.round(
-      (rt.store.weightOf(h) * perWorker) / perYear,
+    // The household's out-of-town workers never outnumber its working-age
+    // members without a recorded job: a member the household's share already
+    // partly stands for (the opening's share is spread over those members)
+    // adds only what the share left uncovered, and the pool's pay grows by
+    // that many workers for each household the record stands for.
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    const held = new Set(
+      h.jobs.filter((job) => job.endsAt === undefined).map((j) => j.personId),
     );
-    h.unplacedWorkers += 1;
-    regroupHousehold(rt, h, core.date);
+    const open = rt.store.countedMembers(h).filter((x) => {
+      if (held.has(rt.store.ids[x]!)) return false;
+      const a = ageOn(rt.store.born[x]!, core.date);
+      return a >= from && a < below;
+    }).length;
+    const gain = Math.min(1, Math.max(0, open - h.unplacedWorkers));
+    if (gain > 0) {
+      base.amountMinor += Math.round(
+        (gain * rt.store.weightOf(h) * perWorker) / perYear,
+      );
+      h.unplacedWorkers += gain;
+      regroupHousehold(rt, h, core.date);
+    }
     return "counted";
   }
   const person = core.people.get(personId);

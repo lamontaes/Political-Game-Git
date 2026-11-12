@@ -4,7 +4,7 @@
  * multiplies by the record's weight, so the pay the place's pool hands out
  * must equal the workers the records hold times what one is paid, before and
  * after a counted person finds or loses regional work, and no record may hold
- * a whole worker more than it has working-age members to do the work.
+ * more workers than it has working-age members to do the work.
  *
  * Not held here: the same identity through a played year. Households that
  * move in or out change the workers on the records without changing what the
@@ -168,6 +168,12 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
     const weight = store.weightOf(heavy);
     const key = poolOf(heavy);
     const before = { per: heavy.unplacedWorkers, pool: pools().get(key)! };
+    // The household gains a worker less what its share already covered, and
+    // never more than its working-age members without a recorded job.
+    const gain = Math.min(
+      1,
+      Math.max(0, openMembers(heavy).length - heavy.unplacedWorkers),
+    );
     const member = openMembers(heavy)[0]!;
     const personId = store.ids[member]!;
     const rateBefore = unplacedRates(rt, core.date).get(heavy.placeId)!;
@@ -179,34 +185,42 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
     expect(
       unplacedRates(rt, core.date).get(heavy.placeId)! - rateBefore,
       `the place's rate rose by ${weight} workers of its ${before.pool.open} free members (${where})`,
-    ).toBeCloseTo(weight / before.pool.open, 9);
+    ).toBeCloseTo((gain * weight) / before.pool.open, 9);
     expect(
       heavy.unplacedWorkers - before.per,
-      `one member of each of the record's ${weight} households found work (${where})`,
-    ).toBeCloseTo(1, 9);
+      `one member of each of the record's ${weight} households found work, less what the share covered (${where})`,
+    ).toBeCloseTo(gain, 9);
     expect(
       after.workers - before.pool.workers,
-      `the place gained ${weight} workers (${where})`,
-    ).toBeCloseTo(weight, 6);
+      `the place gained ${gain * weight} workers (${where})`,
+    ).toBeCloseTo(gain * weight, 6);
+    expect(
+      heavy.unplacedWorkers,
+      `a household's out-of-town workers never outnumber its free working-age members (${where})`,
+    ).toBeLessThanOrEqual(openMembers(heavy).length + 1e-9);
     holds(`after one hire in a record of ${weight} households`);
     expect(stopRegionalWork(core, personId), where).toBe(true);
-    expect(heavy.unplacedWorkers, where).toBeCloseTo(before.per, 9);
+    // The member who stops takes their whole worker with them.
+    expect(heavy.unplacedWorkers, where).toBeCloseTo(
+      Math.max(0, before.per + gain - 1),
+      9,
+    );
     holds("after that work ended");
     process.stdout.write(
-      `UNPLACED WORKERS one hire in ${heavy.id} (weight ${weight}): ${before.per.toFixed(3)} to ${(before.per + 1).toFixed(3)} a household and back; the pool's workers ${before.pool.workers.toFixed(1)} to ${after.workers.toFixed(1)}\n`,
+      `UNPLACED WORKERS one hire in ${heavy.id} (weight ${weight}): ${before.per.toFixed(3)} to ${(before.per + gain).toFixed(3)} a household and back; the pool's workers ${before.pool.workers.toFixed(1)} to ${after.workers.toFixed(1)}\n`,
     );
   } else
     process.stdout.write(
       `UNPLACED WORKERS no record of more than one household has a pool and a free member in ${where}\n`,
     );
 
-  // ---- Played: the engines' own hires and layoffs. A hire adds one worker
-  // to a household, so no record that stands for many households may hold a
-  // whole worker more than it has working-age members (on a record of 53
-  // households the old weight-sized add put 53 on a household of two). The
-  // opening's share is a fraction of a household's members and the jobs
-  // engine sends whole members to work, so up to one worker over is the two
-  // meeting, not a count gone wrong. A record of one household is left out:
+  // ---- Played: the engines' own hires and layoffs. A hire adds at most one
+  // worker to a household and never past its working-age members without a
+  // recorded job, so no record that stands for many households may hold more
+  // workers than it has working-age members (on a record of 53 households the
+  // old weight-sized add put 53 on a household of two; in Cumberland,
+  // Maryland a one-adult household held its opening share and a whole hire,
+  // 1.69 workers). A record of one household is left out:
   // a household that returned to the counts holds its commuter's pay as so
   // many of the pool's workers (`returnCommuterPay`), which is a measure of
   // pay, not a count of its members.
@@ -224,17 +238,17 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
     if (!(store.weightOf(h) > 1)) continue;
     heavyRecords += 1;
     if (h.unplacedWorkers >= 1) heavyWithWork += 1;
-    if (h.unplacedWorkers >= workingAge(h) + 1)
+    if (h.unplacedWorkers > workingAge(h) + 1e-9)
       over.push(
         `${h.id} (weight ${store.weightOf(h).toFixed(1)}): ${h.unplacedWorkers.toFixed(2)} workers, ${workingAge(h)} working-age members`,
       );
   }
   process.stdout.write(
-    `UNPLACED WORKERS after ${PLAYED_DAYS} days: of ${heavyRecords} records of more than one household, ${heavyWithWork} hold a whole worker or more and ${over.length} hold a worker more than their working-age members\n`,
+    `UNPLACED WORKERS after ${PLAYED_DAYS} days: of ${heavyRecords} records of more than one household, ${heavyWithWork} hold a whole worker or more and ${over.length} hold more workers than their working-age members\n`,
   );
   expect(
     over.slice(0, 8),
-    `${over.length} records of more than one household hold a whole worker more than their working-age members (${where})`,
+    `${over.length} records of more than one household hold more workers than their working-age members (${where})`,
   ).toEqual([]);
 
   // ---- Skipped: results mode runs no module's day, and the residents engine
@@ -249,16 +263,16 @@ it(`a counted household's out-of-town workers are per household everywhere, in $
   for (const h of store.liveHouseholds()) {
     if (!(store.weightOf(h) > 1)) continue;
     skippedRecords += 1;
-    if (h.unplacedWorkers >= workingAge(h) + 1)
+    if (h.unplacedWorkers > workingAge(h) + 1e-9)
       overSkipped.push(
         `${h.id} (weight ${store.weightOf(h).toFixed(1)}): ${h.unplacedWorkers.toFixed(2)} workers, ${workingAge(h)} working-age members`,
       );
   }
   process.stdout.write(
-    `UNPLACED WORKERS after ${SKIPPED_DAYS} skipped days: of ${skippedRecords} records of more than one household, ${overSkipped.length} hold a worker more than their working-age members\n`,
+    `UNPLACED WORKERS after ${SKIPPED_DAYS} skipped days: of ${skippedRecords} records of more than one household, ${overSkipped.length} hold more workers than their working-age members\n`,
   );
   expect(
     overSkipped.slice(0, 8),
-    `${overSkipped.length} records of more than one household hold a whole worker more than their working-age members after ${SKIPPED_DAYS} skipped days (${where})`,
+    `${overSkipped.length} records of more than one household hold more workers than their working-age members after ${SKIPPED_DAYS} skipped days (${where})`,
   ).toEqual([]);
 }, 1_800_000);
