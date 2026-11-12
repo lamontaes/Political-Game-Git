@@ -5079,7 +5079,8 @@ function answerPoint(
     core,
     otherId,
     POINT_BACK,
-    last.facts,
+    // The answer may name the player as the speaker calls them.
+    { ...last.facts, you: calledBy(core, otherId, conversation.playerId) },
     choice.move,
     `${eventId}:back`,
     saidParts(conversation, otherId),
