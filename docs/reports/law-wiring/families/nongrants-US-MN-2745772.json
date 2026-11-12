@@ -1299,7 +1299,7 @@
       "lawIds": [
         "law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
         "law:US:federal:social-security-earliest-claim-age:general:starting",
-        "law:US:federal:social-security-earliest-claim-age:general:2026-01-22:law-wiring-3d351f82-undo"
+        "law:US:federal:social-security-earliest-claim-age:general:2025-02-26:law-wiring-3d351f82-undo"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -1314,172 +1314,343 @@
         "sample": []
       },
       "reach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 848,
+        "countedGroups": 7,
+        "countedPeople": 7,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 855,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-earliest-claim-age|person_e8632f5ae684089f",
+          "applied|social-security-earliest-claim-age|person_5e22dfa1358b64b0",
+          "applied|social-security-earliest-claim-age|person_ffaa76043a08622f",
+          "applied|social-security-earliest-claim-age|person_45066a1b0dbdefad"
+        ]
       },
       "reachAtEnd": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 848,
+        "countedGroups": 7,
+        "countedPeople": 7,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 855,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-earliest-claim-age|person_e8632f5ae684089f",
+          "applied|social-security-earliest-claim-age|person_5e22dfa1358b64b0",
+          "applied|social-security-earliest-claim-age|person_ffaa76043a08622f",
+          "applied|social-security-earliest-claim-age|person_45066a1b0dbdefad"
+        ]
       },
       "inPlay": [],
       "applied": {
-        "rows": 0,
+        "rows": 855,
         "withAmount": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-earliest-claim-age|person_e8632f5ae684089f",
+          "applied|social-security-earliest-claim-age|person_5e22dfa1358b64b0",
+          "applied|social-security-earliest-claim-age|person_ffaa76043a08622f"
+        ]
       },
       "readers": {
-        "src/core2/modules/retirement-claims.ts:97": 17225,
-        "src/core2/modules/jobs.ts:2953": 24,
-        "src/core2/life.ts:573": 5
+        "src/core2/modules/retirement-claims.ts:98": 2319,
+        "src/core2/modules/retirement-claims.ts:117": 1778,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/jobs.ts:3823": 2
       },
       "openingRow": "law:US:federal:social-security-earliest-claim-age:general:starting",
       "money": {
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/life.ts:578",
-            "treatment": 182332013,
-            "control": 145839911,
+            "kind": "accounts.transfer @ src/core2/life.ts:557",
+            "treatment": 1431291,
+            "control": 2507916,
             "ids": [
-              "journal:2025-01-21:818",
-              "journal:2025-01-21:819",
-              "journal:2025-01-21:820"
+              "journal:2025-01-21:807",
+              "journal:2025-01-21:808",
+              "journal:2025-01-21:809"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
-            "treatment": 3046674609,
-            "control": 3079461367,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+            "treatment": 6670326,
+            "control": 6547305,
             "ids": [
-              "journal:2025-01-21:823",
-              "journal:2025-01-21:824",
-              "journal:2025-01-21:825"
+              "journal:2025-02-19:8556",
+              "journal:2025-02-19:8559",
+              "journal:2025-02-19:8568"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
-            "treatment": 1762674300,
-            "control": 1732423193,
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1405",
+            "treatment": 393768953,
+            "control": 393873932,
             "ids": [
-              "journal:2025-02-01:3568",
-              "journal:2025-02-01:3569",
-              "journal:2025-02-01:3570"
+              "journal:2025-01-21:821",
+              "journal:2025-01-21:822",
+              "journal:2025-01-21:823"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
-            "treatment": 4393470972,
-            "control": 4406981474,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:686",
+            "treatment": 468005134,
+            "control": 468081029,
             "ids": [
-              "journal:2025-01-25:930",
-              "journal:2025-01-25:932",
-              "journal:2025-01-26:942"
+              "journal:2025-01-25:935",
+              "journal:2025-01-25:937",
+              "journal:2025-01-26:943"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
-            "treatment": 832662656,
-            "control": 842069125,
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:735",
+            "treatment": 3922256,
+            "control": 3863083,
             "ids": [
-              "journal:2025-01-21:851",
-              "journal:2025-01-21:852",
-              "journal:2025-01-21:853"
+              "journal:2025-01-25:936",
+              "journal:2025-01-25:938",
+              "journal:2025-01-26:941"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 771104228,
-            "control": 767537896,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:808",
+            "treatment": 1308585249,
+            "control": 1308618235,
             "ids": [
-              "journal:2025-01-21:888",
-              "journal:2025-01-21:889",
-              "journal:2025-01-21:890"
+              "journal:2025-02-01:3553",
+              "journal:2025-02-01:3554",
+              "journal:2025-02-01:3555"
             ]
           },
           {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-            "treatment": 709655402,
-            "control": 711642459,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:933",
+            "treatment": 1397988206,
+            "control": 1397996336,
             "ids": [
-              "journal:2025-01-26:934",
-              "journal:2025-01-26:938",
-              "journal:2025-01-29:1016"
+              "journal:2025-02-01:6059",
+              "journal:2025-02-01:6060",
+              "journal:2025-02-01:6061"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/business.ts:2037",
-            "treatment": 10149081,
-            "control": 8626691,
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 3460171,
+            "control": 3460138,
             "ids": [
-              "journal:2025-02-01:1521",
-              "journal:2025-03-01:9155",
-              "journal:2025-04-01:17766"
+              "journal:2025-02-01:1988",
+              "journal:2025-02-01:1989",
+              "journal:2025-02-01:1991"
             ]
           },
           {
-            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
-            "treatment": 39268530,
-            "control": 38107341,
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:450",
+            "treatment": 139564,
+            "control": 139562,
             "ids": [
-              "journal:2025-07-01:48426",
-              "journal:2025-07-01:48427",
-              "journal:2025-07-01:48428"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:918",
-            "treatment": 38882158,
-            "control": 39943534,
-            "ids": [
-              "journal:2025-02-01:6034",
-              "journal:2025-02-01:6035",
-              "journal:2025-02-01:6036"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1052",
-            "treatment": 82319116103768,
-            "control": 82319115085998,
-            "ids": [
-              "journal:2025-02-01:1073",
-              "journal:2025-02-01:1074",
-              "journal:2025-02-01:1075"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1916",
-            "treatment": 7075333,
-            "control": 7846407,
-            "ids": [
-              "journal:2025-02-04:6992",
-              "journal:2025-02-04:6993",
-              "journal:2025-02-04:6994"
+              "journal:2025-02-06:8073",
+              "journal:2025-02-06:8074",
+              "journal:2025-02-06:8075"
             ]
           }
         ],
-        "diffKinds": 38,
+        "diffKinds": 9,
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 0,
+          "targets": 855,
           "among": "reached",
-          "pairs": [],
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+              "way": "out",
+              "targets": 18,
+              "moved": 51778,
+              "earliest": "2025-02-19",
+              "sample": [
+                {
+                  "target": "person_472c9f864c71f802",
+                  "row": "applied|social-security-earliest-claim-age|person_472c9f864c71f802",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+                  "way": "out",
+                  "treatment": 450589,
+                  "control": 453593,
+                  "journal": "journal:2025-02-19:8559"
+                },
+                {
+                  "target": "person_47a36dd84ef22636",
+                  "row": "applied|social-security-earliest-claim-age|person_47a36dd84ef22636",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+                  "way": "out",
+                  "treatment": 422347,
+                  "control": 425009,
+                  "journal": "journal:2025-02-19:8570"
+                },
+                {
+                  "target": "person_47a36ed84ef227e9",
+                  "row": "applied|social-security-earliest-claim-age|person_47a36ed84ef227e9",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+                  "way": "out",
+                  "treatment": 422347,
+                  "control": 425008,
+                  "journal": "journal:2025-02-19:8570"
+                },
+                {
+                  "target": "person_52e19c732f0415d4",
+                  "row": "applied|social-security-earliest-claim-age|person_52e19c732f0415d4",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+                  "way": "out",
+                  "treatment": 259837,
+                  "control": 263322,
+                  "journal": "journal:2025-02-19:8556"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:557",
+              "way": "out",
+              "targets": 7,
+              "moved": 1101916,
+              "earliest": "2025-01-24",
+              "sample": [
+                {
+                  "target": "official:term:seat:US-VI:governor:2025-01-20",
+                  "row": "applied|social-security-earliest-claim-age|official:term:seat:US-VI:governor:2025-01-20",
+                  "date": "2025-01-24",
+                  "kind": "accounts.transfer @ src/core2/life.ts:557",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 166816,
+                  "journal": ""
+                },
+                {
+                  "target": "official:seat:US-GA:us-house:05",
+                  "row": "applied|social-security-earliest-claim-age|official:seat:US-GA:us-house:05",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/life.ts:557",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 137401,
+                  "journal": ""
+                },
+                {
+                  "target": "official:seat:US-NM:us-senate:0",
+                  "row": "applied|social-security-earliest-claim-age|official:seat:US-NM:us-senate:0",
+                  "date": "2025-02-04",
+                  "kind": "accounts.transfer @ src/core2/life.ts:557",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 154818,
+                  "journal": ""
+                },
+                {
+                  "target": "person_541f592a88e14a8e",
+                  "row": "applied|social-security-earliest-claim-age|person_541f592a88e14a8e",
+                  "date": "2025-02-13",
+                  "kind": "accounts.transfer @ src/core2/life.ts:557",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 159075,
+                  "journal": ""
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+              "way": "in",
+              "targets": 3,
+              "moved": 174799,
+              "earliest": "2025-02-19",
+              "sample": [
+                {
+                  "target": "person_965df29d65ed83a0",
+                  "row": "applied|social-security-earliest-claim-age|person_965df29d65ed83a0",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+                  "way": "in",
+                  "treatment": 326547,
+                  "control": 322880,
+                  "journal": "journal:2025-02-19:8573"
+                },
+                {
+                  "target": "person_a1ce12b177c238a7",
+                  "row": "applied|social-security-earliest-claim-age|person_a1ce12b177c238a7",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+                  "way": "in",
+                  "treatment": 326547,
+                  "control": 322880,
+                  "journal": "journal:2025-02-19:8574"
+                },
+                {
+                  "target": "person_ac3a1fe467525042",
+                  "row": "applied|social-security-earliest-claim-age|person_ac3a1fe467525042",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:2040",
+                  "way": "in",
+                  "treatment": 167465,
+                  "control": 0,
+                  "journal": "journal:2025-02-19:8575"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:557",
+              "way": "in",
+              "targets": 2,
+              "moved": 192508,
+              "earliest": "2025-02-18",
+              "sample": [
+                {
+                  "target": "official:term:seat:US-MA:governor:2025-01-20",
+                  "row": "applied|social-security-earliest-claim-age|official:term:seat:US-MA:governor:2025-01-20",
+                  "date": "2025-02-18",
+                  "kind": "accounts.transfer @ src/core2/life.ts:557",
+                  "way": "in",
+                  "treatment": 164107,
+                  "control": 0,
+                  "journal": "journal:2025-02-18:8518"
+                },
+                {
+                  "target": "person_ac3a1fe467525042",
+                  "row": "applied|social-security-earliest-claim-age|person_ac3a1fe467525042",
+                  "date": "2025-02-21",
+                  "kind": "accounts.transfer @ src/core2/life.ts:557",
+                  "way": "in",
+                  "treatment": 28401,
+                  "control": 0,
+                  "journal": "journal:2025-02-21:8630"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1405",
+              "way": "in",
+              "targets": 1,
+              "moved": 104979,
+              "earliest": "2025-02-13",
+              "sample": [
+                {
+                  "target": "person_541f592a88e14a8e",
+                  "row": "applied|social-security-earliest-claim-age|person_541f592a88e14a8e",
+                  "date": "2025-02-13",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1405",
+                  "way": "in",
+                  "treatment": 0,
+                  "control": -104979,
+                  "journal": ""
+                }
+              ]
+            }
+          ],
           "paid": 0,
           "pick": null,
           "sample": [],
@@ -1490,12 +1661,12 @@
         "links": [],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 122,
+        "people": 93,
         "sample": [
           "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
           "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
@@ -1503,16 +1674,21 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 0,
+        "fullPeople": 8,
         "countedGroups": 0,
         "countedPeople": 0,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 8,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-earliest-claim-age|person_0b39f71c11764f6c",
+          "applied|social-security-earliest-claim-age|official:term:seat:US-FL:governor:2025-01-20",
+          "applied|social-security-earliest-claim-age|person_cc422b5e9d49ccd1",
+          "applied|social-security-earliest-claim-age|person_778470b90195fce9"
+        ]
       },
       "afterUndoChanged": {
         "fullPeople": 0,
@@ -1526,7 +1702,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 73
+      "seconds": 17
     },
     {
       "key": "social-security-full-retirement-age",
@@ -1537,7 +1713,7 @@
       "lawIds": [
         "law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
         "law:US:federal:social-security-full-retirement-age:general:starting",
-        "law:US:federal:social-security-full-retirement-age:general:2026-01-22:law-wiring-2e0ccc5c-undo"
+        "law:US:federal:social-security-full-retirement-age:general:2025-02-26:law-wiring-2e0ccc5c-undo"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -1552,52 +1728,67 @@
         "sample": []
       },
       "reach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 802,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 923,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-full-retirement-age|person_e8632e5ae68406ec",
+          "applied|social-security-full-retirement-age|person_a566c00e2f6066f7",
+          "applied|social-security-full-retirement-age|person_a566bf0e2f606544",
+          "applied|social-security-full-retirement-age|person_e4500883d0af65a7"
+        ]
       },
       "reachAtEnd": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 802,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 923,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-full-retirement-age|person_e8632e5ae68406ec",
+          "applied|social-security-full-retirement-age|person_a566c00e2f6066f7",
+          "applied|social-security-full-retirement-age|person_a566bf0e2f606544",
+          "applied|social-security-full-retirement-age|person_e4500883d0af65a7"
+        ]
       },
       "inPlay": [],
       "applied": {
-        "rows": 0,
+        "rows": 923,
         "withAmount": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-full-retirement-age|person_e8632e5ae68406ec",
+          "applied|social-security-full-retirement-age|person_a566c00e2f6066f7",
+          "applied|social-security-full-retirement-age|person_a566bf0e2f606544"
+        ]
       },
       "readers": {
-        "src/core2/modules/retirement-claims.ts:97": 17358,
-        "src/core2/modules/jobs.ts:2953": 24,
-        "src/core2/life.ts:573": 5
+        "src/core2/modules/retirement-claims.ts:98": 2438,
+        "src/core2/modules/retirement-claims.ts:117": 1846,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/jobs.ts:3823": 2
       },
       "openingRow": "law:US:federal:social-security-full-retirement-age:general:starting",
       "money": {
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/life.ts:578",
-            "treatment": 137931807,
-            "control": 145839911,
+            "kind": "accounts.transfer @ src/core2/life.ts:557",
+            "treatment": 2353872,
+            "control": 2507916,
             "ids": [
-              "journal:2025-01-21:818",
-              "journal:2025-01-21:819",
-              "journal:2025-01-21:820"
+              "journal:2025-01-21:807",
+              "journal:2025-01-21:808",
+              "journal:2025-01-21:809"
             ]
           }
         ],
@@ -1605,9 +1796,29 @@
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 0,
+          "targets": 923,
           "among": "reached",
-          "pairs": [],
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/life.ts:557",
+              "way": "out",
+              "targets": 1,
+              "moved": 154044,
+              "earliest": "2025-02-19",
+              "sample": [
+                {
+                  "target": "official:seat:US-WY:us-senate:0",
+                  "row": "applied|social-security-full-retirement-age|official:seat:US-WY:us-senate:0",
+                  "date": "2025-02-19",
+                  "kind": "accounts.transfer @ src/core2/life.ts:557",
+                  "way": "out",
+                  "treatment": 0,
+                  "control": 154044,
+                  "journal": ""
+                }
+              ]
+            }
+          ],
           "paid": 0,
           "pick": null,
           "sample": [],
@@ -1618,12 +1829,12 @@
         "links": [],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 122,
+        "people": 93,
         "sample": [
           "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
           "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
@@ -1631,16 +1842,21 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 0,
+        "fullPeople": 8,
         "countedGroups": 0,
         "countedPeople": 0,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 8,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-full-retirement-age|person_0b39f71c11764f6c",
+          "applied|social-security-full-retirement-age|official:term:seat:US-FL:governor:2025-01-20",
+          "applied|social-security-full-retirement-age|person_cc422b5e9d49ccd1",
+          "applied|social-security-full-retirement-age|person_778470b90195fce9"
+        ]
       },
       "afterUndoChanged": {
         "fullPeople": 0,
@@ -1654,7 +1870,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 73
+      "seconds": 16
     },
     {
       "key": "social-security-delayed-credit-age",
@@ -1665,7 +1881,7 @@
       "lawIds": [
         "law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761",
         "law:US:federal:social-security-delayed-credit-age:general:starting",
-        "law:US:federal:social-security-delayed-credit-age:general:2026-01-22:law-wiring-72cfb761-undo"
+        "law:US:federal:social-security-delayed-credit-age:general:2025-02-26:law-wiring-72cfb761-undo"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -1680,39 +1896,54 @@
         "sample": []
       },
       "reach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 802,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 923,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-delayed-credit-age|person_e8632e5ae68406ec",
+          "applied|social-security-delayed-credit-age|person_a566c00e2f6066f7",
+          "applied|social-security-delayed-credit-age|person_a566bf0e2f606544",
+          "applied|social-security-delayed-credit-age|person_e4500883d0af65a7"
+        ]
       },
       "reachAtEnd": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 802,
+        "countedGroups": 121,
+        "countedPeople": 121,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 923,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-delayed-credit-age|person_e8632e5ae68406ec",
+          "applied|social-security-delayed-credit-age|person_a566c00e2f6066f7",
+          "applied|social-security-delayed-credit-age|person_a566bf0e2f606544",
+          "applied|social-security-delayed-credit-age|person_e4500883d0af65a7"
+        ]
       },
       "inPlay": [],
       "applied": {
-        "rows": 0,
+        "rows": 923,
         "withAmount": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-delayed-credit-age|person_e8632e5ae68406ec",
+          "applied|social-security-delayed-credit-age|person_a566c00e2f6066f7",
+          "applied|social-security-delayed-credit-age|person_a566bf0e2f606544"
+        ]
       },
       "readers": {
-        "src/core2/modules/retirement-claims.ts:97": 17358,
-        "src/core2/modules/jobs.ts:2953": 24,
-        "src/core2/life.ts:573": 5
+        "src/core2/modules/retirement-claims.ts:98": 2438,
+        "src/core2/modules/retirement-claims.ts:117": 1846,
+        "src/core2/life.ts:552": 5,
+        "src/core2/modules/jobs.ts:3823": 2
       },
       "openingRow": "law:US:federal:social-security-delayed-credit-age:general:starting",
       "money": {
@@ -1722,7 +1953,7 @@
         "cited": [],
         "controlCited": [],
         "own": {
-          "targets": 0,
+          "targets": 923,
           "among": "reached",
           "pairs": [],
           "paid": 0,
@@ -1735,12 +1966,12 @@
         "links": [],
         "fired": [],
         "firedCount": 0,
-        "windowDays": 365,
+        "windowDays": 35,
         "cause": [],
         "reenacted": null
       },
       "heard": {
-        "people": 122,
+        "people": 93,
         "sample": [
           "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761",
           "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761",
@@ -1748,16 +1979,21 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 0,
+        "fullPeople": 8,
         "countedGroups": 0,
         "countedPeople": 0,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 8,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|social-security-delayed-credit-age|person_0b39f71c11764f6c",
+          "applied|social-security-delayed-credit-age|official:term:seat:US-FL:governor:2025-01-20",
+          "applied|social-security-delayed-credit-age|person_cc422b5e9d49ccd1",
+          "applied|social-security-delayed-credit-age|person_778470b90195fce9"
+        ]
       },
       "afterUndoChanged": {
         "fullPeople": 0,
@@ -1771,7 +2007,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 72
+      "seconds": 18
     },
     {
       "key": "budget-line:socialSecurity",

@@ -1,0 +1,250 @@
+{
+ "seed": "feaa3278ac773a2a",
+ "place": {
+  "seed": "1c0397c896de33bb0328e32710cb34eb125e0910381495d18fadd2e060775774",
+  "key": "4105700",
+  "name": "Bellfountain, Oregon",
+  "state": "US-OR"
+ },
+ "window": 35,
+ "after": 31,
+ "results": [
+  {
+   "key": "social-security-earliest-claim-age",
+   "kind": "amount",
+   "family": "assistance",
+   "inForceAtOpening": false,
+   "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+   "lawIds": [
+    "law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+    "law:US:federal:social-security-earliest-claim-age:general:starting",
+    "law:US:federal:social-security-earliest-claim-age:general:2025-02-26:law-wiring-3d351f82-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 672,
+    "countedGroups": 10,
+    "countedPeople": 10,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 682,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8",
+     "applied|social-security-earliest-claim-age|person_f1b273f081d99d6a",
+     "applied|social-security-earliest-claim-age|person_1cc2e3401c4ab8e7",
+     "applied|social-security-earliest-claim-age|person_2b3a0ea608306128"
+    ]
+   },
+   "reachAtEnd": {
+    "fullPeople": 672,
+    "countedGroups": 10,
+    "countedPeople": 10,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 682,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8",
+     "applied|social-security-earliest-claim-age|person_f1b273f081d99d6a",
+     "applied|social-security-earliest-claim-age|person_1cc2e3401c4ab8e7",
+     "applied|social-security-earliest-claim-age|person_2b3a0ea608306128"
+    ]
+   },
+   "inPlay": [],
+   "applied": {
+    "rows": 682,
+    "withAmount": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_5a6265dc6d2573e8",
+     "applied|social-security-earliest-claim-age|person_f1b273f081d99d6a",
+     "applied|social-security-earliest-claim-age|person_1cc2e3401c4ab8e7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/retirement-claims.ts:98": 1908,
+    "src/core2/modules/retirement-claims.ts:117": 1334,
+    "src/core2/life.ts:552": 5,
+    "src/core2/modules/jobs.ts:3823": 2
+   },
+   "openingRow": "law:US:federal:social-security-earliest-claim-age:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:557",
+      "treatment": 1150934,
+      "control": 482668,
+      "ids": [
+       "journal:2025-01-21:678",
+       "journal:2025-01-21:679",
+       "journal:2025-01-21:680"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:686",
+      "treatment": 120530528,
+      "control": 120680065,
+      "ids": [
+       "journal:2025-01-25:755",
+       "journal:2025-01-26:761",
+       "journal:2025-01-26:763"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:808",
+      "treatment": 514518379,
+      "control": 514610715,
+      "ids": [
+       "journal:2025-02-01:1631",
+       "journal:2025-02-01:1632",
+       "journal:2025-02-01:1635"
+      ]
+     }
+    ],
+    "diffKinds": 3,
+    "cited": [],
+    "controlCited": [],
+    "own": {
+     "targets": 682,
+     "among": "reached",
+     "pairs": [
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:557",
+       "way": "in",
+       "targets": 5,
+       "moved": 806956,
+       "earliest": "2025-01-23",
+       "sample": [
+        {
+         "target": "official:seat:US-NY:us-house:22",
+         "row": "applied|social-security-earliest-claim-age|official:seat:US-NY:us-house:22",
+         "date": "2025-01-23",
+         "kind": "accounts.transfer @ src/core2/life.ts:557",
+         "way": "in",
+         "treatment": 154960,
+         "control": 0,
+         "journal": "journal:2025-01-23:754"
+        },
+        {
+         "target": "official:seat:US-NY:us-house:07",
+         "row": "applied|social-security-earliest-claim-age|official:seat:US-NY:us-house:07",
+         "date": "2025-02-12",
+         "kind": "accounts.transfer @ src/core2/life.ts:557",
+         "way": "in",
+         "treatment": 173556,
+         "control": 0,
+         "journal": "journal:2025-02-12:5085"
+        },
+        {
+         "target": "person_9a87b2cec3b9eb78",
+         "row": "applied|social-security-earliest-claim-age|person_9a87b2cec3b9eb78",
+         "date": "2025-02-14",
+         "kind": "accounts.transfer @ src/core2/life.ts:557",
+         "way": "in",
+         "treatment": 159222,
+         "control": 0,
+         "journal": "journal:2025-02-14:5228"
+        },
+        {
+         "target": "official:seat:US-CO:us-house:02",
+         "row": "applied|social-security-earliest-claim-age|official:seat:US-CO:us-house:02",
+         "date": "2025-02-16",
+         "kind": "accounts.transfer @ src/core2/life.ts:557",
+         "way": "in",
+         "treatment": 164258,
+         "control": 0,
+         "journal": "journal:2025-02-16:5233"
+        }
+       ]
+      },
+      {
+       "kind": "accounts.transfer @ src/core2/life.ts:557",
+       "way": "out",
+       "targets": 1,
+       "moved": 146825,
+       "earliest": "2025-01-23",
+       "sample": [
+        {
+         "target": "official:seat:US-WV:us-house:01",
+         "row": "applied|social-security-earliest-claim-age|official:seat:US-WV:us-house:01",
+         "date": "2025-01-23",
+         "kind": "accounts.transfer @ src/core2/life.ts:557",
+         "way": "out",
+         "treatment": 0,
+         "control": 146825,
+         "journal": ""
+        }
+       ]
+      }
+     ],
+     "paid": 0,
+     "pick": null,
+     "sample": [],
+     "near": []
+    }
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 31,
+    "sample": [
+     "person_5fe1e6e393488357:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+     "person_8ad1e33143fbad7c:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+     "person_7f025ebced7c0e59:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 4,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 4,
+    "ended": 0,
+    "sample": [
+     "applied|social-security-earliest-claim-age|person_e6d1b53bb7cb8717",
+     "applied|social-security-earliest-claim-age|person:aide:official:term:seat:US-OR:attorney-general:2025-01-20:1",
+     "applied|social-security-earliest-claim-age|person:aide:official:term:seat:US-OR:labor-commissioner:2025-01-20:1",
+     "applied|social-security-earliest-claim-age|person:aide:official:term:seat:US-OR:us-senate:1:2025-01-20:1"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 13
+  }
+ ]
+}
