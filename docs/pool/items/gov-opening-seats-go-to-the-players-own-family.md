@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/gov-opening-seats-weigh-counted-adults
+pr: #8827
 after:
 blocked-on:
 lead: governing
@@ -17,7 +17,8 @@ effort: high
 root: design-one-model-two-tiers
 source: lead's play walks and reviews on Nov 11, 2026 (the first Journal note of three new lives), then the code
 checked:
-claimed-at:
+claimed-at: 2026-11-11T14:44:38.322Z
+merged-at: 2026-11-11T15:27:20.105Z
 ---
 
 **What.** In a new life the player is 18 and their family runs the town. Three lives read on Nov 11, each on the first screen: Tatum, South Carolina (seed w8-q), "My father Jerry is a commissioner at the County of Marlboro. My brother Jeremiah is a commissioner at the County of Marlboro. My brother Ezra works at the Town of Tatum as a fire chief."; Athens, Michigan (seed f8aee52b-7aa0-45a2-a3f7-6820913dd30f), mother a county commissioner, father a council member, brother the chief administrative officer; Woonsocket, Rhode Island (seed w8-f), mother a council member, sister the fire chief. A town of thousands of adults has a handful of seats; one household holding two or three of them in every life is the simulation's doing, not the town's. Every scene and talk at home treats the player as an official's child today. Seen: the first Journal note, the People screen and Politics' Government tab, where the members of the town's bodies stop being the player's own household.
@@ -43,3 +44,5 @@ claimed-at:
 **Files.** src/core2/modules/offices.ts, src/core2/modules/executive.ts, src/core2/modules/staff.ts, src/core2/state.ts, src/core2/modules/offices-opening-seats.test.ts (new)
 
 **Notes.** Written by the lead (Fable B), Nov 11, 10:50 UTC. The three lives above are the pictures in docs/seen/words-first-journal-note/ on pull request #8772; the code was read on main the same hour. Not yet measured: how many of a town's opening seats go to the player's household over many drawn places. The builder counts that first, over ten drawn places on main, and writes the numbers here before changing anything.
+
+Counted on main by opus-5251, Nov 11, before any change. `src/core2/modules/offices-opening-seats.test.ts` (new, on branch claude/gov-opening-seats-weigh-counted-adults) was run with seed os1, ten drawn places, counting the elected local seats at the opening held by the player's household. Three of the ten held one or more: Gay, Georgia (1332384), seed os1:0, held 2 of 19; Cameron, Missouri (2910828), seed os1:5, held 1 of 15; Beallsville, Pennsylvania (4204568), seed os1:8, held 1 of 18. The other seven held none: Upper Santan Village, Arizona (0 of 11), Fagatogo, American Samoa (no local seats), West Mountain, Connecticut (0 of 3), Jane, Missouri (0 of 15), Rader Creek, Montana (0 of 8), Doral, Florida (0 of 17) and Charlestown, Rhode Island (0 of 5).

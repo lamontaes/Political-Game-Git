@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/play-escape-closes-what-is-open
-pr:
+pr: #8818
 after:
 blocked-on:
 lead: screens
@@ -18,6 +18,7 @@ root: rc10-screens-keep-own-facts
 source: lead's play walk as a seated official on Nov 11, 2026 (Deep River, Washington, seed 253225ee-ffc1-449c-b180-ec52013de651), then the code and the rulings
 checked:
 claimed-at: 2026-11-11T13:21:40.283Z
+merged-at: 2026-11-11T14:39:31.085Z
 ---
 
 **What.** A player with Politics, Money, Travel or any other menu open presses Escape to close it. The menu does not close: Options replaces it, and the clock and the Day button stay covered until the player finds the close button. On the walk above, Escape on the Politics menu left Options on screen and the next press of Day could not land. The owner ruled the key on Sept 20, 2026: "Escape dismisses the top applicable transient context and restores focus; when none is open, it opens the session menu." (docs/coordination/prior-rulings/screens.md, ruling 18). Seen: any menu in play at 1440x900, where one press of Escape closes it and shows the room and the clock again, and a second press opens Options.

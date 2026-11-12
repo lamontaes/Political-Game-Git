@@ -7,7 +7,7 @@ import { familyFactsOf, FAMILY_PARTNERED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { officeInSentence, personWorkOf } from "../core2/person-work";
+import { personWorkOf } from "../core2/person-work";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -38,6 +38,7 @@ import {
   possessivePronoun,
   relationPhrase,
   saysOffice,
+  seatSaid,
   employerSaid,
   withArticle,
   wordJournalLine,
@@ -78,6 +79,8 @@ const SCHOOL_FINISHED = "event:school.finished";
 /** The id prefix of the past-work engine's records (src/core2/past-work.ts). */
 const PAST_WORK_PREFIX = "past-work:";
 /** The facts that say when, not what: two tellings differing only in these are one. */
+/** The facts that say how old the person was, which an age frame has already said. */
+const AGE_FACTS = new Set(["age", "age-then"]);
 const TIME_FACTS = new Set(["age", "span", "when", "held"]);
 /** How many other wordings a repeated sentence may try before it is not told. */
 const rewordings = P.two * P.two * P.two;
@@ -491,40 +494,83 @@ function householdMoments(
     // One sentence per person, in the household's order (parents first,
     // then by age): the id leads with that place so the entry keeps it.
     const order = `livelihood:${String(at).padStart(P.two, "0")}:${person.id}`;
-    // An office first, told with the livelihood words: the office as the
-    // work and its government as the employer, on the term's record. Someone
-    // who holds an office is told by it alone (lead, Nov 11: one sentence per
-    // person).
-    for (const office of work.offices.slice(zero, one))
+    // An office is said the way people say it (lead, Nov 11): a seat on a
+    // body is "sits on the Nelson City Council"; any other office is "serves
+    // as county clerk for the County of Nuckolls". A job held beside it joins
+    // the same sentence ("... and works as a janitor at ..."): one sentence
+    // per person.
+    const office = work.offices[zero];
+    const job = work.job ? core.jobs.get(work.job.id) : undefined;
+    if (office) {
+      const ids = [office.termId, office.officeId];
+      const side = job
+        ? employerName(core, job.organizationId, job.id)
+        : undefined;
       moments.push({
         ...base(`${order}:${office.termId}`, lastDay),
         causeId: office.termId,
         causeFactId: office.termId,
-        causeKind: office.governmentName
-          ? "household:livelihood:at"
-          : "household:livelihood",
+        // A fact the record does not hold picks the wording that does
+        // without it: an office with no government on record, a job with no
+        // employer on record.
+        causeKind: [
+          "household:livelihood:",
+          office.bodyName ? "seat" : "office",
+          !office.bodyName && !office.governmentName ? "-plain" : "",
+          // Work for the outside buyers names no workplace: only a body
+          // seat or a plain office says it without one.
+          job && (side || office.bodyName || !office.governmentName)
+            ? "-and-job"
+            : "",
+          job && !side && (office.bodyName || !office.governmentName)
+            ? "-plain"
+            : "",
+        ].join(""),
         counterpartIds: [earner.id],
         beat: "work",
         actFacts: {
-          job: {
-            text: withArticle(officeInSentence(office.title)),
-            sourceRecordIds: [office.termId, office.officeId],
-          },
-          ...(office.governmentName
+          ...(office.bodyName
             ? {
-                employer: {
-                  // The government itself ("the County of Nuckolls").
-                  text: employerSaid(properName(office.governmentName), {
-                    kind: "government-treasury",
+                body: {
+                  text: seatSaid({
+                    title: office.title,
+                    seats: office.seats,
+                    bodyName: properName(office.bodyName),
                   }),
-                  sourceRecordIds: [office.termId, office.officeId],
+                  sourceRecordIds: ids,
                 },
+              }
+            : {
+                office: {
+                  text: seatSaid({ title: office.title }),
+                  sourceRecordIds: ids,
+                },
+                ...(office.governmentName
+                  ? {
+                      employer: {
+                        // The government itself ("the County of Nuckolls").
+                        text: employerSaid(properName(office.governmentName), {
+                          kind: "government-treasury",
+                        }),
+                        sourceRecordIds: ids,
+                      },
+                    }
+                  : {}),
+              }),
+          ...(job
+            ? {
+                job: {
+                  text: withArticle(job.title),
+                  sourceRecordIds: [job.id],
+                },
+                ...(side ? { workplace: side } : {}),
               }
             : {}),
         },
       });
-    const job = work.job ? core.jobs.get(work.job.id) : undefined;
-    if (!job || work.offices.length) continue;
+      continue;
+    }
+    if (!job) continue;
     const held = heldSinceRecord(core as CoreState, earner.id, job.id);
     const employer = employerName(core, job.organizationId, job.id);
     const cause = held?.id ?? job.id;
@@ -1783,11 +1829,20 @@ export function composeJournal(
     // A field may name alternatives ("a|b|c"): the first that the facts let
     // be worded is told, so one sentence that names two facts is not followed
     // by two that name the same person again.
+    // A moment the age framed has said the age: what follows is told
+    // without it, so the age is said once ("When I was 15 years old, we moved
+    // back to Highland, Kansas." and never "I was 15 that year." after it;
+    // Highland, Kansas, seed aa73e37ebdc41b538771fe51249d8514cb45eea4).
+    const followFacts = framed.has(moment.id)
+      ? Object.fromEntries(
+          Object.entries(facts).filter(([key]) => !AGE_FACTS.has(key)),
+        )
+      : facts;
     for (const named of row.follow ?? []) {
       for (const field of named.split("|")) {
         const told = render(
           { part: "memoir", field: field as MemoirField },
-          facts,
+          followFacts,
           `${moment.id}:${field}`,
           sourceIds,
         );

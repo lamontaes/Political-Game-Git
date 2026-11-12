@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 standard: 2
-claimed-by: claude/pool-tests-plain-text-no-travel-filing-place
+claimed-by:
 pr: #8795
 blocked-on:
 source: added with npm run pool -- add
@@ -17,7 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
-claimed-at: 2026-11-11T10:13:13.055Z
+claimed-at:
 branch: claude/pool-tests-plain-text-no-travel-filing-place
 ---
 
@@ -38,6 +38,8 @@ branch: claude/pool-tests-plain-text-no-travel-filing-place
 **Files.** src/bench/plain-text.browser.mjs, src/bench/ui/travel-screen.mjs
 
 **Notes.** TODO
+
+Sent back 2026-11-12 from PR #8795 (branch claude/pool-tests-plain-text-no-travel-filing-place): done-when not met — the plain-text runs end on developer text owned by two still-open items (play-metrics-percent-change-has-no-points, laws-contribution-limit-names-carry-office-keys); finish on that branch, merge main into it first, and re-run the Junction City seed plus two fresh draws to PASS after those two merge.
 
 Lane 5, Nov 3: three more fresh benches with the shared opening helper (#7155): Farmers Loop, Alaska (44e7fea7-bb6a-4a5a-ac12-035acf9dd386) and Burleson, Texas (ca2cfbd3-5a83-4b11-a04d-7992102b5f32) failed the same way; Condon, Oregon (8899fc75-7fbd-4cfc-b121-6a6b90fc5747) got past Travel and timed out waiting for a choice in a later talk (`#talk-choices button`).
 

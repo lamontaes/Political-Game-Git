@@ -46,7 +46,6 @@ import {
   hardshipReason,
 } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
-import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
 import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -971,9 +970,6 @@ function leave(
     householdId: arrivalHousehold,
     source,
   });
-  // A recorded income award (a pension, Social Security) is paid into the
-  // household where its person lives now, the same amount from its next due date.
-  for (const id of going) moveRecipientIncomeHome(core, id, arrivalHousehold);
   api.emit({
     id: departure.id,
     date: api.state.date,

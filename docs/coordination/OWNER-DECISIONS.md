@@ -6,7 +6,16 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - None open. The Nov 9 question on arrows for single-value steppers was answered the same day (below).
 
+## Nov 12: words change at the engine level, after a fresh graded batch (owner)
+
+- **Grade a fresh batch first; change the engine, not one sentence at a time (owner, about 12:10 a.m.):** "I looked at the president's speech, and while yeah, it's different, it's still weird and unnatural and clunky. So go ahead and get me a grading batch, like we previously talked about. So like things in context, made for you to reply in a voice note... start with just pulling up one of the president's speeches... start up a new life or something, and then actually play through and send me all the scenes, all the dialogue, up to whatever point you feel like is good... Don't start the word session yet, because I feel like the grading or the lessons from the grading or whatever still aren't being applied in the entire essay. I don't think you should be rewriting one sentence at a time, or I think you need to be changing the engine to where, I guess, different parts are written differently, more clearly, different rules, etc."
+  - A grader plays one new life from the title through the address, the first weeks and the first campaign scene. It records every scene and line, in context, for a page he answers by voice note.
+  - No words session or bank rewrite starts until he has graded that batch. Then the fix goes into the engine (how each part is composed, and its rules), not line by line.
+  - Fable A builds other work in the meantime.
+
 ## Nov 11: every line goes through the English engine; work-list notes bundled; the repo slimmed (owner)
+
+- **Mergers may use the admin flag (owner, about 5:10 p.m.):** asked whether the Codex and Muse mergers may merge past GitHub's queued checks with the admin flag, as the CTO has: "let them - you just check on muse's merges specifically sportatically". A merger merges with `--admin` only after the full gate in `docs/pool/START-A-MERGER.md`, pinned to the sha it checked. The CTO spot-checks Muse's merges from time to time.
 
 - **Clothes as layers in colors, approved; formal and regular, tagged; officeholders in the suit (owner, about 8:28 a.m., decisions page call 13):** "I approve those clothes. Be sure there are formal clothes and regular clothes, and that they're tagged, etc. And make sure that, like, you know, we talked about it before, that like the president is wearing the suit in their, like, when you click their profile, and you know, in their bust. But yes, I approve."
   - Round 4 goes into the game (#8740): 28 layered pieces, front view. Men get a dress shirt, tie, suit jacket, sweater and chambray; women get a dress shirt, blazer, henley and cardigan. Each color is painted separately.

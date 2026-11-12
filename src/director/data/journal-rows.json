@@ -569,6 +569,41 @@
       "framesAge": true
     },
     {
+      "kindPrefix": "household:livelihood:seat-and-job-plain",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office-plain-and-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office-plain",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:seat-and-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:seat",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office-and-job",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:livelihood:office",
+      "turn": false,
+      "entry": "story"
+    },
+    {
       "kindPrefix": "household:livelihood:since",
       "turn": false,
       "entry": "story"
