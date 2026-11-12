@@ -34,19 +34,19 @@ A producer is a read of an event an engine already records, never a new mechanic
 - Use `counterpart: "some"` or `"none"` for whether someone else is named.
 - Use `causeFacts` (a fact equals a value, names the subject, includes the subject) and `occasion` or `act` for a heard speech.
 - Bind each role to `subject`, `counterpart`, `household`, `kin` or `present`; set `opener`, and `setting` when the place matters.
-- **One record, one scene.** When a circumstance row (`src/director/data/circumstances.json`) already stages the record, do not add a second type for it; delete the twin instead. For example, `eviction-notice` waited on `housing.notice-served` while `notice-home` already staged that record. The twin's purpose arc in `purpose-arcs.json` and its pieces in `scene-talk.json` go too, and the type count in `director.test.ts` reads the file itself.
+- **One record, one scene.** When a circumstance row (`src/director/data/circumstances.json`) already stages the record, do not add a second type for it; delete the twin instead. For example, `eviction-notice` waited on `housing.notice-served` while `notice-home` already staged that record. The twin's purpose arc in `purpose-arcs.json` and its pieces in `data/english/parts/scene-talk.json` go too (name them on the pull request for Story to delete), and the type count in `src/director/director.test.ts` reads the file itself.
 
 ## 4. Word it
 
-- **The lead narration:** `data/english/parts/scene-words.json`, move `lead-<type>-<choice>`, role `<type>`, choice `other` (someone present) or `alone`; several variants, varied by what the record holds.
-- **A scene with a purpose:** pieces in `scene-talk.json` per move.
+- **The lead narration** (Story writes it, see below): `data/english/parts/scene-words.json`, move `lead-<type>-<choice>`, role `<type>`, choice `other` (someone present) or `alone`; several variants, varied by what the record holds.
+- **A scene with a purpose:** pieces in `data/english/parts/scene-talk.json` per move.
 - **The sitting bans fail the build** (`tests/guards/english/sitting-bans.test.ts`). In narration that means:
   - no "{x} is home", "at {place}" or "is in with";
   - no slot for the weekday, month, date, time, place, town or room;
   - no year said aloud.
   - In anything spoken: no "must", "talk soon", "see you later", "that's settled", "the doors" or "gaps".
 - Use "they" for a person whose pronouns the record doesn't give.
-- Run `node --import tsx scripts/dialogue-batch/apply-grades.ts` after any bank change.
+- **Only the Story session writes, changes or deletes lines under `data/english/parts/`** (owner, Nov 10: "split by role"). A builder wires the cause and lists each line and piece the scene needs, with the move it serves, on the item's pull request; Story writes them. After a bank change the update is `node --import tsx scripts/dialogue-batch/apply-grades.ts` and then `npm run words:rules` (Nov 9: rules judge every line, and a line that fails is pulled in `data/english/pulled.json`; there is no reach file or odds table to rebuild).
 
 ## 5. Prove it in a played world
 
@@ -69,10 +69,10 @@ The recipe, in the order that worked (the rally, the doubt at home and the lobby
 
 - **Setting.** A type for a body's seat takes `["seat","venue"]` as hallway does; `["seat"]` alone stages nothing and no error says so.
 - **A cast from two records.** A circumstance pool (`poolOf` in `circumstance.ts`) may read a second engine's table against the trigger record (the lobbyist's meetings against a member's `office.voted`); a record that does not name the player never reaches the pool.
-- **Pieces.** The scene-talk and tree tests compose every purpose from a generic fixture, so every purpose needs at least one narration and one ask with no required facts, and at least one reply of each follow move; a tree needs depth 2, so a reply the asker cannot let rest (a deflect) must draw a press.
+- **Pieces** (Story writes them; this is what its pieces must satisfy, so list the moves you need). The scene-talk and tree tests compose every purpose from a generic fixture, so every purpose needs at least one narration and one ask with no required facts, and at least one reply of each follow move; a tree needs depth 2, so a reply the asker cannot let rest (a deflect) must draw a press.
 - **Narration** may not carry "today", "tonight", "yesterday" or "this ...". A piece key is its move and text, so two pieces with the same words collide even under different facts.
 - **Area and issue words.** Say an area after "with" or "about", never "on" ("safety on our streets"), and never as a verb's subject ("our schools has").
-- **After a bank change** run `apply-grades.ts`; when main moved the reach file, take main's and regenerate it, never merge it by hand.
+- **After a bank change** run `apply-grades.ts` and `npm run words:rules`; when main moved a generated file (`data/english/pulled.json`, `part-grades.json`), take main's and regenerate it, never merge it by hand.
 - **A threat's cost** (money, an endorsement) is the interest-group engine's to read; until it does, register the stopgap and say so.
 - **Read the PR's own state right before every push to its branch.** A push to a PR that merged a minute earlier is stranded (Nov 8, twice: a floor-debate export that missed #7529's merge, and a first push the desk's own commit bounced). Check merged or open, and pull the desk's commits in, then push.
 
@@ -81,7 +81,7 @@ The recipe, in the order that worked (the rally, the doubt at home and the lobby
 One kind of scene can play several arcs, its **variants**, and the records pick which one. There is one engine (`src/director/arc-variant.ts`) and one data file (`src/director/data/arc-variants.json`); a new family is a row of data, never a new code path.
 
 - **A family** is a purpose in `purpose-arcs.json` (`bribe-offer`). Its variants are rows: a `purpose` id for the bank (`bribe-offer.small`; the plain row keeps the family's own id and arc), a `base`, `terms` (a named read, a weight, `low` for one minus the read), `pull` (personality facets whose mean on the asker multiplies the score by one plus the pull) and the `arc` (state, replies, follow, again, endings: moves only).
-- **A read** looks at the records in one of four ways: `record` (a number on a module row that a fact of the cause record names), `history` (how many earlier records of some kinds name both people), `strain` (how hard pressed the asker is for money), `setting` (where it is set). A new read is a data row of those kinds; add a way of looking only when none fits.
+- **A read** looks at the records in one of six ways: `record` (a number on a module row that a fact of the cause record names), `fact` (a number the cause record itself carries), `closeness` (how close the two people are), `history` (how many earlier records of some kinds name both people), `strain` (how hard pressed the asker is for money), `setting` (where it is set). A new read is a data row of those kinds; add a way of looking only when none fits.
 - **Reads use what stays true while the scene is open** (the kept record, the tie as the engine kept it, what happened before the cause's day). The first choice for a cause stands, so the tree the player sees is the tree a reply is matched against.
 - **Weights are hand set**: sample the reads over a drawn world's offers (`scratch` script: `considerBribe` with dev mode's `pick`, then `chooseVariant`) and set base and weights so every variant wins somewhere. The registered stopgap is `SG-STORY-arc-variant-weights`.
 - **Ending ids the engines read keep their meaning in every variant** (`took-it`, `put-off`, `left-there`, `said-you-would-report`); any other id is a refusal to the corruption engine. Put a `reply` ending before an `anyReply` one when the last thing the player said should win.

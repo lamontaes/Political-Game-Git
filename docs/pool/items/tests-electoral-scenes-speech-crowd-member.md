@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 standard: 2
 claimed-by: claude/pool-tests-electoral-scenes-speech-crowd-member
 pr: #8770
@@ -19,6 +19,7 @@ root: none
 checked: fable 2026-11-10
 claimed-at: 2026-11-11T08:49:13.061Z
 branch: claude/pool-tests-electoral-scenes-speech-crowd-member
+merged-at: 2026-11-12T00:34:39.321Z
 ---
 
 **What.** src/director/electoral-scenes.test.ts fails its second case on main on Nov 4 in Bascom, Florida (1203725), seed 78df996a2a76eb81378fcb7c5c00238bb398b33a: person_42e3dd4105e41fc4 was not in the crowd of speech:person_09cc581aaf91cdae:2025-10-05:speech:organization_f266a19676377820. A campaign speech is a stop with its listeners, and the listener the test checks is not among the crowd the speech record keeps, so the scene and the record disagree about who heard it. The fix is whichever side is wrong, the scene's cast or the speech's crowd. The campaign code the item named, src/core2/campaign-turn.ts, is gone; the speech and its crowd now live in src/core2/modules/campaigns.ts.

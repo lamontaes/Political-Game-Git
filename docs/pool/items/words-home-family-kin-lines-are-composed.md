@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/words-w4-family
+pr: #8801
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -18,7 +18,8 @@ root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine"); planned for Fable B from a read of main at 5ef67361
 checked:
 claimed-at:
-branch:
+branch: claude/words-w4-family
+merged-at: 2026-11-11T16:20:49.717Z
 ---
 
 **What.** In the first days at home and with neighbors, people ask after each other's relatives ("How's your mother?") and mention relatives the player has not met. The question already names the person, but the answers are often fixed: "He's in the hospital.", "My father passed away.", "She's doing well. I'll tell her you asked.", "I don't think so." 13 of the 50 lines under the bank's `family` and `kin` subjects have no insert. Seen: the talk box when someone asks after a relative or brings up one of their own, and the player's replies.
@@ -38,7 +39,7 @@ branch:
 
 **Time box.** 4 hours for one session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text in code. Ask why: a line that names an illness, a death or a move cites the record that set its stage. No dice. One rule, all 56 places: the tests draw their places.
+**Rules.** No hand-written player text in code. Ask why: a line that names an illness, a death or a move cites the record that set its stage. No dice. One rule, all 56 places: the tests draw their places. One screen names a thing once (lead, Nov 11, from the reviews of PR 8736 and PR 8750): wherever this item says each reply names the same thing, read it as each reply carries an insert, no two replies on one screen carry the same insert, and the speaker's own line names the thing once and then says "it". Say an office, a bill or a person the way people say it, never a form's title and never a parenthesis.
 
 **Done when.** A second session, in the running game on main at 1440x900, starts three new lives in drawn places it writes down with their seeds, and talks with neighbors and relatives until someone is asked after a relative and someone mentions one the player has not met. Each answer names the relative and what happened to them (a place, a job or a date) as the records say, and the replies are at most four different moves, each naming the relative. tests/guards/english passes with the lowered count.
 
@@ -47,3 +48,6 @@ branch:
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, src/director/words.ts, src/director/reply-set-check.ts, src/director/family-news-talk.test.ts, src/english/conversation-words.ts, src/core2/closeness.ts, data/english/parts/conversation.json, tests/guards/english/line-inserts-baseline.json
 
 **Notes.** Planned by Fable B's Words planner (2026-11-11) from main at 5ef67361. 50 lines, 13 with no insert and not excused (family 33 and 8, kin 17 and 5). Three today: "He's in the hospital.", "My father passed away.", "I don't think so." The relatives' own lives outside the town come from the `lives` skill's engines; this item only reads them.
+
+- 2026-11-11, Words builder W4: built on claude/words-w4-family, stacked on claude/words-w4-work. No line raised a relative the listener had not met before this (the `kin` subject had no raise line), so it never played; it now does, with a husk relative's town too. The `where they live now` reply is not built: the raise already names the town or the work.
+- 2026-11-11, Words builder W4: "a relative asked after" seen in plain play (no dev routes, 1440x900) in two drawn places: Port Republic, Virginia (seed w4seed-u, day 18): "How's Dad?" / "Dad started feeling poorly a few days ago.", with the illness on record; Fairhaven, California (seed w4seed-k, day 12): "How is Mom?" / "Thank you for asking. I'll let Mom know.", nothing on record to tell. The third place is owed; a second session doing this item's seen check can supply it. Picture: docs/seen/words-nov11/w4-family-talk/w4seed-u-asked-after-dad.png on claude/words-w4-school.

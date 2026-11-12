@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/words-w3-greet-farewell
+pr: #8822
 after: words-opening-evening-talk-raises-what-the-president-said
 blocked-on:
 lead: words
@@ -17,8 +17,9 @@ effort: medium
 root: rc4-hand-written-words
 source: owner, Nov 11, 2026 (docs/coordination/OWNER-DECISIONS.md, "Nov 11: every line goes through the English engine"); planned for Fable B from a read of main at 5ef67361
 checked:
-claimed-at:
-branch:
+claimed-at: 2026-11-11
+branch: claude/words-w3-greet-farewell
+merged-at: 2026-11-11T18:59:55.068Z
 ---
 
 **What.** Every talk away from home opens with a greeting and ends with a goodbye. Today the other person says one of 96 whole sentences under the bank's `greet` and `farewell` subjects ("Good to see you.", "Take care of yourself.", "I've got to run."), the same in every town and after every talk. 31 of them have four words or more and no insert. Under the owner's ruling, the short ones ("Hello.", "Bye.") stay; the rest are composed, with a core that names the person, the last time the two met, or what the talk was about. Seen: the first line and the last line of every talk box away from home, and the last line of a talk at home.
