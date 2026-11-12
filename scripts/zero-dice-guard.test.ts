@@ -439,4 +439,33 @@ describe("what the allowlist asks of a list-pick", () => {
       { file: "src/core2/x.ts", kind: "list-pick", before: 1, after: 2 },
     ]);
   });
+
+  it("keeps a classified roll through --update, and a missing class still fails", () => {
+    const code = "if (rng.next() >= share) return;";
+    const classified = {
+      entries: [
+        {
+          file: "src/core2/x.ts",
+          kind: "roll",
+          build: null,
+          count: 1,
+          code,
+          class: "GENERATION",
+          keyedBy: "person id",
+          reason: "who exists at the opening",
+          replacement: null,
+        },
+      ],
+    };
+    const found = [{ file: "src/core2/x.ts", line: 3, kind: "roll", code }];
+    const next = update(classified, found);
+    expect(unclassified(classified)).toHaveLength(0);
+    expect(unclassified(next)).toHaveLength(0);
+    expect(next.entries).toEqual(classified.entries);
+    expect(growth(classified, next)).toEqual([]);
+    const bare = {
+      entries: [{ ...classified.entries[0], class: null, build: "pool:x" }],
+    };
+    expect(unclassified(update(bare, found))).toHaveLength(1);
+  });
 });

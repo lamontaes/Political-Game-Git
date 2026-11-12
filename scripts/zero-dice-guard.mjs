@@ -586,9 +586,14 @@ export function update(allowlist, findings) {
   const buildOf = new Map();
   const classOf = new Map();
   for (const entry of allowlist.entries) {
-    if (entry.kind === "list-pick") {
+    if (entry.kind === "list-pick" || entry.kind === "roll") {
       classOf.set(keyOf(entry), entry);
-    } else if (!buildOf.has(entry.file)) {
+    }
+    if (
+      entry.kind !== "list-pick" &&
+      entry.build != null &&
+      !buildOf.has(entry.file)
+    ) {
       buildOf.set(entry.file, entry.build);
     }
   }
@@ -599,16 +604,18 @@ export function update(allowlist, findings) {
     if (entry) entry.count += 1;
     else {
       const known = classOf.get(key);
+      // A list-pick, or a roll that already carries a class, keeps its
+      // classification and needs no owning build.
+      const carriesClass =
+        finding.kind === "list-pick" ||
+        (finding.kind === "roll" && known?.class != null);
       grouped.set(key, {
         file: finding.file,
         kind: finding.kind,
-        build:
-          finding.kind === "list-pick"
-            ? null
-            : (buildOf.get(finding.file) ?? null),
+        build: carriesClass ? null : (buildOf.get(finding.file) ?? null),
         count: 1,
         code: finding.code,
-        ...(finding.kind === "list-pick"
+        ...(carriesClass
           ? {
               class: known?.class ?? null,
               keyedBy: known?.keyedBy ?? null,
