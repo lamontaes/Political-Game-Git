@@ -916,7 +916,9 @@ function workMoments(
     if (facts.end === "let-go")
       moments.push(
         moment(row, ended, "job-ended:let-go", {
-          ...own,
+          // Where the job was is said only when its employer is not on
+          // record: the employer is the fact a lost job is about.
+          ...(own.employer ? { employer: own.employer } : own),
           ...held(row),
           ...paid(row),
         }),
@@ -2021,31 +2023,19 @@ export function composeJournal(
         framed.add(moment.id);
       }
     }
-    // A death in the family or a lost job is a hard time.
+    // A death in the family is a hard time. A lost job is not told twice:
+    // its line says the loss and names the employer, so no "hard time" line
+    // restates it ("I lost my job. I had no job after Lopez's Market.";
+    // Fable A, Nov 12).
     if (
-      (moment.causeKind === "event:life.death" &&
-        !!facts.other &&
-        kin.has(subjectOf(moment)!)) ||
-      ((moment.causeKind === "job-ended" ||
-        moment.causeKind === "job-ended:let-go") &&
-        own)
+      moment.causeKind === "event:life.death" &&
+      !!facts.other &&
+      kin.has(subjectOf(moment)!)
     ) {
-      // A lost job names the employer it was lost at; a
-      // death is told by the lines that follow it (the age, the illness).
-      const lostJob =
-        moment.causeKind === "job-ended" ||
-        moment.causeKind === "job-ended:let-go";
-      // One fact, once: the employer is said here only when the line before
-      // did not already name it ("I lost my job. I had no job after Lopez's
-      // Market." said the loss twice; Fable A, Nov 12).
-      const employerSaid =
-        !!facts.employer &&
-        parts.some((part) => part.text.includes(facts.employer!.text));
+      // A death is told by the lines that follow it (the age, the illness).
       const hard = render(
         { part: "memoir", field: "hard", closedWith },
-        lostJob && facts.employer && !employerSaid
-          ? { ...facts, "lost-employer": facts.employer }
-          : facts,
+        facts,
         `${moment.id}:hard`,
         sourceIds,
       );
