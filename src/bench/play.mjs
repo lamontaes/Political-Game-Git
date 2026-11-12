@@ -2246,8 +2246,18 @@ async function showStory(momentId) {
         drawHere(beat);
       }
       talkControls({ silent: false, leave: false });
+      // Heard on a broadcast: the station over the line with its small icon
+      // (owner, Oct 14: "a small card in the conversation text style with a
+      // tiny radio/TV icon, the station, and the line").
+      const on = story.speech.heardOn;
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({
+            kind: on ? `speech heard heard-${on.medium}` : "speech",
+            text: parts[at],
+            ...(on ? { who: on.station } : {}),
+          }),
+        ],
         replies: [],
       });
       setScales({ available: false });

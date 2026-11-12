@@ -80,6 +80,8 @@ export interface Scene {
     inRoom: boolean;
     /** The speaker's office as the said-as words key it ("governor"): the nameplate says them by it first. */
     office?: string;
+    /** The station that carried it home, and its kind (television, radio, newspaper): the talk box names it over each part with its icon. */
+    heardOn?: { station: string; medium: string };
   };
   /** The scene's occasion from its type's data ("ceremony"), for how the room is drawn. */
   occasion?: string;
@@ -431,6 +433,15 @@ export function composeScene(
           montage: !!record!.facts?.[ADDRESS_FACT.president],
           opens: false,
           inRoom: false,
+          ...((carried) =>
+            carried
+              ? {
+                  heardOn: {
+                    station: properName(carried.org.name),
+                    medium: carried.medium,
+                  },
+                }
+              : {})(heardOn(core, record!.id)),
           ...(record!.facts?.[ADDRESS_FACT.office] ||
           record!.facts?.[ADDRESS_FACT.president]
             ? {
@@ -480,15 +491,10 @@ export function heardLine(
   const occasion = HEARD.occasions[record?.facts?.[ADDRESS_FACT.kind] ?? ""];
   const speaker = speakerId ? core.people.get(speakerId as PersonId) : null;
   if (!record || !office || !speaker || !occasion) return null;
-  const api = coreAPI(core as CoreState);
-  const here = core.people.get(core.playerId ?? ("" as PersonId))?.placeId;
-  const outlets = outletsHere(api).filter(
-    (row) => row.tier !== "national" && (!here || row.placeId === here),
-  );
-  for (const medium of HEARD.order) {
-    const outlet = outlets.find((row) => row.kind === medium);
-    const org = outlet ? core.organizations.get(outlet.organizationId) : null;
-    if (!outlet || !org) continue;
+  const carried = heardOn(core, recordId);
+  if (!carried) return null;
+  {
+    const { medium, outlet, org } = carried;
     const title = officeWords(office)?.before;
     return render(
       { part: "opening", move: `heard-${medium}` },
@@ -504,6 +510,29 @@ export function heardLine(
         },
       },
     );
+  }
+}
+
+/**
+ * The outlet that carried a broadcast to the player's home: the first of the
+ * place's own outlets in the order local-address.json `heard` gives. Its
+ * station is what the talk box names over the line (owner, Oct 14: "News you
+ * overhear: TV or radio speaks like anyone else: a small card in the
+ * conversation text style with a tiny radio/TV icon, the station, and the
+ * line.").
+ */
+export function heardOn(core: Readonly<CoreState>, recordId: string) {
+  const record = core.durableLog.get(recordId);
+  if (!record?.facts?.[ADDRESS_FACT.office]) return null;
+  const api = coreAPI(core as CoreState);
+  const here = core.people.get(core.playerId ?? ("" as PersonId))?.placeId;
+  const outlets = outletsHere(api).filter(
+    (row) => row.tier !== "national" && (!here || row.placeId === here),
+  );
+  for (const medium of HEARD.order) {
+    const outlet = outlets.find((row) => row.kind === medium);
+    const org = outlet ? core.organizations.get(outlet.organizationId) : null;
+    if (outlet && org) return { medium, outlet, org };
   }
   return null;
 }
