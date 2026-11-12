@@ -125,12 +125,12 @@
   {
     "id": "SG-LAWS-ui-base-period-last-pay",
     "file": "src/core2/jobs-benefits.ts",
-    "line": 369,
-    "whatItFakes": "A claim for a person or counted group with fewer than four completed quarters of recorded pay (or a state whose row gives no base-period basis) still draws its weekly benefit from the lost job's pay on the last day. Where a pay history exists the benefit already reads the first four of the last five completed quarters (basePeriodWages). No played year has yet shown a claim after a real hours cut drawing the same benefit as steady hours.",
+    "line": 282,
+    "whatItFakes": "A claim from a worker with fewer than five completed quarters of recorded pay (a job or a world under about a year and a quarter old) is not read from the first four of the last five completed quarters: with exactly four, the base is those four (the last completed quarter included, so an hours cut in it moves the benefit); with fewer, the weekly benefit is the state's share of the lost job's weekly pay as it stood on the last day, times the weeks it ran (capped by the weekly maximum). A worker with five or more completed quarters is read from the base period, the highest quarter, the two highest or the base year as the state's row says (proved Nov 11: an hours cut in the last completed quarter leaves the claim equal to the steady-hours twin's).",
     "why": "No per-person pay by calendar quarter is read by the claim engine; named workers' paydays are in the cash journal (work-payroll-cash.ts) and counted workers' in their group's perDayMinorByJob history, but the claim does not sum them yet.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "(The base-period read is built against Money's folds, core.work.payByQuarter for named workers and core.work.countedPayByQuarter for counted groups; a claim with no list in either, as before #7801 merges, stays on the last pay, and this stopgap resolves once #7801 and the hours-cut path #7781 are in and a claim after a cut is proved.) fileClaim sums the person's recorded payday receipts by calendar quarter, takes the state's basis quarters from the law row (weeklyBenefitBasisQuarters), and applies the state's fraction, max and min; counted workers read their group's perDayMinorByJob history. Proved on a claim after an hours cut (Jobs #7781, api.rehourJob).",
+    "replacement": "States' alternative base period (the last four completed quarters) for a worker with fewer than five, and a worker with under four completed quarters reads the pay on record at the state's rule instead of the last day's pay.",
     "status": "open"
   },
   {

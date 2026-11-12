@@ -303,18 +303,12 @@ describe("a door yes is near-binding", () => {
         // The ballot carries their word, as far as it still holds: undone
         // only by what heavy they learned since (pledgeDoubt).
         const part = b.appeal[mine.personId]?.pledge ?? 0;
-        const voter = core.people.get(b.voterId)!;
-        const holds =
-          1 -
-          pledgeDoubt(
-            api,
-            voter,
-            b.lean ?? 0,
-            word,
-            ballot(api, contest.id).map((f) => ({ id: f.personId })),
-          );
+        // How far the word held is what the ballot kept on its day: the ties and news
+        // moved after it, so recomputing the doubt now would read a later world.
+        const holds = b.appeal[mine.personId]?.pledgeHeld;
+        expect(holds, `${place}: ${b.id} kept no held word`).toBeDefined();
         expect(part, `${place}: ${b.id} pledge as held`).toBeCloseTo(
-          weight * holds,
+          weight * holds!,
           6,
         );
         if (holds === 0) continue;

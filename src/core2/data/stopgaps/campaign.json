@@ -38,5 +38,17 @@
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in triage T9"
+  },
+  {
+    "id": "SG-CAMPAIGN-volunteer-joined-lapsed-unread",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1932,
+    "whatItFakes": "A volunteer joining a campaign is kept as a campaign-volunteer-joined record (the volunteer, the candidate, how they came and the ask or filing record that brought them), and one whose reasons have weakened past giving evenings as a campaign-volunteer-lapsed record (the cause that weakened them: work hours, a cooled liking or a lost closeness), that no scene, journal line or screen reads yet; the player sees a campaign's volunteers only in the door count.",
+    "why": "The campaigns engine writes the records; the director's listener scene and its English banks belong to the Words session, which this change may not edit.",
+    "addedBy": "sonnet-fd29 (campaigns-volunteer-joined-and-lapsed-records)",
+    "addedAt": "2026-11-11",
+    "replacement": "The director's listener scene reading the join record by id (scene-listener-offers-to-work) and a journal line for the lapse record, both Words-session work.",
+    "status": "open"
   }
 ]
